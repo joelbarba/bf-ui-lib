@@ -2,5 +2,174 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
-  "projects": {}
+  "projects": {
+    "bf-ui-lib": {
+      "root": "projects/bf-ui-lib",
+      "sourceRoot": "projects/bf-ui-lib/src",
+      "projectType": "library",
+      "prefix": "",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/bf-ui-lib/tsconfig.lib.json",
+            "project": "projects/bf-ui-lib/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/bf-ui-lib/src/test.ts",
+            "tsConfig": "projects/bf-ui-lib/tsconfig.spec.json",
+            "karmaConfig": "projects/bf-ui-lib/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/bf-ui-lib/tsconfig.lib.json",
+              "projects/bf-ui-lib/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "bf-ui-lib-sandbox": {
+      "root": "projects/bf-ui-lib-sandbox/",
+      "sourceRoot": "projects/bf-ui-lib-sandbox/src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "sass"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/bf-ui-lib-sandbox",
+            "index": "projects/bf-ui-lib-sandbox/src/index.html",
+            "main": "projects/bf-ui-lib-sandbox/src/main.ts",
+            "polyfills": "projects/bf-ui-lib-sandbox/src/polyfills.ts",
+            "tsConfig": "projects/bf-ui-lib-sandbox/tsconfig.app.json",
+            "assets": [
+              "projects/bf-ui-lib-sandbox/src/favicon.ico",
+              "projects/bf-ui-lib-sandbox/src/assets"
+            ],
+            "styles": [
+              "projects/bf-ui-lib-sandbox/src/styles.scss"
+            ],
+            "scripts": [],
+            "es5BrowserSupport": true
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/bf-ui-lib-sandbox/src/environments/environment.ts",
+                  "with": "projects/bf-ui-lib-sandbox/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "bf-ui-lib-sandbox:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "bf-ui-lib-sandbox:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "bf-ui-lib-sandbox:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/bf-ui-lib-sandbox/src/test.ts",
+            "polyfills": "projects/bf-ui-lib-sandbox/src/polyfills.ts",
+            "tsConfig": "projects/bf-ui-lib-sandbox/tsconfig.spec.json",
+            "karmaConfig": "projects/bf-ui-lib-sandbox/karma.conf.js",
+            "styles": [
+              "projects/bf-ui-lib-sandbox/src/styles.scss"
+            ],
+            "scripts": [],
+            "assets": [
+              "projects/bf-ui-lib-sandbox/src/favicon.ico",
+              "projects/bf-ui-lib-sandbox/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/bf-ui-lib-sandbox/tsconfig.app.json",
+              "projects/bf-ui-lib-sandbox/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "bf-ui-lib-sandbox-e2e": {
+      "root": "projects/bf-ui-lib-sandbox-e2e/",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/bf-ui-lib-sandbox-e2e/protractor.conf.js",
+            "devServerTarget": "bf-ui-lib-sandbox:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "bf-ui-lib-sandbox:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "projects/bf-ui-lib-sandbox-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "bf-ui-lib"
 }

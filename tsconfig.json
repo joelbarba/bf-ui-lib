@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "bf-ui-lib": [
+        "dist/bf-ui-lib"
+      ],
+      "bf-ui-lib/*": [
+        "dist/bf-ui-lib/*"
+      ]
+    }
   }
 }

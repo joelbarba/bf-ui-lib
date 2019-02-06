@@ -1,0 +1,35 @@
+<h2>{{name}}</h2>
+<hr/>
+<h4>{{desc}}</h4>
+
+<h5 class="mt-4">Examples:</h5>
+<div class="col-12 examples-table">
+  
+  <div class="row">
+    <div class="col-5"> <pre>{{instance}}</pre> </div>    
+    <div class="col-3">
+      <bf-btn (click)="myVar = 'eee'"></bf-btn>
+    </div>
+
+    <div class="col-4"> Simple instance with no text only icon (small version) </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-5"> <pre>{{instance2}}</pre> </div>
+    <div class="col-3">
+      <bf-btn [bfText]="'Save User'"></bf-btn>
+    </div>
+    <div class="col-4"> Simple instance with text. It generates a button with icon + text</div>
+  </div>
+
+  <div class="row">
+    <div class="col-5"> <pre>{{instance3}}</pre> </div>
+    <div class="col-3">
+        <bf-btn [bfText]="'Add User'" [bfIcon]="'icon-plus'"
+                (click)="myFunc()">
+        </bf-btn>
+    </div>
+    <div class="col-4">Custom text + custom icon</div>
+  </div>
+
+</div>

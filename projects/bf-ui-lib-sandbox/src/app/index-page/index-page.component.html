@@ -1,0 +1,23 @@
+<h3>Index of components</h3>
+
+<table class="index-table">
+  <thead class="index-header">
+    <tr>
+      <th>Component</th>
+      <th>Api</th>
+      <th>Instance</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <tr *ngFor="let compItem of reg.compList" routerLink="{{ '/' + compItem.name }}">
+      <td><pre>{{ compItem.name }}</pre></td>
+      <td><pre>{{ compItem.api }}</pre></td>
+      <td><pre>{{ compItem.instance }}</pre></td>
+      <td>
+        <!-- <bf-btn></bf-btn>    -->
+      </td> 
+    </tr>
+  <tbody>
+</table>

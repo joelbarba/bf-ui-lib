@@ -1,0 +1,47 @@
+$btn-color: #00b6f1;
+
+.bf-btn {
+  background: $btn-color;
+  color: white;
+  border: 0;
+  border-radius: 4px;
+  height: 35px;
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+
+  // -webkit-box-shadow: 0 1px 2px rgba(34, 36, 38, 0.6);
+  box-shadow: 0 1px 2px rgba(34, 36, 38, 0.6);
+
+  .btn-text-section {
+    display: inline-block;
+    font-size: 13px;
+    letter-spacing: 1px;
+    padding: 0 15px;
+    line-height: 35px;
+    vertical-align: top;
+  }
+  .btn-icon-section {
+    display: inline-block;
+    padding: 10px 10.5px;
+    line-height: 14px;
+    font-size: 14px;
+    background: darken($btn-color, 5%);
+  }
+
+  &:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    background: darken($btn-color, 3%);
+    .btn-icon-section {
+      background: darken($btn-color, 7%);
+    }
+  }
+  
+  &:active {
+    box-shadow: inset 2px 2px 5px rgba(34, 36, 38, 0.4);
+    .btn-icon-section {
+      box-shadow: inset 0px 2px 5px rgba(34, 36, 38, 0.4);
+    }
+  }
+
+}
