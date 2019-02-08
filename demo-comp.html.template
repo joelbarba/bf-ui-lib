@@ -1,0 +1,28 @@
+[[COMPONENT_NAME]] = 'bf-btn'
+
+
+<h2>{{name}}</h2>
+<hr/>
+<h4>{{desc}}</h4>
+
+<h5 class="mt-4">Examples:</h5>
+<div class="col-12 examples-table">
+  
+  <div class="row">
+    <div class="col-5"> <pre>{{instance}}</pre> </div>    
+    <div class="col-3">
+      <[[COMPONENT_NAME]] (click)="myVar = 'eee'"></[[COMPONENT_NAME]]>
+    </div>
+
+    <div class="col-4"> Simple instance with ........ </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-5"> <pre>{{instance2}}</pre> </div>
+    <div class="col-3">
+      <[[COMPONENT_NAME]]></[[COMPONENT_NAME]]>
+    </div>
+    <div class="col-4"> Simple instance with ............</div>
+  </div>
+
+</div>

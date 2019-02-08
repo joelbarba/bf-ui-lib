@@ -8,6 +8,11 @@
       "sourceRoot": "projects/bf-ui-lib/src",
       "projectType": "library",
       "prefix": "",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "sass"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",

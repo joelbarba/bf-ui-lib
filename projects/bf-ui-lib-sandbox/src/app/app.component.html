@@ -6,19 +6,7 @@
   </a>
 </div>
 
-<div class="menu">
-  <div class="m-2 mb-4">
-    <input type="text" class="form-control" placeholder="Search">
-  </div>
-  <ul>
-    <li routerLink="/index">
-      <div><pre>Index</pre></div>
-    </li>
-    <li *ngFor="let compItem of reg.compList" routerLink="{{ '/' + compItem.name }}">
-      <div><pre>{{ compItem.name }}</pre></div>
-    </li>
-  </ul>
-</div>
+<app-menu></app-menu>
 
 <div class="container route-container">
   <div class="row">

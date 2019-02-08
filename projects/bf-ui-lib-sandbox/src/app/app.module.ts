@@ -7,9 +7,11 @@ import { LibRegisterService } from './lib-register.service';
 import { IndexPageComponent } from './index-page/index-page.component';
 
 import { BfBtnDemoComponent } from './bf-btn-demo/bf-btn-demo.component';
+import { BfListHeaderColDemoComponent } from './bf-list-header-col-demo/bf-list-header-col-demo.component';
+import { MenuComponent } from './menu/menu.component';
 
 @NgModule({
-  declarations: [AppComponent, BfBtnDemoComponent, IndexPageComponent],
+  declarations: [AppComponent, BfBtnDemoComponent, IndexPageComponent, BfListHeaderColDemoComponent, MenuComponent],
   imports: [
     BrowserModule,
     BfUiLibModule,

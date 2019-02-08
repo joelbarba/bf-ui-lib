@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { LibRegisterService } from './lib-register.service';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +6,7 @@ import { LibRegisterService } from './lib-register.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(private reg: LibRegisterService) {}
+  constructor() {}
   ngOnInit() {
   }
 

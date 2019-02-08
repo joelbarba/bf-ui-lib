@@ -31,7 +31,8 @@ export class BfBtnDemoComponent implements OnInit {
 export const BfBtnDoc = {
   name    : `bf-btn`,
   desc    : `Generates a button.`, 
-  api     : ` bfText ->  `,
+  api     : `[bfText]: Button text
+[bfIcon]: Icon of the button (icomoon class)`,
   instance: `<bf-btn></bf-btn>`, 
   demoComp: BfBtnDemoComponent
 }

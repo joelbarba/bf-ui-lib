@@ -1,0 +1,28 @@
+@import '../variables.scss';
+
+.navbar {
+  background: $primary-color;
+  color: white;
+  h1 { cursor: pointer; }
+  .home-link {
+    color: white;
+    font-size: 30px;
+    &:hover { text-decoration: none; }
+  }
+}
+
+
+.route-container {
+  position: fixed;
+  max-width: none;
+  top: 72px;
+  right: 0;
+  left : 0;
+  padding: 0 75px;
+  bottom: 0;
+  padding-top: 30px;
+  padding-right: 15px;
+  padding-left: 380px;
+  padding-bottom: 0;
+  overflow: auto;
+}

@@ -1,0 +1,34 @@
+[[COMPONENT_NAME]] = 'bf-btn'
+[[COMPONENT_NAME_CAMEL]] = 'BfBtn'
+
+
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-[[COMPONENT_NAME]]-demo]',
+  templateUrl: './[[COMPONENT_NAME]]-demo.component.html',
+  styleUrls: ['./[[COMPONENT_NAME]]-demo.component.scss']
+})
+export class [[COMPONENT_NAME_CAMEL]]DemoComponent implements OnInit {
+  public name = [[COMPONENT_NAME_CAMEL]]Doc.name;
+  public desc = [[COMPONENT_NAME_CAMEL]]Doc.desc;
+  public api = [[COMPONENT_NAME_CAMEL]]Doc.api;
+  public instance = [[COMPONENT_NAME_CAMEL]]Doc.instance;
+
+  public instance2 = 
+`<[[COMPONENT_NAME]]</[[COMPONENT_NAME]]>`;
+
+  constructor() { }
+
+  ngOnInit() { }
+
+}
+
+
+export const [[COMPONENT_NAME_CAMEL]]Doc = {
+  name    : `[[COMPONENT_NAME]]`,
+  desc    : `Generates a button.`, 
+  api     : `[bfText]: Button text`,
+  instance: `<[[COMPONENT_NAME]]></[[COMPONENT_NAME]]>`, 
+  demoComp: [[COMPONENT_NAME_CAMEL]]DemoComponent
+}
