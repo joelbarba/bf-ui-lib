@@ -1,5 +1,13 @@
 @import '../../variables.scss';
 
+.inline-code {
+  font-family: "Source Code Pro", monospace;
+  color: black;
+  font-weight: bold;
+  background: #e6e6e6;
+  padding: 2px 7px;
+}
+
 .index-table {
   width: 100%;
   background: gray;

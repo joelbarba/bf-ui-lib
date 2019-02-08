@@ -10,7 +10,7 @@ export class BfListHeaderColComponent implements OnInit {
   @Input() fieldName: string = null;
   @Input() orderConf: {
     field    : string,
-    reversed : boolean,
+    reverse  : boolean,
     onChange?: Function
   } = null;
 
