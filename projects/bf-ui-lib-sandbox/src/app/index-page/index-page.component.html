@@ -1,5 +1,15 @@
 <h3>How to update the library</h3>
-<p>To update the library you can run the npm command (on root foolder): <span class="inline-code">npm RUN pack_all</span></p>
+<p>To update the library and use it with a file reference, run the npm command (on root foolder): <span class="inline-code">npm run pack_all</span></p>
+<p>To update and publish the library (NPM repository), follow the steps:</p>
+<ol>
+  <li>Increment version: <span class="inline-code">npm run version_up</span></li>
+  <li>Generate library: <span class="inline-code">npm run pack_all</span></li>
+  <li>Login into NPM register (as joel.blueface) <span class="inline-code">npm login</span></li>
+  <li>Publish the library (*.*.* = current version)<span class="inline-code">npm publish ./bf-ui-lib/dist/bf-ui-lib/bf-ui-lib-*.*.*.tgz</span></li>
+</ol>
+<p>If you need to increment a minor or major version, replace point 1 by: 
+  <span class="inline-code">cd dist/bf-ui-lib && npm version patch | minor | major</span>
+</p>
 <hr/>
 
 <h3>How to add a component</h3>
