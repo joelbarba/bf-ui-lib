@@ -23,7 +23,18 @@
 <p>There are 2 options, pulling the library from the public NPM repository (simple) or reference the local file system</p>
 <p>Install from NPM: <span class="inline-code">npm install bf-ui-lib --save</span></p>
 <p>Install from file reference: <span class="inline-code">npm install ../../../bf-ui-lib/dist/bf-ui-lib/bf-ui-lib-*.*.*.tgz --save</span> </p>
+<p>
+  Then you can import module "BfUiLibModule" or any of the compoents to your project module:
+</p>
+<pre>
+  {{ "
+  import { BfUiLibModule, BfBtnComponent, BfListHeaderColComponent } from 'bf-ui-lib';
 
+  @NgModule({
+    imports: [CommonModule, BfUiLibModule],
+  })
+  "}}
+</pre>
 
 
 
