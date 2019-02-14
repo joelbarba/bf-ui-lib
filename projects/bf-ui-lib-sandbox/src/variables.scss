@@ -1,1 +1,47 @@
-$primary-color: #1abc9c;
+$primary_color    : #00B6F1; 
+$secondary_color  : #93C83E;
+$tertiary_color   : #ED0677;
+$quaternary_color : #004A64;
+$warning_color    : #ED0677;
+$extra_color      : #F17B3F;
+$white: #FFF;
+
+
+// Define CSS variables (IEexplorer does not support it)
+$bf-colors: (
+  "primary_color"     : $primary_color,
+  "secondary_color"   : $secondary_color,  
+  "tertiary_color"    : $tertiary_color,   
+  "quaternary_color"  : $quaternary_color, 
+  "warning_color"     : $warning_color,    
+  "extra_color"       : $extra_color,      
+  "white"             : $white,
+
+  "primary"     : $primary_color,
+  "secondary"   : green
+);
+:root {
+  @each $color, $value in $bf-colors {
+    --#{$color}: #{$value};
+  }
+}
+
+
+@mixin btn-color-mixin($btn-color) {
+  .bf-btn {
+    background: $btn-color;
+    .btn-icon-section {
+      background: darken($btn-color, 5%);
+    }
+    &:hover {
+      background: darken($btn-color, 3%);
+      .btn-icon-section {
+        background: darken($btn-color, 7%);
+      }
+    }
+  }
+}
+.primary { @include btn-color-mixin($primary_color); }
+.secondary { @include btn-color-mixin($secondary_color);}
+
+

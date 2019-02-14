@@ -1,4 +1,5 @@
-$btn-color: #00b6f1;
+$primary_color    : green; 
+$btn-color: $primary_color;
 
 .bf-btn {
   background: $btn-color;
@@ -45,3 +46,4 @@ $btn-color: #00b6f1;
   }
 
 }
+

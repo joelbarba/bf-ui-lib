@@ -32,3 +32,8 @@
     pre { font-size: 10px; color: white; }
   }
 }
+
+
+@each $color, $value in $bf-colors {
+  .myC-#{$color} { background: #{$value}; }
+}

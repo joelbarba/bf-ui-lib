@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-bf-btn-demo',
   templateUrl: './bf-btn-demo.component.html',
-  styleUrls: ['./bf-btn-demo.component.scss']
+  styleUrls: ['./bf-btn-demo.component.scss'],
+  // encapsulation: ViewEncapsulation.None
 })
 export class BfBtnDemoComponent implements OnInit {
   public name = BfBtnDoc.name;
@@ -31,7 +32,7 @@ export class BfBtnDemoComponent implements OnInit {
 export const BfBtnDoc = {
   name    : `bf-btn`,
   desc    : `Generates a button.`, 
-  api     : `[bfText]: Button text
+  api     : `[bfText]: Text of the button
 [bfIcon]: Icon of the button (icomoon class)`,
   instance: `<bf-btn></bf-btn>`, 
   demoComp: BfBtnDemoComponent
