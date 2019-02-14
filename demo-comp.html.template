@@ -1,5 +1,4 @@
-[[COMPONENT_NAME]] = 'bf-btn'
-
+<!-- [[COMPONENT_NAME]] = 'bf-btn' -->
 
 <h2>{{name}}</h2>
 <hr/>

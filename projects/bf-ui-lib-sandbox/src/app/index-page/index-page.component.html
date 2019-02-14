@@ -1,3 +1,38 @@
+
+<h3>How to add a component</h3>
+<p>The easiest way is by running the script <span class="inline-code">sh new_comp.sh</span></p>
+<p>To add a new component to the library (manually), follow the steps:</p>
+<ol>
+  <li>Create the component: 
+    <span class="inline-code">ng generate component myNewBaby --project=bf-ui-lib</span>
+  </li>
+  <li>Export the component from the library module (bf-ui-lib.module.ts): 
+    <span class="inline-code">exports: [ … , MyNewBaby ]</span>
+  </li>
+  <li>Export the component reference in public_api.ts :
+    <span class="inline-code">export * from './lib/my-new-baby/my-new-baby.component';</span>
+  </li> 
+  <br/>
+
+  <li>Create a sandbox component to test and document it:
+    <span class="inline-code">ng generate component myNewBabyDemo --project=bf-ui-lib-sandbox</span>
+  </li>
+  <li>
+    Add the new component to the list of <span class="inline-code">compList[]</span>, to register it into the sandbox app (lib-register.service.ts)
+  </li>
+  <li>
+    <p>You can use the templates for the <span style="font-weight: bold">myNewBabyDemo</span> component 
+      (<span style="color: blue">demo-comp.html.template</span>  and  <span style="color: blue">demo-comp.ts.template</span>).<br/>
+      It is necessary that MyNewBabyDemo.component exports also an object with the "name, desc, api, instance, COMPONENT"
+    </p>
+  </li>
+</ol>
+<hr/>
+
+
+
+
+
 <h3>How to update the library</h3>
 <p>To update the library and use it with a file reference, run the npm command (on root foolder): <span class="inline-code">npm run pack_all</span></p>
 <p>To update and publish the library (NPM repository), run script <span class="inline-code">sh publish.sh</span>
@@ -19,6 +54,11 @@
 <hr/>
 
 
+
+
+
+
+
 <h3>How to install the library</h3>
 <p>There are 2 options, pulling the library from the public NPM repository (simple) or reference the local file system</p>
 <p>Install from NPM: <span class="inline-code">npm install bf-ui-lib --save</span></p>
@@ -38,12 +78,7 @@
 
 
 
-<h3>How to add a component</h3>
-<p>To add a new component to the library, follow the steps:</p>
-<ul>
-  <li>Create the component:</li>
-</ul>
-<hr/>
+
 
 
 <h3>Index of components</h3>
@@ -52,16 +87,16 @@
   <thead class="index-header">
     <tr>
       <th>Component</th>
-      <th>Api</th>
+      <!-- <th>Api</th> -->
       <th>Instance</th>
       <th>Example</th>
     </tr>
   </thead>
   
   <tbody>
-    <tr *ngFor="let compItem of reg.compList" routerLink="{{ '/' + compItem.name }}">
-      <td><pre>{{ compItem.name }}</pre></td>
-      <td><pre>{{ compItem.api }}</pre></td>
+    <tr *ngFor="let compItem of reg.compList">
+      <td routerLink="{{ '/' + compItem.name }}"><pre>{{ compItem.name }}</pre></td>
+      <!-- <td><pre>{{ compItem.api }}</pre></td> -->
       <td><pre>{{ compItem.instance }}</pre></td>
       <td>
         <!-- <bf-btn></bf-btn>    -->
@@ -70,4 +105,4 @@
   <tbody>
 </table>
 
-
+<div style="height: 60px;"></div>
