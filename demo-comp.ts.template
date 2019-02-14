@@ -1,5 +1,5 @@
-[[COMPONENT_NAME]] = 'bf-btn'
-[[COMPONENT_NAME_CAMEL]] = 'BfBtn'
+// [[COMPONENT_NAME]] = 'bf-btn'
+// [[COMPONENT_NAME_CAMEL]] = 'BfBtn'
 
 
 import { Component, OnInit } from '@angular/core';

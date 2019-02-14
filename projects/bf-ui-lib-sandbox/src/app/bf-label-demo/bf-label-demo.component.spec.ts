@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BfUiLibComponent } from './bf-ui-lib.component';
+import { BfLabelDemoComponent } from './bf-label-demo.component';
 
-describe('BfUiLibComponent', () => {
-  let component: BfUiLibComponent;
-  let fixture: ComponentFixture<BfUiLibComponent>;
+describe('BfLabelDemoComponent', () => {
+  let component: BfLabelDemoComponent;
+  let fixture: ComponentFixture<BfLabelDemoComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BfUiLibComponent ]
+      declarations: [ BfLabelDemoComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BfUiLibComponent);
+    fixture = TestBed.createComponent(BfLabelDemoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
