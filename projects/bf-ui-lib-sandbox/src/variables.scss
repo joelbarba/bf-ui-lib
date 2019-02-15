@@ -36,6 +36,3 @@ $bf-colors: (
 @each $color, $value in $bf-colors { 
   .#{$color}.bf-btn  { @include btn-color-mixin($value); }
 }
-// .bf-btn .btn-icon-section {
-//   @include btn-color-mixin($primary_color);
-// }
