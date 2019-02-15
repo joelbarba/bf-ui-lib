@@ -1,15 +1,23 @@
-$primary_color    : green; 
-$btn-color: $primary_color;
+$btn-color: green;
+
+
+bf-btn {
+  width: fit-content;
+  display: inline-block;
+}
 
 .bf-btn {
-  background: $btn-color;
+
+  background: $btn-color default;
   color: white;
   border: 0;
   border-radius: 4px;
   height: 35px;
+  margin: 2.5px;
   padding: 0;
   overflow: hidden;
-  cursor: pointer;
+  cursor: pointer;  
+  &:focus { outline: none; }
 
   // -webkit-box-shadow: 0 1px 2px rgba(34, 36, 38, 0.6);
   box-shadow: 0 1px 2px rgba(34, 36, 38, 0.6);
@@ -25,20 +33,26 @@ $btn-color: $primary_color;
   .btn-icon-section {
     display: inline-block;
     padding: 10px 10.5px;
+    &.small-btn { padding: 10px 12px; }
     line-height: 14px;
     font-size: 14px;
-    background: darken($btn-color, 5%);
+    background: darken($btn-color, 5%) default;
   }
 
-  &:hover {
+  &:hover:not(:disabled) {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
-    background: darken($btn-color, 3%);
+    background: darken($btn-color, 3%) default;
     .btn-icon-section {
-      background: darken($btn-color, 7%);
+      background: darken($btn-color, 7%) default;
     }
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: .65;
+  }
   
-  &:active {
+  &:active:not(:disabled) {
     box-shadow: inset 2px 2px 5px rgba(34, 36, 38, 0.4);
     .btn-icon-section {
       box-shadow: inset 0px 2px 5px rgba(34, 36, 38, 0.4);
@@ -46,4 +60,6 @@ $btn-color: $primary_color;
   }
 
 }
+
+
 

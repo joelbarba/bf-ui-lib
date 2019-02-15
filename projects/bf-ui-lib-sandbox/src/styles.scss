@@ -33,7 +33,3 @@
   }
 }
 
-
-@each $color, $value in $bf-colors {
-  .myC-#{$color} { background: #{$value}; }
-}
