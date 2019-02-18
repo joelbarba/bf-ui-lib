@@ -1,18 +1,29 @@
-<div *ngIf="bfType === 'table'">
-  <div class="row">
-    <div class="col-12">
-      <!-- <div class="overlay-text"><h4>Loading</h4></div> -->
+<div *ngIf="bfType === 'list'">
+  <li *ngFor="let fakeRow of fakeRows" class="list-row">
+    <div class="row">
+      <div *ngFor="let fakeCol of fakeRow.fakeCols" class="fake-row-placeholder" [ngClass]="fakeCol.colClass">
+        <h5 class="placeholder-text"></h5>
+      </div>
+    </div>
+  </li>
+</div>
 
-      <ul class="list-unstyled table-list">
-        <li class="list-header"></li>        
-        <li *ngFor="let fakeRow of fakeRows" class="list-row">
-          <div class="row">
-            <div *ngFor="let fakeCol of fakeRow.fakeCols" class="fake-row-placeholder" [ngClass]="fakeCol.colClass">
-              <h5 class="placeholder-text"></h5>
+
+<div *ngIf="bfType === 'table'">
+    <div class="row">
+      <div class="col-12">
+        <!-- <div class="overlay-text"><h4>Loading</h4></div> -->
+  
+        <ul class="list-unstyled table-list">
+          <li class="list-header"></li>        
+          <li *ngFor="let fakeRow of fakeRows" class="list-row">
+            <div class="row">
+              <div *ngFor="let fakeCol of fakeRow.fakeCols" class="fake-row-placeholder" [ngClass]="fakeCol.colClass">
+                <h5 class="placeholder-text"></h5>
+              </div>
             </div>
-          </div>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
-</div>

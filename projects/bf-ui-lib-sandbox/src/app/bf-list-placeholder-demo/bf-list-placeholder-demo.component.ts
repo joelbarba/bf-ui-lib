@@ -1,7 +1,3 @@
-// bf-list-placeholder = 'bf-btn'
-// BfListPlaceholder = 'BfBtn'
-
-
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -16,7 +12,17 @@ export class BfListPlaceholderDemoComponent implements OnInit {
   public instance = BfListPlaceholderDoc.instance;
 
   public instance2 = 
-`<bf-list-placeholder bfType="table"></bf-list-placeholder>`;
+`<ul class="list-unstyled table-list">
+  <li class="list-header">
+    <div class="row">
+      <bf-list-header-col class="col-5" ...>
+      <bf-list-header-col class="col-3" ...>
+      <bf-list-header-col class="col-2" ...>
+    </div>
+  </li>
+  <bf-list-placeholder [bfColumns]="[5, 3, 2]" bfRows="4"></bf-list-placeholder>
+</ul>
+`;
 
   constructor() { }
 
@@ -28,7 +34,11 @@ export class BfListPlaceholderDemoComponent implements OnInit {
 export const BfListPlaceholderDoc = {
   name    : `bf-list-placeholder`,
   desc    : `Generates an animation to display a fake list while loading`, 
-  api     : `[bfType]: 'table'`,
-  instance: `<bf-list-placeholder></bf-list-placeholder>`, 
+  api     : `[bfType]  : 'list' - (default) Displays the fake loading rows into a <ul> table
+            'table' - Displays a whole table (header + rows)
+
+[bfRows]   : Number of fake rows to display (default = 8)
+[bfColumns]: Array with the sizes of the columns (up to 12)`,
+  instance: `<bf-list-placeholder bfType="table"></bf-list-placeholder>`, 
   demoComp: BfListPlaceholderDemoComponent
 }
