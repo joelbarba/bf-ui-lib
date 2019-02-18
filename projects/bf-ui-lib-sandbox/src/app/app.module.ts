@@ -10,9 +10,10 @@ import { BfBtnDemoComponent } from './bf-btn-demo/bf-btn-demo.component';
 import { BfListHeaderColDemoComponent } from './bf-list-header-col-demo/bf-list-header-col-demo.component';
 import { MenuComponent } from './menu/menu.component';
 import { BfLabelDemoComponent } from './bf-label-demo/bf-label-demo.component';
+import { BfListPlaceholderDemoComponent } from './bf-list-placeholder-demo/bf-list-placeholder-demo.component';
 
 @NgModule({
-  declarations: [AppComponent, BfBtnDemoComponent, IndexPageComponent, BfListHeaderColDemoComponent, MenuComponent, BfLabelDemoComponent],
+  declarations: [AppComponent, BfBtnDemoComponent, IndexPageComponent, BfListHeaderColDemoComponent, MenuComponent, BfLabelDemoComponent, BfListPlaceholderDemoComponent],
   imports: [
     BrowserModule,
     BfUiLibModule,

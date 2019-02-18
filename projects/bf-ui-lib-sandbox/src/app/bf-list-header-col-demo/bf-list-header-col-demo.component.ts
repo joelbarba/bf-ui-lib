@@ -42,10 +42,10 @@ export class BfListHeaderColDemoComponent implements OnInit {
   <ul class="list-unstyled table-list">
     <li class="list-header">
       <div class="row">
-        <bf-list-header-col class="col-3" [colTitle]="'Username'" [fieldName]="'username'" [orderConf]="orderConf"></bf-list-header-col>
-        <bf-list-header-col class="col-3" [colTitle]="'Email'"    [fieldName]="'email'"    [orderConf]="orderConf"></bf-list-header-col>
-        <bf-list-header-col class="col-3" [colTitle]="'First Name'"></bf-list-header-col>
-        <bf-list-header-col class="col-3" [colTitle]="'Last Name'"></bf-list-header-col>
+        <bf-list-header-col class="col-3" colTitle="Username" fieldName="username" [orderConf]="orderConf"></bf-list-header-col>
+        <bf-list-header-col class="col-3" colTitle="Email"    fieldName="email"    [orderConf]="orderConf"></bf-list-header-col>
+        <bf-list-header-col class="col-3" colTitle="First Name"></bf-list-header-col>
+        <bf-list-header-col class="col-3" colTitle="Last Name"></bf-list-header-col>
       </div>
     </li>
 

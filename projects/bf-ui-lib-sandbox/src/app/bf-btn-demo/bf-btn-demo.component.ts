@@ -42,6 +42,7 @@ public cssReset =
 
 // Button color reset
 @mixin btn-color-mixin($btn-color) {
+  color: $white;
   background: $btn-color;
   .btn-icon-section { background: darken($btn-color, 5%); }
   &:hover:not(:disabled) {
