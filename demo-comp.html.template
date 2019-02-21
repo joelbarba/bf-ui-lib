@@ -20,11 +20,10 @@
   </div>
   
   <div class="row">
-    <div class="col-5"> <pre>{{instance2}}</pre> </div>
-    <div class="col-3">
+    <div class="col-5">
       <[[COMPONENT_NAME]]></[[COMPONENT_NAME]]>
     </div>
-    <div class="col-4"> Simple instance with ............</div>
+    <div class="col-7"> <pre>{{instance2}}</pre> </div>
   </div>
 
 </div>

@@ -11,6 +11,7 @@ import { BfListHeaderColDemoComponent } from './bf-list-header-col-demo/bf-list-
 import { MenuComponent } from './menu/menu.component';
 import { BfLabelDemoComponent } from './bf-label-demo/bf-label-demo.component';
 import { BfListPlaceholderDemoComponent } from './bf-list-placeholder-demo/bf-list-placeholder-demo.component';
+import { BfCheckboxDemoComponent } from './bf-checkbox-demo/bf-checkbox-demo.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { BfListPlaceholderDemoComponent } from './bf-list-placeholder-demo/bf-li
     BfListHeaderColDemoComponent, 
     MenuComponent, 
     BfLabelDemoComponent, 
-    BfListPlaceholderDemoComponent
+    BfListPlaceholderDemoComponent, BfCheckboxDemoComponent
   ],
   imports: [
     BrowserModule,

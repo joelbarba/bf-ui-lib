@@ -31,4 +31,4 @@ export const [[COMPONENT_NAME_CAMEL]]Doc = {
   api     : `[bfText]: Button text`,
   instance: `<[[COMPONENT_NAME]]></[[COMPONENT_NAME]]>`, 
   demoComp: [[COMPONENT_NAME_CAMEL]]DemoComponent
-}
+};

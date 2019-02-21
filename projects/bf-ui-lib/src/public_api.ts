@@ -9,3 +9,4 @@ export * from './lib/bf-btn/bf-btn.component';
 export * from './lib/bf-list-header-col/bf-list-header-col.component';
 export * from './lib/bf-label/bf-label.component';
 export * from './lib/bf-list-placeholder/bf-list-placeholder.component';
+export * from './lib/bf-checkbox/bf-checkbox.component';
