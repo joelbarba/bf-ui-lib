@@ -1,6 +1,6 @@
 <h2>{{name}}</h2>
 <hr/>
-<h5>{{desc}}</h5>
+<p>{{desc}}</p>
 <p>
 If the property "bfText" is defined, it generates a button with both text and icon. If not, just an icon button (small version)
 <br/>You can set the color of the button using "bfType". It accepts "primary", "secondary", ... (all defined brand colors)
@@ -12,14 +12,11 @@ If the property "bfText" is defined, it generates a button with both text and ic
 <h5 class="mt-4">Parameters (all optional):</h5>
 <div class="col-12"><pre>{{api}}</pre></div>
 
-<!-- <div class="row">
-  <div class="col-12">    
-    <bf-btn bfText="Save User" bfType="save" (onClick)="(count = count + 'x')" [bfDisabled]="false"></bf-btn>
-  </div>
-</div> -->
 
 <bf-btn [bfText]="'Add User'" [bfIcon]="'icon-plus'"></bf-btn>
 
+
+<!--Examples-->
 <h5 class="mt-4">Examples:</h5>
 <div class="row">
   <div class="col-12 examples-table">
@@ -59,8 +56,8 @@ If the property "bfText" is defined, it generates a button with both text and ic
           <bf-btn bfType="delete"  bfText="Delete User"></bf-btn>
           <br/>
           <bf-btn bfType="cancel"  bfText="Cancel"></bf-btn>
-          <bf-btn bfType="expand"></bf-btn>
-          <bf-btn bfType="collapse"></bf-btn>
+          <bf-btn class="squash" bfType="expand"></bf-btn>
+          <bf-btn class="squash" bfType="collapse"></bf-btn>
       </div>
       <div class="col-9"> <pre>{{instance4}}</pre> </div>
     </div>
@@ -79,6 +76,24 @@ If the property "bfText" is defined, it generates a button with both text and ic
   </div>
 </div>
 
+
+
+<!--Applicable classes -->
+<div class="row">
+  <div class="col-12">
+    <h5 class="mt-4">Applicable classes:</h5>
+    <p>It is possible to restyle the button to make it slimmer (special fit for narrow rows)
+    adding the class "<span class="bold">squash</span>":
+      <bf-btn class="squash" bfIcon="icon-plus" bfText="hey there"></bf-btn>
+      <bf-btn class="squash" bfType="expand"></bf-btn>
+      <bf-btn class="squash" bfType="collapse"></bf-btn>
+    </p>
+    <pre class="marT10">{{ squashExample }}</pre>
+  </div>
+</div>
+
+
+<!--CSS Styling-->
 <div class="row mt-4">
   <div class="col-12">
     <h3>CSS Styling</h3>

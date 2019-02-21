@@ -19,8 +19,8 @@ export class BfBtnDemoComponent implements OnInit {
 <bf-btn bfType="add"     bfText="Add User"    (onClick)="myFunc($event)"></bf-btn>
 <bf-btn bfType="delete"  bfText="Delete User" (onClick)="myFunc($event)"></bf-btn>
 <bf-btn bfType="cancel"  bfText="Cancel"      (onClick)="myFunc($event)"></bf-btn>
-<bf-btn bfType="expand"></bf-btn>
-<bf-btn bfType="collapse"></bf-btn>
+<bf-btn class="squash" bfType="expand"></bf-btn>
+<bf-btn class="squash" bfType="collapse"></bf-btn>
 `;
   public instance5 = `<bf-btn bfText="Primary"    bfType="primary"    (onClick)="myFunc($event)"></bf-btn>
 <bf-btn bfText="Secondary"  bfType="secondary"  (onClick)="myFunc($event)"></bf-btn>
@@ -45,12 +45,15 @@ public cssReset =
   color: $white;
   background: $btn-color;
   .btn-icon-section { background: darken($btn-color, 5%); }
+  .btn-icon-section.small-btn { background: $btn-color; } // If icon btn
   &:hover:not(:disabled) {
     background: darken($btn-color, 3%);
     .btn-icon-section { background: darken($btn-color, 7%); }
   }
 }
 @each $color, $value in $bf-colors { .#{$color}.bf-btn  { @include btn-color-mixin($value); } }`;
+
+public squashExample = `<bf-btn class="squash" bfType="expand"></bf-btn>`;
 
 
   constructor() { }

@@ -26,9 +26,10 @@ $bf-colors: (
 
 // Button color reset
 @mixin btn-color-mixin($btn-color) {
-  color: $white;
+  color: white;
   background: $btn-color;
   .btn-icon-section { background: darken($btn-color, 5%); }
+  .btn-icon-section.small-btn { background: $btn-color; } // If icon btn
   &:hover:not(:disabled) {
     background: darken($btn-color, 3%);
     .btn-icon-section { background: darken($btn-color, 7%); }
