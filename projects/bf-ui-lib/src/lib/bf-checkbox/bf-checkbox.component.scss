@@ -1,12 +1,3 @@
-$white: #fff;
-$disabled_grey: gray;
-$primary_color    : #00B6F1;
-$secondary_color  : #93C83E;
-$tertiary_color   : #ED0677;
-$quaternary_color : #004A64;
-$warning_color    : #ED0677;
-$extra_color      : #F17B3F;
-
 ////////////////////////////////////////// CHECKBOXES ////////////////////////////////////////
 
 // Checkbox view structure:
@@ -20,8 +11,7 @@ $extra_color      : #F17B3F;
 
 div.checkbox {
   display: inline-block;
-  margin-top: 6px;
-  margin-bottom: 7px;
+  margin: 0px;
 
   label {
     display: inline-flex;
@@ -49,8 +39,8 @@ div.checkbox {
         text-align: center;
         line-height: 15px;
         cursor: pointer;
-        background: $white;
-        border: 1px solid $primary_color;
+        border-width: 1px;
+        border-style: solid;
         border-radius: 3px;
         transition: 150ms;
 
@@ -64,11 +54,10 @@ div.checkbox {
 
       // Box marked (checked)
       &:checked + span.check-box {
-        background: $primary_color;
-        border: 1px solid darken($primary_color, 3%);
+        border-width: 1px;
+        border-style: solid;
         &:before {
           opacity: 1;
-          color: $white;
         }
       }
 
@@ -76,8 +65,6 @@ div.checkbox {
       &[disabled] {
         + span.check-box {
           cursor: not-allowed;
-          background: $disabled_grey;
-          border-color: darken($disabled_grey, 3%);
           + span.check-text {
             cursor: not-allowed;
           }

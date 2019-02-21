@@ -34,6 +34,26 @@ export class BfCheckboxDemoComponent implements OnInit {
   public inputCheckboxHtml = `<input type="checkbox">`;
 
 
+  public cssReset = `div.checkbox label input[type='checkbox'] {
+  + span.check-box {  // Box unmarked (unchecked)
+    background: $white;
+    border-color: $primary_color;
+  }
+
+  &:checked + span.check-box {  // Box marked (checked)
+    background: $primary_color;
+    border-color: darken($primary_color, 3%);
+    &:before { color: $white; }
+  }
+
+  &[disabled] + span.check-box {  // Box disabled (checked or unchecked)
+    background: $disabled-color;
+    border-color: darken($disabled-color, 3%);
+  }
+}`;
+
+
+
   constructor() { }
 
   ngOnInit() { }

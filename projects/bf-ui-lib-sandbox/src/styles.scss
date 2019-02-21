@@ -2,8 +2,9 @@
 
 @import "~bf-icomoon/css/icomoon.css";
 @import "~bootstrap/dist/css/bootstrap.css";
-@import 'variables.scss';
-@import 'helpers.scss';
+@import 'scss/variables';
+@import 'scss/helpers';
+@import 'scss/color-layer';
 
 
 body {

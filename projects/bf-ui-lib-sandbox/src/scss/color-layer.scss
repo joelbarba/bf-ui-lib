@@ -1,0 +1,51 @@
+// Define CSS variables (IEexplorer does not support it)
+$bf-colors: (
+  'primary'     : $primary_color,
+  'secondary'   : $secondary_color,
+  'tertiary'    : $tertiary_color,
+  'quaternary'  : $quaternary_color,
+  'warning'     : $warning_color,
+  'extra'       : $extra_color,
+  'white'       : $white,
+  'disabled'    : $disabled-color
+);
+:root {
+  @each $color, $value in $bf-colors { --#{$color}: #{$value}; }
+}
+
+
+// --- Button color reset ----------------------------------------------------
+@mixin btn-color-mixin($btn-color) {
+  color: white;
+  background: $btn-color;
+  .btn-icon-section { background: darken($btn-color, 5%); }
+  .btn-icon-section.small-btn { background: $btn-color; } // If icon btn
+  &:hover:not(:disabled) {
+    background: darken($btn-color, 3%);
+    .btn-icon-section { background: darken($btn-color, 7%); }
+  }
+}
+@each $color, $value in $bf-colors {
+  .#{$color}.bf-btn  { @include btn-color-mixin($value); }
+}
+
+
+
+// --- Checkbox color reset --------------------------------------------------
+div.checkbox label input[type='checkbox'] {
+  + span.check-box {  // Box unmarked (unchecked)
+    background: $white;
+    border-color: $primary_color;
+  }
+
+  &:checked + span.check-box {  // Box marked (checked)
+    background: $primary_color;
+    border-color: darken($primary_color, 3%);
+    &:before { color: $white; }
+  }
+
+  &[disabled] + span.check-box {  // Box disabled (checked or unchecked)
+    background: $disabled-color;
+    border-color: darken($disabled-color, 3%);
+  }
+}
