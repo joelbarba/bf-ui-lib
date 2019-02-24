@@ -7,17 +7,17 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 export const compList = [
-  BfCheckboxDoc,
-  BfListPlaceholderDoc,
+  BfBtnDoc,
   BfLabelDoc,
-  BfBtnDoc, 
+  BfCheckboxDoc,
   BfListHeaderColDoc,
-];  
-/* { 
-  name     : 'bf-list-header-col', 
-  api      : '...', 
-  instance : '<bf-list-header-col></bf-list-header-col>', 
-  demoComp : BfBtnDemoComponent 
+  BfListPlaceholderDoc,
+];
+/* {
+  name     : 'bf-list-header-col',
+  api      : '...',
+  instance : '<bf-list-header-col></bf-list-header-col>',
+  demoComp : BfBtnDemoComponent
 } */
 
 @Injectable({

@@ -1,0 +1,16 @@
+label {
+  font-weight: 700;
+  margin-bottom: 5px;
+
+  &.is-required {
+    color: blue;
+  }
+
+  .icon-info {
+    margin-right: 7px;
+  }
+  .asterisk {
+    margin-left: 3px;
+  }
+}
+

@@ -1,8 +1,5 @@
-// bf-label = 'bf-btn'
-// BfLabel = 'BfBtn'
-
-
-import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '../translate.service';
+import { Component, OnInit, Inject } from '@angular/core';
 
 @Component({
   selector: 'app-bf-label-demo]',
@@ -15,20 +12,30 @@ export class BfLabelDemoComponent implements OnInit {
   public api = BfLabelDoc.api;
   public instance = BfLabelDoc.instance;
 
-  public instance2 = 
-`<bf-label</bf-label>`;
+  public instance2 =
+`<bf-label bfText="Email" [bfRequired]="true"></bf-label>`;
+  public instance3 =
+`<bf-label bfText="User Name" 
+          bfTooltip="Helping message" 
+          bfRequired="true">
+</bf-label>`;
 
-  constructor() { }
+  constructor(private translate: TranslateService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.translate.doTranslate('AAAAAAAA');
+  }
 
 }
 
 
 export const BfLabelDoc = {
   name    : `bf-label`,
-  desc    : `Generates a button.`, 
-  api     : `[bfText]: Button text`,
-  instance: `<bf-label></bf-label>`, 
+  desc    : `Generates a button.`,
+  api     : `[bfText]       : Text to display as label
+[bfRequired]   : Whether the label is for a required field
+[bfTooltip]    : If set, an info bullet will be added before the label, with the tooltip of this text
+[bfTooltipPos] : Position of the tooltip (top by default)`,
+  instance: `<bf-label bfText="User Name"></bf-label>`,
   demoComp: BfLabelDemoComponent
-}
+};

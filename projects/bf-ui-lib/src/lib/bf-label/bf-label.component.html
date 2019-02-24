@@ -1,3 +1,8 @@
-<p>
-  bf-label works!
-</p>
+<label [class.is-required]="bfRequired">
+  <span class="icon-info" *ngIf="!!bfTooltip"
+     uib-tooltip=""
+     tooltip-placement="left">
+  </span>
+  <span>{{bfTextTranslated}}</span>:
+  <span *ngIf="bfRequired" class="asterisk">*</span>
+</label>
