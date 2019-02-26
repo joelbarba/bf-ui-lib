@@ -17,7 +17,6 @@ export class BfCheckboxComponent implements OnInit {
   }
 
   onChange(value) {
-    console.log('changing checkbox', value);
     this.bfModelChange.emit(value);
   }
 
