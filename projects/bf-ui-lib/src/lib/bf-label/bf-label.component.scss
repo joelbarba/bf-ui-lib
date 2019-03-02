@@ -2,15 +2,19 @@ label {
   font-weight: 700;
   margin-bottom: 5px;
 
-  &.is-required {
-    color: blue;
-  }
-
-  .icon-info {
+  .info-badge {
+    display: inline-block;
     margin-right: 7px;
+    cursor: pointer;
   }
   .asterisk {
     margin-left: 3px;
   }
 }
 
+
+
+// --- Label color reset --------------------------------------------------
+//label.is-required {
+//  color: $primary_color;
+//}

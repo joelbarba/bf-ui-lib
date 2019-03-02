@@ -4,6 +4,7 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 @import 'scss/variables';
 @import 'scss/helpers';
+@import 'scss/popover';
 @import 'scss/color-layer';
 
 
@@ -79,6 +80,6 @@ ul.table-list {
       letter-spacing: 1px;
       margin-top: 7.5px;
       margin-bottom: 0;
-    }    
+    }
   }
 }

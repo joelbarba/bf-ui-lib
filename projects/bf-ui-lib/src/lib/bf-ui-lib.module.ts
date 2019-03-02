@@ -7,6 +7,7 @@ import { BfLabelComponent } from './bf-label/bf-label.component';
 import { BfListPlaceholderComponent } from './bf-list-placeholder/bf-list-placeholder.component';
 import { BfCheckboxComponent } from './bf-checkbox/bf-checkbox.component';
 import { AbstractTranslateService } from './abstract-translate.service';
+import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,7 @@ import { AbstractTranslateService } from './abstract-translate.service';
     BfListPlaceholderComponent,
     BfCheckboxComponent,
   ],
-  imports: [BrowserModule, FormsModule],
+  imports: [BrowserModule, FormsModule, NgbPopoverModule],
   exports: [
     BfCheckboxComponent,
     BfListPlaceholderComponent,
