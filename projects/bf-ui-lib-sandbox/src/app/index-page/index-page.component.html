@@ -1,5 +1,6 @@
 
 <h3>How to add a component</h3>
+
 <p>The easiest way is by running the script <span class="inline-code">sh new_comp.sh</span></p>
 <p>To add a new component to the library (manually), follow the steps:</p>
 <ol>
@@ -64,24 +65,29 @@
 <p>Install from NPM: <span class="inline-code">npm install bf-ui-lib --save</span></p>
 <p>Install from file reference: <span class="inline-code">npm install ../../../bf-ui-lib/dist/bf-ui-lib/bf-ui-lib-*.*.*.tgz --save</span> </p>
 <p>
-  Then you can import module "BfUiLibModule" or any of the compoents to your project module:
+  Then you can import module "BfUiLibModule" to your project module:
+  <br>You may need to config the abstract services that are implemented into the library, such as <span class="bold">TranslateService</span>
 </p>
-<pre>
-  {{ "
-  import { BfUiLibModule, BfBtnComponent, BfListHeaderColComponent } from 'bf-ui-lib';
+<div class="col-12 examples-table">
+  <div class="row">
+    <div class="col-12 code-box">
+      <pre style="font-size: 16px;">
+{{ "import { BfUiLibModule } from 'bf-ui-lib';
 
-  @NgModule({
-    imports: [CommonModule, BfUiLibModule],
-  })
-  "}}
-</pre>
+@NgModule({
+  imports: [BfUiLibModule.forRoot({ TranslateService })],
+})"}}
+      </pre>
+    </div>
+  </div>
+</div>
 
 
 
 
 
 
-<h3>Index of components</h3>
+<h3 class="marT50">Index of components</h3>
 
 <table class="index-table">
   <thead class="index-header">
