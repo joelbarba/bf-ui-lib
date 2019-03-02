@@ -11,7 +11,15 @@ export class TranslateService extends AbstractTranslateService {
   }
 
   doTranslate(label ?: string): string {
-    console.log('Extended translation -> ', label);
-    return label + ' *trans';
+    // console.log('Extended translation -> ', label);
+    let response;
+    switch (label) {
+      case 'view.common.name'     : response = 'Name'; break;
+      case 'view.common.email'    : response = 'Email'; break;
+      case 'view.common.username' : response = 'User Name'; break;
+      case 'view.tooltip.message' : response = 'This is a very useful tooltip message in a popover'; break;
+      default: response = label;
+    }
+    return response;
   }
 }

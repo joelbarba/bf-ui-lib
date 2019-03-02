@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LibRegisterService } from './lib-register.service';
 import { IndexPageComponent } from './index-page/index-page.component';
+import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { BfUiLibModule } from '../../../bf-ui-lib/src/lib/bf-ui-lib.module';
 
@@ -31,8 +32,9 @@ import { TranslateDirective } from './translate.directive';
   ],
   imports: [
     BrowserModule,
-    BfUiLibModule.forRoot({ TranslateService }),
     AppRoutingModule,
+    NgbPopoverModule,
+    BfUiLibModule.forRoot({ TranslateService }),
   ],
   bootstrap: [AppComponent]
 })

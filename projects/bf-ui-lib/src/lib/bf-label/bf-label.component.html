@@ -1,7 +1,8 @@
 <label [class.is-required]="bfRequired">
-  <span class="icon-info" *ngIf="!!bfTooltip"
-     uib-tooltip=""
-     tooltip-placement="left">
+  <span class="info-badge" *ngIf="!!bfTooltip"
+       [ngbPopover]="bfTooltipTranslated" [placement]="bfTooltipPos" triggers="hover"
+       [container]="(bfTooltipBody ? 'body' : '')">
+    <span class="icon-info"></span>
   </span>
   <span>{{bfTextTranslated}}</span>:
   <span *ngIf="bfRequired" class="asterisk">*</span>

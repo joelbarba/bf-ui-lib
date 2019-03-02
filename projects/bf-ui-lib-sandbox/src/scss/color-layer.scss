@@ -49,3 +49,8 @@ div.checkbox label input[type='checkbox'] {
     border-color: darken($disabled-color, 3%);
   }
 }
+
+// --- Label color reset --------------------------------------------------
+label.is-required {
+  color: $primary_color;
+}

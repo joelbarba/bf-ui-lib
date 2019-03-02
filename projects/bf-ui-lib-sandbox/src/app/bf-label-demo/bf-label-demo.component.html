@@ -1,36 +1,107 @@
 <h2>{{name}}</h2>
 <hr/>
-<h5>{{desc}}</h5>
+<p>{{desc}}</p>
+<p>This component uses the external <a href="https://ng-bootstrap.github.io/#/components/popover/examples">@ng-bootstrap module NgbPopoverModule</a> to add the tooltip on the information badge<br>
+It also makes use of the translation service (if present), to automatically translate the given text for both [bfText] and [bfTooltip]. This service needs to be configured when the library is imported.</p>
 
 <h5 class="mt-4">Parameters:</h5>
 <div class="col-12"><pre>{{api}}</pre></div>
 
-<div [translate]="'Eyyyeaa'">This is a test</div>
+<div class="row">
+  <div class="col-12"><hr></div>
+  <div class="col-12">
+    <p>It generates the following html structure:</p>
+    <pre class="marL30">{{ bfHtmlStructure }}</pre>
+  </div>
+</div>
 
-<hr/>
+
 <h5 class="mt-4">Examples:</h5>
 <div class="col-12 examples-table">
 
   <div class="row">
-    <div class="col-4">
-      <bf-label bfText="User Name"></bf-label>
+    <div class="col-3" >
+      <bf-label bfText="view.common.username"></bf-label>
     </div>
-    <div class="col-8"> <pre>{{instance}}</pre> </div>
+    <div class="col-9"> <pre>{{instance}}</pre> </div>
  </div>
 
   <div class="row">
-    <div class="col-4">
-      <bf-label bfText="Email" [bfRequired]="true"></bf-label>
+    <div class="col-3">
+      <bf-label bfText="view.common.name" [bfRequired]="true"></bf-label>
     </div>
-    <div class="col-8"> <pre>{{instance}}</pre> </div>
+    <div class="col-9"> <pre>{{instance2}}</pre> </div>
  </div>
 
   <div class="row">
-    <div class="col-4">
-      <bf-label bfText="User Name" bfTooltip="Helping message" bfRequired="true"></bf-label>
+    <div class="col-3">
+      <bf-label bfText="view.common.email" bfTooltip="view.tooltip.message" bfRequired="true"></bf-label>
     </div>
-    <div class="col-8"> <pre>{{instance3}}</pre> </div>
+    <div class="col-9"> <pre>{{instance3}}</pre> </div>
  </div>
 
-
+  <div class="row">
+    <div class="col-3">
+      <bf-label bfText="Body = true" bfTooltip="view.tooltip.message" bfTooltipPos="left" [bfTooltipBody]="true">
+      </bf-label>
+      <bf-label bfText="Body = false" bfTooltip="view.tooltip.message" bfTooltipPos="left" [bfTooltipBody]="false">
+      </bf-label>
+    </div>
+    <div class="col-9"> <pre>{{instance4}}</pre> </div>
+ </div>
 </div>
+
+
+<h5 class="mt-4">Translations:</h5>
+<p>The library uses an internal service <span class="bold">AbstractTranslateService</span> that should be extended later in the project where that library is consumed.
+<br>It uses a synchronous method <span class="bold">doTranslate()</span> to return the translated value:</p>
+<div class="col-12 examples-table">
+  <div class="row">
+    <div class="col-12 code-box"><pre style="font-size: 16px;">{{transAbsService}}</pre></div>
+  </div>
+</div>
+<p class="marT15">When the <span class="bold">bf-ui-lib</span> is injected into the consumer project, it has to connect its "Translation" service to the library by extending AbstractTranslateService class</p>
+<div class="col-12 examples-table">
+  <div class="row">
+    <div class="col-5 code-box"><pre style="font-size: 14px;">{{injectLibEx}}</pre></div>
+    <div class="col-7 code-box"><pre style="font-size: 14px;">{{extendTransLib}}</pre></div>
+  </div>
+</div>
+
+
+
+
+<!--CSS Styling-->
+<div class="row marT40">
+  <div class="col-12">
+    <h3>CSS Styling</h3>
+    <p>The encapsulated styles do not use coloring.
+      <br/>
+      To provide a color based on a SCSS theme you can apply the following rules on a css global level :
+    </p>
+    <pre>{{ cssReset }}</pre>
+  </div>
+</div>
+
+
+
+
+
+
+
+<hr>
+<h5 style="color: red;">
+  TODO: Animations<br>
+</h5>
+<p style="color: red;">The popover component does not have any animation when opening/closing. The guys from
+<a href="https://github.com/ng-bootstrap/ng-bootstrap/blob/master/src/popover/popover-config.ts">@ng-bootstrap popover</a> are working on a new configuration
+where we can set "openDelay" and "closeDelay", so we'll be able to delay the triggers and perform animations meanwhile.
+That is still not included in version 4.0.4 (pending to review in master).
+</p>
+
+
+
+
+<div class="pad50"></div>
+<div class="pad50"></div>
+
