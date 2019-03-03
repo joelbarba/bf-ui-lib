@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // <-- NgModel lives here
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LibRegisterService } from './lib-register.service';
@@ -17,6 +18,9 @@ import { BfCheckboxDemoComponent } from './bf-checkbox-demo/bf-checkbox-demo.com
 
 import { TranslateService } from './translate.service';
 import { TranslateDirective } from './translate.directive';
+import { BfInputDemoComponent } from './bf-input-demo/bf-input-demo.component';
+import { BfDropdownDemoComponent } from './bf-dropdown-demo/bf-dropdown-demo.component';
+import { BfSwitchDemoComponent } from './bf-switch-demo/bf-switch-demo.component';
 
 @NgModule({
   declarations: [
@@ -29,11 +33,16 @@ import { TranslateDirective } from './translate.directive';
     BfLabelDemoComponent,
     BfListPlaceholderDemoComponent,
     BfCheckboxDemoComponent,
+    BfInputDemoComponent,
+    BfDropdownDemoComponent,
+    BfSwitchDemoComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbPopoverModule,
+    FormsModule,
+    ReactiveFormsModule,
     BfUiLibModule.forRoot({ TranslateService }),
   ],
   bootstrap: [AppComponent]

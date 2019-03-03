@@ -1,3 +1,6 @@
+import { BfSwitchDoc } from './bf-switch-demo/bf-switch-demo.component';
+import { BfDropdownDoc } from './bf-dropdown-demo/bf-dropdown-demo.component';
+import { BfInputDoc } from './bf-input-demo/bf-input-demo.component';
 import { BfCheckboxDoc } from './bf-checkbox-demo/bf-checkbox-demo.component';
 import { BfListPlaceholderDoc } from './bf-list-placeholder-demo/bf-list-placeholder-demo.component';
 import { BfLabelDoc } from './bf-label-demo/bf-label-demo.component';
@@ -9,7 +12,10 @@ import { Router } from '@angular/router';
 export const compList = [
   BfBtnDoc,
   BfLabelDoc,
+  BfInputDoc,
+  BfDropdownDoc,
   BfCheckboxDoc,
+  BfSwitchDoc,
   BfListHeaderColDoc,
   BfListPlaceholderDoc,
 ];

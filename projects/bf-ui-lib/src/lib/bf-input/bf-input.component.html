@@ -1,0 +1,29 @@
+<div class="form-group  bf-input-form-group  error-{{errorPosition}}"
+     [class.is-required]="bfRequired"
+     [class.is-disabled]="bfDisabled"
+     [class.is-error]="status === 'error'"
+     [class.is-pristine]="status === 'pristine'"
+     [class.is-dirty]="status === 'dirty'"
+     [class.horizontalLayoutClass]="false">
+
+  <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
+    <span class="info-badge" *ngIf="!!bfTooltip"
+         [ngbPopover]="bfTooltipTrans" [placement]="bfTooltipPos" triggers="hover"
+         [container]="(bfTooltipBody ? 'body' : '')">
+      <span class="icon-info"></span>
+    </span>
+    <span>{{bfLabelTrans}}</span>:
+    <span *ngIf="bfRequired" class="asterisk">*</span>
+  </label>
+
+  <span *ngIf="status === 'error'" class="bf-input-error-text" [ngClass]="errorPosition">{{errorText}}</span>
+
+  <span *ngIf="displayIcon" class="bf-input-inner-icon"
+        [ngClass]="displayIcon"
+        [class.bf-icon-error]="status === 'error'">
+  </span>
+
+  <input class="form-control" [formControl]="inputCtrl"
+         [placeholder]="bfPlaceholderTrans"
+         [type]="bfType"/>
+</div>
