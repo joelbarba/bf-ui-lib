@@ -54,6 +54,7 @@ public cssReset =
 @each $color, $value in $bf-colors { .#{$color}.bf-btn  { @include btn-color-mixin($value); } }`;
 
 public squashExample = `<bf-btn class="squash" bfType="expand"></bf-btn>`;
+public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"></bf-btn>`;
 
 
   constructor() { }

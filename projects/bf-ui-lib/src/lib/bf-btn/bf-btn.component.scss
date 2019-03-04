@@ -64,6 +64,17 @@ bf-btn {
   }
 }
 
+// Styles for full width buttons (class "full-width" applied on the <bf-btn>)
+:host.full-width {
+  .bf-btn {
+    width: 100%;
+    margin: 0;
+    .btn-icon-section {
+      float: right;
+    }
+  }
+}
+
 
 // --------------------------------------------------------------
 // This is to reset the button color:
