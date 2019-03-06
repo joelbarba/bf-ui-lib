@@ -22,11 +22,9 @@
 This allows us to apply a better styling on the check box, with borders and shadows, keeping the same the behaviour of the input
 </p>
 
-<h5 style="color: red;">
-  TODO: Implement ControlValueAccessor to make it work in Angular Forms ---> https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html
-</h5>
 
-<!--<bf-checkbox [(bfModel)]="myValue" bfLabel="Check me" bfDisabled="true"></bf-checkbox>-->
+
+<!--<bf-checkbox [(ngModel)]="myValue" bfLabel="Check me" bfDisabled="true"></bf-checkbox>-->
 
 
 <h5 class="mt-4">Examples:</h5>
@@ -34,7 +32,7 @@ This allows us to apply a better styling on the check box, with borders and shad
 
   <div class="row">
     <div class="col-3" style="display: block;">
-      <bf-checkbox [(bfModel)]="myValue" bfLabel="Check me"></bf-checkbox>
+      <bf-checkbox [(ngModel)]="myValue" bfLabel="Check me"></bf-checkbox>
       <span class="marL15">= {{myValue}}</span>
     </div>
     <div class="col-9"> <pre>{{instance}}</pre> </div>
@@ -42,22 +40,22 @@ This allows us to apply a better styling on the check box, with borders and shad
   
   <div class="row">
     <div class="col-3">
-      <bf-checkbox bfLabel="Check me" [bfModel]="myValue" (bfModelChange)="myValue = $event"></bf-checkbox>
+      <bf-checkbox bfLabel="Check me" [ngModel]="myValue" (ngModelChange)="myValue = $event"></bf-checkbox>
     </div>
     <div class="col-9"> <pre>{{instance2}}</pre> </div>
   </div>
 
   <div class="row">
     <div class="col-3">
-      <bf-checkbox [(bfModel)]="myValue"></bf-checkbox>
+      <bf-checkbox [(ngModel)]="myValue"></bf-checkbox>
     </div>
     <div class="col-9"> <pre>{{instance3}}</pre> </div>
   </div>
 
   <div class="row">
     <div class="col-3">
-      <bf-checkbox [bfModel]="true"  bfLabel="Checked" [bfDisabled]="true"></bf-checkbox>
-      <bf-checkbox [bfModel]="false" bfLabel="Unchecked" [bfDisabled]="true"></bf-checkbox>
+      <bf-checkbox [ngModel]="true"  bfLabel="Checked" [bfDisabled]="true"></bf-checkbox>
+      <bf-checkbox [ngModel]="false" bfLabel="Unchecked" [bfDisabled]="true"></bf-checkbox>
     </div>
     <div class="col-9"> <pre>{{instance4}}</pre> </div>
   </div>

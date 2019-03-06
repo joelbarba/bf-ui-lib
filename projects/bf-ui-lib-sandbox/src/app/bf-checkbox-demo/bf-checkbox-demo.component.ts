@@ -12,11 +12,11 @@ export class BfCheckboxDemoComponent implements OnInit {
   public instance = BfCheckboxDoc.instance;
 
   public instance2 = 
-`<bf-checkbox bfLabel="Check me" [bfModel]="myValue" (bfModelChange)="myValue = $event"></bf-checkbox>`;
-  public instance3 = `<bf-checkbox [(bfModel)]="myValue"></bf-checkbox>`;
+`<bf-checkbox bfLabel="Check me" [ngModel]="myValue" (ngModelChange)="myValue = $event"></bf-checkbox>`;
+  public instance3 = `<bf-checkbox [(ngModel)]="myValue"></bf-checkbox>`;
 
-  public instance4 = `<bf-checkbox [bfModel]="true"  bfLabel="Checked" [bfDisabled]="true"></bf-checkbox>
-<bf-checkbox [bfModel]="false" bfLabel="Unchecked" [bfDisabled]="true"></bf-checkbox>`;
+  public instance4 = `<bf-checkbox [ngModel]="true"  bfLabel="Checked" [bfDisabled]="true"></bf-checkbox>
+<bf-checkbox [ngModel]="false" bfLabel="Unchecked" [bfDisabled]="true"></bf-checkbox>`;
 
   public bootstrapHtmlStructure = `<div class="form-check">
   <input class="form-check-input" type="checkbox" value="">
@@ -26,7 +26,7 @@ export class BfCheckboxDemoComponent implements OnInit {
   public bfHtmlStructure = `<div class="checkbox">
   <label>
     <input type="checkbox" [disabled]="bfDisabled"
-           [ngModel]="bfModel" (ngModelChange)="onChange($event)">
+           [ngModel]="ngModel" (ngModelChange)="onChange($event)">
     <span class="check-box icon-checkmark3"></span>
     <span class="check-text" [class.has-text]="!!bfLabel">{{bfLabel}}</span>
   </label>
@@ -63,11 +63,12 @@ export class BfCheckboxDemoComponent implements OnInit {
 
 export const BfCheckboxDoc = {
   name    : `bf-checkbox`,
-  desc    : `Generates a button.`, 
-  api     : `[(bfModel)]     : Boolean value to be linked (one or two way)
-(bfModelChange) : Triggered when the value changes
+  desc    : `Generates a button.`,
+  api     : `[(ngModel)]     : The ngModel directive is linked to the inner <input>, so that can be used as a form element with ngForm (status is propagated).  
 [bfLabel]       : Text of the label (optional)
 [bfDisabled]    : Boolean value to disable (true) the input`,
-  instance: `<bf-checkbox [(bfModel)]="myValue" bfLabel="Check me"></bf-checkbox>`,
+
+// [(bfModel)]     : We keep the internal "bfModel" exposed (two ways) although ngModel does the same
+  instance: `<bf-checkbox [(ngModel)]="myValue" bfLabel="Check me"></bf-checkbox>`,
   demoComp: BfCheckboxDemoComponent
 };

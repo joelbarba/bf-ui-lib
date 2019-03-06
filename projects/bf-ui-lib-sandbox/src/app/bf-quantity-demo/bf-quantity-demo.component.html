@@ -1,0 +1,114 @@
+<h2>{{name}}</h2>
+<hr/>
+<p>{{desc}}</p>
+
+<h5 class="mt-4">Parameters:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+
+<div class="row">
+
+
+
+  <!--<div class="col-4">-->
+    <!--<form [formGroup]="myForm">-->
+      <!--<pre> myForm.value = {{ myForm.value | json }}</pre>-->
+      <!--<pre> myForm.invalid = {{ myForm.invalid | json }}</pre>-->
+      <!--<pre> myForm.status = {{ myForm.status | json }}</pre>-->
+
+      <!--<input type="text" required formControlName="outer_value" name="input1">-->
+      <!--&lt;!&ndash;<input type="text" required formControlName="inp2" name="input12">&ndash;&gt;-->
+      <!--<input type="text" required [formControl]="myInputCtrl" name="input33">-->
+    <!--</form>-->
+  <!--</div>-->
+
+  <div class="col-4">
+    <form #myNgForm="ngForm" [formGroup]="myFormGroup">
+      <pre> myNgForm.form.status = {{ myNgForm.form.status | json }}</pre>
+      <pre> myFormGroup.invalid = {{ myFormGroup.invalid | json }}</pre>
+
+      <input type="text" required [formControl]="myInput100">
+      <input type="text" required [formControl]="myInput200">
+
+      <!--<input type="text" required name="input600" [(ngModel)]="myNgVal1" [ngModelOptions]="{standalone: true}">-->
+
+    </form>
+  </div>
+
+  <div class="col-4">
+    <form #myNgFormSimple="ngForm">
+      <pre> form.status = {{ myNgFormSimple.form.status | json }}</pre>
+      <pre class="marB0"> form.value = {{ myNgFormSimple.form.value | json }}</pre>
+
+      <br/> 300:<input type="text" required name="input300" [(ngModel)]="myNgVal2">
+      <br/> 400:<input type="text" required name="input400" ngModel>
+      <br/> 500:<input type="text" required name="input500" ngModel
+                       #myInput500="ngModel" [ngModelOptions]="{standalone: false}">
+      <span> myInput500.value = {{ myInput500.value }}</span>
+    </form>
+  </div>
+
+  <div class="col-4">
+    <form #myBfForm="ngForm">
+      <pre> form.status = {{ myBfForm.form.status | json }}</pre>
+      <pre class="marB0"> form.value = {{ myBfForm.form.value | json }}</pre>
+
+      <bf-input [(ngModel)]="myVal600" [bfRequired]="true" #myInput600="ngModel" name="input600"></bf-input>
+      myVal600={{myVal600}}
+      , myInput600.value = {{myInput600.value}}
+      , myInput600.valid = {{myInput600.valid }}
+      , myInput600.valid = {{myInput600.errors | json }}
+
+      <!--<br/> 800:<input type="text" required name="input800" ngModel>-->
+      <!--<bf-input [(ngModel)]="myVal600" [bfRequired]="true"></bf-input>-->
+    </form>
+  </div>
+
+      <!--<bf-checkbox bfModel="myCheckVal" [(ngModel)]="myCheckVal" name="my_check"></bf-checkbox>-->
+
+  <!--THIS DOES NOT WORK !!-->
+  <!--<div class="col-4">-->
+    <!--&lt;!&ndash;<form [formGroup]="myFormGroup" #myFormRef="ngForm">&ndash;&gt;-->
+    <!--<form #myFormRef="ngForm">-->
+      <!--<pre> myFormRef.invalid = {{ myFormRef.invalid | json }}</pre>-->
+      <!--<pre> myFormRef.value = {{ myFormRef.value | json }}</pre>-->
+
+      <!--&lt;!&ndash;<pre> myFormGroup.invalid = {{ myFormGroup.invalid | json }}</pre>&ndash;&gt;-->
+      <!--&lt;!&ndash;<pre> myFormGroup.value = {{ myFormGroup.value | json }}</pre>&ndash;&gt;-->
+
+      <!--<pre> myInputCtrl.status = {{ myInputCtrl.status | json }}</pre>-->
+      <!--<pre> myInputCtrl.value = {{ myInputCtrl.value | json }}</pre>-->
+
+      <!--&lt;!&ndash;<input type="text" required [formControl]="myInputCtrl" name="input3">&ndash;&gt;-->
+    <!--</form>-->
+  <!--</div>-->
+
+
+  <!--<div class="col-4">-->
+    <!--<form #myFormRefModel="ngForm">-->
+      <!--<pre> myFormRefModel.invalid = {{ myFormRefModel.form.status | json }}</pre>-->
+      <!--<pre> myFormRefModel.value = {{ myFormRefModel.form.value | json }}</pre>-->
+      <!--<pre> myInput.status = {{ myInput.status | json }}</pre>-->
+      <!--<input type="text" required [(ngModel)]="myNgVal" name="input2" #myInput="ngModel">-->
+    <!--</form>-->
+  <!--</div>-->
+
+
+
+
+</div>
+
+<h5 class="mt-4">Examples:</h5>
+<div class="col-12 examples-table">
+  
+  <div class="row">
+    <div class="col-3">
+      <!--<bf-quantity (click)="myVar = 'eee'"></bf-quantity>-->
+    </div>
+    <div class="col-5"> <pre>{{instance}}</pre> </div>
+
+    <div class="col-4"> Simple instance with ........ </div>
+  </div>
+
+</div>
+

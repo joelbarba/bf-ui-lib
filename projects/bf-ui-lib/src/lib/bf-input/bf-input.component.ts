@@ -1,18 +1,33 @@
-import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, Inject, forwardRef } from '@angular/core';
+import { ViewChild, ElementRef } from '@angular/core';
+import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import { AbstractTranslateService } from '../abstract-translate.service';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
-import { FormControl, Validators } from '@angular/forms';
 import * as Rx from 'rxjs';
 import * as RxOp from 'rxjs/operators';
 
 @Component({
   selector: 'bf-input',
   templateUrl: './bf-input.component.html',
-  styleUrls: ['./bf-input.component.scss']
+  styleUrls: ['./bf-input.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR, multi: true,
+      useExisting: forwardRef(() => BfInputComponent),
+    },
+    { // Custom validator
+      provide: NG_VALIDATORS, multi: true,
+      useExisting: forwardRef(() => BfInputComponent),
+    }
+  ]
 })
-export class BfInputComponent implements OnInit {
-  @Output() bfModelChange = new EventEmitter<boolean>();
-  @Input() bfModel: string;
+export class BfInputComponent implements ControlValueAccessor {
+// export class BfInputComponent implements OnInit {
+  // @Output() bfModelChange = new EventEmitter<string>();
+  // @Input() bfModel: string;
+
+  public bfModel: string; // Internal to hold the linked ngModel on the wrapper
+
   @Input() bfLabel: string = '';
   @Input() bfRequired: boolean = false;
   @Input() bfDisabled: boolean = false;
@@ -73,7 +88,8 @@ export class BfInputComponent implements OnInit {
   public bfValidIcon: string = 'icon-checkmark4';
   public bfInvalidIcon: string = 'icon-warning22';
 
-  public inputCtrl:FormControl = new FormControl();
+  @ViewChild('ngInputRef') ngInputRef: ElementRef;
+  public inputCtrl:FormControl; // <-- ngInputRef.control
 
   constructor(
     @Inject('TranslateService') private translate: AbstractTranslateService,
@@ -81,23 +97,57 @@ export class BfInputComponent implements OnInit {
   }
 
 
+  // ------- ControlValueAccessor -----
+
+  // ControlValueAccessor --> writes a new value from the form model into the view
+  writeValue(value: any) {
+    if (value !== undefined) {
+      this.bfModel = value;
+      this.updateStatus();
+    }
+  }
+
+  public propagateModelUp = (_: any) => {}; // This is just to avoid type error (it's overwritten on register)
+  registerOnChange(fn) { this.propagateModelUp = fn; }
+  registerOnTouched(fn) { }
+
+
+  // NG_VALIDATORS ---> outer formControl validation
+  validate(control: FormControl) {
+    if (this.inputCtrl.status === 'INVALID') {  // If internal ngModel is invalid, external is invalid too
+      // return {'incorrect': true};
+      return { 'required': false };
+      // control.setErrors({ notUnique: true });
+      // control.updateValueAndValidity();
+      // return { notUnique: true };
+    }
+  }
+
+  // ------------------------------------
+
   ngOnChanges(change) { // Translate bfText whenever it changes
-    console.log(change);
+    console.log('ngOnChanges', change);
 
-
-    // https://angular.io/api/forms/AbstractControl
-    // this.inputCtrl = new FormControl('', { validators: Validators.required });
-    if (this.bfRequired) {
-      this.inputCtrl.setValidators(Validators.required);
-    } else {
-      this.inputCtrl.clearValidators();
+    console.log('this.ngInputRef', this.ngInputRef);
+    if (!!this.ngInputRef['control'] && !this.inputCtrl) {
+      //noinspection TypeScriptUnresolvedVariable
+      this.inputCtrl = this.ngInputRef.control;
     }
 
-    if (this.bfDisabled) {
-      this.inputCtrl.disable(); // Be careful, this turns the inputCtrl invalid (https://github.com/angular/angular/issues/11432#issuecomment-245670999)
-    } else {
-      this.inputCtrl.enable();
-    }
+
+    // // https://angular.io/api/forms/AbstractControl
+    // // this.inputCtrl = new FormControl('', { validators: Validators.required });
+    // if (this.bfRequired) {
+    //   this.inputCtrl.setValidators(Validators.required);
+    // } else {
+    //   this.inputCtrl.clearValidators();
+    // }
+    //
+    // if (this.bfDisabled) {
+    //   this.inputCtrl.disable(); // Be careful, this turns the inputCtrl invalid (https://github.com/angular/angular/issues/11432#issuecomment-245670999)
+    // } else {
+    //   this.inputCtrl.enable();
+    // }
 
     if (!!this.translate.doTranslate) {
       if (!!change.bfLabel)       { this.bfLabelTrans = this.translate.doTranslate(this.bfLabel); }
@@ -111,31 +161,45 @@ export class BfInputComponent implements OnInit {
 
     this.displayIcon = this.bfIcon || '';
 
-    this.inputCtrl.setValue(this.bfModel);
+    // this.inputCtrl.setValue(this.bfModel);
+    console.log('this.inputCtrl.status', this.inputCtrl.status);
+    this.propagateModelUp(this.bfModel);
     this.updateStatus();
   }
 
+  // ngAfterViewInit() { // Update status when the view is ready
+  //   console.log('ngAfterViewInit');
+  //   console.log('this.inputCtrl.status', this.inputCtrl.status);
+  //   this.propagateModelUp(this.bfModel);
+  //   this.updateStatus();
+  // }
+
   ngOnInit() {
 
-    this.inputCtrl.valueChanges.pipe(RxOp.distinctUntilChanged()).subscribe(value => {
-      // console.log('valueChanges', value);
-      this.updateStatus();
-      this.bfModelChange.emit(value);
-    });
+    // this.inputCtrl.valueChanges.pipe(RxOp.distinctUntilChanged()).subscribe(value => {
+    //   // console.log('valueChanges', value);
+    //   this.updateStatus();
+    //   // this.bfModelChange.emit(value);
+    //   // this.propagateBfModelChange(value);
+    // });
 
     // Triggered every time the validation changes
-    this.inputCtrl.statusChanges.pipe(RxOp.distinctUntilChanged()).subscribe(value => {
-      console.log('statusChanges', value);
-    });
+    // this.inputCtrl.statusChanges.pipe(RxOp.distinctUntilChanged()).subscribe(value => {
+    //   console.log('statusChanges', value);
+    // });
 
     // this.inputCtrl.setValue(this.bfModel);
-    this.updateStatus();
+    // console.log('this.inputCtrl.status', this.inputCtrl.status);
+    // this.propagateModelUp(this.bfModel);
+    // this.updateStatus();
   }
 
   public updateStatus = () => {
     if (this.inputCtrl.pristine) { this.status = 'pristine'; }
     if (this.inputCtrl.dirty)    { this.status = 'dirty'; }
-    if (!this.inputCtrl.valid && this.inputCtrl.dirty && !this.bfDisabled)   {
+
+    // if (this.inputCtrl.status === 'INVALID') { // <--- If we have to show error on pristine
+    if (this.inputCtrl.status === 'INVALID' && !this.inputCtrl.pristine)   {
       this.status = 'error';
       this.displayIcon = this.bfInvalidIcon;
     }
@@ -143,12 +207,10 @@ export class BfInputComponent implements OnInit {
   };
 
 
-  // public parseModelChange = (value, modelCtrl) => {
-    // if (modelCtrl.pristine) { this.status = 'pristine'; }
-    // if (modelCtrl.dirty)    { this.status = 'dirty'; }
-    // if (!modelCtrl.valid)   { this.status = 'error'; }
-
-    // this.bfModelChange.emit(value);
-  // }
+  public parseModelChange = () => {
+    this.propagateModelUp(this.bfModel);
+    this.updateStatus();
+    // this.bfModelChange.emit(this.bfModel);
+  }
 
 }

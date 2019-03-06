@@ -21,6 +21,7 @@ import { TranslateDirective } from './translate.directive';
 import { BfInputDemoComponent } from './bf-input-demo/bf-input-demo.component';
 import { BfDropdownDemoComponent } from './bf-dropdown-demo/bf-dropdown-demo.component';
 import { BfSwitchDemoComponent } from './bf-switch-demo/bf-switch-demo.component';
+import { BfQuantityDemoComponent } from './bf-quantity-demo/bf-quantity-demo.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { BfSwitchDemoComponent } from './bf-switch-demo/bf-switch-demo.component
     BfInputDemoComponent,
     BfDropdownDemoComponent,
     BfSwitchDemoComponent,
+    BfQuantityDemoComponent,
   ],
   imports: [
     BrowserModule,

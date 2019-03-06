@@ -23,7 +23,11 @@
         [class.bf-icon-error]="status === 'error'">
   </span>
 
-  <input class="form-control" [formControl]="inputCtrl"
+         <!--[formControl]="inputCtrl"-->
+  <input class="form-control" name="bfInput" #ngInputRef="ngModel"
+         [(ngModel)]="bfModel" (ngModelChange)="parseModelChange()"
+         [required]="bfRequired"
+         [disabled]="bfDisabled"
          [placeholder]="bfPlaceholderTrans"
          [type]="bfType"/>
 </div>

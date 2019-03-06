@@ -1,3 +1,4 @@
+import { BfQuantityDoc } from './bf-quantity-demo/bf-quantity-demo.component';
 import { BfSwitchDoc } from './bf-switch-demo/bf-switch-demo.component';
 import { BfDropdownDoc } from './bf-dropdown-demo/bf-dropdown-demo.component';
 import { BfInputDoc } from './bf-input-demo/bf-input-demo.component';
@@ -10,6 +11,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 export const compList = [
+  BfQuantityDoc,
   BfBtnDoc,
   BfLabelDoc,
   BfInputDoc,

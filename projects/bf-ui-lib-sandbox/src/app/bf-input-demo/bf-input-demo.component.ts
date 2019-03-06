@@ -17,17 +17,28 @@ export class BfInputDemoComponent implements OnInit {
   public instance2 =
 `<bf-input</bf-input>`;
 
+
+  public formExampleInput100 = `<form #myForm="ngForm">
+  
+  <bf-input [bfRequired]="true" ngModel="val1" #firstRef="ngModel" name="first">
+  </bf-input>
+  
+  <bf-input [bfRequired]="true" ngModel="val2" #lastRef="ngModel" name="last">
+  </bf-input>
+  
+  <bf-btn bfText="Save Form" [bfDisabled]="myForm.invalid"></bf-btn>
+
+</form>`;
+
   constructor() { }
-
   ngOnInit() { }
-
 }
 
 
 export const BfInputDoc = {
   name    : `bf-input`,
   desc    : `Generates a button.`,
-  api     : `([bfModel])     : Variable linked to the ngModel of the input.
+  api     : `[(ngModel)]     : The ngModel directive is linked to the inner <input>, so that can be used as a form element with ngForm (status is propagated).
 [bfLabel]       : Label of the input (automatically translated). If not provided, no label is displayed.
 [bfRequired]    : Whether the input is required or not
 [bfDisabled]    : Whether the input is disabled or not

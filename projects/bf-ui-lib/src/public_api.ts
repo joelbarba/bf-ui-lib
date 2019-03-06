@@ -14,3 +14,4 @@ export * from './lib/bf-checkbox/bf-checkbox.component';
 export * from './lib/bf-input/bf-input.component';
 export * from './lib/bf-dropdown/bf-dropdown.component';
 export * from './lib/bf-switch/bf-switch.component';
+export * from './lib/bf-quantity/bf-quantity.component';

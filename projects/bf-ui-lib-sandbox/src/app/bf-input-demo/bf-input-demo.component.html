@@ -5,15 +5,22 @@
 <h5 class="mt-4">Parameters:</h5>
 <div class="col-12"><pre>{{api}}</pre></div>
 
+<p>
+  This component has been implemented as a "custom controller", so it can be linked to a formControl to work in Reactive and Template forms.
+<br>
+  Check this page for more info: <a href="https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html">https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html</a>
+</p>
+
+
 <div class="whiteBg">
   <div class="row">
     <div class="col-12 marB15">
-      <bf-checkbox class="marR15" bfLabel="Required" [(bfModel)]="isReq"></bf-checkbox>
-      <bf-checkbox class="marR15" bfLabel="Disabled" [(bfModel)]="isDis"></bf-checkbox>
-      <bf-checkbox class="marR15" bfLabel="Placeholder" [(bfModel)]="isPlace"></bf-checkbox>
+      <bf-checkbox class="marR15" bfLabel="Required" [(ngModel)]="isReq"></bf-checkbox>
+      <bf-checkbox class="marR15" bfLabel="Disabled" [(ngModel)]="isDis"></bf-checkbox>
+      <bf-checkbox class="marR15" bfLabel="Placeholder" [(ngModel)]="isPlace"></bf-checkbox>
     </div>
     <div class="col-4">
-      <bf-input [(bfModel)]="myModel22"
+      <bf-input [(ngModel)]="myModel223"
                 bfLabel="view.common.name"
                 [bfRequired]="isReq"
                 [bfDisabled]="isDis"
@@ -23,16 +30,16 @@
       </bf-input>
     </div>
     <div class="col-4">
-      <bf-input [(bfModel)]="myModel2" bfLabel="view.common.name" [bfDisabled]="true" bfPlaceholder="view.common.placeholder"></bf-input>
+      <bf-input [(ngModel)]="myModel2" bfLabel="view.common.name" [bfDisabled]="true" bfPlaceholder="view.common.placeholder"></bf-input>
     </div>
     <div class="col-4">
-      <bf-input [(bfModel)]="myModel" bfLabel="view.common.name" [bfDisabled]="true"></bf-input>
+      <bf-input [(ngModel)]="myModel" bfLabel="view.common.name" [bfDisabled]="true"></bf-input>
     </div>
     <div class="col-4">
-      <bf-input [(bfModel)]="myModel" bfLabel="view.common.name" [bfDisabled]="true" [bfRequired]="true"></bf-input>
+      <bf-input [(ngModel)]="myModel" bfLabel="view.common.name" [bfDisabled]="true" [bfRequired]="true"></bf-input>
     </div>
     <div class="col-4">
-      <bf-input [(bfModel)]="myModel2" bfLabel="view.common.name"
+      <bf-input [(ngModel)]="myModel2" bfLabel="view.common.name"
                 bfTooltip="view.tooltip.message2"
                 bfTooltipPos="left"
                 [bfTooltipBody]="true"
@@ -41,36 +48,91 @@
   </div>
 </div>
 
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-12 marB15">
+      <h5>Inputs in a Form - Linking ngForm with bfInput ngModel</h5>
+    </div>
+  </div>
+
+  <form #myForm="ngForm">
+    <div class="row">
+      <div class="col-2">
+        <pre>myForm.status = {{ myForm.status | json }} </pre>
+        <pre>myForm.value = {{ myForm.value | json }}</pre>
+        <pre class="marB0">
+myForm.valid    = {{ myForm.valid }}
+myForm.invalid  = {{ myForm.invalid }}
+myForm.pristine = {{ myForm.pristine }}
+myForm.touched  = {{ myForm.touched }}
+myForm.errors   = {{ myForm.errors | json }}
+        </pre>
+
+      </div>
+
+      <div class="col-2">
+        <bf-input bfLabel="first" name="first" [(ngModel)]="val1" [bfRequired]="true" #firstRef="ngModel" ></bf-input>
+        <pre>
+firstRef.value = {{firstRef.value}}
+firstRef.valid = {{firstRef.valid }}
+firstRef.errors = {{firstRef.errors | json }}
+        </pre>
+        <pre class="marB0">ngModel Value (val1) = {{val1}}
+ngModel Value (val2) = {{val2}}
+        </pre>
+      </div>
+
+      <div class="col-2">
+        <bf-input bfLabel="last" name="last" [(ngModel)]="val2" [bfRequired]="true" #lastRef="ngModel" ></bf-input>
+        <pre>lastRef.value = {{lastRef.value}}
+lastRef.valid = {{lastRef.valid }}
+lastRef.errors = {{lastRef.errors | json }}
+        </pre>
+        <bf-btn bfText="Save Form" [bfDisabled]="myForm.invalid"></bf-btn>
+      </div>
+
+      <div class="col-6 examples-table" style="margin-top: -40px;">
+        <h5>Code sample:</h5>
+        <div class="code-box pad10">
+          <pre style="font-size: 14px;">{{ formExampleInput100 }}</pre>
+        </div>
+      </div>
+
+    </div>
+  </form>
+
+</div>
+
 
 
 
 <h5 class="mt-4">Examples:</h5>
 <div class="col-12 examples-table">
 
-  <!--<div class="row">-->
-    <!--<div class="col-3">-->
-      <!--<bf-input [(bfModel)]="myModel" bfLabel="My Field"></bf-input>-->
-    <!--</div>-->
-    <!--<div class="col-9"> <pre>{{instance}}</pre> </div>-->
-  <!--</div>-->
+  <div class="row">
+    <div class="col-3">
+      <bf-input [(ngModel)]="myModel" bfLabel="My Field"></bf-input>
+    </div>
+    <div class="col-9"> <pre>{{instance}}</pre> </div>
+  </div>
 
-  <!--<div class="row">-->
-    <!--<div class="col-3">-->
-      <!--<bf-input [(bfModel)]="myModel"-->
-                <!--bfLabel="Username"-->
-                <!--[bfRequired]="true"-->
-                <!--bfTooltip="This is a tooltip">-->
-      <!--</bf-input>-->
-    <!--</div>-->
-    <!--<div class="col-9"> <pre>{{instance}}</pre> </div>-->
-  <!--</div>-->
+  <div class="row">
+    <div class="col-3">
+      <bf-input [(ngModel)]="myModel"
+                bfLabel="Username"
+                [bfRequired]="true"
+                bfTooltip="This is a tooltip">
+      </bf-input>
+    </div>
+    <div class="col-9"> <pre>{{instance}}</pre> </div>
+  </div>
 
-  <!--<div class="row">-->
-    <!--<div class="col-3">-->
-      <!--<bf-input [(bfModel)]="myModel" bfLabel="My Field"></bf-input>-->
-    <!--</div>-->
-    <!--<div class="col-9"> <pre>{{instance}}</pre> </div>-->
-  <!--</div>-->
+  <div class="row">
+    <div class="col-3">
+      <bf-input [(ngModel)]="myModel" bfLabel="My Field"></bf-input>
+    </div>
+    <div class="col-9"> <pre>{{instance}}</pre> </div>
+  </div>
 
 </div>
 

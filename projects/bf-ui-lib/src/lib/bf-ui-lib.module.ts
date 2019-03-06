@@ -11,6 +11,7 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { BfInputComponent } from './bf-input/bf-input.component';
 import { BfDropdownComponent } from './bf-dropdown/bf-dropdown.component';
 import { BfSwitchComponent } from './bf-switch/bf-switch.component';
+import { BfQuantityComponent } from './bf-quantity/bf-quantity.component';
 
 @NgModule({
   declarations: [
@@ -22,9 +23,11 @@ import { BfSwitchComponent } from './bf-switch/bf-switch.component';
     BfInputComponent,
     BfDropdownComponent,
     BfSwitchComponent,
+    BfQuantityComponent,
   ],
   imports: [BrowserModule, FormsModule, ReactiveFormsModule, NgbPopoverModule],
   exports: [
+    BfQuantityComponent,  // <--- New component
     BfSwitchComponent,  // <--- New component
     BfDropdownComponent,  // <--- New component
     BfInputComponent,  // <--- New component
