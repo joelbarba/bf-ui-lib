@@ -126,12 +126,13 @@ export class BfInputComponent implements ControlValueAccessor {
   // ------------------------------------
 
   ngOnChanges(change) { // Translate bfText whenever it changes
-    console.log('ngOnChanges', change);
+    // console.log('ngOnChanges', change);
+    // console.log('this.ngInputRef', this.ngInputRef);
 
-    console.log('this.ngInputRef', this.ngInputRef);
+    // Link the formControl form the <input #ngInputRef="ngModel"> to "this.inputCtrl"
     if (!!this.ngInputRef['control'] && !this.inputCtrl) {
       //noinspection TypeScriptUnresolvedVariable
-      this.inputCtrl = this.ngInputRef.control;
+      this.inputCtrl = this.ngInputRef['control'];
     }
 
 
@@ -162,37 +163,13 @@ export class BfInputComponent implements ControlValueAccessor {
     this.displayIcon = this.bfIcon || '';
 
     // this.inputCtrl.setValue(this.bfModel);
-    console.log('this.inputCtrl.status', this.inputCtrl.status);
+    // console.log('this.inputCtrl.status', this.inputCtrl.status);
     this.propagateModelUp(this.bfModel);
     this.updateStatus();
   }
 
-  // ngAfterViewInit() { // Update status when the view is ready
-  //   console.log('ngAfterViewInit');
-  //   console.log('this.inputCtrl.status', this.inputCtrl.status);
-  //   this.propagateModelUp(this.bfModel);
-  //   this.updateStatus();
-  // }
 
-  ngOnInit() {
-
-    // this.inputCtrl.valueChanges.pipe(RxOp.distinctUntilChanged()).subscribe(value => {
-    //   // console.log('valueChanges', value);
-    //   this.updateStatus();
-    //   // this.bfModelChange.emit(value);
-    //   // this.propagateBfModelChange(value);
-    // });
-
-    // Triggered every time the validation changes
-    // this.inputCtrl.statusChanges.pipe(RxOp.distinctUntilChanged()).subscribe(value => {
-    //   console.log('statusChanges', value);
-    // });
-
-    // this.inputCtrl.setValue(this.bfModel);
-    // console.log('this.inputCtrl.status', this.inputCtrl.status);
-    // this.propagateModelUp(this.bfModel);
-    // this.updateStatus();
-  }
+  ngOnInit() { }
 
   public updateStatus = () => {
     if (this.inputCtrl.pristine) { this.status = 'pristine'; }

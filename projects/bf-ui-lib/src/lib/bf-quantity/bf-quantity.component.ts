@@ -5,21 +5,21 @@ import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS } f
   selector: 'bf-quantity',
   templateUrl: './bf-quantity.component.html',
   styleUrls: ['./bf-quantity.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => BfQuantityComponent),
-      multi: true
-    },
-    { // Custom validator
-      provide: NG_VALIDATORS,
-      useValue: (c: FormControl) => {
-        let err = { rangeError: { given: c.value, max: 10, min: 0 } };
-        return (c.value > 5 || c.value < 10) ? err : null;
-      },
-      multi: true
-    }
-  ]
+  // providers: [
+  //   {
+  //     provide: NG_VALUE_ACCESSOR,
+  //     useExisting: forwardRef(() => BfQuantityComponent),
+  //     multi: true
+  //   },
+  //   { // Custom validator
+  //     provide: NG_VALIDATORS,
+  //     useValue: (c: FormControl) => {
+  //       let err = { rangeError: { given: c.value, max: 10, min: 0 } };
+  //       return (c.value > 5 || c.value < 10) ? err : null;
+  //     },
+  //     multi: true
+  //   }
+  // ]
 })
 export class BfQuantityComponent implements ControlValueAccessor {
   // @Input() bfModel;

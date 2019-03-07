@@ -23,7 +23,7 @@ export class BfLabelComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.config);
+    // console.log(this.config);
     // this.config.openDelay = 2000;
     // this.config.closeDelay = 2000;
   }

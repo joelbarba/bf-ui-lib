@@ -20,9 +20,9 @@ export class TranslateDirective {
 
   ngOnInit() {
     let cont = this.el.nativeElement.firstChild.textContent;
-    console.log('Translate direvtive on Init', cont);
+    // console.log('Translate direvtive on Init', cont);
     // this.el.nativeElement.firstChild.textContent = this.translate.doTranslate(cont);
-    console.log('Input = ', this.labelValue);
+    // console.log('Input = ', this.labelValue);
   }
 
 }
