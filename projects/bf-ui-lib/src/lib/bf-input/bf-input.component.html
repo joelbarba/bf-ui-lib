@@ -25,7 +25,7 @@
 
          <!--[formControl]="inputCtrl"-->
   <input class="form-control" name="bfInput" #ngInputRef="ngModel"
-         [(ngModel)]="bfModel" (ngModelChange)="parseModelChange()"
+         [ngModel]="bfModel" (ngModelChange)="parseModelChange($event)"
          [required]="bfRequired"
          [disabled]="bfDisabled"
          [placeholder]="bfPlaceholderTrans"

@@ -101,9 +101,17 @@ export class BfInputComponent implements ControlValueAccessor {
 
   // ControlValueAccessor --> writes a new value from the form model into the view
   writeValue(value: any) {
+    // console.log('writeValue -> ', value, this.ngInputRef);
     if (value !== undefined) {
       this.bfModel = value;
       this.updateStatus();
+      // this.inputCtrl.updateValueAndValidity(value);
+
+      // After one cycle, set the value to the formControl, so the validate() gets the last
+      // state in "inputCtrl.status" when updating ngModel outer link
+      setTimeout(() => {
+        this.inputCtrl.setValue(this.bfModel);
+      });
     }
   }
 
@@ -114,13 +122,21 @@ export class BfInputComponent implements ControlValueAccessor {
 
   // NG_VALIDATORS ---> outer formControl validation
   validate(control: FormControl) {
+    // console.log('validate', this.inputCtrl.status, this.ngInputRef.status, this.ngInputRef.value);
+    // control.updateValueAndValidity();
+
     if (this.inputCtrl.status === 'INVALID') {  // If internal ngModel is invalid, external is invalid too
       // return {'incorrect': true};
       return { 'required': false };
       // control.setErrors({ notUnique: true });
       // control.updateValueAndValidity();
       // return { notUnique: true };
+    } else {
+      return null;
     }
+
+    // TODO ---> https://blog.thoughtram.io/angular/2016/03/14/custom-validators-in-angular-2.html
+    // Check there how to do proper custom validators
   }
 
   // ------------------------------------
@@ -164,6 +180,7 @@ export class BfInputComponent implements ControlValueAccessor {
 
     // this.inputCtrl.setValue(this.bfModel);
     // console.log('this.inputCtrl.status', this.inputCtrl.status);
+    // console.log('propagateModelUp -> ', this.bfModel);
     this.propagateModelUp(this.bfModel);
     this.updateStatus();
   }
@@ -184,7 +201,10 @@ export class BfInputComponent implements ControlValueAccessor {
   };
 
 
-  public parseModelChange = () => {
+  public parseModelChange = (value) => {
+    this.bfModel = value;
+    // this.inputCtrl.updateValueAndValidity();
+    // console.log('propagateModelUp -> ', this.bfModel);
     this.propagateModelUp(this.bfModel);
     this.updateStatus();
     // this.bfModelChange.emit(this.bfModel);
