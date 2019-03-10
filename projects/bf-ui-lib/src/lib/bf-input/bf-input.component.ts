@@ -130,8 +130,7 @@ export class BfInputComponent implements ControlValueAccessor {
 
     console.log('this.ngInputRef', this.ngInputRef);
     if (!!this.ngInputRef['control'] && !this.inputCtrl) {
-      //noinspection TypeScriptUnresolvedVariable
-      this.inputCtrl = this.ngInputRef.control;
+      this.inputCtrl = this.ngInputRef['control'];
     }
 
 
