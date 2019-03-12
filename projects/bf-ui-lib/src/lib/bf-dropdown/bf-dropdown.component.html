@@ -1,3 +1,8 @@
-<p>
-  bf-dropdown works!
-</p>
+<div class="bf-dropdown" [class.is-required]="bfRequired" [class.is-disabled]="bfDisabled">
+  <select class="form-control" name="bfDropdown"
+          [ngModel]="bfModel" (ngModelChange)="selectItem($event)"
+          [disabled]="bfDisabled"
+          [required]="bfRequired">
+    <option *ngFor="let item of bfList" [ngValue]="item">{{ item.$renderedText }}</option>
+  </select>
+</div>
