@@ -10,7 +10,7 @@ import '../prototypes';
  * |--------|---------------------|------------------------------------------------------------------------------------|
  * | =      | *bfList             | The list of the options (array of object)                                          |
  * |--------|---------------------|------------------------------------------------------------------------------------|
- * | @      | *bfRender           | Field to display on the list (property from bfList items)                          |
+ * | @      | bfRender            | Field to display on the list (property from bfList items)                          |
  * |        |                     | It can also be an eval() expression. Start with a '$$$' and use $item reference:   |                                              |
  * |        |                     | bfRender="$$$ $item.first_name + ' ' + $item.last_name"                            |
  * |--------|---------------------|------------------------------------------------------------------------------------|
@@ -147,13 +147,14 @@ import '../prototypes';
 })
 export class BfDropdownComponent implements ControlValueAccessor {
   public bfModel; // <--- internal ngModel
+  public extList; // Make a copy from bfList to make sure we never modify the input array
 
   @Input() bfList: Array<any>;
   @Input() bfRender: string = '';
   @Input() bfSelect: string = '';
   @Input() bfRequired: boolean = false;
   @Input() bfDisabled: boolean = false;
-  // @Input() bfLabel: string = '';
+  @Input() bfLabel: string = '';
 
     // ------- ControlValueAccessor -----
 
@@ -184,10 +185,10 @@ export class BfDropdownComponent implements ControlValueAccessor {
   constructor() { }
 
   ngOnChanges(changes) {
-    console.log('bfList', this.bfList);
 
     // Extend the input list adding $index and $renderedText
     if (!!changes.bfList) {
+      this.extList = this.bfList.copy();
 
       let renderExpr;
       if (this.bfRender.slice(0,3) !== '$$$') {
@@ -197,7 +198,7 @@ export class BfDropdownComponent implements ControlValueAccessor {
         renderExpr = this.bfRender.slice(4);
       }
 
-      this.bfList.forEach(($item, ind) => {
+      this.extList.forEach(($item, ind) => {
         let $renderedText = '';
 
         // If bfRender starts with $$$, it's an eval() expression.
@@ -219,8 +220,20 @@ export class BfDropdownComponent implements ControlValueAccessor {
         }
 
         $item.$renderedText = $renderedText;
-        $item.$index = ind;  // Internal unique index
+        $item.$index = ind + 1;  // Internal unique index
       });
+
+    }
+
+    if (!this.bfRequired) { // If not required, add the empty option to the list
+      if (!this.extList.length || this.extList[0].$index > 0) {
+        this.extList.unshift({$index: 0, $renderedText: 'Empty'});
+      }
+
+    } else { // If there is empty value on the top of the list, get rid of it
+      if (this.extList.length > 0 && this.extList[0].$index === 0) {
+        this.extList.shift();
+      }
     }
 
   }
@@ -232,13 +245,22 @@ export class BfDropdownComponent implements ControlValueAccessor {
     this.bfModel = selObj;
     let selModel;  // Object to export (output)
 
-    if (!this.bfSelect) {
-      selModel = selObj;   // Select full object
+
+    if (selObj.$index === 0) {
+      selModel = null; // If empty value selected, return allways null
+
     } else {
-      if (this.bfSelect.indexOf(',') === -1) {
-        selModel = selObj[this.bfSelect];  // Select 1 prop
+      if (!this.bfSelect) {
+        selModel = selObj.copy();   // Select full object
+        delete selModel.$index;
+        delete selModel.$renderedText;
+
       } else {
-        selModel = selObj.keyMap(this.bfSelect);  // Select filtered props
+        if (this.bfSelect.indexOf(',') === -1) {
+          selModel = selObj[this.bfSelect];  // Select 1 prop
+        } else {
+          selModel = selObj.keyMap(this.bfSelect);  // Select filtered props
+        }
       }
     }
 

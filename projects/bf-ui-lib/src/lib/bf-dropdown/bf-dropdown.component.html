@@ -1,8 +1,11 @@
+<div *ngIf="!!bfLabel">
+  <bf-label [bfText]="bfLabel" [bfRequired]="bfRequired"></bf-label>
+</div>
 <div class="bf-dropdown" [class.is-required]="bfRequired" [class.is-disabled]="bfDisabled">
   <select class="form-control" name="bfDropdown"
           [ngModel]="bfModel" (ngModelChange)="selectItem($event)"
           [disabled]="bfDisabled"
           [required]="bfRequired">
-    <option *ngFor="let item of bfList" [ngValue]="item">{{ item.$renderedText }}</option>
+    <option *ngFor="let item of extList" [ngValue]="item">{{ item.$renderedText }}</option>
   </select>
 </div>

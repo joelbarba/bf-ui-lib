@@ -42,7 +42,24 @@ export class BfDropdownDemoComponent implements OnInit {
   ];
 
   public instance2 =
-`<bf-dropdown</bf-dropdown>`;
+`<bf-dropdown [(ngModel)]="selObj" [bfList]="myList" bfSelect="username" bfRender="email">
+</bf-dropdown>`;
+
+  public instance3 =
+`<bf-dropdown [(ngModel)]="selObj"
+             [bfList]="myList"
+             bfSelect="username, first_name, last_name"
+             bfRender="$$$ $item.first_name + ' ' + $item.last_name + ' (' + $item.email + ')'">
+</bf-dropdown>`;
+
+  public instance4 =
+`<bf-dropdown [(ngModel)]="selObj" 
+             [bfList]="myList"
+             bfRender="email" 
+             bfLabel="Email"
+             [bfRequired]="true" 
+             [bfDisabled]="false">
+</bf-dropdown>`;
 
   constructor() { }
 
@@ -53,8 +70,16 @@ export class BfDropdownDemoComponent implements OnInit {
 
 export const BfDropdownDoc = {
   name    : `bf-dropdown`,
-  desc    : `Generates a button.`,
-  api     : `[bfText]: Button text`,
-  instance: `<bf-dropdown></bf-dropdown>`,
+  desc    : `Generates a dropdown using <select> and <option> html tags.`,
+  api     : `*[(ngModel)]     : The ngModel directive is linked to the inner <select>, so that can be used as a form element with ngForm (status is propagated).  
+*[bfList]        : Array of objects with the list to be displayed in the dropdown
+[bfSelect]       : The name of the property to be selected from the object of the list. If empty, all object selected. If multiple props add a keyMap list ('prop1, prop2, ...')
+[bfRender]       : Field to display on the list (property from bfList items).
+                   If empty, a row with all properties will be displayed.
+                   It can also be an eval() expression. Start with a '$$$' and use $item reference for eval. Example: bfRender="$$$ $item.first_name + ' ' + $item.last_name"    
+[bfRequired]     : Whether the value is required. If not, and "Empty" option will be added a the top of the list
+[bfDisabled]     : Whether the selector is disabled or not
+[bfLabel]        : If provided, a <bf-label> is added above the selector with the given text`,
+  instance: `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`,
   demoComp: BfDropdownDemoComponent
 };

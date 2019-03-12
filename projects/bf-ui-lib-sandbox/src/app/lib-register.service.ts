@@ -11,13 +11,13 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 export const compList = [
-  BfQuantityDoc,
   BfBtnDoc,
   BfLabelDoc,
   BfInputDoc,
   BfDropdownDoc,
   BfCheckboxDoc,
   BfSwitchDoc,
+  BfQuantityDoc,
   BfListHeaderColDoc,
   BfListPlaceholderDoc,
 ];
