@@ -29,7 +29,7 @@ export class MenuComponent implements OnInit {
   }
 
   filterMenu(searchText: string) {
-    console.log('filtering ', searchText);
+    // console.log('filtering ', searchText);
     let matchText = searchText.toLowerCase();
     // this.filteredList = [...this.reg.compList];
     this.filteredList = this.reg.compList.filter((item) => {

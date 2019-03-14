@@ -41,6 +41,12 @@ export class BfDropdownDemoComponent implements OnInit {
     { id: 24, username: 'sheepstealer', email: 'sheepstealer@targaryen.com', first_name: 'Sheepstealer', last_name: 'Targaryen' },
   ];
 
+  public selObj = { "id": 2, "username": "syrax", "email": "syrax@targaryen.com", "first_name": "Syrax", "last_name": "Targaryen" };
+  public selObj2;
+  public selObj3;
+  public selObj4;
+  public selObj5;
+
   public instance2 =
 `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList" bfSelect="username" bfRender="email">
 </bf-dropdown>`;
@@ -64,6 +70,18 @@ export class BfDropdownDemoComponent implements OnInit {
   constructor() { }
 
   ngOnInit() { }
+
+  public mockAutoSelect = () => {
+    let currId = !!this.selObj ? this.selObj.id : 0;
+    this.selObj = this.myList.getById(currId+1);
+    if (!!this.selObj) {
+      this.selObj2 = this.selObj;
+      this.selObj3 = this.selObj.username;
+      this.selObj4 = this.selObj.keyMap('username, first_name, last_name');
+      this.selObj5 = this.selObj;
+    }
+  }
+
 
 }
 

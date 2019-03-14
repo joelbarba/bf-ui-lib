@@ -51,7 +51,7 @@ $disabled_input_color : #797979;
     &::placeholder               { color: $optional_input_color; } /* Most modern browsers support this now. */
 
 
-
+    font-size: 16px;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
     border: 1px solid $optional_input_color;
     &:focus {

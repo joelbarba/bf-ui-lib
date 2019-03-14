@@ -162,7 +162,7 @@ export class BfDropdownComponent implements ControlValueAccessor {
   writeValue(value: any) {
     if (value !== undefined) {
       // this.bfModel = value;
-      // this.updateStatus();
+      this.matchExtSelect(value);
     }
   }
 
@@ -240,13 +240,12 @@ export class BfDropdownComponent implements ControlValueAccessor {
 
   ngOnInit() {  }
 
-
-  selectItem = (selObj) => {
+  public selectItem = (selObj) => {
     this.bfModel = selObj;
     let selModel;  // Object to export (output)
 
 
-    if (selObj.$index === 0) {
+    if (!selObj || selObj.$index === 0) {
       selModel = null; // If empty value selected, return allways null
 
     } else {
@@ -264,8 +263,42 @@ export class BfDropdownComponent implements ControlValueAccessor {
       }
     }
 
-    console.log('selModel', selModel);
+    // console.log('selModel', selModel);
     this.propagateModelUp(selModel);
-  }
+  };
 
+
+  // Given an external object/value, find and select the match on the interal list
+  public matchExtSelect = (value) => {
+    let matchItem = null;
+
+    if (!!value) {
+      if (!!this.bfSelect) {
+        if (this.bfSelect.indexOf(',') === -1) {  // Single prop
+          matchItem = this.extList.getByProp(this.bfSelect, value);
+
+        } else { // Multiple prop match
+          matchItem = this.extList.filter(item => {
+            return !!item.$index && (JSON.stringify(item.keyMap(this.bfSelect)) === JSON.stringify(value));
+          })[0];
+        }
+
+      } else {  // Full object match
+        matchItem = this.extList.filter(item => {
+          let oriItem = item.copy();
+          delete oriItem.$index;
+          delete oriItem.$renderedText;
+
+          // Stringify comparison is quite bad. TODO: Add a better object compare here
+          // Ideas:
+          // https://lodash.com/docs/4.17.11#isEqual
+          // https://www.npmjs.com/package/is-equal
+          // https://www.npmjs.com/package/fast-equals
+          return !!oriItem && (JSON.stringify(oriItem) === JSON.stringify(value));
+        })[0];
+      }
+    }
+
+    this.selectItem(matchItem);
+  };
 }
