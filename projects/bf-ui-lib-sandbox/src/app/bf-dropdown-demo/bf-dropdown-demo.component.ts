@@ -15,7 +15,7 @@ export class BfDropdownDemoComponent implements OnInit {
   public api = BfDropdownDoc.api;
   public instance = BfDropdownDoc.instance;
   public myList = [
-    { id:  1, username: 'joel.barba',   email: 'joel@barba.com', first_name: 'Joel', last_name: 'Barba'},
+    { id:  0, username: 'joel.barba',   email: 'joel@barba.com', first_name: 'Joel', last_name: 'Barba'},
     { id:  2, username: 'syrax',        email: 'syrax@targaryen.com',        first_name: 'Syrax',        last_name: 'Targaryen' },
     { id:  3, username: 'vermithor',    email: 'vermithor@targaryen.com',    first_name: 'Vermithor',    last_name: 'Targaryen' },
     { id:  4, username: 'caraxes',      email: 'caraxes@targaryen.com',      first_name: 'Caraxes',      last_name: 'Targaryen' },
@@ -73,13 +73,14 @@ export class BfDropdownDemoComponent implements OnInit {
 
   public mockAutoSelect = () => {
     let currId = !!this.selObj ? this.selObj.id : 0;
-    this.selObj = this.myList.getById(currId+1);
+    this.selObj = this.myList.getById(<string>(currId+1));
     if (!!this.selObj) {
       this.selObj2 = this.selObj;
-      this.selObj3 = this.selObj.username;
+      this.selObj3 = this.selObj.id;
       this.selObj4 = this.selObj.keyMap('username, first_name, last_name');
       this.selObj5 = this.selObj;
     }
+    this.selObj3 = 0;
   }
 
 

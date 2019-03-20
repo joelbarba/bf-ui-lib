@@ -272,7 +272,7 @@ export class BfDropdownComponent implements ControlValueAccessor {
   public matchExtSelect = (value) => {
     let matchItem = null;
 
-    if (!!value) {
+    if (value !== null && value !== undefined) {
       if (!!this.bfSelect) {
         if (this.bfSelect.indexOf(',') === -1) {  // Single prop
           matchItem = this.extList.getByProp(this.bfSelect, value);
