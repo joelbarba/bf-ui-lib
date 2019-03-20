@@ -1,7 +1,11 @@
-<button type="submit" class="bf-btn" [ngClass]="btnClass" (click)="onClick.emit($event)" [disabled]="bfDisabled">
+<button type="submit" class="bf-btn" [ngClass]="btnClass"
+        (click)="bfClick.emit($event)" [disabled]="bfDisabled"
+        [ngbPopover]="bfTooltipTrans" triggers="hover"
+        [placement]="bfTooltipPos"
+        [container]="(bfTooltipBody ? 'body' : '')">
   <div [hidden]="!bfText" class="btn-text-section">{{bfText}}</div>
   <div class="btn-icon-section" [class.small-btn]="!bfText">
-    <span [class]="bfIcon"></span>
+    <span [class]="bfIcon" [ngbPopover]="bfTooltipTrans"></span>
   </div>
   <span class="btn-load-section"></span>
 </button>

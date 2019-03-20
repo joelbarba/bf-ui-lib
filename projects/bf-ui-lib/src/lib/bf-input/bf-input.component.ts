@@ -82,7 +82,7 @@ export class BfInputComponent implements ControlValueAccessor {
   public bfTooltipTrans: string = '';       // Translated text for the tooltip of the label
   public bfPlaceholderTrans: string = '';   // Translated text for the placeholder of the input
 
-  public displayIcon: string = 'icon-cross';
+  public displayIcon: string = '';
   public errorPosition: string = 'top-right';
   public errorText: string = 'Invalid value';
   public bfValidIcon: string = 'icon-checkmark4';
@@ -103,15 +103,17 @@ export class BfInputComponent implements ControlValueAccessor {
   writeValue(value: any) {
     // console.log('writeValue -> ', value, this.ngInputRef);
     if (value !== undefined) {
-      this.bfModel = value;
+      this.bfModel = value ? value: '';
       this.updateStatus();
       // this.inputCtrl.updateValueAndValidity(value);
 
       // After one cycle, set the value to the formControl, so the validate() gets the last
       // state in "inputCtrl.status" when updating ngModel outer link
-      setTimeout(() => {
-        this.inputCtrl.setValue(this.bfModel);
-      });
+      if (!!this.inputCtrl) {
+        setTimeout(() => {
+          this.inputCtrl.setValue(this.bfModel);
+        });
+      }
     }
   }
 
@@ -125,7 +127,7 @@ export class BfInputComponent implements ControlValueAccessor {
     // console.log('validate', this.inputCtrl.status, this.ngInputRef.status, this.ngInputRef.value);
     // control.updateValueAndValidity();
 
-    if (this.inputCtrl.status === 'INVALID') {  // If internal ngModel is invalid, external is invalid too
+    if (!!this.inputCtrl && this.inputCtrl.status === 'INVALID') {  // If internal ngModel is invalid, external is invalid too
       // return {'incorrect': true};
       return { 'required': false };
       // control.setErrors({ notUnique: true });
@@ -189,15 +191,16 @@ export class BfInputComponent implements ControlValueAccessor {
   ngOnInit() { }
 
   public updateStatus = () => {
-    if (this.inputCtrl.pristine) { this.status = 'pristine'; }
-    if (this.inputCtrl.dirty)    { this.status = 'dirty'; }
+    if (!!this.inputCtrl) {
+      if (this.inputCtrl.pristine) { this.status = 'pristine'; }
+      if (this.inputCtrl.dirty)    { this.status = 'dirty'; }
 
-    // if (this.inputCtrl.status === 'INVALID') { // <--- If we have to show error on pristine
-    if (this.inputCtrl.status === 'INVALID' && !this.inputCtrl.pristine)   {
-      this.status = 'error';
-      this.displayIcon = this.bfInvalidIcon;
+      // if (this.inputCtrl.status === 'INVALID') { // <--- If we have to show error on pristine
+      if (this.inputCtrl.status === 'INVALID' && !this.inputCtrl.pristine)   {
+        this.status = 'error';
+        this.displayIcon = this.bfInvalidIcon;
+      }
     }
-
   };
 
 

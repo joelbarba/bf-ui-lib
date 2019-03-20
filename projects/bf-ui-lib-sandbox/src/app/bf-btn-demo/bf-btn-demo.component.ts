@@ -12,22 +12,29 @@ export class BfBtnDemoComponent implements OnInit {
   public api = BfBtnDoc.api;
   public instance = BfBtnDoc.instance;
 
-  public instance2 = `<bf-btn bfText="Add User"  (onClick)="myFunc($event)" [bfDisabled]="false"></bf-btn>
-<bf-btn bfText="Save User" (onClick)="myFunc($event)" [bfDisabled]="true"></bf-btn>`;
-  public instance3 = `<bf-btn bfText="Add User" bfIcon="icon-eye" (onClick)="myFunc($event)"></bf-btn>`;
-  public instance4 = `<bf-btn bfType="save"    bfText="Save User"   (onClick)="myFunc($event)"></bf-btn>
-<bf-btn bfType="add"     bfText="Add User"    (onClick)="myFunc($event)"></bf-btn>
-<bf-btn bfType="delete"  bfText="Delete User" (onClick)="myFunc($event)"></bf-btn>
-<bf-btn bfType="cancel"  bfText="Cancel"      (onClick)="myFunc($event)"></bf-btn>
+  public instance2 = `<bf-btn bfText="Add User"  (bfClick)="myFunc($event)" [bfDisabled]="false"></bf-btn>
+<bf-btn bfText="Save User" (bfClick)="myFunc($event)" [bfDisabled]="true"></bf-btn>`;
+
+  public instance3 = `<bf-btn bfText="Add User" bfIcon="icon-eye" (bfClick)="myFunc($event)"></bf-btn>
+<bf-btn bfText="Add Item" bfIcon="icon-plus" bfType="quaternary"></bf-btn>`;
+
+  public instance4 = `<bf-btn bfType="save"    bfText="Save User"   (bfClick)="myFunc($event)"></bf-btn>
+<bf-btn bfType="add"     bfText="Add User"    (bfClick)="myFunc($event)"></bf-btn>
+<bf-btn bfType="delete"  bfText="Delete User" (bfClick)="myFunc($event)"></bf-btn>
+<bf-btn bfType="cancel"  bfText="Cancel"      (bfClick)="myFunc($event)"></bf-btn>
 <bf-btn class="squash" bfType="expand"></bf-btn>
 <bf-btn class="squash" bfType="collapse"></bf-btn>
 `;
-  public instance5 = `<bf-btn bfText="Primary"    bfType="primary"    (onClick)="myFunc($event)"></bf-btn>
-<bf-btn bfText="Secondary"  bfType="secondary"  (onClick)="myFunc($event)"></bf-btn>
-<bf-btn bfText="Tertiary"   bfType="tertiary"   (onClick)="myFunc($event)"></bf-btn>
-<bf-btn bfText="Quaternary" bfType="quaternary" (onClick)="myFunc($event)"></bf-btn>
-<bf-btn bfText="Warning"    bfType="warning"    (onClick)="myFunc($event)"></bf-btn>
-<bf-btn bfText="Extra"      bfType="extra"      (onClick)="myFunc($event)"></bf-btn>`
+  public instance5 = `<bf-btn bfText="Primary"    bfType="primary"    bfIcon="icon-arrow-right3"> </bf-btn>
+<bf-btn bfText="Secondary"  bfType="secondary"  bfIcon="icon-plus">         </bf-btn>
+<bf-btn bfText="Tertiary"   bfType="tertiary"   bfIcon="icon-pencil">       </bf-btn>
+<bf-btn bfText="Quaternary" bfType="quaternary" bfIcon="icon-blocked">      </bf-btn>
+<bf-btn bfText="Warning"    bfType="warning"    bfIcon="icon-cross">        </bf-btn>
+<bf-btn bfText="Extra"      bfType="extra"      bfIcon="icon-arrow-down3">  </bf-btn>`
+
+public instance6 = `<bf-btn bfText="Simple Tooltip" bfTooltip="Hello World"></bf-btn>
+<bf-btn bfText="Better tooltip" bfTooltip="Hey" bfTooltipPos="left" [bfTooltipBody]="true"></bf-btn>`;
+
 
 public cssReset =
 `$bf-colors: (
@@ -56,9 +63,95 @@ public cssReset =
 public squashExample = `<bf-btn class="squash" bfType="expand"></bf-btn>`;
 public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"></bf-btn>`;
 
+  public brStr = `
+`;
+  public bsStr = `
+        `;
+  public customBtnCode = '<bf-btn (bfClick)="myFunc($event)"></bf-btn>';
+  public btnTypes = [
+    { id: 'primary',    text: 'bfType = primary',    },
+    { id: 'secondary',  text: 'bfType = secondary',  },
+    { id: 'tertiary',   text: 'bfType = tertiary',   },
+    { id: 'quaternary', text: 'bfType = quaternary', },
+    { id: 'warning',    text: 'bfType = warning',    },
+    { id: 'extra',      text: 'bfType = extra',      },
+    { id: 'edit',       text: 'bfType = edit',     },
+    { id: 'save',       text: 'bfType = save',     },
+    { id: 'update',     text: 'bfType = update',   },
+    { id: 'add',        text: 'bfType = add',      },
+    { id: 'delete',     text: 'bfType = delete',   },
+    { id: 'cancel',     text: 'bfType = cancel',   },
+    { id: 'expand',     text: 'bfType = expand',   },
+    { id: 'collapse',   text: 'bfType = collapse', },
+  ];
+  public btnIcons = [
+    { id: 'icon-pencil',        text: 'bfIcon = icon-pencil'        },
+    { id: 'icon-eye',           text: 'bfIcon = icon-eye'           },
+    { id: 'icon-arrow-right3',  text: 'bfIcon = icon-arrow-right3'  },
+    { id: 'icon-plus',          text: 'bfIcon = icon-plus'          },
+    { id: 'icon-cross',         text: 'bfIcon = icon-cross'         },
+    { id: 'icon-blocked',       text: 'bfIcon = icon-blocked'       },
+    { id: 'icon-arrow-down3',   text: 'bfIcon = icon-arrow-down3'   },
+    { id: 'icon-arrow-up3',     text: 'bfIcon = icon-arrow-up3'     },
+  ];
+  public btnTooltipPoss = [
+    { id: 'top',        text: 'top'    },
+    { id: 'right',      text: 'right'  },
+    { id: 'bottom',     text: 'bottom' },
+    { id: 'left',       text: 'left'   },
+  ];
+  public btnTooltipBody = [
+    { id: 'true',       text: 'true'   },
+    { id: 'false',      text: 'false'  },
+  ];
+  public btnConf:any = {
+    hasText: false, btnText: 'Click Me',
+    hasType: false, btnType: 'primary',
+    hasIcon: false, btnIcon: 'icon-plus',
+    isDisabled: false,
+    hasTooltip: false, btnTooltip: 'Hello World', btnTooltipPos: null, btnTooltipBody: false
+  };
+  public res;
+  public customBtnFunc = () => { this.res = ('Click at ' + new Date()); };
+  public upBtn = () => {
+    this.customBtnCode = `<bf-btn (bfClick)="myFunc($event)"`;
+
+    if (this.btnConf.hasText) {
+      this.customBtnCode += this.bsStr + ` bfText="${this.btnConf.btnText}"`;
+    }
+
+    if (this.btnConf.hasType) {
+      this.customBtnCode += this.bsStr + ` bfType="${this.btnConf.btnType}"`;
+    }
+
+    if (this.btnConf.hasIcon) {
+      this.customBtnCode += this.bsStr + ` bfIcon="${this.btnConf.btnIcon}"`;
+    }
+
+    if (this.btnConf.isDisabled) {
+      this.customBtnCode += this.bsStr + `[bfDisabled]="true"`;
+    }
+
+    if (this.btnConf.hasTooltip) {
+      this.customBtnCode += this.bsStr + ` bfTooltip="${this.btnConf.btnTooltip}"`;
+      if (!!this.btnConf.btnTooltipPos) {
+        this.customBtnCode += this.bsStr + ` bfTooltipPos="${this.btnConf.btnTooltipPos}"`;
+      }
+      if (!!this.btnConf.btnTooltipBody) {
+        this.customBtnCode += this.bsStr + ` bfTooltipBody="${this.btnConf.btnTooltipBody}"`;
+      }
+
+    }
+
+    this.customBtnCode += (`>` + this.brStr + `</bf-btn>`);
+  };
+
+
 
   constructor() { }
-  ngOnInit() { }
+  ngOnInit() {
+    this.upBtn();
+  }
   public count = '';
 }
 
@@ -69,11 +162,14 @@ public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"
 export const BfBtnDoc = {
   name    : `bf-btn`,
   desc    : `Generates a button.`, 
-  api     : `[bfText]     : Text of the button
-[bfType]     : Class of the button [primary, secondary, tertiary, quaternary, warning, extra] or predefined type [add, save, edit, delete, cancel, expand, collapse]
-[bfDisabled] : True=Button is disabled, False=Enabled
-[bfIcon]     : Icon of the button (icomoon class)
-(onClick)    : Click event handler`,
-  instance: `<bf-btn bfType="edit" (onClick)="myFunc($event)"></bf-btn>`, 
+  api     : `(bfClick)       : Click event handler
+[bfText]        : Text of the button
+[bfType]        : Class of the button [primary, secondary, tertiary, quaternary, warning, extra] or predefined type [add, save, edit, delete, cancel, expand, collapse]
+[bfIcon]        : Icon of the button (icomoon class)
+[bfDisabled]    : True=Button is disabled, False=Enabled
+[bfTooltip]     : If label provided, adds a tooltip on the button (automatically translated)
+[bfTooltipPos]  : Position of the tooltip (top by default)
+[bfTooltipBody] : Whether the tooltip is append to the body (default true) or next the the html element (false). The parent container may affect the visibility of the tooltip`,
+  instance: `<bf-btn bfType="edit" (bfClick)="myFunc($event)"></bf-btn>`,
   demoComp: BfBtnDemoComponent
 }

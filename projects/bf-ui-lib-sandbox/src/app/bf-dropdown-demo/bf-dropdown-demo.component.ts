@@ -73,7 +73,8 @@ export class BfDropdownDemoComponent implements OnInit {
 
   public mockAutoSelect = () => {
     let currId = !!this.selObj ? this.selObj.id : 0;
-    this.selObj = this.myList.getById(<string>(currId+1));
+    currId++;
+    this.selObj = this.myList.getById(currId+'');
     if (!!this.selObj) {
       this.selObj2 = this.selObj;
       this.selObj3 = this.selObj.id;

@@ -13,7 +13,75 @@ If the property "bfText" is defined, it generates a button with both text and ic
 <div class="col-12"><pre>{{api}}</pre></div>
 
 
-<bf-btn [bfText]="'Add User'" [bfIcon]="'icon-plus'"></bf-btn>
+<bf-btn [bfText]="'Add User'" [bfIcon]="'icon-plus'" bfTooltip="Hello World" bfTooltipPos="left" [bfTooltipBody]="true"></bf-btn>
+
+
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-5 marB15">
+      <h5 class="marB25">Button Customization:</h5>
+      <div>
+        <bf-btn (bfClick)="customBtnFunc()"
+                [bfText]="(btnConf.hasText ? btnConf.btnText : '')"
+                [bfType]="(btnConf.hasType ? btnConf.btnType : null)"
+                [bfIcon]="(btnConf.hasIcon ? btnConf.btnIcon : null)"
+                [bfDisabled]="btnConf.isDisabled"
+                [bfTooltip]="(btnConf.hasTooltip ? btnConf.btnTooltip : null)"
+                [bfTooltipPos]="(btnConf.btnTooltipPos || 'top')"
+                [bfTooltipBody]="btnConf.btnTooltipBody">
+        </bf-btn>
+      </div>
+      <div class="padT10">{{res}}</div>
+      <div class="padT15">
+        <pre>{{customBtnCode}}</pre>
+      </div>
+    </div>
+
+    <div class="col-7">
+
+      <div class="row">
+        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="btnConf.hasText" (ngModelChange)="upBtn()" bfLabel="Has Text"></bf-checkbox> </div>
+        <div class="col-10" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="btnConf.btnText" (ngModelChange)="upBtn()" [bfDisabled]="!btnConf.hasText"></bf-input> </div>
+      </div>
+
+      <div class="row">
+        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="btnConf.hasType" (ngModelChange)="upBtn()" bfLabel="Has Type"></bf-checkbox> </div>
+        <div class="col-10" *ngIf="btnConf.hasType">
+          <bf-dropdown [(ngModel)]="btnConf.btnType" (ngModelChange)="upBtn()" [bfList]="btnTypes" bfRender="text" bfSelect="id" [bfRequired]="true"> </bf-dropdown>
+        </div>
+      </div>
+
+      <div class="row marT15">
+        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="btnConf.hasIcon" (ngModelChange)="upBtn()" bfLabel="Has Icon"></bf-checkbox> </div>
+        <div class="col-10" *ngIf="btnConf.hasIcon">
+          <bf-dropdown [(ngModel)]="btnConf.btnIcon" (ngModelChange)="upBtn()" [bfList]="btnIcons" bfRender="text" bfSelect="id" [bfRequired]="true"> </bf-dropdown>
+        </div>
+      </div>
+
+      <div class="row marT15">
+        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="btnConf.isDisabled" (ngModelChange)="upBtn()" bfLabel="Is Disabled"></bf-checkbox> </div>
+      </div>
+
+      <div class="row marT15">
+        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="btnConf.hasTooltip" (ngModelChange)="upBtn()" bfLabel="Has Tooltip"></bf-checkbox> </div>
+        <div class="col-10" *ngIf="btnConf.hasTooltip">
+          <bf-input [(ngModel)]="btnConf.btnTooltip" (ngModelChange)="upBtn()"></bf-input>
+        </div>
+        <div class="col-2" *ngIf="btnConf.hasTooltip"></div>
+        <div class="col-5" *ngIf="btnConf.hasTooltip">
+          bfTooltipPos: <bf-dropdown [(ngModel)]="btnConf.btnTooltipPos" (ngModelChange)="upBtn()" [bfList]="btnTooltipPoss" bfRender="text" bfSelect="id"> </bf-dropdown>
+        </div>
+        <div class="col-5" *ngIf="btnConf.hasTooltip">
+          bfTooltipBody: <bf-dropdown [(ngModel)]="btnConf.btnTooltipBody" (ngModelChange)="upBtn()" [bfList]="btnTooltipBody" bfRender="text" bfSelect="id"> </bf-dropdown>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<hr>
 
 
 <!--Examples-->
@@ -23,7 +91,7 @@ If the property "bfText" is defined, it generates a button with both text and ic
   
     <div class="row">
       <div class="col-3">
-        <bf-btn bfType="edit" (onClick)="(count = count + 'a')"></bf-btn>
+        <bf-btn bfType="edit" (bfClick)="(count = count + 'a')"></bf-btn>
         {{count}}
       </div>
       <div class="col-9"> <pre>{{instance}}</pre> </div>    
@@ -33,8 +101,8 @@ If the property "bfText" is defined, it generates a button with both text and ic
 
     <div class="row">
       <div class="col-3" style="display: block">
-        <bf-btn bfText="Add User"  (onClick)="(count = count + 'x')" [bfDisabled]="false"></bf-btn>
-        <bf-btn bfText="Save User" (onClick)="(count = count + 'x')" [bfDisabled]="true"></bf-btn>    
+        <bf-btn bfText="Add User"  (bfClick)="(count = count + 'x')" [bfDisabled]="false"></bf-btn>
+        <bf-btn bfText="Save User" (bfClick)="(count = count + 'x')" [bfDisabled]="true"></bf-btn>
       </div>
       <div class="col-9"> <pre>{{instance2}}</pre> </div>
     </div>
@@ -42,6 +110,7 @@ If the property "bfText" is defined, it generates a button with both text and ic
     <div class="row">
       <div class="col-3">
         <bf-btn bfText="Add User" bfIcon="icon-eye"></bf-btn>
+        <bf-btn bfText="Add Item" bfIcon="icon-plus" bfType="quaternary"></bf-btn>
       </div>
       <div class="col-9"> <pre>{{instance3}}</pre> </div>
     </div>
@@ -63,15 +132,24 @@ If the property "bfText" is defined, it generates a button with both text and ic
     </div>
 
     <div class="row">
-      <div class="col-3">  
-        <bf-btn bfText="Primary"    bfType="primary"></bf-btn>
-        <bf-btn bfText="Secondary"  bfType="secondary"></bf-btn>
-        <bf-btn bfText="Tertiary"   bfType="tertiary"></bf-btn>
-        <bf-btn bfText="Quaternary" bfType="quaternary"></bf-btn>
-        <bf-btn bfText="Warning"    bfType="warning"></bf-btn>
-        <bf-btn bfText="Extra"      bfType="extra"></bf-btn>
+      <div class="col-3">
+        <bf-btn bfText="Primary"    bfType="primary"    bfIcon="icon-arrow-right3"></bf-btn>
+        <bf-btn bfText="Secondary"  bfType="secondary"  bfIcon="icon-plus"></bf-btn>
+        <bf-btn bfText="Tertiary"   bfType="tertiary"   bfIcon="icon-pencil"></bf-btn>
+        <bf-btn bfText="Quaternary" bfType="quaternary" bfIcon="icon-blocked"></bf-btn>
+        <bf-btn bfText="Warning"    bfType="warning"    bfIcon="icon-cross"></bf-btn>
+        <bf-btn bfText="Extra"      bfType="extra"      bfIcon="icon-arrow-down3"></bf-btn>
       </div>
       <div class="col-9"> <pre>{{instance5}}</pre> </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-3" style="display: block">
+        <bf-btn bfText="Simple Tooltip" bfTooltip="Hello World"></bf-btn>
+        <bf-btn bfText="Better tooltip" bfTooltip="Hey" bfTooltipPos="left" [bfTooltipBody]="true"></bf-btn>
+      </div>
+      <div class="col-9"> <pre>{{instance6}}</pre> </div>
     </div>
   </div>
 </div>
