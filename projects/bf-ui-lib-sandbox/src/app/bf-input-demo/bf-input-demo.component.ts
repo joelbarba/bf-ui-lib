@@ -32,6 +32,8 @@ export class BfInputDemoComponent implements OnInit {
 
 </form>`;
 
+  public flatExample = '<bf-input class="flat" [ngModel]="bfModel"></bf-input>';
+
   constructor() { }
   ngOnInit() { }
 }

@@ -141,3 +141,9 @@ $disabled_input_color : #797979;
 
 }
 
+
+// Styles applied to the host (wrapper instance element) <bf-input>
+:host.flat {
+  .bf-input-form-group { margin-bottom: 0; }
+}
+
