@@ -188,7 +188,11 @@ export class BfDropdownComponent implements ControlValueAccessor {
 
     // Extend the input list adding $index and $renderedText
     if (!!changes.bfList) {
-      this.extList = this.bfList.copy();
+      if (!!this.bfList && Array.isArray(this.bfList)) {
+        this.extList = this.bfList.copy();
+      } else {
+        this.extList = [];
+      }
 
       let renderExpr;
       if (this.bfRender.slice(0,3) !== '$$$') {
