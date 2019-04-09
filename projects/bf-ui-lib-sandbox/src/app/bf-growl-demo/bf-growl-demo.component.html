@@ -1,0 +1,81 @@
+<bf-growl-pop-up></bf-growl-pop-up>
+
+<h2>{{name}}</h2>
+<hr/>
+<p>{{desc}}</p>
+
+<p>This module includes:
+  <br> <span class="bold marL15">BfGrowlService</span> service
+  <br> <span class="bold marL15">{{instance}}</span> component
+</p>
+
+<p>The component wraps the notification box element, to be displayed on the top right corner of the screen.
+  <br>The you can push notifications through <span class="bold">BfGrowlService</span> service methods.
+  <br>Every message is pushed and displayed for 2 seconds (by default). There is a vanishing animation that lasts .6s, so it total they are displayed 2.6s.
+  <br>We can display multiple messages at the same time. The component handles a list of current messages, one above the other, although those cases should be rare.
+  <br>The message text is automatically translated through the provided <span class="bold">TranslateService</span> of the application.
+</p>
+
+<h5 class="mt-4">Growl API:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+
+<!--Examples-->
+<h5 class="mt-4">Examples:</h5>
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-9 marB15">
+      <div class="code-box pad15">
+        <pre>{{instance1}}</pre>
+      </div>
+    </div>
+    <div class="col-3 marB15">
+
+      <div>
+        <bf-btn bfText="Push a .success() notification" (bfClick)="pushSuccess()"></bf-btn>
+      </div>
+
+      <div>
+        <bf-btn bfType="warning" bfText="Push a .error() notification" (bfClick)="pushError()"></bf-btn>
+      </div>
+
+      <div>
+        <bf-btn bfType="secondary" bfText="Custom .pushMsg() notification" (bfClick)="pushCustom()"></bf-btn>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!--Set Up-->
+<div class="row marT40">
+  <div class="col-12">
+    <h4>Set Up</h4>
+    <p>You should inject the component somewhere in your app-root (unique instance per app).
+      That shouldn't change the structure of you html, since the component has a fixed position on the right top corner.
+    </p>
+    <pre class="padL20">{{instance2}}</pre>
+
+    <p>Then you can inject the service and use their methods to push notifications:
+    <pre class="padL20">{{instance3}}</pre>
+  </div>
+</div>
+
+<!--CSS Styling-->
+<div class="row marT40">
+  <div class="col-12">
+    <h4>CSS Styling</h4>
+
+    <p>The encapsulated styles of the message boxes use a default color. However, we may want to apply different colors externally (depending on the theme)
+      <br/>To provide a color restyling based on a SCSS theme you can apply the following rules on a css global level:
+    </p>
+    <pre class="padL20">{{ cssReset }}</pre>
+
+    <p>The component is all wrapped in the <span class="bold">.growl-wrapper</span> class. It contains a list of msg boxes (for each current
+      notification) which are then wrapped into <span class="bold">.msg-box</span> class.
+    </p>
+
+  </div>
+</div>

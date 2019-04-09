@@ -22,6 +22,7 @@ import { BfInputDemoComponent } from './bf-input-demo/bf-input-demo.component';
 import { BfDropdownDemoComponent } from './bf-dropdown-demo/bf-dropdown-demo.component';
 import { BfSwitchDemoComponent } from './bf-switch-demo/bf-switch-demo.component';
 import { BfQuantityDemoComponent } from './bf-quantity-demo/bf-quantity-demo.component';
+import { BfGrowlDemoComponent } from './bf-growl-demo/bf-growl-demo.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { BfQuantityDemoComponent } from './bf-quantity-demo/bf-quantity-demo.com
     BfDropdownDemoComponent,
     BfSwitchDemoComponent,
     BfQuantityDemoComponent,
+    BfGrowlDemoComponent,
   ],
   imports: [
     BrowserModule,

@@ -18,6 +18,15 @@ body {
   //line-height: 1.42857;
 }
 
+.code-box {
+  background: black;
+  pre {
+    font-size: 14px;
+    color: white;
+    margin-bottom: 0;
+  }
+}
+
 .examples-table {
   .row {
     border-top: 1px solid gray;
