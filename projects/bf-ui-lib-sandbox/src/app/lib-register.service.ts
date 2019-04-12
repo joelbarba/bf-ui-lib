@@ -1,3 +1,4 @@
+import { BfConfirmDoc } from './bf-confirm-demo/bf-confirm-demo.component';
 import { BfQuantityDoc }        from './bf-quantity-demo/bf-quantity-demo.component';
 import { BfSwitchDoc }          from './bf-switch-demo/bf-switch-demo.component';
 import { BfDropdownDoc }        from './bf-dropdown-demo/bf-dropdown-demo.component';
@@ -22,6 +23,7 @@ export const compList = [
   BfListHeaderColDoc,
   BfListPlaceholderDoc,
   BfGrowlDoc,
+  BfConfirmDoc,
 ];
 /* {
   name     : 'bf-list-header-col',

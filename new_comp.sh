@@ -22,7 +22,7 @@ echo ""
 read x
 
 echo ""
-ng generate component $ccName --project=bf-ui-lib
+ng generate component $ccName --project=bf-ui-lib --module=bf-ui-lib
 
 # Injects component export from lib module: @NgModule({ exports: [ NewComp, ... ]
 libModFile="projects/bf-ui-lib/src/lib/bf-ui-lib.module.ts"

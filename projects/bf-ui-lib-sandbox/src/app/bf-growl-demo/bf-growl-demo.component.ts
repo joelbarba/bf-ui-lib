@@ -11,17 +11,16 @@ export class BfGrowlDemoComponent implements OnInit {
   public desc = BfGrowlDoc.desc;
   public api = BfGrowlDoc.api;
   public instance = BfGrowlDoc.instance;
-  public instance1 = `constructor(private growl: BfGrowlService) { }
+  public instance1 = `import { BfGrowlService } from 'bf-ui-lib';
+constructor(private growl: BfGrowlService) { }
 
 this.growl.success('Success message pushed');
 this.growl.error('Error message pushed');
 this.growl.pushMsg({ text: 'view.tooltip.message', timeOut: 4000, msgType: 'success', msgIcon: 'icon-cool' });`;
 
   public instance2 = `<bf-growl-pop-up></bf-growl-pop-up>`;
-  public instance3 = `import { BfGrowlService } from '/bf-growl/bf-growl.service';
-constructor(private growl: BfGrowlService) { }
-
-this.growl.success('My message');`;
+  public instance3 = `import { BfGrowlService } from 'bf-ui-lib';
+constructor(private growl: BfGrowlService) { }`;
 
 
   public cssReset = `.growl-wrapper {

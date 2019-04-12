@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LibRegisterService } from './lib-register.service';
 import { IndexPageComponent } from './index-page/index-page.component';
-import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPopoverModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { BfUiLibModule } from '../../../bf-ui-lib/src/lib/bf-ui-lib.module';
 
@@ -23,6 +23,7 @@ import { BfDropdownDemoComponent } from './bf-dropdown-demo/bf-dropdown-demo.com
 import { BfSwitchDemoComponent } from './bf-switch-demo/bf-switch-demo.component';
 import { BfQuantityDemoComponent } from './bf-quantity-demo/bf-quantity-demo.component';
 import { BfGrowlDemoComponent } from './bf-growl-demo/bf-growl-demo.component';
+import { BfConfirmDemoComponent } from './bf-confirm-demo/bf-confirm-demo.component';
 
 @NgModule({
   declarations: [
@@ -40,11 +41,13 @@ import { BfGrowlDemoComponent } from './bf-growl-demo/bf-growl-demo.component';
     BfSwitchDemoComponent,
     BfQuantityDemoComponent,
     BfGrowlDemoComponent,
+    BfConfirmDemoComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbPopoverModule,
+    // NgbModalModule,
     FormsModule,
     ReactiveFormsModule,
     BfUiLibModule.forRoot({ TranslateService }),

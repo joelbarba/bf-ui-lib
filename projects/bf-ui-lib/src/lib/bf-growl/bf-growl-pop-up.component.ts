@@ -7,7 +7,7 @@ import { BfGrowlService } from './bf-growl.service'
   styleUrls: ['./bf-growl-pop-up.component.scss']
 })
 export class BfGrowlPopUpComponent implements OnInit {
-  constructor(private growl: BfGrowlService) { }
+  constructor(public growl: BfGrowlService) { }
 
   ngOnInit() { }
 

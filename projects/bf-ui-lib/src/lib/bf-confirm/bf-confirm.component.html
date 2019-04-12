@@ -1,0 +1,21 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{conf.title}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('close')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12">
+      <p>{{conf.text}}</p>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal-footer">
+  <bf-btn *ngIf="conf.showCancel" bfType="cancel"  [bfText]="conf.cancelButtonText" (bfClick)="activeModal.dismiss('cancel')"></bf-btn>
+  <bf-btn *ngIf="conf.showNo"     bfType="delete"  [bfText]="conf.noButtonText"     (bfClick)="activeModal.close('no')"></bf-btn>
+  <bf-btn *ngIf="conf.showYes"    bfType="update"  [bfText]="conf.yesButtonText"    (bfClick)="activeModal.close('yes')"></bf-btn>
+</div>

@@ -18,13 +18,14 @@ body {
   //line-height: 1.42857;
 }
 
-.code-box {
+.code-box, .code-box-sm {
   background: black;
   pre {
     font-size: 14px;
     color: white;
     margin-bottom: 0;
   }
+  &.code-box-sm pre { font-size: 10px; }
 }
 
 .examples-table {
@@ -49,9 +50,10 @@ body {
     white-space: pre-wrap;
     font-size: 18px;
   }
-  .code-box {
+  .code-box, .code-box-sm {
     background: black;
-    pre { font-size: 10px; color: white; }
+    pre { font-size: 14px; color: white; }
+    &.code-box-sm pre { font-size: 10px; }
   }
 }
 
