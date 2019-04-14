@@ -29,6 +29,18 @@ bf-btn {
     &.small-btn { padding: 10px 12px; }
     line-height: 14px;
     font-size: 14px;
+
+    .loading-spinner {
+      animation-duration: 800ms;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+      animation-name: bf-btn-spinner;
+      @keyframes bf-btn-spinner {
+        from { transform: rotate(0deg);   }
+          to { transform: rotate(360deg); }
+      }
+
+    }
   }
 
   &:hover:not(:disabled) {

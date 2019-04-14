@@ -19,8 +19,8 @@ export class BfBtnComponent implements OnInit {
   @Input() bfTooltipBody : boolean = true;
 
   public btnClass: string = 'primary';
-  public bfTooltipTrans: string = '';       // Translated text for the tooltip of the label
-
+  public bfTooltipTrans: string = '';     // Translated text for the tooltip of the label
+  public isLoading: boolean = false;      // Whether the button is block waiting an async
 
   constructor(
     @Inject('TranslateService') private translate: AbstractTranslateService,
@@ -29,9 +29,9 @@ export class BfBtnComponent implements OnInit {
 
   ngOnInit() {
     // Common predefined type
-
+    this.isLoading = true;
   }
-  
+
   ngOnChanges(change) {
     // console.log('ngOnChanges');
     if (!this.bfIcon) { this.bfIcon = 'icon-arrow-right3'; }
