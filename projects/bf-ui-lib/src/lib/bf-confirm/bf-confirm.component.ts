@@ -33,8 +33,8 @@ export class BfConfirmComponent implements OnInit {
   ngOnInit() {
     const defaultOptions = {
       title : 'view.modal.confirm.title',
-      text  : 'view.modal.confirm.text',
-      htmlContent : null,
+      text  : '',
+      htmlContent : '',
       showYes     : true,
       showNo      : false,
       showCancel  : true,
@@ -43,6 +43,10 @@ export class BfConfirmComponent implements OnInit {
       cancelButtonText: 'view.common.cancel',
     };
     this.conf = { ...defaultOptions, ...this.options };
+
+    if (!this.conf.text && !this.conf.htmlContent) {
+      this.conf.text = 'view.modal.confirm.text';
+    }
 
     if (!!this.translate.doTranslate) {
       this.conf.title = this.translate.doTranslate(this.conf.title);
