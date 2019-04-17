@@ -29,7 +29,7 @@ export class BfBtnComponent implements OnInit {
 
   ngOnInit() {
     // Common predefined type
-    this.isLoading = true;
+    // this.isLoading = true;
   }
 
   ngOnChanges(change) {

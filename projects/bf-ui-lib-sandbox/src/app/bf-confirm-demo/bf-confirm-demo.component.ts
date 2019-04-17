@@ -21,7 +21,8 @@ export class BfConfirmDemoComponent implements OnInit {
   public example2 = `constructor(private confirm: BfConfirmService)
 
 this.confirm.open({ 
-    text             : 'Do you want to delete the user "Joel"?',
+    text             : 'Do you confirm that:',
+    htmlContent      : '<h4 class="marT20">You want to delete the user <span class="bold primary">Joel</span> ?</h4>',
     yesButtonText    : 'Yes, delete it',
     noButtonText     : 'No, keep it',
     showNo           : true  
@@ -32,6 +33,16 @@ this.confirm.open({
     console.log('Ko');
   }
 }, (res) => { console.log('Cancel', res); });`;
+
+  public cssStyles = `.modal-confirmation .modal-content  {
+  margin-top: -20px;
+}`;
+
+
+
+
+
+
 
   constructor(private confirm: BfConfirmService) { }
 
@@ -48,7 +59,8 @@ this.confirm.open({
 
   public openPopUp2 = () => {
     this.confirm.open({
-      text             : 'Do you want to delete the user "Joel"?',
+      text             : 'Do you confirm that:',
+      htmlContent      : `<h4 class="marT20">You want to delete the user <span class="bold primary">Joel</span> ?</h4>`,
       yesButtonText    : 'Yes, delete it',
       noButtonText     : 'No, keep it',
       showNo           : true
@@ -73,6 +85,7 @@ export const BfConfirmDoc = {
 .open()   It triggers a confirmation pop up before performing an action. It takes an optional parameter to config specific values:
             - title            (string)   - Title on the modal
             - text             (string)   - Description text of the confirmation
+            - htmlContent      (string)   - Html content to display, in case we need a styled message
             - showYes          (boolean)  - Whether to display the "Yes" button
             - showNo           (boolean)  - Whether to display the "No" button
             - showCancel       (boolean)  - Whether to display the "Cancel" button

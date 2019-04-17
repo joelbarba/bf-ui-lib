@@ -10,7 +10,12 @@ $bf-colors: (
   'disabled'    : $disabled-color
 );
 :root {
-  @each $color, $value in $bf-colors { --#{$color}: #{$value}; }
+  @each $color, $value in $bf-colors {
+    --#{$color}: #{$value};
+    .#{$color}-text { color: #{$value}; }
+    .text-#{$color} { color: #{$value}; }
+    .#{$color} { color: #{$value}; }
+  }
 }
 
 

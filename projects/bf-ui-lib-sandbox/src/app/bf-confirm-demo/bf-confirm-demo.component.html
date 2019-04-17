@@ -3,6 +3,8 @@
 <p>{{desc}}</p>
 <p>It returns a promise that is rejected on "Cancel", or resolved in case of "Yes" / "No". The resolve returns a string with "yes" or "no".
 </p>
+<p>In case that "text" is not enough, the parameter "htmlContent" can be used to display a customized message. It is displayed after text.
+</p>
 
 <h5 class="mt-4">API:</h5>
 <div class="col-12"><pre>{{api}}</pre></div>
@@ -20,19 +22,30 @@
 <div class="col-12 examples-table">
   
   <div class="row">
-    <div class="col-5 code-box"> <pre>{{example1}}</pre> </div>
-    <div class="col-7">
+    <div class="col-8 code-box"> <pre>{{example1}}</pre> </div>
+    <div class="col-4">
       <bf-btn (bfClick)="openPopUp1()" bfText="Open Confirm Modal"></bf-btn>
       Result = {{result}}
     </div>
   </div>
 
   <div class="row">
-    <div class="col-5 code-box"> <pre>{{example2}}</pre> </div>
-    <div class="col-7">
+    <div class="col-8 code-box"> <pre>{{example2}}</pre> </div>
+    <div class="col-4">
       <bf-btn (bfClick)="openPopUp2()" bfText="Open Confirm Modal"></bf-btn>
       Result = {{result}}
     </div>
   </div>
 
 </div>
+
+
+<!--CSS Styling-->
+<div class="row marT40">
+  <div class="col-12">
+    <h4>CSS Styling</h4>
+    <p>Specific styles can be applied on that modal using <span class="bold">.modal-confirmation</span> class</p>
+    <pre>{{ cssStyles }}</pre>
+  </div>
+</div>
+

@@ -9,11 +9,11 @@ export class BfConfirmService {
 
   constructor(private modal: NgbModal) { }
 
-  public open = (options?) => {
+  public open = (options = {}) => {
 
     // https://ng-bootstrap.github.io/#/components/modal/api
-    let modalRef = this.modal.open(BfConfirmComponent);
-    modalRef.componentInstance.options = options || {};
+    let modalRef = this.modal.open(BfConfirmComponent, { windowClass: 'modal-confirmation' });
+    modalRef.componentInstance.options = options;
     return modalRef.result;
 
   }

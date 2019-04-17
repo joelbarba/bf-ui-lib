@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { AbstractTranslateService } from '../abstract-translate.service';
 import { NgbModal, NgbActiveModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'bf-confirm',
@@ -12,6 +13,7 @@ export class BfConfirmComponent implements OnInit {
   public conf: {
     title            : string   // Title on the modal
     text             : string   // Description text of the confirmation
+    htmlContent      : string   // Description html content (to customize how to display the message better)
     showYes          : boolean  // Whether to display the "Yes" button
     showNo           : boolean  // Whether to display the "No" button
     showCancel       : boolean  // Whether to display the "Cancel" button
@@ -20,8 +22,11 @@ export class BfConfirmComponent implements OnInit {
     cancelButtonText : string   // Text for the "Cancel" button
   };
 
+  public customHtmlContent: SafeHtml; // Sanitized html content
+
   constructor(
     public activeModal: NgbActiveModal,
+    private domSanitizer: DomSanitizer,
     @Inject('TranslateService') private translate: AbstractTranslateService,
   ) {}
 
@@ -29,6 +34,7 @@ export class BfConfirmComponent implements OnInit {
     const defaultOptions = {
       title : 'view.modal.confirm.title',
       text  : 'view.modal.confirm.text',
+      htmlContent : null,
       showYes     : true,
       showNo      : false,
       showCancel  : true,
@@ -44,6 +50,10 @@ export class BfConfirmComponent implements OnInit {
       this.conf.yesButtonText = this.translate.doTranslate(this.conf.yesButtonText);
       this.conf.noButtonText = this.translate.doTranslate(this.conf.noButtonText);
       this.conf.cancelButtonText = this.translate.doTranslate(this.conf.cancelButtonText);
+    }
+
+    if (!!this.conf.htmlContent) {
+      this.customHtmlContent = this.domSanitizer.bypassSecurityTrustHtml(this.conf.htmlContent);
     }
   }
 

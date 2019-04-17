@@ -10,6 +10,9 @@
     <div class="col-12">
       <p>{{conf.text}}</p>
     </div>
+    <div class="col-12" *ngIf="!!customHtmlContent">
+      <div [innerHtml]="customHtmlContent"></div>
+    </div>
   </div>
 </div>
 
