@@ -22,7 +22,7 @@ export class BfConfirmDemoComponent implements OnInit {
 
 this.confirm.open({ 
     text             : 'Do you confirm that:',
-    htmlContent      : '<h4 class="marT20">You want to delete the user <span class="bold primary">Joel</span> ?</h4>',
+    htmlContent      : '<h4 class="marT20">You want to delete user <span class="bold primary">Joel</span> ?</h4>',
     yesButtonText    : 'Yes, delete it',
     noButtonText     : 'No, keep it',
     showNo           : true  
@@ -60,7 +60,7 @@ this.confirm.open({
   public openPopUp2 = () => {
     this.confirm.open({
       text             : 'Do you confirm that:',
-      htmlContent      : `<h4 class="marT20">You want to delete the user <span class="bold primary">Joel</span> ?</h4>`,
+      htmlContent      : `<h4 class="marT20">You want to delete user <span class="bold primary">Joel</span> ?</h4>`,
       yesButtonText    : 'Yes, delete it',
       noButtonText     : 'No, keep it',
       showNo           : true

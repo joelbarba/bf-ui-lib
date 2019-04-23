@@ -35,6 +35,15 @@ export class BfBtnDemoComponent implements OnInit {
 public instance6 = `<bf-btn bfText="Simple Tooltip" bfTooltip="Hello World"></bf-btn>
 <bf-btn bfText="Better tooltip" bfTooltip="Hey" bfTooltipPos="left" [bfTooltipBody]="true"></bf-btn>`;
 
+public asyncExample1 = `<bf-btn bfText="Async Click Option 1"
+        [bfAsyncPromise]="blockPr"
+        (bfClick)="blockPr = asyncClickFunc('myValue', desc)">
+</bf-btn>`;
+
+public asyncExample2 = `<bf-btn bfText="Async Click Option 2"
+        [bfAsyncClick]="asyncClickFunc.bind(this, 'myValue2', desc)">
+</bf-btn>`;
+
 
 public cssReset =
 `$bf-colors: (
@@ -112,6 +121,11 @@ public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"
     hasTooltip: false, btnTooltip: 'Hello World', btnTooltipPos: null, btnTooltipBody: false
   };
   public res;
+  public asyncClickFunc = (param1, param2) => {
+    return new Promise((resolve) => {
+      setTimeout(resolve, 4000);
+    });
+  };
   public customBtnFunc = () => { this.res = ('Click at ' + new Date()); };
   public upBtn = () => {
     this.customBtnCode = `<bf-btn (bfClick)="myFunc($event)"`;
@@ -162,14 +176,17 @@ public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"
 export const BfBtnDoc = {
   name    : `bf-btn`,
   desc    : `Generates a button.`, 
-  api     : `(bfClick)       : Click event handler
-[bfText]        : Text of the button
-[bfType]        : Class of the button [primary, secondary, tertiary, quaternary, warning, extra] or predefined type [add, save, edit, delete, cancel, expand, collapse]
-[bfIcon]        : Icon of the button (icomoon class)
-[bfDisabled]    : True=Button is disabled, False=Enabled
-[bfTooltip]     : If label provided, adds a tooltip on the button (automatically translated)
-[bfTooltipPos]  : Position of the tooltip (top by default)
-[bfTooltipBody] : Whether the tooltip is append to the body (default true) or next the the html element (false). The parent container may affect the visibility of the tooltip`,
+  api     : `(bfClick)        : Click event handler
+[bfText]         : Text of the button
+[bfType]         : Class of the button [primary, secondary, tertiary, quaternary, warning, extra] or predefined type [add, save, edit, delete, cancel, expand, collapse]
+[bfIcon]         : Icon of the button (icomoon class)
+[bfDisabled]     : True=Button is disabled, False=Enabled
+[bfTooltip]      : If label provided, adds a tooltip on the button (automatically translated)
+[bfTooltipPos]   : Position of the tooltip (top by default)
+[bfTooltipBody]  : Whether the tooltip is append to the body (default true) or next the the html element (false). The parent container may affect the visibility of the tooltip
+[bfAsyncPromise] : For async tasks, promise to block all buttons until the task is completed. 
+[bfAsyncClick]   : Click callback function. Instead of using the (bfClick) output, it is also possible to pass a callback function. The return promise is automatically caught.   
+`,
   instance: `<bf-btn bfType="edit" (bfClick)="myFunc($event)"></bf-btn>`,
   demoComp: BfBtnDemoComponent
-}
+};

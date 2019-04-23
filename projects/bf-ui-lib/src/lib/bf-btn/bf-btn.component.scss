@@ -31,7 +31,7 @@ bf-btn {
     font-size: 14px;
 
     .loading-spinner {
-      animation-duration: 800ms;
+      animation-duration: 600ms;
       animation-iteration-count: infinite;
       animation-timing-function: linear;
       animation-name: bf-btn-spinner;
@@ -40,6 +40,11 @@ bf-btn {
           to { transform: rotate(360deg); }
       }
 
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      width: 14px;
+      height: 14px;
+      border-radius: 100%;
+      border-top-color: transparent;
     }
   }
 

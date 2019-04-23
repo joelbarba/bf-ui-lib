@@ -1,8 +1,8 @@
 <button type="submit"
         class="bf-btn"
         [ngClass]="btnClass"
-        (click)="bfClick.emit($event)"
-        [disabled]="bfDisabled || isLoading"
+        (click)="btnClick($event)"
+        [disabled]="bfDisabled || libService.isBtnLoading"
         triggers="hover"
         [ngbPopover]="bfTooltipTrans"
         [placement]="bfTooltipPos"
@@ -11,7 +11,7 @@
   <div [hidden]="!bfText" class="btn-text-section">{{bfText}}</div>
 
   <div class="btn-icon-section" [class.small-btn]="!bfText">
-    <span [class]="bfIcon" [hidden]="isLoading"></span>
-    <div class="loading-spinner icon-spinner2" [hidden]="!isLoading"></div>
+    <span [class]="bfIcon" [hidden]="libService.isBtnLoading"></span>
+    <div class="loading-spinner" [hidden]="!libService.isBtnLoading"></div>
   </div>
 </button>

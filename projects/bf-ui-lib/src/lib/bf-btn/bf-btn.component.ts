@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, Inject } from '@angular/core';
 import { AbstractTranslateService } from '../abstract-translate.service';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
+import { BfUiLibService } from '../bf-ui-lib.service';
 
 @Component({
   selector: 'bf-btn',
@@ -9,6 +10,10 @@ import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
   // encapsulation: ViewEncapsulation.None
 })
 export class BfBtnComponent implements OnInit {
+
+  @Input() bfAsyncPromise;
+  @Input() bfAsyncClick;
+
   @Output() bfClick = new EventEmitter<any>();
   @Input() bfText: string = '';
   @Input() bfType: string = ''; // save, update, add, delete, cancel
@@ -20,17 +25,15 @@ export class BfBtnComponent implements OnInit {
 
   public btnClass: string = 'primary';
   public bfTooltipTrans: string = '';     // Translated text for the tooltip of the label
-  public isLoading: boolean = false;      // Whether the button is block waiting an async
+
 
   constructor(
     @Inject('TranslateService') private translate: AbstractTranslateService,
-    private config: NgbPopoverConfig) {
-  }
+    private config: NgbPopoverConfig,
+    private libService: BfUiLibService
+  ) { }
 
-  ngOnInit() {
-    // Common predefined type
-    // this.isLoading = true;
-  }
+  ngOnInit() { }
 
   ngOnChanges(change) {
     // console.log('ngOnChanges');
@@ -54,6 +57,36 @@ export class BfBtnComponent implements OnInit {
     } else {
       if (!!change.bfTooltip)     { this.bfTooltipTrans = this.bfTooltip; }
     }
+
+    // If new async blocking promise, block buttons until that is resolved
+    if (change.hasOwnProperty('bfAsyncPromise')) {
+      this.initLoadingPromise();
+    }
   }
 
+  private initLoadingPromise = () => {
+    if (!!this.bfAsyncPromise && Object.prototype.toString.call(this.bfAsyncPromise) === '[object Promise]') {
+      this.libService.loadingPromise = this.bfAsyncPromise;
+      this.libService.isBtnLoading = true;
+
+      this.libService.loadingPromise.then(
+        () => { this.libService.isBtnLoading = false; },
+        () => { this.libService.isBtnLoading = false; });
+    } else {
+      this.libService.isBtnLoading = false;
+    }
+  };
+
+
+  public btnClick = ($event) => {
+    // If there's an async click callback function, trigger it and wait for the promise
+    if (!!this.bfAsyncClick && typeof this.bfAsyncClick === 'function') {
+      this.bfAsyncPromise = this.bfAsyncClick();
+      this.initLoadingPromise();
+    }
+
+    this.bfClick.emit($event);
+  };
+
 }
+
