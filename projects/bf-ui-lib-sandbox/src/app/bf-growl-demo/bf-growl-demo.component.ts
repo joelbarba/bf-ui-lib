@@ -23,13 +23,13 @@ this.growl.pushMsg({ text: 'view.tooltip.message', timeOut: 4000, msgType: 'succ
 constructor(private growl: BfGrowlService) { }`;
 
 
-  public cssReset = `.growl-wrapper {
+  public cssReset = `div.growl-wrapper {
   .msg-box.success {
-    background: mediumseagreen;
+    background: darken($primary_color, 15%);
     color: white;
   }
   .msg-box.error {
-    background: red;
+    background: $warning_color;
     color: white;
   }
 }`;

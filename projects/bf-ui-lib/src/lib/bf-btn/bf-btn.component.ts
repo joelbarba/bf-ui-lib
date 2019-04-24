@@ -34,7 +34,7 @@ export class BfBtnComponent implements OnInit {
   constructor(
     @Inject('TranslateService') private translate: AbstractTranslateService,
     private config: NgbPopoverConfig,
-    private libService: BfUiLibService
+    public libService: BfUiLibService
   ) {
 
     if (!!this.translate.doTranslate) {
