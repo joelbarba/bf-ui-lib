@@ -118,7 +118,8 @@ public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"
     hasType: false, btnType: 'primary',
     hasIcon: false, btnIcon: 'icon-plus',
     isDisabled: false,
-    hasTooltip: false, btnTooltip: 'Hello World', btnTooltipPos: null, btnTooltipBody: false
+    hasTooltip: false, btnTooltip: 'Hello World', btnTooltipPos: null, btnTooltipBody: false,
+    btnDisabledTip: ''
   };
   public res;
   public asyncClickFunc = (param1, param2) => {
@@ -144,6 +145,10 @@ public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"
 
     if (this.btnConf.isDisabled) {
       this.customBtnCode += this.bsStr + `[bfDisabled]="true"`;
+    }
+
+    if (!!this.btnConf.btnDisabledTip) {
+      this.customBtnCode += this.bsStr + ` bfDisabledTip="${this.btnConf.btnDisabledTip}"`;
     }
 
     if (this.btnConf.hasTooltip) {
@@ -177,6 +182,8 @@ export const BfBtnDoc = {
   name    : `bf-btn`,
   desc    : `Generates a button.`, 
   api     : `(bfClick)        : Click event handler
+[bfAsyncPromise] : For async tasks, promise to block all buttons until the task is completed. 
+[bfAsyncClick]   : Click callback function. Instead of using the (bfClick) output, it is also possible to pass a callback function. The return promise is automatically caught.   
 [bfText]         : Text of the button
 [bfType]         : Class of the button [primary, secondary, tertiary, quaternary, warning, extra] or predefined type [add, save, edit, delete, cancel, expand, collapse]
 [bfIcon]         : Icon of the button (icomoon class)
@@ -184,8 +191,7 @@ export const BfBtnDoc = {
 [bfTooltip]      : If label provided, adds a tooltip on the button (automatically translated)
 [bfTooltipPos]   : Position of the tooltip (top by default)
 [bfTooltipBody]  : Whether the tooltip is append to the body (default true) or next the the html element (false). The parent container may affect the visibility of the tooltip
-[bfAsyncPromise] : For async tasks, promise to block all buttons until the task is completed. 
-[bfAsyncClick]   : Click callback function. Instead of using the (bfClick) output, it is also possible to pass a callback function. The return promise is automatically caught.   
+[bfDisabledTip]  : Tooltip text to be displayed when the button is disabled (useful to give tips about why it's disabled)
 `,
   instance: `<bf-btn bfType="edit" (bfClick)="myFunc($event)"></bf-btn>`,
   demoComp: BfBtnDemoComponent

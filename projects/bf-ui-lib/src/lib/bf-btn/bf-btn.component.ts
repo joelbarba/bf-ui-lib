@@ -22,21 +22,32 @@ export class BfBtnComponent implements OnInit {
   @Input() bfTooltip     : string = '';
   @Input() bfTooltipPos  : string = 'top';
   @Input() bfTooltipBody : boolean = true;
+  @Input() bfDisabledTip : string = '';
 
   public btnClass: string = 'primary';
-  public bfTooltipTrans: string = '';     // Translated text for the tooltip of the label
+  public bfTextTrans: string = '';          // Translated text for the button
+  public bfTooltipTrans: string = '';       // Translated text for the tooltip of the label
+  public bfDisabledTipTrans: string = '';   // Translated text for the tooltip when disabled
 
+  private doTranslate: Function;
 
   constructor(
     @Inject('TranslateService') private translate: AbstractTranslateService,
     private config: NgbPopoverConfig,
     private libService: BfUiLibService
-  ) { }
+  ) {
+
+    if (!!this.translate.doTranslate) {
+      this.doTranslate = this.translate.doTranslate;
+    } else {
+      this.doTranslate = (text) => { return text; };
+    }
+
+  }
 
   ngOnInit() { }
 
   ngOnChanges(change) {
-    // console.log('ngOnChanges');
     if (!this.bfIcon) { this.bfIcon = 'icon-arrow-right3'; }
 
     if (change.hasOwnProperty('bfType')) {
@@ -52,11 +63,9 @@ export class BfBtnComponent implements OnInit {
     }
 
 
-    if (!!this.translate.doTranslate) {
-      if (!!change.bfTooltip)     { this.bfTooltipTrans = this.translate.doTranslate(this.bfTooltip); }
-    } else {
-      if (!!change.bfTooltip)     { this.bfTooltipTrans = this.bfTooltip; }
-    }
+    if (change.hasOwnProperty('bfText'))        { this.bfTextTrans        = this.doTranslate(this.bfText); }
+    if (change.hasOwnProperty('bfTooltip'))     { this.bfTooltipTrans     = this.doTranslate(this.bfTooltip); }
+    if (change.hasOwnProperty('bfDisabledTip')) { this.bfDisabledTipTrans = this.doTranslate(this.bfDisabledTip); }
 
     // If new async blocking promise, block buttons until that is resolved
     if (change.hasOwnProperty('bfAsyncPromise')) {

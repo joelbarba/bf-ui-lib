@@ -64,7 +64,10 @@ bf-btn {
       box-shadow: inset 0px 2px 5px rgba(34, 36, 38, 0.4);
     }
   }
+}
 
+.disabled-tooltip {
+  display: inline-block;
 }
 
 // Styles for squashed buttons (class "squash" applied on the <bf-btn>)

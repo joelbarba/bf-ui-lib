@@ -1,17 +1,25 @@
-<button type="submit"
-        class="bf-btn"
-        [ngClass]="btnClass"
-        (click)="btnClick($event)"
-        [disabled]="bfDisabled || libService.isBtnLoading"
-        triggers="hover"
-        [ngbPopover]="bfTooltipTrans"
-        [placement]="bfTooltipPos"
-        [container]="(bfTooltipBody ? 'body' : '')">
+<div class="disabled-tooltip"
+     triggers="hover" container="body"
+     [disablePopover]="!bfDisabled"
+     [ngbPopover]="bfDisabledTipTrans"
+     [placement]="bfTooltipPos">
 
-  <div [hidden]="!bfText" class="btn-text-section">{{bfText}}</div>
+  <button type="submit"
+          class="bf-btn"
+          [ngClass]="btnClass"
+          (click)="btnClick($event)"
+          [disabled]="bfDisabled || libService.isBtnLoading"
+          triggers="hover"
+          [ngbPopover]="bfTooltipTrans"
+          [placement]="bfTooltipPos"
+          [container]="(bfTooltipBody ? 'body' : '')">
 
-  <div class="btn-icon-section" [class.small-btn]="!bfText">
-    <span [class]="bfIcon" [hidden]="libService.isBtnLoading"></span>
-    <div class="loading-spinner" [hidden]="!libService.isBtnLoading"></div>
-  </div>
-</button>
+    <div [hidden]="!bfText" class="btn-text-section">{{bfTextTrans}}</div>
+
+    <div class="btn-icon-section" [class.small-btn]="!bfText">
+      <span [class]="bfIcon" [hidden]="libService.isBtnLoading"></span>
+      <div class="loading-spinner" [hidden]="!libService.isBtnLoading"></div>
+    </div>
+
+  </button>
+</div>

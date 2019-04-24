@@ -13,6 +13,13 @@ If the property "bfText" is defined, it generates a button with both text and ic
 <div class="col-12"><pre>{{api}}</pre></div>
 
 
+<bf-btn (bfClick)="myFunc($event)"
+        bfText="view.common.yes"
+        [bfDisabled]="true"
+        bfDisabledTip="This button is disabled because X">
+</bf-btn>
+
+
 <div class="whiteBg">
   <div class="row">
     <div class="col-5 marB15">
@@ -25,7 +32,8 @@ If the property "bfText" is defined, it generates a button with both text and ic
                 [bfDisabled]="btnConf.isDisabled"
                 [bfTooltip]="(btnConf.hasTooltip ? btnConf.btnTooltip : null)"
                 [bfTooltipPos]="(btnConf.btnTooltipPos || 'top')"
-                [bfTooltipBody]="btnConf.btnTooltipBody">
+                [bfTooltipBody]="btnConf.btnTooltipBody"
+                [bfDisabledTip]="btnConf.btnDisabledTip">
         </bf-btn>
       </div>
       <div class="padT10">{{res}}</div>
@@ -59,9 +67,12 @@ If the property "bfText" is defined, it generates a button with both text and ic
 
       <div class="row marT15">
         <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="btnConf.isDisabled" (ngModelChange)="upBtn()" bfLabel="Is Disabled"></bf-checkbox> </div>
+        <div class="col-10">
+          <bf-input class="flat" [(ngModel)]="btnConf.btnDisabledTip" bfPlaceholder="This button is disabled because..." (ngModelChange)="upBtn()"></bf-input>
+        </div>
       </div>
 
-      <div class="row marT15">
+      <div class="row marT10">
         <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="btnConf.hasTooltip" (ngModelChange)="upBtn()" bfLabel="Has Tooltip"></bf-checkbox> </div>
         <div class="col-10" *ngIf="btnConf.hasTooltip">
           <bf-input [(ngModel)]="btnConf.btnTooltip" (ngModelChange)="upBtn()"></bf-input>
