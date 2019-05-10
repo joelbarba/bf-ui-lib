@@ -16,6 +16,8 @@ If the property "bfText" is defined, it generates a button with both text and ic
 <bf-btn (bfClick)="myFunc($event)"
         bfText="view.common.yes"
         [bfDisabled]="true"
+        bfIconPos="left"
+        bfIcon="icon-arrow-left6"
         bfDisabledTip="This button is disabled because X">
 </bf-btn>
 
@@ -26,6 +28,9 @@ If the property "bfText" is defined, it generates a button with both text and ic
       <h5 class="marB25">Button Customization:</h5>
       <div>
         <bf-btn (bfClick)="customBtnFunc()"
+                [class.full-width]="btnConf.hasFullWidth"
+                [class.squash]="btnConf.hasSquash"
+                [bfIconPos]="btnConf.hasIconLeft ? 'left' : 'right'"
                 [bfText]="(btnConf.hasText ? btnConf.btnText : '')"
                 [bfType]="(btnConf.hasType ? btnConf.btnType : null)"
                 [bfIcon]="(btnConf.hasIcon ? btnConf.btnIcon : null)"
@@ -83,6 +88,16 @@ If the property "bfText" is defined, it generates a button with both text and ic
         </div>
         <div class="col-5" *ngIf="btnConf.hasTooltip">
           bfTooltipBody: <bf-dropdown [(ngModel)]="btnConf.btnTooltipBody" (ngModelChange)="upBtn()" [bfList]="btnTooltipBody" bfRender="text" bfSelect="id"> </bf-dropdown>
+        </div>
+      </div>
+
+      <div class="row marT15">
+        <div class="col-12 padT5">
+          <bf-checkbox [(ngModel)]="btnConf.hasFullWidth" (ngModelChange)="upBtn()" bfLabel="Full Width"></bf-checkbox>
+          <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasSquash" (ngModelChange)="upBtn()" bfLabel="Squash"></bf-checkbox>
+          <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasAsync1" (ngModelChange)="upBtn()" bfLabel="Async 1"></bf-checkbox>
+          <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasAsync2" (ngModelChange)="upBtn()" bfLabel="Async 2"></bf-checkbox>
+          <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasIconLeft" (ngModelChange)="upBtn()" bfLabel="Icon Left"></bf-checkbox>
         </div>
       </div>
 

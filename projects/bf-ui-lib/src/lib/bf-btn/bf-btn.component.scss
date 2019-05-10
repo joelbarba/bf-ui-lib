@@ -91,9 +91,8 @@ bf-btn {
     .bf-btn {
       width: 100%;
       margin: 0;
-      .btn-icon-section {
-        float: right;
-      }
+      .btn-icon-section.left { float: left; }
+      .btn-icon-section.right { float: right; }
     }
   }
 }

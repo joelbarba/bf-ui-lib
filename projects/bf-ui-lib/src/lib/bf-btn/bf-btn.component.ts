@@ -18,6 +18,7 @@ export class BfBtnComponent implements OnInit {
   @Input() bfText: string = '';
   @Input() bfType: string = ''; // save, update, add, delete, cancel
   @Input() bfIcon: string = 'icon-arrow-right3';
+  @Input() bfIconPos: string = 'right';
   @Input() bfDisabled: boolean = false;
   @Input() bfTooltip     : string = '';
   @Input() bfTooltipPos  : string = 'top';

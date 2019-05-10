@@ -97,6 +97,7 @@ public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"
     { id: 'icon-pencil',        text: 'bfIcon = icon-pencil'        },
     { id: 'icon-eye',           text: 'bfIcon = icon-eye'           },
     { id: 'icon-arrow-right3',  text: 'bfIcon = icon-arrow-right3'  },
+    { id: 'icon-arrow-left6',   text: 'bfIcon = icon-arrow-left6'   },
     { id: 'icon-plus',          text: 'bfIcon = icon-plus'          },
     { id: 'icon-cross',         text: 'bfIcon = icon-cross'         },
     { id: 'icon-blocked',       text: 'bfIcon = icon-blocked'       },
@@ -129,7 +130,30 @@ public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"
   };
   public customBtnFunc = () => { this.res = ('Click at ' + new Date()); };
   public upBtn = () => {
-    this.customBtnCode = `<bf-btn (bfClick)="myFunc($event)"`;
+    this.customBtnCode = `<bf-btn `;
+
+    let btnClasses = '';
+    if (this.btnConf.hasFullWidth) { btnClasses = 'full-width'; }
+    if (this.btnConf.hasSquash) {
+      if (!!btnClasses) { btnClasses += ' '; }
+      btnClasses += 'squash';
+    }
+    if (!!btnClasses) {
+      this.customBtnCode += `class="${btnClasses}"` + this.bsStr;
+    }
+
+    if (this.btnConf.hasAsync1) {
+      this.customBtnCode += `[bfAsyncClick]="myFunc.bind(this, 'myValue2', desc)"`;
+    } else {
+      if (this.btnConf.hasAsync2) {
+        this.customBtnCode += `[bfAsyncPromise]="blockPr"` + this.bsStr;
+        this.customBtnCode += `(bfClick)="blockPr = myFunc('myValue', desc)"`;
+      } else {
+        this.customBtnCode += `(bfClick)="myFunc($event)"`;
+      }
+    }
+
+
 
     if (this.btnConf.hasText) {
       this.customBtnCode += this.bsStr + ` bfText="${this.btnConf.btnText}"`;
@@ -187,6 +211,7 @@ export const BfBtnDoc = {
 [bfText]         : Text of the button
 [bfType]         : Class of the button [primary, secondary, tertiary, quaternary, warning, extra] or predefined type [add, save, edit, delete, cancel, expand, collapse]
 [bfIcon]         : Icon of the button (icomoon class)
+[bfIconPos]      : Position of the icon (left / right)
 [bfDisabled]     : True=Button is disabled, False=Enabled
 [bfTooltip]      : If label provided, adds a tooltip on the button (automatically translated)
 [bfTooltipPos]   : Position of the tooltip (top by default)
