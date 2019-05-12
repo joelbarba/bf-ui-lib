@@ -2,37 +2,149 @@
 
 <h2>{{name}}</h2>
 <hr/>
-<h5>{{desc}}</h5>
+<p>{{desc}}</p>
+<p>
+  This is an On / Off component that handles a boolean model (true / false).
+  <br>There is an input checkbox under the hood, but styled as a switch with 2 positions.
+</p>
 
 <h5 class="mt-4">Parameters:</h5>
 <div class="col-12"><pre>{{api}}</pre></div>
 
+
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-5 marB15">
+      <h5 class="marB25">Switch Customization:</h5>
+      <div>
+<!--        <bf-switch [(ngModel)]="myValue"-->
+<!--                   bfLabel="Active"-->
+<!--                   bfLabelPos="top"-->
+<!--                   bfOnText="Yes"-->
+<!--                   bfOffText="No"-->
+<!--                   bfTooltip="view.tooltip.message"-->
+<!--                   bfTooltipPos="top"-->
+<!--                   [bfTooltipBody]="true"-->
+<!--                   [bfDisabled]="false">-->
+<!--        </bf-switch>-->
+        <bf-switch [(ngModel)]="myValue"
+                   [bfLabel]="(swConf.hasLabel ? swConf.labelText : '')"
+                   [bfLabelPos]="(swConf.labelPosLeft ? 'left' : 'top')"
+                   [bfOnText]="(swConf.hasOnText ? swConf.onText : 'ON')"
+                   [bfOffText]="(swConf.hasOffText ? swConf.offText : 'OFF')"
+                   [bfTooltip]="(swConf.hasTooltip ? swConf.btnTooltip : null)"
+                   [bfTooltipPos]="(swConf.btnTooltipPos || 'top')"
+                   [bfTooltipBody]="swConf.btnTooltipBody"
+                   [bfDisabled]="swConf.isDisabled">
+        </bf-switch>
+      </div>
+      <div class="padT30">
+        <div class="code-box pad15">
+          <pre>{{swCode}}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-7">
+      <div class="row marT15">
+        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="swConf.isDisabled" (ngModelChange)="updateCustomSw()" bfLabel="Is Disabled"></bf-checkbox> </div>
+<!--        <div class="col-10">-->
+<!--          <bf-input class="flat" [(ngModel)]="swConf.btnDisabledTip" bfPlaceholder="This button is disabled because..." (ngModelChange)="updateCustomSw()"></bf-input>-->
+<!--        </div>-->
+      </div>
+
+      <div class="row marT15">
+        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="swConf.hasLabel" (ngModelChange)="updateCustomSw()" bfLabel="Has Label"></bf-checkbox> </div>
+        <div class="col-7" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="swConf.labelText" (ngModelChange)="updateCustomSw()" [bfDisabled]="!swConf.hasLabel"></bf-input> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="swConf.labelPosLeft" [bfDisabled]="!swConf.hasLabel" (ngModelChange)="updateCustomSw()" bfLabel="Label On Left"></bf-checkbox> </div>
+        <div class="col-2"></div>
+        <div class="col-10">
+          <div class="row marT10">
+            <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="swConf.hasTooltip" [bfDisabled]="!swConf.hasLabel" (ngModelChange)="updateCustomSw()" bfLabel="Has Tooltip"></bf-checkbox> </div>
+            <div class="col-8" *ngIf="swConf.hasTooltip">
+              <bf-input [(ngModel)]="swConf.btnTooltip" (ngModelChange)="updateCustomSw()"></bf-input>
+            </div>
+            <div class="col-3" *ngIf="swConf.hasTooltip"></div>
+            <div class="col-4" *ngIf="swConf.hasTooltip">
+              bfTooltipPos: <bf-dropdown [(ngModel)]="swConf.btnTooltipPos" (ngModelChange)="updateCustomSw()" [bfList]="swTooltipPos" bfRender="text" bfSelect="id"> </bf-dropdown>
+            </div>
+            <div class="col-4" *ngIf="swConf.hasTooltip">
+              bfTooltipBody: <bf-dropdown [(ngModel)]="swConf.btnTooltipBody" (ngModelChange)="updateCustomSw()" [bfList]="swTooltipBody" bfRender="text" bfSelect="id"> </bf-dropdown>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row marT20">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="swConf.hasOnText" (ngModelChange)="updateCustomSw()" bfLabel="Custom 'ON' Text"></bf-checkbox> </div>
+        <div class="col-6" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="swConf.onText" (ngModelChange)="updateCustomSw()" [bfDisabled]="!swConf.hasOnText"></bf-input> </div>
+      </div>
+      <div class="row">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="swConf.hasOffText" (ngModelChange)="updateCustomSw()" bfLabel="Custom 'OFF' Text"></bf-checkbox> </div>
+        <div class="col-6" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="swConf.offText" (ngModelChange)="updateCustomSw()" [bfDisabled]="!swConf.hasOffText"></bf-input> </div>
+      </div>
+
+
+      </div>
+
+  </div>
+</div>
+
+<hr>
+
+
+
+<!--Examples-->
 <h5 class="mt-4">Examples:</h5>
 <div class="col-12 examples-table">
   
   <div class="row">
-    <div class="col-5"> <pre>{{instance}}</pre> </div>    
-    <div class="col-3">
-      <bf-switch (click)="myVar = 'eee'"></bf-switch>
+    <div class="col-2">
+      <bf-switch [(ngModel)]="myVal"></bf-switch>
     </div>
-
-    <div class="col-4"> Simple instance with ........ </div>
+    <div class="col-1">
+      <span (click)="myVal=!myVal">myVal={{myVal}}</span>
+    </div>
+    <div class="col-9"> <pre>{{instance}}</pre> </div>
   </div>
-  
+
   <div class="row">
-    <div class="col-5">
-      <bf-switch></bf-switch>
+    <div class="col-3">
+      <bf-switch [(ngModel)]="myVal" [bfDisabled]="true"></bf-switch>
     </div>
-    <div class="col-7"> <pre>{{instance2}}</pre> </div>
+    <div class="col-9"> <pre>{{instance2}}</pre> </div>
+  </div>
+
+  <div class="row">
+    <div class="col-3">
+      <bf-switch [(ngModel)]="myVal"
+                 bfLabel="view.common.name" bfLabelPos="left">
+      </bf-switch>
+    </div>
+    <div class="col-9"> <pre>{{instance3}}</pre> </div>
+  </div>
+
+  <div class="row">
+    <div class="col-3">
+      <bf-switch [(ngModel)]="myVal"
+                 bfLabel="view.common.name">
+      </bf-switch>
+    </div>
+    <div class="col-9"> <pre>{{instance4}}</pre> </div>
   </div>
 
 </div>
 
-<div class="col-12 examples-table">
-  <div class="row">    
-    <div class="col-7 code-box"><pre>{{instance2}}</pre></div>
-    <div class="col-5 code-box"><pre>{{instance3}}</pre></div>
+
+<!--CSS Styling-->
+<div class="row marT40">
+  <div class="col-12">
+    <hr>
+    <h4>CSS Styling</h4>
+    <p>The encapsulated styles of the switch use a default color. However, we may want to apply different colors externally (depending on the theme)
+      <br/>
+      To provide a color restyiling based on a SCSS theme you can apply the following rules on a css global level :
+    </p>
+    <pre>{{ cssReset }}</pre>
   </div>
 </div>
-
-............... ADD TESTING INSTANCE HERE ...............

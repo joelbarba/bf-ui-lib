@@ -1,3 +1,21 @@
-<p>
-  bf-switch works!
-</p>
+<div *ngIf="!!bfLabel" class="switch-label" [class.horizontal]="bfLabelPos=='left'">
+  <bf-label [bfText]="bfLabel"
+            [bfTooltip]="bfTooltip"
+            [bfTooltipPos]="bfTooltipPos"
+            [bfTooltipBody]="bfTooltipBody">
+  </bf-label>
+</div>
+<div class="bf-switch"
+     [class.is-disabled]="bfDisabled"
+     (click)="onSwitch()">
+  <div class="switch-bar"></div>
+  <div class="switch-lever" [class.is-off]="!bfModel" [class.is-on]="bfModel"></div>
+  <div class="switch-value">
+    <span [hidden]="bfModel" class="bf-switch-off-text">{{bfOffText}}</span>
+    <span [hidden]="!bfModel" class="bf-switch-on-text">{{bfOnText}}</span>
+  </div>
+
+  <input type="checkbox" class="switch-input"
+         [ngModel]="bfModel"
+         [disabled]="bfDisabled">
+</div>

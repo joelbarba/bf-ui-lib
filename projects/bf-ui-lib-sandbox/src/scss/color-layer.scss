@@ -61,9 +61,41 @@ label.is-required {
 }
 
 
+// --------------------------------------------------------------
+// This is to reset the Switch color:
+div.bf-switch {
+
+  // Background bar
+  .switch-bar {
+    background: white;
+    border-color: #ccc;
+  }
+
+  // Text color (ON/OFF)
+  .switch-value {
+    //.bf-switch-off-text { color: red; }
+    //.bf-switch-on-text  { color: green; }
+  }
+
+  // Switch color
+  .switch-lever {
+    color: white;
+    background: #f3f3f3;
+    &.is-on  { background: $primary_color; }
+    //&.is-off { background: red; }
+  }
+
+  &.is-disabled {
+    .switch-bar   { background: #d4d4d4; }
+    .switch-lever { background: #f3f3f3; }
+  }
+}
+
+
+
 
 // --------------------------------------------------------------
-// This is to reset the colors:
+// This is to reset the Growl colors:
 div.growl-wrapper {
   .msg-box.success {
     background: darken($primary_color, 15%);
