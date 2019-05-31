@@ -20,3 +20,6 @@ export * from './lib/bf-input/bf-input.component';
 export * from './lib/bf-dropdown/bf-dropdown.component';
 export * from './lib/bf-switch/bf-switch.component';
 export * from './lib/bf-quantity/bf-quantity.component';
+export * from './lib/bf-textarea/bf-textarea.component';
+export * from './lib/bf-radio/bf-radio.component';
+export * from './lib/bf-date-picker/bf-date-picker.component';

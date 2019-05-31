@@ -21,6 +21,9 @@ import { BfDropdownComponent } from './bf-dropdown/bf-dropdown.component';
 import { BfSwitchComponent } from './bf-switch/bf-switch.component';
 import { BfQuantityComponent } from './bf-quantity/bf-quantity.component';
 import { BfConfirmComponent } from './bf-confirm/bf-confirm.component';
+import { BfTextareaComponent } from './bf-textarea/bf-textarea.component';
+import { BfRadioComponent } from './bf-radio/bf-radio.component';
+import { BfDatePickerComponent } from './bf-date-picker/bf-date-picker.component';
 
 @NgModule({
   declarations: [
@@ -34,10 +37,16 @@ import { BfConfirmComponent } from './bf-confirm/bf-confirm.component';
     BfSwitchComponent,
     BfQuantityComponent,
     BfConfirmComponent,
+    BfTextareaComponent,
+    BfRadioComponent,
+    BfDatePickerComponent,
   ],
   entryComponents: [BfConfirmComponent],
   imports: [BrowserModule, FormsModule, ReactiveFormsModule, NgbPopoverModule, NgbModalModule, BfGrowlModule],
   exports: [
+    BfDatePickerComponent,  // <--- New component
+    BfRadioComponent,  // <--- New component
+    BfTextareaComponent,  // <--- New component
     BfConfirmComponent,  // <--- New component
     BfQuantityComponent,  // <--- New component
     BfSwitchComponent,  // <--- New component

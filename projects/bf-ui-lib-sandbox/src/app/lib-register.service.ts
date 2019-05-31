@@ -1,3 +1,6 @@
+import { BfDatePickerDoc } from './bf-date-picker-demo/bf-date-picker-demo.component';
+import { BfRadioDoc } from './bf-radio-demo/bf-radio-demo.component';
+import { BfTextareaDoc } from './bf-textarea-demo/bf-textarea-demo.component';
 import { BfConfirmDoc } from './bf-confirm-demo/bf-confirm-demo.component';
 import { BfQuantityDoc }        from './bf-quantity-demo/bf-quantity-demo.component';
 import { BfSwitchDoc }          from './bf-switch-demo/bf-switch-demo.component';
@@ -13,6 +16,9 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 export const compList = [
+  BfDatePickerDoc,
+  BfRadioDoc,
+  BfTextareaDoc,
   BfBtnDoc,
   BfLabelDoc,
   BfInputDoc,

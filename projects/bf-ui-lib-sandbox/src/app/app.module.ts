@@ -24,6 +24,9 @@ import { BfSwitchDemoComponent } from './bf-switch-demo/bf-switch-demo.component
 import { BfQuantityDemoComponent } from './bf-quantity-demo/bf-quantity-demo.component';
 import { BfGrowlDemoComponent } from './bf-growl-demo/bf-growl-demo.component';
 import { BfConfirmDemoComponent } from './bf-confirm-demo/bf-confirm-demo.component';
+import { BfTextareaDemoComponent } from './bf-textarea-demo/bf-textarea-demo.component';
+import { BfRadioDemoComponent } from './bf-radio-demo/bf-radio-demo.component';
+import { BfDatePickerDemoComponent } from './bf-date-picker-demo/bf-date-picker-demo.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +45,9 @@ import { BfConfirmDemoComponent } from './bf-confirm-demo/bf-confirm-demo.compon
     BfQuantityDemoComponent,
     BfGrowlDemoComponent,
     BfConfirmDemoComponent,
+    BfTextareaDemoComponent,
+    BfRadioDemoComponent,
+    BfDatePickerDemoComponent,
   ],
   imports: [
     BrowserModule,
