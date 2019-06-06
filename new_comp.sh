@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Check git status
 isClean=`git status | grep "nothing to commit, working directory clean" | wc -l`
 if [ "$isClean" = "0" ]; then

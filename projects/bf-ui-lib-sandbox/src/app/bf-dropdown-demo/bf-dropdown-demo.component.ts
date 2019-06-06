@@ -67,6 +67,70 @@ export class BfDropdownDemoComponent implements OnInit {
              [bfDisabled]="false">
 </bf-dropdown>`;
 
+
+
+
+  public brStr = `
+`;
+  public bsStr = `
+             `;
+  public customDropdownCode = `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`;
+  public res = ``;
+  public selObj10;
+  public compConf:any = {
+    isRequired: false,
+    isDisabled: false,
+    hasSelect: false,  selectField: 'username',
+    hasRender: false,  renderExp: `$$$ $item.id + ' - ' + $item.username`,
+    hasLabel: false,   labelText: 'Dragon of the year',
+    hasFullWidth: true,
+  };
+  public customExLinked = true;  // To link / unlink component
+  public compSelFields = [{id: 'id'},{id: 'username'},{id: 'email'},{id: 'first_name'},{id: 'last_name'}];
+  public upComp = () => {
+    this.customDropdownCode = `<bf-dropdown `;
+
+
+    let compClasses = '';
+    if (this.compConf.hasFullWidth) { compClasses = 'full-width'; }
+    // if (this.compConf.hasSquash) {
+    //   if (!!compClasses) { compClasses += ' '; }
+    //   compClasses += 'squash';
+    // }
+    if (!!compClasses) {
+      this.customDropdownCode += `class="${compClasses}"` + this.bsStr;
+    }
+    this.customDropdownCode += `[(ngModel)]="selObj"` + this.bsStr;
+    this.customDropdownCode += `(ngModelChange)="doSomething($event)"` + this.bsStr;
+    this.customDropdownCode += `[bfList]="myList"`;
+
+    if (this.compConf.isRequired) {
+      this.customDropdownCode += this.bsStr + `[bfRequired]="true"`;
+    }
+    if (this.compConf.isDisabled) {
+      this.customDropdownCode += this.bsStr + `[bfDisabled]="true"`;
+    }
+
+    if (this.compConf.hasLabel) {
+      this.customDropdownCode += this.bsStr + `bfLabel="${this.compConf.labelText}"`;
+    }
+
+    if (this.compConf.hasSelect && !!this.compConf.selectField) {
+      this.customDropdownCode += this.bsStr + `bfSelect="${this.compConf.selectField}"`;
+    }
+
+    if (this.compConf.hasRender) {
+      this.customDropdownCode += this.bsStr + `bfRender="${this.compConf.renderExp}"`;
+      this.customExLinked = false;
+      setTimeout(() => { this.customExLinked = true; });
+    }
+
+
+    this.customDropdownCode += (`>` + this.brStr + `</bf-dropdown>`);
+
+
+  };
+
   constructor() { }
 
   ngOnInit() { }
