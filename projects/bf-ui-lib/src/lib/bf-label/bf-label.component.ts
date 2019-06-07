@@ -10,6 +10,7 @@ import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 export class BfLabelComponent implements OnInit {
   @Input() bfText       : string = '';
   @Input() bfRequired   : boolean = false;
+  @Input() bfValue      : string = '';
   @Input() bfTooltip    : string = '';
   @Input() bfTooltipPos : string = 'top';
   @Input() bfTooltipBody : boolean = true;

@@ -33,6 +33,8 @@ export class BfLabelDemoComponent implements OnInit {
   <span class="asterisk">*</span>
 </label>`;
 
+  public valueInlineExample = `<bf-label bfText="Label" bfValue="The second value" class="value-inline"></bf-label>`;
+
   public transAbsService = `export abstract class AbstractTranslateService {
   constructor() { }
 
@@ -79,6 +81,7 @@ export const BfLabelDoc = {
   name    : `bf-label`,
   desc    : `Generates a label to title an element into a form.`,
   api     : `[bfText]        : Text to display as label
+[bfValue]       : Static value for the label (optional). 
 [bfRequired]    : Whether the label is for a required field. It adds the class "is-required" on the label (to change the color), and an asterisk after the text.
 [bfTooltip]     : If set, an info bullet will be added before the label, with a tooltip of the text
 [bfTooltipPos]  : Position of the tooltip (top by default)

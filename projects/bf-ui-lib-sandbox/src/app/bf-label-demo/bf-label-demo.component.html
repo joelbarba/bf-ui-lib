@@ -7,6 +7,8 @@ It also makes use of the translation service (if present), to automatically tran
 <h5 class="mt-4">Parameters:</h5>
 <div class="col-12"><pre>{{api}}</pre></div>
 
+
+
 <div class="row">
   <div class="col-12"><hr></div>
   <div class="col-12">
@@ -83,7 +85,24 @@ It also makes use of the translation service (if present), to automatically tran
   </div>
 </div>
 
-
+<!--Applicable classes -->
+<div class="row">
+  <div class="col-12">
+    <hr>
+    <h5 class="mt-4">Applicable classes:</h5>
+    <p>If you add a value to the label (bfValue), by default that falls under the label. If you like it right next to the label, use
+       class "<span class="bold">value-inline</span>":</p>
+  </div>
+  <div class="col-2">
+    <bf-label bfText="Label" bfValue="My first value"></bf-label>
+  </div>
+  <div class="col-3">
+    <bf-label bfText="Label" bfValue="The second value" class="value-inline"></bf-label>
+  </div>
+  <div class="col-7">
+    <pre class="marT10">{{ valueInlineExample }}</pre>
+  </div>
+</div>
 
 
 

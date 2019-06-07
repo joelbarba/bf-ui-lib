@@ -13,6 +13,14 @@ label {
 }
 
 
+// Styles applied to the host (wrapper instance element) <bf-input>
+:host.value-inline {
+  .label-value {
+    display: inline-block;
+    margin-left: 15px;
+  }
+}
+
 
 // --- Label color reset --------------------------------------------------
 //label.is-required {
