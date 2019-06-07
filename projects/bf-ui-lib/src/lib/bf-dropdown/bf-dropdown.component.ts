@@ -139,9 +139,19 @@ import '../prototypes';
       provide: NG_VALUE_ACCESSOR, multi: true,
       useExisting: forwardRef(() => BfDropdownComponent),
     },
-    // { // Custom validator
+      { // Custom validator
+        provide: NG_VALIDATORS, multi: true,
+        useValue: (val: FormControl) => {
+          console.log('useValue', val);
+          // let err = { rangeError: { given: c.value, max: 10, min: 0 } };
+          // return (c.value > 5 || c.value < 10) ? err : null;
+          return true;
+        }
+      }
+
+      // { // Custom validator
     //   provide: NG_VALIDATORS, multi: true,
-    //   useExisting: forwardRef(() => BfInputComponent),
+    //   useExisting: forwardRef(() => BfDropdownComponent),
     // }
   ]
 })
@@ -162,6 +172,8 @@ export class BfDropdownComponent implements ControlValueAccessor {
   writeValue(value: any) {
     if (value !== undefined) {
       // this.bfModel = value;
+      console.log('bfModel', this.bfModel);
+      setTimeout(() => { console.log('bfModel 2', this.bfModel); });
       this.matchExtSelect(value);
     }
   }

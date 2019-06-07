@@ -12,15 +12,14 @@
     <div class="col-5 marB15">
       <h5 class="marB25">Dropdown Customization:</h5>
       <div *ngIf="customExLinked">
-        <bf-dropdown class="full-width"
+        <bf-dropdown class="full-width" name="dasda"
                      [(ngModel)]="selObj10"
                      [bfList]="myList"
                      [bfRequired]="compConf.isRequired"
                      [bfDisabled]="compConf.isDisabled"
                      [bfLabel]="(compConf.hasLabel ? compConf.labelText : '')"
                      [bfSelect]="(compConf.hasSelect && !!compConf.selectField) ? compConf.selectField : null"
-                     [bfRender]="(compConf.hasRender ? compConf.renderExp : '')"
-        >
+                     [bfRender]="(compConf.hasRender ? compConf.renderExp : '')">
         </bf-dropdown>
       </div>
       <pre class="padT10">Selection = {{selObj10 | json}}</pre>
@@ -46,9 +45,6 @@
         <div class="col-10" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasLabel"></bf-input> </div>
       </div>
 
-
-
-
       <div class="row">
         <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasSelect" (ngModelChange)="upComp()" bfLabel="Has Select"></bf-checkbox> </div>
         <div class="col-10" *ngIf="compConf.hasSelect">
@@ -64,38 +60,12 @@
       </div>
 
       <div class="row marT15">
-        <div class="col-12 padT5">
+        <div class="col-6 padT5">
           <bf-checkbox [(ngModel)]="compConf.hasFullWidth" (ngModelChange)="upComp()" bfLabel="Full Width"></bf-checkbox>
        </div>
-      </div>
-
-    </div>
-
-  </div>
-</div>
-
-<hr>
-
-
-<div class="whiteBg">
-  <div class="row">
-    <div class="col-12 marB15">
-      <bf-checkbox class="marR15" bfLabel="Required" [(ngModel)]="isReq"></bf-checkbox>
-      <bf-checkbox class="marR15" bfLabel="Disabled" [(ngModel)]="isDis"></bf-checkbox>
-      <!--<bf-checkbox class="marR15" bfLabel="Placeholder" [(ngModel)]="isPlace"></bf-checkbox>-->
-    </div>
-
-    <div class="col-4">
-      <bf-dropdown [(ngModel)]="selObj" [bfList]="myList" bfLabel="Selector"
-                   [bfRequired]="isReq" [bfDisabled]="isDis">
-      </bf-dropdown>
-    </div>
-
-    <div class="col-8">
-      <span class="bold">selected object</span> = {{selObj | json}}
-
-      <div>
-        <bf-btn bfText="Auto Select next list item" (bfClick)="mockAutoSelect()"></bf-btn>
+        <div class="col-6 text-right">
+          <bf-btn bfText="Auto Select Item" (bfClick)="mockAutoSelect()"></bf-btn>
+        </div>
       </div>
 
     </div>
@@ -161,6 +131,7 @@
 <div class="row">
   <div class="col-12 marT20">
     <hr>
+    <h5 class="mt-4">Applicable classes:</h5>
     <p>If you need a dropdown covering the whole with of the a block element (with 100%) you can add class "<span class="bold">full-width</span>":</p>
   </div>
   <div class="col-2 text-right">

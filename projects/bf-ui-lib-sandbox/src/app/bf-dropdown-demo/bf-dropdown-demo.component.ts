@@ -124,29 +124,17 @@ export class BfDropdownDemoComponent implements OnInit {
       this.customExLinked = false;
       setTimeout(() => { this.customExLinked = true; });
     }
-
-
     this.customDropdownCode += (`>` + this.brStr + `</bf-dropdown>`);
-
-
+  };
+  public mockAutoSelect = () => {
+    this.selObj10 = {...this.myList.getById('13')};
   };
 
   constructor() { }
 
   ngOnInit() { }
 
-  public mockAutoSelect = () => {
-    let currId = !!this.selObj ? this.selObj.id : 0;
-    currId++;
-    this.selObj = this.myList.getById(currId+'');
-    if (!!this.selObj) {
-      this.selObj2 = this.selObj;
-      this.selObj3 = this.selObj.id;
-      this.selObj4 = this.selObj.keyMap('username, first_name, last_name');
-      this.selObj5 = this.selObj;
-    }
-    this.selObj3 = 0;
-  }
+
 
 
 }
