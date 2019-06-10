@@ -34,6 +34,10 @@ export class BfLabelDemoComponent implements OnInit {
 </label>`;
 
   public valueInlineExample = `<bf-label bfText="Label" bfValue="The second value" class="value-inline"></bf-label>`;
+  public valueListExample = `<bf-label class="value-list-3" bfText="User Name"   bfValue="Joel Barba" ></bf-label>
+<bf-label class="value-list-3" bfText="Email"       bfValue="joel.barba@blueface.com"></bf-label>
+<bf-label class="value-list-3" bfText="Number"      bfValue="+353 089 422 6474"></bf-label>
+<bf-label class="value-list-3" bfText="Description" bfValue="He is a very nice guy"></bf-label>`;
 
   public transAbsService = `export abstract class AbstractTranslateService {
   constructor() { }

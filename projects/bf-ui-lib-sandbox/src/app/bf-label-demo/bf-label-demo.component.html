@@ -102,6 +102,22 @@ It also makes use of the translation service (if present), to automatically tran
   <div class="col-7">
     <pre class="marT10">{{ valueInlineExample }}</pre>
   </div>
+
+  <div class="col-12 marT30">
+    <p>To align a list of horizontal label - value keys, you can use class "<span class="bold">value-list</span>". It applies a flex display on the label / value. aligning them to the center.
+    <br>It is also possible to adjust the flex of the value, to give more room to the right side using
+      "<span class="bold">value-list-2</span>", "<span class="bold">value-list-3</span>", "<span class="bold">value-list-4</span>" and so on:
+    </p>
+  </div>
+  <div class="col-5 marT20">
+    <bf-label class="value-list-3" bfText="User Name" bfValue="Joel Barba" ></bf-label>
+    <bf-label class="value-list-3" bfText="Email" bfValue="joel.barba@blueface.com"></bf-label>
+    <bf-label class="value-list-3" bfText="Number" bfValue="+353 089 422 6474"></bf-label>
+    <bf-label class="value-list-3" bfText="Description" bfValue="He is a very nice guy"></bf-label>
+  </div>
+  <div class="col-7 marT20">
+    <pre>{{valueListExample}}</pre>
+  </div>
 </div>
 
 
