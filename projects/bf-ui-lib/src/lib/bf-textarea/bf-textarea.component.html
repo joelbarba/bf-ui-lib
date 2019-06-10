@@ -1,3 +1,30 @@
-<p>
-  bf-textarea works!
-</p>
+<div class="form-group  bf-textarea-form-group  error-{{errorPosition}}"
+     [class.is-required]="bfRequired"
+     [class.is-disabled]="bfDisabled"
+     [class.is-error]="status === 'error'"
+     [class.is-pristine]="status === 'pristine'"
+     [class.is-dirty]="status === 'dirty'"
+     [class.horizontalLayoutClass]="false">
+
+  <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
+    <span class="info-badge" *ngIf="!!bfTooltip"
+          [ngbPopover]="bfTooltipTrans" [placement]="bfTooltipPos" triggers="hover"
+          [container]="(bfTooltipBody ? 'body' : '')">
+      <span class="icon-info"></span>
+    </span>
+    <span>{{bfLabelTrans}}</span>:
+    <span *ngIf="bfRequired" class="asterisk">*</span>
+  </label>
+
+  <span *ngIf="status === 'error'" class="bf-textarea-error-text" [ngClass]="errorPosition">{{errorText}}</span>
+
+  <!--[formControl]="inputCtrl"-->
+  <textarea class="form-control" name="bfTextarea" #ngInputRef="ngModel"
+            [rows]="bfRows"
+            [placeholder]="bfPlaceholderTrans"
+            [ngModel]="bfModel" (ngModelChange)="parseModelChange($event)"
+            [required]="bfRequired"
+            [disabled]="bfDisabled">
+  </textarea>
+
+</div>
