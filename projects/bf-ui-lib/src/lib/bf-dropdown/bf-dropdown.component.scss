@@ -80,3 +80,26 @@ $disabled_input_color : #797979;
 :host.full-width {
   .bf-dropdown { width: 100%; }
 }
+
+
+// --- Color layer override -----------------------------------------------------------------------------------
+.bf-dropdown {
+  select.form-control { // Placeholder color (https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder)
+    &::-webkit-input-placeholder { color: $optional_input_color; } /* WebKit, Blink, Edge */
+    &:-moz-placeholder           { color: $optional_input_color; opacity:  1; } /* Mozilla Firefox 4 to 18 */
+    &::-moz-placeholder          { color: $optional_input_color; opacity:  1; } /* Mozilla Firefox 19+ */
+    &:-ms-input-placeholder      { color: $optional_input_color; } /* Internet Explorer 10-11 */
+    &::-ms-input-placeholder     { color: $optional_input_color; } /* Microsoft Edge */
+    &::placeholder               { color: $optional_input_color; } /* Most modern browsers support this now. */
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    border: 1px solid $optional_input_color;
+    &:focus { box-shadow: 0 0 0 2px rgba($optional_input_color, 0.35); }
+  }
+  &.is-disabled select.form-control {
+    color: $disabled_input_color;
+  }
+  &.is-required select.form-control {
+    border-color: $primary_color;
+    &:focus { box-shadow: 0 0 0 2px rgba($primary_color, 0.20); }
+  }
+}

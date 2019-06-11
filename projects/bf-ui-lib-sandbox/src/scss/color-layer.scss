@@ -18,8 +18,16 @@ $bf-colors: (
   }
 }
 
+$input-border: #ccc !default; // <-- this is a bootstrap default
+$optional_input_color : $input-border;
+$disabled_input_color : #797979;
+$invalid_input_color  : $warning_color;
+$valid_input_color    : $primary_color;
+$required_input_color : $primary_color;
 
-// --- Button color reset ----------------------------------------------------
+
+
+// --- <bf-btn> color reset ----------------------------------------------------
 @mixin btn-color-mixin($btn-color) {
   color: white;
   background: $btn-color;
@@ -35,8 +43,7 @@ $bf-colors: (
 }
 
 
-
-// --- Checkbox color reset --------------------------------------------------
+// --- <bf-checkbox> color reset --------------------------------------------------
 div.checkbox label input[type='checkbox'] {
   + span.check-box {  // Box unmarked (unchecked)
     background: $white;
@@ -55,14 +62,14 @@ div.checkbox label input[type='checkbox'] {
   }
 }
 
-// --- Label color reset --------------------------------------------------
+
+// --- <bf-label> color reset --------------------------------------------------
 label.is-required {
   color: $primary_color;
 }
 
 
-// --------------------------------------------------------------
-// This is to reset the Switch color:
+// --- <bf-switch> color reset --------------------------------------------------
 div.bf-switch {
 
   // Background bar
@@ -91,6 +98,28 @@ div.bf-switch {
   }
 }
 
+
+// --- <bf-switch> color reset --------------------------------------------------
+.bf-dropdown {
+  select.form-control { // Placeholder color (https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder)
+    &::-webkit-input-placeholder { color: $optional_input_color; } /* WebKit, Blink, Edge */
+    &:-moz-placeholder           { color: $optional_input_color; opacity:  1; } /* Mozilla Firefox 4 to 18 */
+    &::-moz-placeholder          { color: $optional_input_color; opacity:  1; } /* Mozilla Firefox 19+ */
+    &:-ms-input-placeholder      { color: $optional_input_color; } /* Internet Explorer 10-11 */
+    &::-ms-input-placeholder     { color: $optional_input_color; } /* Microsoft Edge */
+    &::placeholder               { color: $optional_input_color; } /* Most modern browsers support this now. */
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    border: 1px solid $optional_input_color;
+    &:focus { box-shadow: 0 0 0 2px rgba($optional_input_color, 0.35); }
+  }
+  &.is-disabled select.form-control {
+    color: $disabled_input_color;
+  }
+  &.is-required select.form-control {
+    border-color: $primary_color;
+    &:focus { box-shadow: 0 0 0 2px rgba($primary_color, 0.20); }
+  }
+}
 
 
 

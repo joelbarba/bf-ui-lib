@@ -16,6 +16,37 @@ export class BfTextareaDemoComponent implements OnInit {
   public instance = BfTextareaDoc.instance;
   public instance2 = `<bf-textarea</bf-textarea>`;
   public myVal = '';
+  public cssReset = `$input-border: #ccc !default; // <-- this is a bootstrap default
+$optional_input_color : $input-border;
+$disabled_input_color : #797979;
+$primary_color        : #00B6F1;
+$warning_color        : #ED0677;
+$invalid_input_color  : $warning_color;
+
+.bf-textarea-form-group {
+  textarea.form-control {
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    border: 1px solid $optional_input_color;
+    &:focus { box-shadow: 0 0 0 2px rgba($optional_input_color, 0.35); }
+  }
+  &.is-disabled textarea.form-control {
+    color: $disabled_input_color;
+  }
+  &.is-required  textarea.form-control {
+    border-color: $primary_color;
+    &:focus { box-shadow: 0 0 0 2px rgba($primary_color, 0.20); }
+  }
+  &.is-error {
+    label { color: $warning_color; }
+    textarea.form-control {
+      border-color: $warning_color;
+      &:focus { box-shadow: 0 0 0 2px rgba($warning_color, 0.20); }
+    }
+    .bf-textarea-error-text {
+      color: $invalid_input_color;
+    }
+  }
+}`;
 
   public brStr = `\n`;
   public bsStr = `\n             `;
