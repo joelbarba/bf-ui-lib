@@ -142,6 +142,7 @@ export class BfDropdownDemoComponent implements OnInit {
 
 export const BfDropdownDoc = {
   name    : `bf-dropdown`,
+  uiType  : 'component',
   desc    : `Generates a dropdown using <select> and <option> html tags.`,
   api     : `*[(ngModel)]     : The ngModel directive is linked to the inner <select>, so that can be used as a form element with ngForm (status is propagated).  
 *[bfList]        : Array of objects with the list to be displayed in the dropdown

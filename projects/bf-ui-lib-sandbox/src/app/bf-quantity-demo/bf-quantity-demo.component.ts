@@ -49,6 +49,7 @@ export class BfQuantityDemoComponent implements OnInit {
 
 export const BfQuantityDoc = {
   name    : `bf-quantity`,
+  uiType  : 'component',
   desc    : `Generates a button.`, 
   api     : `[bfText]: Button text`,
   instance: `<bf-quantity></bf-quantity>`, 

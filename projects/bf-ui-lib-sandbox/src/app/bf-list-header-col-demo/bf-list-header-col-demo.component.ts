@@ -87,6 +87,7 @@ public orderConf = {
 
 export const BfListHeaderColDoc = {
   name    : `bf-list-header-col`,
+  uiType  : 'component',
   desc    : `Generates the column header for a list. It also adds the options for ordering the list, showing the arrow icons next to the title`, 
   api     : `[colTitle]:  Text of the column title
 [fieldName]: Column name. Name of the property that every object of the array has for that column. This is necessary if we want to apply order.

@@ -205,6 +205,7 @@ public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"
 export const BfBtnDoc = {
   name    : `bf-btn`,
   desc    : `Generates a button.`, 
+  uiType  : 'component',
   api     : `(bfClick)        : Click event handler
 [bfAsyncPromise] : For async tasks, promise to block all buttons until the task is completed. 
 [bfAsyncClick]   : Click callback function. Instead of using the (bfClick) output, it is also possible to pass a callback function. The return promise is automatically caught.   

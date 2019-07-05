@@ -27,6 +27,7 @@ export class BfRadioDemoComponent implements OnInit {
 
 export const BfRadioDoc = {
   name    : `bf-radio`,
+  uiType  : 'component',
   desc    : `Generates a button.`, 
   api     : `[bfText]: Button text`,
   instance: `<bf-radio></bf-radio>`, 

@@ -27,6 +27,7 @@ export class BfDatePickerDemoComponent implements OnInit {
 
 export const BfDatePickerDoc = {
   name    : `bf-date-picker`,
+  uiType  : 'component',
   desc    : `Generates a button.`, 
   api     : `[bfText]: Button text`,
   instance: `<bf-date-picker></bf-date-picker>`, 

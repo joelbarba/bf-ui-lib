@@ -106,6 +106,7 @@ $invalid_input_color  : $warning_color;
 
 export const BfTextareaDoc = {
   name    : `bf-textarea`,
+  uiType  : 'component',
   desc    : `Generates a textarea component.`,
   api     : `[(ngModel)]     : The ngModel directive is linked to the inner <textarea>, so that can be used as a form element with ngForm (status is propagated).
 [bfRows]        : Number of rows of the <textarea> (4 by default).

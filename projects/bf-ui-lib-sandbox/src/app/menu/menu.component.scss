@@ -28,4 +28,34 @@
       }
     }
   }
+
+  .menu-list {
+    list-style: none;
+    padding-left: 10px;
+
+    .menu-item {
+      font-size: 16px;
+      .element-type {
+        width: 25px;
+        height: 25px;
+        margin-right: 10px;
+        display: inline-block;
+        text-align: center;
+        line-height: 22px;
+        color: white;
+        border-radius: 3px;
+        vertical-align: middle;
+        border: 1px solid white;
+        //margin-bottom: 2px;
+        &.component { background: #2196F3; }
+        &.service { background: #FF9800; }
+
+
+      }
+      .element-name {
+        vertical-align: top;
+      }
+
+    }
+  }
 }

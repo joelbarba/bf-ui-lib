@@ -33,6 +33,7 @@ export class BfListPlaceholderDemoComponent implements OnInit {
 
 export const BfListPlaceholderDoc = {
   name    : `bf-list-placeholder`,
+  uiType  : 'component',
   desc    : `Generates an animation to display a fake list while loading`, 
   api     : `[bfType]  : 'list' - (default) Displays the fake loading rows into a <ul> table
             'table' - Displays a whole table (header + rows)

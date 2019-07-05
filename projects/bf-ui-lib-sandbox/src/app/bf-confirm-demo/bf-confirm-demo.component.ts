@@ -80,6 +80,7 @@ this.confirm.open({
 
 export const BfConfirmDoc = {
   name    : `bf-confirm`,
+  uiType  : 'service',
   desc    : `Service to trigger a confirmation modal`,
   api     : `
 .open()   It triggers a confirmation pop up before performing an action. It takes an optional parameter to config specific values:

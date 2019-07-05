@@ -119,6 +119,7 @@ export class BfSwitchDemoComponent implements OnInit {
 
 export const BfSwitchDoc = {
   name    : `bf-switch`,
+  uiType  : 'component',
   desc    : `Generates a switch.`,
   api     : `[(ngModel)]     : The ngModel directive is linked to the inner <input>, so that can be used as a form element with ngForm (status is propagated)
 [bfDisabled]    : Whether the switch is disabled (true) or not (false).

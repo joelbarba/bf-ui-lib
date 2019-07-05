@@ -83,6 +83,7 @@ $disabled_input_color : #797979;
 
 export const BfInputDoc = {
   name    : `bf-input`,
+  uiType  : 'component',
   desc    : `Generates a button.`,
   api     : `[(ngModel)]     : The ngModel directive is linked to the inner <input>, so that can be used as a form element with ngForm (status is propagated).
 [bfLabel]       : Label of the input (automatically translated). If not provided, no label is displayed.

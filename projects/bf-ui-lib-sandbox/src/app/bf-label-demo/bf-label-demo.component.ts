@@ -83,6 +83,7 @@ export class BfLabelDemoComponent implements OnInit {
 
 export const BfLabelDoc = {
   name    : `bf-label`,
+  uiType  : 'component',
   desc    : `Generates a label to title an element into a form.`,
   api     : `[bfText]        : Text to display as label
 [bfValue]       : Static value for the label (optional). 
