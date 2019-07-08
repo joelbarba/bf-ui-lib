@@ -131,9 +131,11 @@ export class BfListPaginatorComponent implements OnInit {
     }
 
     // Remember the values
-    this.prevCtrl.currentPage = this.bfCtrl.currentPage;
-    this.prevCtrl.totalPages  = this.bfCtrl.totalPages;
-    this.prevCtrl.rowsPerPage = this.bfCtrl.rowsPerPage;
+    this.prevCtrl = {
+      currentPage : this.bfCtrl.currentPage,
+      totalPages  : this.bfCtrl.totalPages,
+      rowsPerPage : this.bfCtrl.rowsPerPage,
+    };
   };
 
 
