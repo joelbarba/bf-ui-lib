@@ -88,6 +88,8 @@ div.bf-list-paginator {
 
     bfShowSelector: false,
     hasFullWidth: false,
+    hasAlignRight: false,
+    hasAlignCenter: false,
 
   };
   public upComp = () => {
@@ -95,6 +97,8 @@ div.bf-list-paginator {
 
     let compClasses = '';
     if (this.compConf.hasFullWidth) { compClasses += (!!compClasses.length ? ' ' : '') + 'full-width'; }
+    if (this.compConf.hasAlignRight) { compClasses += (!!compClasses.length ? ' ' : '') + 'align-right'; }
+    if (this.compConf.hasAlignCenter) { compClasses += (!!compClasses.length ? ' ' : '') + 'align-center'; }
     if (!!compClasses) {
       this.customCompCode += `class="${compClasses}"` + this.bsStr;
     }

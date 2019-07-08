@@ -61,6 +61,13 @@
   }
 }
 
+:host.align-right .bf-list-paginator {
+  justify-content: flex-end;
+}
+:host.align-center .bf-list-paginator {
+  justify-content: center;
+}
+
 
 // --------------------------------------------------------------
 // This is to reset the colors:

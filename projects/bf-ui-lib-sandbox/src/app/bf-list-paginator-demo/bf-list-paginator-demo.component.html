@@ -17,6 +17,8 @@
       <div class="padB25">
         <bf-list-paginator
                 [class.full-width]="compConf.hasFullWidth"
+                [class.align-right]="compConf.hasAlignRight"
+                [class.align-center]="compConf.hasAlignCenter"
                 [bfCtrl]="compConf.myList"
                 [bfMaxButtons]="compConf.bfMaxButtons"
                 [bfShowSelector]="compConf.bfShowSelector"
@@ -60,9 +62,13 @@
       </div>
 
       <div class="row marT10">
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasFullWidth" (ngModelChange)="upComp()" bfLabel="Full Width"></bf-checkbox> </div>
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.bfShowSelector" (ngModelChange)="upComp()" bfLabel="bfShowSelector"></bf-checkbox> </div>
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasPageChange" (ngModelChange)="upComp()" bfLabel="bfPageChange"></bf-checkbox> </div>
+      </div>
+      <div class="row">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasFullWidth" (ngModelChange)="upComp()" bfLabel="full-width"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasAlignRight" (ngModelChange)="upComp()" bfLabel="align-right"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasAlignCenter" (ngModelChange)="upComp()" bfLabel="align-center"></bf-checkbox> </div>
       </div>
     </div>
 
@@ -79,7 +85,7 @@
   
   <div class="row">
     <div class="col-5" style="background: white">
-      <bf-list-paginator [bfCtrl]="myList"></bf-list-paginator>
+      <bf-list-paginator class="align-right" [bfCtrl]="myList"></bf-list-paginator>
       <div class="padT10">myList={{ myList | json }}</div>
     </div>
     <div class="col-7"> <pre>{{instance}}</pre> </div>
@@ -130,6 +136,15 @@
     <h5>Applicable classes:</h5>
     <p>If you want the paginator to fill all the width of the row, you can add class <span class="bold">"full-width"</span>:</p>
     <bf-list-paginator class="full-width" [bfCtrl]="myList"></bf-list-paginator>
+
+    <p class="marT30">It is also possible to align the pagination to the right or center applying the classes <span class="bold">"align-right"</span> or <span class="bold">"align-center"</span>:</p>
+    <div class="marV10">
+      <bf-list-paginator class="align-right" [bfCtrl]="myList"></bf-list-paginator>
+    </div>
+    <div class="marV10">
+      <bf-list-paginator class="align-center" [bfCtrl]="myList"></bf-list-paginator>
+    </div>
+
   </div>
 </div>
 
