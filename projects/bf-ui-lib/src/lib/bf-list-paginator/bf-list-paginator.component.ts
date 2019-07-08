@@ -33,8 +33,7 @@ export class BfListPaginatorComponent implements OnInit {
     if (!this.prevCtrl
         || this.prevCtrl.currentPage !== this.bfCtrl.currentPage
         || this.prevCtrl.totalPages  !== this.bfCtrl.totalPages
-        || this.prevCtrl.rowsPerPage !== this.bfCtrl.rowsPerPage
-        || this.prevCtrl.goToPage    !== this.bfCtrl.goToPage) {
+        || this.prevCtrl.rowsPerPage !== this.bfCtrl.rowsPerPage) {
       this.renderComponent();
     }
   }
@@ -130,7 +129,11 @@ export class BfListPaginatorComponent implements OnInit {
         }
       }
     }
-    this.prevCtrl = this.bfCtrl.copy();
+
+    // Remember the values
+    this.prevCtrl.currentPage = this.bfCtrl.currentPage;
+    this.prevCtrl.totalPages  = this.bfCtrl.totalPages;
+    this.prevCtrl.rowsPerPage = this.bfCtrl.rowsPerPage;
   };
 
 

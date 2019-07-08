@@ -173,7 +173,7 @@ export class BfDropdownComponent implements ControlValueAccessor {
     if (value !== undefined) {
       // this.bfModel = value;
       // console.log('bfModel', this.bfModel);
-      setTimeout(() => { console.log('bfModel 2', this.bfModel); });
+      // setTimeout(() => { console.log('bfModel 2', this.bfModel); });
       this.matchExtSelect(value);
     }
   }
