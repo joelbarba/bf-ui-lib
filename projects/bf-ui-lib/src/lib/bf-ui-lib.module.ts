@@ -24,6 +24,7 @@ import { BfConfirmComponent } from './bf-confirm/bf-confirm.component';
 import { BfTextareaComponent } from './bf-textarea/bf-textarea.component';
 import { BfRadioComponent } from './bf-radio/bf-radio.component';
 import { BfDatePickerComponent } from './bf-date-picker/bf-date-picker.component';
+import { BfListPaginatorComponent } from './bf-list-paginator/bf-list-paginator.component';
 
 @NgModule({
   declarations: [
@@ -40,10 +41,12 @@ import { BfDatePickerComponent } from './bf-date-picker/bf-date-picker.component
     BfTextareaComponent,
     BfRadioComponent,
     BfDatePickerComponent,
+    BfListPaginatorComponent,
   ],
   entryComponents: [BfConfirmComponent],
   imports: [BrowserModule, FormsModule, ReactiveFormsModule, NgbPopoverModule, NgbModalModule, BfGrowlModule],
   exports: [
+    BfListPaginatorComponent,  // <--- New component
     BfDatePickerComponent,  // <--- New component
     BfRadioComponent,  // <--- New component
     BfTextareaComponent,  // <--- New component

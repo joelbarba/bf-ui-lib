@@ -1,3 +1,4 @@
+import { BfListPaginatorDoc } from './bf-list-paginator-demo/bf-list-paginator-demo.component';
 import { BfDatePickerDoc } from './bf-date-picker-demo/bf-date-picker-demo.component';
 import { BfRadioDoc } from './bf-radio-demo/bf-radio-demo.component';
 import { BfTextareaDoc } from './bf-textarea-demo/bf-textarea-demo.component';
@@ -16,21 +17,23 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 export const compList = [
-  BfDatePickerDoc,
-  BfRadioDoc,
-  BfTextareaDoc,
   BfBtnDoc,
   BfLabelDoc,
   BfInputDoc,
+  BfTextareaDoc,
   BfDropdownDoc,
-  BfCheckboxDoc,
   BfSwitchDoc,
+  BfCheckboxDoc,
+  BfRadioDoc,
+  BfDatePickerDoc,
   BfQuantityDoc,
   BfListHeaderColDoc,
   BfListPlaceholderDoc,
+  BfListPaginatorDoc,
   BfGrowlDoc,
   BfConfirmDoc,
 ];
+
 /* {
   name     : 'bf-list-header-col',
   api      : '...',

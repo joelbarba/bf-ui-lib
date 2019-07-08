@@ -1,0 +1,135 @@
+<!-- bf-list-paginator = 'bf-btn' -->
+
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+<p>This is the equivalent of the old "dir-pagination-controls" directive (from angularJS)</p>
+
+<h5 class="mt-4">Parameters:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+
+<!--bf-list-paginator Customization-->
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-6 marB15">
+      <h5 class="marB25">Customization:</h5>
+      <div class="padB25">
+        <bf-list-paginator
+                [class.full-width]="compConf.hasFullWidth"
+                [bfCtrl]="compConf.myList"
+                [bfMaxButtons]="compConf.bfMaxButtons"
+                [bfShowSelector]="compConf.bfShowSelector"
+        ></bf-list-paginator>
+        <!--compConf.myList={{compConf.myList | json}}-->
+      </div>
+      <div>
+        <div class="code-box pad15">
+          <pre>{{customCompCode}}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+
+      <div class="row marT15">
+        <div class="col-4">
+          <bf-input class="input-num" bfLabel="bfCtrl.totalPages"  bfType="number" [(ngModel)]="compConf.myList.totalPages" (ngModelChange)="upComp()"></bf-input>
+          <bf-btn (bfClick)="compConf.myList.totalPages = compConf.myList.totalPages - 1" bfIcon="icon-minus"></bf-btn>
+          <bf-btn (bfClick)="compConf.myList.totalPages = compConf.myList.totalPages + 1" bfIcon="icon-plus"></bf-btn>
+        </div>
+        <div class="col-4">
+          <bf-input class="input-num" bfLabel="bfCtrl.rowsPerPage" bfType="number" [(ngModel)]="compConf.myList.rowsPerPage" (ngModelChange)="upComp()"></bf-input>
+          <bf-btn (bfClick)="compConf.myList.rowsPerPage = compConf.myList.rowsPerPage - 1" bfIcon="icon-minus"></bf-btn>
+          <bf-btn (bfClick)="compConf.myList.rowsPerPage = compConf.myList.rowsPerPage + 1" bfIcon="icon-plus"></bf-btn>
+        </div>
+        <div class="col-4">
+          <bf-input class="input-num" bfLabel="bfCtrl.currentPage" bfType="number" [(ngModel)]="compConf.myList.currentPage" (ngModelChange)="upComp()"></bf-input>
+          <bf-btn (bfClick)="compConf.myList.currentPage = compConf.myList.currentPage - 1" bfIcon="icon-minus"></bf-btn>
+          <bf-btn (bfClick)="compConf.myList.currentPage = compConf.myList.currentPage + 1" bfIcon="icon-plus"></bf-btn>
+        </div>
+      </div>
+
+      <div class="row marT15">
+        <div class="col-4 padT15"> <bf-checkbox [(ngModel)]="compConf.hasMaxButtons" (ngModelChange)="upComp()" bfLabel="Has Max Buttons"></bf-checkbox> </div>
+        <div class="col-4" style="margin-top: -10px;">
+          <bf-input class="input-num" [(ngModel)]="compConf.bfMaxButtons" bfType="number" (ngModelChange)="upComp()" bfLabel="bfMaxButtons" [bfDisabled]="!compConf.hasMaxButtons"></bf-input>
+          <bf-btn (bfClick)="compConf.bfMaxButtons = changeNum(compConf.bfMaxButtons, -1)" bfIcon="icon-minus"></bf-btn>
+          <bf-btn (bfClick)="compConf.bfMaxButtons = changeNum(compConf.bfMaxButtons, 1)" bfIcon="icon-plus"></bf-btn>
+        </div>
+      </div>
+
+      <div class="row marT10">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasFullWidth" (ngModelChange)="upComp()" bfLabel="Full Width"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.bfShowSelector" (ngModelChange)="upComp()" bfLabel="bfShowSelector"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasPageChange" (ngModelChange)="upComp()" bfLabel="bfPageChange"></bf-checkbox> </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr>
+
+
+
+
+<h5 class="mt-4">Examples:</h5>
+<div class="col-12 examples-table">
+  
+  <div class="row">
+    <div class="col-5" style="background: white">
+      <bf-list-paginator [bfCtrl]="myList"></bf-list-paginator>
+      <div class="padT10">myList={{ myList | json }}</div>
+    </div>
+    <div class="col-7"> <pre>{{instance}}</pre> </div>
+  </div>
+
+  <div class="row">
+    <div class="col-5" style="background: white">
+      <bf-list-paginator [bfCtrl]="myList" (bfPageChange)="page = $event"></bf-list-paginator>
+      <div class="padT10">page = {{ page }}</div>
+    </div>
+    <div class="col-7"> <pre>{{instance2}}</pre> </div>
+  </div>
+
+  <div class="row">
+    <div class="col-5" style="background: white">
+      <bf-list-paginator bfShowSelector="true" [bfCtrl]="myList"></bf-list-paginator>
+    </div>
+    <div class="col-7"> <pre>{{instance3}}</pre> </div>
+  </div>
+
+  <div class="row">
+    <div class="col-5" style="background: white">
+      <bf-list-paginator class="full-width" [bfCtrl]="myList"></bf-list-paginator>
+    </div>
+    <div class="col-7"> <pre>{{instance4}}</pre> </div>
+  </div>
+
+
+
+</div>
+
+
+
+<!--CSS Styling-->
+<div class="row marT40">
+  <div class="col-12">
+    <hr>
+    <h4>CSS Styling</h4>
+    <p>The encapsulated styles of the component use a default color palette. However, we may want to apply different colors externally (depending on the theme)
+      <br/>
+      To provide a color restyiling based on a SCSS theme you can apply the following rules on a css global level :
+    </p>
+    <pre class="padL40">{{ cssReset }}</pre>
+  </div>
+
+  <div class="col-12">
+    <hr>
+    <h5>Applicable classes:</h5>
+    <p>If you want the paginator to fill all the width of the row, you can add class <span class="bold">"full-width"</span>:</p>
+    <bf-list-paginator class="full-width" [bfCtrl]="myList"></bf-list-paginator>
+  </div>
+</div>
+

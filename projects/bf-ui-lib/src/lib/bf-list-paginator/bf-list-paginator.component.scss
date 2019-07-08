@@ -1,0 +1,83 @@
+.bf-list-paginator {
+  display: flex;
+  justify-content: space-between;
+
+  .page-buttons {
+    font-size: 16px;
+    .page-btn {
+      display: inline-block;
+      user-select: none;
+      min-width: 40px;
+      text-align: center;
+      //padding: 8px 10px;
+      padding: 4.5px 10px;
+      &.prev-btn, &.next-btn {
+        min-width: 35px;
+      }
+
+      $page-border-rads: 4px;
+      &:first-child {
+        border-top-left-radius: $page-border-rads;
+        border-bottom-left-radius: $page-border-rads;
+      }
+      &:last-child {
+        border-top-right-radius: $page-border-rads;
+        border-bottom-right-radius: $page-border-rads;
+      }
+
+      border-width: 1px;
+      border-style: solid;
+
+      &:not(.disabled) {
+        cursor: pointer;
+        &:active { box-shadow: inset 2px 2px 4px rgba(34, 36, 38, 0.4); }
+      }
+      &.disabled {
+        cursor: not-allowed;
+      }
+      &:not(:last-child) {
+        border-right: none;
+      }
+    }
+  }
+  .page-num-selector {
+    padding-left: 15px;
+  }
+}
+
+
+
+// Styles for full width (class "full-width" applied on the <bf-list-paginator>)
+:host.full-width {
+  .bf-list-paginator {
+    width: 100%;
+    .page-buttons {
+      width: 100%;
+      display: flex;
+      .page-btn {
+        flex: 1;
+      }
+    }
+  }
+}
+
+
+// --------------------------------------------------------------
+// This is to reset the colors:
+$primary_color: red;
+$page_bg: white;
+$page_color: darken($primary_color, 10%);
+$page_border_color: #c0c0c0;
+$page_hover_bg: #eeeeee;
+
+.bf-list-paginator.page-buttons.page-btn {
+  border-color: $page_border_color;
+  color: $page_color;
+  background: $page_bg;
+  &:not(.disabled):hover { background: $page_hover_bg; }
+  &.current {
+    color: $page_bg;
+    background: $page_color;
+    &:hover { background: $page_color; }
+  }
+}
