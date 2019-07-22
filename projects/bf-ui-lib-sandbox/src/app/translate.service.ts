@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AbstractTranslateService } from '../../../bf-ui-lib/src/lib/abstract-translate.service';
-import {Observable, of} from "rxjs";
+import { BehaviorSubject, Observable, of } from "rxjs";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TranslateService extends AbstractTranslateService {
-  public testDict = {
+  public transDict = {
     'view.common.name'         : 'Name',
     'view.common.email'        : 'Email',
     'view.common.username'     : 'User Name',
@@ -19,16 +20,22 @@ export class TranslateService extends AbstractTranslateService {
     'view.modal.confirm.title' : 'Confirm',
     'view.modal.confirm.text'  : 'Are you sure?',
   };
+
+  public transDict$ = new BehaviorSubject(this.transDict);
+
   constructor() {
     super();
   }
 
   doTranslate = (label ?: string): string => {
-    return this.testDict[label] || label;
+    return this.transDict[label] || label;
   };
 
   get = (label ?: string): Observable<string> => {
-    let res = this.testDict[label] || label;
-    return of(res);
+    return this.transDict$.pipe(
+      map(translations => {
+        return translations[label] || label;
+      })
+    );
   }
 }

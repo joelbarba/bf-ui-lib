@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, Inje
 import { AbstractTranslateService } from '../abstract-translate.service';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { BfUiLibService } from '../bf-ui-lib.service';
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'bf-btn',
@@ -26,24 +27,17 @@ export class BfBtnComponent implements OnInit {
   @Input() bfDisabledTip : string = '';
 
   public btnClass: string = 'primary';
-  public bfTextTrans: string = '';          // Translated text for the button
-  public bfTooltipTrans: string = '';       // Translated text for the tooltip of the label
-  public bfDisabledTipTrans: string = '';   // Translated text for the tooltip when disabled
 
-  private doTranslate: Function;
+  public bfTextTrans$: Observable<string>;        // Translated text for the button
+  public bfTooltipTrans$: Observable<string>;     // Translated text for the tooltip of the label
+  public bfDisabledTipTrans$: Observable<string>; // Translated text for the tooltip when disabled
+
 
   constructor(
     @Inject('TranslateService') private translate: AbstractTranslateService,
     private config: NgbPopoverConfig,
     public libService: BfUiLibService
   ) {
-
-    if (!!this.translate.doTranslate) {
-      this.doTranslate = this.translate.doTranslate;
-    } else {
-      this.doTranslate = (text) => { return text; };
-    }
-
   }
 
   ngOnInit() { }
@@ -63,10 +57,10 @@ export class BfBtnComponent implements OnInit {
       if (this.bfType === 'collapse') { this.btnClass = 'secondary'; this.bfIcon = 'icon-arrow-up3'; }
     }
 
-
-    if (change.hasOwnProperty('bfText'))        { this.bfTextTrans        = this.doTranslate(this.bfText); }
-    if (change.hasOwnProperty('bfTooltip'))     { this.bfTooltipTrans     = this.doTranslate(this.bfTooltip); }
-    if (change.hasOwnProperty('bfDisabledTip')) { this.bfDisabledTipTrans = this.doTranslate(this.bfDisabledTip); }
+    // Generate new observables for the dynamic text
+    if (change.hasOwnProperty('bfText'))        { this.bfTextTrans$        = this.translate.get(this.bfText); }
+    if (change.hasOwnProperty('bfTooltip'))     { this.bfTooltipTrans$     = this.translate.get(this.bfTooltip); }
+    if (change.hasOwnProperty('bfDisabledTip')) { this.bfDisabledTipTrans$ = this.translate.get(this.bfDisabledTip); }
 
     // If new async blocking promise, block buttons until that is resolved
     if (change.hasOwnProperty('bfAsyncPromise')) {

@@ -1,7 +1,7 @@
 <div class="disabled-tooltip"
      triggers="hover" container="body"
      [disablePopover]="!bfDisabled"
-     [ngbPopover]="bfDisabledTipTrans"
+     [ngbPopover]="bfDisabledTipTrans$ | async"
      [placement]="bfTooltipPos">
 
   <button type="submit"
@@ -10,7 +10,7 @@
           (click)="btnClick($event)"
           [disabled]="bfDisabled || libService.isBtnLoading"
           triggers="hover"
-          [ngbPopover]="bfTooltipTrans"
+          [ngbPopover]="bfTooltipTrans$ | async"
           [placement]="bfTooltipPos"
           [container]="(bfTooltipBody ? 'body' : '')">
 
@@ -19,7 +19,7 @@
       <div class="loading-spinner" [hidden]="!libService.isBtnLoading"></div>
     </div>
 
-    <div [hidden]="!bfText" class="btn-text-section">{{bfTextTrans}}</div>
+    <div [hidden]="!bfText" class="btn-text-section">{{ bfTextTrans$ | async }}</div>
 
     <div *ngIf="bfIconPos === 'right'" class="btn-icon-section right" [class.small-btn]="!bfText">
       <span [class]="bfIcon" [hidden]="libService.isBtnLoading"></span>
