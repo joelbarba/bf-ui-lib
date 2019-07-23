@@ -31,7 +31,7 @@ export class TranslateService extends AbstractTranslateService {
     return this.transDict[label] || label;
   };
 
-  get = (label ?: string): Observable<string> => {
+  getLabel$ = (label ?: string): Observable<string> => {
     return this.transDict$.pipe(
       map(translations => {
         return translations[label] || label;

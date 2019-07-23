@@ -18,5 +18,5 @@ export abstract class AbstractTranslateService {
   constructor() { }
 
   abstract doTranslate: doTranslateFn;  // Synchronous translation
-  abstract get: getFn;                  // Async translation
+  abstract getLabel$: getFn;            // Async translation (returns an observable that emits the translated value of the label)
 }

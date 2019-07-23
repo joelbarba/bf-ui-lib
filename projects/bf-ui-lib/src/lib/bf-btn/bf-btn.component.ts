@@ -58,9 +58,9 @@ export class BfBtnComponent implements OnInit {
     }
 
     // Generate new observables for the dynamic text
-    if (change.hasOwnProperty('bfText'))        { this.bfTextTrans$        = this.translate.get(this.bfText); }
-    if (change.hasOwnProperty('bfTooltip'))     { this.bfTooltipTrans$     = this.translate.get(this.bfTooltip); }
-    if (change.hasOwnProperty('bfDisabledTip')) { this.bfDisabledTipTrans$ = this.translate.get(this.bfDisabledTip); }
+    if (change.hasOwnProperty('bfText'))        { this.bfTextTrans$        = this.translate.getLabel$(this.bfText); }
+    if (change.hasOwnProperty('bfTooltip'))     { this.bfTooltipTrans$     = this.translate.getLabel$(this.bfTooltip); }
+    if (change.hasOwnProperty('bfDisabledTip')) { this.bfDisabledTipTrans$ = this.translate.getLabel$(this.bfDisabledTip); }
 
     // If new async blocking promise, block buttons until that is resolved
     if (change.hasOwnProperty('bfAsyncPromise')) {
