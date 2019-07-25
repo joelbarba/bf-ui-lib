@@ -201,7 +201,7 @@ export class BfDropdownComponent implements ControlValueAccessor {
     // Extend the input list adding $index and $renderedText
     if (!!changes.bfList) {
       if (!!this.bfList && Array.isArray(this.bfList)) {
-        this.extList = this.bfList.copy();
+        this.extList = this.bfList.dCopy();
       } else {
         this.extList = [];
       }
@@ -266,7 +266,7 @@ export class BfDropdownComponent implements ControlValueAccessor {
 
     } else {
       if (!this.bfSelect) {
-        selModel = selObj.copy();   // Select full object
+        selModel = selObj.dCopy();   // Select full object
         delete selModel.$index;
         delete selModel.$renderedText;
 
@@ -301,7 +301,7 @@ export class BfDropdownComponent implements ControlValueAccessor {
 
       } else {  // Full object match
         matchItem = this.extList.filter(item => {
-          let oriItem = item.copy();
+          let oriItem = item.dCopy();
           delete oriItem.$index;
           delete oriItem.$renderedText;
 
