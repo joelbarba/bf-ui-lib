@@ -63,7 +63,7 @@ constructor(private growl: BfGrowlService) { }`;
 
 export const BfGrowlDoc = {
   name    : `bf-growl`,
-  uiType  : 'service',
+  uiType  : 'module',
   desc    : `Growl Module to push notifications on the screen`,
   api     : `growl.success(text) : Pushes a successful notification
 growl.error(text)   : Pushes a warning notification

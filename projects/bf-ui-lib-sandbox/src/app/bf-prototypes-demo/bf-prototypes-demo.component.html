@@ -1,0 +1,112 @@
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+<p>The functions can be either applied to the corresponding prototypes, or imported as isolated functions over a wrapping object.</p>
+
+<div class="row">
+  <div class="col-6">
+    <p>If extending the Array.getById(), we can use that function on any array: </p>
+    <pre>{{example1}}}</pre>
+  </div>
+  <div class="col-6">
+    <p>If using the BfArray wrapper, the function should be call passing the context as the target array you want to apply it to:</p>
+    <pre>{{example2}}</pre>
+  </div>
+</div>
+
+<h5 class="marT20">Array functions</h5>
+<div class="col-12 examples-table">
+
+  <div class="row">
+    <div class="col-5"><pre>Array.<span class="bold">getById</span>(id: string): T</pre></div>
+    <div class="col-7">Returns the first object (if any) in the array that matches by .id</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Array.<span class="bold">getByProp</span>(property: string, value: any): T</pre></div>
+    <div class="col-7">Returns the first object (if any) in the array that matches the given property / value</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Array.<span class="bold">getIndexById</span>(id: string): number</pre></div>
+    <div class="col-7">Returns the index of the first object (if any) in the array that matches by .id. If not -1</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Array.<span class="bold">removeById</span>(id: string): T</pre></div>
+    <div class="col-7">Removes the first object (if any) in the array that matches by .id. Returns the removed object or null if not found.</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Array.<span class="bold">removeByProp</span>(property: string, value: any): T</pre></div>
+    <div class="col-7">Removes the first object (if any) in the array that matches by property / value. Returns the removed object or null if not found.</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Array.<span class="bold">dCopy</span>(): {{arrayT}}</pre></div>
+    <div class="col-7">Array clone - Makes an exact (deep) copy of the array, with no references, and returns it. Every item inside is deeply copied too.</div>
+  </div>
+</div>
+<hr>
+
+<h5 class="marT20">Object functions</h5>
+<div class="col-12 examples-table">
+
+  <div class="row">
+    <div class="col-5"><pre>Array.<span class="bold">getById</span>(id: string): T</pre></div>
+    <div class="col-7">Returns the first object (if any) in the array that matches by .id</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Array.<span class="bold">getByProp</span>(property: string, value: any): T</pre></div>
+    <div class="col-7">Returns the first object (if any) in the array that matches the given property / value</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Array.<span class="bold">getIndexById</span>(id: string): number</pre></div>
+    <div class="col-7">Returns the index of the first object (if any) in the array that matches by .id. If not -1</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Array.<span class="bold">removeById</span>(id: string): T</pre></div>
+    <div class="col-7">Removes the first object (if any) in the array that matches by .id. Returns the removed object or null if not found.</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Array.<span class="bold">removeByProp</span>(property: string, value: any): T</pre></div>
+    <div class="col-7">Removes the first object (if any) in the array that matches by property / value. Returns the removed object or null if not found.</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Array.<span class="bold">dCopy</span>(): {{arrayT}}</pre></div>
+    <div class="col-7">Array clone - Makes an exact (deep) copy of the array, with no references, and returns it. Every item inside is deeply copied too.</div>
+  </div>
+</div>
+<hr>
+
+
+
+
+<h5 class="mt-4">Examples:</h5>
+<div class="col-12 examples-table">
+  
+  <div class="row">
+    <div class="col-5">
+    </div>
+    <div class="col-7"> <pre>{{instance}}</pre> </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-5">
+    </div>
+    <div class="col-7"> <pre>{{instance2}}</pre> </div>
+  </div>
+
+</div>
+
+
+
+<div class="row marT40">
+  <div class="col-12">
+    <hr>
+    <h4>Import</h4>
+    <p>An index js module is provided with an init function BfPrototypes.<br/>
+That function can be called to extend all listed prototypes (if no parameters), or can be also called passing
+the list of functions that we want to extend. That list is composed by strings that contain 2 values
+(type and function name) separated by a '.'
+    </p>
+    <pre>{{ example3 }}</pre>
+    <pre>{{ example4 }}</pre>
+  </div>
+</div>
+

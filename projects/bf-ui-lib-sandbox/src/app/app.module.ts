@@ -28,6 +28,7 @@ import { BfTextareaDemoComponent } from './bf-textarea-demo/bf-textarea-demo.com
 import { BfRadioDemoComponent } from './bf-radio-demo/bf-radio-demo.component';
 import { BfDatePickerDemoComponent } from './bf-date-picker-demo/bf-date-picker-demo.component';
 import { BfListPaginatorDemoComponent } from './bf-list-paginator-demo/bf-list-paginator-demo.component';
+import { BfPrototypesDemoComponent } from './bf-prototypes-demo/bf-prototypes-demo.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { BfListPaginatorDemoComponent } from './bf-list-paginator-demo/bf-list-p
     BfRadioDemoComponent,
     BfDatePickerDemoComponent,
     BfListPaginatorDemoComponent,
+    BfPrototypesDemoComponent,
   ],
   imports: [
     BrowserModule,

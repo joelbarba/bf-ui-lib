@@ -9,13 +9,15 @@
 //  - object.keyMap(propsStr)
 
 
-interface Array<T> {
-  copy(): Array<T>;
-  getById(id:string): T;
-  removeById(id:string): T;
-  getByProp(property:string, value:string): T;
-  getElementsByProp(property:string, value:string): Array<T>;
-}
+
+
+// interface Array<T> {
+//   copy(): Array<T>;
+//   getById(id:string): T;
+//   removeById(id:string): T;
+//   getByProp(property:string, value:string): T;
+//   getElementsByProp(property:string, value:string): Array<T>;
+// }
 
 interface Object {
   keyMap(propNames:string): Object;
@@ -55,9 +57,9 @@ Array.prototype['getByProp'] = function(property:string, value:any){
  * @param {String} value - the value we want it to equal
  * @description gets an item by its id and returns it if present.
  * */
-Array.prototype['getById'] = function(value:string) {
-  return this.getByProp('id', value);
-};
+// Array.prototype['getById'] = function(value:string) {
+//   return this.getByProp('id', value);
+// };
 
 /**
  * @function removeById

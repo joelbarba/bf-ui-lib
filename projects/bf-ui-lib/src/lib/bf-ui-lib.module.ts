@@ -60,8 +60,8 @@ import { BfListPaginatorComponent } from './bf-list-paginator/bf-list-paginator.
     BfLabelComponent,
     BfBtnComponent,
     BfListHeaderColComponent,
+
     BfGrowlModule,
-    // AbstractTranslateService,
   ]
 })
 export class BfUiLibModule {

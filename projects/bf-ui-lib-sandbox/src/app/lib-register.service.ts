@@ -1,3 +1,4 @@
+import { BfPrototypesDoc } from './bf-prototypes-demo/bf-prototypes-demo.component';
 import { BfListPaginatorDoc } from './bf-list-paginator-demo/bf-list-paginator-demo.component';
 import { BfDatePickerDoc } from './bf-date-picker-demo/bf-date-picker-demo.component';
 import { BfRadioDoc } from './bf-radio-demo/bf-radio-demo.component';
@@ -17,6 +18,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 export const compList = [
+  BfPrototypesDoc,
   BfBtnDoc,
   BfLabelDoc,
   BfInputDoc,

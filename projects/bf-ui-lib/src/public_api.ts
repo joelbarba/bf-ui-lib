@@ -24,3 +24,4 @@ export * from './lib/bf-textarea/bf-textarea.component';
 export * from './lib/bf-radio/bf-radio.component';
 export * from './lib/bf-date-picker/bf-date-picker.component';
 export * from './lib/bf-list-paginator/bf-list-paginator.component';
+export * from './lib/bf-prototypes/bf-prototypes.component';
