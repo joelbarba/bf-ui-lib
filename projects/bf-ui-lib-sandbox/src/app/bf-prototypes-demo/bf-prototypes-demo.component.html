@@ -30,6 +30,10 @@
     <div class="col-7">Returns the index of the first object (if any) in the array that matches by .id. If not -1</div>
   </div>
   <div class="row">
+    <div class="col-5"><pre>Array.<span class="bold">getLast</span>(): T</pre></div>
+    <div class="col-7">Returns the last element of the array, or undefined if it's empty</div>
+  </div>
+  <div class="row">
     <div class="col-5"><pre>Array.<span class="bold">removeById</span>(id: string): T</pre></div>
     <div class="col-7">Removes the first object (if any) in the array that matches by .id. Returns the removed object or null if not found.</div>
   </div>
@@ -38,7 +42,7 @@
     <div class="col-7">Removes the first object (if any) in the array that matches by property / value. Returns the removed object or null if not found.</div>
   </div>
   <div class="row">
-    <div class="col-5"><pre>Array.<span class="bold">dCopy</span>(): {{arrayT}}</pre></div>
+    <div class="col-5"><pre>Array.<span class="bold">dCopy</span>(): Array{{'<' + 'T' + '>'}}</pre></div>
     <div class="col-7">Array clone - Makes an exact (deep) copy of the array, with no references, and returns it. Every item inside is deeply copied too.</div>
   </div>
 </div>
@@ -46,54 +50,83 @@
 
 <h5 class="marT20">Object functions</h5>
 <div class="col-12 examples-table">
-
   <div class="row">
-    <div class="col-5"><pre>Array.<span class="bold">getById</span>(id: string): T</pre></div>
-    <div class="col-7">Returns the first object (if any) in the array that matches by .id</div>
+    <div class="col-5"><pre>Object.<span class="bold">keyMap</span>(propNames: string): Partial{{'<' + 'T' + '>'}}</pre></div>
+    <div class="col-7">It returns the same object but only with the selected properties. Ex: user.keyMap('id, name');</div>
   </div>
   <div class="row">
-    <div class="col-5"><pre>Array.<span class="bold">getByProp</span>(property: string, value: any): T</pre></div>
-    <div class="col-7">Returns the first object (if any) in the array that matches the given property / value</div>
-  </div>
-  <div class="row">
-    <div class="col-5"><pre>Array.<span class="bold">getIndexById</span>(id: string): number</pre></div>
-    <div class="col-7">Returns the index of the first object (if any) in the array that matches by .id. If not -1</div>
-  </div>
-  <div class="row">
-    <div class="col-5"><pre>Array.<span class="bold">removeById</span>(id: string): T</pre></div>
-    <div class="col-7">Removes the first object (if any) in the array that matches by .id. Returns the removed object or null if not found.</div>
-  </div>
-  <div class="row">
-    <div class="col-5"><pre>Array.<span class="bold">removeByProp</span>(property: string, value: any): T</pre></div>
-    <div class="col-7">Removes the first object (if any) in the array that matches by property / value. Returns the removed object or null if not found.</div>
-  </div>
-  <div class="row">
-    <div class="col-5"><pre>Array.<span class="bold">dCopy</span>(): {{arrayT}}</pre></div>
-    <div class="col-7">Array clone - Makes an exact (deep) copy of the array, with no references, and returns it. Every item inside is deeply copied too.</div>
+    <div class="col-5"><pre>Object.<span class="bold">dCopy</span>(): T</pre></div>
+    <div class="col-7">Object clone - Makes an exact (deep) copy of the object, with no references, and returns it. Every item inside is deeply copied too.</div>
   </div>
 </div>
 <hr>
 
 
-
-
-<h5 class="mt-4">Examples:</h5>
+<h5 class="marT20">Number functions</h5>
 <div class="col-12 examples-table">
-  
   <div class="row">
-    <div class="col-5">
-    </div>
-    <div class="col-7"> <pre>{{instance}}</pre> </div>
+    <div class="col-5"><pre>Number.<span class="bold">isIn</span>(list: Array{{'<' + 'number' + '>'}}): boolean</pre></div>
+    <div class="col-7">Returns true if there is any instance of the current number into the list</div>
   </div>
-  
+</div>
+<hr>
+
+<h5 class="marT20">String functions</h5>
+<div class="col-12 examples-table">
   <div class="row">
-    <div class="col-5">
-    </div>
-    <div class="col-7"> <pre>{{instance2}}</pre> </div>
+    <div class="col-5"><pre>String.<span class="bold">isIn</span>(list: Array{{'<' + 'string' + '>'}}): boolean</pre></div>
+    <div class="col-7">Returns true if there is any instance of the current string into the list</div>
+  </div>
+</div>
+<hr>
+
+<h5 class="marT20">Date functions</h5>
+<div class="col-12 examples-table">
+  <div class="row">
+    <div class="col-5"><pre>Date.<span class="bold">toUTC</span>()</pre></div>
+    <div class="col-7">Converts the time, whatever its timezone is, to its UTC equivalent. It preserves the same JS timezone</div>
+  </div>
+
+  <div class="row">
+    <div class="col-5"><pre>Date.<span class="bold">truncMin</span>()</pre></div>
+    <div class="col-7">Truncate the current date to minutes</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Date.<span class="bold">truncHour</span>()</pre></div>
+    <div class="col-7">Truncate the current date to hours</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Date.<span class="bold">truncDay</span>()</pre></div>
+    <div class="col-7">Truncate the current date to days</div>
+  </div>
+
+  <div class="row">
+    <div class="col-5"><pre>Date.<span class="bold">addSeconds</span>(seconds: numbers)</pre></div>
+    <div class="col-7">Add seconds to the current date</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Date.<span class="bold">addMinutes</span>(minutes: numbers)</pre></div>
+    <div class="col-7">Add minutes to the current date</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Date.<span class="bold">addHours</span>(hours: numbers)</pre></div>
+    <div class="col-7">Add hours to the current date</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Date.<span class="bold">addDays</span>(days: numbers)</pre></div>
+    <div class="col-7">Add days to the current date</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Date.<span class="bold">addMonths</span>(months: numbers)</pre></div>
+    <div class="col-7">Add months to the current date</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Date.<span class="bold">addYears</span>(years: numbers)</pre></div>
+    <div class="col-7">Add years to the current date</div>
   </div>
 
 </div>
-
+<hr>
 
 
 <div class="row marT40">
@@ -101,7 +134,7 @@
     <hr>
     <h4>Import</h4>
     <p>An index js module is provided with an init function BfPrototypes.<br/>
-That function can be called to extend all listed prototypes (if no parameters), or can be also called passing
+That function can be called to extend all listed prototypes (if no parameters), or can be also called passing<br/>
 the list of functions that we want to extend. That list is composed by strings that contain 2 values
 (type and function name) separated by a '.'
     </p>

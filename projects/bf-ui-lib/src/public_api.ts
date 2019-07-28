@@ -5,6 +5,7 @@
 export * from './lib/bf-ui-lib.service';
 export * from './lib/bf-ui-lib.module';
 export * from './lib/abstract-translate.service';
+export * from './lib/bf-prototypes/bf-prototypes';
 
 export * from './lib/bf-growl.module';
 export * from './lib/bf-growl/bf-growl.service';
@@ -24,4 +25,3 @@ export * from './lib/bf-textarea/bf-textarea.component';
 export * from './lib/bf-radio/bf-radio.component';
 export * from './lib/bf-date-picker/bf-date-picker.component';
 export * from './lib/bf-list-paginator/bf-list-paginator.component';
-export * from './lib/bf-prototypes/bf-prototypes.component';

@@ -1,24 +1,55 @@
 import { Component, OnInit } from '@angular/core';
-
-console.log('before import');
-// import { runFn } from 'projects/bf-ui-lib/src/lib/bf-prototypes/array.get-by-prop';
+import BfArray from 'projects/bf-ui-lib/src/lib/bf-prototypes/array.prototypes';
 import BfPrototypes from 'projects/bf-ui-lib/src/lib/bf-prototypes/bf-prototypes';
 
 BfPrototypes();
 // BfPrototypes(['Array.getById']);
 // BfPrototypes(['Array.getByProp']);
-
-const a = 3;
-
-const list = [{id:'1'}, {id:'2'}, {id:'3'}, {id:'4'}, [1,3,5, [9, 1, 2]]];
-// console.log('RES', list.getById('3'));
-// console.log('RES', list.getByProp('id', 3));
-// console.log('RES', list.getIndexById('1'));
+// const list = [{id:'1'}, {id:'2'}, {id:'3'}, {id:'4'}];
+// console.log(BfArray.getByProp.call(list, 'id', '3'));
+// const list = [{id:'1'}, {id:'2'}, {id:'3'}, {id:'4'}, [1,3,5, [9, 1, 2]]];
+// console.log('RES', list.getById('33'));
+// console.log('RES', list.getByProp('id', '3'));
+// console.log('RES', list.getIndexById('3'));
 // console.log('RES', list.removeById('2'), list);
-const list2 = list.dCopy();
-list[4][0] = '99999';
-list[4][3][1] = '99999';
-console.log(list, list2);
+// const list2 = list.dCopy();
+// list[4][0] = '99999';
+// list[4][3][1] = '99999';
+// console.log(list, list2);
+// console.log('LAST', list.getLast());
+
+// const myObj2 = { id: 2, name: 'Max', age: 12 };
+// const myObj1 = { id: 1, name: 'Sam', age: 10, isValid: true, dad: myObj2, list };
+// console.log(myObj1.keyMap('id, name'));
+// console.log(myObj1.keyMap('id, age, isValid'));
+
+// const myObj3 = myObj1.dCopy();
+// myObj1.name = 'Tom';
+// myObj1.dad.name = 'Lu';
+// myObj1.list[1].id = 'changed';
+// myObj1.list[2] = { id : '99999' };
+// console.log(myObj1, myObj3);
+// const myVal = 43;
+// console.log(myVal.isIn([1,2,3,4,5,6]));
+// const val = 'one2';
+// console.log(val.isIn(['one','two','three','four']));
+
+// let myDate = new Date();
+// console.log('MyDate', myDate);
+// console.log('to UTC', myDate.toUTC());
+// console.log('Trunc min', myDate.truncMin());
+// console.log('Trunc h', myDate.truncHour());
+// console.log('Trunc d', myDate.truncDay());
+// console.log('+ 20 sec', myDate.addSeconds(20));
+// console.log('+ 21 min', myDate.addMinutes(21));
+// console.log('+ 3 hour', myDate.addHours(3));
+// console.log('+ 2 days', myDate.addDays(2));
+// console.log('+ 3 months', myDate.addMonths(3));
+// console.log('+ 4 years', myDate.addYears(-1).addDays(1));
+
+
+
+
 
 @Component({
   selector: 'app-bf-prototypes-demo]',
@@ -47,23 +78,26 @@ $invalid_input_color  : $warning_color;
 }`;
 
 
-  public example1 =
-`    const myArray = [{ id: '1' }, { id: '2' }, { id: '3' }];
-    const item = myArray.getById('3');`;
-  public example2 =
-`    const myArray = [{ id: '1' }, { id: '2' }, { id: '3' }];
-    const item = BfArray.getById(myArray, '3');`;
+  public example1 = `  import BfPrototypes from 'bf-ui-lib/bf-prototypes/bf-prototypes';
+  BfPrototypes();
+  
+  const myArray = [{ id: '1' }, { id: '2' }, { id: '3' }];
+  const item = myArray.getById('3');`;
+
+
+  public example2 = `  import BfArray from 'bf-ui-lib/bf-prototypes/array.prototypes';
+    
+  const myArray = [{ id: '1' }, { id: '2' }, { id: '3' }];
+  const item = BfArray.getById.call(myArray, '3');`;
+
   public arrayT = `Array<T>`;
-  public example3 = `import BfPrototypes from 'projects/bf-ui-lib/src/lib/bf-prototypes/bf-prototypes';
+  public partialT = `Partial<T>`;
+  public example3 = `import BfPrototypes from 'bf-ui-lib/bf-prototypes/bf-prototypes';
   
 BfPrototypes(); // This will define all prototypes`;
 
   public example4 = `// This will define prototypes for only 3 functions
-BfPrototypes([
-  'Array.getById',
-  'Array.getByProp',
-  'Object.dCopy'
-]);`;
+BfPrototypes(['Array.getById', 'Array.getByProp', 'Object.dCopy']);`;
 
 
 
