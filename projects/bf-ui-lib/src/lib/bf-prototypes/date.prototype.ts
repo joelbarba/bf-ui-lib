@@ -1,3 +1,5 @@
+import {noUndefined} from "@angular/compiler/src/util";
+
 declare global {
   interface Date {
     toUTC(): Date;
@@ -10,6 +12,7 @@ declare global {
     addDays(days: number): Date;
     addMonths(months: number): Date;
     addYears(years: number): Date;
+    convertTZ(desTZ?: string): Date;
   }
 }
 
@@ -32,24 +35,19 @@ BfDate.toUTC = function() {
 
 /**
  * @function convertTZ
- * @description Convert the time from one timezone to another
- * @example dateVar.convertTZ(BfTime.sysTimezone(), 'America/New_York')
+ * @description Convert a JS time from your current timezone to another timezone. Timezone standard list: https://www.iana.org/time-zones
+ *              The object returned is a JS date with the time at the specified timezone, still represented in the current timezone.
+ * @example dateVar.convertTZ('America/New_York')
  */
-// TODO: Implement it (without moment)
-// BfDate.convertTZ = function(oriTZ, desTZ?) {
-//   return BfTime.convertDateTZ(this, oriTZ, desTZ);
-// };
-// BfTime.convertDateTZ = (oriDate, oriTZ, desTZ?) => {
-//   var strOriDate = BfTime.JStoAPITime(oriDate);       // Convert to string "YYYY-MM-DD HH:mm:ss"
-//   var oriMomentDate = moment.tz(strOriDate, oriTZ);   // Convert to a moment date on original timezone
-//
-//   if (!!desTZ) {
-//     return new Date(oriMomentDate.tz(desTZ).format('YYYY-MM-DD HH:mm:ss'));
-//   } else {
-//     return new Date(oriMomentDate.tz('UTC').format('YYYY-MM-DD HH:mm:ss'));
-//   }
-// };
-
+BfDate.convertTZ = function(desTZ = 'Europe/Dublin'): Date {
+  if (!!this && this instanceof Date) {
+    const timeStr = this.toLocaleString('default', { timeZone: desTZ });
+    const transfDate = new Date(timeStr);
+    this.setTime(transfDate);
+    return this;
+  }
+  return undefined;
+};
 
 /**
  * @function truncMin
