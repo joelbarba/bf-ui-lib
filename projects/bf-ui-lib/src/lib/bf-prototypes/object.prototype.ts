@@ -5,6 +5,7 @@ declare global {
   interface Object {
     keyMap(propNames: string): Object;
     dCopy(): Object;
+    cloneProp(propName: string, fromObject: Object): Object;
   }
 }
 
@@ -28,6 +29,30 @@ BfObject.keyMap = function(propNames: string) {
     });
   }
   return newObj;
+};
+
+
+/**
+ * @ngdoc Object.prototype
+ * @name cloneProp
+ * @description Clones a property from an other object to itself.
+ *              If that value is null / undefined, or not found on the other object, it deletes the property of the object.
+ * @param propName       ? String - Name of the property to copy
+ * @param fromObject     ? Object - Object from where to copy to property
+ * @example
+ *      var myObj1 = { age: 10 };
+ *      myObj1.copyStrict('name', { name: 'Sam' });  // --> Adds myObj.name = 'Sam'
+ *      myObj1.copyStrict('age', { name: 'Sam' });   // --> Deletes myObj.age
+ */
+BfObject.cloneProp = function(propName: string, fromObject: Object) {
+  if (!!propName) {
+    if (!!fromObject && fromObject.hasOwnProperty(propName) && fromObject[propName] !== null && fromObject[propName] !== undefined) {
+      this[propName] = fromObject[propName];
+    } else {
+      delete this[propName];
+    }
+  }
+  return this;
 };
 
 

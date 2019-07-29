@@ -50,6 +50,14 @@ BfPrototypes();
 // let val = '32';
 // console.log(val.pad(5));
 // console.log(val.pad(val.length, '*', 10));
+// let myObj = { name: 'Tom', age: 20, pass: '3' };
+// console.log(myObj);
+// myObj.cloneProp('ini', { ini: false });
+// console.log(myObj);
+// myObj.cloneProp('age', { age: 30 });
+// console.log(myObj);
+// myObj.cloneProp('pass', { age: 30 });
+// console.log(myObj);
 
 
 

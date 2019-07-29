@@ -55,6 +55,11 @@
     <div class="col-7">It returns the same object but only with the selected properties. Ex: user.keyMap('id, name');</div>
   </div>
   <div class="row">
+    <div class="col-5"><pre>Object.<span class="bold">cloneProp</span>(propName: string, fromObj: Object): T</pre></div>
+    <div class="col-7">Clones a property from an other object to itself. If that value is null / undefined, or not found on the other object,
+      it deletes the property of the object. So after that both objects have exactly the same (property presence & value)</div>
+  </div>
+  <div class="row">
     <div class="col-5"><pre>Object.<span class="bold">dCopy</span>(): T</pre></div>
     <div class="col-7">Object clone - Makes an exact (deep) copy of the object, with no references, and returns it. Every item inside is deeply copied too.</div>
   </div>
