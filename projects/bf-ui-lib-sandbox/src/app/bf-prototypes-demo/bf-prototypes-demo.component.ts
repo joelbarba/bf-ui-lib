@@ -3,15 +3,16 @@ import BfArray from 'projects/bf-ui-lib/src/lib/bf-prototypes/array.prototypes';
 import { BfPrototypes } from 'projects/bf-ui-lib/src/lib/bf-prototypes/bf-prototypes';
 
 BfPrototypes();
+
 // BfPrototypes(['Array.getById']);
 // BfPrototypes(['Array.getByProp']);
 // const list = [{id:'1'}, {id:'2'}, {id:'3'}, {id:'4'}];
 // console.log(BfArray.getByProp.call(list, 'id', '3'));
-const list = [{id:'1'}, {id:'2'}, {id:'3'}, {id:'4'}, [1,3,5, [9, 1, 2]]];
+// const list = [{id:'1'}, {id:'2'}, {id:'3'}, {id:'4'}, [1,3,5, [9, 1, 2]]];
 // console.log('RES', list.getById('33'));
 // console.log('RES', list.getByProp('id', '3'));
 // console.log('RES', list.getIndexById('3'));
-console.log('RES', list.removeById('23'), list);
+// console.log('RES', list.removeById('23'), list);
 // const list2 = list.dCopy();
 // list[4][0] = '99999';
 // list[4][3][1] = '99999';
@@ -46,7 +47,9 @@ console.log('RES', list.removeById('23'), list);
 // console.log('+ 2 days', myDate.addDays(2));
 // console.log('+ 3 months', myDate.addMonths(3));
 // console.log('+ 4 years', myDate.addYears(-1).addDays(1));
-
+// let val = '32';
+// console.log(val.pad(5));
+// console.log(val.pad(val.length, '*', 10));
 
 
 
