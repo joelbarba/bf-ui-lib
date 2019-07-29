@@ -58,11 +58,11 @@ BfPrototypes();
 // console.log(myObj);
 // myObj.cloneProp('pass', { age: 30 });
 // console.log(myObj);
-const a = new Date();
-console.log(a);
-a.convertTZ('America/New_York'); console.log(a);
-a.convertTZ('Europe/Dublin'); console.log(a);
-console.log(new Date().convertTZ('Europe/Berlin'));
+// const a = new Date();
+// console.log(a);
+// a.convertTZ('America/New_York'); console.log(a);
+// a.convertTZ('Europe/Dublin'); console.log(a);
+// console.log(new Date().convertTZ('Europe/Berlin'));
 
 
 
