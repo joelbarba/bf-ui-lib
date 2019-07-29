@@ -67,7 +67,12 @@ BfArray.getLast = function() {
  * @description removes the first object (if any) in the array that matches by .id
  * */
 BfArray.removeById = function(id: any) {
-  return BfArray.removeByProp.call(this, 'id', id);
+  const index = this.findIndex(item => item['id'] === id);
+  if (index >= 0) {
+    return this.splice(index, 1);
+  } else {
+    return undefined;
+  }
 };
 
 /**
@@ -78,9 +83,8 @@ BfArray.removeById = function(id: any) {
  * @description removes the first object (if any) in the array that matches by property / value
  * */
 BfArray.removeByProp = function(property: string, value: any) {
-  let selectedItem = BfArray.getByProp.call(this, property, value);
-  if (!!selectedItem) {
-    let index = this.indexOf(selectedItem);
+  const index = this.findIndex(item => item[property] === value);
+  if (index >= 0) {
     return this.splice(index, 1);
   } else {
     return undefined;

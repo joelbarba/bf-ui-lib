@@ -6,13 +6,12 @@ import BfDate from "./date.prototype";
 
 
 const BfPrototypes = (list?: Array<string>) => {
-  console.log('Running loadPrototypes');
-  // Array.prototype.getById = BfArray.getById;
+  // console.log('Extending bf-ui-lib prototypes');
 
   // Extend Array prototype
   for (let proFnName in BfArray) {
     if (BfArray.hasOwnProperty(proFnName) && isFnInList(proFnName, 'Array')) {
-      console.log(`Extending Array prototype with --> .${proFnName}()`);
+      // console.log(`Extending Array prototype with --> .${proFnName}()`);
       Array.prototype[proFnName] = BfArray[proFnName];
     }
   }
@@ -20,15 +19,18 @@ const BfPrototypes = (list?: Array<string>) => {
   // Extend Object prototype
   for (let proFnName in BfObject) {
     if (BfObject.hasOwnProperty(proFnName) && isFnInList(proFnName, 'Object')) {
-      console.log(`Extending Object prototype with --> .${proFnName}()`);
-      Object.prototype[proFnName] = BfObject[proFnName];
+      // console.log(`Extending Object prototype with --> .${proFnName}()`);
+      Object.defineProperty(Object.prototype, proFnName, {
+        value: BfObject[proFnName],
+        enumerable: false
+      });
     }
   }
 
   // Extend Number prototype
   for (let proFnName in BfNumber) {
     if (BfNumber.hasOwnProperty(proFnName) && isFnInList(proFnName, 'Number')) {
-      console.log(`Extending Number prototype with --> .${proFnName}()`);
+      // console.log(`Extending Number prototype with --> .${proFnName}()`);
       Number.prototype[proFnName] = BfNumber[proFnName];
     }
   }
@@ -36,7 +38,7 @@ const BfPrototypes = (list?: Array<string>) => {
   // Extend String prototype
   for (let proFnName in BfString) {
     if (BfString.hasOwnProperty(proFnName) && isFnInList(proFnName, 'String')) {
-      console.log(`Extending String prototype with --> .${proFnName}()`);
+      // console.log(`Extending String prototype with --> .${proFnName}()`);
       String.prototype[proFnName] = BfString[proFnName];
     }
   }
@@ -44,7 +46,7 @@ const BfPrototypes = (list?: Array<string>) => {
   // Extend Date prototype
   for (let proFnName in BfDate) {
     if (BfDate.hasOwnProperty(proFnName) && isFnInList(proFnName, 'Date')) {
-      console.log(`Extending Date prototype with --> .${proFnName}()`);
+      // console.log(`Extending Date prototype with --> .${proFnName}()`);
       Date.prototype[proFnName] = BfDate[proFnName];
     }
   }
@@ -58,4 +60,4 @@ const BfPrototypes = (list?: Array<string>) => {
     }).length;
   }
 };
-export default BfPrototypes;
+export { BfPrototypes };

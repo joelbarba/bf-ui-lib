@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, forwardRef } from '@angular/core';
 import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import BfObject from "../bf-prototypes/object.prototype";
+import BfArray from "../bf-prototypes/array.prototypes";
 
 
 /*
@@ -202,7 +203,7 @@ export class BfDropdownComponent implements ControlValueAccessor {
     // Extend the input list adding $index and $renderedText
     if (!!changes.bfList) {
       if (!!this.bfList && Array.isArray(this.bfList)) {
-        this.extList = BfObject.dCopy.call(this.bfList);
+        this.extList = BfArray.dCopy.call(this.bfList);
       } else {
         this.extList = [];
       }
