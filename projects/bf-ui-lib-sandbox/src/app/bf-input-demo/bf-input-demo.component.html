@@ -32,15 +32,18 @@
                   [bfTooltipBody]="compConf.inputTooltipBody"
                   [bfDisabledTip]="compConf.inputDisabledTip"
 
+                  [bfLeftBtnText]="(compConf.hasLeftBtnText ? compConf.leftBtnText : '')"
+                  [bfLeftBtnIcon]="(compConf.hasLeftBtn ? compConf.leftBtnIcon : '')"
+                  (bfLeftBtnClick)="addonClick('Left addon button click')"
+
+                  [bfRightBtnText]="(compConf.hasRightBtnText ? compConf.rightBtnText : '')"
+                  [bfRightBtnIcon]="(compConf.hasRightBtn ? compConf.rightBtnIcon : '')"
+                  (bfRightBtnClick)="addonClick('Right addon button click')"
         ></bf-input>
-        <!--<bf-btn (bfClick)="customBtnFunc()"-->
-        <!--        [class.full-width]="compConf.hasFullWidth"-->
-        <!--        [class.squash]="compConf.hasSquash"-->
-        <!--        [bfIconPos]="compConf.hasIconLeft ? 'left' : 'right'"-->
-        <!--        [bfDisabledTip]="compConf.btnDisabledTip">-->
-        <!--</bf-btn>-->
       </div>
-      <!--<div class="padT10">{{res}}</div>-->
+
+      <div>{{clickMsg}}</div>
+
       <div class="padT15">
         <div class="code-box pad15">
           <pre>{{customCompCode}}</pre>
@@ -50,25 +53,28 @@
 
     <div class="col-7">
 
+      <!--Label-->
       <div class="row">
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasLabel" (ngModelChange)="upComp()" bfLabel="Has Label"></bf-checkbox> </div>
         <div class="col-9" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasLabel"></bf-input> </div>
       </div>
 
+      <!--Placeholder-->
       <div class="row">
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasPlaceholder" (ngModelChange)="upComp()" bfLabel="Placeholder"></bf-checkbox> </div>
         <div class="col-9" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.placeholderText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasPlaceholder"></bf-input> </div>
       </div>
 
+      <!--Required + Type-->
       <div class="row marT5">
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>
-
         <div class="col-6">
           <bf-dropdown [(ngModel)]="compConf.inputType" (ngModelChange)="upComp()" [bfList]="inputTypes" bfRender="text" bfSelect="id" [bfRequired]="true"> </bf-dropdown>
           <bf-label bfValue="Input Type" class="value-inline"></bf-label>
         </div>
       </div>
 
+      <!--Disabled-->
       <div class="row marT15">
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>
         <div class="col-9">
@@ -76,11 +82,13 @@
         </div>
       </div>
 
+      <!--Icon-->
       <div class="row marT15">
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasIcon" (ngModelChange)="upComp()" bfLabel="Has Icon"></bf-checkbox> </div>
         <div class="col-9" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.inputIcon" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasIcon"></bf-input> </div>
       </div>
 
+      <!--Tooltip-->
       <div class="row marT5">
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox> </div>
         <div class="col-9" *ngIf="compConf.hasTooltip">
@@ -92,6 +100,32 @@
         </div>
         <div class="col-4" *ngIf="compConf.hasTooltip">
           bfTooltipBody: <bf-dropdown [(ngModel)]="compConf.inputTooltipBody" (ngModelChange)="upComp()" [bfList]="tooltipBodyList" bfRender="text" bfSelect="id"> </bf-dropdown>
+        </div>
+      </div>
+
+
+      <!--Addon Buttons-->
+      <div class="row marT25">
+        <div class="col-2">
+          <bf-checkbox [(ngModel)]="compConf.hasLeftBtn" (ngModelChange)="upComp()" bfLabel="Left Btn Icon"></bf-checkbox>
+          <bf-input *ngIf="compConf.hasLeftBtn" [(ngModel)]="compConf.leftBtnIcon" (ngModelChange)="upComp()" bfPlaceholder="left addon icon"></bf-input>
+        </div>
+        <div class="col-3">
+          <bf-checkbox [(ngModel)]="compConf.hasLeftBtnText" (ngModelChange)="upComp()" bfLabel="Left Btn Text"></bf-checkbox>
+          <bf-input *ngIf="compConf.hasLeftBtnText" [(ngModel)]="compConf.leftBtnText" (ngModelChange)="upComp()" bfPlaceholder="left addon text"></bf-input>
+        </div>
+        <div class="col-2">
+          <bf-checkbox [(ngModel)]="compConf.hasRightBtn" (ngModelChange)="upComp()" bfLabel="Right B. Icon"></bf-checkbox>
+          <bf-input *ngIf="compConf.hasRightBtn" [(ngModel)]="compConf.rightBtnIcon" (ngModelChange)="upComp()" bfPlaceholder="right addon icon"></bf-input>
+        </div>
+        <div class="col-3">
+          <bf-checkbox [(ngModel)]="compConf.hasRightBtnText" (ngModelChange)="upComp()" bfLabel="Right Btn Text"></bf-checkbox>
+          <bf-input *ngIf="compConf.hasRightBtnText" [(ngModel)]="compConf.rightBtnText" (ngModelChange)="upComp()" bfPlaceholder="right addon text"></bf-input>
+        </div>
+        <div class="col-1">
+          <bf-checkbox [(ngModel)]="compConf.hasBtnListener" (ngModelChange)="upComp()" bfLabel="onClick()"
+                       *ngIf="compConf.hasLeftBtnText || compConf.hasLeftBtn || compConf.hasRightBtnText || compConf.hasRightBtn">
+          </bf-checkbox>
         </div>
       </div>
 

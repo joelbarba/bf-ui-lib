@@ -191,12 +191,38 @@ $disabled_input_color : #797979;
     border-color: $required_input_color;
     &:focus { border-color: $focused_input_color; }
   }
+
+  label { transition-property: color; transition-duration: 0.2s; }
+  &.is-focus label { color: $focused_input_color; }
+
   &.is-error {
     label { color: $invalid_input_color; }
     input.form-control { border-color: $invalid_input_color; }
     input.form-control:focus { border-color: $invalid_input_color; }
     .bf-input-error-text { color: $invalid_input_color; }
   }
+
+  // Addon buttons
+  .btn.btn-outline-secondary {
+    border-color: $valid_input_color;
+    background: $valid_input_color;
+    color: $white;
+    //transition-property: none;
+    &:active:not(.disabled) {
+      //  box-shadow: inset 2px 2px 5px rgba(34, 36, 38, 0.4);
+      border-color: $valid_input_color;
+      background: $valid_input_color;
+    }
+  }
+  &.is-focus .btn.btn-outline-secondary {
+    border-color: $focused_input_color;
+    background: $focused_input_color;
+  }
+  &.is-error .btn.btn-outline-secondary, &.is-error .btn.btn-outline-secondary:active {
+    border-color: $invalid_input_color;
+    background: $invalid_input_color;
+  }
+
 
   input.form-control:focus { box-shadow: none; }  // Remove it from Bootstrap
 }

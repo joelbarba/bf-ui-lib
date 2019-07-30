@@ -41,13 +41,18 @@ export class BfInputComponent implements ControlValueAccessor {
   @Input() bfTooltipBody : boolean = true;
   @Input() bfDisabledTip : string;   // Label for the text of the tooltip to display when the input is disabled
 
-  @Input() bfIcon: string = '';    // Icon to show into the input floating at the right hand side (this is replace by bfValidIcon and bfInvalidIcon)
   // @Input() bfName: string = '';    // The name attribute specifies the name of an <input> element
-
-
+  @Input() bfIcon: string = '';     // Icon to show into the input floating at the right hand side (this is replace by bfValidIcon and bfInvalidIcon)
+  @Input() bfLeftBtnIcon: string;   // Icon to show into a button on the left of the input (prepend addon https://getbootstrap.com/docs/4.3/components/input-group/#button-addons)
+  @Input() bfRightBtnIcon: string;  // Icon to show into a button on the right of the input (append addon)
+  @Input() bfLeftBtnText: string;   // Text to show into a button on the left of the input (prepend addon)
+  @Input() bfRightBtnText: string;  // Text to show into a button on the left of the input (append addon)
 
   @Input() bfErrorPos: string = 'top-right';  // top-right, bottom-left, bottom-right
 
+
+  @Output() bfLeftBtnClick = new EventEmitter<any>();   // Emitter for left addon button
+  @Output() bfRightBtnClick = new EventEmitter<any>();  // Emitter for right addon button
 
 /*
 
@@ -91,6 +96,7 @@ export class BfInputComponent implements ControlValueAccessor {
   public errorText: string = 'Invalid value';
   public bfValidIcon: string = 'icon-checkmark4';
   public bfInvalidIcon: string = 'icon-warning22';
+  public isFocus = false; // Whether the focus is on the input
 
   @ViewChild('ngInputRef') ngInputRef: ElementRef;
   public inputCtrl:FormControl; // <-- ngInputRef.control

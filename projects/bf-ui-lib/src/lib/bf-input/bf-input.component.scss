@@ -41,6 +41,24 @@
     &:focus { outline: 0; }
   }
 
+  .input-wrapper {
+    .input-group-prepend, .input-group-append {
+      .btn.btn-outline-secondary {
+        font-size: 14px;
+        padding: 0;
+        min-width: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        div { padding: 0 7.5px; }
+        &:focus { box-shadow: none; }
+        //&:active:not(.disabled) {
+        //  box-shadow: inset 2px 2px 5px rgba(34, 36, 38, 0.4);
+        //}
+      }
+    }
+  }
+
   &.is-disabled input.form-control {
     cursor: not-allowed;
   }
