@@ -13,7 +13,12 @@ label {
 }
 
 
-// Styles applied to the host (wrapper instance element) <bf-input>
+// Styles applied to the host (wrapper instance element) <bf-label>
+:host.no-bold { label { font-weight: normal; } }
+:host.no-colon { .the-colon { display: none; } }
+:host.colon { .the-colon { display: inline !important; } }
+
+// Styles applied to the host (wrapper instance element) <bf-label>
 :host.value-inline {
   .label-value {
     display: inline-block;
@@ -21,7 +26,7 @@ label {
   }
 }
 
-// Styles applied to the host (wrapper instance element) <bf-input>
+// Styles applied to the host (wrapper instance element) <bf-label>
 :host.value-list, :host[class*="value-list-"] {
   display: flex;
   label {
