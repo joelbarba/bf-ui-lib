@@ -5,6 +5,7 @@ import { AbstractTranslateService } from '../abstract-translate.service';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import * as Rx from 'rxjs';
 import * as RxOp from 'rxjs/operators';
+import {Observable, of} from "rxjs";
 
 @Component({
   selector: 'bf-input',
@@ -28,36 +29,38 @@ export class BfInputComponent implements ControlValueAccessor {
 
   public bfModel: string; // Internal to hold the linked ngModel on the wrapper
 
-  @Input() bfLabel: string = '';
-  @Input() bfRequired: boolean = false;
-  @Input() bfDisabled: boolean = false;
-  @Input() bfPlaceholder: string = '';
+  @Input() bfLabel: string = '';          // Text for the label above the input. Translation applied.
+  @Input() bfRequired: boolean = false;   // It adds the required validator to the ngModel (input), meaning that the required field styles will be applied on the label and input.
+  @Input() bfDisabled: boolean = false;   // True=Input disabled. False=Input enabled.
+  @Input() bfPlaceholder: string = '';    // It adds a placeholder text onto the input. Translation applied.
+
+  @Input() bfType: 'text' | 'number' | 'email' | 'password' = 'text';  // Set a type on the input (text by default)
 
   @Input() bfTooltip    : string = '';
-  @Input() bfTooltipPos : string = 'top';
+  @Input() bfTooltipPos : string = 'top';     // If tooltip on the label, specific position (top by default)
   @Input() bfTooltipBody : boolean = true;
+  @Input() bfDisabledTip : string;   // Label for the text of the tooltip to display when the input is disabled
+
+  @Input() bfIcon: string = '';    // Icon to show into the input floating at the right hand side (this is replace by bfValidIcon and bfInvalidIcon)
+  // @Input() bfName: string = '';    // The name attribute specifies the name of an <input> element
 
 
 
-  @Input() bfType: string = 'text';
-  @Input() bfIcon: string = '';
   @Input() bfErrorPos: string = 'top-right';  // top-right, bottom-left, bottom-right
 
 
 /*
-      bfTooltipPos      : '@?',     // If tooltip on the label, specific position (top by default)
+
       bfPattern         : '@?',     // Bool expr to define ngPattern
       bfValidType       : '@?',     // Predefined ngPatterns. "decimal" -> Any number. "email" -> Email. If present it overrides bfPattern
-      bfName            : "@?",     // The name attribute specifies the name of an <input> element
-      bfType            : "@?",     // Set a type on the input (text by default)
       bfMinlength       : '=?',     // Min number of chars. To bind to ngMinlength
       bfMaxlength       : '=?',     // Max number of chars. To bind to ngMinlength
       bfBlockMax        : '=?',     // Max length blocking. Adds a maxlength instead of ngMaxlength
+
       bfErrorText       : '@?',     // Custom error text to display when invalid value
       bfErrorPos        : '@?',     // Custom position where to display the error text.
       bfLabelCol        : '@?',     // It sets an horizontal layout. Cols of the label (input is 12-label)
       bfErrorOnPristine : '=?',     // Boolean. True means that errors will be shown in pristine state too. (false by default)
-      bfIcon            : '@?',     // Icon to show into the input floating at the right hand side (this is replace by bfValidIcon and bfInvalidIcon)
       bfValidIcon       : '@?',     // Icon to show when the value is dirty and valid (by default icon-checkmark4)
       bfInvalidIcon     : '@?',     // Icon to show when the value is dirty and invalid (by default icon-warning22)
 
@@ -78,9 +81,10 @@ export class BfInputComponent implements ControlValueAccessor {
 
   public status : string = 'pristine';      // pristine, valid, error, loading
 
-  public bfLabelTrans: string = '';         // Translated text for the label
-  public bfTooltipTrans: string = '';       // Translated text for the tooltip of the label
-  public bfPlaceholderTrans: string = '';   // Translated text for the placeholder of the input
+  public bfLabelTrans$: Observable<string> = of('');         // Translated text for the label
+  public bfTooltipTrans$: Observable<string> = of('');       // Translated text for the tooltip of the label
+  public bfPlaceholderTrans$: Observable<string> = of('');   // Translated text for the placeholder of the input
+  public bfDisabledTipTrans$: Observable<string> = of('');   // Translated text for the disabled tooltip of the input
 
   public displayIcon: string = '';
   public errorPosition: string = 'top-right';
@@ -168,15 +172,19 @@ export class BfInputComponent implements ControlValueAccessor {
     //   this.inputCtrl.enable();
     // }
 
-    if (!!this.translate.doTranslate) {
-      if (!!change.bfLabel)       { this.bfLabelTrans = this.translate.doTranslate(this.bfLabel); }
-      if (!!change.bfTooltip)     { this.bfTooltipTrans = this.translate.doTranslate(this.bfTooltip); }
-      if (!!change.bfPlaceholder) { this.bfPlaceholderTrans = this.translate.doTranslate(this.bfPlaceholder); }
-    } else {
-      if (!!change.bfLabel)       { this.bfLabelTrans = this.bfLabel; }
-      if (!!change.bfTooltip)     { this.bfTooltipTrans = this.bfTooltip; }
-      if (!!change.bfPlaceholder) { this.bfPlaceholderTrans = this.bfPlaceholder; }
+    // Generate new observables for the dynamic text
+    if (change.hasOwnProperty('bfLabel'))        { this.bfLabelTrans$ = this.translate.getLabel$(this.bfLabel); }
+    if (change.hasOwnProperty('bfTooltip'))      { this.bfTooltipTrans$ = this.translate.getLabel$(this.bfTooltip); }
+    if (change.hasOwnProperty('bfPlaceholder'))  { this.bfPlaceholderTrans$ = this.translate.getLabel$(this.bfPlaceholder); }
+    if (change.hasOwnProperty('bfDisabledTip'))  { this.bfDisabledTipTrans$ = this.translate.getLabel$(this.bfDisabledTip); }
+
+    if (change.hasOwnProperty('bfType'))  {
+      if (this.bfType !== 'text' && this.bfType !== 'number' && this.bfType !== 'password' && this.bfType !== 'email') {
+        this.bfType = 'text';
+      }
     }
+
+
 
     this.displayIcon = this.bfIcon || '';
 

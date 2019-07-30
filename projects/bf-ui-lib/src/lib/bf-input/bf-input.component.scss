@@ -1,27 +1,7 @@
-$primary_color    : #00B6F1;
-$secondary_color  : #93C83E;
-$tertiary_color   : #ED0677;
-$quaternary_color : #004A64;
-$warning_color    : #ED0677;
-$extra_color      : #F17B3F;
-$white: #FFF;
-$disabled-color: #a0a0a0;
-
-$input-border: #ccc !default; // <-- this is a bootstrap default
-$optional_input_color : $input-border;
-$required_input_color : $primary_color;
-$invalid_input_color  : $warning_color;
-$valid_input_color    : $primary_color;
-$disabled_input_color : #797979;
-
 .bf-input-form-group {
   margin-bottom: 15px;
   position: relative; // Set it as a container for the internal relatives
 
-  // Icon into the input to add info or error alert
-  &.is-required .bf-input-inner-icon {
-    color: $required_input_color;
-  }
   .bf-input-inner-icon {
     position: absolute;
     display: block;
@@ -35,15 +15,11 @@ $disabled_input_color : #797979;
     font-size: 14px;
     text-align: center;
     pointer-events: none;
-    &.bf-icon-error { color: $invalid_input_color; }
-    &.bf-icon-valid { color: $valid_input_color; }
     &.bf-icon-loading {
-      color: $valid_input_color;
       -webkit-animation: spinAround 1000ms infinite linear;
       animation: spinAround 1000ms infinite linear;
     }
   }
-
 
   label {
     font-weight: 700;
@@ -62,55 +38,15 @@ $disabled_input_color : #797979;
   input.form-control {
     height: 34px;
     font-size: 14px;
-
-    // Placeholder color (https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder)
-    &::-webkit-input-placeholder { color: $optional_input_color; } /* WebKit, Blink, Edge */
-    &:-moz-placeholder           { color: $optional_input_color; opacity:  1; } /* Mozilla Firefox 4 to 18 */
-    &::-moz-placeholder          { color: $optional_input_color; opacity:  1; } /* Mozilla Firefox 19+ */
-    &:-ms-input-placeholder      { color: $optional_input_color; } /* Internet Explorer 10-11 */
-    &::-ms-input-placeholder     { color: $optional_input_color; } /* Microsoft Edge */
-    &::placeholder               { color: $optional_input_color; } /* Most modern browsers support this now. */
-
-
-
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-    border: 1px solid $optional_input_color;
-    &:focus {
-      outline: 0;
-      box-shadow: 0 0 0 2px rgba($optional_input_color, 0.35);
-    }
+    &:focus { outline: 0; }
   }
 
-  &.is-disabled {
-    input.form-control {
-      color: $disabled_input_color;
-      cursor: not-allowed;
-    }
-  }
-
-  &.is-required {
-    input.form-control {
-      border-color: $primary_color;
-      &:focus {
-        box-shadow: 0 0 0 2px rgba($primary_color, 0.20);
-      }
-    }
+  &.is-disabled input.form-control {
+    cursor: not-allowed;
   }
 
   &.is-error {
-    label {
-      color: $warning_color;
-    }
-    input.form-control {
-      border-color: $warning_color;
-      &:focus {
-        box-shadow: 0 0 0 2px rgba($warning_color, 0.20);
-      }
-    }
-
-    // Error message on the top right
-    .bf-input-error-text {
-      color: $invalid_input_color;
+    .bf-input-error-text {  // Error message
       font-size: 12px;
 
       // errorPosition:
@@ -132,9 +68,7 @@ $disabled_input_color : #797979;
     &.error-bottom-left, &.error-bottom-right {
       margin-bottom: 30px;
     }
-
   }
-
 }
 
 
@@ -146,45 +80,45 @@ $disabled_input_color : #797979;
 
 
 // --- Color layer override -----------------------------------------------------------------------------------
-$input-border: #ccc !default; // <-- this is a bootstrap default
-$optional_input_color : $input-border;
-$required_input_color : $primary_color;
-$invalid_input_color  : $warning_color;
-$valid_input_color    : $primary_color;
-$disabled_input_color : #797979;
+//$input-border: #ccc !default; // <-- this is a bootstrap default
+//$optional_input_color : $input-border;
+//$required_input_color : $primary_color;
+//$invalid_input_color  : $warning_color;
+//$valid_input_color    : $primary_color;
+//$disabled_input_color : #797979;
 
-.bf-input-form-group {
-  &.is-required .bf-input-inner-icon {
-    color: $required_input_color; // Icon into the input to add info or error alert
-  }
-  .bf-input-inner-icon {
-    &.bf-icon-error { color: $invalid_input_color; }
-    &.bf-icon-valid { color: $valid_input_color; }
-    &.bf-icon-loading { color: $valid_input_color; }
-  }
-  input.form-control { // Placeholder color (https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder)
-    &::-webkit-input-placeholder { color: $optional_input_color; } /* WebKit, Blink, Edge */
-    &:-moz-placeholder           { color: $optional_input_color; opacity:  1; } /* Mozilla Firefox 4 to 18 */
-    &::-moz-placeholder          { color: $optional_input_color; opacity:  1; } /* Mozilla Firefox 19+ */
-    &:-ms-input-placeholder      { color: $optional_input_color; } /* Internet Explorer 10-11 */
-    &::-ms-input-placeholder     { color: $optional_input_color; } /* Microsoft Edge */
-    &::placeholder               { color: $optional_input_color; } /* Most modern browsers support this now. */
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-    border: 1px solid $optional_input_color;
-    &:focus { box-shadow: 0 0 0 2px rgba($optional_input_color, 0.35); }
-  }
-  &.is-disabled input.form-control { color: $disabled_input_color; }
-  &.is-required  input.form-control {
-    border-color: $primary_color;
-    &:focus { box-shadow: 0 0 0 2px rgba($primary_color, 0.20); }
-  }
-  &.is-error {
-    label { color: $warning_color; }
-    input.form-control {
-      border-color: $warning_color;
-      &:focus { box-shadow: 0 0 0 2px rgba($warning_color, 0.20); }
-    }
-    .bf-input-error-text { color: $invalid_input_color; }
-  }
-}
+//.bf-input-form-group {
+//  &.is-required .bf-input-inner-icon {
+//    color: $required_input_color; // Icon into the input to add info or error alert
+//  }
+//  .bf-input-inner-icon {
+//    &.bf-icon-error { color: $invalid_input_color; }
+//    &.bf-icon-valid { color: $valid_input_color; }
+//    &.bf-icon-loading { color: $valid_input_color; }
+//  }
+//  input.form-control { // Placeholder color (https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder)
+//    &::-webkit-input-placeholder { color: $optional_input_color; } /* WebKit, Blink, Edge */
+//    &:-moz-placeholder           { color: $optional_input_color; opacity:  1; } /* Mozilla Firefox 4 to 18 */
+//    &::-moz-placeholder          { color: $optional_input_color; opacity:  1; } /* Mozilla Firefox 19+ */
+//    &:-ms-input-placeholder      { color: $optional_input_color; } /* Internet Explorer 10-11 */
+//    &::-ms-input-placeholder     { color: $optional_input_color; } /* Microsoft Edge */
+//    &::placeholder               { color: $optional_input_color; } /* Most modern browsers support this now. */
+//    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+//    border: 1px solid $optional_input_color;
+//    &:focus { box-shadow: 0 0 0 2px rgba($optional_input_color, 0.35); }
+//  }
+//  &.is-disabled input.form-control { color: $disabled_input_color; }
+//  &.is-required  input.form-control {
+//    border-color: $primary_color;
+//    &:focus { box-shadow: 0 0 0 2px rgba($primary_color, 0.20); }
+//  }
+//  &.is-error {
+//    label { color: $warning_color; }
+//    input.form-control {
+//      border-color: $warning_color;
+//      &:focus { box-shadow: 0 0 0 2px rgba($warning_color, 0.20); }
+//    }
+//    .bf-input-error-text { color: $invalid_input_color; }
+//  }
+//}
 
