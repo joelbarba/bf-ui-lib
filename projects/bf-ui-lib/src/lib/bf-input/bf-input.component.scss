@@ -87,6 +87,18 @@
       margin-bottom: 30px;
     }
   }
+
+
+  // Expose an animation when autofill is triggered, to be hooked up in JS through 'animationstart' event
+  @keyframes onAutoFillStart {
+    0%   { transform: translateX(0); }
+    50%  { transform: translateX(1px); }
+    100% { transform: translateX(0); }
+  }
+  .has-autofill-detection input:-webkit-autofill {
+    animation: onAutoFillStart 0.05s ease-in-out 0s;
+    transform: translateX(0);
+  }
 }
 
 

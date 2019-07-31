@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, Inject, forwardRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, Inject, forwardRef } from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
 import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import { AbstractTranslateService } from '../abstract-translate.service';
@@ -54,6 +54,8 @@ export class BfInputComponent implements ControlValueAccessor {
   @Output() bfLeftBtnClick = new EventEmitter<any>();   // Emitter for left addon button
   @Output() bfRightBtnClick = new EventEmitter<any>();  // Emitter for right addon button
 
+  @Output() bfOnAutofill = new EventEmitter<any>();     // Emitter when a browser autofill is detected
+
 /*
 
       bfPattern         : '@?',     // Bool expr to define ngPattern
@@ -97,14 +99,16 @@ export class BfInputComponent implements ControlValueAccessor {
   public bfValidIcon: string = 'icon-checkmark4';
   public bfInvalidIcon: string = 'icon-warning22';
   public isFocus = false; // Whether the focus is on the input
+  public hasAutofillDetection = false;  // Whether is has autofill detection (any parameter linked to bfOnAutofill)
 
   @ViewChild('ngInputRef') ngInputRef: ElementRef;
   public inputCtrl:FormControl; // <-- ngInputRef.control
 
   constructor(
     @Inject('TranslateService') private translate: AbstractTranslateService,
-    private config: NgbPopoverConfig) {
-  }
+    private config: NgbPopoverConfig,
+    private elementRef: ElementRef,
+  ) { }
 
 
   // ------- ControlValueAccessor -----
@@ -153,7 +157,8 @@ export class BfInputComponent implements ControlValueAccessor {
 
   // ------------------------------------
 
-  ngOnChanges(change) { // Translate bfText whenever it changes
+  ngOnChanges(change) {
+    // Translate bfText whenever it changes
     // console.log('ngOnChanges', change);
     // console.log('this.ngInputRef', this.ngInputRef);
 
@@ -202,7 +207,16 @@ export class BfInputComponent implements ControlValueAccessor {
   }
 
 
-  ngOnInit() { }
+  ngOnInit() {
+    // We are using a similar hack than these guys: https://medium.com/@brunn/detecting-autofilled-fields-in-javascript-aed598d25da7
+    // to detect the autofill through a css animation listener
+    this.hasAutofillDetection = this.bfOnAutofill.observers.length > 0; // Check if there's anything listening to autofill detection
+    if (this.hasAutofillDetection) {
+      this.elementRef.nativeElement.querySelector('input').addEventListener('animationstart', ($event) => { this.bfOnAutofill.emit($event); });
+      this.elementRef.nativeElement.querySelector('input').addEventListener('webkitAnimationStart', ($event) => { this.bfOnAutofill.emit($event); });
+    }
+  }
+
 
   public updateStatus = () => {
     if (!!this.inputCtrl) {

@@ -25,6 +25,7 @@
   </span>
 
   <div class="input-wrapper"
+       [class.has-autofill-detection]="hasAutofillDetection"
        [class.input-group]="!!bfLeftBtnIcon || !!bfRightBtnIcon || !!bfLeftBtnText || !!bfRightBtnText"
        triggers="hover" container="body" [disablePopover]="!bfDisabled || !bfDisabledTip" placement="top"
        [ngbPopover]="bfDisabledTipTrans$ | async">

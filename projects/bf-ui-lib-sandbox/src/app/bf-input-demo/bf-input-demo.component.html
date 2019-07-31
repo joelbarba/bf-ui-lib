@@ -13,6 +13,7 @@
 
 
 
+
 <!--Button Customization-->
 <div class="whiteBg">
   <div class="row">
@@ -234,6 +235,30 @@ lastRef.errors = {{lastRef.errors | json }}
   </div>
 
 </div>
+
+
+<!--Autofill Detection Example-->
+<div class="whiteBg">
+  <h5>Autofill Detection Example</h5>
+  <form>
+    <div class="row">
+      <div class="col">
+        <bf-input [(ngModel)]="user" [bfRequired]="true" name="user" bfLabel="Username"
+                  (bfOnAutofill)="isAutofilled=('Value has been autofilled!')">
+        </bf-input>
+      </div>
+      <div class="col">
+        <bf-input [(ngModel)]="pass" name="pass" bfRequired="true" bfLabel="Password" bfType="password">
+        </bf-input>
+      </div>
+      <div class="col">
+        <div [hidden]="!isAutofilled" class="padV10" (click)="isAutofilled=''">{{isAutofilled}}</div>
+        <button type="submit" [routerLink]="'/bf-btn'">Click to Submit and trigger browser password save</button>
+      </div>
+    </div>
+  </form>
+</div>
+
 
 
 <!--Applicable classes -->
