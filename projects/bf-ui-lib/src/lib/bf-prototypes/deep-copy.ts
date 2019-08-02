@@ -7,20 +7,21 @@ export { objectDeepCopy };
  * @description Deep copy (clone) - Makes an exact copy of the array (no references) and returns it
  */
 function arrayDeepCopy() {
-  let newArray = [];
-  this.forEach(item => {
-
-    if (item !== null && Array.isArray(item)) {
-      newArray.push(arrayDeepCopy.call(item));  // Deep array copy
-
-    } else if (item !== null && typeof item === 'object') {
-      newArray.push(objectDeepCopy.call(item));  // Deep object copy
-
-    } else {
-      newArray.push(item); // Primitive
-    }
-  });
-  return newArray;
+  return JSON.parse(JSON.stringify(this));
+  // let newArray = [];
+  // this.forEach(item => {
+  //
+  //   if (item !== null && Array.isArray(item)) {
+  //     newArray.push(arrayDeepCopy.call(item));  // Deep array copy
+  //
+  //   } else if (item !== null && typeof item === 'object') {
+  //     newArray.push(objectDeepCopy.call(item));  // Deep object copy
+  //
+  //   } else {
+  //     newArray.push(item); // Primitive
+  //   }
+  // });
+  // return newArray;
 }
 
 
@@ -29,20 +30,62 @@ function arrayDeepCopy() {
  * @description It returns a deep copy of the object (no references at any level)
  */
 function objectDeepCopy() {
-  let newObj = {};
-  for (let keyName in this) { // Loop all object properties
-    if (this.hasOwnProperty(keyName)) { // Exclude prototypes
-      const value = this[keyName];
-      if (value !== null && Array.isArray(value)) {
-        newObj[keyName] = arrayDeepCopy.call(value);  // Deep array copy
+  return JSON.parse(JSON.stringify(this));
 
-      } else if (value !== null && typeof value === 'object') {
-        newObj[keyName] = objectDeepCopy.call(value);  // Deep object copy
+  // const getCircularReplacer = () => {
+  //   const seen = new WeakSet();
+  //   return (key, value) => {
+  //     if(typeof value === 'object' && value !== null) {
+  //       if(seen.has(value)) return;
+  //       seen.add(value);
+  //     }
+  //     return value;
+  //   };
+  // };
+  // return JSON.parse(JSON.stringify(object, getCircularReplacer()));
 
-      } else {
-        newObj[keyName] = value;
-      }
-    }
-  }
-  return newObj
+  // let newObj = {};
+  // for (let keyName in this) { // Loop all object properties
+  //   if (this.hasOwnProperty(keyName)) { // Exclude prototypes
+  //     const value = this[keyName];
+  //     if (value !== null && Array.isArray(value)) {
+  //       newObj[keyName] = arrayDeepCopy.call(value);  // Deep array copy
+  //
+  //     } else if (value !== null && typeof value === 'object') {
+  //       newObj[keyName] = objectDeepCopy.call(value);  // Deep object copy
+  //
+  //     } else {
+  //       newObj[keyName] = value;
+  //     }
+  //   }
+  // }
+  // return newObj
 }
+
+
+// Alternative: https://lodash.com/docs/4.17.11#cloneDeep
+
+// Better alternative:
+// https://gist.github.com/gdibble/e429544ab8fa931055b2f02a1ec5739d
+// function clone(thing, opts) {
+//   var newObject = {};
+//   if (thing instanceof Array) {
+//     return thing.map(function (i) { return clone(i, opts); });
+//   } else if (thing instanceof Date) {
+//     return new Date(thing);
+//   } else if (thing instanceof RegExp) {
+//     return new RegExp(thing);
+//   } else if (thing instanceof Function) {
+//     return opts && opts.newFns ? new Function('return ' + thing.toString())() : thing;
+//   } else if (thing instanceof Object) {
+//     Object.keys(thing).forEach(function (key) { newObject[key] = clone(thing[key], opts); });
+//     return newObject;
+//   } else if ([ undefined, null ].indexOf(thing) > -1) {
+//     return thing;
+//   } else {
+//     if (thing.constructor.name === 'Symbol') {
+//       return Symbol(thing.toString().replace(/^Symbol\(/, '').slice(0, -1));
+//     }
+//     return thing.__proto__.constructor(thing);
+//   }
+// }

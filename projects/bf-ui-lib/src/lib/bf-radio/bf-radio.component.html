@@ -1,3 +1,10 @@
-<p>
-  bf-radio works!
-</p>
+<div class="bf-radio">
+  <label>
+    <input type="checkbox" [ngModel]="bfModel" (ngModelChange)="onChange($event)" [disabled]="bfDisabled">
+    <span class="check-box icon-checkmark3"></span>
+    <span class="check-text" [class.has-text]="!!bfLabel">{{bfLabel}}</span>
+  </label>
+</div>
+
+
+<!--https://getbootstrap.com/docs/4.0/components/forms/#checkboxes-and-radios-->

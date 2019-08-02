@@ -8,10 +8,13 @@ declare global {
     getIndexById(id: any): number;
     removeById(id: any): T | undefined;
     removeByProp(property: string, value: any): T | undefined;
+    getKeyById(keyName: string, id: any): any;
+    getKeyByProp(keyName: string, property: string, value: any): any;
     getLast(): T | undefined;
     dCopy(): Array<T>;
   }
 }
+
 
 const BfArray: any = {}; // Wrap all functions here
 
@@ -55,6 +58,41 @@ BfArray.getIndexById = function(id: any): number {
 BfArray.getLast = function() {
   if (!!this.length) {
     return this[this.length - 1];
+  } else {
+    return undefined;
+  }
+};
+
+/**
+ * @function getKeyById
+ * @memberOf Array
+ * @param {String} keyName - name of the property of the object to return
+ * @param {String} id - the value of the ID of the object we want to match
+ * @description Gets an object by its ID and returns a selected property of it (if present).
+ * */
+BfArray.getKeyById = function(keyName: string, id: any) {
+  let obj = this.find(item => item['id'] === id);
+  if (!keyName) { return obj; }
+  if (!!obj && obj.hasOwnProperty(keyName)) {
+    return obj[keyName];
+  } else {
+    return undefined;
+  }
+};
+
+/**
+ * @function getKeyByProp
+ * @memberOf Array
+ * @param {String} keyName - name of the property of the object to return
+ * @param {String} property - name of the property to match by
+ * @param {String} value - the value we want it to equal
+ * @description Gets an object by matching by "property" and returns its selected property (keyName).
+ * */
+BfArray.getKeyByProp = function(keyName: string, property: string, value: any) {
+  let obj = this.find(item => item[property] === value);
+  if (!keyName) { return obj; }
+  if (!!obj && obj.hasOwnProperty(keyName)) {
+    return obj[keyName];
   } else {
     return undefined;
   }

@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // <-- NgModel lives here
-import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbPopoverModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import { NgbModule, NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Modules
@@ -44,7 +44,15 @@ import { BfListPaginatorComponent } from './bf-list-paginator/bf-list-paginator.
     BfListPaginatorComponent,
   ],
   entryComponents: [BfConfirmComponent],
-  imports: [BrowserModule, FormsModule, ReactiveFormsModule, NgbPopoverModule, NgbModalModule, BfGrowlModule],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgbPopoverModule,
+    NgbTooltipModule,
+    NgbModalModule,
+    BfGrowlModule
+  ],
   exports: [
     BfListPaginatorComponent,  // <--- New component
     BfDatePickerComponent,  // <--- New component

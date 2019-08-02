@@ -50,6 +50,7 @@ BfPrototypes();
 // let val = '32';
 // console.log(val.pad(5));
 // console.log(val.pad(val.length, '*', 10));
+
 // let myObj = { name: 'Tom', age: 20, pass: '3' };
 // console.log(myObj);
 // myObj.cloneProp('ini', { ini: false });
@@ -64,6 +65,9 @@ BfPrototypes();
 // a.convertTZ('Europe/Dublin'); console.log(a);
 // console.log(new Date().convertTZ('Europe/Berlin'));
 
+// const list = [{id:1, name:'foo'}, {id:2, name:'liz'}, {id:3, name:'tom'}, {id:4, name:'zul'}];
+// console.log(list.getKeyById('name', 3));
+// console.log(list.getKeyByProp('id', 'name', 'zul'));
 
 
 @Component({

@@ -18,15 +18,15 @@
 <div class="col-12 examples-table">
 
   <div class="row">
-    <div class="col-5"><pre>Array.<span class="bold">getById</span>(id: string): T</pre></div>
+    <div class="col-5"><pre>Array.<span class="bold">getById</span>(id): T</pre></div>
     <div class="col-7">Returns the first object (if any) in the array that matches by .id</div>
   </div>
   <div class="row">
-    <div class="col-5"><pre>Array.<span class="bold">getByProp</span>(property: string, value: any): T</pre></div>
+    <div class="col-5"><pre>Array.<span class="bold">getByProp</span>(property, value): T</pre></div>
     <div class="col-7">Returns the first object (if any) in the array that matches the given property / value</div>
   </div>
   <div class="row">
-    <div class="col-5"><pre>Array.<span class="bold">getIndexById</span>(id: string): number</pre></div>
+    <div class="col-5"><pre>Array.<span class="bold">getIndexById</span>(id): number</pre></div>
     <div class="col-7">Returns the index of the first object (if any) in the array that matches by .id. If not -1</div>
   </div>
   <div class="row">
@@ -34,12 +34,20 @@
     <div class="col-7">Returns the last element of the array, or undefined if it's empty</div>
   </div>
   <div class="row">
-    <div class="col-5"><pre>Array.<span class="bold">removeById</span>(id: string): T</pre></div>
+    <div class="col-5"><pre>Array.<span class="bold">removeById</span>(id): T</pre></div>
     <div class="col-7">Removes the first object (if any) in the array that matches by .id. Returns the removed object or null if not found.</div>
   </div>
   <div class="row">
-    <div class="col-5"><pre>Array.<span class="bold">removeByProp</span>(property: string, value: any): T</pre></div>
+    <div class="col-5"><pre>Array.<span class="bold">removeByProp</span>(property, value): T</pre></div>
     <div class="col-7">Removes the first object (if any) in the array that matches by property / value. Returns the removed object or null if not found.</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Array.<span class="bold">getKeyById</span>(keyName, id): T{{'<' + 'any' + '>'}}</pre></div>
+    <div class="col-7">Returns the selected property (keyName) of the first object that matches the id.</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Array.<span class="bold">getKeyByProp</span>(keyName, property, value): T{{'<' + 'any' + '>'}}</pre></div>
+    <div class="col-7">Returns the selected property (keyName) of the first object that matches the "value" of the "property".</div>
   </div>
   <div class="row">
     <div class="col-5"><pre>Array.<span class="bold">dCopy</span>(): Array{{'<' + 'T' + '>'}}</pre></div>
