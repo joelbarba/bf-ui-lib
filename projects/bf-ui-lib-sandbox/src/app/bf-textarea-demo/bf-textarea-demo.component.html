@@ -8,6 +8,15 @@
 <div class="col-12"><pre>{{api}}</pre></div>
 
 
+<bf-textarea [(ngModel)]="myVal" bfLabel="My Text" #myInput="ngModel"></bf-textarea>
+<pre>
+  myInput.value = {{myInput.value}}
+  myInput.dirty = {{myInput.dirty}}
+  myInput.valid = {{myInput.valid}}
+  myInput.pristine = {{myInput.pristine}}
+  myInput.pristine = {{myInput.}}
+</pre>
+
 <!--Textarea Customization-->
 <div class="whiteBg">
   <div class="row">

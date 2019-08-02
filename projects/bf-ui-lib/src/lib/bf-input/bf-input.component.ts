@@ -125,7 +125,12 @@ export class BfInputComponent implements ControlValueAccessor {
       // state in "inputCtrl.status" when updating ngModel outer link
       if (!!this.inputCtrl) {
         setTimeout(() => {
-          this.inputCtrl.setValue(this.bfModel);
+          // https://angular.io/api/forms/FormControl#setValue
+          this.inputCtrl.setValue(this.bfModel, {
+            emitViewToModelChange: false,
+            // emitModelToViewChange: false,
+            // emitEvent: false,
+          });
         });
       }
     }

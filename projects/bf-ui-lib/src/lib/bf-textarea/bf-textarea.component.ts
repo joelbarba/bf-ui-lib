@@ -74,7 +74,12 @@ export class BfTextareaComponent implements OnInit {
       // state in "inputCtrl.status" when updating ngModel outer link
       if (!!this.inputCtrl) {
         setTimeout(() => {
-          this.inputCtrl.setValue(this.bfModel);
+          // https://angular.io/api/forms/FormControl#setValue
+          this.inputCtrl.setValue(this.bfModel, {
+            emitViewToModelChange: false,
+            // emitModelToViewChange: false,
+            // emitEvent: false,
+          });
         });
       }
     }
@@ -102,6 +107,10 @@ export class BfTextareaComponent implements OnInit {
 
     // TODO ---> https://blog.thoughtram.io/angular/2016/03/14/custom-validators-in-angular-2.html
     // Check there how to do proper custom validators
+  }
+
+  public isValid = () => {
+    return 'yes';
   }
 
   // ------------------------------------
