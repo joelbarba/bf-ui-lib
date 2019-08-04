@@ -1,3 +1,4 @@
+import { BfPrototypesDoc } from './bf-prototypes-demo/bf-prototypes-demo.component';
 import { BfListPaginatorDoc } from './bf-list-paginator-demo/bf-list-paginator-demo.component';
 import { BfDatePickerDoc } from './bf-date-picker-demo/bf-date-picker-demo.component';
 import { BfRadioDoc } from './bf-radio-demo/bf-radio-demo.component';
@@ -32,6 +33,7 @@ export const compList = [
   BfListPaginatorDoc,
   BfGrowlDoc,
   BfConfirmDoc,
+  BfPrototypesDoc,
 ];
 
 /* {

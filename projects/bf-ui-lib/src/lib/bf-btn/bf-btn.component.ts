@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, Inje
 import { AbstractTranslateService } from '../abstract-translate.service';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { BfUiLibService } from '../bf-ui-lib.service';
-import { Observable } from "rxjs";
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'bf-btn',
@@ -28,9 +28,9 @@ export class BfBtnComponent implements OnInit {
 
   public btnClass: string = 'primary';
 
-  public bfTextTrans$: Observable<string>;        // Translated text for the button
-  public bfTooltipTrans$: Observable<string>;     // Translated text for the tooltip of the label
-  public bfDisabledTipTrans$: Observable<string>; // Translated text for the tooltip when disabled
+  public bfTextTrans$: Observable<string> = of('');        // Translated text for the button
+  public bfTooltipTrans$: Observable<string> = of('');     // Translated text for the tooltip of the label
+  public bfDisabledTipTrans$: Observable<string> = of(''); // Translated text for the tooltip when disabled
 
 
   constructor(

@@ -23,6 +23,9 @@ export class BfLabelDemoComponent implements OnInit {
 `<bf-label bfText="view.common.name"
           bfTooltip="view.tooltip.message" bfTooltipPos="left" [bfTooltipBody]="false">
 </bf-label>`;
+  public instance5 = `<bf-label class="no-bold" bfText="No Bold Label"></bf-label>`;
+  public instance6 = `<bf-label class="no-colon" bfText="No Colon Label"></bf-label>
+<bf-label class="colon value-inline" bfValue="Colon with no label"></bf-label>`;
 
   public bfHtmlStructure =
 `<label class="is-required">

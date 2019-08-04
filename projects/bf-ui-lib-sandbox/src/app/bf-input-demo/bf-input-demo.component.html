@@ -12,46 +12,146 @@
 </p>
 
 
+
+
+<!--Button Customization-->
 <div class="whiteBg">
   <div class="row">
-    <div class="col-12 marB15">
-      <bf-checkbox class="marR15" bfLabel="Required" [(ngModel)]="isReq"></bf-checkbox>
-      <bf-checkbox class="marR15" bfLabel="Disabled" [(ngModel)]="isDis"></bf-checkbox>
-      <bf-checkbox class="marR15" bfLabel="Placeholder" [(ngModel)]="isPlace"></bf-checkbox>
+    <div class="col-5 marB15">
+      <h5 class="marB25">BfInput Customization:</h5>
+      <div *ngIf="linkCustomInput">
+        <bf-input [(ngModel)]="myVariable"
+                  [class.flat]="compConf.hasFlat"
+                  [bfRequired]="compConf.isRequired"
+                  [bfLabel]="(compConf.hasLabel ? compConf.labelText : '')"
+                  [bfPlaceholder]="(compConf.hasPlaceholder ? compConf.placeholderText : '')"
+                  [bfDisabled]="compConf.isDisabled"
+                  [bfIcon]="(compConf.hasIcon ? compConf.inputIcon : '')"
+                  [bfType]="compConf.inputType"
+                  [bfTooltip]="(compConf.hasTooltip ? compConf.inputTooltip : null)"
+                  [bfTooltipPos]="(compConf.inputTooltipPos || 'top')"
+                  [bfTooltipBody]="compConf.inputTooltipBody"
+                  [bfDisabledTip]="compConf.inputDisabledTip"
+
+                  [bfLeftBtnText]="(compConf.hasLeftBtnText ? compConf.leftBtnText : '')"
+                  [bfLeftBtnIcon]="(compConf.hasLeftBtn ? compConf.leftBtnIcon : '')"
+                  (bfLeftBtnClick)="addonClick('Left addon button click')"
+
+                  [bfRightBtnText]="(compConf.hasRightBtnText ? compConf.rightBtnText : '')"
+                  [bfRightBtnIcon]="(compConf.hasRightBtn ? compConf.rightBtnIcon : '')"
+                  (bfRightBtnClick)="addonClick('Right addon button click')"
+        ></bf-input>
+      </div>
+
+      <div>{{clickMsg}}</div>
+
+      <div class="padT15">
+        <div class="code-box pad15">
+          <pre>{{customCompCode}}</pre>
+        </div>
+      </div>
     </div>
-    <div class="col-4">
-      <bf-input [(ngModel)]="myModel223"
-                bfLabel="view.common.name"
-                [bfRequired]="isReq"
-                [bfDisabled]="isDis"
-                [bfPlaceholder]="isPlace ? 'view.common.placeholder' : ''"
-                bfTooltip="view.tooltip.message"
-                bfIcon="icon-search">
-      </bf-input>
+
+    <div class="col-7">
+
+      <!--Label-->
+      <div class="row">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasLabel" (ngModelChange)="upComp()" bfLabel="Has Label"></bf-checkbox> </div>
+        <div class="col-9" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasLabel"></bf-input> </div>
+      </div>
+
+      <!--Placeholder-->
+      <div class="row">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasPlaceholder" (ngModelChange)="upComp()" bfLabel="Placeholder"></bf-checkbox> </div>
+        <div class="col-9" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.placeholderText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasPlaceholder"></bf-input> </div>
+      </div>
+
+      <!--Required + Type-->
+      <div class="row marT5">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>
+        <div class="col-6">
+          <bf-dropdown [(ngModel)]="compConf.inputType" (ngModelChange)="upComp()" [bfList]="inputTypes" bfRender="text" bfSelect="id" [bfRequired]="true"> </bf-dropdown>
+          <bf-label bfValue="Input Type" class="value-inline"></bf-label>
+        </div>
+      </div>
+
+      <!--Disabled-->
+      <div class="row marT15">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>
+        <div class="col-9">
+          <bf-input class="flat" [(ngModel)]="compConf.inputDisabledTip" bfPlaceholder="This input is disabled because..." (ngModelChange)="upComp()"></bf-input>
+        </div>
+      </div>
+
+      <!--Icon-->
+      <div class="row marT15">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasIcon" (ngModelChange)="upComp()" bfLabel="Has Icon"></bf-checkbox> </div>
+        <div class="col-9" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.inputIcon" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasIcon"></bf-input> </div>
+      </div>
+
+      <!--Tooltip-->
+      <div class="row marT5">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox> </div>
+        <div class="col-9" *ngIf="compConf.hasTooltip">
+          <bf-input [(ngModel)]="compConf.inputTooltip" (ngModelChange)="upComp()"></bf-input>
+        </div>
+        <div class="col-3" *ngIf="compConf.hasTooltip"></div>
+        <div class="col-5" *ngIf="compConf.hasTooltip">
+          bfTooltipPos: <bf-dropdown [(ngModel)]="compConf.inputTooltipPos" (ngModelChange)="upComp()" [bfList]="tooltipPosList" bfRender="text" bfSelect="id"> </bf-dropdown>
+        </div>
+        <div class="col-4" *ngIf="compConf.hasTooltip">
+          bfTooltipBody: <bf-dropdown [(ngModel)]="compConf.inputTooltipBody" (ngModelChange)="upComp()" [bfList]="tooltipBodyList" bfRender="text" bfSelect="id"> </bf-dropdown>
+        </div>
+      </div>
+
+
+      <!--Addon Buttons-->
+      <div class="row marT25">
+        <div class="col-2">
+          <bf-checkbox [(ngModel)]="compConf.hasLeftBtn" (ngModelChange)="upComp()" bfLabel="Left Btn Icon"></bf-checkbox>
+          <bf-input *ngIf="compConf.hasLeftBtn" [(ngModel)]="compConf.leftBtnIcon" (ngModelChange)="upComp()" bfPlaceholder="left addon icon"></bf-input>
+        </div>
+        <div class="col-3">
+          <bf-checkbox [(ngModel)]="compConf.hasLeftBtnText" (ngModelChange)="upComp()" bfLabel="Left Btn Text"></bf-checkbox>
+          <bf-input *ngIf="compConf.hasLeftBtnText" [(ngModel)]="compConf.leftBtnText" (ngModelChange)="upComp()" bfPlaceholder="left addon text"></bf-input>
+        </div>
+        <div class="col-2">
+          <bf-checkbox [(ngModel)]="compConf.hasRightBtn" (ngModelChange)="upComp()" bfLabel="Right B. Icon"></bf-checkbox>
+          <bf-input *ngIf="compConf.hasRightBtn" [(ngModel)]="compConf.rightBtnIcon" (ngModelChange)="upComp()" bfPlaceholder="right addon icon"></bf-input>
+        </div>
+        <div class="col-3">
+          <bf-checkbox [(ngModel)]="compConf.hasRightBtnText" (ngModelChange)="upComp()" bfLabel="Right Btn Text"></bf-checkbox>
+          <bf-input *ngIf="compConf.hasRightBtnText" [(ngModel)]="compConf.rightBtnText" (ngModelChange)="upComp()" bfPlaceholder="right addon text"></bf-input>
+        </div>
+        <div class="col-1">
+          <bf-checkbox [(ngModel)]="compConf.hasBtnListener" (ngModelChange)="upComp()" bfLabel="onClick()"
+                       *ngIf="compConf.hasLeftBtnText || compConf.hasLeftBtn || compConf.hasRightBtnText || compConf.hasRightBtn">
+          </bf-checkbox>
+        </div>
+      </div>
+
+      <div class="row marT15">
+        <div class="col-8 padT5">
+          <bf-label bfText="CSS Classes"></bf-label>
+          <bf-checkbox class="marL20" [(ngModel)]="compConf.hasFlat" (ngModelChange)="upComp()" bfLabel="flat"></bf-checkbox>
+        </div>
+        <div class="col-4 text-right">
+          <bf-btn bfText="Reset Input" (bfClick)="resetInput()"></bf-btn>
+        </div>
+      </div>
+
     </div>
-    <div class="col-4">
-      <bf-input [(ngModel)]="myModel2" bfLabel="view.common.name" [bfDisabled]="true" bfPlaceholder="view.common.placeholder"></bf-input>
-    </div>
-    <div class="col-4">
-      <bf-input [(ngModel)]="myModel" bfLabel="view.common.name" [bfDisabled]="true"></bf-input>
-    </div>
-    <div class="col-4">
-      <bf-input [(ngModel)]="myModel" bfLabel="view.common.name" [bfDisabled]="true" [bfRequired]="true"></bf-input>
-    </div>
-    <div class="col-4">
-      <bf-input [(ngModel)]="myModel2" bfLabel="view.common.name"
-                bfTooltip="view.tooltip.message2"
-                bfTooltipPos="left"
-                [bfTooltipBody]="true"
-      ></bf-input>
-    </div>
+
   </div>
 </div>
+
+<hr>
+
 
 <div class="whiteBg">
   <div class="row">
     <div class="col-12 marB15">
-      <h5>Inputs in a Form - Linking ngForm with bfInput ngModel</h5>
+      <h5>Inputs in a Form - Linking ngForm with bfInput - ngModel</h5>
     </div>
   </div>
 
@@ -135,6 +235,30 @@ lastRef.errors = {{lastRef.errors | json }}
   </div>
 
 </div>
+
+
+<!--Autofill Detection Example-->
+<div class="whiteBg">
+  <h5>Autofill Detection Example</h5>
+  <form>
+    <div class="row">
+      <div class="col">
+        <bf-input [(ngModel)]="user" [bfRequired]="true" name="user" bfLabel="Username"
+                  (bfOnAutofill)="isAutofilled=('Value has been autofilled!')">
+        </bf-input>
+      </div>
+      <div class="col">
+        <bf-input [(ngModel)]="pass" name="pass" bfRequired="true" bfLabel="Password" bfType="password">
+        </bf-input>
+      </div>
+      <div class="col">
+        <div [hidden]="!isAutofilled" class="padV10" (click)="isAutofilled=''">{{isAutofilled}}</div>
+        <button type="submit" [routerLink]="'/bf-btn'">Click to Submit and trigger browser password save</button>
+      </div>
+    </div>
+  </form>
+</div>
+
 
 
 <!--Applicable classes -->

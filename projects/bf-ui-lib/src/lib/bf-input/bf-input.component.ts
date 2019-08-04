@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter, Inject, forwardRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, Inject, forwardRef } from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
 import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import { AbstractTranslateService } from '../abstract-translate.service';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import * as Rx from 'rxjs';
 import * as RxOp from 'rxjs/operators';
+import {Observable, of} from "rxjs";
 
 @Component({
   selector: 'bf-input',
@@ -28,36 +29,45 @@ export class BfInputComponent implements ControlValueAccessor {
 
   public bfModel: string; // Internal to hold the linked ngModel on the wrapper
 
-  @Input() bfLabel: string = '';
-  @Input() bfRequired: boolean = false;
-  @Input() bfDisabled: boolean = false;
-  @Input() bfPlaceholder: string = '';
+  @Input() bfLabel: string = '';          // Text for the label above the input. Translation applied.
+  @Input() bfRequired: boolean = false;   // It adds the required validator to the ngModel (input), meaning that the required field styles will be applied on the label and input.
+  @Input() bfDisabled: boolean = false;   // True=Input disabled. False=Input enabled.
+  @Input() bfPlaceholder: string = '';    // It adds a placeholder text onto the input. Translation applied.
+
+  @Input() bfType: 'text' | 'number' | 'email' | 'password' = 'text';  // Set a type on the input (text by default)
 
   @Input() bfTooltip    : string = '';
-  @Input() bfTooltipPos : string = 'top';
+  @Input() bfTooltipPos : string = 'top';     // If tooltip on the label, specific position (top by default)
   @Input() bfTooltipBody : boolean = true;
+  @Input() bfDisabledTip : string;   // Label for the text of the tooltip to display when the input is disabled
 
+  // @Input() bfName: string = '';    // The name attribute specifies the name of an <input> element
+  @Input() bfIcon: string = '';     // Icon to show into the input floating at the right hand side (this is replace by bfValidIcon and bfInvalidIcon)
+  @Input() bfLeftBtnIcon: string;   // Icon to show into a button on the left of the input (prepend addon https://getbootstrap.com/docs/4.3/components/input-group/#button-addons)
+  @Input() bfRightBtnIcon: string;  // Icon to show into a button on the right of the input (append addon)
+  @Input() bfLeftBtnText: string;   // Text to show into a button on the left of the input (prepend addon)
+  @Input() bfRightBtnText: string;  // Text to show into a button on the left of the input (append addon)
 
-
-  @Input() bfType: string = 'text';
-  @Input() bfIcon: string = '';
   @Input() bfErrorPos: string = 'top-right';  // top-right, bottom-left, bottom-right
 
 
+  @Output() bfLeftBtnClick = new EventEmitter<any>();   // Emitter for left addon button
+  @Output() bfRightBtnClick = new EventEmitter<any>();  // Emitter for right addon button
+
+  @Output() bfOnAutofill = new EventEmitter<any>();     // Emitter when a browser autofill is detected
+
 /*
-      bfTooltipPos      : '@?',     // If tooltip on the label, specific position (top by default)
+
       bfPattern         : '@?',     // Bool expr to define ngPattern
       bfValidType       : '@?',     // Predefined ngPatterns. "decimal" -> Any number. "email" -> Email. If present it overrides bfPattern
-      bfName            : "@?",     // The name attribute specifies the name of an <input> element
-      bfType            : "@?",     // Set a type on the input (text by default)
       bfMinlength       : '=?',     // Min number of chars. To bind to ngMinlength
       bfMaxlength       : '=?',     // Max number of chars. To bind to ngMinlength
       bfBlockMax        : '=?',     // Max length blocking. Adds a maxlength instead of ngMaxlength
+
       bfErrorText       : '@?',     // Custom error text to display when invalid value
       bfErrorPos        : '@?',     // Custom position where to display the error text.
       bfLabelCol        : '@?',     // It sets an horizontal layout. Cols of the label (input is 12-label)
       bfErrorOnPristine : '=?',     // Boolean. True means that errors will be shown in pristine state too. (false by default)
-      bfIcon            : '@?',     // Icon to show into the input floating at the right hand side (this is replace by bfValidIcon and bfInvalidIcon)
       bfValidIcon       : '@?',     // Icon to show when the value is dirty and valid (by default icon-checkmark4)
       bfInvalidIcon     : '@?',     // Icon to show when the value is dirty and invalid (by default icon-warning22)
 
@@ -78,23 +88,27 @@ export class BfInputComponent implements ControlValueAccessor {
 
   public status : string = 'pristine';      // pristine, valid, error, loading
 
-  public bfLabelTrans: string = '';         // Translated text for the label
-  public bfTooltipTrans: string = '';       // Translated text for the tooltip of the label
-  public bfPlaceholderTrans: string = '';   // Translated text for the placeholder of the input
+  public bfLabelTrans$: Observable<string> = of('');         // Translated text for the label
+  public bfTooltipTrans$: Observable<string> = of('');       // Translated text for the tooltip of the label
+  public bfPlaceholderTrans$: Observable<string> = of('');   // Translated text for the placeholder of the input
+  public bfDisabledTipTrans$: Observable<string> = of('');   // Translated text for the disabled tooltip of the input
 
   public displayIcon: string = '';
   public errorPosition: string = 'top-right';
   public errorText: string = 'Invalid value';
   public bfValidIcon: string = 'icon-checkmark4';
   public bfInvalidIcon: string = 'icon-warning22';
+  public isFocus = false; // Whether the focus is on the input
+  public hasAutofillDetection = false;  // Whether is has autofill detection (any parameter linked to bfOnAutofill)
 
   @ViewChild('ngInputRef') ngInputRef: ElementRef;
   public inputCtrl:FormControl; // <-- ngInputRef.control
 
   constructor(
     @Inject('TranslateService') private translate: AbstractTranslateService,
-    private config: NgbPopoverConfig) {
-  }
+    private config: NgbPopoverConfig,
+    private elementRef: ElementRef,
+  ) { }
 
 
   // ------- ControlValueAccessor -----
@@ -111,7 +125,12 @@ export class BfInputComponent implements ControlValueAccessor {
       // state in "inputCtrl.status" when updating ngModel outer link
       if (!!this.inputCtrl) {
         setTimeout(() => {
-          this.inputCtrl.setValue(this.bfModel);
+          // https://angular.io/api/forms/FormControl#setValue
+          this.inputCtrl.setValue(this.bfModel, {
+            emitViewToModelChange: false,
+            // emitModelToViewChange: false,
+            // emitEvent: false,
+          });
         });
       }
     }
@@ -143,7 +162,8 @@ export class BfInputComponent implements ControlValueAccessor {
 
   // ------------------------------------
 
-  ngOnChanges(change) { // Translate bfText whenever it changes
+  ngOnChanges(change) {
+    // Translate bfText whenever it changes
     // console.log('ngOnChanges', change);
     // console.log('this.ngInputRef', this.ngInputRef);
 
@@ -168,15 +188,19 @@ export class BfInputComponent implements ControlValueAccessor {
     //   this.inputCtrl.enable();
     // }
 
-    if (!!this.translate.doTranslate) {
-      if (!!change.bfLabel)       { this.bfLabelTrans = this.translate.doTranslate(this.bfLabel); }
-      if (!!change.bfTooltip)     { this.bfTooltipTrans = this.translate.doTranslate(this.bfTooltip); }
-      if (!!change.bfPlaceholder) { this.bfPlaceholderTrans = this.translate.doTranslate(this.bfPlaceholder); }
-    } else {
-      if (!!change.bfLabel)       { this.bfLabelTrans = this.bfLabel; }
-      if (!!change.bfTooltip)     { this.bfTooltipTrans = this.bfTooltip; }
-      if (!!change.bfPlaceholder) { this.bfPlaceholderTrans = this.bfPlaceholder; }
+    // Generate new observables for the dynamic text
+    if (change.hasOwnProperty('bfLabel'))        { this.bfLabelTrans$ = this.translate.getLabel$(this.bfLabel); }
+    if (change.hasOwnProperty('bfTooltip'))      { this.bfTooltipTrans$ = this.translate.getLabel$(this.bfTooltip); }
+    if (change.hasOwnProperty('bfPlaceholder'))  { this.bfPlaceholderTrans$ = this.translate.getLabel$(this.bfPlaceholder); }
+    if (change.hasOwnProperty('bfDisabledTip'))  { this.bfDisabledTipTrans$ = this.translate.getLabel$(this.bfDisabledTip); }
+
+    if (change.hasOwnProperty('bfType'))  {
+      if (this.bfType !== 'text' && this.bfType !== 'number' && this.bfType !== 'password' && this.bfType !== 'email') {
+        this.bfType = 'text';
+      }
     }
+
+
 
     this.displayIcon = this.bfIcon || '';
 
@@ -188,7 +212,16 @@ export class BfInputComponent implements ControlValueAccessor {
   }
 
 
-  ngOnInit() { }
+  ngOnInit() {
+    // We are using a similar hack than these guys: https://medium.com/@brunn/detecting-autofilled-fields-in-javascript-aed598d25da7
+    // to detect the autofill through a css animation listener
+    this.hasAutofillDetection = this.bfOnAutofill.observers.length > 0; // Check if there's anything listening to autofill detection
+    if (this.hasAutofillDetection) {
+      this.elementRef.nativeElement.querySelector('input').addEventListener('animationstart', ($event) => { this.bfOnAutofill.emit($event); });
+      this.elementRef.nativeElement.querySelector('input').addEventListener('webkitAnimationStart', ($event) => { this.bfOnAutofill.emit($event); });
+    }
+  }
+
 
   public updateStatus = () => {
     if (!!this.inputCtrl) {

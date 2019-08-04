@@ -48,7 +48,9 @@
         border: 1px solid white;
         //margin-bottom: 2px;
         &.component { background: #2196F3; }
-        &.service { background: #FF9800; }
+        &.service   { background: #FF9800; }
+        &.module    { background: #7c1fda; }
+        &.function  { background: #9E9E9E; }
 
 
       }

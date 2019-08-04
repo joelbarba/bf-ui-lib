@@ -1,18 +1,19 @@
-<div class="form-group  bf-input-form-group  error-{{errorPosition}}"
+<div class="form-group  bf-input-form-group   error-{{errorPosition}}"
      [class.is-required]="bfRequired"
      [class.is-disabled]="bfDisabled"
      [class.is-error]="status === 'error'"
      [class.is-pristine]="status === 'pristine'"
      [class.is-dirty]="status === 'dirty'"
+     [class.is-focus]="isFocus"
      [class.horizontalLayoutClass]="false">
 
   <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
     <span class="info-badge" *ngIf="!!bfTooltip"
-         [ngbPopover]="bfTooltipTrans" [placement]="bfTooltipPos" triggers="hover"
+         [ngbPopover]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
          [container]="(bfTooltipBody ? 'body' : '')">
       <span class="icon-info"></span>
     </span>
-    <span>{{bfLabelTrans}}</span>:
+    <span>{{bfLabelTrans$ | async}}</span>:
     <span *ngIf="bfRequired" class="asterisk">*</span>
   </label>
 
@@ -23,11 +24,37 @@
         [class.bf-icon-error]="status === 'error'">
   </span>
 
+  <div class="input-wrapper"
+       [class.has-autofill-detection]="hasAutofillDetection"
+       [class.input-group]="!!bfLeftBtnIcon || !!bfRightBtnIcon || !!bfLeftBtnText || !!bfRightBtnText"
+       triggers="hover" container="body" [disablePopover]="!bfDisabled || !bfDisabledTip" placement="top"
+       [ngbPopover]="bfDisabledTipTrans$ | async">
+
+    <div class="input-group-prepend" *ngIf="!!bfLeftBtnIcon || !!bfLeftBtnText"
+         (click)="bfLeftBtnClick.emit($event)">
+      <button class="btn btn-outline-secondary">
+        <div [class]="bfLeftBtnIcon" [hidden]="!bfLeftBtnIcon"></div>
+        <div [hidden]="!bfLeftBtnText">{{bfLeftBtnText}}</div>
+      </button>
+    </div>
+
          <!--[formControl]="inputCtrl"-->
-  <input class="form-control" name="bfInput" #ngInputRef="ngModel"
-         [ngModel]="bfModel" (ngModelChange)="parseModelChange($event)"
-         [required]="bfRequired"
-         [disabled]="bfDisabled"
-         [placeholder]="bfPlaceholderTrans"
-         [type]="bfType"/>
+    <input class="form-control" name="bfInput" #ngInputRef="ngModel"
+           [ngModel]="bfModel" (ngModelChange)="parseModelChange($event)"
+           [required]="bfRequired"
+           [disabled]="bfDisabled"
+           [placeholder]="bfPlaceholderTrans$ | async"
+           title=""
+           (focusin)="isFocus=true"
+           (focusout)="isFocus=false"
+           [type]="bfType"/>
+
+    <div class="input-group-append" *ngIf="!!bfRightBtnIcon || !!bfRightBtnText"
+         (click)="bfRightBtnClick.emit($event)">
+      <button class="btn btn-outline-secondary">
+        <div [class]="bfRightBtnIcon" [hidden]="!bfRightBtnIcon"></div>
+        <div [hidden]="!bfRightBtnText">{{bfRightBtnText}}</div>
+      </button>
+    </div>
+  </div>
 </div>

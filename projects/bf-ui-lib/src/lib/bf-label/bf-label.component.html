@@ -4,7 +4,8 @@
        [container]="(bfTooltipBody ? 'body' : '')">
     <span class="icon-info"></span>
   </span>
-  <span>{{bfTextTranslated}}</span>:
-  <span *ngIf="bfRequired" class="asterisk">*</span>
+  <span>{{bfTextTranslated}}</span>
+  <span class="the-colon" [hidden]="!bfTextTranslated">:</span>
+  <span class="asterisk" [hidden]="!bfTextTranslated" *ngIf="bfRequired">*</span>
 </label>
 <div class="label-value" *ngIf="!!bfValue">{{bfValue}}</div>

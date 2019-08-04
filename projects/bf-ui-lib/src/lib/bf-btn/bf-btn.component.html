@@ -1,7 +1,7 @@
 <div class="disabled-tooltip"
-     triggers="hover" container="body"
-     [disablePopover]="!bfDisabled"
-     [ngbPopover]="bfDisabledTipTrans$ | async"
+     container="body"
+     [disableTooltip]="!bfDisabled"
+     [ngbTooltip]="bfDisabledTipTrans$ | async"
      [placement]="bfTooltipPos">
 
   <button type="submit"
@@ -9,8 +9,7 @@
           [ngClass]="btnClass"
           (click)="btnClick($event)"
           [disabled]="bfDisabled || libService.isBtnLoading"
-          triggers="hover"
-          [ngbPopover]="bfTooltipTrans$ | async"
+          [ngbTooltip]="bfTooltipTrans$ | async"
           [placement]="bfTooltipPos"
           [container]="(bfTooltipBody ? 'body' : '')">
 

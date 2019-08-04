@@ -1,4 +1,4 @@
-bf-btn {
+bf-btn:host {
   width: fit-content;
   display: inline-block;
 }
@@ -86,6 +86,8 @@ bf-btn {
 
 // Styles for full width buttons (class "full-width" applied on the <bf-btn>)
 :host.full-width {
+  display: block;
+  width: 100%;
   .disabled-tooltip {
     width: 100%;
     .bf-btn {

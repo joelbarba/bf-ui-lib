@@ -5,6 +5,7 @@
 export * from './lib/bf-ui-lib.service';
 export * from './lib/bf-ui-lib.module';
 export * from './lib/abstract-translate.service';
+export * from './lib/bf-prototypes/bf-prototypes';
 
 export * from './lib/bf-growl.module';
 export * from './lib/bf-growl/bf-growl.service';

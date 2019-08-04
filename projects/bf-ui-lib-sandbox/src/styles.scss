@@ -1,11 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import "scss/variables.scss";
+//@import "~bootstrap/dist/css/bootstrap.css";
+@import "~bootstrap/scss/bootstrap.scss";
+@import "scss/color-layer.scss";
 @import "~bf-icomoon/css/icomoon.css";
-@import "~bootstrap/dist/css/bootstrap.css";
-@import 'scss/variables';
-@import 'scss/helpers';
-@import 'scss/popover';
-@import 'scss/color-layer';
+@import "scss/helpers.scss";
+@import "scss/popover.scss";
 
 
 body {
