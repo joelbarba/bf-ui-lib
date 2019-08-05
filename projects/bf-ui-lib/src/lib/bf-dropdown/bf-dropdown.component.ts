@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, Output, forwardRef } from '@angular/core';
 import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
-import BfObject from "../bf-prototypes/object.prototype";
-import BfArray from "../bf-prototypes/array.prototypes";
+import BfObject from '../bf-prototypes/object.prototype';
+import BfArray from '../bf-prototypes/array.prototypes';
 
 
-/*
+/****
  *  ATTRIBUTES
 
  * |--------|---------------------|------------------------------------------------------------------------------------|
@@ -130,7 +130,7 @@ import BfArray from "../bf-prototypes/array.prototypes";
  * |        |                     | the event will trigger the corresponding internal function:                        |
  * |        |                     |   - toggleList : Expand / collapse the list                                        |
  * |--------|---------------------|------------------------------------------------------------------------------------|
-*/
+*****/
 
 @Component({
   selector: 'bf-dropdown',
@@ -162,11 +162,13 @@ export class BfDropdownComponent implements ControlValueAccessor {
   public extList; // Make a copy from bfList to make sure we never modify the input array
 
   @Input() bfList: Array<any>;
-  @Input() bfRender: string = '';
-  @Input() bfSelect: string = '';
-  @Input() bfRequired: boolean = false;
-  @Input() bfDisabled: boolean = false;
-  @Input() bfLabel: string = '';
+  @Input() bfRender = '';
+  @Input() bfSelect = '';
+  @Input() bfRequired = false;
+  @Input() bfDisabled = false;
+  @Input() bfLabel = '';
+
+  public isExpanded = false;  // Whether the list is shown (true) or hidden
 
     // ------- ControlValueAccessor -----
 

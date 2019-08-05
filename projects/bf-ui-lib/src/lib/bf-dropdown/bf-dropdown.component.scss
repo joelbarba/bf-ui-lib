@@ -18,13 +18,11 @@ $valid_input_color    : $primary_color;
 $disabled_input_color : #797979;
 
 .bf-dropdown {
+  position: relative;
   display: inline-block;
-  //width: 100%;
-
   label {
     font-weight: 700;
     margin-bottom: 2px;
-
     .info-badge {
       display: inline-block;
       margin-right: 7px;
@@ -35,19 +33,85 @@ $disabled_input_color : #797979;
     }
   }
 
+  input.form-control {
+    height: 34px;
+    font-size: 14px;
+    &:focus { outline: 0; }
+  }
+  .input-group-append .btn.btn-outline-secondary {
+    font-size: 14px;
+    padding: 0;
+    min-width: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    div { padding: 0 7.5px; }
+    &:focus { box-shadow: none; }
+    //&:active:not(.disabled) {
+    //  box-shadow: inset 2px 2px 5px rgba(34, 36, 38, 0.4);
+    //}
+  }
+
+  .list-container { display: none; }
+
+  &.is-expanded {
+    input.form-control {
+      border-bottom-left-radius: 0;
+      border-bottom: none;
+    }
+    .input-group-append .btn.btn-outline-secondary {
+      border-bottom-right-radius: 0;
+      background: white;
+      color: #00b6f1;
+      border-left: none;
+      border-bottom: none;
+    }
+    .list-container {
+      position: absolute;
+      display: block;
+      background: white;
+      border: 1px solid red;
+      z-index: 6000;
+      margin-top: -16px;
+      max-height: 300px;
+      //padding: 0 10px;
+      overflow: auto;
+      border-top: 1px solid rgba(206, 212, 218, 0.5);
+      border-bottom-left-radius: 3px;
+      border-bottom-right-radius: 3px;
+      .option-row {
+        padding: 4px 10px;
+        min-height: 34px;
+        max-height: 68px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        &.selected {
+          font-weight: 700;
+          color: $white;
+          background: rgba(0,143,190,.35);
+        }
+        &:hover {
+          background: $primary_color;
+          color: $white;
+        }
+      }
+    }
+
+  }
 
 
-  select.form-control {
+  /*select.form-control {
     height: 34px;
     padding: 3px 15px 3px 5px;
 
     // Placeholder color (https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder)
-    &::-webkit-input-placeholder { color: $optional_input_color; } /* WebKit, Blink, Edge */
-    &:-moz-placeholder           { color: $optional_input_color; opacity:  1; } /* Mozilla Firefox 4 to 18 */
-    &::-moz-placeholder          { color: $optional_input_color; opacity:  1; } /* Mozilla Firefox 19+ */
-    &:-ms-input-placeholder      { color: $optional_input_color; } /* Internet Explorer 10-11 */
-    &::-ms-input-placeholder     { color: $optional_input_color; } /* Microsoft Edge */
-    &::placeholder               { color: $optional_input_color; } /* Most modern browsers support this now. */
+    &::-webkit-input-placeholder { color: $optional_input_color; } !* WebKit, Blink, Edge *!
+    &:-moz-placeholder           { color: $optional_input_color; opacity:  1; } !* Mozilla Firefox 4 to 18 *!
+    &::-moz-placeholder          { color: $optional_input_color; opacity:  1; } !* Mozilla Firefox 19+ *!
+    &:-ms-input-placeholder      { color: $optional_input_color; } !* Internet Explorer 10-11 *!
+    &::-ms-input-placeholder     { color: $optional_input_color; } !* Microsoft Edge *!
+    &::placeholder               { color: $optional_input_color; } !* Most modern browsers support this now. *!
 
 
     font-size: 16px;
@@ -73,7 +137,8 @@ $disabled_input_color : #797979;
         box-shadow: 0 0 0 2px rgba($primary_color, 0.20);
       }
     }
-  }
+  }*/
+
 }
 
 // Styles applied to the host (wrapper instance element) <bf-input>
@@ -83,23 +148,41 @@ $disabled_input_color : #797979;
 
 
 // --- Color layer override -----------------------------------------------------------------------------------
+$input-border: #ccc !default; // <-- this is a bootstrap default
+$optional_input_color : $input-border;
+$disabled_input_color : #797979;
+$invalid_input_color  : $warning_color;
+$valid_input_color    : $primary_color;
+$required_input_color : $primary_color;
+$focused_input_color  : darken($primary_color, 20%);
+
 .bf-dropdown {
-  select.form-control { // Placeholder color (https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder)
-    &::-webkit-input-placeholder { color: $optional_input_color; } /* WebKit, Blink, Edge */
-    &:-moz-placeholder           { color: $optional_input_color; opacity:  1; } /* Mozilla Firefox 4 to 18 */
-    &::-moz-placeholder          { color: $optional_input_color; opacity:  1; } /* Mozilla Firefox 19+ */
-    &:-ms-input-placeholder      { color: $optional_input_color; } /* Internet Explorer 10-11 */
-    &::-ms-input-placeholder     { color: $optional_input_color; } /* Microsoft Edge */
-    &::placeholder               { color: $optional_input_color; } /* Most modern browsers support this now. */
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-    border: 1px solid $optional_input_color;
-    &:focus { box-shadow: 0 0 0 2px rgba($optional_input_color, 0.35); }
+
+  input.form-control:focus { box-shadow: none; }  // Remove it from Bootstrap
+  .btn.btn-outline-secondary:active {
+    box-shadow: none;
   }
-  &.is-disabled select.form-control {
-    color: $disabled_input_color;
+
+    // Addon buttons
+  .btn.btn-outline-secondary {
+    border-color: $valid_input_color;
+    background: $valid_input_color;
+    color: $white;
+    //transition-property: none;
+    &:active:not(.disabled) {
+      //  box-shadow: inset 2px 2px 5px rgba(34, 36, 38, 0.4);
+      border-color: $valid_input_color;
+      background: $valid_input_color;
+    }
   }
-  &.is-required select.form-control {
-    border-color: $primary_color;
-    &:focus { box-shadow: 0 0 0 2px rgba($primary_color, 0.20); }
+  &.is-focus .btn.btn-outline-secondary {
+    border-color: $focused_input_color;
+    background: $focused_input_color;
   }
+  &.is-error .btn.btn-outline-secondary, &.is-error .btn.btn-outline-secondary:active {
+    border-color: $invalid_input_color;
+    background: $invalid_input_color;
+  }
+
+
 }

@@ -1,11 +1,32 @@
 <div *ngIf="!!bfLabel">
   <bf-label [bfText]="bfLabel" [bfRequired]="bfRequired"></bf-label>
 </div>
-<div class="bf-dropdown" [class.is-required]="bfRequired" [class.is-disabled]="bfDisabled">
-  <select class="form-control" name="bfDropdown"
-          [ngModel]="bfModel" (ngModelChange)="selectItem($event)"
-          [disabled]="bfDisabled"
-          [required]="bfRequired">
-    <option *ngFor="let item of extList" [ngValue]="item">{{ item.$renderedText }}</option>
-  </select>
+<div class="bf-dropdown"
+     [class.is-expanded]="isExpanded"
+     [class.is-required]="bfRequired"
+     [class.is-disabled]="bfDisabled">
+<!--  <select class="form-control" name="bfDropdown"-->
+<!--          [ngModel]="bfModel" (ngModelChange)="selectItem($event)"-->
+<!--          [disabled]="bfDisabled"-->
+<!--          [required]="bfRequired">-->
+<!--    <option *ngFor="let item of extList" [ngValue]="item">{{ item.$renderedText }}</option>-->
+<!--  </select>-->
+  isExpanded={{isExpanded}}
+
+  <div class="form-group input-group">
+    <input type="text" class="form-control" [ngModel]="bfModel">
+    <div class="input-group-append" (click)="isExpanded=!isExpanded">
+      <button class="btn btn-outline-secondary">
+        <span class="icon-arrow-down22"></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="list-container">
+    <div *ngFor="let option of extList" class="option-row"
+         [class.selected]="bfModel === option.$renderedText"
+         (click)="bfModel=option.$renderedText">
+      {{option.$renderedText}}
+    </div>
+  </div>
 </div>

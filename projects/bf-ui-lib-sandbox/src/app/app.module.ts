@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LibRegisterService } from './lib-register.service';
 import { IndexPageComponent } from './index-page/index-page.component';
-import { NgbPopoverModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbPopoverModule, NgbModalModule, NgbDatepicker, NgbDatepickerModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { BfUiLibModule } from '../../../bf-ui-lib/src/lib/bf-ui-lib.module';
 
@@ -57,6 +57,7 @@ import { BfPrototypesDemoComponent } from './bf-prototypes-demo/bf-prototypes-de
     BrowserModule,
     AppRoutingModule,
     NgbPopoverModule,
+    NgbDatepickerModule,
     // NgbModalModule,
     FormsModule,
     ReactiveFormsModule,

@@ -1,7 +1,3 @@
-// bf-dropdown = 'bf-btn'
-// BfDropdown = 'BfBtn'
-
-
 import { Component, OnInit } from '@angular/core';
 
 @Component({
