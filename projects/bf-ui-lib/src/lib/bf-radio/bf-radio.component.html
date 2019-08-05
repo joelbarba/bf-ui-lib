@@ -1,10 +1,13 @@
-<div class="bf-radio">
+<div class="radio">
   <label>
-    <input type="checkbox" [ngModel]="bfModel" (ngModelChange)="onChange($event)" [disabled]="bfDisabled">
-    <span class="check-box icon-checkmark3"></span>
-    <span class="check-text" [class.has-text]="!!bfLabel">{{bfLabel}}</span>
+    <input type="radio"
+           [value]="bfValue"
+           [name]="bfRadioGroup"
+           [ngModel]="bfModel"
+           (ngModelChange)="onChange($event)"
+           [disabled]="bfDisabled"
+           [required]="bfRequired">
+    <span class="radio-box icon-checkmark3"></span>
+    <span class="radio-text" [class.has-text]="!!bfLabel">{{bfLabelTrans$ | async}}</span>
   </label>
 </div>
-
-
-<!--https://getbootstrap.com/docs/4.0/components/forms/#checkboxes-and-radios-->

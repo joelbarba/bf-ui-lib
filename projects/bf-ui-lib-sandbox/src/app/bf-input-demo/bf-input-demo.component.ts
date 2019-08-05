@@ -116,7 +116,7 @@ $disabled_input_color : #797979;
     { id: 'email',    text: 'email',    },
   ];
   public myVariable = '';
-  public compConf:any = {
+  public compConf = {
     hasLabel: true, labelText: 'view.common.name',
     hasPlaceholder: false, placeholderText: 'view.common.name',
     isRequired: true,

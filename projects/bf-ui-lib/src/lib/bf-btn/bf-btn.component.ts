@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, Inject } from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, Inject, OnChanges} from '@angular/core';
 import { AbstractTranslateService } from '../abstract-translate.service';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { BfUiLibService } from '../bf-ui-lib.service';
@@ -10,23 +10,23 @@ import { Observable, of } from 'rxjs';
   styleUrls: ['./bf-btn.component.scss'],
   // encapsulation: ViewEncapsulation.None
 })
-export class BfBtnComponent implements OnInit {
+export class BfBtnComponent implements OnInit, OnChanges {
 
   @Input() bfAsyncPromise;
   @Input() bfAsyncClick;
 
   @Output() bfClick = new EventEmitter<any>();
-  @Input() bfText: string = '';
-  @Input() bfType: string = ''; // save, update, add, delete, cancel
-  @Input() bfIcon: string = 'icon-arrow-right3';
-  @Input() bfIconPos: string = 'right';
-  @Input() bfDisabled: boolean = false;
-  @Input() bfTooltip     : string = '';
-  @Input() bfTooltipPos  : string = 'top';
-  @Input() bfTooltipBody : boolean = true;
-  @Input() bfDisabledTip : string = '';
+  @Input() bfText = '';
+  @Input() bfType = ''; // save, update, add, delete, cancel
+  @Input() bfIcon = 'icon-arrow-right3';
+  @Input() bfIconPos      = 'right';
+  @Input() bfDisabled     = false;
+  @Input() bfTooltip      = '';
+  @Input() bfTooltipPos   = 'top';
+  @Input() bfTooltipBody  = true;
+  @Input() bfDisabledTip  = '';
 
-  public btnClass: string = 'primary';
+  public btnClass = 'primary';
 
   public bfTextTrans$: Observable<string> = of('');        // Translated text for the button
   public bfTooltipTrans$: Observable<string> = of('');     // Translated text for the tooltip of the label

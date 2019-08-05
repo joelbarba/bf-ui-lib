@@ -25,6 +25,8 @@ $invalid_input_color  : $warning_color;
 $valid_input_color    : $primary_color;
 $required_input_color : $primary_color;
 
+$radio-color: #525254; // $text-color;
+
 
 
 // --- <bf-btn> color reset ----------------------------------------------------
@@ -61,6 +63,31 @@ div.checkbox label input[type='checkbox'] {
     border-color: darken($disabled-color, 3%);
   }
 }
+
+// --- <bf-radio> color reset --------------------------------------------------
+div.radio label input[type='radio'] {
+  + span.radio-box {
+    border-color: darken($radio-color, 3%);
+  }
+
+  &:checked + span.radio-box {  // Selected (checked)
+    background: $radio-color;
+    &:before { color: $white; }
+  }
+
+  &[required]:not([disabled]) { // Required
+    &:checked + span.radio-box { background: $required_input_color; }
+    + span.radio-box {
+      border-color: darken($required_input_color, 3%);
+    }
+  }
+
+  &[disabled] + span.radio-box {  // Disabled
+    background: $disabled-color;
+    border-color: darken($disabled-color, 3%);
+  }
+}
+
 
 
 // --- <bf-label> color reset --------------------------------------------------

@@ -1,5 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, forwardRef } from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, forwardRef, Inject, OnChanges} from '@angular/core';
 import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
+import {Observable, of} from 'rxjs';
+import {AbstractTranslateService} from '../abstract-translate.service';
 
 @Component({
   selector: 'bf-radio',
@@ -14,14 +16,22 @@ import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VA
   ]
 })
 // export class BfCheckboxComponent implements OnInit {
-export class BfRadioComponent implements ControlValueAccessor {
+export class BfRadioComponent implements ControlValueAccessor, OnInit, OnChanges {
   // @Input() bfModel: boolean = false;
   // @Output() bfModelChange = new EventEmitter<boolean>();
-  public bfModel: boolean = false;
-  @Input() bfLabel: string = '';
-  @Input() bfDisabled: boolean = false;
+  public bfModel = false;
+  @Input() bfLabel = '';
+  @Input() bfValue: string = null;
+  @Input() bfRadioGroup = 'radio-group';
+  @Input() bfDisabled = false;
+  @Input() bfRequired = false;
 
-  constructor() { }
+
+  public bfLabelTrans$: Observable<string> = of('');        // Translated text for the button
+
+  constructor(
+    @Inject('TranslateService') private translate: AbstractTranslateService,
+  ) { }
 
   // ------- ControlValueAccessor -----
   writeValue(value: any) {
@@ -40,4 +50,9 @@ export class BfRadioComponent implements ControlValueAccessor {
     // this.bfModelChange.emit(value);
   }
 
+  ngOnChanges(change) {
+
+    // Generate new observables for the dynamic text
+    if (change.hasOwnProperty('bfLabel')) { this.bfLabelTrans$ = this.translate.getLabel$(this.bfLabel); }
+  }
 }

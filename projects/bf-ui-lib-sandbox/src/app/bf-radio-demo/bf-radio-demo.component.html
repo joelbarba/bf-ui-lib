@@ -1,38 +1,138 @@
-<!-- bf-radio = 'bf-btn' -->
-
 <h2>{{name}}</h2>
 <hr/>
-<h5>{{desc}}</h5>
+<p>{{desc}}</p>
+<p>Once the radio is selected, it's bfValue will be set to the ngModel. The selection (using the same ngModel)
+is unique, and when a radio is selected the rest are automatically unselected.<br/>
+  It is possible to have different radio groups using the same ngModel with multiple radios selected. To do so, use the
+  bfRadioGroup option, assigning different names for every group.
+</p>
+<p>
+  By default the radios are not required. This means that if no option is selected (model matches no value) the form
+  that wraps all the inputs will still be valid. If required, the form will only be valid if the model matches one radio.
+  <br>
+  For more details about the original bootstrap radio: <a href="https://getbootstrap.com/docs/4.0/components/forms/#checkboxes-and-radios">https://getbootstrap.com/docs/4.0/components/forms/#checkboxes-and-radios</a>
+</p>
 
+<!--https://getbootstrap.com/docs/4.0/components/forms/#checkboxes-and-radios-->
 <h5 class="mt-4">Parameters:</h5>
 <div class="col-12"><pre>{{api}}</pre></div>
 
+
+
+
+
+
+<!--Input Customization-->
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-5 marB15">
+      <h5 class="marB0">BfRadio Customization:</h5>
+      <div class="d-flex justify-content-between">
+        <bf-radio class="padT25"
+                  [(ngModel)]="myVariable"
+                  [bfValue]="compConf.value"
+                  [bfLabel]="compConf.labelText"
+                  [bfRadioGroup]="compConf.hasGroup?compConf.groupValue:''"
+                  [bfDisabled]="compConf.isDisabled"
+                  [bfRequired]="compConf.isRequired"
+        ></bf-radio>
+        <div class="d-print-inline-flex">
+          <bf-input [(ngModel)]="myVariable" bfLabel="myVariable"></bf-input>
+        </div>
+      </div>
+
+<!--      <div>myOp={{myOp}}</div>-->
+
+      <div class="padT5">
+        <div class="code-box pad15">
+          <pre>{{customCompCode}}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-7">
+
+      <!--Value-->
+      <div class="row">
+        <div class="col-3"><bf-label bfText="Value"></bf-label></div>
+        <div class="col-9"> <bf-input [(ngModel)]="compConf.value" (ngModelChange)="upComp()"></bf-input> </div>
+      </div>
+
+      <!--Label-->
+      <div class="row">
+        <div class="col-3"><bf-label bfText="Label"></bf-label></div>
+        <div class="col-9" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()"></bf-input> </div>
+      </div>
+
+      <!--Radio Group-->
+      <div class="row">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasGroup" (ngModelChange)="upComp()" bfLabel="Has Group"></bf-checkbox> </div>
+        <div class="col-9" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.groupValue" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasGroup"></bf-input> </div>
+      </div>
+
+      <!--Required + Disabled-->
+      <div class="row marT15">
+        <div class="col-3"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>
+        <div class="col-3"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<hr>
+
+
+
+
+
+
 <h5 class="mt-4">Examples:</h5>
 <div class="col-12 examples-table">
-  
-  <div class="row">
-    <div class="col-5"> <pre>{{instance}}</pre> </div>    
-    <div class="col-3">
-      <bf-radio (click)="myVar = 'eee'"></bf-radio>
-    </div>
 
-    <div class="col-4"> Simple instance with ........ </div>
+<!--  <div class="row">-->
+<!--    <div class="col-5">-->
+<!--      <bf-radio [(ngModel)]="myVariable" bfLabel="Option 1" bfValue="1"></bf-radio>-->
+<!--    </div>-->
+<!--    <div class="col-7 code-box"> <pre>{{instance}}</pre> </div>-->
+<!--  </div>-->
+
+  <div class="row">
+    <div class="col-5 ">
+      <div class="d-flex justify-content-between">
+        <bf-radio [(ngModel)]="myVariable" bfLabel="Option 1" bfValue="1"></bf-radio>
+        <bf-radio [(ngModel)]="myVariable" bfLabel="Option 2" bfValue="2"></bf-radio>
+        <bf-radio [(ngModel)]="myVariable" bfLabel="Option 3" bfValue="3"></bf-radio>
+      </div>
+    </div>
+    <div class="col-7 code-box"> <pre>{{instance2}}</pre> </div>
   </div>
-  
+
   <div class="row">
     <div class="col-5">
-      <bf-radio></bf-radio>
+      <h4 class="d-flex justify-content-between">
+        <bf-radio [(ngModel)]="myOp" bfLabel="Option 1" bfValue="100" bfRequired="true"></bf-radio>
+        <bf-radio [(ngModel)]="myOp" bfLabel="Option 2" bfValue="200" bfRequired="true"></bf-radio>
+        <bf-radio [(ngModel)]="myOp" bfLabel="Option 3" bfValue="300" bfRequired="true"></bf-radio>
+      </h4>
     </div>
-    <div class="col-7"> <pre>{{instance2}}</pre> </div>
+    <div class="col-7 code-box"> <pre>{{instance3}}</pre> </div>
   </div>
 
 </div>
 
-<div class="col-12 examples-table">
-  <div class="row">    
-    <div class="col-7 code-box"><pre>{{instance2}}</pre></div>
-    <div class="col-5 code-box"><pre>{{instance3}}</pre></div>
+
+<!--CSS Styling-->
+<div class="row marT40">
+  <div class="col-12">
+    <h3>CSS Styling</h3>
+    <p>The encapsulated styles of the bf-radio use a default color.
+       However, we may want to apply different colors externally (depending on the theme)
+      <br/>
+      To provide a color restyling based on a SCSS theme you can apply the following rules on a css global level :
+    </p>
+    <pre>{{ cssReset }}</pre>
   </div>
 </div>
 
-............... ADD TESTING INSTANCE HERE ...............
