@@ -11,8 +11,7 @@
   Check this page for more info: <a href="https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html">https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html</a>
 </p>
 
-<bf-input [(ngModel)]="myModel" bfAutoFocus="true">
-</bf-input>
+
 
 <!--Input Customization-->
 <div class="whiteBg">
@@ -36,11 +35,16 @@
 
                   [bfLeftBtnText]="(compConf.hasLeftBtnText ? compConf.leftBtnText : '')"
                   [bfLeftBtnIcon]="(compConf.hasLeftBtn ? compConf.leftBtnIcon : '')"
-                  (bfLeftBtnClick)="addonClick('Left addon button click')"
+                  (bfLeftBtnClick)="compConf.hasBtnListener && growl.success('Left addon button click')"
 
                   [bfRightBtnText]="(compConf.hasRightBtnText ? compConf.rightBtnText : '')"
                   [bfRightBtnIcon]="(compConf.hasRightBtn ? compConf.rightBtnIcon : '')"
-                  (bfRightBtnClick)="addonClick('Right addon button click')"
+                  (bfRightBtnClick)="compConf.hasBtnListener && growl.success('Right addon button click')"
+
+                  (bfOnKeyDown)="compConf.hasKeyDown && growl.success('Key Down -> ' + $event.key)"
+                  (bfOnEsc)="compConf.hasKeyEsc && growl.success('ESC key was pressed')"
+                  (bfOnEnter)="compConf.hasKeyEnter && growl.success('ENTER key was pressed')"
+                  (bfOnCtrlEnter)="compConf.hasKeyCtrlEnter && growl.success('Ctrl + ENTER key were pressed')"
         ></bf-input>
       </div>
 
@@ -67,13 +71,14 @@
         <div class="col-9" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.placeholderText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasPlaceholder"></bf-input> </div>
       </div>
 
-      <!--Required + Type-->
+      <!--Required + Type + AutoFocus-->
       <div class="row marT5">
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>
         <div class="col-6">
           <bf-dropdown [(ngModel)]="compConf.inputType" (ngModelChange)="upComp()" [bfList]="inputTypes" bfRender="text" bfSelect="id" [bfRequired]="true"> </bf-dropdown>
           <bf-label bfValue="Input Type" class="value-inline"></bf-label>
         </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasAutoFocus" (ngModelChange)="upComp()" bfLabel="Has AutoFocus"></bf-checkbox> </div>
       </div>
 
       <!--Disabled-->
@@ -105,12 +110,12 @@
         </div>
       </div>
 
-      <!--Focus-->
+      <!--Key Listeners-->
       <div class="row marT15">
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasAutoFocus" (ngModelChange)="upComp()" bfLabel="Has AutoFocus"></bf-checkbox> </div>
-        <!--<div class="col-9">-->
-        <!--  <bf-input class="flat" [(ngModel)]="compConf.inputDisabledTip" bfPlaceholder="This input is disabled because..." (ngModelChange)="upComp()"></bf-input>-->
-        <!--</div>-->
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasKeyDown" (ngModelChange)="upComp()" bfLabel="Listen KeyDown"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasKeyEsc" (ngModelChange)="upComp()" bfLabel="Listen Esc"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasKeyEnter" (ngModelChange)="upComp()" bfLabel="Listen Enter"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasKeyCtrlEnter" (ngModelChange)="upComp()" bfLabel="Listen Ctrl+Enter"></bf-checkbox> </div>
       </div>
 
       <!--Addon Buttons-->
@@ -240,6 +245,26 @@ lastRef.errors = {{lastRef.errors | json }}
       <bf-input [(ngModel)]="myModel" bfLabel="My Field"></bf-input>
     </div>
     <div class="col-9"> <pre>{{instance}}</pre> </div>
+  </div>
+
+  <div class="row">
+    <div class="col-3">
+      <bf-input [(ngModel)]="myModel" bfLabel="KeyDown detection"
+                (bfOnKeyDown)="growl.success('Key pressed -> ' + $event.key)">
+      </bf-input>
+    </div>
+    <div class="col-9"> <pre>{{instance4}}</pre> </div>
+  </div>
+
+  <div class="row">
+    <div class="col-3">
+      <bf-input [(ngModel)]="myModel" bfLabel="Special Keys detection"
+                (bfOnEsc)="growl.success('Esc key pressed')"
+                (bfOnEnter)="growl.success('Enter key pressed')"
+                (bfOnCtrlEnter)="growl.success('Ctrl + Enter key pressed')">
+      </bf-input>
+    </div>
+    <div class="col-9"> <pre>{{instance5}}</pre> </div>
   </div>
 
 </div>

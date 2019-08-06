@@ -54,8 +54,11 @@ export class BfInputComponent implements ControlValueAccessor {
 
   @Output() bfLeftBtnClick = new EventEmitter<any>();   // Emitter for left addon button
   @Output() bfRightBtnClick = new EventEmitter<any>();  // Emitter for right addon button
-
   @Output() bfOnAutofill = new EventEmitter<any>();     // Emitter when a browser autofill is detected
+  @Output() bfOnKeyDown = new EventEmitter<any>();      // Emitter when a key is pressed
+  @Output() bfOnEsc = new EventEmitter<any>();          // Emitter when esc key is pressed
+  @Output() bfOnEnter = new EventEmitter<any>();        // Emitter when Enter is pressed
+  @Output() bfOnCtrlEnter = new EventEmitter<any>();    // Emitter when Ctrl+Enter is pressed
 
 /*
 
@@ -251,6 +254,12 @@ export class BfInputComponent implements ControlValueAccessor {
     this.propagateModelUp(this.bfModel);
     this.updateStatus();
     // this.bfModelChange.emit(this.bfModel);
-  }
+  };
 
+  public triggerKey = (event) => {
+    if (event.key === 'Escape') { this.bfOnEsc.emit(event); }
+    if (event.key === 'Enter') { this.bfOnEnter.emit(event); }
+    if (event.key === 'Enter' && event.ctrlKey) { this.bfOnCtrlEnter.emit(event); }
+    this.bfOnKeyDown.emit(event);
+  }
 }

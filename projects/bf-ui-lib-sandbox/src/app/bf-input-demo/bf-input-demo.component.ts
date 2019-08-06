@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import {BfGrowlService} from "../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service";
 
 @Component({
   selector: 'app-bf-input-demo]',
@@ -34,7 +35,7 @@ export class BfInputDemoComponent implements OnInit {
 
   public flatExample = '<bf-input class="flat" [ngModel]="bfModel"></bf-input>';
 
-  public cssReset=`$input-border: #ccc !default; // <-- this is a bootstrap default
+  public cssReset = `$input-border: #ccc !default; // <-- this is a bootstrap default
 $optional_input_color : $input-border;
 $required_input_color : $primary_color;
 $invalid_input_color  : $warning_color;
@@ -76,7 +77,20 @@ $disabled_input_color : #797979;
   }
 }`;
 
-  constructor() { }
+  public instance4 = `<bf-input [(ngModel)]="myModel" bfAutoFocus="true"
+          (bfOnKeyDown)="growl.success('Key pressed -> ' + $event.key)">
+</bf-input>`;
+  public instance5 = `<bf-input [(ngModel)]="myModel" bfAutoFocus="true"
+          (bfOnEsc)="growl.success('Esc key pressed')"
+          (bfOnEnter)="growl.success('Enter key pressed')"
+          (bfOnCtrlEnter)="growl.success('Ctrl + Enter key pressed')">
+</bf-input>`;
+
+
+
+  constructor(
+    private growl: BfGrowlService,
+  ) { }
   ngOnInit() { }
 
 
@@ -128,6 +142,10 @@ $disabled_input_color : #797979;
     hasRightBtn: false, rightBtnIcon: 'icon-eye', hasRightBtnText: false, rightBtnText: 'view.common.yes',
     hasBtnListener: true,
     hasAutoFocus: false,
+    hasKeyDown: false,
+    hasKeyEsc: false,
+    hasKeyEnter: false,
+    hasKeyCtrlEnter: false,
     hasFlat: false,
   };
   public upComp = () => {
@@ -159,6 +177,10 @@ $disabled_input_color : #797979;
       if (this.compConf.hasRightBtnText || this.compConf.hasRightBtn) { this.customCompCode += this.bsStr + `(bfRightBtnClick)="onClickFn()"`; }
     }
 
+    if (this.compConf.hasKeyDown) { this.customCompCode += this.bsStr + `(bfOnKeyDown)="onClickFn($event)"`; }
+    if (this.compConf.hasKeyEsc)  { this.customCompCode += this.bsStr + `(bfOnEsc)="onClickFn($event)"`; }
+    if (this.compConf.hasKeyEnter) { this.customCompCode += this.bsStr + `(bfOnEnter)="onClickFn($event)"`; }
+    if (this.compConf.hasKeyCtrlEnter) { this.customCompCode += this.bsStr + `(bfOnCtrlEnter)="onClickFn($event)"`; }
 
     this.customCompCode += (`>` + this.brStr + `</bf-input>`);
   };
@@ -188,6 +210,10 @@ export const BfInputDoc = {
 [bfRightBtnText]  : Text to display in a button on the right side of the input (append addon)
 (bfRightBtnClick) : To listen to right addon button clicks
 (bfOnAutofill)    : To listen to a browser autofill event. It emits every time the browser autofills the input value
+(bfOnKeyDown)     : Triggered when a key is pressed on the textarea
+(bfOnEsc)         : Triggered when keys Esc is pressed.
+(bfOnEnter)       : Triggered when key Enter is pressed.
+(bfOnCtrlEnter)   : Triggered when keys Ctrl + Enter are pressed.
 `,
   instance: `<bf-input></bf-input>`,
   demoComp: BfInputDemoComponent

@@ -47,7 +47,8 @@
            title=""
            (focusin)="isFocus=true"
            (focusout)="isFocus=false"
-           [type]="bfType"/>
+           [type]="bfType"
+           (keydown)="triggerKey($event)"/>
 
     <div class="input-group-append" *ngIf="!!bfRightBtnIcon || !!bfRightBtnText"
          (click)="bfRightBtnClick.emit($event)">
