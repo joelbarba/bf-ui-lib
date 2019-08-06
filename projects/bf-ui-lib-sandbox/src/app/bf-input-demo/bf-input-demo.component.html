@@ -11,8 +11,8 @@
   Check this page for more info: <a href="https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html">https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html</a>
 </p>
 
-
-
+<bf-input [(ngModel)]="myModel" bfAutoFocus="true">
+</bf-input>
 
 <!--Input Customization-->
 <div class="whiteBg">
@@ -32,6 +32,7 @@
                   [bfTooltipPos]="(compConf.inputTooltipPos || 'top')"
                   [bfTooltipBody]="compConf.inputTooltipBody"
                   [bfDisabledTip]="compConf.inputDisabledTip"
+                  [bfAutoFocus]="compConf.hasAutoFocus"
 
                   [bfLeftBtnText]="(compConf.hasLeftBtnText ? compConf.leftBtnText : '')"
                   [bfLeftBtnIcon]="(compConf.hasLeftBtn ? compConf.leftBtnIcon : '')"
@@ -104,6 +105,13 @@
         </div>
       </div>
 
+      <!--Focus-->
+      <div class="row marT15">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasAutoFocus" (ngModelChange)="upComp()" bfLabel="Has AutoFocus"></bf-checkbox> </div>
+        <!--<div class="col-9">-->
+        <!--  <bf-input class="flat" [(ngModel)]="compConf.inputDisabledTip" bfPlaceholder="This input is disabled because..." (ngModelChange)="upComp()"></bf-input>-->
+        <!--</div>-->
+      </div>
 
       <!--Addon Buttons-->
       <div class="row marT25">
@@ -130,6 +138,7 @@
         </div>
       </div>
 
+      <!--Classes-->
       <div class="row marT15">
         <div class="col-8 padT5">
           <bf-label bfText="CSS Classes"></bf-label>
@@ -202,7 +211,6 @@ lastRef.errors = {{lastRef.errors | json }}
   </form>
 
 </div>
-
 
 
 
@@ -294,3 +302,7 @@ lastRef.errors = {{lastRef.errors | json }}
     <pre>{{ cssReset }}</pre>
   </div>
 </div>
+
+
+
+

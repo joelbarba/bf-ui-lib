@@ -127,6 +127,7 @@ $disabled_input_color : #797979;
     hasLeftBtn: false, leftBtnIcon: 'icon-plus', hasLeftBtnText: false, leftBtnText: '$',
     hasRightBtn: false, rightBtnIcon: 'icon-eye', hasRightBtnText: false, rightBtnText: 'view.common.yes',
     hasBtnListener: true,
+    hasAutoFocus: false,
     hasFlat: false,
   };
   public upComp = () => {
@@ -146,6 +147,7 @@ $disabled_input_color : #797979;
     if (this.compConf.hasPlaceholder) { this.customCompCode += this.bsStr + `bfPlaceholder="${this.compConf.placeholderText}"`; }
     if (this.compConf.hasIcon) { this.customCompCode += this.bsStr + `bfIcon="${this.compConf.inputIcon}"`; }
     if (this.compConf.inputType !== 'text') { this.customCompCode += this.bsStr + `bfType="${this.compConf.inputType}"`; }
+    if (this.compConf.hasAutoFocus) { this.customCompCode += this.bsStr + `bfAutoFocus="true"`; }
 
     if (this.compConf.hasLeftBtnText && this.compConf.leftBtnText)   { this.customCompCode += this.bsStr + `bfLeftBtnText="${this.compConf.leftBtnText}"`; }
     if (this.compConf.hasLeftBtn && this.compConf.leftBtnIcon)       { this.customCompCode += this.bsStr + `bfLeftBtnIcon="${this.compConf.leftBtnIcon}"`; }
@@ -175,6 +177,7 @@ export const BfInputDoc = {
 [bfPlaceholder]   : Placeholder text (automatically translated)
 [bfIcon]          : Icon to show into the input floating at the right hand side (this is replaced by bfValidIcon and bfInvalidIcon, once the status changes)
 [bfType]          : Type of value to apply to the input (text by default). It can be 'text', 'number', 'password', 'email'
+[bfAutoFocus]     : (true/false) If true, the input will get focused automatically once is initialized (linked to the view).
 [bfTooltip]       : If label provided, adds a info badge with a tooltip (automatically translated)
 [bfTooltipPos]    : Position of the tooltip (top by default)
 [bfTooltipBody]   : Whether the tooltip is append to the body (default true) or next the the html element (false). The parent contaniner may affect the visibility of the tooltip

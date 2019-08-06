@@ -49,6 +49,7 @@ export class BfInputComponent implements ControlValueAccessor {
   @Input() bfRightBtnText: string;  // Text to show into a button on the left of the input (append addon)
 
   @Input() bfErrorPos: string = 'top-right';  // top-right, bottom-left, bottom-right
+  @Input() bfAutoFocus = false; // If true, once input linked to the view is automatically focused
 
 
   @Output() bfLeftBtnClick = new EventEmitter<any>();   // Emitter for left addon button
@@ -79,7 +80,6 @@ export class BfInputComponent implements ControlValueAccessor {
       bfOnLoaded        : '&?',     // Callback function triggered when the directive is loaded (linked)
       bfBeforeChange    : '&?',     // Callback function triggered every time the ngModel is going to changes (same as bfOnChange, but just befor the model changes)
       bfSetFocus        : '=?',     // Function to call to set the focus
-      bfAutoFocus       : '@?',     // If present, set the focus automatically on load
       bfAddError        : '=?',     // Function to call to add a custom extra error on the model programatically
       bfRemoveError     : '=?',     // Function to call to remove the extra added error
       bfModelCtrl       : '=?'      // Binding to the ngModel controller on the input field
@@ -199,6 +199,13 @@ export class BfInputComponent implements ControlValueAccessor {
         this.bfType = 'text';
       }
     }
+
+    if (change.hasOwnProperty('bfAutoFocus') && !!this.bfAutoFocus) {
+      setTimeout(() => {  // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus
+        this.elementRef.nativeElement.querySelector('input').focus({ preventScroll: false });
+      }, 50);
+    }
+
 
 
 
