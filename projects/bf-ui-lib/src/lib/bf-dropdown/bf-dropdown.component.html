@@ -1,32 +1,48 @@
-<div *ngIf="!!bfLabel">
-  <bf-label [bfText]="bfLabel" [bfRequired]="bfRequired"></bf-label>
-</div>
-<div class="bf-dropdown"
-     [class.is-expanded]="isExpanded"
+<div class="form-group bf-dropdown-form-group"
      [class.is-required]="bfRequired"
-     [class.is-disabled]="bfDisabled">
-<!--  <select class="form-control" name="bfDropdown"-->
-<!--          [ngModel]="bfModel" (ngModelChange)="selectItem($event)"-->
-<!--          [disabled]="bfDisabled"-->
-<!--          [required]="bfRequired">-->
-<!--    <option *ngFor="let item of extList" [ngValue]="item">{{ item.$renderedText }}</option>-->
-<!--  </select>-->
-  isExpanded={{isExpanded}}
+     [class.is-disabled]="bfDisabled"
+     [class.is-focus]="isFocus || isExpanded">
+<!--     [class.is-error]="status === 'error'"-->
+<!--     [class.is-pristine]="status === 'pristine'"-->
+<!--     [class.is-dirty]="status === 'dirty'"-->
 
-  <div class="form-group input-group">
-    <input type="text" class="form-control" [ngModel]="bfModel">
-    <div class="input-group-append" (click)="isExpanded=!isExpanded">
-      <button class="btn btn-outline-secondary">
-        <span class="icon-arrow-down22"></span>
-      </button>
+  <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
+    <span class="info-badge" *ngIf="!!bfTooltip"
+         [ngbPopover]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
+         [container]="(bfTooltipBody ? 'body' : '')">
+      <span class="icon-info"></span>
+    </span>
+    <span>{{bfLabelTrans$ | async}}</span>:
+    <span *ngIf="bfRequired" class="asterisk">*</span>
+  </label>
+
+  <div class="bf-dropdown"
+       [class.is-expanded]="isExpanded">
+  <!--  <select class="form-control" name="bfDropdown"-->
+  <!--          [ngModel]="bfModel" (ngModelChange)="selectItem($event)"-->
+  <!--          [disabled]="bfDisabled"-->
+  <!--          [required]="bfRequired">-->
+  <!--    <option *ngFor="let item of extList" [ngValue]="item">{{ item.$renderedText }}</option>-->
+  <!--  </select>-->
+
+    <div class="input-group">
+      <input type="text" class="form-control"
+             [ngModel]="bfModel"
+             (focusin)="isFocus=true"
+             (focusout)="isFocus=false">
+      <div class="input-group-append" (click)="isExpanded=!isExpanded">
+        <button class="btn btn-outline-secondary">
+          <span class="icon-arrow-down22"></span>
+        </button>
+      </div>
     </div>
-  </div>
 
-  <div class="list-container">
-    <div *ngFor="let option of extList" class="option-row"
-         [class.selected]="bfModel === option.$renderedText"
-         (click)="bfModel=option.$renderedText">
-      {{option.$renderedText}}
+    <div class="list-container">
+      <div *ngFor="let option of extList" class="option-row"
+           [class.selected]="bfModel === option.$renderedText"
+           (click)="bfModel=option.$renderedText">
+        {{option.$renderedText}}
+      </div>
     </div>
   </div>
 </div>

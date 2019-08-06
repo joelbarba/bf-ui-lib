@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, Inject, forwardRef } from '@angular/core';
+import {Component, OnInit, AfterViewInit, Input, Output, EventEmitter, Inject, forwardRef, OnChanges} from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
 import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import { AbstractTranslateService } from '../abstract-translate.service';
@@ -22,7 +22,7 @@ import {Observable, of} from "rxjs";
     }
   ]
 })
-export class BfInputComponent implements ControlValueAccessor {
+export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges {
 // export class BfInputComponent implements OnInit {
   // @Output() bfModelChange = new EventEmitter<string>();
   // @Input() bfModel: string;

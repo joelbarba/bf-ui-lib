@@ -1,7 +1,9 @@
-import { Component, OnInit, Input, Output, forwardRef } from '@angular/core';
+import {Component, OnInit, Input, Output, forwardRef, OnChanges, Inject} from '@angular/core';
 import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import BfObject from '../bf-prototypes/object.prototype';
 import BfArray from '../bf-prototypes/array.prototypes';
+import {Observable, of} from 'rxjs';
+import {AbstractTranslateService} from '../abstract-translate.service';
 
 
 /****
@@ -157,7 +159,7 @@ import BfArray from '../bf-prototypes/array.prototypes';
     // }
   ]
 })
-export class BfDropdownComponent implements ControlValueAccessor {
+export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChanges {
   public bfModel; // <--- internal ngModel
   public extList; // Make a copy from bfList to make sure we never modify the input array
 
@@ -168,9 +170,19 @@ export class BfDropdownComponent implements ControlValueAccessor {
   @Input() bfDisabled = false;
   @Input() bfLabel = '';
 
-  public isExpanded = false;  // Whether the list is shown (true) or hidden
+  @Input() bfTooltip = '';
+  @Input() bfTooltipPos = 'top';  // If tooltip on the label, specific position (top by default)
+  @Input() bfTooltipBody = true;
+  @Input() bfDisabledTip = '';    // Label for the text of the tooltip to display when the input is disabled
 
-    // ------- ControlValueAccessor -----
+  public isExpanded = false;  // Whether the list is shown (true) or hidden
+  public isFocus = false;     // Whether the input is focused
+
+  public bfLabelTrans$: Observable<string> = of('');         // Translated text for the label
+  public bfTooltipTrans$: Observable<string> = of('');       // Translated text for the tooltip of the label
+
+
+  // ------- ControlValueAccessor -----
 
   // ControlValueAccessor --> writes a new value from the form model into the view
   writeValue(value: any) {
@@ -198,7 +210,9 @@ export class BfDropdownComponent implements ControlValueAccessor {
   // ------------------------------------
 
 
-  constructor() { }
+  constructor(
+    @Inject('TranslateService') private translate: AbstractTranslateService,
+  ) { }
 
   ngOnChanges(changes) {
 
@@ -255,6 +269,12 @@ export class BfDropdownComponent implements ControlValueAccessor {
         this.extList.shift();
       }
     }
+
+    // Generate new observables for the dynamic text
+    if (changes.hasOwnProperty('bfLabel'))        { this.bfLabelTrans$ = this.translate.getLabel$(this.bfLabel); }
+    if (changes.hasOwnProperty('bfTooltip'))      { this.bfTooltipTrans$ = this.translate.getLabel$(this.bfTooltip); }
+    // if (changes.hasOwnProperty('bfPlaceholder'))  { this.bfPlaceholderTrans$ = this.translate.getLabel$(this.bfPlaceholder); }
+    // if (changes.hasOwnProperty('bfDisabledTip'))  { this.bfDisabledTipTrans$ = this.translate.getLabel$(this.bfDisabledTip); }
 
   }
 
