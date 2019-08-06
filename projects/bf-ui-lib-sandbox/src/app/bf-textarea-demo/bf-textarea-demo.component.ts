@@ -3,6 +3,7 @@
 
 
 import { Component, OnInit } from '@angular/core';
+import {BfGrowlService} from "../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service";
 
 @Component({
   selector: 'app-bf-textarea-demo]',
@@ -86,7 +87,9 @@ $invalid_input_color  : $warning_color;
 
 
 
-  constructor() { }
+  constructor(
+    private growl: BfGrowlService,
+  ) { }
 
   ngOnInit() { }
 
@@ -105,7 +108,11 @@ export const BfTextareaDoc = {
 [bfPlaceholder] : Placeholder text (automatically translated)
 [bfTooltip]     : If label provided, adds a info badge with a tooltip (automatically translated)
 [bfTooltipPos]  : Position of the tooltip (top by default)
-[bfTooltipBody] : Whether the tooltip is append to the body (default true) or next the the html element (false). The parent contaniner may affect the visibility of the toolt`,
+[bfTooltipBody] : Whether the tooltip is append to the body (default true) or next the the html element (false). The parent contaniner may affect the visibility of the tooltip
+(bfOnKeyDown)   : Triggered when a key is pressed on the textarea
+(bfOnEsc)       : Triggered when keys Esc is pressed.
+(bfOnSave)      : Triggered when keys Ctrl + Enter are pressed. This represents the keyboard combination to save the value
+`,
   instance: `<bf-textarea [(ngModel)]="myVal" bfLabel="My Text"></bf-textarea>`,
   demoComp: BfTextareaDemoComponent
 };
