@@ -6,6 +6,10 @@ declare global {
     keyMap(propNames: string): Object;
     dCopy(): Object;
     cloneProp(propName: string, fromObject: Object): Object;
+
+    // TODO:
+    // Stripes out all properties with prefix ($ by default)
+    // peel(prefix?: string): Partial<Object>;
   }
 }
 

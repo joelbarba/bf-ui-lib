@@ -6,12 +6,12 @@ import BfDate from "./date.prototype";
 
 
 const BfPrototypes = (list?: Array<string>) => {
-  // console.log('Extending bf-ui-lib prototypes');
+  console.log('Extending bf-ui-lib prototypes');
 
   // Extend Array prototype
   for (let proFnName in BfArray) {
     if (BfArray.hasOwnProperty(proFnName) && isFnInList(proFnName, 'Array')) {
-      // console.log(`Extending Array prototype with --> .${proFnName}()`);
+      console.log(`Extending Array prototype with --> .${proFnName}()`);
       Array.prototype[proFnName] = BfArray[proFnName];
     }
   }
@@ -19,7 +19,7 @@ const BfPrototypes = (list?: Array<string>) => {
   // Extend Object prototype
   for (let proFnName in BfObject) {
     if (BfObject.hasOwnProperty(proFnName) && isFnInList(proFnName, 'Object')) {
-      // console.log(`Extending Object prototype with --> .${proFnName}()`);
+      console.log(`Extending Object prototype with --> .${proFnName}()`);
       Object.defineProperty(Object.prototype, proFnName, {
         value: BfObject[proFnName],
         enumerable: false
@@ -60,4 +60,4 @@ const BfPrototypes = (list?: Array<string>) => {
     }).length;
   }
 };
-export { BfPrototypes };
+export { BfPrototypes, BfArray, BfObject, BfNumber, BfString, BfDate };
