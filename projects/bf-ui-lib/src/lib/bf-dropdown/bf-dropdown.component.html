@@ -26,11 +26,14 @@
   <!--  </select>-->
 
     <div class="input-group">
-      <input type="text" class="form-control"
-             [ngModel]="bfModel"
-             (focusin)="isFocus=true"
-             (focusout)="isFocus=false">
-      <div class="input-group-append" (click)="isExpanded=!isExpanded">
+
+      <input type="text" class="form-control" #dropdownInput
+             [ngModel]="inputText" (ngModelChange)="filterList($event)"
+             [placeholder]="selModelText"
+             (focusin)="onFocusIn()"
+             (focusout)="onFocusOut()">
+
+      <div class="input-group-append" (click)="onInputBtnClick()">
         <button class="btn btn-outline-secondary">
           <span class="icon-arrow-down22"></span>
         </button>
@@ -38,11 +41,14 @@
     </div>
 
     <div class="list-container">
-      <div *ngFor="let option of extList" class="option-row"
-           [class.selected]="bfModel === option.$renderedText"
-           (click)="bfModel=option.$renderedText">
-        {{option.$renderedText}}
+      <div *ngFor="let item of extList" class="option-row"
+           [class.selected]="bfModel === item.$renderedText"
+           [hidden]="!item.$isMatch"
+           (click)="selectItem(item)">
+        {{item.$renderedText}}
+<!--        {{option.$isMatch}} - {{option.$renderedText}}-->
       </div>
     </div>
   </div>
+  bfModel={{bfModel | json}}
 </div>

@@ -1,9 +1,10 @@
-import {Component, OnInit, Input, Output, forwardRef, OnChanges, Inject} from '@angular/core';
+import {Component, OnInit, Input, Output, forwardRef, OnChanges, Inject, ViewChild, ElementRef} from '@angular/core';
 import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import BfObject from '../bf-prototypes/object.prototype';
 import BfArray from '../bf-prototypes/array.prototypes';
 import {Observable, of} from 'rxjs';
 import {AbstractTranslateService} from '../abstract-translate.service';
+import {cacheCompilerHost} from 'ng-packagr/lib/ts/cache-compiler-host';
 
 
 /****
@@ -161,6 +162,8 @@ import {AbstractTranslateService} from '../abstract-translate.service';
 })
 export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChanges {
   public bfModel; // <--- internal ngModel
+  public selModelText = '';  // Text representation of the selected Model (to display in the input / placeholder)
+  public inputText = '';     // Text on the input (ngModel)
   public extList; // Make a copy from bfList to make sure we never modify the input array
 
   @Input() bfList: Array<any>;
@@ -181,6 +184,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   public bfLabelTrans$: Observable<string> = of('');         // Translated text for the label
   public bfTooltipTrans$: Observable<string> = of('');       // Translated text for the tooltip of the label
 
+  @ViewChild('dropdownInput') elInput: ElementRef<HTMLInputElement>;
 
   // ------- ControlValueAccessor -----
 
@@ -190,7 +194,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
       // this.bfModel = value;
       // console.log('bfModel', this.bfModel);
       // setTimeout(() => { console.log('bfModel 2', this.bfModel); });
-      this.matchExtSelect(value);
+      // this.matchExtSelect(value);
     }
   }
 
@@ -225,7 +229,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
       }
 
       let renderExpr;
-      if (this.bfRender.slice(0,3) !== '$$$') {
+      if (this.bfRender.slice(0, 3) !== '$$$') {
         renderExpr = false; // Render one property
 
       } else { // Parse the expression to render
@@ -247,16 +251,18 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
           }
 
         } else { // If bfRender not provided: Display all props
-          for (let prop in $item) {
-            if (!!$renderedText) { $renderedText += ', '; }
-            $renderedText += $item[prop];
+          for (const prop in $item) {
+            if ($item.hasOwnProperty(prop)) {
+              if (!!$renderedText) { $renderedText += ', '; }
+              $renderedText += $item[prop];
+            }
           }
         }
 
         $item.$renderedText = $renderedText;
         $item.$index = ind + 1;  // Internal unique index
+        $item.$isMatch = true;   // filter none by default
       });
-
     }
 
     if (!this.bfRequired) { // If not required, add the empty option to the list
@@ -280,13 +286,52 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   ngOnInit() {  }
 
+
+  // Click on the expand/collapse input button
+  public onInputBtnClick = () => {
+    this.isExpanded = !this.isExpanded;
+    if (this.isExpanded) {
+      this.elInput.nativeElement.focus();
+    }
+  };
+
+
+  // Click on the expand/collapse input button
+  public onFocusIn = () => {
+    this.isFocus = true;
+    this.isExpanded = true;
+    this.inputText = '';  // Clear the text to work as a filter
+    this.filterList('');
+  };
+
+  public onFocusOut = () => {
+    this.isFocus = false;
+    setTimeout(() => {
+      this.isExpanded = false;
+      this.inputText = this.selModelText; // Show the model text
+    }, 100);
+  };
+
+  // Filter the list to display according to the input text
+  public filterList = (value) => {
+    const patternVal = value.toLowerCase();
+    this.extList.forEach(item => {
+      item.$isMatch = item.$renderedText.toLowerCase().indexOf(patternVal) >= 0;
+    });
+  };
+
+
+
   public selectItem = (selObj) => {
+    console.log('selectItem');
+    this.selModelText = selObj.$renderedText;
+
     this.bfModel = selObj;
     let selModel;  // Object to export (output)
 
 
     if (!selObj || selObj.$index === 0) {
-      selModel = null; // If empty value selected, return allways null
+      selModel = null; // If empty value selected, return always null
 
     } else {
       if (!this.bfSelect) {
@@ -308,7 +353,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   };
 
 
-  // Given an external object/value, find and select the match on the interal list
+  // Given an external object/value, find and select the match on the internal list
   public matchExtSelect = (value) => {
     let matchItem = null;
 
