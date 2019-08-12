@@ -79,6 +79,7 @@ export class BfListPaginatorComponent implements OnInit {
     this.bfCtrl.currentPage = this.checkNumber(this.bfCtrl.currentPage);
     this.bfCtrl.rowsPerPage = this.checkNumber(this.bfCtrl.rowsPerPage);
     this.bfCtrl.totalPages = this.checkNumber(this.bfCtrl.totalPages);
+    this.bfMaxButtons = this.checkNumber(this.bfMaxButtons);
 
     // console.log('Rendering list paginator', this.bfCtrl);
     this.listBtns = [];

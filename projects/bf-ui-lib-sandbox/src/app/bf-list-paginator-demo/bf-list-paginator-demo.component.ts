@@ -77,7 +77,7 @@ div.bf-list-paginator {
   public customCompCode = ``;
   public compConf:any = {
     myList: {
-      totalPages: 18,
+      totalPages: 241,
       currentPage: 8,
       rowsPerPage: 3,
     },
