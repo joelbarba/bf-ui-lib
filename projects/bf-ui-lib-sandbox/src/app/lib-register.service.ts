@@ -1,3 +1,5 @@
+import { BfPromiseDoc } from './bf-promise-demo/bf-promise-demo.component';
+import { BfLoadingBarDoc } from './bf-loading-bar-demo/bf-loading-bar-demo.component';
 import { BfPrototypesDoc } from './bf-prototypes-demo/bf-prototypes-demo.component';
 import { BfListPaginatorDoc } from './bf-list-paginator-demo/bf-list-paginator-demo.component';
 import { BfDatePickerDoc } from './bf-date-picker-demo/bf-date-picker-demo.component';
@@ -18,6 +20,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 export const compList = [
+  BfPromiseDoc,
   BfBtnDoc,
   BfLabelDoc,
   BfInputDoc,
@@ -32,6 +35,7 @@ export const compList = [
   BfListPlaceholderDoc,
   BfListPaginatorDoc,
   BfGrowlDoc,
+  BfLoadingBarDoc,
   BfConfirmDoc,
   BfPrototypesDoc,
 ];

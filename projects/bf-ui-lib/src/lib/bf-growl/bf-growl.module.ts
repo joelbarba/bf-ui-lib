@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ModuleWithProviders } from '@angular/core';
-import { BfGrowlPopUpComponent } from './bf-growl/bf-growl-pop-up.component';
-import { BfGrowlService } from './bf-growl/bf-growl.service';
+import { BfGrowlPopUpComponent } from './bf-growl-pop-up.component';
+import { BfGrowlService } from './bf-growl.service';
 
 @NgModule({
   imports: [BrowserModule],

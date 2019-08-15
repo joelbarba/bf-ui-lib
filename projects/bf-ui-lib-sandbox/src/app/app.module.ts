@@ -29,6 +29,8 @@ import { BfRadioDemoComponent } from './bf-radio-demo/bf-radio-demo.component';
 import { BfDatePickerDemoComponent } from './bf-date-picker-demo/bf-date-picker-demo.component';
 import { BfListPaginatorDemoComponent } from './bf-list-paginator-demo/bf-list-paginator-demo.component';
 import { BfPrototypesDemoComponent } from './bf-prototypes-demo/bf-prototypes-demo.component';
+import { BfLoadingBarDemoComponent } from './bf-loading-bar-demo/bf-loading-bar-demo.component';
+import { BfPromiseDemoComponent } from './bf-promise-demo/bf-promise-demo.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,8 @@ import { BfPrototypesDemoComponent } from './bf-prototypes-demo/bf-prototypes-de
     BfDatePickerDemoComponent,
     BfListPaginatorDemoComponent,
     BfPrototypesDemoComponent,
+    BfLoadingBarDemoComponent,
+    BfPromiseDemoComponent,
   ],
   imports: [
     BrowserModule,

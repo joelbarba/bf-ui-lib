@@ -5,7 +5,8 @@ import {NgbPopoverModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import { NgbModule, NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Modules
-import { BfGrowlModule } from './bf-growl.module';
+import { BfGrowlModule } from './bf-growl/bf-growl.module';
+import { BfLoadingBarModule } from "./bf-loading-bar/bf-loading-bar.module";
 
 // Services
 import { BfConfirmService } from './bf-confirm/bf-confirm.service';
@@ -70,6 +71,7 @@ import { BfListPaginatorComponent } from './bf-list-paginator/bf-list-paginator.
     BfListHeaderColComponent,
 
     BfGrowlModule,
+    BfLoadingBarModule,
   ]
 })
 export class BfUiLibModule {
