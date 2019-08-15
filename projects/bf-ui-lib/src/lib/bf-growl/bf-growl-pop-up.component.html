@@ -9,7 +9,7 @@
       <div class="default-icon">
         <span [ngClass]="msg.msgIcon"></span>
       </div>
-      <div class="default-text">{{msg.text}}</div>
+      <div class="default-text">{{msg.text$ | async}}</div>
     </div>
 
   </div>

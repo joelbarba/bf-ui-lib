@@ -25,8 +25,10 @@ export class BfGrowlService {
   public pushMsg(msg) {
     let newMsg:any = { ...msg, iniTime: new Date(), status: 'active' };
 
-    if (!!this.translate.doTranslate) {
-      newMsg.text = this.translate.doTranslate(newMsg.text);
+    if (!!this.translate.getLabel$) {
+      newMsg.text$ = this.translate.getLabel$(newMsg.text);
+    } else {
+      newMsg.text$ = new BehaviorSubject(newMsg.text);
     }
 
     this.msgList.unshift(newMsg);    
@@ -36,12 +38,12 @@ export class BfGrowlService {
       // Start the animation of fading out
       newMsg.status = 'fading'; this.list$.next(this.msgList);
 
-      // Remove the message after the animation
+      // Remove the message after the vanishing animation
       setTimeout(() => {
         const ind = this.msgList.indexOf(newMsg);
         this.msgList.splice(ind, 1);  
         this.list$.next(this.msgList);
-      }, newMsg.timeOut + 600);
+      }, 600);
     };
 
     // Set the timeout to remove the message automatically after a while
