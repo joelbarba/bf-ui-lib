@@ -161,11 +161,6 @@ import {cacheCompilerHost} from 'ng-packagr/lib/ts/cache-compiler-host';
   ]
 })
 export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChanges {
-  public bfModel; // <--- internal ngModel
-  public selModelText = '';  // Text representation of the selected Model (to display in the input / placeholder)
-  public inputText = '';     // Text on the input (ngModel)
-  public extList; // Make a copy from bfList to make sure we never modify the input array
-
   @Input() bfList: Array<any>;
   @Input() bfRender = '';
   @Input() bfSelect = '';
@@ -178,6 +173,12 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfTooltipBody = true;
   @Input() bfDisabledTip = '';    // Label for the text of the tooltip to display when the input is disabled
 
+  public bfModel; // <--- internal ngModel
+  public selModelText = '';  // Text representation of the selected Model (to display in the input / placeholder)
+  public inputText = '';     // Text on the input (ngModel)
+  public extList; // Make a copy from bfList to make sure we never modify the input array
+
+  public status: 'pristine' | 'dirty' | 'error' = 'pristine';
   public isExpanded = false;  // Whether the list is shown (true) or hidden
   public isFocus = false;     // Whether the input is focused
 
@@ -222,7 +223,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
     // Extend the input list adding $index and $renderedText
     if (!!changes.bfList) {
-      if (!!this.bfList && Array.isArray(this.bfList)) {
+      if (!!this.bfList) {
         this.extList = BfArray.dCopy.call(this.bfList);
       } else {
         this.extList = [];
@@ -247,6 +248,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
             $renderedText = $item[this.bfRender];
 
           } else {  // Display custom render expression
+            // tslint:disable-next-line:no-eval
             $renderedText = eval(renderExpr);
           }
 
@@ -269,7 +271,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
       if (!this.extList.length || this.extList[0].$index > 0) {
         this.extList.unshift({$index: 0, $renderedText: 'Empty'});
       }
-
     } else { // If there is empty value on the top of the list, get rid of it
       if (this.extList.length > 0 && this.extList[0].$index === 0) {
         this.extList.shift();
@@ -281,6 +282,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     if (changes.hasOwnProperty('bfTooltip'))      { this.bfTooltipTrans$ = this.translate.getLabel$(this.bfTooltip); }
     // if (changes.hasOwnProperty('bfPlaceholder'))  { this.bfPlaceholderTrans$ = this.translate.getLabel$(this.bfPlaceholder); }
     // if (changes.hasOwnProperty('bfDisabledTip'))  { this.bfDisabledTipTrans$ = this.translate.getLabel$(this.bfDisabledTip); }
+
 
   }
 
@@ -302,6 +304,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     this.isExpanded = true;
     this.inputText = '';  // Clear the text to work as a filter
     this.filterList('');
+    if (this.status === 'pristine') { this.status = 'dirty'; }
   };
 
   public onFocusOut = () => {
@@ -347,6 +350,8 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
         }
       }
     }
+
+
 
     // console.log('selModel', selModel);
     this.propagateModelUp(selModel);

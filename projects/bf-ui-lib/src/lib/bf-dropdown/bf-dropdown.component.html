@@ -1,10 +1,10 @@
 <div class="form-group bf-dropdown-form-group"
      [class.is-required]="bfRequired"
      [class.is-disabled]="bfDisabled"
-     [class.is-focus]="isFocus || isExpanded">
-<!--     [class.is-error]="status === 'error'"-->
-<!--     [class.is-pristine]="status === 'pristine'"-->
-<!--     [class.is-dirty]="status === 'dirty'"-->
+     [class.is-focus]="isFocus || isExpanded"
+     [class.is-pristine]="status === 'pristine'"
+     [class.is-error]="status === 'error'"
+     [class.is-dirty]="status === 'dirty'">
 
   <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
     <span class="info-badge" *ngIf="!!bfTooltip"

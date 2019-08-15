@@ -30,6 +30,8 @@ $input-border-color: #ced4da; // <-- this is a bootstrap default
 
   .bf-dropdown {
     position: relative;
+
+    // Input for the selected value
     input.form-control {
       height: 34px;
       font-size: 14px;
@@ -39,6 +41,8 @@ $input-border-color: #ced4da; // <-- this is a bootstrap default
         box-shadow: none; // Remove it from Bootstrap
       }
     }
+
+    // Right button next to the input to expand the list
     .input-group-append {
       margin-left: 0;
       .btn.btn-outline-secondary {
@@ -68,6 +72,7 @@ $input-border-color: #ced4da; // <-- this is a bootstrap default
       .list-container { display: block; }
     }
 
+    // Expanded list to select an item
     .list-container {
       display: none;
       position: absolute;
@@ -150,20 +155,22 @@ $focused_input_color  : darken($primary_color, 20%);
 $selection-bg: $quaternary_color;
 $selection-hover: $primary_color;
 
-.bf-dropdown-form-group {
-  .bf-dropdown {
+//.bf-dropdown-form-group {
+//  .bf-dropdown {
+//
+//    &.is-focus .btn.btn-outline-secondary {
+//      border-color: $focused_input_color;
+//      background: $focused_input_color;
+//    }
+//    &.is-error .btn.btn-outline-secondary,
+//    &.is-error .btn.btn-outline-secondary:active {
+//      border-color: $invalid_input_color;
+//      background: $invalid_input_color;
+//    }
+//  }
+//}
 
-    &.is-focus .btn.btn-outline-secondary {
-      border-color: $focused_input_color;
-      background: $focused_input_color;
-    }
-    &.is-error .btn.btn-outline-secondary,
-    &.is-error .btn.btn-outline-secondary:active {
-      border-color: $invalid_input_color;
-      background: $invalid_input_color;
-    }
-  }
-}
+
 
 
 .bf-dropdown-form-group {
@@ -204,35 +211,32 @@ $selection-hover: $primary_color;
     }
   }
 
-
-  &.is-focus {
-    label { color: $focused_input_color; }
+    // Changes the colors depending on the status
+  @mixin bf-dropdown-status-color($color) {
+    label { color: $color; }
     .bf-dropdown {
-      input.form-control { border-color: $focused_input_color; }
+      input.form-control { border-color: $color; }
       .btn.btn-outline-secondary {
-        background: $focused_input_color;
-        border-color: $focused_input_color;
+        background: $color;
+        border-color: $color;
       }
       &.is-expanded .btn.btn-outline-secondary {
         background: $white;
-        color: $focused_input_color;
-        border-color: $focused_input_color $focused_input_color transparent transparent;
+        color: $color;
+        border-color: $color $color transparent transparent;
       }
       .list-container {
-        border-color: $focused_input_color;
+        border-color: $color;
         border-top-color: rgba($optional_input_color, 0.5);
       }
     }
   }
 
-  &.is-error {
-    label { color: $invalid_input_color; }
-    input.form-control { border-color: $invalid_input_color; }
-    input.form-control:focus { border-color: $invalid_input_color; }
-    .bf-input-error-text { color: $invalid_input_color; }
-  }
-
-
-
+  &.is-required { @include bf-dropdown-status-color($required_input_color); }
+  &.is-focus { @include bf-dropdown-status-color($focused_input_color); }
+  &.is-error { @include bf-dropdown-status-color($invalid_input_color); }
 
 }
+
+
+
