@@ -31,6 +31,7 @@ import { BfListPaginatorDemoComponent } from './bf-list-paginator-demo/bf-list-p
 import { BfPrototypesDemoComponent } from './bf-prototypes-demo/bf-prototypes-demo.component';
 import { BfLoadingBarDemoComponent } from './bf-loading-bar-demo/bf-loading-bar-demo.component';
 import { BfPromiseDemoComponent } from './bf-promise-demo/bf-promise-demo.component';
+import { BfDeferDemoComponent } from './bf-defer-demo/bf-defer-demo.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { BfPromiseDemoComponent } from './bf-promise-demo/bf-promise-demo.compon
     BfPrototypesDemoComponent,
     BfLoadingBarDemoComponent,
     BfPromiseDemoComponent,
+    BfDeferDemoComponent,
   ],
   imports: [
     BrowserModule,

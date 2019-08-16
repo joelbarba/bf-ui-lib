@@ -1,3 +1,4 @@
+import { BfDeferDoc } from './bf-defer-demo/bf-defer-demo.component';
 import { BfPromiseDoc } from './bf-promise-demo/bf-promise-demo.component';
 import { BfLoadingBarDoc } from './bf-loading-bar-demo/bf-loading-bar-demo.component';
 import { BfPrototypesDoc } from './bf-prototypes-demo/bf-prototypes-demo.component';
@@ -38,6 +39,7 @@ export const compList = [
   BfConfirmDoc,
   BfPrototypesDoc,
   BfPromiseDoc,
+  BfDeferDoc,
 ];
 
 /* {

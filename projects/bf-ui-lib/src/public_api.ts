@@ -27,3 +27,4 @@ export * from './lib/bf-date-picker/bf-date-picker.component';
 export * from './lib/bf-list-paginator/bf-list-paginator.component';
 export * from './lib/bf-loading-bar/bf-loading-bar.component';
 export * from './lib/bf-promise/bf-promise';
+export * from './lib/bf-defer/bf-defer';

@@ -55,15 +55,15 @@ import { BfListPaginatorComponent } from './bf-list-paginator/bf-list-paginator.
     BfGrowlModule
   ],
   exports: [
-    BfListPaginatorComponent,  // <--- New component
-    BfDatePickerComponent,  // <--- New component
-    BfRadioComponent,  // <--- New component
-    BfTextareaComponent,  // <--- New component
-    BfConfirmComponent,  // <--- New component
-    BfQuantityComponent,  // <--- New component
-    BfSwitchComponent,  // <--- New component
-    BfDropdownComponent,  // <--- New component
-    BfInputComponent,  // <--- New component
+    BfListPaginatorComponent,
+    BfDatePickerComponent,
+    BfRadioComponent,
+    BfTextareaComponent,
+    BfConfirmComponent,
+    BfQuantityComponent,
+    BfSwitchComponent,
+    BfDropdownComponent,
+    BfInputComponent,
     BfCheckboxComponent,
     BfListPlaceholderComponent,
     BfLabelComponent,
