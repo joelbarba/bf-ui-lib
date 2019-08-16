@@ -9,9 +9,10 @@
 //      </label>
 //    </div>
 
+
 div.checkbox {
   display: inline-block;
-  margin: 0px;
+  margin: 0;
 
   label {
     display: inline-flex;
@@ -73,4 +74,10 @@ div.checkbox {
       }
     }
   }
+}
+
+
+
+:host.block {
+  display: block;
 }

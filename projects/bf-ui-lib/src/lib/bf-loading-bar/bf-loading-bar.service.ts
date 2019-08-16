@@ -1,21 +1,22 @@
-import { Injectable, Inject } from '@angular/core';
-import { AbstractTranslateService } from '../abstract-translate.service';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { BfPromise } from "../bf-promise/bf-promise";
 
 /*******************************************************************************************************************
- * Initiate the loading by calling .run() and passing a bfPromise.
+ * Initiate the loading by calling .run() and passing a native Promise.
  * The loading will be resolved automatically when that promise is finished
  *
- *    Example: this.loadingBar.run(new BfPromise(resolve => { resolve(); }))
+ *    Example: this.loadingBar.run(new Promise(resolve => resolve()))
  *
  * It is possible to queue multiple promises.
  * Calling .run() multiple times stacks promises, and keeps the bar running until they are all completed
  *
  * As a second (optional) parameter in .run() there is a configuration object to define the loading options:
- *  - showBar      (true) - Displays the loading bar below the navbar
  *  - blockScreen  (true) - Displays an overlay on the screen to block all elements
- *  - showSpinner  (false) - Display a spinner on the middle of the screen
  *  - delayTime    (1sec) - Delay time to trigger. If promises are completed before this time, loading it's not shown
+ *  - showBar      (true) - Displays the loading bar below the navbar
+ *  - showSpinner  (false) - Display a spinner on the middle of the screen
+ *  - spinnerType  (string) - // The type of the spinner to display
  *
  * Every time .run() is called those options can be updated (override the current values if passed)
  *
@@ -23,7 +24,7 @@ import { BehaviorSubject } from 'rxjs';
  *
  * Example:
  *
- *    const myPromise = new BfPromise((resolve) => { setTimeout(resolve, 5000); });
+ *    const myPromise = new Promise((resolve) => { setTimeout(resolve, 5000); });
  *    this.loadingBar.run(myPromise, { blockScreen: false }).then(() => {
  *      console.log('Ready');
  *    });
@@ -31,127 +32,94 @@ import { BehaviorSubject } from 'rxjs';
  */
 
 export enum ILoadingStatus { Off = 0, Running = 1, Displayed = 2 }
-interface ILoadingOptions {
-  showBar     : boolean;  // Whether the loading bar should be displayed
-  blockScreen : boolean;  // Whether the whole screen should be blocked
-  showSpinner : boolean;  // Whether the show the center spinner
-  delayTime   : number;   // Time to wait to trigger the animation after the loading is started
+export interface ILoadingOptions {
+  blockScreen: boolean    // Whether the whole screen should be blocked
+  delayTime: number       // Time to wait to trigger the animation after the loading is started
+  showBar: boolean        // Whether the loading bar should be displayed
+  showSpinner: boolean    // Whether the show the center spinner
+  spinnerType: 'circular' | 'blueface'  // The type of the spinner to display
 }
 
-
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class BfLoadingBarService {
-  public status: ILoadingStatus = ILoadingStatus.Off;
-  public options: ILoadingOptions;
-  public loadingPromise: Promise<any>; // Wrapping promise
-  private resolveLoading; // Resolver for loadingPromise
-  public waitingQueue: Array<Promise<any>> = []; // Stack of waiting promises
+  public defaultOptions: Partial<ILoadingOptions> = {
+    showBar     : true,
+    blockScreen : true,
+    showSpinner : false,
+    delayTime   : 1000,
+    spinnerType : 'circular'
+  };
+  public options: Partial<ILoadingOptions>;
 
+  public status: ILoadingStatus = ILoadingStatus.Off;
+  public status$: BehaviorSubject<ILoadingStatus> = new BehaviorSubject(ILoadingStatus.Off);
+
+  public waitingQueue: Array<Promise<any>> = []; // Stack of waiting promises
   public delayPromise;  // This is to wait for the delay to prompt the loader
 
-  constructor() { }
+  constructor() {
+    this.options = { ...this.defaultOptions };
+  }
+
+  // Set default configuration. It will be applied for every run, unless it comes with specific options
+  public config = (options: Partial<ILoadingOptions>) => {
+    this.defaultOptions = { ...this.defaultOptions, ...options };
+  };
 
   public run = (waitingPromise?: Promise<any>, options?: Partial<ILoadingOptions>) => {
+    this.options = { ...this.defaultOptions, ...options };
 
-    if (!this.loadingPromise) {
-      this.loadingPromise = new Promise(resolve => this.resolveLoading = resolve);
-    }
-
-    this.options = {
-      showBar: true, blockScreen: true, showSpinner: false, delayTime: 1000, // defaults
-      ...this.options,
-      ...options
-    };
-
+    // If a promise is passed as parameter, stack it to the automatic resolver
     if (!!waitingPromise) {
-
-      if (this.status === ILoadingStatus.Off) {
-        console.log('Turning loading ON');
-
-        this.status = ILoadingStatus.Running;
-        this.delayPromise = new Promise((resolve) => {
-          setTimeout(() => { resolve(); }, this.options.delayTime);
-        });
-        this.delayPromise.then(() => { // Show loading after delay
-          if (ILoadingStatus.Running) { this.status = ILoadingStatus.Displayed; }
-        });
-      }
-
-      // Queue the promise, and wait until it's completed to see if we can turn off the loading
       this.waitingQueue.push(waitingPromise);
-      waitingPromise.finally(() => {
-        if (this.status !== ILoadingStatus.Off) {
-
-          // Remove the resolved promise from the queue
-          const ind = this.waitingQueue.indexOf(waitingPromise);
-          if (ind >= 0) { this.waitingQueue.splice(ind, 1); }
-
-          if (!this.waitingQueue.length) {  // If no more promise to wait, finish
-            // console.log('Loading bar resolved');
-            this.delayPromise.cancel();
-            this.status = ILoadingStatus.Off;
-            this.resolveLoading();
-          }
-        }
-      });
-
-
-      // if waitingPromise is not a BfPromise, turn it into
-      // let waitingBfPromise: BfPromise;
-
-      // We expect to work with waitingPromise as "BfPromise"
-      // if (waitingPromise instanceof BfPromise) {
-      //   waitingBfPromise = waitingPromise;
-      // } else {
-      //   if (Object.prototype.toString.call(waitingPromise) === '[object Promise]') {
-      //     waitingBfPromise = BfPromise.from(<Promise<any>>waitingPromise);
-      //   } else {
-      //     console.error('What the hell is waitingPromise?', waitingPromise);
-      //     throw ('Unknown promise');
-      //   }
-      // }
-
-      // if (this.status === ILoadingStatus.Off) {
-      //   // console.log('Turning loading ON');
-      //
-      //   this.status = ILoadingStatus.Running;
-      //   this.delayPromise = new BfPromise((resolve) => {
-      //     setTimeout(() => { resolve(); }, this.options.delayTime);
-      //   });
-      //   this.delayPromise.then(() => { // Show loading after delay
-      //     if (ILoadingStatus.Running) { this.status = ILoadingStatus.Displayed; }
-      //   });
-      // }
-
-      // Queue the promise, and wait until it's completed to see if we can turn off the loading
-      // this.waitingQueue.push(waitingBfPromise);
-      // waitingBfPromise.complete(() => {
-      //   if (this.status !== ILoadingStatus.Off) {
-      //
-      //     // Remove the resolved promise from the queue
-      //     const ind = this.waitingQueue.indexOf(waitingBfPromise);
-      //     if (ind >= 0) { this.waitingQueue.splice(ind, 1); }
-      //
-      //     if (!this.waitingQueue.length) {  // If no more promise to wait, finish
-      //       // console.log('Loading bar resolved');
-      //       this.delayPromise.cancel();
-      //       this.status = ILoadingStatus.Off;
-      //       this.loadingPromise.resolve();
-      //     }
-      //   }
-      // });
-
+      waitingPromise.then(
+        () => this.queueResolve(waitingPromise),  // Resolve
+        () => this.queueResolve(waitingPromise)   // Reject
+      );
     }
+
+    // Turn it on, and defer the display
+    if (this.status === ILoadingStatus.Off) {
+      this.setStatus(ILoadingStatus.Running);
+
+      this.delayPromise = new BfPromise();
+      setTimeout(() => { this.delayPromise.resolve(); }, this.options.delayTime);
+      this.delayPromise.then(() => { // Show loading after delay (if delayPromise not cancelled)
+        if (this.status === ILoadingStatus.Running) { this.setStatus(ILoadingStatus.Displayed); }
+      });
+    }
+
     return waitingPromise;  // Return the same input promise
   };
 
+  // Finish the loading process. If there's any promise waiting in the queue, clear it up
   public stop = () => {
-    // console.log('Loading bar stopped');
     this.waitingQueue = [];
-    // if (!!this.delayPromise) { this.delayPromise.cancel(); }
-    // if (!!this.loadingPromise) { this.loadingPromise.cancel(); }
-    this.status = ILoadingStatus.Off;
+    if (!!this.delayPromise) { this.delayPromise.cancel(); }
+    this.setStatus(ILoadingStatus.Off);
+  };
+
+
+  // Update the status and push it
+  private setStatus = (newStatus: ILoadingStatus) => {
+    this.status = newStatus;
+    this.status$.next(this.status);
+  };
+
+  // When a promise in the queue is resolve / reject
+  private queueResolve = (queuePromise) => {
+    if (this.status !== ILoadingStatus.Off) {
+
+      // Remove the resolved promise from the queue
+      const ind = this.waitingQueue.indexOf(queuePromise);
+      if (ind >= 0) { // If the promise is not in the queue, ignore it
+        this.waitingQueue.splice(ind, 1);
+
+        if (!this.waitingQueue.length) {  // If no more promise to wait, finish
+          if (!!this.delayPromise) { this.delayPromise.cancel(); }
+          this.setStatus(ILoadingStatus.Off);
+        }
+      }
+    }
   };
 }

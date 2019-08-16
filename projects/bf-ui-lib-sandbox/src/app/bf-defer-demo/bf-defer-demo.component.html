@@ -27,12 +27,7 @@
       <div class="col-12"><h5 class="marB20">Running Example:</h5></div>
       <div class="col-3"><bf-input bfLabel="Resolve after" [(ngModel)]="resolveTime" [bfDisabled]="myDef?.status === 0"></bf-input></div>
       <div class="col-3"><bf-input bfLabel="Reject after" [(ngModel)]="rejectTime" [bfDisabled]="myDef?.status === 0"></bf-input></div>
-      <div class="col-6 padT20">
-        <bf-btn bfText="def = new BfDefer()" class="full-width"
-                [bfDisabled]="myDef?.status === 0"
-                (bfClick)="initTest()">
-        </bf-btn>
-      </div>
+      <div class="col-6 padT25 padH20">{{testLog}}</div>
 
       <div class="col-3">
         <bf-btn bfText="def.resolve()" bfType="save" class="full-width"
@@ -47,7 +42,13 @@
         </bf-btn>
       </div>
 
-      <div class="col-6 padV5 padH20">{{testLog}}</div>
+
+      <div class="col-6">
+        <bf-btn bfText="def = new BfDefer()" class="full-width"
+                [bfDisabled]="myDef?.status === 0"
+                (bfClick)="initTest()">
+        </bf-btn>
+      </div>
     </div>
   </div>
 </div>
