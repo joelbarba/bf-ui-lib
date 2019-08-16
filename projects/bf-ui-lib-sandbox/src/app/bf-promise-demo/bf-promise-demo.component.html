@@ -21,12 +21,22 @@
 
 <hr>
 <div class="row whiteBg">
-  <div class="col-12"><h5 class="marB20">Test:</h5></div>
-  <div class="col-2"><bf-input bfLabel="Resolve after" [(ngModel)]="resolveTime"></bf-input></div>
-  <div class="col-2"><bf-input bfLabel="Reject after" [(ngModel)]="rejectTime"></bf-input></div>
-  <div class="col-2 padT20"><bf-btn bfText="Trigger Promise" (bfClick)="initTest()"></bf-btn></div>
+  <div class="col-12"><h5 class="marB20">Running Example:</h5></div>
+  <div class="col-2"><bf-input bfLabel="Resolve after" [(ngModel)]="resolveTime" [bfDisabled]="myPromise?.status === 0"></bf-input></div>
+  <div class="col-2"><bf-input bfLabel="Reject after" [(ngModel)]="rejectTime" [bfDisabled]="myPromise?.status === 0"></bf-input></div>
+  <div class="col-2 padT20">
+    <bf-btn bfText="Trigger Promise"
+            [bfDisabled]="myPromise?.status === 0"
+            (bfClick)="initTest()">
+    </bf-btn>
+  </div>
   <div class="col-2 padT20">{{testLog}}</div>
-  <div class="col-2 padT20"><bf-btn bfText="Cancel Promise" bfType="warning" (bfClick)="testCancel()"></bf-btn></div>
+  <div class="col-2 padT20">
+    <bf-btn bfText="Cancel Promise" bfType="warning"
+            [bfDisabled]="myPromise?.status !== 0"
+            (bfClick)="testCancel()">
+    </bf-btn>
+  </div>
 </div>
 
 <hr>

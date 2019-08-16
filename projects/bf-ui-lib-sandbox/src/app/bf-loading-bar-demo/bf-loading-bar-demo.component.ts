@@ -82,7 +82,7 @@ $invalid_input_color  : $warning_color;
 
 
 export const BfLoadingBarDoc = {
-  name    : `bf-loading-bar`,
+  name    : `bfLoadingBar`,
   uiType  : 'module',
   desc    : `Global loading animation to block the page while something is going on`,
   api     : `[bfText]: Button text`,

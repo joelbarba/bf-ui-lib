@@ -12,13 +12,15 @@ export class BfPromiseDemoComponent implements OnInit {
   public api = BfPromiseDoc.api;
   public instance = BfPromiseDoc.instance;
 
-  public example1 = `let bfPromise = new BfPromise((resolve, reject, cancel) => {
+  public example1 = `import { BfPromise } from 'bf-ui-lib';  
+  
+const bfPromise = new BfPromise((resolve, reject, cancel) => {
   setTimeout(() => { cancel(1);  }, 2000);
   setTimeout(() => { resolve(2); }, 3000);
   setTimeout(() => { reject(3);  }, 4000);
 });`;
 
-  public example2 = `let bfPromise = new BfPromise();
+  public example2 = `const bfPromise = new BfPromise();
 setTimeout(() => { bfPromise.cancel();  }, 2000);
 setTimeout(() => { bfPromise.resolve(); }, 3000);
 setTimeout(() => { bfPromise.reject();  }, 4000);
@@ -40,9 +42,9 @@ allResolved(stack: Array<BfPromise>): BfPromise ---> (NOT IMPLEMENTED YET) Retur
 `;
 
   public myPromise: BfPromise;
-  public resolveTime = 10;
-  public rejectTime = 15;
-  public testLog = 'Promise pristine';
+  public resolveTime = 5;
+  public rejectTime = 7;
+  public testLog = '';
   public elapsedTime = 0;
   public cancelInt;
   public cancelRes;
@@ -99,9 +101,9 @@ allResolved(stack: Array<BfPromise>): BfPromise ---> (NOT IMPLEMENTED YET) Retur
 
 
 export const BfPromiseDoc = {
-  name    : `bf-promise`,
+  name    : `bfPromise`,
   uiType  : 'class',
-  desc    : `Custom Promise generator (promise with asteroids)`,
+  desc    : `(Class) Custom Promise Generator (promise with asteroids)`,
   api     : `resolve(result?) --> It resolves the current promise (shortcut to the inner resolver)
 reject(result?)  --> It rejects the current promise (shortcut to the inner rejector)
 cancel()         --> It cancels the promise if it is still not resolved/rejected. Every listener (then/catch/complete) set

@@ -20,7 +20,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 export const compList = [
-  BfPromiseDoc,
   BfBtnDoc,
   BfLabelDoc,
   BfInputDoc,
@@ -38,6 +37,7 @@ export const compList = [
   BfLoadingBarDoc,
   BfConfirmDoc,
   BfPrototypesDoc,
+  BfPromiseDoc,
 ];
 
 /* {
