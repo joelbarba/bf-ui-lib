@@ -42,9 +42,18 @@ Calling .run() multiple times stacks promises, and keeps the bar running until t
 
 <hr>
 
+<div class="whiteBg row">
+  <div class="col-12 marB10"><h5>Inject the component</h5></div>
+  <div class="col-12">
+    <p>You have to add an instance of the component somewhere in the html, in order to activate it when needded.
+    It's should be (preferably) at the very top of the components tree (app component view)</p>
+  </div>
+  <div class="col-12">
+    <div class="code-box"><pre class="pad10">{{ compInstance }}</pre></div>
+  </div>
+</div>
 
-
-
+<hr>
 
 <div class="whiteBg row">
   <div class="col-12 marB10"><h5>Simple run / stop</h5></div>

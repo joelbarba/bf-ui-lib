@@ -67,6 +67,8 @@ this.loadingBar.run(myPromise, { blockScreen: false }).then(() => {
   console.log('Ready');
 });`;
 
+  public compInstance = `<bf-loading-bar></bf-loading-bar>`;
+
 
   public myOpts: ILoadingOptions = {
     blockScreen : true,
