@@ -102,6 +102,7 @@ this.loadingBar.run(myPromise, { blockScreen: false }).then(() => {
     setInterval(() => {
       this.promStack.forEach(prom => {
         const nowTime = new Date();
+        // @ts-ignore
         const elapsedTime = Math.floor((nowTime - prom.iniTime) / 1000);
         prom.logMsg = `Promise ${prom.id} will be resolved in: ${prom.resolveTime - elapsedTime} sec`;
       });
