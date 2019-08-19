@@ -1,2 +1,7 @@
+npm run build_doc
+cp -r dist/bf-ui-lib-sandbox  ../oauthmanager/blueface_splice
 cd ../oauthmanager
-sh import_lib_doc.sh
+git add -A
+git commit -m "New version of bf-ui-lib documentation generated"
+git push
+
