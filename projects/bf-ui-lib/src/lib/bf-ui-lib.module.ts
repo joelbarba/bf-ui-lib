@@ -52,7 +52,8 @@ import { BfListPaginatorComponent } from './bf-list-paginator/bf-list-paginator.
     NgbPopoverModule,
     NgbTooltipModule,
     NgbModalModule,
-    BfGrowlModule
+    BfGrowlModule,
+    BfLoadingBarModule,
   ],
   exports: [
     BfListPaginatorComponent,
