@@ -160,27 +160,27 @@ export class BfPromise {
 
   // ---------- Static helpers --------------
 
-  // Convert a native promise to a BfPromise
-  static from = (nativePromise: Promise<any>) => {
-    return new BfPromise((resolve, reject) => {
-      nativePromise.then(resolve, reject);
-    });
-  };
-
-  // Returns a promise that resolves when all the given promises are resolved, or one is rejected (same as Promise.all)
-  static all = (stack: Array<BfPromise>) => {
-    // TODO: Implement it
-  };
-
-  // Returns a promise that resolves when all the given promises are completed
-  static allCompleted = (stack: Array<BfPromise>) => {
-    // TODO: Implement it
-  };
-
-  // Returns a promise that resolves when all are resolved, or one is rejected (same as Promise.all)
-  static allResolved = (stack: Array<BfPromise>) => {
-    // TODO: Implement it
-  };
+  // // Convert a native promise to a BfPromise
+  // static from = (nativePromise: Promise<any>) => {
+  //   return new BfPromise((resolve, reject) => {
+  //     nativePromise.then(resolve, reject);
+  //   });
+  // };
+  //
+  // // Returns a promise that resolves when all the given promises are resolved, or one is rejected (same as Promise.all)
+  // static all = (stack: Array<BfPromise>) => {
+  //   // TODO: Implement it
+  // };
+  //
+  // // Returns a promise that resolves when all the given promises are completed
+  // static allCompleted = (stack: Array<BfPromise>) => {
+  //   // TODO: Implement it
+  // };
+  //
+  // // Returns a promise that resolves when all are resolved, or one is rejected (same as Promise.all)
+  // static allResolved = (stack: Array<BfPromise>) => {
+  //   // TODO: Implement it
+  // };
 
 
 }
