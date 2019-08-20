@@ -76,6 +76,7 @@ this.loadingBar.run(myPromise, { blockScreen: false }).then(() => {
     showBar     : false,
     showSpinner : true,
     spinnerType : 'blueface',
+    showLogs    : true
   };
   public testLog = '';
   public elapsedTime = 0;

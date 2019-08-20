@@ -38,6 +38,7 @@ export interface ILoadingOptions {
   showBar: boolean        // Whether the loading bar should be displayed
   showSpinner: boolean    // Whether the show the center spinner
   spinnerType: 'circular' | 'blueface'  // The type of the spinner to display
+  showLogs: boolean       // Debug flag - If on, console logs will be prompted
 }
 
 @Injectable({ providedIn: 'root' })
@@ -47,7 +48,8 @@ export class BfLoadingBarService {
     blockScreen : true,
     showSpinner : false,
     delayTime   : 1000,
-    spinnerType : 'circular'
+    spinnerType : 'circular',
+    showLogs    : false
   };
   public options: Partial<ILoadingOptions>;
 
@@ -94,6 +96,7 @@ export class BfLoadingBarService {
 
   // Finish the loading process. If there's any promise waiting in the queue, clear it up
   public stop = () => {
+    if (this.options.showLogs) { console.log('LOADING BAR: Stopped'); }
     this.waitingQueue = [];
     if (!!this.delayPromise) { this.delayPromise.cancel(); }
     this.setStatus(ILoadingStatus.Off);
@@ -104,6 +107,11 @@ export class BfLoadingBarService {
   private setStatus = (newStatus: ILoadingStatus) => {
     this.status = newStatus;
     this.status$.next(this.status);
+    if (this.options.showLogs) {
+      if (this.status === ILoadingStatus.Off) { console.log('LOADING BAR: Off'); }
+      if (this.status === ILoadingStatus.Running) { console.log('LOADING BAR: Running'); }
+      if (this.status === ILoadingStatus.Displayed) { console.log('LOADING BAR: Displayed'); }
+    }
   };
 
   // When a promise in the queue is resolve / reject
@@ -117,6 +125,7 @@ export class BfLoadingBarService {
 
         if (!this.waitingQueue.length) {  // If no more promise to wait, finish
           if (!!this.delayPromise) { this.delayPromise.cancel(); }
+          if (this.options.showLogs) { console.log('LOADING BAR: Resolved'); }
           this.setStatus(ILoadingStatus.Off);
         }
       }
