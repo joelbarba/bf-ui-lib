@@ -33,7 +33,6 @@ $locker-bg: rgba(white, 0.8);
 $spinner-color: rgba(#00B6F1, 0.7);
 .c-spinner { border: 7px solid transparent; }
 .c-spinner-inner { border: 5px solid $spinner-color; }
-}
 
 // Bf Spinner
 .bf-spinner-box {

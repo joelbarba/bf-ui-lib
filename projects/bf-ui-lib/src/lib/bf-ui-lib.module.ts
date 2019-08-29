@@ -87,7 +87,7 @@ export class BfUiLibModule {
   // }
 
   static forRoot(config): ModuleWithProviders {
-    console.log('BfUiLibModule.forRoot()', new Date());
+    // console.log('BfUiLibModule.forRoot()', new Date());
     return {
       ngModule: BfUiLibModule,
       providers: [
