@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import {NgModule, ModuleWithProviders, Optional, SkipSelf} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // <-- NgModel lives here
 import {NgbPopoverModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import { NgbModule, NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
@@ -26,6 +26,7 @@ import { BfTextareaComponent } from './bf-textarea/bf-textarea.component';
 import { BfRadioComponent } from './bf-radio/bf-radio.component';
 import { BfDatePickerComponent } from './bf-date-picker/bf-date-picker.component';
 import { BfListPaginatorComponent } from './bf-list-paginator/bf-list-paginator.component';
+import {CommonModule} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { BfListPaginatorComponent } from './bf-list-paginator/bf-list-paginator.
   ],
   entryComponents: [BfConfirmComponent],
   imports: [
-    BrowserModule,
+    // BrowserModule,
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     NgbPopoverModule,
@@ -56,6 +58,7 @@ import { BfListPaginatorComponent } from './bf-list-paginator/bf-list-paginator.
     BfLoadingBarModule,
   ],
   exports: [
+    FormsModule,
     BfListPaginatorComponent,
     BfDatePickerComponent,
     BfRadioComponent,
@@ -76,7 +79,15 @@ import { BfListPaginatorComponent } from './bf-list-paginator/bf-list-paginator.
   ]
 })
 export class BfUiLibModule {
+  // constructor (@Optional() @SkipSelf() parentModule: BfUiLibModule) {
+  //   if (parentModule) {
+  //     throw new Error(
+  //       'HEY YOU BAD DEVELOPER!!! BfUiLibModule is already loaded');
+  //   }
+  // }
+
   static forRoot(config): ModuleWithProviders {
+    console.log('BfUiLibModule.forRoot()', new Date());
     return {
       ngModule: BfUiLibModule,
       providers: [
@@ -86,4 +97,15 @@ export class BfUiLibModule {
       ]
     };
   }
+  // static forChild(config): ModuleWithProviders {
+  //   console.log('BfUiLibModule.forRoot()', new Date());
+  //   return {
+  //     ngModule: BfUiLibModule,
+  //     providers: [
+  //       { provide: 'TranslateService', useClass: config.TranslateService || class {} },
+  //       BfConfirmService,
+  //       NgbActiveModal, NgbModule,
+  //     ]
+  //   };
+  // }
 }
