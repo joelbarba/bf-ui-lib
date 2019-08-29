@@ -3,7 +3,8 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { BfLoadingBarComponent } from './bf-loading-bar.component';
 
 @NgModule({
-  imports: [BrowserModule],
+  // imports: [BrowserModule],
+  imports: [],
   declarations: [BfLoadingBarComponent],
   exports: [BfLoadingBarComponent],
 })
