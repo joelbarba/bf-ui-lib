@@ -19,7 +19,16 @@ import {Observable, of} from "rxjs";
     { // Custom validator
       provide: NG_VALIDATORS, multi: true,
       useExisting: forwardRef(() => BfInputComponent),
-    }
+    },
+    // { // Custom validator
+    //   provide: NG_VALIDATORS, multi: true,
+    //   useValue: (c: FormControl) => {
+    //     console.log('NG_VALIDATORS', c);
+    //     let err = { rangeError: {given: c.value, max: 10, min: 0 }};
+    //
+    //     return (c.value && c.value.length < 3) ? err : null;
+    //   },
+    // }
   ]
 })
 export class BfInputComponent implements ControlValueAccessor {
@@ -51,6 +60,7 @@ export class BfInputComponent implements ControlValueAccessor {
   @Input() bfErrorPos: string = 'top-right';  // top-right, bottom-left, bottom-right
   @Input() bfAutoFocus = false; // If true, once input linked to the view is automatically focused
 
+  @Input() bfMinlength = 0;   // Min number of chars. To bind to ngMinlength
 
   @Output() bfLeftBtnClick = new EventEmitter<any>();   // Emitter for left addon button
   @Output() bfRightBtnClick = new EventEmitter<any>();  // Emitter for right addon button
@@ -64,7 +74,7 @@ export class BfInputComponent implements ControlValueAccessor {
 
       bfPattern         : '@?',     // Bool expr to define ngPattern
       bfValidType       : '@?',     // Predefined ngPatterns. "decimal" -> Any number. "email" -> Email. If present it overrides bfPattern
-      bfMinlength       : '=?',     // Min number of chars. To bind to ngMinlength
+
       bfMaxlength       : '=?',     // Max number of chars. To bind to ngMinlength
       bfBlockMax        : '=?',     // Max length blocking. Adds a maxlength instead of ngMaxlength
 
@@ -116,64 +126,81 @@ export class BfInputComponent implements ControlValueAccessor {
 
   // ------- ControlValueAccessor -----
 
-  // ControlValueAccessor --> writes a new value from the form model into the view
+  // ControlValueAccessor --> writes a new value from the external ngModel into the internal ngModel
+  // This is triggered by setUpControl in FormControl directive outside this component
   writeValue(value: any) {
-    // console.log('writeValue -> ', value, this.ngInputRef);
+    console.log('writeValue -> ', value, this.ngInputRef);
+    if (value === null)      {} // First time, when the component is initialized but the outer value not ready yet
+    if (value === undefined) {} // Second time, when the component is initialized and the ngModel
+
     if (value !== undefined) {
       this.bfModel = value ? value: '';
       this.updateStatus();
-      // this.inputCtrl.updateValueAndValidity(value);
 
-      // After one cycle, set the value to the formControl, so the validate() gets the last
-      // state in "inputCtrl.status" when updating ngModel outer link
+      // Set the value to the internal formControl to force the internal validators run
+      // so when the external validate() is triggered after this it gets the last value
       if (!!this.inputCtrl) {
-        setTimeout(() => {
-          // https://angular.io/api/forms/FormControl#setValue
-          this.inputCtrl.setValue(this.bfModel, {
-            emitViewToModelChange: false,
-            // emitModelToViewChange: false,
-            // emitEvent: false,
-          });
+        this.inputCtrl.setValue(this.bfModel, { // https://angular.io/api/forms/FormControl#setValue
+          emitViewToModelChange: false,
+          // emitModelToViewChange: false,
+          // emitEvent: false,
         });
       }
     }
   }
 
   public propagateModelUp = (_: any) => {}; // This is just to avoid type error (it's overwritten on register)
-  registerOnChange(fn) { this.propagateModelUp = fn; }
+  registerOnChange(fn) {
+    // console.log('registerOnChange');
+    this.propagateModelUp = fn;
+  }
   registerOnTouched(fn) { }
 
 
-  // NG_VALIDATORS ---> outer formControl validation
-  validate(control: FormControl) {
-    // console.log('validate', this.inputCtrl.status, this.ngInputRef.status, this.ngInputRef.value);
-    // control.updateValueAndValidity();
+  // NG_VALIDATORS provider triggers this validation
+  // Validation to determine the outer formControl state. It propagates upward the state of the internal ngModel
+  public validate(extFormCtrl: FormControl) {
+    // extFormCtrl     <-- FormControl of the external ngModel
+    // this.inputCtrl  <-- FormControl of the internal ngModel
+    // this.ngInputRef <-- This is the reference of the internal <input> tag
 
-    if (!!this.inputCtrl && this.inputCtrl.status === 'INVALID') {  // If internal ngModel is invalid, external is invalid too
-      // return {'incorrect': true};
-      return { 'required': false };
-      // control.setErrors({ notUnique: true });
-      // control.updateValueAndValidity();
-      // return { notUnique: true };
+    console.log('validate', 'Internal FormControl:', this.inputCtrl.status, ' / External FormControl:', extFormCtrl.status);
+
+    // If internal ngModel is invalid, external is invalid too
+    if (!!this.inputCtrl && this.inputCtrl.status === 'INVALID') { // status: [VALID, INVALID, PENDING, DISABLED]
+      return this.inputCtrl.errors;
     } else {
       return null;
     }
-
-    // TODO ---> https://blog.thoughtram.io/angular/2016/03/14/custom-validators-in-angular-2.html
-    // Check there how to do proper custom validators
   }
+
+  public customValidator = ((intFormCtrl: FormControl) => {
+    // intFormCtrl <-- FormControl of the internal ngModel (same as this.inputCtrl)
+    console.warn('customValidator errors 1 - Internal FC', intFormCtrl.errors);
+
+    // This will force the external control to validate again (NG_VALIDATORS --> validate())
+    // We have to wait until the internal ngModel gets the new value though
+    // setTimeout(() => this.propagateModelUp(this.bfModel));
+
+
+    if (intFormCtrl.value === 'Joel') {
+      return { CUSTOM_VALIDATOR: { given: intFormCtrl.value, max: 10, min: 0 }};
+    }
+    return null;
+  });
 
   // ------------------------------------
 
   ngOnChanges(change) {
     // Translate bfText whenever it changes
-    // console.log('ngOnChanges', change);
+    console.log('ngOnChanges', change);
     // console.log('this.ngInputRef', this.ngInputRef);
 
     // Link the formControl form the <input #ngInputRef="ngModel"> to "this.inputCtrl"
     if (!!this.ngInputRef['control'] && !this.inputCtrl) {
-      //noinspection TypeScriptUnresolvedVariable
       this.inputCtrl = this.ngInputRef['control'];
+      this.inputCtrl.setValidators(this.customValidator);
+      this.inputCtrl.updateValueAndValidity();
     }
 
 
@@ -216,7 +243,7 @@ export class BfInputComponent implements ControlValueAccessor {
 
     // this.inputCtrl.setValue(this.bfModel);
     // console.log('this.inputCtrl.status', this.inputCtrl.status);
-    // console.log('propagateModelUp -> ', this.bfModel);
+    console.log('propagateModelUp (ngOnChanges) -> ', this.bfModel);
     this.propagateModelUp(this.bfModel);
     this.updateStatus();
   }
@@ -231,6 +258,13 @@ export class BfInputComponent implements ControlValueAccessor {
       this.elementRef.nativeElement.querySelector('input').addEventListener('webkitAnimationStart', ($event) => { this.bfOnAutofill.emit($event); });
     }
   }
+
+
+  ngAfterContentInit() { console.error('ngAfterContentInit'); }
+  ngAfterViewInit() { console.error('ngAfterViewInit'); }
+
+
+
 
 
   public updateStatus = () => {
@@ -250,7 +284,7 @@ export class BfInputComponent implements ControlValueAccessor {
   public parseModelChange = (value) => {
     this.bfModel = value;
     // this.inputCtrl.updateValueAndValidity();
-    // console.log('propagateModelUp -> ', this.bfModel);
+    console.log('propagateModelUp (ngModel) -> ', this.bfModel);
     this.propagateModelUp(this.bfModel);
     this.updateStatus();
     // this.bfModelChange.emit(this.bfModel);

@@ -7,6 +7,12 @@
      [class.is-focus]="isFocus"
      [class.horizontalLayoutClass]="false">
 
+  INTERNAL FormControl:
+  value={{ngInputRef.value}}
+  , valid={{ngInputRef.valid}}
+  , invalid={{ngInputRef.invalid}}
+  , errors={{ngInputRef.errors | json}}
+
   <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
     <span class="info-badge" *ngIf="!!bfTooltip"
          [ngbPopover]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
@@ -39,12 +45,14 @@
     </div>
 
          <!--[formControl]="inputCtrl"-->
+         <!--  pattern="[A-Za-z]{4}"-->
     <input class="form-control" name="bfInput" #ngInputRef="ngModel"
            [ngModel]="bfModel" (ngModelChange)="parseModelChange($event)"
-           [required]="bfRequired"
            [disabled]="bfDisabled"
+           [required]="bfRequired"
+           minlength="2"
+           maxlength="6"
            [placeholder]="bfPlaceholderTrans$ | async"
-           title=""
            (focusin)="isFocus=true"
            (focusout)="isFocus=false"
            [type]="bfType"

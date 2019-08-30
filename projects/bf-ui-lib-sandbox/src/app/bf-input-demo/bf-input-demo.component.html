@@ -2,331 +2,350 @@
 <hr/>
 <p>{{desc}}</p>
 
-<h5 class="mt-4">Parameters:</h5>
-<div class="col-12"><pre>{{api}}</pre></div>
+<div class="col-12">
+  <bf-input [(ngModel)]="val1"  #bfInputRef="ngModel"
+            bfMinlength="3" bfRequired="true"
+            bfLabel="view.common.name">
+  </bf-input>
 
-<p>
-  This component has been implemented as a "custom controller", so it can be linked to a formControl to work in Reactive and Template forms.
-<br>
-  Check this page for more info: <a href="https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html">https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html</a>
-</p>
-
-
-
-<!--Input Customization-->
-<div class="whiteBg">
-  <div class="row">
-    <div class="col-5 marB15">
-      <h5 class="marB25">BfInput Customization:</h5>
-      <div *ngIf="linkCustomInput">
-        <bf-input [(ngModel)]="myVariable"
-                  [class.flat]="compConf.hasFlat"
-                  [bfRequired]="compConf.isRequired"
-                  [bfLabel]="(compConf.hasLabel ? compConf.labelText : '')"
-                  [bfPlaceholder]="(compConf.hasPlaceholder ? compConf.placeholderText : '')"
-                  [bfDisabled]="compConf.isDisabled"
-                  [bfIcon]="(compConf.hasIcon ? compConf.inputIcon : '')"
-                  [bfType]="compConf.inputType"
-                  [bfTooltip]="(compConf.hasTooltip ? compConf.inputTooltip : null)"
-                  [bfTooltipPos]="(compConf.inputTooltipPos || 'top')"
-                  [bfTooltipBody]="compConf.inputTooltipBody"
-                  [bfDisabledTip]="compConf.inputDisabledTip"
-                  [bfAutoFocus]="compConf.hasAutoFocus"
-
-                  [bfLeftBtnText]="(compConf.hasLeftBtnText ? compConf.leftBtnText : '')"
-                  [bfLeftBtnIcon]="(compConf.hasLeftBtn ? compConf.leftBtnIcon : '')"
-                  (bfLeftBtnClick)="compConf.hasBtnListener && growl.success('Left addon button click')"
-
-                  [bfRightBtnText]="(compConf.hasRightBtnText ? compConf.rightBtnText : '')"
-                  [bfRightBtnIcon]="(compConf.hasRightBtn ? compConf.rightBtnIcon : '')"
-                  (bfRightBtnClick)="compConf.hasBtnListener && growl.success('Right addon button click')"
-
-                  (bfOnKeyDown)="compConf.hasKeyDown && growl.success('Key Down -> ' + $event.key)"
-                  (bfOnEsc)="compConf.hasKeyEsc && growl.success('ESC key was pressed')"
-                  (bfOnEnter)="compConf.hasKeyEnter && growl.success('ENTER key was pressed')"
-                  (bfOnCtrlEnter)="compConf.hasKeyCtrlEnter && growl.success('Ctrl + ENTER key were pressed')"
-        ></bf-input>
-      </div>
-
-      <div>{{clickMsg}}</div>
-
-      <div class="padT15">
-        <div class="code-box pad15">
-          <pre>{{customCompCode}}</pre>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-7">
-
-      <!--Label-->
-      <div class="row">
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasLabel" (ngModelChange)="upComp()" bfLabel="Has Label"></bf-checkbox> </div>
-        <div class="col-9" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasLabel"></bf-input> </div>
-      </div>
-
-      <!--Placeholder-->
-      <div class="row">
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasPlaceholder" (ngModelChange)="upComp()" bfLabel="Placeholder"></bf-checkbox> </div>
-        <div class="col-9" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.placeholderText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasPlaceholder"></bf-input> </div>
-      </div>
-
-      <!--Required + Type + AutoFocus-->
-      <div class="row marT5">
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>
-        <div class="col-6">
-          <bf-dropdown [(ngModel)]="compConf.inputType" (ngModelChange)="upComp()" [bfList]="inputTypes" bfRender="text" bfSelect="id" [bfRequired]="true"> </bf-dropdown>
-          <bf-label bfValue="Input Type" class="value-inline"></bf-label>
-        </div>
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasAutoFocus" (ngModelChange)="upComp()" bfLabel="Has AutoFocus"></bf-checkbox> </div>
-      </div>
-
-      <!--Disabled-->
-      <div class="row marT15">
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>
-        <div class="col-9">
-          <bf-input class="flat" [(ngModel)]="compConf.inputDisabledTip" bfPlaceholder="This input is disabled because..." (ngModelChange)="upComp()"></bf-input>
-        </div>
-      </div>
-
-      <!--Icon-->
-      <div class="row marT15">
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasIcon" (ngModelChange)="upComp()" bfLabel="Has Icon"></bf-checkbox> </div>
-        <div class="col-9" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.inputIcon" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasIcon"></bf-input> </div>
-      </div>
-
-      <!--Tooltip-->
-      <div class="row marT5">
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox> </div>
-        <div class="col-9" *ngIf="compConf.hasTooltip">
-          <bf-input [(ngModel)]="compConf.inputTooltip" (ngModelChange)="upComp()"></bf-input>
-        </div>
-        <div class="col-3" *ngIf="compConf.hasTooltip"></div>
-        <div class="col-5" *ngIf="compConf.hasTooltip">
-          bfTooltipPos: <bf-dropdown [(ngModel)]="compConf.inputTooltipPos" (ngModelChange)="upComp()" [bfList]="tooltipPosList" bfRender="text" bfSelect="id"> </bf-dropdown>
-        </div>
-        <div class="col-4" *ngIf="compConf.hasTooltip">
-          bfTooltipBody: <bf-dropdown [(ngModel)]="compConf.inputTooltipBody" (ngModelChange)="upComp()" [bfList]="tooltipBodyList" bfRender="text" bfSelect="id"> </bf-dropdown>
-        </div>
-      </div>
-
-      <!--Key Listeners-->
-      <div class="row marT15">
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasKeyDown" (ngModelChange)="upComp()" bfLabel="Listen KeyDown"></bf-checkbox> </div>
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasKeyEsc" (ngModelChange)="upComp()" bfLabel="Listen Esc"></bf-checkbox> </div>
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasKeyEnter" (ngModelChange)="upComp()" bfLabel="Listen Enter"></bf-checkbox> </div>
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasKeyCtrlEnter" (ngModelChange)="upComp()" bfLabel="Listen Ctrl+Enter"></bf-checkbox> </div>
-      </div>
-
-      <!--Addon Buttons-->
-      <div class="row marT25">
-        <div class="col-2">
-          <bf-checkbox [(ngModel)]="compConf.hasLeftBtn" (ngModelChange)="upComp()" bfLabel="Left Btn Icon"></bf-checkbox>
-          <bf-input *ngIf="compConf.hasLeftBtn" [(ngModel)]="compConf.leftBtnIcon" (ngModelChange)="upComp()" bfPlaceholder="left addon icon"></bf-input>
-        </div>
-        <div class="col-3">
-          <bf-checkbox [(ngModel)]="compConf.hasLeftBtnText" (ngModelChange)="upComp()" bfLabel="Left Btn Text"></bf-checkbox>
-          <bf-input *ngIf="compConf.hasLeftBtnText" [(ngModel)]="compConf.leftBtnText" (ngModelChange)="upComp()" bfPlaceholder="left addon text"></bf-input>
-        </div>
-        <div class="col-2">
-          <bf-checkbox [(ngModel)]="compConf.hasRightBtn" (ngModelChange)="upComp()" bfLabel="Right B. Icon"></bf-checkbox>
-          <bf-input *ngIf="compConf.hasRightBtn" [(ngModel)]="compConf.rightBtnIcon" (ngModelChange)="upComp()" bfPlaceholder="right addon icon"></bf-input>
-        </div>
-        <div class="col-3">
-          <bf-checkbox [(ngModel)]="compConf.hasRightBtnText" (ngModelChange)="upComp()" bfLabel="Right Btn Text"></bf-checkbox>
-          <bf-input *ngIf="compConf.hasRightBtnText" [(ngModel)]="compConf.rightBtnText" (ngModelChange)="upComp()" bfPlaceholder="right addon text"></bf-input>
-        </div>
-        <div class="col-1">
-          <bf-checkbox [(ngModel)]="compConf.hasBtnListener" (ngModelChange)="upComp()" bfLabel="onClick()"
-                       *ngIf="compConf.hasLeftBtnText || compConf.hasLeftBtn || compConf.hasRightBtnText || compConf.hasRightBtn">
-          </bf-checkbox>
-        </div>
-      </div>
-
-      <!--Classes-->
-      <div class="row marT15">
-        <div class="col-8 padT5">
-          <bf-label bfText="CSS Classes"></bf-label>
-          <bf-checkbox class="marL20" [(ngModel)]="compConf.hasFlat" (ngModelChange)="upComp()" bfLabel="flat"></bf-checkbox>
-        </div>
-        <div class="col-4 text-right">
-          <bf-btn bfText="Reset Input" (bfClick)="resetInput()"></bf-btn>
-        </div>
-      </div>
-
-    </div>
-
-  </div>
+  EXTERNAL FromControl:
+  value={{bfInputRef.value}}
+  , valid={{bfInputRef.valid}}
+  , invalid={{bfInputRef.invalid}}
+  , errors={{bfInputRef.errors | json}}
 </div>
-
-<hr>
-
-
-<div class="whiteBg">
-  <div class="row">
-    <div class="col-12 marB15">
-      <h5>Inputs in a Form - Linking ngForm with bfInput - ngModel</h5>
-    </div>
-  </div>
-
-  <form #myForm="ngForm">
-    <div class="row">
-      <div class="col-2">
-        <pre>myForm.status = {{ myForm.status | json }} </pre>
-        <pre>myForm.value = {{ myForm.value | json }}</pre>
-        <pre class="marB0">
-myForm.valid    = {{ myForm.valid }}
-myForm.invalid  = {{ myForm.invalid }}
-myForm.pristine = {{ myForm.pristine }}
-myForm.touched  = {{ myForm.touched }}
-myForm.errors   = {{ myForm.errors | json }}
-        </pre>
-
-      </div>
-
-      <div class="col-2">
-        <bf-input bfLabel="first" name="first" [(ngModel)]="val1" [bfRequired]="true" #firstRef="ngModel" ></bf-input>
-        <pre>
-firstRef.value = {{firstRef.value}}
-firstRef.valid = {{firstRef.valid }}
-firstRef.errors = {{firstRef.errors | json }}
-        </pre>
-        <pre class="marB0">ngModel Value (val1) = {{val1}}
-ngModel Value (val2) = {{val2}}
-        </pre>
-      </div>
-
-      <div class="col-2">
-        <bf-input bfLabel="last" name="last" [(ngModel)]="val2" [bfRequired]="true" #lastRef="ngModel" ></bf-input>
-        <pre>lastRef.value = {{lastRef.value}}
-lastRef.valid = {{lastRef.valid }}
-lastRef.errors = {{lastRef.errors | json }}
-        </pre>
-        <bf-btn bfText="Save Form" [bfDisabled]="myForm.invalid"></bf-btn>
-      </div>
-
-      <div class="col-6 examples-table" style="margin-top: -40px;">
-        <h5>Code sample:</h5>
-        <div class="code-box pad10">
-          <pre style="font-size: 14px;">{{ formExampleInput100 }}</pre>
-        </div>
-      </div>
-
-    </div>
-  </form>
-
+<div class="col-6">
+  <input type="text" [(ngModel)]="val1">
 </div>
 
 
 
-<h5 class="mt-4">Examples:</h5>
-<div class="col-12 examples-table">
-
-  <div class="row">
-    <div class="col-3">
-      <bf-input [(ngModel)]="myModel" bfLabel="My Field"></bf-input>
-    </div>
-    <div class="col-9"> <pre>{{instance}}</pre> </div>
-  </div>
-
-  <div class="row">
-    <div class="col-3">
-      <bf-input [(ngModel)]="myModel"
-                bfLabel="Username"
-                [bfRequired]="true"
-                bfTooltip="This is a tooltip">
-      </bf-input>
-    </div>
-    <div class="col-9"> <pre>{{instance}}</pre> </div>
-  </div>
-
-  <div class="row">
-    <div class="col-3">
-      <bf-input [(ngModel)]="myModel" bfLabel="My Field"></bf-input>
-    </div>
-    <div class="col-9"> <pre>{{instance}}</pre> </div>
-  </div>
-
-  <div class="row">
-    <div class="col-3">
-      <bf-input [(ngModel)]="myModel" bfLabel="KeyDown detection"
-                (bfOnKeyDown)="growl.success('Key pressed -> ' + $event.key)">
-      </bf-input>
-    </div>
-    <div class="col-9"> <pre>{{instance4}}</pre> </div>
-  </div>
-
-  <div class="row">
-    <div class="col-3">
-      <bf-input [(ngModel)]="myModel" bfLabel="Special Keys detection"
-                (bfOnEsc)="growl.success('Esc key pressed')"
-                (bfOnEnter)="growl.success('Enter key pressed')"
-                (bfOnCtrlEnter)="growl.success('Ctrl + Enter key pressed')">
-      </bf-input>
-    </div>
-    <div class="col-9"> <pre>{{instance5}}</pre> </div>
-  </div>
-
-</div>
+<!--<h5 class="mt-4">Parameters:</h5>-->
+<!--<div class="col-12"><pre>{{api}}</pre></div>-->
 
 
-<!--Autofill Detection Example-->
-<div class="whiteBg">
-  <h5>Autofill Detection Example</h5>
-  <form>
-    <div class="row">
-      <div class="col">
-        <bf-input [(ngModel)]="user" [bfRequired]="true" name="user" bfLabel="Username"
-                  (bfOnAutofill)="isAutofilled=('Value has been autofilled!')">
-        </bf-input>
-      </div>
-      <div class="col">
-        <bf-input [(ngModel)]="pass" name="pass" bfRequired="true" bfLabel="Password" bfType="password">
-        </bf-input>
-      </div>
-      <div class="col">
-        <div [hidden]="!isAutofilled" class="padV10" (click)="isAutofilled=''">{{isAutofilled}}</div>
-        <button type="submit" [routerLink]="'/bf-btn'">Click to Submit and trigger browser password save</button>
-      </div>
-    </div>
-  </form>
-</div>
+<!--<p>-->
+<!--  This component has been implemented as a "custom controller", so it can be linked to a formControl to work in Reactive and Template forms.-->
+<!--<br>-->
+<!--  Check this page for more info: <a href="https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html">https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html</a>-->
+<!--</p>-->
 
 
 
-<!--Applicable classes -->
-<div class="row">
-  <div class="col-12">
-    <h5 class="mt-4">Applicable classes:</h5>
-    <p>The input has a margin bottom 15px by default. To remove it, add the class "<span class="bold">flat</span>":</p>
-    <pre class="marT10">{{ flatExample }}</pre>
-  </div>
-  <div class="col-3">
-    <div style="border: 1px dashed red">
-      <bf-input class="" bfLabel="Without flat class" [ngModel]="bfModel"></bf-input>
-    </div>
-  </div>
-  <div class="col-3">
-    <div style="border: 1px dashed red">
-      <bf-input class="flat" bfLabel="With flat class" [ngModel]="bfModel"></bf-input>
-    </div>
-  </div>
+<!--&lt;!&ndash;Input Customization&ndash;&gt;-->
+<!--<div class="whiteBg">-->
+<!--  <div class="row">-->
+<!--    <div class="col-5 marB15">-->
+<!--      <h5 class="marB25">BfInput Customization:</h5>-->
+<!--      <div *ngIf="linkCustomInput">-->
+<!--        <bf-input [(ngModel)]="myVariable"-->
+<!--                  [class.flat]="compConf.hasFlat"-->
+<!--                  [bfRequired]="compConf.isRequired"-->
+<!--                  [bfLabel]="(compConf.hasLabel ? compConf.labelText : '')"-->
+<!--                  [bfPlaceholder]="(compConf.hasPlaceholder ? compConf.placeholderText : '')"-->
+<!--                  [bfDisabled]="compConf.isDisabled"-->
+<!--                  [bfIcon]="(compConf.hasIcon ? compConf.inputIcon : '')"-->
+<!--                  [bfType]="compConf.inputType"-->
+<!--                  [bfTooltip]="(compConf.hasTooltip ? compConf.inputTooltip : null)"-->
+<!--                  [bfTooltipPos]="(compConf.inputTooltipPos || 'top')"-->
+<!--                  [bfTooltipBody]="compConf.inputTooltipBody"-->
+<!--                  [bfDisabledTip]="compConf.inputDisabledTip"-->
+<!--                  [bfAutoFocus]="compConf.hasAutoFocus"-->
 
-</div>
+<!--                  [bfLeftBtnText]="(compConf.hasLeftBtnText ? compConf.leftBtnText : '')"-->
+<!--                  [bfLeftBtnIcon]="(compConf.hasLeftBtn ? compConf.leftBtnIcon : '')"-->
+<!--                  (bfLeftBtnClick)="compConf.hasBtnListener && growl.success('Left addon button click')"-->
+
+<!--                  [bfRightBtnText]="(compConf.hasRightBtnText ? compConf.rightBtnText : '')"-->
+<!--                  [bfRightBtnIcon]="(compConf.hasRightBtn ? compConf.rightBtnIcon : '')"-->
+<!--                  (bfRightBtnClick)="compConf.hasBtnListener && growl.success('Right addon button click')"-->
+
+<!--                  (bfOnKeyDown)="compConf.hasKeyDown && growl.success('Key Down -> ' + $event.key)"-->
+<!--                  (bfOnEsc)="compConf.hasKeyEsc && growl.success('ESC key was pressed')"-->
+<!--                  (bfOnEnter)="compConf.hasKeyEnter && growl.success('ENTER key was pressed')"-->
+<!--                  (bfOnCtrlEnter)="compConf.hasKeyCtrlEnter && growl.success('Ctrl + ENTER key were pressed')"-->
+<!--        ></bf-input>-->
+<!--      </div>-->
+
+<!--      <div>{{clickMsg}}</div>-->
+
+<!--      <div class="padT15">-->
+<!--        <div class="code-box pad15">-->
+<!--          <pre>{{customCompCode}}</pre>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div class="col-7">-->
+
+<!--      &lt;!&ndash;Label&ndash;&gt;-->
+<!--      <div class="row">-->
+<!--        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasLabel" (ngModelChange)="upComp()" bfLabel="Has Label"></bf-checkbox> </div>-->
+<!--        <div class="col-9" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasLabel"></bf-input> </div>-->
+<!--      </div>-->
+
+<!--      &lt;!&ndash;Placeholder&ndash;&gt;-->
+<!--      <div class="row">-->
+<!--        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasPlaceholder" (ngModelChange)="upComp()" bfLabel="Placeholder"></bf-checkbox> </div>-->
+<!--        <div class="col-9" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.placeholderText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasPlaceholder"></bf-input> </div>-->
+<!--      </div>-->
+
+<!--      &lt;!&ndash;Required + Type + AutoFocus&ndash;&gt;-->
+<!--      <div class="row marT5">-->
+<!--        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>-->
+<!--        <div class="col-6">-->
+<!--          <bf-dropdown [(ngModel)]="compConf.inputType" (ngModelChange)="upComp()" [bfList]="inputTypes" bfRender="text" bfSelect="id" [bfRequired]="true"> </bf-dropdown>-->
+<!--          <bf-label bfValue="Input Type" class="value-inline"></bf-label>-->
+<!--        </div>-->
+<!--        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasAutoFocus" (ngModelChange)="upComp()" bfLabel="Has AutoFocus"></bf-checkbox> </div>-->
+<!--      </div>-->
+
+<!--      &lt;!&ndash;Disabled&ndash;&gt;-->
+<!--      <div class="row marT15">-->
+<!--        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>-->
+<!--        <div class="col-9">-->
+<!--          <bf-input class="flat" [(ngModel)]="compConf.inputDisabledTip" bfPlaceholder="This input is disabled because..." (ngModelChange)="upComp()"></bf-input>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      &lt;!&ndash;Icon&ndash;&gt;-->
+<!--      <div class="row marT15">-->
+<!--        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasIcon" (ngModelChange)="upComp()" bfLabel="Has Icon"></bf-checkbox> </div>-->
+<!--        <div class="col-9" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.inputIcon" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasIcon"></bf-input> </div>-->
+<!--      </div>-->
+
+<!--      &lt;!&ndash;Tooltip&ndash;&gt;-->
+<!--      <div class="row marT5">-->
+<!--        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox> </div>-->
+<!--        <div class="col-9" *ngIf="compConf.hasTooltip">-->
+<!--          <bf-input [(ngModel)]="compConf.inputTooltip" (ngModelChange)="upComp()"></bf-input>-->
+<!--        </div>-->
+<!--        <div class="col-3" *ngIf="compConf.hasTooltip"></div>-->
+<!--        <div class="col-5" *ngIf="compConf.hasTooltip">-->
+<!--          bfTooltipPos: <bf-dropdown [(ngModel)]="compConf.inputTooltipPos" (ngModelChange)="upComp()" [bfList]="tooltipPosList" bfRender="text" bfSelect="id"> </bf-dropdown>-->
+<!--        </div>-->
+<!--        <div class="col-4" *ngIf="compConf.hasTooltip">-->
+<!--          bfTooltipBody: <bf-dropdown [(ngModel)]="compConf.inputTooltipBody" (ngModelChange)="upComp()" [bfList]="tooltipBodyList" bfRender="text" bfSelect="id"> </bf-dropdown>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      &lt;!&ndash;Key Listeners&ndash;&gt;-->
+<!--      <div class="row marT15">-->
+<!--        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasKeyDown" (ngModelChange)="upComp()" bfLabel="Listen KeyDown"></bf-checkbox> </div>-->
+<!--        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasKeyEsc" (ngModelChange)="upComp()" bfLabel="Listen Esc"></bf-checkbox> </div>-->
+<!--        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasKeyEnter" (ngModelChange)="upComp()" bfLabel="Listen Enter"></bf-checkbox> </div>-->
+<!--        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasKeyCtrlEnter" (ngModelChange)="upComp()" bfLabel="Listen Ctrl+Enter"></bf-checkbox> </div>-->
+<!--      </div>-->
+
+<!--      &lt;!&ndash;Addon Buttons&ndash;&gt;-->
+<!--      <div class="row marT25">-->
+<!--        <div class="col-2">-->
+<!--          <bf-checkbox [(ngModel)]="compConf.hasLeftBtn" (ngModelChange)="upComp()" bfLabel="Left Btn Icon"></bf-checkbox>-->
+<!--          <bf-input *ngIf="compConf.hasLeftBtn" [(ngModel)]="compConf.leftBtnIcon" (ngModelChange)="upComp()" bfPlaceholder="left addon icon"></bf-input>-->
+<!--        </div>-->
+<!--        <div class="col-3">-->
+<!--          <bf-checkbox [(ngModel)]="compConf.hasLeftBtnText" (ngModelChange)="upComp()" bfLabel="Left Btn Text"></bf-checkbox>-->
+<!--          <bf-input *ngIf="compConf.hasLeftBtnText" [(ngModel)]="compConf.leftBtnText" (ngModelChange)="upComp()" bfPlaceholder="left addon text"></bf-input>-->
+<!--        </div>-->
+<!--        <div class="col-2">-->
+<!--          <bf-checkbox [(ngModel)]="compConf.hasRightBtn" (ngModelChange)="upComp()" bfLabel="Right B. Icon"></bf-checkbox>-->
+<!--          <bf-input *ngIf="compConf.hasRightBtn" [(ngModel)]="compConf.rightBtnIcon" (ngModelChange)="upComp()" bfPlaceholder="right addon icon"></bf-input>-->
+<!--        </div>-->
+<!--        <div class="col-3">-->
+<!--          <bf-checkbox [(ngModel)]="compConf.hasRightBtnText" (ngModelChange)="upComp()" bfLabel="Right Btn Text"></bf-checkbox>-->
+<!--          <bf-input *ngIf="compConf.hasRightBtnText" [(ngModel)]="compConf.rightBtnText" (ngModelChange)="upComp()" bfPlaceholder="right addon text"></bf-input>-->
+<!--        </div>-->
+<!--        <div class="col-1">-->
+<!--          <bf-checkbox [(ngModel)]="compConf.hasBtnListener" (ngModelChange)="upComp()" bfLabel="onClick()"-->
+<!--                       *ngIf="compConf.hasLeftBtnText || compConf.hasLeftBtn || compConf.hasRightBtnText || compConf.hasRightBtn">-->
+<!--          </bf-checkbox>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      &lt;!&ndash;Classes&ndash;&gt;-->
+<!--      <div class="row marT15">-->
+<!--        <div class="col-8 padT5">-->
+<!--          <bf-label bfText="CSS Classes"></bf-label>-->
+<!--          <bf-checkbox class="marL20" [(ngModel)]="compConf.hasFlat" (ngModelChange)="upComp()" bfLabel="flat"></bf-checkbox>-->
+<!--        </div>-->
+<!--        <div class="col-4 text-right">-->
+<!--          <bf-btn bfText="Reset Input" (bfClick)="resetInput()"></bf-btn>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--    </div>-->
+
+<!--  </div>-->
+<!--</div>-->
+
+<!--<hr>-->
 
 
-<!--CSS Styling-->
-<div class="row marT40">
-  <div class="col-12">
-    <hr>
-    <h4>CSS Styling</h4>
-    <p>The encapsulated styles of the button use a default color. However, we may want to apply different colors externally (depending on the theme)
-      <br/>
-      To provide a color restyiling based on a SCSS theme you can apply the following rules on a css global level :
-    </p>
-    <pre>{{ cssReset }}</pre>
-  </div>
-</div>
+<!--<div class="whiteBg">-->
+<!--  <div class="row">-->
+<!--    <div class="col-12 marB15">-->
+<!--      <h5>Inputs in a Form - Linking ngForm with bfInput - ngModel</h5>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <form #myForm="ngForm">-->
+<!--    <div class="row">-->
+<!--      <div class="col-2">-->
+<!--        <pre>myForm.status = {{ myForm.status | json }} </pre>-->
+<!--        <pre>myForm.value = {{ myForm.value | json }}</pre>-->
+<!--        <pre class="marB0">-->
+<!--myForm.valid    = {{ myForm.valid }}-->
+<!--myForm.invalid  = {{ myForm.invalid }}-->
+<!--myForm.pristine = {{ myForm.pristine }}-->
+<!--myForm.touched  = {{ myForm.touched }}-->
+<!--myForm.errors   = {{ myForm.errors | json }}-->
+<!--        </pre>-->
+
+<!--      </div>-->
+
+<!--      <div class="col-2">-->
+<!--        <bf-input bfLabel="first" name="first" [(ngModel)]="val1" [bfRequired]="true" #firstRef="ngModel" ></bf-input>-->
+<!--        <pre>-->
+<!--firstRef.value = {{firstRef.value}}-->
+<!--firstRef.valid = {{firstRef.valid }}-->
+<!--firstRef.errors = {{firstRef.errors | json }}-->
+<!--        </pre>-->
+<!--        <pre class="marB0">ngModel Value (val1) = {{val1}}-->
+<!--ngModel Value (val2) = {{val2}}-->
+<!--        </pre>-->
+<!--      </div>-->
+
+<!--      <div class="col-2">-->
+<!--        <bf-input bfLabel="last" name="last" [(ngModel)]="val2" [bfRequired]="true" #lastRef="ngModel" ></bf-input>-->
+<!--        <pre>lastRef.value = {{lastRef.value}}-->
+<!--lastRef.valid = {{lastRef.valid }}-->
+<!--lastRef.errors = {{lastRef.errors | json }}-->
+<!--        </pre>-->
+<!--        <bf-btn bfText="Save Form" [bfDisabled]="myForm.invalid"></bf-btn>-->
+<!--      </div>-->
+
+<!--      <div class="col-6 examples-table" style="margin-top: -40px;">-->
+<!--        <h5>Code sample:</h5>-->
+<!--        <div class="code-box pad10">-->
+<!--          <pre style="font-size: 14px;">{{ formExampleInput100 }}</pre>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--    </div>-->
+<!--  </form>-->
+
+<!--</div>-->
+
+
+
+<!--<h5 class="mt-4">Examples:</h5>-->
+<!--<div class="col-12 examples-table">-->
+
+<!--  <div class="row">-->
+<!--    <div class="col-3">-->
+<!--      <bf-input [(ngModel)]="myModel" bfLabel="My Field"></bf-input>-->
+<!--    </div>-->
+<!--    <div class="col-9"> <pre>{{instance}}</pre> </div>-->
+<!--  </div>-->
+
+<!--  <div class="row">-->
+<!--    <div class="col-3">-->
+<!--      <bf-input [(ngModel)]="myModel"-->
+<!--                bfLabel="Username"-->
+<!--                [bfRequired]="true"-->
+<!--                bfTooltip="This is a tooltip">-->
+<!--      </bf-input>-->
+<!--    </div>-->
+<!--    <div class="col-9"> <pre>{{instance}}</pre> </div>-->
+<!--  </div>-->
+
+<!--  <div class="row">-->
+<!--    <div class="col-3">-->
+<!--      <bf-input [(ngModel)]="myModel" bfLabel="My Field"></bf-input>-->
+<!--    </div>-->
+<!--    <div class="col-9"> <pre>{{instance}}</pre> </div>-->
+<!--  </div>-->
+
+<!--  <div class="row">-->
+<!--    <div class="col-3">-->
+<!--      <bf-input [(ngModel)]="myModel" bfLabel="KeyDown detection"-->
+<!--                (bfOnKeyDown)="growl.success('Key pressed -> ' + $event.key)">-->
+<!--      </bf-input>-->
+<!--    </div>-->
+<!--    <div class="col-9"> <pre>{{instance4}}</pre> </div>-->
+<!--  </div>-->
+
+<!--  <div class="row">-->
+<!--    <div class="col-3">-->
+<!--      <bf-input [(ngModel)]="myModel" bfLabel="Special Keys detection"-->
+<!--                (bfOnEsc)="growl.success('Esc key pressed')"-->
+<!--                (bfOnEnter)="growl.success('Enter key pressed')"-->
+<!--                (bfOnCtrlEnter)="growl.success('Ctrl + Enter key pressed')">-->
+<!--      </bf-input>-->
+<!--    </div>-->
+<!--    <div class="col-9"> <pre>{{instance5}}</pre> </div>-->
+<!--  </div>-->
+
+<!--</div>-->
+
+
+<!--&lt;!&ndash;Autofill Detection Example&ndash;&gt;-->
+<!--<div class="whiteBg">-->
+<!--  <h5>Autofill Detection Example</h5>-->
+<!--  <form>-->
+<!--    <div class="row">-->
+<!--      <div class="col">-->
+<!--        <bf-input [(ngModel)]="user" [bfRequired]="true" name="user" bfLabel="Username"-->
+<!--                  (bfOnAutofill)="isAutofilled=('Value has been autofilled!')">-->
+<!--        </bf-input>-->
+<!--      </div>-->
+<!--      <div class="col">-->
+<!--        <bf-input [(ngModel)]="pass" name="pass" bfRequired="true" bfLabel="Password" bfType="password">-->
+<!--        </bf-input>-->
+<!--      </div>-->
+<!--      <div class="col">-->
+<!--        <div [hidden]="!isAutofilled" class="padV10" (click)="isAutofilled=''">{{isAutofilled}}</div>-->
+<!--        <button type="submit" [routerLink]="'/bf-btn'">Click to Submit and trigger browser password save</button>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </form>-->
+<!--</div>-->
+
+
+
+<!--&lt;!&ndash;Applicable classes &ndash;&gt;-->
+<!--<div class="row">-->
+<!--  <div class="col-12">-->
+<!--    <h5 class="mt-4">Applicable classes:</h5>-->
+<!--    <p>The input has a margin bottom 15px by default. To remove it, add the class "<span class="bold">flat</span>":</p>-->
+<!--    <pre class="marT10">{{ flatExample }}</pre>-->
+<!--  </div>-->
+<!--  <div class="col-3">-->
+<!--    <div style="border: 1px dashed red">-->
+<!--      <bf-input class="" bfLabel="Without flat class" [ngModel]="bfModel"></bf-input>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="col-3">-->
+<!--    <div style="border: 1px dashed red">-->
+<!--      <bf-input class="flat" bfLabel="With flat class" [ngModel]="bfModel"></bf-input>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--</div>-->
+
+
+<!--&lt;!&ndash;CSS Styling&ndash;&gt;-->
+<!--<div class="row marT40">-->
+<!--  <div class="col-12">-->
+<!--    <hr>-->
+<!--    <h4>CSS Styling</h4>-->
+<!--    <p>The encapsulated styles of the button use a default color. However, we may want to apply different colors externally (depending on the theme)-->
+<!--      <br/>-->
+<!--      To provide a color restyiling based on a SCSS theme you can apply the following rules on a css global level :-->
+<!--    </p>-->
+<!--    <pre>{{ cssReset }}</pre>-->
+<!--  </div>-->
+<!--</div>-->
 
 
 

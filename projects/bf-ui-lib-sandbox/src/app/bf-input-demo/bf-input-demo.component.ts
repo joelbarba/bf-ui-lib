@@ -12,7 +12,7 @@ export class BfInputDemoComponent implements OnInit {
   public desc = BfInputDoc.desc;
   public api = BfInputDoc.api;
   public instance = BfInputDoc.instance;
-  public val1 = 'Joel';
+  public val1 = 'Joel2';
   public val2 = 'Barba';
 
   public myModel:string = 'My default value';
