@@ -19,6 +19,10 @@ export class TranslateService extends AbstractTranslateService {
     'view.common.cancel'       : 'Cancel',
     'view.modal.confirm.title' : 'Confirm',
     'view.modal.confirm.text'  : 'Are you sure?',
+    'view.common.invalid_value'     : 'Invalid value',
+    'view.common.required_field'    : 'Required field',
+    'view.common.invalid_min_length': 'Too short',
+    'view.common.invalid_max_length': 'Too long'
   };
 
   public transDict$ = new BehaviorSubject(this.transDict);

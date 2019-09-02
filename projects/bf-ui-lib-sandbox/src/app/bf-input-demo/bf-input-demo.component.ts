@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import {BfGrowlService} from "../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service";
+import {IbfInputCtrl} from "../../../../bf-ui-lib/src/lib/bf-input/bf-input.component";
 
 @Component({
   selector: 'app-bf-input-demo]',
@@ -12,10 +13,19 @@ export class BfInputDemoComponent implements OnInit {
   public desc = BfInputDoc.desc;
   public api = BfInputDoc.api;
   public instance = BfInputDoc.instance;
-  public val1 = 'Joel2';
+  public val1 = '1';
   public val2 = 'Barba';
 
   public myModel:string = 'My default value';
+
+  public validIfFn = (value) => {
+    // console.log('validIfFn --> ', value);
+    return (value === 'jo') ? null : { CUSTOM_VALIDATOR : 'false' };
+  };
+  public inputCtrl: IbfInputCtrl = {};
+  public inputInit = () => {
+    console.log('bfInput init');
+  };
 
   public instance2 =
 `<bf-input</bf-input>`;
