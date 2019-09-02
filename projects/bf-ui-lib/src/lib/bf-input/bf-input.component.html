@@ -2,16 +2,20 @@
      [class.is-required]="bfRequired"
      [class.is-disabled]="bfDisabled"
      [class.is-error]="status === 'error'"
-     [class.is-pristine]="status === 'pristine'"
-     [class.is-dirty]="status === 'dirty'"
+     [class.is-pristine]="isPristine"
+     [class.is-dirty]="!isPristine"
      [class.is-focus]="isFocus"
      [class.horizontalLayoutClass]="false">
+
+  status={{status}}, isPristine={{isPristine}}
+  <br>
 
   INTERNAL FormControl:
   value={{ngInputRef.value}}
   , valid={{ngInputRef.valid}}
   , invalid={{ngInputRef.invalid}}
   , errors={{ngInputRef.errors | json}}
+  <br>
 
   <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
     <span class="info-badge" *ngIf="!!bfTooltip"
@@ -23,7 +27,10 @@
     <span *ngIf="bfRequired" class="asterisk">*</span>
   </label>
 
-  <span *ngIf="status === 'error'" class="bf-input-error-text" [ngClass]="errorPosition">{{errorText}}</span>
+  errorPosition={{errorPosition}}
+  <span *ngIf="status === 'error'" class="bf-input-error-text" [ngClass]="errorPosition">
+    {{errorTextTrans$ | async}}
+  </span>
 
   <span *ngIf="displayIcon" class="bf-input-inner-icon"
         [ngClass]="displayIcon"
@@ -45,13 +52,15 @@
     </div>
 
          <!--[formControl]="inputCtrl"-->
-         <!--  pattern="[A-Za-z]{4}"-->
     <input class="form-control" name="bfInput" #ngInputRef="ngModel"
            [ngModel]="bfModel" (ngModelChange)="parseModelChange($event)"
            [disabled]="bfDisabled"
+
            [required]="bfRequired"
-           minlength="2"
-           maxlength="6"
+           [minlength]="bfMinlength"
+           [maxlength]="bfMaxlength"
+           [pattern]="bfPattern"
+
            [placeholder]="bfPlaceholderTrans$ | async"
            (focusin)="isFocus=true"
            (focusout)="isFocus=false"

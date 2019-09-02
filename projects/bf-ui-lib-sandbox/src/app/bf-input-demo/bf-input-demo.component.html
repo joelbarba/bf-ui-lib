@@ -3,8 +3,22 @@
 <p>{{desc}}</p>
 
 <div class="col-12">
+            <!--bfValidType="email"-->
+            <!--bfPattern="[A-Za-z]*"-->
+            <!--[bfValidator]="validIfFn"-->
+            <!--bfErrorText="view.tooltip.message"-->
+
+            <!--bfInvalidIcon="icon-thumbs-down"-->
+            <!--bfValidIcon="icon-checkmark4"-->
+            <!--bfIcon="icon-search"-->
+            <!--[bfIcon]="bfInputRef.valid ? 'icon-search' : 'icon-thumbs-down'"-->
+            <!--bfErrorPos="bottom-left"-->
+            <!--bfErrorOnPristine="true"-->
   <bf-input [(ngModel)]="val1"  #bfInputRef="ngModel"
-            bfMinlength="3" bfRequired="true"
+            bfMinlength="2"
+            bfMaxlength="5"
+            bfRequired="true"
+            (bfOnLoaded)="inputCtrl = $event; inputInit()"
             bfLabel="view.common.name">
   </bf-input>
 
@@ -16,7 +30,12 @@
 </div>
 <div class="col-6">
   <input type="text" [(ngModel)]="val1">
+  <input type="text" [(ngModel)]="val2">
 </div>
+
+<bf-btn bfText="Click to Focus" (bfClick)="inputCtrl.setFocus()"></bf-btn>
+<bf-btn bfText="Clear Error" (bfClick)="inputCtrl.removeError()"></bf-btn>
+<bf-btn bfText="Add Error" (bfClick)="inputCtrl.addError({ MANUAL_ERROR: 'true' })"></bf-btn>
 
 
 

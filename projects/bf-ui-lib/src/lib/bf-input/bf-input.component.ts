@@ -1,4 +1,14 @@
-import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, Inject, forwardRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  Input,
+  Output,
+  EventEmitter,
+  Inject,
+  forwardRef,
+  HostListener
+} from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
 import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import { AbstractTranslateService } from '../abstract-translate.service';
@@ -6,6 +16,14 @@ import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import * as Rx from 'rxjs';
 import * as RxOp from 'rxjs/operators';
 import {Observable, of} from "rxjs";
+
+export interface IbfInputCtrl {
+  getControl  ?: { (): FormControl };
+  setFocus    ?: { () };
+  removeError ?: { () },
+  addError    ?: { (err) }
+}
+
 
 @Component({
   selector: 'bf-input',
@@ -19,23 +37,10 @@ import {Observable, of} from "rxjs";
     { // Custom validator
       provide: NG_VALIDATORS, multi: true,
       useExisting: forwardRef(() => BfInputComponent),
-    },
-    // { // Custom validator
-    //   provide: NG_VALIDATORS, multi: true,
-    //   useValue: (c: FormControl) => {
-    //     console.log('NG_VALIDATORS', c);
-    //     let err = { rangeError: {given: c.value, max: 10, min: 0 }};
-    //
-    //     return (c.value && c.value.length < 3) ? err : null;
-    //   },
-    // }
+    }
   ]
 })
 export class BfInputComponent implements ControlValueAccessor {
-// export class BfInputComponent implements OnInit {
-  // @Output() bfModelChange = new EventEmitter<string>();
-  // @Input() bfModel: string;
-
   public bfModel: string; // Internal to hold the linked ngModel on the wrapper
 
   @Input() bfLabel: string = '';          // Text for the label above the input. Translation applied.
@@ -51,16 +56,30 @@ export class BfInputComponent implements ControlValueAccessor {
   @Input() bfDisabledTip : string;   // Label for the text of the tooltip to display when the input is disabled
 
   // @Input() bfName: string = '';    // The name attribute specifies the name of an <input> element
-  @Input() bfIcon: string = '';     // Icon to show into the input floating at the right hand side (this is replace by bfValidIcon and bfInvalidIcon)
   @Input() bfLeftBtnIcon: string;   // Icon to show into a button on the left of the input (prepend addon https://getbootstrap.com/docs/4.3/components/input-group/#button-addons)
   @Input() bfRightBtnIcon: string;  // Icon to show into a button on the right of the input (append addon)
   @Input() bfLeftBtnText: string;   // Text to show into a button on the left of the input (prepend addon)
   @Input() bfRightBtnText: string;  // Text to show into a button on the left of the input (append addon)
 
-  @Input() bfErrorPos: string = 'top-right';  // top-right, bottom-left, bottom-right
   @Input() bfAutoFocus = false; // If true, once input linked to the view is automatically focused
 
-  @Input() bfMinlength = 0;   // Min number of chars. To bind to ngMinlength
+  @Input() bfMinlength = 0;     // Min number of chars. Built in validator (minlength)
+  @Input() bfMaxlength = null;  // Max number of chars. Built in validator (maxlength). Null means no max. It blocks input if limit.
+  @Input() bfPattern = null;    // Regex validator. Built in validator (pattern). Null means no validation.
+
+  @Input() bfValidType: 'integer' | 'number' | 'decimal' | 'email' = null;  // Predefined validator patterns. It overrides bfPattern
+  @Input() bfValidator = null;  // Callback custom validator function. It is called every time the internal ngModel validates its value.
+                                // As a parameter, it passes the current value of the model. It should return null (valid) or error object (invalid)
+  // @Input() bfValidIf = null; // Not possible to manage this due to ExpressionChangedAfterItHasBeenCheckedError
+
+  @Input() bfErrorText: string;   // Custom error text (label) to display when invalid value
+  @Input() bfErrorPos : 'top-right' | 'bottom-left' | 'bottom-right';  // Custom position where to display the error text
+
+  @Input() bfIcon = '';             // Icon to show into the input floating at the right hand side (this is replace by bfValidIcon and bfInvalidIcon)
+  @Input() bfValidIcon = '';        // Icon to show when the value is dirty and valid (by default none). ()
+  @Input() bfInvalidIcon = 'icon-warning22'; // Icon to show when the value is dirty and invalid (by default icon-warning22)
+  @Input() bfErrorOnPristine = false; // If true, errors will be shown in pristine state too (by default pristine shows as valid always)
+
 
   @Output() bfLeftBtnClick = new EventEmitter<any>();   // Emitter for left addon button
   @Output() bfRightBtnClick = new EventEmitter<any>();  // Emitter for right addon button
@@ -70,49 +89,34 @@ export class BfInputComponent implements ControlValueAccessor {
   @Output() bfOnEnter = new EventEmitter<any>();        // Emitter when Enter is pressed
   @Output() bfOnCtrlEnter = new EventEmitter<any>();    // Emitter when Ctrl+Enter is pressed
 
+  @Output() bfOnLoaded = new EventEmitter<IbfInputCtrl>();  // Emitter to catch the moment when the component is ready (ngAfterViewInit)
+                                                            // It passes an object with control functions (IbfInputCtrl)
+
 /*
-
-      bfPattern         : '@?',     // Bool expr to define ngPattern
-      bfValidType       : '@?',     // Predefined ngPatterns. "decimal" -> Any number. "email" -> Email. If present it overrides bfPattern
-
-      bfMaxlength       : '=?',     // Max number of chars. To bind to ngMinlength
-      bfBlockMax        : '=?',     // Max length blocking. Adds a maxlength instead of ngMaxlength
-
-      bfErrorText       : '@?',     // Custom error text to display when invalid value
-      bfErrorPos        : '@?',     // Custom position where to display the error text.
       bfLabelCol        : '@?',     // It sets an horizontal layout. Cols of the label (input is 12-label)
-      bfErrorOnPristine : '=?',     // Boolean. True means that errors will be shown in pristine state too. (false by default)
-      bfValidIcon       : '@?',     // Icon to show when the value is dirty and valid (by default icon-checkmark4)
-      bfInvalidIcon     : '@?',     // Icon to show when the value is dirty and invalid (by default icon-warning22)
-
-      bfValidator       : '&?',     // Function to execute every time ngModel changes, to validate the new value. Returns true=valid or false=invalid
-      bfValidIf         : '@?',     // Angular expression to validate the ngModel validity. Use "$value" into the expression to refer to the new ngModel value
       bfAsyncValidator  : '&?',     // Function to validate asynchronously, returning a promise. Resolve=valid, reject=invalid
-      bfOnKeyDown       : '&?',     // Callback function to hook the event 'keydown' on the input
-      bfOnChange        : '&?',     // Callback function triggered every time the ngModel changes. Passing ngModel object by param (model)
-      bfOnLoaded        : '&?',     // Callback function triggered when the directive is loaded (linked)
       bfBeforeChange    : '&?',     // Callback function triggered every time the ngModel is going to changes (same as bfOnChange, but just befor the model changes)
-      bfSetFocus        : '=?',     // Function to call to set the focus
       bfAddError        : '=?',     // Function to call to add a custom extra error on the model programatically
       bfRemoveError     : '=?',     // Function to call to remove the extra added error
       bfModelCtrl       : '=?'      // Binding to the ngModel controller on the input field
 */
 
-
-  public status : string = 'pristine';      // pristine, valid, error, loading
-
   public bfLabelTrans$: Observable<string> = of('');         // Translated text for the label
   public bfTooltipTrans$: Observable<string> = of('');       // Translated text for the tooltip of the label
   public bfPlaceholderTrans$: Observable<string> = of('');   // Translated text for the placeholder of the input
   public bfDisabledTipTrans$: Observable<string> = of('');   // Translated text for the disabled tooltip of the input
+  public errorTextTrans$: Observable<string> = of(''); // Translated text for the error message
 
-  public displayIcon: string = '';
-  public errorPosition: string = 'top-right';
-  public errorText: string = 'Invalid value';
-  public bfValidIcon: string = 'icon-checkmark4';
-  public bfInvalidIcon: string = 'icon-warning22';
+  // Status of the bfInput. Pristine will be valid even if the value is wrong (unless bfErrorOnPristine)
+  public status: 'valid' | 'error' | 'loading' = 'valid';  // pristine, valid, error, loading
+
+  public displayIcon = '';
+  public errorPosition = 'top-right';
+  public isPristine = true;
   public isFocus = false; // Whether the focus is on the input
   public hasAutofillDetection = false;  // Whether is has autofill detection (any parameter linked to bfOnAutofill)
+  private customErr = null; // Manual error (set through addError() / removeError())
+
 
   @ViewChild('ngInputRef') ngInputRef: ElementRef;
   public inputCtrl:FormControl; // <-- ngInputRef.control
@@ -121,79 +125,15 @@ export class BfInputComponent implements ControlValueAccessor {
     @Inject('TranslateService') private translate: AbstractTranslateService,
     private config: NgbPopoverConfig,
     private elementRef: ElementRef,
-  ) { }
-
-
-  // ------- ControlValueAccessor -----
-
-  // ControlValueAccessor --> writes a new value from the external ngModel into the internal ngModel
-  // This is triggered by setUpControl in FormControl directive outside this component
-  writeValue(value: any) {
-    console.log('writeValue -> ', value, this.ngInputRef);
-    if (value === null)      {} // First time, when the component is initialized but the outer value not ready yet
-    if (value === undefined) {} // Second time, when the component is initialized and the ngModel
-
-    if (value !== undefined) {
-      this.bfModel = value ? value: '';
-      this.updateStatus();
-
-      // Set the value to the internal formControl to force the internal validators run
-      // so when the external validate() is triggered after this it gets the last value
-      if (!!this.inputCtrl) {
-        this.inputCtrl.setValue(this.bfModel, { // https://angular.io/api/forms/FormControl#setValue
-          emitViewToModelChange: false,
-          // emitModelToViewChange: false,
-          // emitEvent: false,
-        });
-      }
-    }
+  ) {
+    this.errorTextTrans$ = this.translate.getLabel$('view.common.invalid_value'); // Default error message
   }
 
-  public propagateModelUp = (_: any) => {}; // This is just to avoid type error (it's overwritten on register)
-  registerOnChange(fn) {
-    // console.log('registerOnChange');
-    this.propagateModelUp = fn;
-  }
-  registerOnTouched(fn) { }
 
-
-  // NG_VALIDATORS provider triggers this validation
-  // Validation to determine the outer formControl state. It propagates upward the state of the internal ngModel
-  public validate(extFormCtrl: FormControl) {
-    // extFormCtrl     <-- FormControl of the external ngModel
-    // this.inputCtrl  <-- FormControl of the internal ngModel
-    // this.ngInputRef <-- This is the reference of the internal <input> tag
-
-    console.log('validate', 'Internal FormControl:', this.inputCtrl.status, ' / External FormControl:', extFormCtrl.status);
-
-    // If internal ngModel is invalid, external is invalid too
-    if (!!this.inputCtrl && this.inputCtrl.status === 'INVALID') { // status: [VALID, INVALID, PENDING, DISABLED]
-      return this.inputCtrl.errors;
-    } else {
-      return null;
-    }
-  }
-
-  public customValidator = ((intFormCtrl: FormControl) => {
-    // intFormCtrl <-- FormControl of the internal ngModel (same as this.inputCtrl)
-    console.warn('customValidator errors 1 - Internal FC', intFormCtrl.errors);
-
-    // This will force the external control to validate again (NG_VALIDATORS --> validate())
-    // We have to wait until the internal ngModel gets the new value though
-    // setTimeout(() => this.propagateModelUp(this.bfModel));
-
-
-    if (intFormCtrl.value === 'Joel') {
-      return { CUSTOM_VALIDATOR: { given: intFormCtrl.value, max: 10, min: 0 }};
-    }
-    return null;
-  });
-
-  // ------------------------------------
 
   ngOnChanges(change) {
     // Translate bfText whenever it changes
-    console.log('ngOnChanges', change);
+    console.error('ngOnChanges', change);
     // console.log('this.ngInputRef', this.ngInputRef);
 
     // Link the formControl form the <input #ngInputRef="ngModel"> to "this.inputCtrl"
@@ -203,31 +143,42 @@ export class BfInputComponent implements ControlValueAccessor {
       this.inputCtrl.updateValueAndValidity();
     }
 
+    if (change.hasOwnProperty('bfValidator')) {
+      this.inputCtrl.updateValueAndValidity();
+    }
 
-    // // https://angular.io/api/forms/AbstractControl
-    // // this.inputCtrl = new FormControl('', { validators: Validators.required });
-    // if (this.bfRequired) {
-    //   this.inputCtrl.setValidators(Validators.required);
-    // } else {
-    //   this.inputCtrl.clearValidators();
-    // }
-    //
-    // if (this.bfDisabled) {
-    //   this.inputCtrl.disable(); // Be careful, this turns the inputCtrl invalid (https://github.com/angular/angular/issues/11432#issuecomment-245670999)
-    // } else {
-    //   this.inputCtrl.enable();
-    // }
 
     // Generate new observables for the dynamic text
     if (change.hasOwnProperty('bfLabel'))        { this.bfLabelTrans$ = this.translate.getLabel$(this.bfLabel); }
     if (change.hasOwnProperty('bfTooltip'))      { this.bfTooltipTrans$ = this.translate.getLabel$(this.bfTooltip); }
     if (change.hasOwnProperty('bfPlaceholder'))  { this.bfPlaceholderTrans$ = this.translate.getLabel$(this.bfPlaceholder); }
     if (change.hasOwnProperty('bfDisabledTip'))  { this.bfDisabledTipTrans$ = this.translate.getLabel$(this.bfDisabledTip); }
+    if (change.hasOwnProperty('bfErrorText'))    { this.errorTextTrans$ = this.translate.getLabel$(this.bfErrorText); }
+
+    if (change.hasOwnProperty('bfErrorPos')) { this.errorPosition = this.bfErrorPos; }
 
     if (change.hasOwnProperty('bfType'))  {
       if (this.bfType !== 'text' && this.bfType !== 'number' && this.bfType !== 'password' && this.bfType !== 'email') {
         this.bfType = 'text';
       }
+    }
+
+    if (!this.bfErrorText) {
+      if (change.hasOwnProperty('bfRequired'))  { this.errorTextTrans$ = this.translate.getLabel$('view.common.required_field'); }
+      if (change.hasOwnProperty('bfMinlength')) { this.errorTextTrans$ = this.translate.getLabel$('view.common.invalid_min_length'); }
+      if (change.hasOwnProperty('bfMaxlength')) { this.errorTextTrans$ = this.translate.getLabel$('view.common.invalid_max_length'); }
+    }
+
+
+    // Pre defined ngPatterns
+    if (change.hasOwnProperty('bfValidType'))  {
+      if (this.bfValidType === 'integer') { this.bfPattern = '^[0-9]{1,5}$'; }
+      if (this.bfValidType === 'number')  { this.bfPattern = '^-?[0-9]{1,8}$'; }
+      if (this.bfValidType === 'decimal') { this.bfPattern = '^-?[0-9]+(\\.[0-9]+)?$'; }
+      // if (this.bfValidType === 'email')   { this.bfPattern = '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'; }
+
+      // Email regex from W3C (https://www.w3.org/TR/html5/forms.html#valid-e-mail-address):
+      if (this.bfValidType === 'email')   { this.bfPattern = "^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"; }
     }
 
     if (change.hasOwnProperty('bfAutoFocus') && !!this.bfAutoFocus) {
@@ -236,13 +187,7 @@ export class BfInputComponent implements ControlValueAccessor {
       }, 50);
     }
 
-
-
-
-    this.displayIcon = this.bfIcon || '';
-
-    // this.inputCtrl.setValue(this.bfModel);
-    // console.log('this.inputCtrl.status', this.inputCtrl.status);
+    // Update the model
     console.log('propagateModelUp (ngOnChanges) -> ', this.bfModel);
     this.propagateModelUp(this.bfModel);
     this.updateStatus();
@@ -257,39 +202,156 @@ export class BfInputComponent implements ControlValueAccessor {
       this.elementRef.nativeElement.querySelector('input').addEventListener('animationstart', ($event) => { this.bfOnAutofill.emit($event); });
       this.elementRef.nativeElement.querySelector('input').addEventListener('webkitAnimationStart', ($event) => { this.bfOnAutofill.emit($event); });
     }
+
+    // Auto position of the error text. If small resolutions, push if after the input
+    if (!this.bfErrorPos) { this.errorPosition = window.innerWidth >= 768 ? 'top-right' : 'bottom-left'; }
   }
 
+  // ngAfterContentInit() { console.log('ngAfterContentInit'); }
 
-  ngAfterContentInit() { console.error('ngAfterContentInit'); }
-  ngAfterViewInit() { console.error('ngAfterViewInit'); }
+  // interface bfInputCtrl { }
+
+  ngAfterViewInit() {
+    console.log('ngAfterViewInit');
+    this.bfOnLoaded.emit({
+      getControl  : () => this.inputCtrl,
+      setFocus    : () => this.elementRef.nativeElement.querySelector('input').focus({ preventScroll: false }),
+      removeError : () => {
+        this.customErr = null;
+        this.inputCtrl.updateValueAndValidity();
+        setTimeout(() => {
+          this.propagateModelUp(this.bfModel);  // This will force the external validate
+          this.updateStatus();
+        });
+      },
+      addError    : (err) => {
+        this.customErr = err;
+        this.inputCtrl.updateValueAndValidity();
+        setTimeout(() => {
+          this.propagateModelUp(this.bfModel);  // This will force the external validate
+          this.updateStatus();
+        });
+      },
+    });
+  };
+
+  // This would make the error auto-positioning responsive, but we don't really need it
+  // @HostListener('window:resize', ['$event'])
+  // onResize(event) {
+  //   if (!this.bfErrorPos) {
+  //     this.errorPosition = 'top-right';
+  //     if (window.innerWidth < 768) {
+  //       this.errorPosition = 'bottom-left';
+  //     }
+  //   }
+  // }
+
+
+  // ngAfterViewChecked() {
+  //   console.log('ngAfterViewChecked');
+  // }
 
 
 
+  // ------- ControlValueAccessor -----
 
+  public propagateModelUp = (_: any) => {}; // This is just to avoid type error (it's overwritten on register)
+  registerOnChange(fn) { this.propagateModelUp = fn; }
+  registerOnTouched(fn) { }
 
-  public updateStatus = () => {
+  // ControlValueAccessor --> writes a new value from the external ngModel into the internal ngModel
+  // This is triggered by setUpControl in FormControl directive outside this component
+  public writeValue = (value: any) => {
+    console.log('writeValue -> ', value, this.ngInputRef);
+    // if (value === null) {} // First time, when the component is initialized but the outer value not ready yet
+
+    this.bfModel = value ? value: '';
+    setTimeout(this.updateStatus);  // Update status (after internal ngModel cycle)
+
+    // Set the value to the internal formControl to force the internal validators run
+    // so when the external validate() is triggered after this it gets the last value
     if (!!this.inputCtrl) {
-      if (this.inputCtrl.pristine) { this.status = 'pristine'; }
-      if (this.inputCtrl.dirty)    { this.status = 'dirty'; }
+      this.inputCtrl.setValue(this.bfModel, { // https://angular.io/api/forms/FormControl#setValue
+        emitViewToModelChange: false,
+        // emitModelToViewChange: false,
+        // emitEvent: false,
+      });
+    }
+  };
 
-      // if (this.inputCtrl.status === 'INVALID') { // <--- If we have to show error on pristine
-      if (this.inputCtrl.status === 'INVALID' && !this.inputCtrl.pristine)   {
+  // NG_VALIDATORS provider triggers this validation
+  // Validation to determine the outer formControl state. It propagates upward the state of the internal ngModel
+  public validate = (extFormCtrl: FormControl) => {
+    // extFormCtrl     <-- FormControl of the external ngModel
+    // this.inputCtrl  <-- FormControl of the internal ngModel
+    // this.ngInputRef <-- This is the reference of the internal <input> tag
+    let result = null;  // null means valid
+
+    // If internal ngModel is invalid, external is invalid too
+    if (!!this.inputCtrl && this.inputCtrl.status === 'INVALID') { // status: [VALID, INVALID, PENDING, DISABLED]
+      result = this.inputCtrl.errors;
+    }
+    console.log('validate', 'Internal FormControl:', this.inputCtrl.status, ' / External FormControl:', extFormCtrl.status, result);
+    return result;
+  };
+
+  // Custom validator for the internal ngModel (input)
+  public customValidator = ((intFormCtrl: FormControl) => {
+    // intFormCtrl <-- FormControl of the internal ngModel (same as this.inputCtrl)
+    let result = null;
+
+    if (!!this.bfValidator && typeof this.bfValidator === 'function') {
+      result = this.bfValidator(intFormCtrl.value);
+    }
+
+    if (!!this.customErr) { result = this.customErr; }  // Manual error
+
+    return result;
+  });
+
+  // ------------------------------------
+
+  // Internal ngModelChange
+  public parseModelChange = (value) => {
+    this.bfModel = value;
+    this.propagateModelUp(this.bfModel);
+    this.updateStatus();
+    console.log('propagateModelUp (ngModel) -> ', this.bfModel);
+  };
+
+  // Update the state of the bfInput after any change
+  // Produce new values for: [status, displayIcon, isPristine, errorTextTrans$]
+  public updateStatus = () => {
+    console.log('updateStatus -> ', this.inputCtrl.status);
+    this.status = 'valid';
+    this.displayIcon = this.bfIcon;
+    if (!!this.inputCtrl) {
+
+      // this.inputCtrl.status can be: [VALID, INVALID, PENDING, DISABLED]
+      if (this.inputCtrl.status === 'INVALID' && (!this.inputCtrl.pristine || this.bfErrorOnPristine)) {
         this.status = 'error';
-        this.displayIcon = this.bfInvalidIcon;
+        this.displayIcon = this.bfIcon || this.bfInvalidIcon;
+
+        if (!this.bfErrorText) {
+          if (this.inputCtrl.errors.required)  { this.errorTextTrans$ = this.translate.getLabel$('view.common.required_field'); }
+          if (this.inputCtrl.errors.minlength) { this.errorTextTrans$ = this.translate.getLabel$('view.common.invalid_min_length'); }
+          if (this.inputCtrl.errors.maxlength) { this.errorTextTrans$ = this.translate.getLabel$('view.common.invalid_max_length'); }
+        }
       }
+
+      if (this.inputCtrl.status === 'VALID') {
+        this.status = 'valid';
+        if (!this.inputCtrl.pristine || this.bfErrorOnPristine) {
+          this.displayIcon = this.bfIcon || this.bfValidIcon;
+        }
+      }
+
+      this.isPristine = this.inputCtrl.pristine;
     }
   };
 
 
-  public parseModelChange = (value) => {
-    this.bfModel = value;
-    // this.inputCtrl.updateValueAndValidity();
-    console.log('propagateModelUp (ngModel) -> ', this.bfModel);
-    this.propagateModelUp(this.bfModel);
-    this.updateStatus();
-    // this.bfModelChange.emit(this.bfModel);
-  };
-
+  // React on key events (on the input)
   public triggerKey = (event) => {
     if (event.key === 'Escape') { this.bfOnEsc.emit(event); }
     if (event.key === 'Enter') { this.bfOnEnter.emit(event); }
