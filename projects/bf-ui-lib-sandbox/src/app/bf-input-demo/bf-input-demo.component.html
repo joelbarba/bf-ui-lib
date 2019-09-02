@@ -2,40 +2,131 @@
 <hr/>
 <p>{{desc}}</p>
 
-<div class="col-12">
-            <!--bfValidType="email"-->
-            <!--bfPattern="[A-Za-z]*"-->
-            <!--[bfValidator]="validIfFn"-->
-            <!--bfErrorText="view.tooltip.message"-->
+<div class="whiteBg row">
+  <h4 class="col-12">Input Validators</h4>
+  <div class="col-6">
+              <!--[bfIcon]="bfInputRef.valid ? 'icon-search' : 'icon-thumbs-down'"-->
+    <bf-input [(ngModel)]="val1"  #bfInputRef="ngModel"
+              [bfRequired]="valEx.isRequired"
+              [bfMinlength]="valEx.minLen"
+              [bfMaxlength]="valEx.isMaxLen ? valEx.maxLen : null"
+              [bfPattern]="valEx.hasPattern ? valEx.pattern : null"
+              [bfValidType]="valEx.valType ? valEx.valType : null"
+              [bfValidator]="valEx.hasBfValidator ? validIfFn : null"
+              (bfOnLoaded)="inputCtrl = $event; inputInit()"
+              [bfErrorOnPristine]="valEx.hasErrOnPristine"
+              [bfIcon]="valEx.hasIcon ? valEx.bfIcon : ''"
+              [bfInvalidIcon]="valEx.hasInvalidIcon ? valEx.bfInvalidIcon : ''"
+              [bfValidIcon]="valEx.hasValidIcon ? valEx.bfValidIcon : ''"
+              [bfErrorText]="valEx.hasErrorText ? valEx.bfErrorText : ''"
+              [bfErrorPos]="valEx.errorPos"
+              bfLabel="view.common.name">
+    </bf-input>
 
-            <!--bfInvalidIcon="icon-thumbs-down"-->
-            <!--bfValidIcon="icon-checkmark4"-->
-            <!--bfIcon="icon-search"-->
-            <!--[bfIcon]="bfInputRef.valid ? 'icon-search' : 'icon-thumbs-down'"-->
-            <!--bfErrorPos="bottom-left"-->
-            <!--bfErrorOnPristine="true"-->
-  <bf-input [(ngModel)]="val1"  #bfInputRef="ngModel"
-            bfMinlength="2"
-            bfMaxlength="5"
-            bfRequired="true"
-            (bfOnLoaded)="inputCtrl = $event; inputInit()"
-            bfLabel="view.common.name">
-  </bf-input>
+    <!--<div *ngIf="isInputReady">-->
+    <!--  INTERNAL FormControl: value={{exposedModel.value}}-->
+    <!--  , valid={{exposedModel.valid}}-->
+    <!--  , invalid={{exposedModel.invalid}}-->
+    <!--  , errors={{exposedModel.errors | json}}-->
+    <!--  , pristine={{exposedModel.pristine}}-->
+    <!--</div>-->
+    <div *ngIf="!!bfInputRef">
+      EXTERNAL FromControl:
+      value={{bfInputRef.value}}
+      , valid={{bfInputRef.valid}}
+      , invalid={{bfInputRef.invalid}}
+      , errors={{bfInputRef.errors | json}}
+    </div>
 
-  EXTERNAL FromControl:
-  value={{bfInputRef.value}}
-  , valid={{bfInputRef.valid}}
-  , invalid={{bfInputRef.invalid}}
-  , errors={{bfInputRef.errors | json}}
+  </div>
+  <div class="col-6" *ngIf="isInputReady">
+    <div class="marB10">
+      <span>ngModel:</span><input type="text" [(ngModel)]="val1">
+      <span>Change this to manipulate the value of the input externally</span>
+    </div>
+    <div class="marB10">
+
+      <!--Required-->
+      <bf-checkbox bfLabel="Is Required" [(ngModel)]="valEx.isRequired"></bf-checkbox>
+
+      <!--MinLen-->
+      <span class="marL15">MinLength: <input class="marL15" type="text" style="width: 50px;" [(ngModel)]="valEx.minLen"></span>
+
+      <!--MaxLen-->
+      <bf-checkbox class="marL15" bfLabel="Max Length" [(ngModel)]="valEx.isMaxLen"></bf-checkbox>
+      <input class="marL15" type="text" [(ngModel)]="valEx.maxLen" style="width: 50px;" [hidden]="!valEx.isMaxLen">
+    </div>
+
+    <div class="marB10">
+
+      <!--bfPattern-->
+      <bf-checkbox bfLabel="Has Pattern" [(ngModel)]="valEx.hasPattern"></bf-checkbox>
+      <span class="marL15" [hidden]="!valEx.hasPattern">
+        <span>Regex:</span>
+        <input class="marL15" type="text" style="width: 150px;" [(ngModel)]="valEx.pattern" >
+      </span>
+
+      <!--bfValidType-->
+      <span [hidden]="valEx.hasPattern">
+        <span class="marL30">bfValidType:</span>
+        <bf-dropdown [(ngModel)]="valEx.valType" [bfList]="valEx.valTypes" bfRender="text" bfSelect="id"> </bf-dropdown>
+      </span>
+    </div>
+
+    <div class="marB10">
+
+      <!--bfValidator-->
+      <bf-checkbox bfLabel="bfValidator (function):" [(ngModel)]="valEx.hasBfValidator"></bf-checkbox>
+      <span class="marL15" [hidden]="!valEx.hasBfValidator">
+        <span>{{"(value) => { return (value === '"}}</span>
+        <input type="text" style="width: 50px;" [(ngModel)]="valEx.bfValMatchVal">
+        <span>{{"') ? null : { label : 'this is wrong' }; }"}}</span>
+      </span>
+    </div>
+
+    <div class="marB20">
+      <bf-btn bfText="Dirty"    (bfClick)="inputCtrl.setDirty()"    [hidden]="!exposedModel.pristine"></bf-btn>
+      <bf-btn bfText="Pristine" (bfClick)="inputCtrl.setPristine()" [hidden]="exposedModel.pristine"></bf-btn>
+      <bf-btn bfText="Focus" (bfClick)="inputCtrl.setFocus()"></bf-btn>
+      <bf-btn bfText="Clear Error" (bfClick)="inputCtrl.removeError()"></bf-btn>
+      <bf-btn bfText="Add Error" (bfClick)="inputCtrl.addError({ label: 'manual error here' })"></bf-btn>
+      <bf-btn bfText="Refresh"   (bfClick)="inputCtrl.refresh()"></bf-btn>
+    </div>
+
+
+    <div class="marB10">
+      <!--bfErrorOnPristine-->
+      <bf-checkbox bfLabel="bfErrorOnPristine" [(ngModel)]="valEx.hasErrOnPristine"></bf-checkbox>
+
+      <!--bfIcon-->
+      <bf-checkbox class="marL20" bfLabel="bfIcon" [(ngModel)]="valEx.hasIcon"></bf-checkbox>
+      <input class="marL10" type="text" style="width: 200px;" [(ngModel)]="valEx.bfIcon" [hidden]="!valEx.hasIcon">
+    </div>
+
+    <div class="marB10">
+      <!--bfInvalidIcon-->
+      <bf-checkbox bfLabel="bfInvalidIcon" [(ngModel)]="valEx.hasInvalidIcon"></bf-checkbox>
+      <input class="marL10" type="text" style="width: 200px;" [(ngModel)]="valEx.bfInvalidIcon" [hidden]="!valEx.hasInvalidIcon">
+
+      <!--bfValidIcon-->
+      <bf-checkbox class="marL20" bfLabel="bfValidIcon" [(ngModel)]="valEx.hasValidIcon"></bf-checkbox>
+      <input class="marL10" type="text" style="width: 200px;" [(ngModel)]="valEx.bfValidIcon" [hidden]="!valEx.hasValidIcon">
+    </div>
+
+    <div class="marB10">
+      <span>bfErrorPos:</span>
+      <bf-dropdown [(ngModel)]="valEx.errorPos" [bfList]="valEx.errorPosOpts" bfRender="text" bfSelect="id"> </bf-dropdown>
+
+
+      <!--bfErrorText-->
+      <bf-checkbox class="marL30" bfLabel="bfErrorText (label)" [(ngModel)]="valEx.hasErrorText"></bf-checkbox>
+      <input class="marL10" type="text" style="width: 200px;" [(ngModel)]="valEx.bfErrorText" [hidden]="!valEx.hasErrorText">
+
+    </div>
+
+
+  </div>
 </div>
-<div class="col-6">
-  <input type="text" [(ngModel)]="val1">
-  <input type="text" [(ngModel)]="val2">
-</div>
-
-<bf-btn bfText="Click to Focus" (bfClick)="inputCtrl.setFocus()"></bf-btn>
-<bf-btn bfText="Clear Error" (bfClick)="inputCtrl.removeError()"></bf-btn>
-<bf-btn bfText="Add Error" (bfClick)="inputCtrl.addError({ MANUAL_ERROR: 'true' })"></bf-btn>
 
 
 

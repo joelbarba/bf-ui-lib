@@ -1,22 +1,14 @@
-<div class="form-group  bf-input-form-group   error-{{errorPosition}}"
+<div class="form-group  bf-input-form-group"
      [class.is-required]="bfRequired"
      [class.is-disabled]="bfDisabled"
-     [class.is-error]="status === 'error'"
      [class.is-pristine]="isPristine"
      [class.is-dirty]="!isPristine"
      [class.is-focus]="isFocus"
+     [class.is-error]="status === 'error'"
+     [class.error-top-right]="errorPosition === 'top-right'"
+     [class.error-bottom-left]="errorPosition === 'bottom-left'"
+     [class.error-bottom-right]="errorPosition === 'bottom-right'"
      [class.horizontalLayoutClass]="false">
-
-  status={{status}}, isPristine={{isPristine}}
-  <br>
-
-  INTERNAL FormControl:
-  value={{ngInputRef.value}}
-  , valid={{ngInputRef.valid}}
-  , invalid={{ngInputRef.invalid}}
-  , errors={{ngInputRef.errors | json}}
-  <br>
-
   <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
     <span class="info-badge" *ngIf="!!bfTooltip"
          [ngbPopover]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
@@ -27,8 +19,10 @@
     <span *ngIf="bfRequired" class="asterisk">*</span>
   </label>
 
-  errorPosition={{errorPosition}}
-  <span *ngIf="status === 'error'" class="bf-input-error-text" [ngClass]="errorPosition">
+  <span *ngIf="status === 'error'" class="bf-input-error-text"
+        [class.top-right]="errorPosition === 'top-right'"
+        [class.bottom-left]="errorPosition === 'bottom-left'"
+        [class.bottom-right]="errorPosition === 'bottom-right'">
     {{errorTextTrans$ | async}}
   </span>
 

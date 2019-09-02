@@ -18,13 +18,39 @@ export class BfInputDemoComponent implements OnInit {
 
   public myModel:string = 'My default value';
 
-  public validIfFn = (value) => {
-    // console.log('validIfFn --> ', value);
-    return (value === 'jo') ? null : { CUSTOM_VALIDATOR : 'false' };
+
+
+
+  public valEx: any = {
+    isRequired: false, minLen: 0,
+    isMaxLen: false, maxLen: 5,
+    hasPattern: false, pattern: '[A-Za-z]{3,8}',
+    valType: null, valTypes: [
+      { id: 'integer',  text: 'integer',  },
+      { id: 'number',   text: 'number',   },
+      { id: 'decimal',  text: 'decimal',  },
+      { id: 'email',    text: 'email',    },
+    ],
+    hasBfValidator: false, bfValMatchVal: '666',
+    hasErrOnPristine: false,
+    hasIcon: false,        hasInvalidIcon: false,             hasValidIcon: false,
+    bfIcon: 'icon-search', bfInvalidIcon: 'icon-thumbs-down', bfValidIcon: 'icon-checkmark4',
+    hasErrorText: false, bfErrorText: 'view.common.custom_error',
+    errorPos: '', errorPosOpts : [
+      { id: 'top-right',    text: 'top-right',  },
+      { id: 'bottom-left',  text: 'bottom-left',   },
+      { id: 'bottom-right', text: 'bottom-right',  },
+    ],
   };
+  public isInputReady = false;
+  public exposedModel: FormControl;
   public inputCtrl: IbfInputCtrl = {};
   public inputInit = () => {
-    console.log('bfInput init');
+    this.exposedModel = this.inputCtrl.getControl();
+    setTimeout(() => this.isInputReady = true, 400);
+  };
+  public validIfFn = (value) => {
+    return (value === this.valEx.bfValMatchVal) ? null : { label : 'this is wrong' };
   };
 
   public instance2 =

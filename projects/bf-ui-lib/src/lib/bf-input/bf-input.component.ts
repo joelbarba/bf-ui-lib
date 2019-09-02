@@ -20,8 +20,11 @@ import {Observable, of} from "rxjs";
 export interface IbfInputCtrl {
   getControl  ?: { (): FormControl };
   setFocus    ?: { () };
+  setDirty    ?: { (opts?) };
+  setPristine ?: { (opts?) };
   removeError ?: { () },
   addError    ?: { (err) }
+  refresh     ?: { () }
 }
 
 
@@ -96,9 +99,6 @@ export class BfInputComponent implements ControlValueAccessor {
       bfLabelCol        : '@?',     // It sets an horizontal layout. Cols of the label (input is 12-label)
       bfAsyncValidator  : '&?',     // Function to validate asynchronously, returning a promise. Resolve=valid, reject=invalid
       bfBeforeChange    : '&?',     // Callback function triggered every time the ngModel is going to changes (same as bfOnChange, but just befor the model changes)
-      bfAddError        : '=?',     // Function to call to add a custom extra error on the model programatically
-      bfRemoveError     : '=?',     // Function to call to remove the extra added error
-      bfModelCtrl       : '=?'      // Binding to the ngModel controller on the input field
 */
 
   public bfLabelTrans$: Observable<string> = of('');         // Translated text for the label
@@ -115,7 +115,7 @@ export class BfInputComponent implements ControlValueAccessor {
   public isPristine = true;
   public isFocus = false; // Whether the focus is on the input
   public hasAutofillDetection = false;  // Whether is has autofill detection (any parameter linked to bfOnAutofill)
-  private customErr = null; // Manual error (set through addError() / removeError())
+  public manualError = null; // Manual error (set through addError() / removeError())
 
 
   @ViewChild('ngInputRef') ngInputRef: ElementRef;
@@ -155,7 +155,7 @@ export class BfInputComponent implements ControlValueAccessor {
     if (change.hasOwnProperty('bfDisabledTip'))  { this.bfDisabledTipTrans$ = this.translate.getLabel$(this.bfDisabledTip); }
     if (change.hasOwnProperty('bfErrorText'))    { this.errorTextTrans$ = this.translate.getLabel$(this.bfErrorText); }
 
-    if (change.hasOwnProperty('bfErrorPos')) { this.errorPosition = this.bfErrorPos; }
+    if (change.hasOwnProperty('bfErrorPos') && this.bfErrorPos) { this.errorPosition = this.bfErrorPos; }
 
     if (change.hasOwnProperty('bfType'))  {
       if (this.bfType !== 'text' && this.bfType !== 'number' && this.bfType !== 'password' && this.bfType !== 'email') {
@@ -187,10 +187,8 @@ export class BfInputComponent implements ControlValueAccessor {
       }, 50);
     }
 
-    // Update the model
-    console.log('propagateModelUp (ngOnChanges) -> ', this.bfModel);
-    this.propagateModelUp(this.bfModel);
-    this.updateStatus();
+    // Update the model (once ready)
+    this.deferRefresh();
   }
 
 
@@ -213,25 +211,26 @@ export class BfInputComponent implements ControlValueAccessor {
 
   ngAfterViewInit() {
     console.log('ngAfterViewInit');
+    // https://angular.io/api/forms/FormControl
     this.bfOnLoaded.emit({
       getControl  : () => this.inputCtrl,
       setFocus    : () => this.elementRef.nativeElement.querySelector('input').focus({ preventScroll: false }),
+      setDirty    : (opts?) => { this.inputCtrl.markAsDirty(opts); this.deferRefresh(); },
+      setPristine : (opts?) => { this.inputCtrl.markAsPristine(opts); this.deferRefresh(); },
       removeError : () => {
-        this.customErr = null;
+        this.manualError = null;
         this.inputCtrl.updateValueAndValidity();
-        setTimeout(() => {
-          this.propagateModelUp(this.bfModel);  // This will force the external validate
-          this.updateStatus();
-        });
+        this.deferRefresh();
       },
       addError    : (err) => {
-        this.customErr = err;
+        this.manualError = err;
         this.inputCtrl.updateValueAndValidity();
-        setTimeout(() => {
-          this.propagateModelUp(this.bfModel);  // This will force the external validate
-          this.updateStatus();
-        });
+        this.deferRefresh();
       },
+      refresh : () => {
+        this.inputCtrl.updateValueAndValidity();
+        this.deferRefresh();
+      }
     });
   };
 
@@ -304,12 +303,20 @@ export class BfInputComponent implements ControlValueAccessor {
       result = this.bfValidator(intFormCtrl.value);
     }
 
-    if (!!this.customErr) { result = this.customErr; }  // Manual error
+    if (!!this.manualError) { result = this.manualError; }  // Manual error
 
     return result;
   });
 
   // ------------------------------------
+
+  // Update external ngModel and internal state (defer it to the next cycle)
+  public deferRefresh = () => {
+    setTimeout(() => {
+      this.propagateModelUp(this.bfModel);  // This will force the external validate
+      this.updateStatus();
+    });
+  };
 
   // Internal ngModelChange
   public parseModelChange = (value) => {
@@ -336,6 +343,9 @@ export class BfInputComponent implements ControlValueAccessor {
           if (this.inputCtrl.errors.required)  { this.errorTextTrans$ = this.translate.getLabel$('view.common.required_field'); }
           if (this.inputCtrl.errors.minlength) { this.errorTextTrans$ = this.translate.getLabel$('view.common.invalid_min_length'); }
           if (this.inputCtrl.errors.maxlength) { this.errorTextTrans$ = this.translate.getLabel$('view.common.invalid_max_length'); }
+          if (!!this.manualError && this.manualError.label) {
+            this.errorTextTrans$ = this.translate.getLabel$(this.manualError.label);
+          }
         }
       }
 
