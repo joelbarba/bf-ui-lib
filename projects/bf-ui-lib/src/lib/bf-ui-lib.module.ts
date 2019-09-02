@@ -27,6 +27,7 @@ import { BfRadioComponent } from './bf-radio/bf-radio.component';
 import { BfDatePickerComponent } from './bf-date-picker/bf-date-picker.component';
 import { BfListPaginatorComponent } from './bf-list-paginator/bf-list-paginator.component';
 import {CommonModule} from "@angular/common";
+import { BfQuantityInputComponent } from './bf-quantity-input/bf-quantity-input.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import {CommonModule} from "@angular/common";
     BfRadioComponent,
     BfDatePickerComponent,
     BfListPaginatorComponent,
+    BfQuantityInputComponent,
   ],
   entryComponents: [BfConfirmComponent],
   imports: [
@@ -73,7 +75,7 @@ import {CommonModule} from "@angular/common";
     BfLabelComponent,
     BfBtnComponent,
     BfListHeaderColComponent,
-
+    BfQuantityInputComponent,
     BfGrowlModule,
     BfLoadingBarModule,
   ]

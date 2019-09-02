@@ -1,3 +1,5 @@
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BfDeferDoc } from './bf-defer-demo/bf-defer-demo.component';
 import { BfPromiseDoc } from './bf-promise-demo/bf-promise-demo.component';
 import { BfLoadingBarDoc } from './bf-loading-bar-demo/bf-loading-bar-demo.component';
@@ -17,8 +19,8 @@ import { BfLabelDoc }           from './bf-label-demo/bf-label-demo.component';
 import { BfBtnDoc }             from './bf-btn-demo/bf-btn-demo.component';
 import { BfListHeaderColDoc }   from './bf-list-header-col-demo/bf-list-header-col-demo.component';
 import { BfGrowlDoc }           from './bf-growl-demo/bf-growl-demo.component';
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { BfQuantityInputDoc } from './bf-quantity-input-demo/bf-quantity-input-demo.component';
+
 
 export const compList = [
   BfBtnDoc,
@@ -31,6 +33,7 @@ export const compList = [
   BfRadioDoc,
   BfDatePickerDoc,
   BfQuantityDoc,
+  BfQuantityInputDoc,
   BfListHeaderColDoc,
   BfListPlaceholderDoc,
   BfListPaginatorDoc,
@@ -39,7 +42,7 @@ export const compList = [
   BfConfirmDoc,
   BfPrototypesDoc,
   BfPromiseDoc,
-  BfDeferDoc,
+  BfDeferDoc
 ];
 
 /* {

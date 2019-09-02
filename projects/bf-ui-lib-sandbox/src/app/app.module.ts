@@ -32,6 +32,7 @@ import { BfPrototypesDemoComponent } from './bf-prototypes-demo/bf-prototypes-de
 import { BfLoadingBarDemoComponent } from './bf-loading-bar-demo/bf-loading-bar-demo.component';
 import { BfPromiseDemoComponent } from './bf-promise-demo/bf-promise-demo.component';
 import { BfDeferDemoComponent } from './bf-defer-demo/bf-defer-demo.component';
+import { BfQuantityInputDemoComponent } from './bf-quantity-input-demo/bf-quantity-input-demo.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { BfDeferDemoComponent } from './bf-defer-demo/bf-defer-demo.component';
     BfLoadingBarDemoComponent,
     BfPromiseDemoComponent,
     BfDeferDemoComponent,
+    BfQuantityInputDemoComponent,
   ],
   imports: [
     BrowserModule,
