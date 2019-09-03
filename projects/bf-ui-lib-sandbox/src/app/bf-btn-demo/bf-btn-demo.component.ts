@@ -155,25 +155,13 @@ public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"
 
 
 
-    if (this.btnConf.hasText) {
-      this.customBtnCode += this.bsStr + ` bfText="${this.btnConf.btnText}"`;
-    }
+    if (this.btnConf.hasText) { this.customBtnCode += this.bsStr + ` bfText="${this.btnConf.btnText}"`; }
+    if (this.btnConf.hasType) { this.customBtnCode += this.bsStr + ` bfType="${this.btnConf.btnType}"`; }
+    if (this.btnConf.hasIcon) { this.customBtnCode += this.bsStr + ` bfIcon="${this.btnConf.btnIcon}"`; }
+    if (this.btnConf.hasIconLeft) { this.customBtnCode += this.bsStr + ` bfIconPos="left"`; }
+    if (this.btnConf.isDisabled) { this.customBtnCode += this.bsStr + `[bfDisabled]="true"`; }
 
-    if (this.btnConf.hasType) {
-      this.customBtnCode += this.bsStr + ` bfType="${this.btnConf.btnType}"`;
-    }
-
-    if (this.btnConf.hasIcon) {
-      this.customBtnCode += this.bsStr + ` bfIcon="${this.btnConf.btnIcon}"`;
-    }
-
-    if (this.btnConf.isDisabled) {
-      this.customBtnCode += this.bsStr + `[bfDisabled]="true"`;
-    }
-
-    if (!!this.btnConf.btnDisabledTip) {
-      this.customBtnCode += this.bsStr + ` bfDisabledTip="${this.btnConf.btnDisabledTip}"`;
-    }
+    if (!!this.btnConf.btnDisabledTip) { this.customBtnCode += this.bsStr + ` bfDisabledTip="${this.btnConf.btnDisabledTip}"`; }
 
     if (this.btnConf.hasTooltip) {
       this.customBtnCode += this.bsStr + ` bfTooltip="${this.btnConf.btnTooltip}"`;

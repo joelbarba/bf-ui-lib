@@ -1,0 +1,54 @@
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+<p>
+  Emulates the old logic from $q.defer().<br>
+  It creates (triggers) a native promise and wraps it into the generated object, exposing at the same
+  time its resolve() and reject() functions. It also exposes the status of the promise.
+</p>
+
+<h5 class="mt-4">Members:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+<hr>
+<h5 class="marB20">Examples:</h5>
+
+<div class="row">
+  <div class="col-6 padT15">
+    <div class="examples-table">
+      <div class="code-box padV10 padH15">
+        <pre style="font-size: 16px;">{{example1}}</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <div class="row whiteBg">
+      <div class="col-12"><h5 class="marB20">Running Example:</h5></div>
+      <div class="col-3"><bf-input bfLabel="Resolve after" [(ngModel)]="resolveTime" [bfDisabled]="myDef?.status === 0"></bf-input></div>
+      <div class="col-3"><bf-input bfLabel="Reject after" [(ngModel)]="rejectTime" [bfDisabled]="myDef?.status === 0"></bf-input></div>
+      <div class="col-6 padT25 padH20">{{testLog}}</div>
+
+      <div class="col-3">
+        <bf-btn bfText="def.resolve()" bfType="save" class="full-width"
+                [bfDisabled]="myDef?.status !== 0"
+                (bfClick)="myDef.resolve('Manually')">
+        </bf-btn>
+      </div>
+      <div class="col-3">
+        <bf-btn bfText="def.reject()" bfType="warning" class="full-width"
+                [bfDisabled]="myDef?.status !== 0"
+                (bfClick)="myDef.reject('Manually')">
+        </bf-btn>
+      </div>
+
+
+      <div class="col-6">
+        <bf-btn bfText="def = new BfDefer()" class="full-width"
+                [bfDisabled]="myDef?.status === 0"
+                (bfClick)="initTest()">
+        </bf-btn>
+      </div>
+    </div>
+  </div>
+</div>

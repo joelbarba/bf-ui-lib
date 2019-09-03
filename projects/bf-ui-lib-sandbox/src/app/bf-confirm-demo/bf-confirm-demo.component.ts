@@ -13,14 +13,14 @@ export class BfConfirmDemoComponent implements OnInit {
   public instance = BfConfirmDoc.instance;
 
   public result = '';
-  public example1 = `this.confirm.open().then( 
+  public example1 = `constructor(private confirm: BfConfirmService)
+
+this.confirm.open().then( 
   (res) => { console.log('Ok'); }, 
   (res) => { console.log('Cancel'); 
 });`;
 
-  public example2 = `constructor(private confirm: BfConfirmService)
-
-this.confirm.open({ 
+  public example2 = `this.confirm.open({ 
     text             : 'Do you confirm that:',
     htmlContent      : '<h4 class="marT20">You want to delete user <span class="bold primary">Joel</span> ?</h4>',
     yesButtonText    : 'Yes, delete it',
@@ -79,7 +79,7 @@ this.confirm.open({
 
 
 export const BfConfirmDoc = {
-  name    : `bf-confirm`,
+  name    : `bfConfirm`,
   uiType  : 'service',
   desc    : `Service to trigger a confirmation modal`,
   api     : `

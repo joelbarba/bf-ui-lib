@@ -1,7 +1,6 @@
 <h2>{{name}}</h2>
 <hr/>
 <p>{{desc}}</p>
-
 <h5 class="mt-4">Parameters:</h5>
 <div class="col-12"><pre>{{api}}</pre></div>
 
@@ -10,7 +9,6 @@
 <br>
   Check this page for more info: <a href="https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html">https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html</a>
 </p>
-
 
 
 
@@ -32,14 +30,20 @@
                   [bfTooltipPos]="(compConf.inputTooltipPos || 'top')"
                   [bfTooltipBody]="compConf.inputTooltipBody"
                   [bfDisabledTip]="compConf.inputDisabledTip"
+                  [bfAutoFocus]="compConf.hasAutoFocus"
 
                   [bfLeftBtnText]="(compConf.hasLeftBtnText ? compConf.leftBtnText : '')"
                   [bfLeftBtnIcon]="(compConf.hasLeftBtn ? compConf.leftBtnIcon : '')"
-                  (bfLeftBtnClick)="addonClick('Left addon button click')"
+                  (bfLeftBtnClick)="compConf.hasBtnListener && growl.success('Left addon button click')"
 
                   [bfRightBtnText]="(compConf.hasRightBtnText ? compConf.rightBtnText : '')"
                   [bfRightBtnIcon]="(compConf.hasRightBtn ? compConf.rightBtnIcon : '')"
-                  (bfRightBtnClick)="addonClick('Right addon button click')"
+                  (bfRightBtnClick)="compConf.hasBtnListener && growl.success('Right addon button click')"
+
+                  (bfOnKeyDown)="compConf.hasKeyDown && growl.success('Key Down -> ' + $event.key)"
+                  (bfOnEsc)="compConf.hasKeyEsc && growl.success('ESC key was pressed')"
+                  (bfOnEnter)="compConf.hasKeyEnter && growl.success('ENTER key was pressed')"
+                  (bfOnCtrlEnter)="compConf.hasKeyCtrlEnter && growl.success('Ctrl + ENTER key were pressed')"
         ></bf-input>
       </div>
 
@@ -66,13 +70,14 @@
         <div class="col-9" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.placeholderText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasPlaceholder"></bf-input> </div>
       </div>
 
-      <!--Required + Type-->
+      <!--Required + Type + AutoFocus-->
       <div class="row marT5">
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>
         <div class="col-6">
           <bf-dropdown [(ngModel)]="compConf.inputType" (ngModelChange)="upComp()" [bfList]="inputTypes" bfRender="text" bfSelect="id" [bfRequired]="true"> </bf-dropdown>
           <bf-label bfValue="Input Type" class="value-inline"></bf-label>
         </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasAutoFocus" (ngModelChange)="upComp()" bfLabel="Has AutoFocus"></bf-checkbox> </div>
       </div>
 
       <!--Disabled-->
@@ -104,6 +109,13 @@
         </div>
       </div>
 
+      <!--Key Listeners-->
+      <div class="row marT15">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasKeyDown" (ngModelChange)="upComp()" bfLabel="Listen KeyDown"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasKeyEsc" (ngModelChange)="upComp()" bfLabel="Listen Esc"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasKeyEnter" (ngModelChange)="upComp()" bfLabel="Listen Enter"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasKeyCtrlEnter" (ngModelChange)="upComp()" bfLabel="Listen Ctrl+Enter"></bf-checkbox> </div>
+      </div>
 
       <!--Addon Buttons-->
       <div class="row marT25">
@@ -130,6 +142,7 @@
         </div>
       </div>
 
+      <!--Classes-->
       <div class="row marT15">
         <div class="col-8 padT5">
           <bf-label bfText="CSS Classes"></bf-label>
@@ -146,6 +159,154 @@
 </div>
 
 <hr>
+
+
+
+<!--Validators Example-->
+<div class="whiteBg row">
+  <h5 class="col-12 marB15">Input Validators</h5>
+  <div class="col-6">
+    <!--[bfIcon]="bfInputRef.valid ? 'icon-search' : 'icon-thumbs-down'"-->
+    <bf-input [(ngModel)]="val1"  #bfInputRef="ngModel"
+              [bfRequired]="valEx.isRequired"
+              [bfMinlength]="valEx.minLen"
+              [bfMaxlength]="valEx.isMaxLen ? valEx.maxLen : null"
+              [bfPattern]="valEx.hasPattern ? valEx.pattern : null"
+              [bfValidType]="valEx.valType ? valEx.valType : null"
+              [bfValidator]="valEx.hasBfValidator ? validIfFn : null"
+              [bfErrorOnPristine]="valEx.hasErrOnPristine"
+              [bfIcon]="valEx.hasIcon ? valEx.bfIcon : ''"
+              [bfInvalidIcon]="valEx.hasInvalidIcon ? valEx.bfInvalidIcon : 'icon-warning22'"
+              [bfValidIcon]="valEx.hasValidIcon ? valEx.bfValidIcon : ''"
+              [bfErrorText]="valEx.hasErrorText ? valEx.bfErrorText : ''"
+              [bfErrorPos]="valEx.errorPos"
+              (bfOnLoaded)="inputInit($event)"
+              (bfBeforeChange)="catchValue($event)"
+              bfLabel="view.common.name">
+    </bf-input>
+
+    <!--<div>-->
+    <!--INTERNAL FormControl: value={{exposedModel?.value}}-->
+    <!--, valid={{exposedModel?.valid}}-->
+    <!--, invalid={{exposedModel.invalid}}-->
+    <!--, errors={{exposedModel.errors | json}}-->
+    <!--, pristine={{exposedModel.pristine}}-->
+    <!--</div>-->
+    <div *ngIf="!!bfInputRef">
+      FromControl:
+      value={{bfInputRef.value}}
+      , valid={{bfInputRef.valid}}
+      , invalid={{bfInputRef.invalid}}
+      , errors={{bfInputRef.errors | json}}
+      , pristine={{bfInputRef.pristine}}
+    </div>
+
+    <div class="padT15">
+      <div class="code-box pad15">
+        <pre>{{valCompCode}}</pre>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-6" *ngIf="isInputReady">
+    <div class="marB10">
+      <span>ngModel:</span><input type="text" [(ngModel)]="val1">
+      <span>Change this to manipulate the value of the input externally</span>
+    </div>
+    <div class="marB10">
+
+      <!--Required-->
+      <bf-checkbox bfLabel="Is Required" [(ngModel)]="valEx.isRequired" (ngModelChange)="upComp2()"></bf-checkbox>
+
+      <!--MinLen-->
+      <span class="marL15">MinLength: <input class="marL15" type="text" style="width: 50px;" [(ngModel)]="valEx.minLen" (ngModelChange)="upComp2()"></span>
+
+      <!--MaxLen-->
+      <bf-checkbox class="marL15" bfLabel="Max Length" [(ngModel)]="valEx.isMaxLen" (ngModelChange)="upComp2()"></bf-checkbox>
+      <input class="marL15" type="text" [(ngModel)]="valEx.maxLen" style="width: 50px;" (ngModelChange)="upComp2()" [hidden]="!valEx.isMaxLen">
+    </div>
+
+    <div class="marB10">
+
+      <!--bfPattern-->
+      <bf-checkbox bfLabel="Has Pattern" [(ngModel)]="valEx.hasPattern" (ngModelChange)="upComp2()"></bf-checkbox>
+      <span class="marL15" [hidden]="!valEx.hasPattern">
+        <span>Regex:</span>
+        <input class="marL15" type="text" style="width: 150px;" [(ngModel)]="valEx.pattern" (ngModelChange)="upComp2()">
+      </span>
+
+      <!--bfValidType-->
+      <span [hidden]="valEx.hasPattern">
+        <span class="marL30">bfValidType:</span>
+        <bf-dropdown [(ngModel)]="valEx.valType" [bfList]="valEx.valTypes" bfRender="text" bfSelect="id" (ngModelChange)="upComp2()"> </bf-dropdown>
+      </span>
+    </div>
+
+    <div class="marB10">
+
+      <!--bfValidator-->
+      <bf-checkbox bfLabel="bfValidator (function):" [(ngModel)]="valEx.hasBfValidator" (ngModelChange)="upComp2()"></bf-checkbox>
+      <span class="marL15" [hidden]="!valEx.hasBfValidator">
+        <span>{{"validFn = (value) => { return (value === '"}}</span>
+        <input type="text" style="width: 50px;" [(ngModel)]="valEx.bfValMatchVal" (ngModelChange)="upComp2()">
+        <span>{{"') ? null : { label : 'this is wrong' }; }"}}</span>
+      </span>
+    </div>
+
+    <div class="marB20">
+      <bf-btn bfText="Dirty"    (bfClick)="inputCtrl.setDirty()"    [hidden]="bfInputRef.pristine"></bf-btn>
+      <bf-btn bfText="Pristine" (bfClick)="inputCtrl.setPristine()" [hidden]="!bfInputRef.pristine"></bf-btn>
+      <bf-btn bfText="Focus" (bfClick)="inputCtrl.setFocus()"></bf-btn>
+      <bf-btn bfText="Clear Error" (bfClick)="inputCtrl.removeError()"></bf-btn>
+      <bf-btn bfText="Add Error" (bfClick)="inputCtrl.addError({ label: 'manual error here' })"></bf-btn>
+      <bf-btn bfText="Refresh"   (bfClick)="inputCtrl.refresh()"></bf-btn>
+    </div>
+
+
+    <div class="marB10">
+      <!--bfErrorOnPristine-->
+      <bf-checkbox bfLabel="bfErrorOnPristine" [(ngModel)]="valEx.hasErrOnPristine" (ngModelChange)="upComp2()"></bf-checkbox>
+
+      <!--bfIcon-->
+      <bf-checkbox class="marL20" bfLabel="bfIcon" [(ngModel)]="valEx.hasIcon" (ngModelChange)="upComp2()"></bf-checkbox>
+      <input class="marL10" type="text" style="width: 200px;" [(ngModel)]="valEx.bfIcon" [hidden]="!valEx.hasIcon" (ngModelChange)="upComp2()">
+    </div>
+
+    <div class="marB10">
+      <!--bfInvalidIcon-->
+      <bf-checkbox bfLabel="bfInvalidIcon" [(ngModel)]="valEx.hasInvalidIcon" (ngModelChange)="upComp2()"></bf-checkbox>
+      <input class="marL10" type="text" style="width: 200px;" [(ngModel)]="valEx.bfInvalidIcon" [hidden]="!valEx.hasInvalidIcon" (ngModelChange)="upComp2()">
+
+      <!--bfValidIcon-->
+      <bf-checkbox class="marL20" bfLabel="bfValidIcon" [(ngModel)]="valEx.hasValidIcon" (ngModelChange)="upComp2()"></bf-checkbox>
+      <input class="marL10" type="text" style="width: 200px;" [(ngModel)]="valEx.bfValidIcon" [hidden]="!valEx.hasValidIcon" (ngModelChange)="upComp2()">
+    </div>
+
+    <div class="marB10">
+      <!--bfErrorPos-->
+      <span>bfErrorPos:</span>
+      <bf-dropdown [(ngModel)]="valEx.errorPos" [bfList]="valEx.errorPosOpts" bfRender="text" bfSelect="id" (ngModelChange)="upComp2()"></bf-dropdown>
+
+      <!--bfErrorText-->
+      <bf-checkbox class="marL30" bfLabel="bfErrorText (label)" [(ngModel)]="valEx.hasErrorText" (ngModelChange)="upComp2()"></bf-checkbox>
+      <input class="marL10" type="text" style="width: 200px;" [(ngModel)]="valEx.bfErrorText" [hidden]="!valEx.hasErrorText" (ngModelChange)="upComp2()">
+
+    </div>
+
+    <!--bfOnLoaded + bfBeforeChange-->
+    <div class="marB10">
+      <bf-checkbox bfLabel="Listen to (bfOnLoaded)" [(ngModel)]="valEx.hasOnLoad" (ngModelChange)="upComp2()"></bf-checkbox>
+      <bf-checkbox class="marL30" bfLabel="Listen to (bfBeforeChange)" [(ngModel)]="valEx.hasBeforeChange" (ngModelChange)="upComp2()"></bf-checkbox>
+    </div>
+
+
+  </div>
+</div>
+
+
+
+
+
 
 
 <div class="whiteBg">
@@ -205,7 +366,6 @@ lastRef.errors = {{lastRef.errors | json }}
 
 
 
-
 <h5 class="mt-4">Examples:</h5>
 <div class="col-12 examples-table">
 
@@ -232,6 +392,26 @@ lastRef.errors = {{lastRef.errors | json }}
       <bf-input [(ngModel)]="myModel" bfLabel="My Field"></bf-input>
     </div>
     <div class="col-9"> <pre>{{instance}}</pre> </div>
+  </div>
+
+  <div class="row">
+    <div class="col-3">
+      <bf-input [(ngModel)]="myModel" bfLabel="KeyDown detection"
+                (bfOnKeyDown)="growl.success('Key pressed -> ' + $event.key)">
+      </bf-input>
+    </div>
+    <div class="col-9"> <pre>{{instance4}}</pre> </div>
+  </div>
+
+  <div class="row">
+    <div class="col-3">
+      <bf-input [(ngModel)]="myModel" bfLabel="Special Keys detection"
+                (bfOnEsc)="growl.success('Esc key pressed')"
+                (bfOnEnter)="growl.success('Enter key pressed')"
+                (bfOnCtrlEnter)="growl.success('Ctrl + Enter key pressed')">
+      </bf-input>
+    </div>
+    <div class="col-9"> <pre>{{instance5}}</pre> </div>
   </div>
 
 </div>
@@ -279,6 +459,32 @@ lastRef.errors = {{lastRef.errors | json }}
     </div>
   </div>
 
+  <div class="col-12">
+    <hr>
+    <p>To align the label and input horizontally, add the class "<span class="bold">input-col</span>"
+      <br>It applies a flex display on the label / input, aligning them to the center.
+      It is also possible to adjust the flex of the value, to give more room to the right side using "input-col-2", "input-col-3", "input-col-4" and so on:
+    </p>
+    <pre class="marT10">{{ inputColExample }}</pre>
+
+
+    <bf-input [(ngModel)]="myVariable3" class="input-col-1"
+              bfRequired="true" bfErrorOnPristine="true"
+              bfLabel="view.common.name">
+    </bf-input>
+    <bf-input [(ngModel)]="myVariable4" class="input-col-2"
+              bfRequired="true" bfErrorOnPristine="true"
+              bfLabel="view.common.name">
+    </bf-input>
+    <bf-input [(ngModel)]="myVariable5" class="input-col-3"
+              bfRequired="true" bfErrorOnPristine="true"
+              bfLabel="view.common.name">
+    </bf-input>
+    <!--bfErrorPos="bottom-left"-->
+    <!--bfErrorPos="bottom-right"-->
+
+  </div>
+
 </div>
 
 
@@ -294,3 +500,7 @@ lastRef.errors = {{lastRef.errors | json }}
     <pre>{{ cssReset }}</pre>
   </div>
 </div>
+
+
+
+

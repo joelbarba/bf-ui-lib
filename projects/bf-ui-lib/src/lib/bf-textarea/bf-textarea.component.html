@@ -24,7 +24,8 @@
             [placeholder]="bfPlaceholderTrans"
             [ngModel]="bfModel" (ngModelChange)="parseModelChange($event)"
             [required]="bfRequired"
-            [disabled]="bfDisabled">
+            [disabled]="bfDisabled"
+            (keydown)="triggerKey($event)">
   </textarea>
 
 </div>

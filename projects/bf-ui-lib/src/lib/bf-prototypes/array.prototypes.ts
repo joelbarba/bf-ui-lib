@@ -12,6 +12,9 @@ declare global {
     getKeyByProp(keyName: string, property: string, value: any): any;
     getLast(): T | undefined;
     dCopy(): Array<T>;
+    // TODO:
+    // To use await in a forEach --> https://codeburst.io/javascript-async-await-with-foreach-b6ba62bbf404
+    // asyncForEach(callback: Function): Array<T>;
   }
 }
 

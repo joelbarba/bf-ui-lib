@@ -33,6 +33,12 @@ export class BfCheckboxDemoComponent implements OnInit {
 </div>`;
   public inputCheckboxHtml = `<input type="checkbox">`;
 
+  public blockExample = `<bf-checkbox bfLabel="Inline check 1"></bf-checkbox>
+<bf-checkbox bfLabel="Inline check 2"></bf-checkbox>
+<bf-checkbox bfLabel="Inline check 3"></bf-checkbox>
+<bf-checkbox class="block" bfLabel="Block check 4"></bf-checkbox>
+<bf-checkbox class="block" bfLabel="Block check 5"></bf-checkbox>
+<bf-checkbox class="block" bfLabel="Block check 6"></bf-checkbox>`;
 
   public cssReset = `div.checkbox label input[type='checkbox'] {
   + span.check-box {  // Box unmarked (unchecked)

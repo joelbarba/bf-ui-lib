@@ -1,0 +1,71 @@
+$ani-time: 8;
+
+.bf-spinner {
+  z-index: 9300;
+  position: fixed;
+  left: calc(50% - 25px);
+  top: calc(50% - 25px);
+}
+
+.bf-spinner-box {
+  z-index: 9300;
+  position: absolute;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  top: 0; left: 0;
+
+  //will-change: transform;   // https://developer.mozilla.org/en-US/docs/Web/CSS/will-change
+  animation-duration: $ani-time + s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease;
+  animation-name: bf-spinner-box-trans;
+  //animation-play-state: paused;
+
+  // Delay 1/4 every box to sync the movements
+  $ani-time-2: - ($ani-time / 4);
+  $ani-time-3: - (($ani-time / 4) * 2);
+  $ani-time-4: - (($ani-time / 4) * 3);
+  &.box2 { animation-delay: $ani-time-2 + s; }
+  &.box3 { animation-delay: $ani-time-3 + s; }
+  &.box4 { animation-delay: $ani-time-4 + s; }
+}
+
+@keyframes bf-spinner-box-trans {
+      0% { transform: translate(0, 0); }
+   6.25% { transform: translate(-25px, -25px); }
+  12.50% { transform: translate(25px, -25px);  }
+  18.75% { transform: translate(25px, 0px);    }
+  25.00% { transform: translate(25px, 0px);    }
+  31.25% { transform: translate(50px, -25px);  }
+  37.50% { transform: translate(50px, 25px);   }
+  43.75% { transform: translate(25px, 25px);   }
+  50.00% { transform: translate(25px, 25px);   }
+  56.25% { transform: translate(50px, 50px);   }
+  62.50% { transform: translate(0px, 50px);    }
+  68.75% { transform: translate(0px, 25px);    }
+  75.00% { transform: translate(0px, 25px);    }
+  81.25% { transform: translate(-25px, 50px);  }
+  87.50% { transform: translate(-25px, 0px);   }
+  93.75% { transform: translate(0, 0);         }
+    100% { transform: translate(0, 0);         }
+}
+
+
+//// ------------ color layer ------------------
+//$primary_color    : #00B6F1;
+//$secondary_color  : #93C83E;
+//$tertiary_color   : #ED0677;
+//$quaternary_color : #004A64;
+//.bf-spinner-box {
+//  &.box1 { background: $primary_color; }
+//  &.box2 { background: $secondary_color; }
+//  &.box3 { background: $tertiary_color; }
+//  &.box4 { background: $quaternary_color; }
+//}
+//
+//// Decenter the spinner to match the same wrong position of the old spinner
+//.bf-spinner {
+//  left: calc(50% - 32px);
+//  top: calc(50% - 11px);
+//}

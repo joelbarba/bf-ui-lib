@@ -40,6 +40,10 @@ export class BfTextareaComponent implements OnInit {
 
   @Input() bfErrorPos: string = 'top-right';  // top-right, bottom-left, bottom-right
 
+  @Output() bfOnKeyDown = new EventEmitter<any>();  // Emitter when a key is pressed
+  @Output() bfOnEsc = new EventEmitter<any>();      // Emitter when esc key is pressed
+  @Output() bfOnSave = new EventEmitter<any>();     // Emitter when Ctrl+Enter
+
 
 
   public status : string = 'pristine';      // pristine, valid, error, loading
@@ -164,4 +168,10 @@ export class BfTextareaComponent implements OnInit {
     // this.bfModelChange.emit(this.bfModel);
   }
 
+
+  public triggerKey = (event) => {
+    if (event.key === 'Enter' && event.ctrlKey) { this.bfOnSave.emit(event); }
+    if (event.key === 'Escape') { this.bfOnEsc.emit(event); }
+    this.bfOnKeyDown.emit(event);
+  }
 }

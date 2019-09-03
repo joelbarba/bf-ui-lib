@@ -301,3 +301,73 @@ $disabled_input_color : #797979;
 //    .bf-input-error-text { color: $invalid_input_color; }
 //  }
 //}
+
+
+
+
+// --- <bf-textarea> color reset --------------------------------------------------
+.bf-textarea-form-group {
+  textarea.form-control {
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    border: 1px solid $optional_input_color;
+    &:focus {
+      box-shadow: 0 0 0 2px rgba($optional_input_color, 0.35);
+      border: 1px solid $focused_input_color;
+    }
+  }
+  &.is-disabled textarea.form-control {
+    color: $disabled_input_color;
+  }
+  &.is-required  textarea.form-control {
+    border-color: $primary_color;
+    &:focus { box-shadow: 0 0 0 2px rgba($primary_color, 0.20); }
+  }
+  &.is-error {
+    label { color: $warning_color; }
+    textarea.form-control {
+      border: 1px solid $warning_color;
+      &:focus {
+        box-shadow: 0 0 0 2px rgba($warning_color, 0.20);
+        border: 1px solid $warning_color;
+      }
+    }
+    .bf-textarea-error-text {
+      color: $invalid_input_color;
+    }
+  }
+}
+
+
+
+
+// --- bf-loading-bar color reset --------------------------------------------------
+$bar-bg: #d4d4d4;
+$bar-color: #004A64;
+$locker-bg: rgba(white, 0.8);
+
+.bf-loading-bar {
+  &.bar-bg { background: $bar-bg;  }
+  &.bar-1, &.bar-2 {
+    background: linear-gradient(to left, transparent 0%, $bar-color 15%, $bar-color 85%, transparent 100%);
+  }
+}
+.bf-loading-bg-blocker { background: $locker-bg; }
+
+// Circular spinner running in the middle of the screen
+$spinner-color: rgba(#00B6F1, 0.7);
+.c-spinner { border: 7px solid transparent; }
+.c-spinner-inner { border: 5px solid $spinner-color; }
+
+// Bf Spinner
+.bf-spinner-box {
+  &.box1 { background: $primary_color; }
+  &.box2 { background: $secondary_color; }
+  &.box3 { background: $tertiary_color; }
+  &.box4 { background: $quaternary_color; }
+}
+
+// Decenter the spinner to match the same wrong position of the old spinner
+.bf-spinner {
+  left: calc(50% - 32px);
+  top: calc(50% - 11px);
+}

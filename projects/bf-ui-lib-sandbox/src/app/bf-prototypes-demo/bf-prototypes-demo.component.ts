@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import BfArray from 'projects/bf-ui-lib/src/lib/bf-prototypes/array.prototypes';
+import { BfArray } from 'projects/bf-ui-lib/src/lib/bf-prototypes/bf-prototypes';
 import { BfPrototypes } from 'projects/bf-ui-lib/src/lib/bf-prototypes/bf-prototypes';
 
-BfPrototypes();
+BfPrototypes.run();
 
-// BfPrototypes(['Array.getById']);
-// BfPrototypes(['Array.getByProp']);
-// const list = [{id:'1'}, {id:'2'}, {id:'3'}, {id:'4'}];
-// console.log(BfArray.getByProp.call(list, 'id', '3'));
+// BfPrototypes.run(['Array.getById']);
+// BfPrototypes.run(['Array.getByProp']);
+// const list1 = [{id:'1'}, {id:'2'}, {id:'3'}, {id:'4'}];
+// console.log(BfArray.getByProp.call(list1, 'id', '3'));
 // const list = [{id:'1'}, {id:'2'}, {id:'3'}, {id:'4'}, [1,3,5, [9, 1, 2]]];
 // console.log('RES', list.getById('33'));
 // console.log('RES', list.getByProp('id', '3'));
@@ -18,12 +18,12 @@ BfPrototypes();
 // list[4][3][1] = '99999';
 // console.log(list, list2);
 // console.log('LAST', list.getLast());
-
+//
 // const myObj2 = { id: 2, name: 'Max', age: 12 };
 // const myObj1 = { id: 1, name: 'Sam', age: 10, isValid: true, dad: myObj2, list };
 // console.log(myObj1.keyMap('id, name'));
 // console.log(myObj1.keyMap('id, age, isValid'));
-
+//
 // const myObj3 = myObj1.dCopy();
 // myObj1.name = 'Tom';
 // myObj1.dad.name = 'Lu';
@@ -34,7 +34,7 @@ BfPrototypes();
 // console.log(myVal.isIn([1,2,3,4,5,6]));
 // const val = 'one2';
 // console.log(val.isIn(['one','two','three','four']));
-
+//
 // let myDate = new Date();
 // console.log('MyDate', myDate);
 // console.log('to UTC', myDate.toUTC());
@@ -47,10 +47,10 @@ BfPrototypes();
 // console.log('+ 2 days', myDate.addDays(2));
 // console.log('+ 3 months', myDate.addMonths(3));
 // console.log('+ 4 years', myDate.addYears(-1).addDays(1));
-// let val = '32';
-// console.log(val.pad(5));
-// console.log(val.pad(val.length, '*', 10));
-
+// let val2 = '32';
+// console.log(val2.pad(5));
+// console.log(val2.pad(val2.length, '*', 10));
+//
 // let myObj = { name: 'Tom', age: 20, pass: '3' };
 // console.log(myObj);
 // myObj.cloneProp('ini', { ini: false });
@@ -64,10 +64,10 @@ BfPrototypes();
 // a.convertTZ('America/New_York'); console.log(a);
 // a.convertTZ('Europe/Dublin'); console.log(a);
 // console.log(new Date().convertTZ('Europe/Berlin'));
-
-// const list = [{id:1, name:'foo'}, {id:2, name:'liz'}, {id:3, name:'tom'}, {id:4, name:'zul'}];
-// console.log(list.getKeyById('name', 3));
-// console.log(list.getKeyByProp('id', 'name', 'zul'));
+//
+// const list5 = [{id:1, name:'foo'}, {id:2, name:'liz'}, {id:3, name:'tom'}, {id:4, name:'zul'}];
+// console.log(list5.getKeyById('name', 3));
+// console.log(list5.getKeyByProp('id', 'name', 'zul'));
 
 
 @Component({
@@ -97,26 +97,26 @@ $invalid_input_color  : $warning_color;
 }`;
 
 
-  public example1 = `  import BfPrototypes from 'bf-ui-lib/bf-prototypes/bf-prototypes';
-  BfPrototypes();
+  public example1 = `  import { BfPrototypes } from 'bf-ui-lib';
+  BfPrototypes.run();
   
   const myArray = [{ id: '1' }, { id: '2' }, { id: '3' }];
   const item = myArray.getById('3');`;
 
 
-  public example2 = `  import BfArray from 'bf-ui-lib/bf-prototypes/array.prototypes';
+  public example2 = `  import { BfArray } from 'bf-ui-lib';
     
   const myArray = [{ id: '1' }, { id: '2' }, { id: '3' }];
   const item = BfArray.getById.call(myArray, '3');`;
 
   public arrayT = `Array<T>`;
   public partialT = `Partial<T>`;
-  public example3 = `import BfPrototypes from 'bf-ui-lib/bf-prototypes/bf-prototypes';
+  public example3 = `import { BfPrototypes } from 'bf-ui-lib';
   
-BfPrototypes(); // This will define all prototypes`;
+BfPrototypes.run(); // This will override all prototypes`;
 
   public example4 = `// This will define prototypes for only 3 functions
-BfPrototypes(['Array.getById', 'Array.getByProp', 'Object.dCopy']);`;
+BfPrototypes.run(['Array.getById', 'Array.getByProp', 'Object.dCopy']);`;
 
 
 
@@ -168,7 +168,7 @@ BfPrototypes(['Array.getById', 'Array.getByProp', 'Object.dCopy']);`;
 
 
 export const BfPrototypesDoc = {
-  name    : `bf-prototypes`,
+  name    : `bfPrototypes`,
   uiType  : 'function',
   desc    : `Collection of helper functions to perform basic variable types operations`,
   api     : `[bfText]: Button text`,

@@ -8,13 +8,20 @@
 <div class="col-12"><pre>{{api}}</pre></div>
 
 
-<bf-textarea [(ngModel)]="myVal" bfLabel="My Text" #myInput="ngModel"></bf-textarea>
+<bf-textarea [(ngModel)]="myVal"
+             bfLabel="My Text"
+             (bfOnSave)="growl.success('Saving the value')"
+             #myInput="ngModel"
+></bf-textarea>
+
 <pre>
   myInput.value = {{myInput.value}}
   myInput.dirty = {{myInput.dirty}}
   myInput.valid = {{myInput.valid}}
   myInput.pristine = {{myInput.pristine}}
 </pre>
+
+<h1>TODO: ADD flat class doc</h1>
 
 <!--Textarea Customization-->
 <div class="whiteBg">

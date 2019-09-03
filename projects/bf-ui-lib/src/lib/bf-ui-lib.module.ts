@@ -1,11 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import {NgModule, ModuleWithProviders, Optional, SkipSelf} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // <-- NgModel lives here
 import {NgbPopoverModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import { NgbModule, NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Modules
-import { BfGrowlModule } from './bf-growl.module';
+import { BfGrowlModule } from './bf-growl/bf-growl.module';
+import { BfLoadingBarModule } from "./bf-loading-bar/bf-loading-bar.module";
 
 // Services
 import { BfConfirmService } from './bf-confirm/bf-confirm.service';
@@ -25,6 +26,7 @@ import { BfTextareaComponent } from './bf-textarea/bf-textarea.component';
 import { BfRadioComponent } from './bf-radio/bf-radio.component';
 import { BfDatePickerComponent } from './bf-date-picker/bf-date-picker.component';
 import { BfListPaginatorComponent } from './bf-list-paginator/bf-list-paginator.component';
+import {CommonModule} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -45,24 +47,27 @@ import { BfListPaginatorComponent } from './bf-list-paginator/bf-list-paginator.
   ],
   entryComponents: [BfConfirmComponent],
   imports: [
-    BrowserModule,
+    // BrowserModule,
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     NgbPopoverModule,
     NgbTooltipModule,
     NgbModalModule,
-    BfGrowlModule
+    BfGrowlModule,
+    BfLoadingBarModule,
   ],
   exports: [
-    BfListPaginatorComponent,  // <--- New component
-    BfDatePickerComponent,  // <--- New component
-    BfRadioComponent,  // <--- New component
-    BfTextareaComponent,  // <--- New component
-    BfConfirmComponent,  // <--- New component
-    BfQuantityComponent,  // <--- New component
-    BfSwitchComponent,  // <--- New component
-    BfDropdownComponent,  // <--- New component
-    BfInputComponent,  // <--- New component
+    FormsModule,
+    BfListPaginatorComponent,
+    BfDatePickerComponent,
+    BfRadioComponent,
+    BfTextareaComponent,
+    BfConfirmComponent,
+    BfQuantityComponent,
+    BfSwitchComponent,
+    BfDropdownComponent,
+    BfInputComponent,
     BfCheckboxComponent,
     BfListPlaceholderComponent,
     BfLabelComponent,
@@ -70,10 +75,19 @@ import { BfListPaginatorComponent } from './bf-list-paginator/bf-list-paginator.
     BfListHeaderColComponent,
 
     BfGrowlModule,
+    BfLoadingBarModule,
   ]
 })
 export class BfUiLibModule {
+  // constructor (@Optional() @SkipSelf() parentModule: BfUiLibModule) {
+  //   if (parentModule) {
+  //     throw new Error(
+  //       'HEY YOU BAD DEVELOPER!!! BfUiLibModule is already loaded');
+  //   }
+  // }
+
   static forRoot(config): ModuleWithProviders {
+    // console.log('BfUiLibModule.forRoot()', new Date());
     return {
       ngModule: BfUiLibModule,
       providers: [
@@ -83,4 +97,15 @@ export class BfUiLibModule {
       ]
     };
   }
+  // static forChild(config): ModuleWithProviders {
+  //   console.log('BfUiLibModule.forRoot()', new Date());
+  //   return {
+  //     ngModule: BfUiLibModule,
+  //     providers: [
+  //       { provide: 'TranslateService', useClass: config.TranslateService || class {} },
+  //       BfConfirmService,
+  //       NgbActiveModal, NgbModule,
+  //     ]
+  //   };
+  // }
 }

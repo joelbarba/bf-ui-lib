@@ -1,3 +1,6 @@
+import { BfDeferDoc } from './bf-defer-demo/bf-defer-demo.component';
+import { BfPromiseDoc } from './bf-promise-demo/bf-promise-demo.component';
+import { BfLoadingBarDoc } from './bf-loading-bar-demo/bf-loading-bar-demo.component';
 import { BfPrototypesDoc } from './bf-prototypes-demo/bf-prototypes-demo.component';
 import { BfListPaginatorDoc } from './bf-list-paginator-demo/bf-list-paginator-demo.component';
 import { BfDatePickerDoc } from './bf-date-picker-demo/bf-date-picker-demo.component';
@@ -32,8 +35,11 @@ export const compList = [
   BfListPlaceholderDoc,
   BfListPaginatorDoc,
   BfGrowlDoc,
+  BfLoadingBarDoc,
   BfConfirmDoc,
   BfPrototypesDoc,
+  BfPromiseDoc,
+  BfDeferDoc,
 ];
 
 /* {
