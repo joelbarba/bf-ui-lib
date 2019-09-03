@@ -2,9 +2,9 @@
      [class.is-required]="bfRequired"
      [class.is-disabled]="bfDisabled"
      [class.is-focus]="isFocus || isExpanded"
-     [class.is-pristine]="status === 'pristine'"
-     [class.is-error]="status === 'error'"
-     [class.is-dirty]="status === 'dirty'">
+     [class.is-pristine]="isPristine"
+     [class.is-dirty]="!isPristine"
+     [class.is-error]="isInvalid && !isPristine">
 
   <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
     <span class="info-badge" *ngIf="!!bfTooltip"
@@ -16,15 +16,7 @@
     <span *ngIf="bfRequired" class="asterisk">*</span>
   </label>
 
-  <div class="bf-dropdown"
-       [class.is-expanded]="isExpanded">
-  <!--  <select class="form-control" name="bfDropdown"-->
-  <!--          [ngModel]="bfModel" (ngModelChange)="selectItem($event)"-->
-  <!--          [disabled]="bfDisabled"-->
-  <!--          [required]="bfRequired">-->
-  <!--    <option *ngFor="let item of extList" [ngValue]="item">{{ item.$renderedText }}</option>-->
-  <!--  </select>-->
-
+  <div class="bf-dropdown" [class.is-expanded]="isExpanded">
     <div class="input-group">
 
       <input type="text" class="form-control" #dropdownInput
@@ -44,11 +36,17 @@
       <div *ngFor="let item of extList" class="option-row"
            [class.selected]="bfModel === item.$renderedText"
            [hidden]="!item.$isMatch"
-           (click)="selectItem(item)">
+           (mousedown)="selectItem(item)">
         {{item.$renderedText}}
 <!--        {{option.$isMatch}} - {{option.$renderedText}}-->
       </div>
     </div>
   </div>
+
+
   bfModel={{bfModel | json}}
+  , isInvalid={{isInvalid}}
+  , isPristine={{isPristine}}
+  , bfRequired={{bfRequired}}
+
 </div>

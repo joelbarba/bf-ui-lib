@@ -42,6 +42,7 @@ export class BfDropdownDemoComponent implements OnInit {
   public selObj3;
   public selObj4;
   public selObj5;
+  public selObj6;
 
   public instance2 =
 `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList" bfSelect="username" bfRender="email">
@@ -139,7 +140,7 @@ export class BfDropdownDemoComponent implements OnInit {
 export const BfDropdownDoc = {
   name    : `bf-dropdown`,
   uiType  : 'component',
-  desc    : `Generates a dropdown using <select> and <option> html tags.`,
+  desc    : `Generates a dropdown selector list.`,
   api     : `*[(ngModel)]     : The ngModel directive is linked to the inner <select>, so that can be used as a form element with ngForm (status is propagated).  
 *[bfList]        : Array of objects with the list to be displayed in the dropdown
 [bfSelect]       : The name of the property to be selected from the object of the list. If empty, all object selected. If multiple props add a keyMap list ('prop1, prop2, ...')
