@@ -225,9 +225,12 @@ export class BfInputComponent implements ControlValueAccessor, OnInit {
   ngAfterViewInit() {
     // console.log('ngAfterViewInit', this.ngControl);
 
-    // https://angular.io/api/forms/FormControl
+    if (!!this.ngInputRef['control'] && !this.inputCtrl) {
+      this.inputCtrl = this.ngInputRef['control'];
+    }
+
     this.bfOnLoaded.emit({
-      inputCtrl$  : this.inputCtrl.statusChanges.pipe(map(status => this.inputCtrl)), // expose the whole formControl
+      inputCtrl$  : this.inputCtrl ? this.inputCtrl.statusChanges.pipe(map(status => this.inputCtrl)) : null, // expose the whole formControl
       setFocus    : () => this.elementRef.nativeElement.querySelector('input').focus({ preventScroll: false }),
       setDirty    : (opts?) => { this.inputCtrl.markAsDirty(opts); this.deferRefresh(); },
       setPristine : (opts?) => { this.inputCtrl.markAsPristine(opts); this.deferRefresh(); },

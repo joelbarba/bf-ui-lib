@@ -11,7 +11,7 @@
      [class.horizontalLayoutClass]="false">
   <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
     <span class="info-badge" *ngIf="!!bfTooltip"
-         [ngbPopover]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
+         [ngbTooltip]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
          [container]="(bfTooltipBody ? 'body' : '')">
       <span class="icon-info"></span>
     </span>
@@ -34,8 +34,8 @@
   <div class="input-wrapper"
        [class.has-autofill-detection]="hasAutofillDetection"
        [class.input-group]="!!bfLeftBtnIcon || !!bfRightBtnIcon || !!bfLeftBtnText || !!bfRightBtnText"
-       triggers="hover" container="body" [disablePopover]="!bfDisabled || !bfDisabledTip" placement="top"
-       [ngbPopover]="bfDisabledTipTrans$ | async">
+       triggers="hover" container="body" [disableTooltip]="!bfDisabled || !bfDisabledTip" placement="top"
+       [ngbTooltip]="bfDisabledTipTrans$ | async">
 
     <div class="input-group-prepend" *ngIf="!!bfLeftBtnIcon || !!bfLeftBtnText"
          (click)="bfLeftBtnClick.emit($event)">
@@ -49,6 +49,7 @@
     <input class="form-control" name="bfInput" #ngInputRef="ngModel"
            [ngModel]="bfModel" (ngModelChange)="parseModelChange($event)"
            [disabled]="bfDisabled"
+           title=""
 
            [required]="bfRequired"
            [minlength]="bfMinlength"

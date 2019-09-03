@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import {BfGrowlService} from "../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service";
 import {IbfInputCtrl} from "../../../../bf-ui-lib/src/lib/bf-input/bf-input.component";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-bf-input-demo]',
@@ -173,6 +174,17 @@ $disabled_input_color : #797979;
     if (this.compConf.inputType !== 'text') { this.customCompCode += this.bsStr + `bfType="${this.compConf.inputType}"`; }
     if (this.compConf.hasAutoFocus) { this.customCompCode += this.bsStr + `bfAutoFocus="true"`; }
 
+
+    if (this.compConf.hasTooltip) {
+      this.customCompCode += this.bsStr + `bfTooltip="${this.compConf.inputTooltip}"`;
+      if (!!this.compConf.inputTooltipPos) {
+        this.customCompCode += this.bsStr + `bfTooltipPos="${this.compConf.inputTooltipPos}"`;
+      }
+      if (!!this.compConf.inputTooltipBody) {
+        this.customCompCode += this.bsStr + `bfTooltipBody="${this.compConf.inputTooltipBody}"`;
+      }
+    }
+
     if (this.compConf.hasLeftBtnText && this.compConf.leftBtnText)   { this.customCompCode += this.bsStr + `bfLeftBtnText="${this.compConf.leftBtnText}"`; }
     if (this.compConf.hasLeftBtn && this.compConf.leftBtnIcon)       { this.customCompCode += this.bsStr + `bfLeftBtnIcon="${this.compConf.leftBtnIcon}"`; }
     if (this.compConf.hasRightBtnText && this.compConf.rightBtnText) { this.customCompCode += this.bsStr + `bfRightBtnText="${this.compConf.rightBtnText}"`; }
@@ -234,7 +246,9 @@ $disabled_input_color : #797979;
   public validIfFn = (value) => {
     return (value === this.valEx.bfValMatchVal) ? null : { label : 'this is wrong' };
   };
-  public catchValue = (obj) => { console.log(obj); };
+  public catchValue = (obj) => {
+    // console.log(obj);
+  };
 
   public upComp2 = () => {
     this.valCompCode = `<bf-input #bfInputRef="ngModel"`;
@@ -253,16 +267,19 @@ $disabled_input_color : #797979;
     if (this.valEx.hasErrorText)      { this.valCompCode += this.bsStr + `bfErrorText="${this.valEx.bfErrorText}"`; }
     if (this.valEx.errorPos)          { this.valCompCode += this.bsStr + `bfErrorPos="${this.valEx.errorPos}"`; }
 
-    if (this.valEx.hasOnLoad) { this.valCompCode += this.bsStr + `(bfOnLoaded)="inputInit($event)"`; }
+    if (this.valEx.hasOnLoad) { this.valCompCode += this.bsStr + `(bfOnLoaded)="bfInput = $event"`; }
     if (this.valEx.hasBeforeChange)  { this.valCompCode += this.bsStr + `(bfBeforeChange)="catchValue($event)"`; }
 
     this.valCompCode += (`>` + this.brStr + `</bf-input>`);
 
 
     if (this.valEx.hasOnLoad) {
-      this.valCompCode += `\n\n\n` + `inputInit = (bfInput) => {\n`;
-      this.valCompCode += `  bfInput.inputCtrl$.subscribe(val => console.log('inputCtrl$ ----> ', val));\n`;
-      this.valCompCode += `};`;
+      this.valCompCode += `\n\n\n` + `bfInput.inputCtrl$.subscribe(val => console.log('inputCtrl$ ----> ', val));\n`;
+      this.valCompCode += `bfInput.setFocus();\n`;
+      this.valCompCode += `bfInput.setDirty();\n`;
+      this.valCompCode += `bfInput.setPristine();\n`;
+      this.valCompCode += `bfInput.addError({ label: 'manual error here' });\n`;
+      this.valCompCode += `bfInput.removeError();\n`;
     }
   };
 
