@@ -133,7 +133,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit {
 
   ngOnChanges(change) {
     // Translate bfText whenever it changes
-    console.error('ngOnChanges', change);
+    // console.error('ngOnChanges', change);
     // console.log('this.ngInputRef', this.ngInputRef);
 
     // Link the formControl form the <input #ngInputRef="ngModel"> to "this.inputCtrl"
@@ -223,7 +223,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit {
   // interface bfInputCtrl { }
 
   ngAfterViewInit() {
-    console.log('ngAfterViewInit', this.ngControl);
+    // console.log('ngAfterViewInit', this.ngControl);
 
     // https://angular.io/api/forms/FormControl
     this.bfOnLoaded.emit({
@@ -266,7 +266,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit {
   // ControlValueAccessor --> writes a new value from the external ngModel into the internal ngModel
   // This is triggered by setUpControl in FormControl directive outside this component
   public writeValue = (value: any) => {
-    console.log('writeValue -> ', value, this.ngInputRef);
+    // console.log('writeValue -> ', value, this.ngInputRef);
     // if (value === null) {} // First time, when the component is initialized but the outer value not ready yet
 
     this.bfModel = value ? value: '';
@@ -296,7 +296,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit {
     if (!!this.inputCtrl && this.inputCtrl.status === 'INVALID') { // status: [VALID, INVALID, PENDING, DISABLED]
       result = this.inputCtrl.errors;
     }
-    console.log('validate', 'Internal FormControl:', this.inputCtrl.status, ' / External FormControl:', extFormCtrl.status, result);
+    // console.log('validate', 'Internal FormControl:', this.inputCtrl.status, ' / External FormControl:', extFormCtrl.status, result);
     return result;
   };
 
@@ -323,13 +323,13 @@ export class BfInputComponent implements ControlValueAccessor, OnInit {
     this.bfModel = value;
     this.propagateModelUp(this.bfModel);
     this.updateStatus();
-    console.log('propagateModelUp (ngModel) -> ', this.bfModel);
+    // console.log('propagateModelUp (ngModel) -> ', this.bfModel);
   };
 
   // Update the state of the bfInput after any change
   // Produce new values for: [status, displayIcon, isPristine, errorTextTrans$]
   public updateStatus = () => {
-    console.log('updateStatus -> ', this.inputCtrl.status);
+    // console.log('updateStatus -> ', this.inputCtrl.status);
     this.status = 'valid';
     this.displayIcon = this.bfIcon;
     if (!!this.inputCtrl) {

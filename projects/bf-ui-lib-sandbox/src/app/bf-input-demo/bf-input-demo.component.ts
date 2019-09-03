@@ -228,7 +228,7 @@ $disabled_input_color : #797979;
   public inputCtrl: IbfInputCtrl = {};
   public inputInit = (inputCtrl) => {
     this.inputCtrl = inputCtrl;
-    this.inputCtrl.inputCtrl$.subscribe(val => console.log('inputCtrl$ ----> ', val));
+    // this.inputCtrl.inputCtrl$.subscribe(val => console.log('inputCtrl$ ----> ', val));
     setTimeout(() => this.isInputReady = true);
   };
   public validIfFn = (value) => {
