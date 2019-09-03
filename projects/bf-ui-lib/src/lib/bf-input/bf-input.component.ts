@@ -93,11 +93,11 @@ export class BfInputComponent implements ControlValueAccessor, OnInit {
   @Output() bfOnLoaded = new EventEmitter<IbfInputCtrl>();  // Emitter to catch the moment when the component is ready (ngAfterViewInit)
   @Output() bfBeforeChange = new EventEmitter<any>();       // Emitter to catch the next value before it is set
 
-/*
-      bfLabelCol        : '@?',     // It sets an horizontal layout. Cols of the label (input is 12-label)
-      bfAsyncValidator  : '&?',     // Function to validate asynchronously, returning a promise. Resolve=valid, reject=invalid
-      bfBeforeChange    : '&?',     // Callback function triggered every time the ngModel is going to changes (same as bfOnChange, but just befor the model changes)
-*/
+  // bfAsyncValidator  : '&?',     // Function to validate asynchronously, returning a promise. Resolve=valid, reject=invalid
+
+
+
+
 
   public bfLabelTrans$: Observable<string> = of('');         // Translated text for the label
   public bfTooltipTrans$: Observable<string> = of('');       // Translated text for the tooltip of the label
@@ -109,7 +109,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit {
   public status: 'valid' | 'error' | 'loading' = 'valid';  // pristine, valid, error, loading
 
   public displayIcon = '';
-  public errorPosition = 'top-right';
+  public errorPosition = 'default';
   public isPristine = true;
   public isFocus = false; // Whether the focus is on the input
   public hasAutofillDetection = false;  // Whether is has autofill detection (any parameter linked to bfOnAutofill)
@@ -200,27 +200,10 @@ export class BfInputComponent implements ControlValueAccessor, OnInit {
       this.elementRef.nativeElement.querySelector('input').addEventListener('animationstart', ($event) => { this.bfOnAutofill.emit($event); });
       this.elementRef.nativeElement.querySelector('input').addEventListener('webkitAnimationStart', ($event) => { this.bfOnAutofill.emit($event); });
     }
-
-
-
-    // Auto position of the error text. If small resolutions, push if after the input
-    if (!this.bfErrorPos) { this.errorPosition = window.innerWidth >= 768 ? 'top-right' : 'bottom-left'; }
   }
 
   // ngAfterContentInit() { console.log('ngAfterContentInit'); }
 
-  // This would make the error auto-positioning responsive, but we don't really need it
-  // @HostListener('window:resize', ['$event'])
-  // onResize(event) {
-  //   if (!this.bfErrorPos) {
-  //     this.errorPosition = 'top-right';
-  //     if (window.innerWidth < 768) {
-  //       this.errorPosition = 'bottom-left';
-  //     }
-  //   }
-  // }
-
-  // interface bfInputCtrl { }
 
   ngAfterViewInit() {
     // console.log('ngAfterViewInit', this.ngControl);

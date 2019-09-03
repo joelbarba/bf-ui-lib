@@ -459,6 +459,32 @@ lastRef.errors = {{lastRef.errors | json }}
     </div>
   </div>
 
+  <div class="col-12">
+    <hr>
+    <p>To align the label and input horizontally, add the class "<span class="bold">input-col</span>"
+      <br>It applies a flex display on the label / input, aligning them to the center.
+      It is also possible to adjust the flex of the value, to give more room to the right side using "input-col-2", "input-col-3", "input-col-4" and so on:
+    </p>
+    <pre class="marT10">{{ inputColExample }}</pre>
+
+
+    <bf-input [(ngModel)]="myVariable3" class="input-col-1"
+              bfRequired="true" bfErrorOnPristine="true"
+              bfLabel="view.common.name">
+    </bf-input>
+    <bf-input [(ngModel)]="myVariable4" class="input-col-2"
+              bfRequired="true" bfErrorOnPristine="true"
+              bfLabel="view.common.name">
+    </bf-input>
+    <bf-input [(ngModel)]="myVariable5" class="input-col-3"
+              bfRequired="true" bfErrorOnPristine="true"
+              bfLabel="view.common.name">
+    </bf-input>
+    <!--bfErrorPos="bottom-left"-->
+    <!--bfErrorPos="bottom-right"-->
+
+  </div>
+
 </div>
 
 

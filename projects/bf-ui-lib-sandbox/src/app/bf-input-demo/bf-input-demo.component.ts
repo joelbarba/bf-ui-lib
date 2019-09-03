@@ -38,6 +38,9 @@ export class BfInputDemoComponent implements OnInit {
 </form>`;
 
   public flatExample = '<bf-input class="flat" [ngModel]="bfModel"></bf-input>';
+  public inputColExample = `<bf-input [(ngModel)]="myVar" class="input-col-1" bfLabel="view.common.name"></bf-input>  
+<bf-input [(ngModel)]="myVar" class="input-col-2" bfLabel="view.common.name"></bf-input>  
+<bf-input [(ngModel)]="myVar" class="input-col-3" bfLabel="view.common.name"></bf-input>`;
 
   public cssReset = `$input-border: #ccc !default; // <-- this is a bootstrap default
 $optional_input_color : $input-border;

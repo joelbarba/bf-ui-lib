@@ -5,10 +5,11 @@
      [class.is-dirty]="!isPristine"
      [class.is-focus]="isFocus"
      [class.is-error]="status === 'error'"
-     [class.error-top-right]="errorPosition === 'top-right'"
-     [class.error-bottom-left]="errorPosition === 'bottom-left'"
-     [class.error-bottom-right]="errorPosition === 'bottom-right'"
-     [class.horizontalLayoutClass]="false">
+
+     [class.error-default]="errorPosition === 'default'"
+     [class.error-top]="errorPosition === 'bottom-right'"
+     [class.error-bottom]="errorPosition === 'bottom-left' || errorPosition === 'bottom-right'">
+
   <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
     <span class="info-badge" *ngIf="!!bfTooltip"
          [ngbTooltip]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
@@ -20,6 +21,7 @@
   </label>
 
   <span *ngIf="status === 'error'" class="bf-input-error-text"
+        [class.default]="errorPosition === 'default'"
         [class.top-right]="errorPosition === 'top-right'"
         [class.bottom-left]="errorPosition === 'bottom-left'"
         [class.bottom-right]="errorPosition === 'bottom-right'">
