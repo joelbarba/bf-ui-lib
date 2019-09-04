@@ -1,0 +1,9 @@
+.quantity-input-demo{
+  $input-border: #ccc !default;
+  $optional_input_color : $input-border;
+  $disabled_input_color : #797979;
+  $primary_color        : #00B6F1;
+  $warning_color        : #ED0677;
+  $invalid_input_color  : $warning_color;
+  $white: white
+}

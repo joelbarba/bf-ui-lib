@@ -14,7 +14,7 @@ import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VA
   ]
 })
 // export class BfCheckboxComponent implements OnInit {
-export class BfCheckboxComponent implements ControlValueAccessor {
+export class BfCheckboxComponent implements ControlValueAccessor, OnInit {
   // @Input() bfModel: boolean = false;
   // @Output() bfModelChange = new EventEmitter<boolean>();
   public bfModel: boolean = false;

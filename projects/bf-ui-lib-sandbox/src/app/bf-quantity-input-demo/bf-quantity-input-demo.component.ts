@@ -14,13 +14,34 @@ export class BfQuantityInputDemoComponent implements OnInit {
 
   public instance2 = `<bf-quantity-input></bf-quantity-input>`;
 
-  public cssReset = `$input-border: #ccc !default;
-$optional_input_color : $input-border;
-$disabled_input_color : #797979;
-$primary_color        : #00B6F1;
-$warning_color        : #ED0677;
-$invalid_input_color  : $warning_color;
-.bf-quantity-input-form-group {}`;
+  public cssReset = `div.quantity-controller-box {
+    color:$white;
+    &.left{
+      background: $primary_color;
+    }
+    &.right{
+      background: $primary_color;
+    }
+    &.blocked {
+      background: darken($primary_color, 8%);
+    }
+  }
+  div.quantity-controller-center {
+    input {
+      border:2px solid $primary_color;
+    }
+  }`;
+
+  public instanceObject = {
+    name: 'instance1',
+    value: 0,
+    minValue: 3,
+    maxValue: 30,
+    mode: 'input-fit',
+    disable: false,
+    quantityOnChange: null,
+    onChange: (item) => this.instanceObject.quantityOnChange = item.quantity
+  };
 
   constructor() { }
 
