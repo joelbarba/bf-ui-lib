@@ -7,51 +7,6 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
 <h5 class="mt-4">Parameters:</h5>
 <div class="col-12"><pre>{{api}}</pre></div>
 
-<div class="row">
-  <div class="col-3">
-    <bf-dropdown class="full-width"
-                 name="dasda"
-                 [(ngModel)]="selObj10"
-                 [bfList]="myList"
-                 [bfRequired]="compConf.isRequired"
-                 bfSelect="username"
-                 bfLabel="Single Field Selection"
-                 bfRender="username">
-    </bf-dropdown>
-    Selected Model = {{selObj10 | json}}
-    <hr>
-    <div><bf-radio [(ngModel)]="selObj10" [bfValue]="null" bfLabel="Empty value (null)"></bf-radio></div>
-    <div><bf-radio [(ngModel)]="selObj10" bfValue="aaaaa" bfLabel="Invalid Option"></bf-radio></div>
-    <div *ngFor="let listOp of myList">
-      <bf-radio [(ngModel)]="selObj10" [bfValue]="listOp.username" bfLabel="{{listOp.username}}"></bf-radio>
-    </div>
-  </div>
-
-
-
-
-
-  <div class="col-8">
-    <bf-dropdown class="full-width"
-                 [(ngModel)]="selObj6"
-                 [bfList]="myList"
-                 [bfRequired]="compConf.isRequired"
-                 bfLabel="Full Object Selection">
-    </bf-dropdown>
-    Selected Model = {{selObj6 | json}}
-    <hr>
-    <div><bf-radio [(ngModel)]="selObj6" [bfValue]="null" bfLabel="Empty value (null)" bfRadioGroup="ex2"></bf-radio></div>
-    <div><bf-radio [(ngModel)]="selObj6" bfValue="aaaaa" bfLabel="Invalid Option" bfRadioGroup="ex2"></bf-radio></div>
-    <div *ngFor="let listOp of myList">
-      <bf-radio [(ngModel)]="selObj6" [bfValue]="listOp" bfLabel="{{listOp | json}}" bfRadioGroup="ex2"></bf-radio>
-    </div>
-  </div>
-</div>
-
-
-
-
-
 
 
 
@@ -89,9 +44,13 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
         <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>
       </div>
 
-<!--      <div class="row marT15">-->
-<!--        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>-->
-<!--      </div>-->
+      <div class="row marT15">
+        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>
+      </div>
+
+      <div class="row marT15">
+        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.isErrorOnPristine" (ngModelChange)="upComp()" bfLabel="bfErrorOnPristine"></bf-checkbox> </div>
+      </div>
 
 <!--      <div class="row marT15">-->
 <!--        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasLabel" (ngModelChange)="upComp()" bfLabel="Has Label"></bf-checkbox> </div>-->
@@ -125,6 +84,53 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
 
 <!--  </div>-->
 <!--</div>-->
+
+
+
+<hr>
+<div class="row whiteBg">
+  <div class="col-3">
+    <bf-dropdown class="full-width"
+                 name="dasda"
+                 [(ngModel)]="selObj10"
+                 [bfList]="myList2"
+                 [bfRequired]="compConf.isRequired"
+                 [bfDisabled]="compConf.isDisabled"
+                 [bfErrorOnPristine]="compConf.isErrorOnPristine"
+                 bfSelect="username"
+                 bfLabel="Single Field Selection"
+                 bfRender="username">
+    </bf-dropdown>
+    Selected Model = {{selObj10 | json}}
+    <hr>
+
+    <div><bf-radio [(ngModel)]="selObj10" [bfValue]="null" bfLabel="Empty value (null)"></bf-radio></div>
+    <div><bf-radio [(ngModel)]="selObj10" bfValue="aaaaa" bfLabel="Invalid Option"></bf-radio></div>
+    <div *ngFor="let listOp of myList2">
+      <bf-radio [(ngModel)]="selObj10" [bfValue]="listOp.username" bfLabel="{{listOp.username}}"></bf-radio>
+    </div>
+  </div>
+
+
+  <div class="col-8">
+    <bf-dropdown class="full-width"
+                 [(ngModel)]="selObj6"
+                 [bfList]="myList"
+                 [bfRequired]="compConf.isRequired"
+                 [bfDisabled]="compConf.isDisabled"
+                 bfLabel="Full Object Selection">
+    </bf-dropdown>
+    Selected Model = {{selObj6 | json}}
+    <hr>
+    <div><bf-radio [(ngModel)]="selObj6" [bfValue]="null" bfLabel="Empty value (null)" bfRadioGroup="ex2"></bf-radio></div>
+    <div><bf-radio [(ngModel)]="selObj6" bfValue="aaaaa" bfLabel="Invalid Option" bfRadioGroup="ex2"></bf-radio></div>
+    <div *ngFor="let listOp of myList">
+      <bf-radio [(ngModel)]="selObj6" [bfValue]="listOp" bfLabel="{{listOp | json}}" bfRadioGroup="ex2"></bf-radio>
+    </div>
+  </div>
+</div>
+
+
 
 <!--<hr>-->
 

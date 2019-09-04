@@ -1,4 +1,15 @@
-import {Component, OnInit, Input, Output, forwardRef, OnChanges, Inject, ViewChild, ElementRef} from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  forwardRef,
+  OnChanges,
+  Inject,
+  ViewChild,
+  ElementRef,
+  Pipe, PipeTransform
+} from '@angular/core';
 import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import BfObject from '../bf-prototypes/object.prototype';
 import BfArray from '../bf-prototypes/array.prototypes';
@@ -164,13 +175,15 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfRender = '';
   @Input() bfSelect = '';
   @Input() bfRequired: boolean | string = false;
-  @Input() bfDisabled = false;
+  @Input() bfDisabled: boolean | string = false;
   @Input() bfLabel = '';
 
   @Input() bfTooltip = '';
   @Input() bfTooltipPos = 'top';  // If tooltip on the label, specific position (top by default)
   @Input() bfTooltipBody = true;
   @Input() bfDisabledTip = '';    // Label for the text of the tooltip to display when the input is disabled
+
+  @Input() bfErrorOnPristine = false; // If true, errors will be shown in pristine state too (by default pristine shows as valid always)
 
   public bfModel; // <--- internal ngModel
   public selModelText = '';  // Text representation of the selected Model (to display in the input / placeholder)
@@ -182,65 +195,47 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   public isFocus = false;     // Whether the input is focused
   public isPristine = true;  // Whether the input is focused
 
+  // Empty option item (in extList)
+  public emptyItem = {
+    $index: 0,
+    $label: 'view.common.empty',
+    $renderedText: 'Empty',
+    $isMatch: true
+  };
+
   public bfLabelTrans$: Observable<string> = of('');         // Translated text for the label
   public bfTooltipTrans$: Observable<string> = of('');       // Translated text for the tooltip of the label
+  public langSubscription;  // Subscription to language changes
 
   @ViewChild('dropdownInput') elInput: ElementRef<HTMLInputElement>;
 
   constructor(
     @Inject('TranslateService') private translate: AbstractTranslateService,
-  ) { }
+  ) {
+
+    // Rerender the list labels on language change
+    this.langSubscription = this.translate.onLangChange$.subscribe(this.translateExtList);
+
+  }
 
   ngOnChanges(changes) {
 
-    // Extend the input list (bfList --> extList)
-    if (!!changes.bfList) {
-      this.extList = BfArray.dCopy.call(this.bfList || []); // Make a copy
+    if (!!changes.bfList) { this.generateExtList(); } // (bfList --> extList)
 
-      // If bfRender starts with $$$, it's an eval() expression. If not, a single field
-      const renderExpr = (this.bfRender.slice(0, 3) === '$$$') ? this.bfRender.slice(4) : false;
-
-      this.extList.forEach(($item, ind) => {
-        let $renderedText = '';
-
-        if (!!this.bfRender) {
-          if (!renderExpr) { // Display single property
-            $renderedText = $item[this.bfRender];
-
-          } else {  // Display custom render expression
-            // tslint:disable-next-line:no-eval
-            $renderedText = eval(renderExpr);
-          }
-
-        } else { // If bfRender not provided: Display all props
-          for (const prop in $item) {
-            if ($item.hasOwnProperty(prop)) {
-              if (!!$renderedText) { $renderedText += ', '; }
-              $renderedText += $item[prop];
-            }
-          }
-        }
-
-        $item.$renderedText = $renderedText;
-        $item.$index = ind + 1;  // Internal unique index
-        $item.$isMatch = true;   // filter none by default
-      });
+    // If values come as strings, convert them
+    if (changes.hasOwnProperty('bfDisabled')) {
+      if (this.bfDisabled === 'false') { this.bfDisabled = false; }
+      if (this.bfDisabled === 'true')  { this.bfDisabled = true; }
     }
 
-    if (this.bfRequired === 'false') { this.bfRequired = false; }
-
-    if (!this.bfRequired) { // If not required, add the empty option to the list
-      if (!this.extList.length || this.extList[0].$index > 0) {
-        this.extList.unshift({$index: 0, $renderedText: 'Empty'});
-      }
-      if (this.isInvalid && (this.bfModel === null || this.bfModel === undefined)) { this.isInvalid = false; }
-
-    } else { // If there is empty value on the top of the list, get rid of it
-      if (this.extList.length > 0 && this.extList[0].$index === 0) {
-        this.extList.shift();
-      }
-      if (!this.isInvalid && (this.bfModel === null || this.bfModel === undefined)) { this.isInvalid = true; }
+    // If values come as strings, convert them
+    if (changes.hasOwnProperty('bfRequired')) {
+      if (this.bfRequired === 'false') { this.bfRequired = false; }
+      if (this.bfRequired === 'true')  { this.bfRequired = true; }
+      this.toggleEmptyOption();
     }
+
+
 
     // Generate new observables for the dynamic text
     if (changes.hasOwnProperty('bfLabel'))        { this.bfLabelTrans$ = this.translate.getLabel$(this.bfLabel); }
@@ -248,20 +243,96 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     // if (changes.hasOwnProperty('bfPlaceholder'))  { this.bfPlaceholderTrans$ = this.translate.getLabel$(this.bfPlaceholder); }
     // if (changes.hasOwnProperty('bfDisabledTip'))  { this.bfDisabledTipTrans$ = this.translate.getLabel$(this.bfDisabledTip); }
 
-
   }
 
-  ngOnInit() {  }
+  ngOnInit() { }
+
+  ngOnDestroy() {
+    this.langSubscription.unsubscribe();
+  }
 
 
+  // Generates the extended list to be used internally (bfList --> extList)
+  public generateExtList = () => {
+    // this.emptyItem.$label$ = this.translate.getLabel$('view.common.empty');
+    // const $renderedText = this.translate.getLabel$('view.common.empty');
+    // $renderedText.subscribe(val => {
+    //   console.log('xxxxxxxxxxxx', val, new Date());
+    // })
+
+
+    this.extList = BfArray.dCopy.call(this.bfList || []); // Make a copy
+
+    // If bfRender starts with $$$, it's an eval() expression. If not, a single field
+    const renderExpr = (this.bfRender.slice(0, 3) === '$$$') ? this.bfRender.slice(4) : false;
+
+    this.extList.forEach((item, ind) => {
+      let itemLabel = '';
+
+      if (!!this.bfRender) {
+        if (!renderExpr) { // Display single property
+          itemLabel = item[this.bfRender];
+
+        } else {  // Display custom render expression
+          // tslint:disable-next-line:no-eval
+          itemLabel = eval(renderExpr);
+        }
+
+      } else { // If bfRender not provided: Display all props
+        for (const prop in item) {
+          if (item.hasOwnProperty(prop)) {
+            if (!!itemLabel) { itemLabel += ', '; }
+            itemLabel += item[prop];
+          }
+        }
+      }
+
+      item.$label = itemLabel;
+      item.$index = ind + 1;  // Internal unique index
+      item.$isMatch = true;   // filter none by default
+    });
+
+    this.translateExtList(); // Set $renderedText
+  };
+
+  // Sync translation for the values of the list ($label --> $renderedText)
+  public translateExtList = () => {
+    if (!!this.extList) {
+      this.extList.forEach(item => item.$renderedText = this.translate.doTranslate(item.$label));
+    }
+
+    // Update also the text display on the input (selected option)
+    if (!this.isInvalid) {
+      this.selModelText = this.bfModel ? this.bfModel.$renderedText : '';
+      if (!this.isExpanded) { this.inputText = this.selModelText; }
+    }
+  };
+
+  // Add or remove the "Empty" option to the extList
+  public toggleEmptyOption = () => {
+    if (!this.bfRequired) { // If not required, the list should have "Empty" option
+      if (!this.extList.find(item => item.$index === 0)) {
+        this.emptyItem.$renderedText = this.translate.doTranslate(this.emptyItem.$label);
+        this.extList.unshift(this.emptyItem);  // Add it if not there yet
+      }
+    } else { // If required, the list shall not have "Empty" option
+      BfArray.removeByProp.call(this.extList, '$index', this.emptyItem.$index); // remove empty item
+    }
+
+    // Check validity when Empty option is selected
+    if (this.bfModel === null || this.bfModel === undefined || this.bfModel === this.emptyItem) {
+      if (!this.bfRequired && this.isInvalid) { this.isInvalid = false; } // It was invalid because if was required. Now it's valid
+      if (this.bfRequired && !this.isInvalid) { this.isInvalid = true; }  // It was valid because if was not required. Now it's invalid
+    }
+  };
 
 
   // ------- ControlValueAccessor -----
 
   // ControlValueAccessor --> writes a new value from the form model into the view
   writeValue(value: any) {
-    console.log('writeValue -> ', value);
-    this.bfModel = value;
+    // console.log('writeValue -> ', value);
+    // this.bfModel = value;
     this.matchSelection(value);
   }
 
@@ -318,6 +389,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     this.extList.forEach(item => {
       item.$isMatch = item.$renderedText.toLowerCase().indexOf(patternVal) >= 0;
     });
+    this.emptyItem.$isMatch = true; // Fix empty option as always visible
   };
 
 
@@ -340,8 +412,10 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
         matchItem = this.extList.filter(item => {
           let oriItem = BfObject.dCopy.call(item);
           delete oriItem.$index;
+          delete oriItem.$label;
           delete oriItem.$renderedText;
           delete oriItem.$isMatch;
+
 
           // Stringify comparison is quite bad. TODO: Add a better object compare here
           // Ideas:
@@ -358,6 +432,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     if (this.isInvalid) {
       this.selModelText = value;
       this.inputText = this.selModelText;
+      this.bfModel = null;
 
     } else {
       this.selectItem(matchItem); // select valid match
@@ -365,14 +440,15 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   };
 
 
-
+  // Select an item from extList to bfModel, and propagate ngModel up
   public selectItem = (selObj) => {
-    console.log('selectItem');
-    this.selModelText = selObj ? selObj.$renderedText : '';
+    // console.log('selectItem');
+    this.bfModel = (selObj !== null && selObj !== undefined) ? selObj : this.emptyItem;
+    this.isInvalid = (this.bfRequired && (this.bfModel == this.emptyItem));
+
+    this.selModelText = this.bfModel ? this.bfModel.$renderedText : '';
     this.inputText = this.selModelText;
 
-    this.bfModel = selObj;
-    this.isInvalid = (this.bfRequired && (selObj === null || selObj === undefined));
 
     let modelUp;  // Object to propagate up (to the formControl of the bf-dropdown)
 
@@ -383,6 +459,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
       if (!this.bfSelect) {
         let extModel = BfObject.dCopy.call(selObj);  // Select full object
         delete extModel.$index;
+        delete extModel.$label;
         delete extModel.$renderedText;
         delete extModel.$isMatch;
         modelUp = this.bfList.find(item => JSON.stringify(item) === JSON.stringify(extModel));
@@ -400,3 +477,5 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     this.propagateModelUp(modelUp);
   };
 }
+
+

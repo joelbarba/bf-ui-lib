@@ -1,9 +1,15 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div class="navbar">
   <h1 routerLink="/index">BF UI Library</h1>
-  <a class="home-link mr-3" routerLink="/index">
-    <span class="icon-home"></span>
-  </a>
+
+  <div>
+    <span style="font-size: 18px;">Language:</span>
+    <bf-radio class="marL20" [(ngModel)]="lang" bfValue="en"  bfLabel="En"  (ngModelChange)="translate.changeLanguage(lang)" bfRadioGroup="lang"></bf-radio>
+    <bf-radio class="marL20" [(ngModel)]="lang" bfValue="cat" bfLabel="Cat" (ngModelChange)="translate.changeLanguage(lang)" bfRadioGroup="lang"></bf-radio>
+  </div>
+  <!--<a class="home-link mr-3" routerLink="/index">-->
+  <!--  <span class="icon-home"></span>-->
+  <!--</a>-->
 </div>
 
 <app-menu></app-menu>

@@ -10,6 +10,12 @@ export class BfDropdownDemoComponent implements OnInit {
   public desc = BfDropdownDoc.desc;
   public api = BfDropdownDoc.api;
   public instance = BfDropdownDoc.instance;
+  public myList2 = [
+    { id:  1, username: 'view.common.name' },
+    { id:  2, username: 'view.common.username' },
+    { id:  3, username: 'view.common.yes' },
+    { id:  4, username: 'view.common.no' },
+  ];
   public myList = [
     { id:  0, username: 'joel.barba',   email: 'joel@barba.com', first_name: 'Joel', last_name: 'Barba'},
     { id:  2, username: 'syrax',        email: 'syrax@targaryen.com',        first_name: 'Syrax',        last_name: 'Targaryen' },
@@ -77,6 +83,7 @@ export class BfDropdownDemoComponent implements OnInit {
   public compConf:any = {
     isRequired: false,
     isDisabled: false,
+    isErrorOnPristine: false,
     hasSelect: false,  selectField: 'username',
     hasRender: false,  renderExp: `$$$ $item.id + ' - ' + $item.username`,
     hasLabel: false,   labelText: 'Dragon of the year',
@@ -147,9 +154,11 @@ export const BfDropdownDoc = {
 [bfRender]       : Field to display on the list (property from bfList items).
                    If empty, a row with all properties will be displayed.
                    It can also be an eval() expression. Start with a '$$$' and use $item reference for eval. Example: bfRender="$$$ $item.first_name + ' ' + $item.last_name"    
+[bfLabel]        : If provided, a <bf-label> is added above the selector with the given text
 [bfRequired]     : Whether the value is required. If not, and "Empty" option will be added a the top of the list
 [bfDisabled]     : Whether the selector is disabled or not
-[bfLabel]        : If provided, a <bf-label> is added above the selector with the given text`,
+[bfErrorOnPristine] : If true, errors will be shown in pristine state too (by default pristine shows always as valid).
+`,
   instance: `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`,
   demoComp: BfDropdownDemoComponent
 };

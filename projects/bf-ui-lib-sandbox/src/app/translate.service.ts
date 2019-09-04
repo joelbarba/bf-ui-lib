@@ -7,7 +7,8 @@ import {map} from "rxjs/operators";
   providedIn: 'root'
 })
 export class TranslateService extends AbstractTranslateService {
-  public transDict = {
+  public transDict = {};
+  public transDictEN = {
     'view.common.name'         : 'Name',
     'view.common.email'        : 'Email',
     'view.common.username'     : 'User Name',
@@ -23,13 +24,26 @@ export class TranslateService extends AbstractTranslateService {
     'view.common.required_field'    : 'Required field',
     'view.common.invalid_min_length': 'Too short',
     'view.common.invalid_max_length': 'Too long',
-    'view.common.custom_error': 'This value is not correct'
+    'view.common.custom_error': 'This value is not correct',
+    'view.common.empty': 'Empty'
+  };
+  public transDictCAT = {
+    'view.common.name'      : 'Nom',
+    'view.common.username'  : `Nom d'usuari`,
+    'view.common.yes'       : 'Sí',
+    'view.common.no'        : 'No',
+    'view.common.empty'     : 'Buit'
   };
 
   public transDict$ = new BehaviorSubject(this.transDict);
+  public onLangChange$ = new BehaviorSubject({ lang: '', translations: null });
+  public currLang: string;
+  public signature;
 
   constructor() {
     super();
+    console.warn('TranslateService constructor');
+    this.changeLanguage('en');
   }
 
   doTranslate = (label ?: string): string => {
@@ -43,5 +57,21 @@ export class TranslateService extends AbstractTranslateService {
         return translations[label] || label || '';
       })
     );
-  }
+  };
+
+
+
+  public changeLanguage = (newLang: string) => {
+    console.log('Changing selected language (TranslateService) --> ', newLang);
+    if (this.currLang !== newLang) {
+      if (newLang === 'cat') {
+        this.transDict = this.transDictCAT;
+      } else {
+        this.transDict = this.transDictEN;
+      }
+      this.currLang = newLang;
+      this.onLangChange$.next({ lang: newLang, translations: this.transDict });
+      this.transDict$.next(this.transDict);
+    }
+  };
 }

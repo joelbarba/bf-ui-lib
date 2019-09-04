@@ -40,7 +40,7 @@ import { BfDeferDemoComponent } from './bf-defer-demo/bf-defer-demo.component';
     IndexPageComponent,
     BfListHeaderColDemoComponent,
     MenuComponent,
-    TranslateDirective,
+    // TranslateDirective,
     BfLabelDemoComponent,
     BfListPlaceholderDemoComponent,
     BfCheckboxDemoComponent,
