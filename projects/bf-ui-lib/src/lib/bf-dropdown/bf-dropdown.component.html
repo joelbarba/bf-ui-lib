@@ -3,9 +3,7 @@
      [class.is-required]="bfRequired"
      [class.is-disabled]="bfDisabled"
      [class.is-focus]="isFocus || isExpanded"
-     [class.is-pristine]="isPristine"
-     [class.is-dirty]="!isPristine"
-     [class.is-error]="isInvalid && (!isPristine || bfErrorOnPristine)">
+     [class.is-error]="isInvalid && (isTouched || bfErrorOnUntouched)">
 
   <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
     <span class="info-badge" *ngIf="!!bfTooltip"

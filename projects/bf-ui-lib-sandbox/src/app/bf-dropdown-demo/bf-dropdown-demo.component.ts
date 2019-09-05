@@ -49,6 +49,7 @@ export class BfDropdownDemoComponent implements OnInit {
   public selObj4;
   public selObj5;
   public selObj6;
+  public selObj7;
 
   public instance2 =
 `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList" bfSelect="username" bfRender="email">
@@ -134,6 +135,12 @@ export class BfDropdownDemoComponent implements OnInit {
     this.selObj10 = {...this.myList.getById('13')};
   };
 
+  public isViewOn = true;
+  public rebuildView = () => {
+    this.isViewOn = false;
+    setTimeout(() => this.isViewOn = true);
+  };
+
   constructor() { }
 
   ngOnInit() { }
@@ -157,7 +164,7 @@ export const BfDropdownDoc = {
 [bfLabel]        : If provided, a <bf-label> is added above the selector with the given text
 [bfRequired]     : Whether the value is required. If not, and "Empty" option will be added a the top of the list
 [bfDisabled]     : Whether the selector is disabled or not
-[bfErrorOnPristine] : If true, errors will be shown in pristine state too (by default pristine shows always as valid).
+[bfErrorOnUntouched] : If true, errors will be shown in pristine state too (by default pristine shows always as valid).
 `,
   instance: `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`,
   demoComp: BfDropdownDemoComponent

@@ -8,7 +8,7 @@ import {
   Inject,
   ViewChild,
   ElementRef,
-  Pipe, PipeTransform
+  Pipe, PipeTransform, OnDestroy
 } from '@angular/core';
 import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import BfObject from '../bf-prototypes/object.prototype';
@@ -154,23 +154,13 @@ import {AbstractTranslateService} from '../abstract-translate.service';
       provide: NG_VALUE_ACCESSOR, multi: true,
       useExisting: forwardRef(() => BfDropdownComponent),
     },
-      // { // Custom validator
-      //   provide: NG_VALIDATORS, multi: true,
-      //   useValue: (val: FormControl) => {
-      //     console.log('useValue', val);
-      //     // let err = { rangeError: { given: c.value, max: 10, min: 0 } };
-      //     // return (c.value > 5 || c.value < 10) ? err : null;
-      //     return true;
-      //   }
-      // }
-
-      // { // Custom validator
-    //   provide: NG_VALIDATORS, multi: true,
-    //   useExisting: forwardRef(() => BfDropdownComponent),
-    // }
+    { // Custom validator
+      provide: NG_VALIDATORS, multi: true,
+      useExisting: forwardRef(() => BfDropdownComponent),
+    }
   ]
 })
-export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChanges {
+export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
   @Input() bfList: Array<any>;
   @Input() bfRender = '';
   @Input() bfSelect = '';
@@ -183,7 +173,9 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfTooltipBody = true;
   @Input() bfDisabledTip = '';    // Label for the text of the tooltip to display when the input is disabled
 
-  @Input() bfErrorOnPristine = false; // If true, errors will be shown in pristine state too (by default pristine shows as valid always)
+  @Input() bfErrorOnUntouched = false; // If true, errors will be shown in initial state too (by default untouched shows as valid always)
+
+  private ngControl;  // Reference to the external formControl
 
   public bfModel; // <--- internal ngModel
   public selModelText = '';  // Text representation of the selected Model (to display in the input / placeholder)
@@ -193,7 +185,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   public isInvalid = false;   // If the model holds an invalid option
   public isExpanded = false;  // Whether the list is shown (true) or hidden
   public isFocus = false;     // Whether the input is focused
-  public isPristine = true;  // Whether the input is focused
+  public isTouched = false;   // Whether the element has ever been expanded
 
   // Empty option item (in extList)
   public emptyItem = {
@@ -251,27 +243,23 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     this.langSubscription.unsubscribe();
   }
 
+  // ngAfterContentInit() { }
+  // ngAfterViewInit() { }
+
 
   // Generates the extended list to be used internally (bfList --> extList)
   public generateExtList = () => {
-    // this.emptyItem.$label$ = this.translate.getLabel$('view.common.empty');
-    // const $renderedText = this.translate.getLabel$('view.common.empty');
-    // $renderedText.subscribe(val => {
-    //   console.log('xxxxxxxxxxxx', val, new Date());
-    // })
-
-
     this.extList = BfArray.dCopy.call(this.bfList || []); // Make a copy
 
     // If bfRender starts with $$$, it's an eval() expression. If not, a single field
     const renderExpr = (this.bfRender.slice(0, 3) === '$$$') ? this.bfRender.slice(4) : false;
 
-    this.extList.forEach((item, ind) => {
+    this.extList.forEach(($item, ind) => {
       let itemLabel = '';
 
       if (!!this.bfRender) {
         if (!renderExpr) { // Display single property
-          itemLabel = item[this.bfRender];
+          itemLabel = $item[this.bfRender];
 
         } else {  // Display custom render expression
           // tslint:disable-next-line:no-eval
@@ -279,33 +267,20 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
         }
 
       } else { // If bfRender not provided: Display all props
-        for (const prop in item) {
-          if (item.hasOwnProperty(prop)) {
+        for (const prop in $item) {
+          if ($item.hasOwnProperty(prop)) {
             if (!!itemLabel) { itemLabel += ', '; }
-            itemLabel += item[prop];
+            itemLabel += $item[prop];
           }
         }
       }
 
-      item.$label = itemLabel;
-      item.$index = ind + 1;  // Internal unique index
-      item.$isMatch = true;   // filter none by default
+      $item.$label = itemLabel;
+      $item.$index = ind + 1;  // Internal unique index
+      $item.$isMatch = true;   // filter none by default
     });
 
     this.translateExtList(); // Set $renderedText
-  };
-
-  // Sync translation for the values of the list ($label --> $renderedText)
-  public translateExtList = () => {
-    if (!!this.extList) {
-      this.extList.forEach(item => item.$renderedText = this.translate.doTranslate(item.$label));
-    }
-
-    // Update also the text display on the input (selected option)
-    if (!this.isInvalid) {
-      this.selModelText = this.bfModel ? this.bfModel.$renderedText : '';
-      if (!this.isExpanded) { this.inputText = this.selModelText; }
-    }
   };
 
   // Add or remove the "Empty" option to the extList
@@ -321,10 +296,31 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
     // Check validity when Empty option is selected
     if (this.bfModel === null || this.bfModel === undefined || this.bfModel === this.emptyItem) {
-      if (!this.bfRequired && this.isInvalid) { this.isInvalid = false; } // It was invalid because if was required. Now it's valid
-      if (this.bfRequired && !this.isInvalid) { this.isInvalid = true; }  // It was valid because if was not required. Now it's invalid
+      if (!this.bfRequired && this.isInvalid) { this.setValidity(true); }  // It was invalid because if was required. Now it's valid
+      if (this.bfRequired && !this.isInvalid) { this.setValidity(false); } // It was valid because if was not required. Now it's invalid
     }
   };
+
+  // Sync translation for the values of the list ($label --> $renderedText)
+  public translateExtList = () => {
+    if (!!this.extList) {
+      this.extList.forEach(item => item.$renderedText = this.translate.doTranslate(item.$label));
+    }
+
+    // Update also the text display on the input (selected option)
+    if (!this.isInvalid) {
+      this.selModelText = this.bfModel ? this.bfModel.$renderedText : '';
+      if (!this.isExpanded) { this.inputText = this.selModelText; }
+    }
+  };
+
+  // Update isInvalid and propagate the state up
+  public setValidity = (isValid: boolean) => {
+    this.isInvalid = !isValid;
+    if (!!this.ngControl) { this.ngControl.updateValueAndValidity(); }
+  };
+
+
 
 
   // ------- ControlValueAccessor -----
@@ -332,8 +328,12 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   // ControlValueAccessor --> writes a new value from the form model into the view
   writeValue(value: any) {
     // console.log('writeValue -> ', value);
-    // this.bfModel = value;
+    const wasPristine = (!!this.ngControl && this.ngControl.pristine);
+
     this.matchSelection(value);
+
+    // External changes shan't turn pristine state (only internals). Set it back if so
+    if (wasPristine) { this.ngControl.markAsPristine(); }
   }
 
   public propagateModelUp = (_: any) => {}; // This is just to avoid type error (it's overwritten on register)
@@ -341,13 +341,23 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   registerOnTouched(fn) { }
 
 
-  // NG_VALIDATORS ---> outer formControl validation
-  // validate(control: FormControl) {
-  // if (this.inputCtrl.status === 'INVALID') {  // If internal ngModel is invalid, external is invalid too
-  // return {'incorrect': true};
-  // return { 'required': false };
-  // }
-  // }
+  // NG_VALIDATORS provider triggers this validation
+  // Validation to determine the outer formControl state. It propagates upward the internal state
+  public validate = (extFormCtrl: FormControl) => {
+    // console.log('validate', new Date());
+    this.ngControl = extFormCtrl; // Save the reference to the external form Control
+
+    if (this.isInvalid) {
+      if (this.bfModel === null || this.bfModel === undefined || this.bfModel === this.emptyItem) {
+        return { required: true };  // No value on required
+      } else {
+        if (this.extList.indexOf(this.bfModel) === -1) {
+          return { value: 'no match' }; // Unmatchable value
+        }
+      }
+    }
+    return null; // valid
+  };
 
   // ------------------------------------
 
@@ -367,17 +377,17 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   // On input focus in -> Expand the select list
   public expandList = () => {
-    console.log('focus in - expand');
+    // console.log('focus in - expand');
     this.isFocus = true;
     this.isExpanded = true;
     this.inputText = '';  // Clear the text to work as a filter
     this.filterList('');
-    this.isPristine = false;
+    this.isTouched = true;
   };
 
   // On input focus out -> Collapse the select list
   public collapseList = () => {
-    console.log('focus out - collapse');
+    // console.log('focus out - collapse');
     this.isFocus = false;
     setTimeout(() => {
       this.isExpanded = false;
@@ -410,9 +420,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   };
 
 
-
-
-
   // Filter the list to display according to the input text
   public filterList = (value) => {
     const patternVal = value.toLowerCase();
@@ -440,7 +447,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
       } else {  // Full object match
         matchItem = this.extList.filter(item => {
-          let oriItem = BfObject.dCopy.call(item);
+          const oriItem = BfObject.dCopy.call(item);
           delete oriItem.$index;
           delete oriItem.$label;
           delete oriItem.$renderedText;
@@ -457,14 +464,15 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
       }
     }
 
-    // If value could not be matched, tha
-    this.isInvalid = (!!value && this.extList.indexOf(matchItem) === -1);
-    if (this.isInvalid) {
+    if (!!value && this.extList.indexOf(matchItem) === -1) {
+      // If value could not be matched
+      this.setValidity(false); // invalid
       this.selModelText = value;
       this.inputText = this.selModelText;
-      this.bfModel = null;
+      this.bfModel = value;
 
     } else {
+      this.setValidity(true);
       this.selectItem(matchItem); // select valid match
     }
   };
@@ -474,7 +482,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   public selectItem = (selObj) => {
     // console.log('selectItem');
     this.bfModel = (selObj !== null && selObj !== undefined) ? selObj : this.emptyItem;
-    this.isInvalid = (this.bfRequired && (this.bfModel == this.emptyItem));
+    this.setValidity(!this.bfRequired || this.bfModel !== this.emptyItem);
 
     this.selModelText = this.bfModel ? this.bfModel.$renderedText : '';
     this.inputText = this.selModelText;
@@ -487,7 +495,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
     } else {
       if (!this.bfSelect) {
-        let extModel = BfObject.dCopy.call(selObj);  // Select full object
+        const extModel = BfObject.dCopy.call(selObj);  // Select full object
         delete extModel.$index;
         delete extModel.$label;
         delete extModel.$renderedText;

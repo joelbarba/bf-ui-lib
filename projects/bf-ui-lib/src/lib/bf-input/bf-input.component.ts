@@ -117,7 +117,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
 
 
   @ViewChild('ngInputRef') ngInputRef: ElementRef;
-  public inputCtrl:FormControl; // <-- ngInputRef.control
+  public inputCtrl: FormControl; // <-- ngInputRef.control
 
   constructor(
     @Inject('TranslateService') private translate: AbstractTranslateService,
