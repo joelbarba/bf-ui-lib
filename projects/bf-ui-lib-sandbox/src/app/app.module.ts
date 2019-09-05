@@ -17,7 +17,6 @@ import { BfListPlaceholderDemoComponent } from './bf-list-placeholder-demo/bf-li
 import { BfCheckboxDemoComponent } from './bf-checkbox-demo/bf-checkbox-demo.component';
 
 import { TranslateService } from './translate.service';
-import { TranslateDirective } from './translate.directive';
 import { BfInputDemoComponent } from './bf-input-demo/bf-input-demo.component';
 import { BfDropdownDemoComponent } from './bf-dropdown-demo/bf-dropdown-demo.component';
 import { BfSwitchDemoComponent } from './bf-switch-demo/bf-switch-demo.component';

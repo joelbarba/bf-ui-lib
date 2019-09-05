@@ -1,4 +1,5 @@
 <div class="form-group bf-dropdown-form-group"
+     (keydown)="triggerKey($event)"
      [class.is-required]="bfRequired"
      [class.is-disabled]="bfDisabled"
      [class.is-focus]="isFocus || isExpanded"
@@ -23,8 +24,8 @@
              [ngModel]="inputText" (ngModelChange)="filterList($event)"
              [placeholder]="selModelText"
              [disabled]="bfDisabled"
-             (focusin)="onFocusIn()"
-             (focusout)="onFocusOut()">
+             (focusin)="expandList()"
+             (focusout)="collapseList()">
 
       <div class="input-group-append" (click)="!bfDisabled && onInputBtnClick()">
         <button class="btn btn-outline-secondary" [disabled]="bfDisabled ? 'true' : ''">
@@ -38,8 +39,7 @@
            [class.selected]="bfModel === item"
            [hidden]="!item.$isMatch"
            (mousedown)="selectItem(item)">
-        {{translate.getLabel$(item.$label) | async}}
-        <!--{{item.$renderedText}} - {{ item.$renderedText | async }}-->
+        {{item.$renderedText}}
 <!--        {{option.$isMatch}} - {{option.$renderedText}}-->
       </div>
     </div>

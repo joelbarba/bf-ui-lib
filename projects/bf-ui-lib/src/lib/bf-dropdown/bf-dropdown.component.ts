@@ -365,8 +365,9 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   };
 
 
-  // Click on the expand/collapse input button
-  public onFocusIn = () => {
+  // On input focus in -> Expand the select list
+  public expandList = () => {
+    console.log('focus in - expand');
     this.isFocus = true;
     this.isExpanded = true;
     this.inputText = '';  // Clear the text to work as a filter
@@ -374,14 +375,43 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     this.isPristine = false;
   };
 
-  public onFocusOut = () => {
-    console.log('focus out');
+  // On input focus out -> Collapse the select list
+  public collapseList = () => {
+    console.log('focus out - collapse');
     this.isFocus = false;
     setTimeout(() => {
       this.isExpanded = false;
       this.inputText = this.selModelText; // Show the model text
     }, 100);
   };
+
+
+  // React on key events (on the input)
+  public triggerKey = (event) => {
+    if (event.key === 'Escape' && this.isExpanded) { this.elInput.nativeElement.blur(); } // make it lose the focus
+
+    // Use bfModel as a temporary pointer to the highlighted item on the list while moving up/down with arrows
+    const visibleList = this.extList.filter(item => item.$isMatch);
+    const ind = visibleList.indexOf(this.bfModel);
+
+    if (event.key === 'ArrowDown') {
+      const nextInd = (ind >= 0 && ind < visibleList.length - 1) ? ind + 1 : 0;
+      this.bfModel = visibleList[nextInd];
+    }
+    if (event.key === 'ArrowUp') {
+      const nextInd = (ind > 0) ? ind - 1 : visibleList.length - 1;
+      this.bfModel = visibleList[nextInd];
+    }
+
+    if (event.key === 'Enter') {
+      this.selectItem(this.bfModel);
+      this.elInput.nativeElement.blur();
+    }
+  };
+
+
+
+
 
   // Filter the list to display according to the input text
   public filterList = (value) => {
@@ -477,5 +507,3 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     this.propagateModelUp(modelUp);
   };
 }
-
-

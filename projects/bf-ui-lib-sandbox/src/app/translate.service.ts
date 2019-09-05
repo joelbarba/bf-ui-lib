@@ -38,11 +38,10 @@ export class TranslateService extends AbstractTranslateService {
   public transDict$ = new BehaviorSubject(this.transDict);
   public onLangChange$ = new BehaviorSubject({ lang: '', translations: null });
   public currLang: string;
-  public signature;
 
   constructor() {
     super();
-    console.warn('TranslateService constructor');
+    // console.warn('TranslateService constructor');
     this.changeLanguage('en');
   }
 
@@ -62,8 +61,8 @@ export class TranslateService extends AbstractTranslateService {
 
 
   public changeLanguage = (newLang: string) => {
-    console.log('Changing selected language (TranslateService) --> ', newLang);
     if (this.currLang !== newLang) {
+      console.log('Changing selected language (TranslateService) --> ', newLang);
       if (newLang === 'cat') {
         this.transDict = this.transDictCAT;
       } else {
