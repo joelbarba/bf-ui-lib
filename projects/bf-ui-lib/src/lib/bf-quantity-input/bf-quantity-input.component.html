@@ -1,23 +1,19 @@
 <div class="quantity-controller" [ngClass]="bfSizeMode">
   <div class="quantity-controller-box left"
-       [ngClass]="{ 'blocked': (bfMinVal !== undefined && (bfValue <= bfMinVal) || bfDisableControls) }"
+       [ngClass]="{ 'blocked': (bfMinVal !== undefined && (bfModelControl.value <= bfMinVal) || bfDisabled) }"
        (click)="decreaseQuantity()">
     <span class="icon-minus"></span>
   </div>
 
   <div class="quantity-controller-center">
     <input type="number"
-           [name]="bfName"
            class="quantity-input form-control"
-           [ngModel]="bfValue"
-           (ngModelChange)="this.checkValidations($event)"
-           [disabled]="bfDisableControls"
-           step="1"
-           required />
+           [formControl]="bfModelControl"
+           (ngModelChange)="writeValue($event)"/>
   </div>
 
   <div class="quantity-controller-box right"
-       [ngClass]="{ 'blocked': (bfMaxVal !== undefined && (bfValue >= bfMaxVal) || bfDisableControls) }"
+       [ngClass]="{ 'blocked': (bfMaxVal !== undefined && (bfModelControl.value >= bfMaxVal) || bfDisabled) }"
        (click)="increaseQuantity()">
     <span class="icon-plus"></span>
   </div>

@@ -75,12 +75,12 @@
     <div class="row">
       <div class="col-5">
         <bf-quantity-input
-          [bfName]="instanceObject.name"
-          [(bfValue)]="instanceObject.value"
+          [(ngModel)]="instanceObject.value"
+          [name]="instanceObject.name"
+          [bfDisabled]="instanceObject.disable"
           [bfMinVal]="instanceObject.minValue"
           [bfMaxVal]="instanceObject.maxValue"
           [bfSizeMode]="instanceObject.mode"
-          [bfDisableControls]="instanceObject.disable"
           [bfOnChange]="instanceObject.onChange"></bf-quantity-input>
         <br>
         <div class="code-box pad15">
