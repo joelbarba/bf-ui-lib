@@ -89,6 +89,8 @@ export class BfDropdownDemoComponent implements OnInit {
     hasRender: false,  renderExp: `$$$ $item.id + ' - ' + $item.username`,
     hasLabel: false,   labelText: 'view.common.field_name',
     hasTooltip: false, tooltipText: 'view.tooltip.message', tooltipPos: 'top', tooltipBody: true,
+    hasEmptyLabel: false, customEmptyLabel: 'view.common.all',
+    hasEmptyValue: false, customEmptyValue: 'everything',
     hasFullWidth: true,
   };
   public customExLinked = true;  // To link / unlink component
@@ -180,6 +182,8 @@ export const BfDropdownDoc = {
 [bfRequired]         : Whether the value is required. If not, and "Empty" option will be added a the top of the list
 [bfDisabled]         : Whether the selector is disabled or not
 [bfDisabledTip]      : Text with the tooltip to display on hover when the input is disabled
+[bfEmptyLabel]       : By default the empty option shows the "view.common.empty" label. In case you need to display a different label, add it here.
+[bfEmptyValue]       : By default the empty option sets "null" value to the ngModel. If you need a different value being set in this case, add it here.
 [bfErrorOnUntouched] : If true, errors will be shown in pristine state too (by default pristine shows always as valid).
 `,
   instance: `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`,

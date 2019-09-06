@@ -166,24 +166,32 @@ import {AbstractTranslateService} from '../abstract-translate.service';
   ]
 })
 export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
-  @Input() bfList: Array<any>;
-  @Input() bfRender = '';
-  @Input() bfSelect = '';
-  @Input() bfRequired: unknown = false;
-  @Input() bfDisabled: unknown = false;
-  @Input() bfLabel = '';
+  @Input() bfList: Array<any>;    // List of options (array of objects)
+  @Input() bfRender = '';         // How to display every option on the expanded list
+  @Input() bfSelect = '';         // What fields need to be selected on the model (from the list object)
+  @Input() bfRequired: unknown = false; // Whether the model is required (can't be empty)
+  @Input() bfDisabled: unknown = false; // Whether the dropdown is disabled
+  @Input() bfDisabledTip = '';    // If dropdown disabled, tooltip to display on hover (label)
 
-  @Input() bfTooltip = '';
+  @Input() bfLabel = '';          // Label to display above the dropdown
+  @Input() bfTooltip = '';        // Add a badge next to the label with the tooltip to give more info
   @Input() bfTooltipPos = 'top';  // If tooltip on the label, specific position (top by default)
-  @Input() bfTooltipBody = true;
+  @Input() bfTooltipBody = true;  // If tooltip on the label, whether it is appened on the body
 
-  @Input() bfDisabledTip = '';    // Label for the text of the tooltip to display when the input is disabled
+  @Input() bfEmptyLabel = 'view.common.empty';   // Label for the text of the emptyItem (when not required)
+  @Input() bfEmptyValue: any = null;  // By default the empty option sets a "null" value to the ngModel.
+                                      // You can add a custom value here to be set when the empty option is selected
 
   @Input() bfErrorOnUntouched = false; // If true, errors will be shown in initial state too (by default untouched shows as valid always)
+
+
+  // --------------
+
 
   private ngControl;  // Reference to the external formControl
 
   public bfModel; // <--- internal ngModel
+  public isModelEmpty = false;  // Whether the bfModel is holding the empty option
   public selModelText = '';  // Text representation of the selected Model (to display in the input / placeholder)
   public inputText = '';     // Text on the input (ngModel)
   public extList; // Make a copy from bfList to make sure we never modify the input array
@@ -234,7 +242,10 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
       this.toggleEmptyOption();
     }
 
-
+    if (changes.hasOwnProperty('bfEmptyLabel')) {
+      this.emptyItem.$label = this.bfEmptyLabel;
+      this.translateExtList();
+    }
 
     // Generate new observables for the dynamic text
     if (changes.hasOwnProperty('bfLabel'))        { this.bfLabelTrans$ = this.translate.getLabel$(this.bfLabel); }
@@ -302,7 +313,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     }
 
     // Check validity when Empty option is selected
-    if (this.bfModel === null || this.bfModel === undefined || this.bfModel === this.emptyItem) {
+    if (this.isModelEmpty) {
       if (!this.bfRequired && this.isInvalid) { this.setValidity(true); }  // It was invalid because if was required. Now it's valid
       if (this.bfRequired && !this.isInvalid) { this.setValidity(false); } // It was valid because if was not required. Now it's invalid
     }
@@ -314,8 +325,11 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
       this.extList.forEach(item => item.$renderedText = this.translate.doTranslate(item.$label));
     }
 
+    // Update empty translation (in case it was not on the list)
+    this.emptyItem.$renderedText = this.translate.doTranslate(this.emptyItem.$label);
+
     // Update also the text display on the input (selected option)
-    if (!this.isInvalid) {
+    if (!this.isInvalid || this.isModelEmpty) {
       this.selModelText = this.bfModel ? this.bfModel.$renderedText : '';
       if (!this.isExpanded) { this.inputText = this.selModelText; }
     }
@@ -355,7 +369,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     this.ngControl = extFormCtrl; // Save the reference to the external form Control
 
     if (this.isInvalid) {
-      if (this.bfModel === null || this.bfModel === undefined || this.bfModel === this.emptyItem) {
+      if (this.isModelEmpty) {
         return { required: true };  // No value on required
       } else {
         if (this.extList.indexOf(this.bfModel) === -1) {
@@ -473,10 +487,13 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
     if (!!value && this.extList.indexOf(matchItem) === -1) {
       // If value could not be matched
-      this.setValidity(false); // invalid
-      this.selModelText = value;
-      this.inputText = this.selModelText;
       this.bfModel = value;
+      this.isModelEmpty = false;
+      this.setValidity(false); // invalid
+
+      // Show invalid value (if string)
+      this.selModelText = (typeof value === 'string') ? value : '';
+      this.inputText = this.selModelText;
 
     } else {
       this.setValidity(true);
@@ -488,8 +505,16 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   // Select an item from extList to bfModel, and propagate ngModel up
   public selectItem = (selObj) => {
     // console.log('selectItem');
-    this.bfModel = (selObj !== null && selObj !== undefined) ? selObj : this.emptyItem;
-    this.setValidity(!this.bfRequired || this.bfModel !== this.emptyItem);
+
+    if (selObj !== this.emptyItem && selObj !== null && selObj !== undefined) {
+      this.bfModel = selObj;
+      this.isModelEmpty = false;
+    } else {
+      this.bfModel = this.emptyItem;
+      this.isModelEmpty = true;
+    }
+
+    this.setValidity(!(this.bfRequired && this.isModelEmpty));
 
     this.selModelText = this.bfModel ? this.bfModel.$renderedText : '';
     this.inputText = this.selModelText;
@@ -497,8 +522,8 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
     let modelUp;  // Object to propagate up (to the formControl of the bf-dropdown)
 
-    if (!selObj || selObj.$index === 0) {
-      modelUp = null; // If empty value selected, return always null
+    if (this.isModelEmpty) {
+      modelUp = this.bfEmptyValue; // If empty value selected, return null (or the empty value)
 
     } else {
       if (!this.bfSelect) {

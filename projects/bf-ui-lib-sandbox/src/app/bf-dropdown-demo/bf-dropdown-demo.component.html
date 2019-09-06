@@ -22,6 +22,9 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
                      [bfSelect]="(compConf.hasSelect && !!compConf.selectField) ? compConf.selectField : null"
                      [bfRender]="(compConf.hasRender ? compConf.renderExp : null)"
 
+                     [bfEmptyLabel]="compConf.hasEmptyLabel ? compConf.customEmptyLabel : 'view.common.empty'"
+                     [bfEmptyValue]="compConf.hasEmptyValue ? compConf.customEmptyValue : null"
+
                      [bfRequired]="compConf.isRequired"
                      [bfDisabled]="compConf.isDisabled"
                      [bfDisabledTip]="compConf.disabledTip"
@@ -94,10 +97,31 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
       </div>
 
       <div class="row marT15">
+        <div class="col-2 padT5">
+          <bf-checkbox [(ngModel)]="compConf.hasEmptyLabel" (ngModelChange)="upComp()" bfLabel="bfEmptyLabel"></bf-checkbox>
+        </div>
+        <div class="col-4">
+          <bf-input class="flat" [hidden]="!compConf.hasEmptyLabel"
+                    [(ngModel)]="compConf.customEmptyLabel" (ngModelChange)="upComp()">
+          </bf-input>
+        </div>
+
+        <div class="col-2">
+          <bf-checkbox [(ngModel)]="compConf.hasEmptyValue" (ngModelChange)="upComp()" bfLabel="bfEmptyValue"></bf-checkbox>
+        </div>
+        <div class="col-4">
+          <bf-input class="flat" [hidden]="!compConf.hasEmptyValue"
+                    [(ngModel)]="compConf.customEmptyValue" (ngModelChange)="upComp()">
+          </bf-input>
+        </div>
+
+      </div>
+
+      <div class="row marT15">
         <div class="col-6 padT5">
           <bf-checkbox [(ngModel)]="compConf.hasFullWidth" (ngModelChange)="upComp()" bfLabel="Full Width"></bf-checkbox>
        </div>
-        <div class="col-6 text-right">
+        <div class="col-6 text-right padT30">
           <bf-btn bfText="Select Item 13" (bfClick)="mockAutoSelect()"></bf-btn>
           <bf-btn bfText="Reset Model" (bfClick)="selObj10=null"></bf-btn>
         </div>
