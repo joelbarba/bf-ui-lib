@@ -12,6 +12,7 @@ export class TranslateService extends AbstractTranslateService {
     'view.common.name'         : 'Name',
     'view.common.email'        : 'Email',
     'view.common.username'     : 'User Name',
+    'view.common.field_name'   : 'Dragon of the year',
     'view.common.placeholder'  : 'Placeholder',
     'view.tooltip.message'     : 'This is a very useful tooltip message',
     'view.tooltip.message2'    : 'This is a very useful tooltip message in a popover with two lines',
@@ -32,7 +33,9 @@ export class TranslateService extends AbstractTranslateService {
     'view.common.username'  : `Nom d'usuari`,
     'view.common.yes'       : 'Sí',
     'view.common.no'        : 'No',
-    'view.common.empty'     : 'Buit'
+    'view.common.empty'     : 'Buit',
+    'view.tooltip.message'  : 'Aquest és un missatge flotant molt útil',
+    'view.common.field_name': `Drac de l'any`,
   };
 
   public transDict$ = new BehaviorSubject(this.transDict);

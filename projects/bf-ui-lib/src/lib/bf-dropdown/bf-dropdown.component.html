@@ -7,7 +7,7 @@
 
   <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
     <span class="info-badge" *ngIf="!!bfTooltip"
-         [ngbPopover]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
+         [ngbTooltip]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
          [container]="(bfTooltipBody ? 'body' : '')">
       <span class="icon-info"></span>
     </span>
@@ -16,7 +16,9 @@
   </label>
 
   <div class="bf-dropdown" [class.is-expanded]="isExpanded">
-    <div class="input-group">
+    <div class="input-group"
+         [disableTooltip]="!bfDisabled || !bfDisabledTip"
+         [ngbTooltip]="bfDisabledTipTrans$ | async">
 
       <input type="text" class="form-control" #dropdownInput
              [ngModel]="inputText" (ngModelChange)="filterList($event)"
@@ -42,21 +44,5 @@
       </div>
     </div>
   </div>
-
-
-  <!--extList:-->
-  <!--<div *ngFor="let item of extList">-->
-  <!--  {{item.$index}} - {{item.$renderedText}}-->
-  <!--</div>-->
-
-  <!--bfModel={{bfModel | json}}-->
-  <!--<br>-->
-  <!--, isInvalid={{isInvalid}}-->
-  <!--, bfDisabled={{bfDisabled}}-->
-
-  <!--TRANS = {{ rdTxt$ | async }}-->
-
-  <!--<input type="text" [(ngModel)]="myVal">-->
-  <!--VAL = {{ myVal | bfTranslate }}-->
 
 </div>

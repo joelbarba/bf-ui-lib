@@ -17,19 +17,23 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
 
       <div *ngIf="customExLinked">
         <bf-dropdown [class.full-width]="compConf.hasFullWidth"
-                     name="dasda"
                      [(ngModel)]="selObj10"
                      [bfList]="myList"
+                     [bfSelect]="(compConf.hasSelect && !!compConf.selectField) ? compConf.selectField : null"
+                     [bfRender]="(compConf.hasRender ? compConf.renderExp : null)"
+
                      [bfRequired]="compConf.isRequired"
                      [bfDisabled]="compConf.isDisabled"
+                     [bfDisabledTip]="compConf.disabledTip"
                      [bfErrorOnUntouched]="compConf.isErrorOnPristine"
                      [bfLabel]="(compConf.hasLabel ? compConf.labelText : '')"
-                     [bfSelect]="(compConf.hasSelect && !!compConf.selectField) ? compConf.selectField : null"
-                     [bfRender]="(compConf.hasRender ? compConf.renderExp : '')">
+                     [bfTooltip]="(compConf.hasTooltip ? compConf.tooltipText : null)"
+                     [bfTooltipPos]="(compConf.tooltipPos || 'top')"
+                     [bfTooltipBody]="compConf.tooltipBody"
+        >
         </bf-dropdown>
       </div>
       <pre class="padT10">Selection = {{selObj10 | json}}</pre>
-      <bf-btn bfText="Reset Model" (bfClick)="selObj10=null"></bf-btn>
       <div>
         <div class="code-box pad15">
           <pre>{{customDropdownCode}}</pre>
@@ -40,20 +44,39 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
     <div class="col-7">
 
       <div class="row marT15">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>
-      </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isErrorOnPristine" (ngModelChange)="upComp()" bfLabel="bfErrorOnUntouched"></bf-checkbox> </div>
 
-      <div class="row marT15">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>
-      </div>
-
-      <div class="row marT15">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.isErrorOnPristine" (ngModelChange)="upComp()" bfLabel="bfErrorOnUntouched"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>
+        <div class="col-6 offset-6" *ngIf="compConf.isDisabled">
+          <bf-input class="flat" [(ngModel)]="compConf.disabledTip" bfPlaceholder="This button is disabled because..." (ngModelChange)="upComp()"></bf-input>
+        </div>
       </div>
 
       <div class="row marT15">
         <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasLabel" (ngModelChange)="upComp()" bfLabel="Has Label"></bf-checkbox> </div>
         <div class="col-10" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasLabel"></bf-input> </div>
+
+        <div class="col-2"  *ngIf="compConf.hasLabel"></div>
+        <div class="col-10" *ngIf="compConf.hasLabel">
+          <div class="row">
+            <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip"  (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox> </div>
+            <div class="col-9" *ngIf="compConf.hasTooltip">
+              <bf-input [(ngModel)]="compConf.tooltipText" (ngModelChange)="upComp()"></bf-input>
+            </div>
+            <div class="col-3" *ngIf="compConf.hasTooltip">
+              <bf-checkbox [(ngModel)]="compConf.tooltipBody" bfLabel="bfTooltipBody" (ngModelChange)="upComp()"></bf-checkbox>
+            </div>
+            <div class="col-9" *ngIf="compConf.hasTooltip">
+              <bf-label class="marR20" bfText="bfTooltipPos"></bf-label>
+              <bf-radio class="marR15" [(ngModel)]="compConf.tooltipPos" bfLabel="top"     bfValue="top"    bfRadioGroup="tooltipPos" (ngModelChange)="upComp()"></bf-radio>
+              <bf-radio class="marR15" [(ngModel)]="compConf.tooltipPos" bfLabel="left"    bfValue="left"   bfRadioGroup="tooltipPos" (ngModelChange)="upComp()"></bf-radio>
+              <bf-radio class="marR15" [(ngModel)]="compConf.tooltipPos" bfLabel="right"   bfValue="right"  bfRadioGroup="tooltipPos" (ngModelChange)="upComp()"></bf-radio>
+              <bf-radio class="marR15" [(ngModel)]="compConf.tooltipPos" bfLabel="bottom"  bfValue="bottom" bfRadioGroup="tooltipPos" (ngModelChange)="upComp()"></bf-radio>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <div class="row">
@@ -75,7 +98,8 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
           <bf-checkbox [(ngModel)]="compConf.hasFullWidth" (ngModelChange)="upComp()" bfLabel="Full Width"></bf-checkbox>
        </div>
         <div class="col-6 text-right">
-          <bf-btn bfText="Auto Select Item" (bfClick)="mockAutoSelect()"></bf-btn>
+          <bf-btn bfText="Select Item 13" (bfClick)="mockAutoSelect()"></bf-btn>
+          <bf-btn bfText="Reset Model" (bfClick)="selObj10=null"></bf-btn>
         </div>
       </div>
 

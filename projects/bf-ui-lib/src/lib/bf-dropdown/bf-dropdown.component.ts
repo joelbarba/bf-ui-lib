@@ -46,6 +46,14 @@ import {AbstractTranslateService} from '../abstract-translate.service';
  * |        |                     | Params                                                                             |
  * |        |                     | - $item                                                                            |
  * |--------|---------------------|------------------------------------------------------------------------------------|
+ * | @      | customEmptyText     | Replace the default text of the empty option                                       |
+ * |--------|---------------------|------------------------------------------------------------------------------------|
+ * | @      | customEmptyVal      | Replace the default empty value (ONLY STRING ALLOWED IN THIS VERSION)              |
+ *
+ *
+ *
+
+ * |--------|---------------------|------------------------------------------------------------------------------------|
  * | @      | bfOrderBy           | The field to order the list                                                        |
  * |--------|----------------------------------------------------------------------------------------------------------|
 
@@ -60,10 +68,7 @@ import {AbstractTranslateService} from '../abstract-translate.service';
  * |--------|---------------------|------------------------------------------------------------------------------------|
  * | @      | customIcon          | Replace the default lens icon with a custom one, specify the classes               |
  * |        |                     | (FOR CUSTOM BUTTON)                                                                |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | @      | customEmptyText     | Replace the default text of the empty option                                       |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | @      | customEmptyVal      | Replace the default empty value (ONLY STRING ALLOWED IN THIS VERSION)              |
+
  * |--------|---------------------|------------------------------------------------------------------------------------|
  * | @      | customPlacementList | The current dropdown list is displaying the list according to the screen size      |
  * |        |                     | This parameter will display the dropdown list just to one side                     |
@@ -164,13 +169,14 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfList: Array<any>;
   @Input() bfRender = '';
   @Input() bfSelect = '';
-  @Input() bfRequired: boolean | string = false;
-  @Input() bfDisabled: boolean | string = false;
+  @Input() bfRequired: unknown = false;
+  @Input() bfDisabled: unknown = false;
   @Input() bfLabel = '';
 
   @Input() bfTooltip = '';
   @Input() bfTooltipPos = 'top';  // If tooltip on the label, specific position (top by default)
   @Input() bfTooltipBody = true;
+
   @Input() bfDisabledTip = '';    // Label for the text of the tooltip to display when the input is disabled
 
   @Input() bfErrorOnUntouched = false; // If true, errors will be shown in initial state too (by default untouched shows as valid always)
@@ -197,6 +203,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   public bfLabelTrans$: Observable<string> = of('');         // Translated text for the label
   public bfTooltipTrans$: Observable<string> = of('');       // Translated text for the tooltip of the label
+  public bfDisabledTipTrans$: Observable<string> = of('');   // Translated text for the disabled tooltip
   public langSubscription;  // Subscription to language changes
 
   @ViewChild('dropdownInput') elInput: ElementRef<HTMLInputElement>;
@@ -232,8 +239,8 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     // Generate new observables for the dynamic text
     if (changes.hasOwnProperty('bfLabel'))        { this.bfLabelTrans$ = this.translate.getLabel$(this.bfLabel); }
     if (changes.hasOwnProperty('bfTooltip'))      { this.bfTooltipTrans$ = this.translate.getLabel$(this.bfTooltip); }
+    if (changes.hasOwnProperty('bfDisabledTip'))  { this.bfDisabledTipTrans$ = this.translate.getLabel$(this.bfDisabledTip); }
     // if (changes.hasOwnProperty('bfPlaceholder'))  { this.bfPlaceholderTrans$ = this.translate.getLabel$(this.bfPlaceholder); }
-    // if (changes.hasOwnProperty('bfDisabledTip'))  { this.bfDisabledTipTrans$ = this.translate.getLabel$(this.bfDisabledTip); }
 
   }
 
@@ -252,7 +259,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     this.extList = BfArray.dCopy.call(this.bfList || []); // Make a copy
 
     // If bfRender starts with $$$, it's an eval() expression. If not, a single field
-    const renderExpr = (this.bfRender.slice(0, 3) === '$$$') ? this.bfRender.slice(4) : false;
+    const renderExpr = (this.bfRender && this.bfRender.slice(0, 3) === '$$$') ? this.bfRender.slice(4) : false;
 
     this.extList.forEach(($item, ind) => {
       let itemLabel = '';

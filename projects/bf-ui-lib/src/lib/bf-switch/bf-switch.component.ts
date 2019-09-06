@@ -12,17 +12,17 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
     },
   ]
 })
-export class BfSwitchComponent implements ControlValueAccessor {
+export class BfSwitchComponent implements ControlValueAccessor, OnInit {
 
   // @Output() bfClick = new EventEmitter<any>();
-  @Input() bfDisabled: boolean = false;
-  @Input() bfOnText: string = 'ON';
-  @Input() bfOffText: string = 'OFF';
+  @Input() bfDisabled = false;
+  @Input() bfOnText = 'ON';
+  @Input() bfOffText = 'OFF';
 
   @Input() bfLabel: string;
   @Input() bfLabelPos: 'top' | 'left' = 'top';
   @Input() bfTooltip: string;
-  @Input() bfTooltipPos: string = 'top';
+  @Input() bfTooltipPos = 'top';
   @Input() bfTooltipBody: boolean;
 
   public bfModel = false; // Internal holding of the ngModel
@@ -37,15 +37,14 @@ export class BfSwitchComponent implements ControlValueAccessor {
       this.bfModel = !!value;
     }
   }
-  public propagateModelUp = (_:boolean) => {}; // This is just to avoid type error (it's overwritten on register)
+  public propagateModelUp = (_: boolean) => {}; // This is just to avoid type error (it's overwritten on register)
   registerOnChange(fn) { this.propagateModelUp = fn; }
   registerOnTouched(fn) { }
 
   // ----------------
 
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   public onSwitch = () => {
     if (!this.bfDisabled) {

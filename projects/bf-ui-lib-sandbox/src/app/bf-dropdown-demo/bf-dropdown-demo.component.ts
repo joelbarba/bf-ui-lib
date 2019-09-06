@@ -81,21 +81,20 @@ export class BfDropdownDemoComponent implements OnInit {
   public customDropdownCode = `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`;
   public res = ``;
   public selObj10;
-  public compConf:any = {
+  public compConf = {
     isRequired: false,
-    isDisabled: false,
+    isDisabled: false, disabledTip: 'view.tooltip.message',
     isErrorOnPristine: false,
     hasSelect: false,  selectField: 'username',
     hasRender: false,  renderExp: `$$$ $item.id + ' - ' + $item.username`,
-    hasLabel: false,   labelText: 'Dragon of the year',
+    hasLabel: false,   labelText: 'view.common.field_name',
+    hasTooltip: false, tooltipText: 'view.tooltip.message', tooltipPos: 'top', tooltipBody: true,
     hasFullWidth: true,
   };
   public customExLinked = true;  // To link / unlink component
   public compSelFields = [{id: 'id'},{id: 'username'},{id: 'email'},{id: 'first_name'},{id: 'last_name'}];
   public upComp = () => {
     this.customDropdownCode = `<bf-dropdown `;
-
-
     let compClasses = '';
     if (this.compConf.hasFullWidth) { compClasses = 'full-width'; }
     // if (this.compConf.hasSquash) {
@@ -129,10 +128,26 @@ export class BfDropdownDemoComponent implements OnInit {
       this.customExLinked = false;
       setTimeout(() => { this.customExLinked = true; });
     }
+
+    if (this.compConf.hasTooltip) {
+      this.customDropdownCode += this.bsStr + `bfTooltip="${this.compConf.tooltipText}"`;
+      if (!!this.compConf.tooltipPos) {
+        this.customDropdownCode += this.bsStr + `bfTooltipPos="${this.compConf.tooltipPos}"`;
+      }
+      if (!!this.compConf.tooltipBody) {
+        this.customDropdownCode += this.bsStr + `bfTooltipBody="${this.compConf.tooltipBody}"`;
+      }
+    }
+
+    if (this.compConf.isDisabled) { this.customDropdownCode += this.bsStr + `[bfDisabled]="true"`; }
+    if (!!this.compConf.disabledTip) { this.customDropdownCode += this.bsStr + `bfDisabledTip="${this.compConf.disabledTip}"`; }
+
+
+
     this.customDropdownCode += (`>` + this.brStr + `</bf-dropdown>`);
   };
   public mockAutoSelect = () => {
-    this.selObj10 = {...this.myList.getById('13')};
+    this.selObj10 = {...this.myList.getById(13)};
   };
 
   public isViewOn = true;
@@ -155,15 +170,16 @@ export const BfDropdownDoc = {
   name    : `bf-dropdown`,
   uiType  : 'component',
   desc    : `Generates a dropdown selector list.`,
-  api     : `*[(ngModel)]     : The ngModel directive is linked to the inner <select>, so that can be used as a form element with ngForm (status is propagated).  
-*[bfList]        : Array of objects with the list to be displayed in the dropdown
-[bfSelect]       : The name of the property to be selected from the object of the list. If empty, all object selected. If multiple props add a keyMap list ('prop1, prop2, ...')
-[bfRender]       : Field to display on the list (property from bfList items).
-                   If empty, a row with all properties will be displayed.
-                   It can also be an eval() expression. Start with a '$$$' and use $item reference for eval. Example: bfRender="$$$ $item.first_name + ' ' + $item.last_name"    
-[bfLabel]        : If provided, a <bf-label> is added above the selector with the given text
-[bfRequired]     : Whether the value is required. If not, and "Empty" option will be added a the top of the list
-[bfDisabled]     : Whether the selector is disabled or not
+  api     : `*[(ngModel)]         : The ngModel directive is linked to the inner <select>, so that can be used as a form element with ngForm (status is propagated).  
+*[bfList]            : Array of objects with the list to be displayed in the dropdown
+[bfSelect]           : The name of the property to be selected from the object of the list. If empty, all object selected. If multiple props add a keyMap list ('prop1, prop2, ...')
+[bfRender]           : Field to display on the list (property from bfList items).
+                         If empty, a row with all properties will be displayed.
+                         It can also be an eval() expression. Start with a '$$$' and use $item reference for eval. Example: bfRender="$$$ $item.first_name + ' ' + $item.last_name"    
+[bfLabel]            : If provided, a <bf-label> is added above the selector with the given text
+[bfRequired]         : Whether the value is required. If not, and "Empty" option will be added a the top of the list
+[bfDisabled]         : Whether the selector is disabled or not
+[bfDisabledTip]      : Text with the tooltip to display on hover when the input is disabled
 [bfErrorOnUntouched] : If true, errors will be shown in pristine state too (by default pristine shows always as valid).
 `,
   instance: `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`,
