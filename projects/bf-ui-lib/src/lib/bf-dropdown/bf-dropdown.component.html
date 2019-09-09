@@ -3,7 +3,7 @@
      [class.is-required]="bfRequired"
      [class.is-disabled]="bfDisabled"
      [class.is-focus]="isFocus || isExpanded"
-     [class.is-error]="isInvalid && (isTouched || bfErrorOnUntouched)">
+     [class.is-error]="isInvalid && (!ngControl.pristine || bfErrorOnPristine)">
 
   <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
     <span class="info-badge" *ngIf="!!bfTooltip"
@@ -44,5 +44,7 @@
       </div>
     </div>
   </div>
+
+  <!--pristine={{ngControl.pristine | json}}-->
 
 </div>

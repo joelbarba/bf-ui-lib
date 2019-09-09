@@ -10,7 +10,7 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
 
 
 <!--Button Customization-->
-<div *ngIf="true" class="whiteBg">
+<div *ngIf="isViewOn" class="whiteBg">
   <div class="row">
     <div class="col-5 marB15">
       <h5 class="marB25">Dropdown Customization:</h5>
@@ -27,12 +27,12 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
 
                      [bfRequired]="compConf.isRequired"
                      [bfDisabled]="compConf.isDisabled"
-                     [bfDisabledTip]="compConf.disabledTip"
-                     [bfErrorOnUntouched]="compConf.isErrorOnPristine"
+                     [bfDisabledTip]="compConf.isDisabled ? compConf.disabledTip: null"
+                     [bfErrorOnPristine]="compConf.isErrorOnPristine"
                      [bfLabel]="(compConf.hasLabel ? compConf.labelText : '')"
-                     [bfTooltip]="(compConf.hasTooltip ? compConf.tooltipText : null)"
-                     [bfTooltipPos]="(compConf.tooltipPos || 'top')"
-                     [bfTooltipBody]="compConf.tooltipBody"
+                     [bfTooltip]="(compConf.hasLabel && compConf.hasTooltip ? compConf.tooltipText : null)"
+                     [bfTooltipPos]="(compConf.hasLabel && compConf.tooltipPos || 'top')"
+                     [bfTooltipBody]="compConf.hasLabel && compConf.tooltipBody"
         >
         </bf-dropdown>
       </div>
@@ -48,11 +48,11 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
 
       <div class="row marT15">
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isErrorOnPristine" (ngModelChange)="upComp()" bfLabel="bfErrorOnUntouched"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isErrorOnPristine" (ngModelChange)="upComp()" bfLabel="bfErrorOnPristine"></bf-checkbox> </div>
 
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>
         <div class="col-6 offset-6" *ngIf="compConf.isDisabled">
-          <bf-input class="flat" [(ngModel)]="compConf.disabledTip" bfPlaceholder="This button is disabled because..." (ngModelChange)="upComp()"></bf-input>
+          <bf-input class="flat" [(ngModel)]="compConf.disabledTip" bfPlaceholder="This is disabled because..." (ngModelChange)="upComp()"></bf-input>
         </div>
       </div>
 
@@ -118,12 +118,13 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
       </div>
 
       <div class="row marT15">
-        <div class="col-6 padT5">
+        <div class="col-3 padT5">
           <bf-checkbox [(ngModel)]="compConf.hasFullWidth" (ngModelChange)="upComp()" bfLabel="Full Width"></bf-checkbox>
        </div>
-        <div class="col-6 text-right padT30">
+        <div class="col-9 text-right padT30">
           <bf-btn bfText="Select Item 13" (bfClick)="mockAutoSelect()"></bf-btn>
           <bf-btn bfText="Reset Model" (bfClick)="selObj10=null"></bf-btn>
+          <bf-btn bfText="Rebuild" (bfClick)="rebuildView()"></bf-btn>
         </div>
       </div>
 
@@ -137,6 +138,9 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
 <!--</div>-->
 
 <hr>
+
+
+<!--Single and Full Selection Examples-->
 <div class="row whiteBg">
   <div class="col-8 marB20">
     <h5>Single and Full Selection Examples</h5>
@@ -153,7 +157,7 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
                  [bfList]="myList2"
                  [bfRequired]="compConf.isRequired"
                  [bfDisabled]="compConf.isDisabled"
-                 [bfErrorOnUntouched]="compConf.isErrorOnPristine"
+                 [bfErrorOnPristine]="compConf.isErrorOnPristine"
                  bfSelect="username"
                  bfLabel="Single Field Selection"
                  bfRender="username">
@@ -175,7 +179,7 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
                  [bfList]="myList"
                  [bfRequired]="compConf.isRequired"
                  [bfDisabled]="compConf.isDisabled"
-                 [bfErrorOnUntouched]="compConf.isErrorOnPristine"
+                 [bfErrorOnPristine]="compConf.isErrorOnPristine"
                  bfLabel="Full Object Selection">
     </bf-dropdown>
     Selected Model = {{selObj6 | json}}
@@ -200,10 +204,55 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
 
 
 
+
+
+<!--External control-->
+<div *ngIf="isViewOn" class="whiteBg">
+  <div class="row">
+    <div class="col-12 marB5">
+      <h5 class="marB25">External Control Example (extCtrl$):</h5>
+      <p>It is possible to control some options of the dropdown externally.<br>
+        To do so, you can pass an observable in "extCtrl$". The component will subscribe and listen to it, so actions
+        can be triggered from outside. You can use a Subject if you need to trigger them manually. The .next() should send an object with an "action" and "value". The available actions are:<br?
+      </p>
+    </div>
+
+    <div class="col-5 marB15">
+      <code>
+        <ul><li *ngFor="let ctrlAction of ctrlActions">{{ctrlAction}}</li></ul>
+      </code>
+      <div>
+        <bf-dropdown class="full-width" bfLabel="Example Dropdown"
+                     [(ngModel)]="selObj10"
+                     [bfList]="myList"
+                     [extCtrl$]="extCtrl$">
+        </bf-dropdown>
+      </div>
+    </div>
+
+    <div class="col-7">
+      <bf-btn bfText="Expand"   (bfClick)="extCtrl$.next({ action: 'expand' })"></bf-btn>
+      <bf-btn bfText="Collapse" (bfClick)="extCtrl$.next({ action: 'collapse' })"></bf-btn>
+      <bf-btn bfText="Toggle"   (bfClick)="extCtrl$.next({ action: 'toggle' })"></bf-btn>
+      <bf-btn bfText="Type"     (bfClick)="extCtrl$.next({ action: 'type', value: 'ax' })"></bf-btn>
+      <!--<bf-input style="margin-left: 15px; display: inline-block" [ngModel]="res"-->
+      <!--          (ngModelChange)="extCtrl$.next({ action: 'type', value: $event })">-->
+      <!--</bf-input>-->
+      <div class="marT10">
+        <div class="code-box pad15">
+          <pre>{{extCtrlExample}}</pre>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
 <hr>
 
 
-<h5 class="mt-4">Examples:</h5>
+<h5 class="mt-4">Simple Examples:</h5>
 <div *ngIf="true" class="col-12 examples-table">
 
   <div class="row">
