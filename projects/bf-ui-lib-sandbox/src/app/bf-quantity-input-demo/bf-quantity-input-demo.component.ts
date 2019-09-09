@@ -17,7 +17,7 @@ export class BfQuantityInputDemoComponent implements OnInit {
       hasMinValue: false,
       hasMaxValue: false,
       hasMode: false,
-      modeOptions: ['small', 'large', 'input-fit', 'button-fit'],
+      modeOptions: [{ text: 'small' }, { text: 'large' }, { text: 'input-fit' }, { text: 'button-fit' }],
       hasOnChangeFunction: false,
       onChangeFunctionExample: `onChange: (item) => {
  const value = this.custom.object.quantityOnChange;

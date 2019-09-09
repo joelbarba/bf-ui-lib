@@ -57,13 +57,16 @@
         </div>
 
         <div class="row marT15">
-          <div class="col-4 padT5"> <bf-checkbox [(ngModel)]="custom  .config.hasMode" (ngModelChange)="custom.buildComponentView()" bfLabel="Has specific mode"></bf-checkbox> </div>
+          <div class="col-4 padT5">
+            <bf-checkbox [(ngModel)]="custom.config.hasMode" (ngModelChange)="custom.buildComponentView()" bfLabel="Has specific mode"></bf-checkbox>
+          </div>
           <div class="col-8" style="margin-bottom: -5px;">
             <bf-dropdown [(ngModel)]="custom.object.mode"
                          (ngModelChange)="custom.buildComponentView()"
                          [bfList]="custom.config.modeOptions"
                          [bfDisabled]="!custom.config.hasMode"
-                         bfRender="text"> </bf-dropdown>
+                         bfSelect="text"
+                         bfRender="$$$ $item.text"> </bf-dropdown>
           </div>
         </div>
 
