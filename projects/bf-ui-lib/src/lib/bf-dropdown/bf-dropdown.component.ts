@@ -189,7 +189,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   // --------------
 
 
-  private ngControl;  // Reference to the external formControl
+  public ngControl;  // Reference to the external formControl
 
   public bfModel; // <--- internal ngModel
   public isModelEmpty = false;  // Whether the bfModel is holding the empty option
