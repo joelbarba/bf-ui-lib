@@ -42,7 +42,7 @@ export class BfQuantityInputDemoComponent implements OnInit {
       const obj = this.custom.object;
       const config = this.custom.config;
       this.custom.componentView = `<bf-quantity-input
-      [(ngModel)]="${obj.value}"
+      [(ngModel)]="value"
       [name]="${obj.name}"
       [bfDisabled]="${obj.disable}"` +
       (config.hasMinValue ? `
