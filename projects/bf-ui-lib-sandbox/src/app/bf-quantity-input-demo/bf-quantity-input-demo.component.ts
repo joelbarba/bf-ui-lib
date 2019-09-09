@@ -30,7 +30,7 @@ export class BfQuantityInputDemoComponent implements OnInit {
       disable: false,
       minValue: null,
       maxValue: null,
-      mode: 'input-fit',
+      mode: null,
       quantityOnChange: null,
       onChange: (item) => {
         this.custom.object.quantityOnChange = item.quantity;
