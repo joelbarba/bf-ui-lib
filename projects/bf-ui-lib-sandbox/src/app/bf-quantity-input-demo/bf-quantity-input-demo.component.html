@@ -25,13 +25,7 @@
           </bf-quantity-input>
         </div>
         <div class="code-box pad15">
-          <pre> Value:              {{custom.object.value}}</pre>
-          <pre> Name:               {{custom.object.name}}</pre>
-          <pre> Disable:            {{custom.object.disable}}</pre>
-          <pre> Minimum Value:      {{custom.object.minValue}}</pre>
-          <pre> Maximum Value:      {{custom.object.maxValue}}</pre>
-          <pre> Mode:               {{custom.object.mode}}</pre>
-          <pre> Quantity on Change: {{custom.object.quantityOnChange}}</pre>
+          <pre>{{custom.componentView}}</pre>
         </div>
       </div>
 
@@ -75,6 +69,8 @@
           <div class="col-8" style="margin-bottom: -5px;" *ngIf="custom.config.hasOnChangeFunction">
             <div class="code-box pad15">
               <pre>{{custom.config.onChangeFunctionExample}}</pre>
+              <br>
+              <pre>Value: {{custom.object.quantityOnChange}}</pre>
             </div>
           </div>
         </div>

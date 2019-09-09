@@ -39,6 +39,21 @@ export class BfQuantityInputDemoComponent implements OnInit {
     componentView: `<bf-quantity-input></bf-quantity-input>`,
     buildComponentView: () => {
       this.custom.exLinked = false;
+      const obj = this.custom.object;
+      const config = this.custom.config;
+      this.custom.componentView = `<bf-quantity-input
+      [(ngModel)]="${obj.value}"
+      [name]="${obj.name}"
+      [bfDisabled]="${obj.disable}"` +
+      (config.hasMinValue ? `
+      [bfMinVal]="${obj.minValue}"` : '') +
+      (config.hasMaxValue ? `
+      [bfMaxVal]="${obj.maxValue}"` : '') +
+      (config.hasMode ? `
+      [bfMode]="${obj.mode}"` : '') +
+      (config.hasOnChangeFunction ? `
+      [bfOnChange]="${obj.onChange}"` : '') + '>' + `
+</bf-quantity-input>`;
       setTimeout(() => {
         this.custom.exLinked = true;
       }, 10);
@@ -119,8 +134,8 @@ export const BfQuantityInputDoc = {
   uiType  : 'component',
   desc    : `Set quantity using the input or the side buttons`,
   api     : `* [(ngModel)]        : Model value
-  [disabled]         : Disable input and buttons
-  [bfName]           : The input name used for control validations
+  [name]             : The input name used for control validations
+  [bfDisabled]       : Disable input and buttons
   (bfOnChange)       : Trigger when the model change
   [bfMinVal]         : Minimum value permitted
   [bfMaxVal]         : Maximum value permitted
