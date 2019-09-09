@@ -9,7 +9,6 @@ import { BfDatePickerDoc } from './bf-date-picker-demo/bf-date-picker-demo.compo
 import { BfRadioDoc } from './bf-radio-demo/bf-radio-demo.component';
 import { BfTextareaDoc } from './bf-textarea-demo/bf-textarea-demo.component';
 import { BfConfirmDoc } from './bf-confirm-demo/bf-confirm-demo.component';
-import { BfQuantityDoc }        from './bf-quantity-demo/bf-quantity-demo.component';
 import { BfSwitchDoc }          from './bf-switch-demo/bf-switch-demo.component';
 import { BfDropdownDoc }        from './bf-dropdown-demo/bf-dropdown-demo.component';
 import { BfInputDoc }           from './bf-input-demo/bf-input-demo.component';
@@ -32,7 +31,6 @@ export const compList = [
   BfCheckboxDoc,
   BfRadioDoc,
   BfDatePickerDoc,
-  BfQuantityDoc,
   BfQuantityInputDoc,
   BfListHeaderColDoc,
   BfListPlaceholderDoc,

@@ -20,7 +20,6 @@ import { TranslateService } from './translate.service';
 import { BfInputDemoComponent } from './bf-input-demo/bf-input-demo.component';
 import { BfDropdownDemoComponent } from './bf-dropdown-demo/bf-dropdown-demo.component';
 import { BfSwitchDemoComponent } from './bf-switch-demo/bf-switch-demo.component';
-import { BfQuantityDemoComponent } from './bf-quantity-demo/bf-quantity-demo.component';
 import { BfGrowlDemoComponent } from './bf-growl-demo/bf-growl-demo.component';
 import { BfConfirmDemoComponent } from './bf-confirm-demo/bf-confirm-demo.component';
 import { BfTextareaDemoComponent } from './bf-textarea-demo/bf-textarea-demo.component';
@@ -47,7 +46,6 @@ import { BfQuantityInputDemoComponent } from './bf-quantity-input-demo/bf-quanti
     BfInputDemoComponent,
     BfDropdownDemoComponent,
     BfSwitchDemoComponent,
-    BfQuantityDemoComponent,
     BfGrowlDemoComponent,
     BfConfirmDemoComponent,
     BfTextareaDemoComponent,

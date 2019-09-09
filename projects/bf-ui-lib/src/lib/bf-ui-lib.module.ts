@@ -20,13 +20,12 @@ import { BfCheckboxComponent } from './bf-checkbox/bf-checkbox.component';
 import { BfInputComponent } from './bf-input/bf-input.component';
 import { BfDropdownComponent } from './bf-dropdown/bf-dropdown.component';
 import { BfSwitchComponent } from './bf-switch/bf-switch.component';
-import { BfQuantityComponent } from './bf-quantity/bf-quantity.component';
 import { BfConfirmComponent } from './bf-confirm/bf-confirm.component';
 import { BfTextareaComponent } from './bf-textarea/bf-textarea.component';
 import { BfRadioComponent } from './bf-radio/bf-radio.component';
 import { BfDatePickerComponent } from './bf-date-picker/bf-date-picker.component';
 import { BfListPaginatorComponent } from './bf-list-paginator/bf-list-paginator.component';
-import {CommonModule} from "@angular/common";
+import { CommonModule } from '@angular/common';
 import { BfQuantityInputComponent } from './bf-quantity-input/bf-quantity-input.component';
 
 @NgModule({
@@ -39,7 +38,6 @@ import { BfQuantityInputComponent } from './bf-quantity-input/bf-quantity-input.
     BfInputComponent,
     BfDropdownComponent,
     BfSwitchComponent,
-    BfQuantityComponent,
     BfConfirmComponent,
     BfTextareaComponent,
     BfRadioComponent,
@@ -66,7 +64,6 @@ import { BfQuantityInputComponent } from './bf-quantity-input/bf-quantity-input.
     BfRadioComponent,
     BfTextareaComponent,
     BfConfirmComponent,
-    BfQuantityComponent,
     BfSwitchComponent,
     BfDropdownComponent,
     BfInputComponent,
