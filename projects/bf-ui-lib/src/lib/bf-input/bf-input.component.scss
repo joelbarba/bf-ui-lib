@@ -66,26 +66,23 @@
   &.is-error {
     .bf-input-error-text {  // Error message
       font-size: 12px;
+      position: absolute;
 
       // errorPosition:
       &.none { display: none; } // Hide error text
-      &.top-right { // Error text at top right side
-        float: right;
-        text-align: right;
-        padding-top: 2px;
+
+      &.default { // Default error position:
+        @media (min-width: 767px) { right: 5px; padding-top: 2px; } // Default > xs = Top right
+        @media (max-width: 768px) { bottom: -20px; right: 5px; }    // Default xs = Bottom right
       }
-      &.bottom-left, &.bottom-right { // Error text at the bottom
-        position: absolute;
-        bottom: -20px;
-      }
-      &.bottom-left { left: 5px; }
-      &.bottom-right { right: 5px; }
+      &.top-right { right: 5px; padding-top: 2px; }
+      &.bottom-left  { bottom: -20px; left: 5px; }
+      &.bottom-right { bottom: -20px; right: 5px; }
     }
 
     // If error text at the bottom, add extra margin
-    &.error-bottom-left, &.error-bottom-right {
-      margin-bottom: 30px;
-    }
+    &.error-bottom { margin-bottom: 30px; }
+    @media (max-width: 768px) { &.error-default { margin-bottom: 30px; } } // Small default goes to the bottom too
   }
 
 
@@ -102,11 +99,48 @@
 }
 
 
+// Horizontal layout (label to the left, input to the right)
+:host.input-col, :host[class*="input-col-"] {
+  .bf-input-form-group {
+    display: flex;
+    label {
+      flex: 1;
+      text-align: right;
+      padding-top: 5px;
+      max-height: 30px;
+    }
+    .input-wrapper {
+      display: inline-block;
+      margin-left: 15px;
+      flex: 1;
+    }
+    .bf-input-inner-icon { top: 0; }
+
+    .bf-input-error-text {  // Error message
+
+      &.default { // Default error position:
+        @media (min-width: 767px) { padding-top: 0; top: -20px; } // Default > xs = Top right
+        @media (max-width: 768px) { }  // Default xs = Bottom right
+      }
+      &.bottom-left { padding-left: calc(calc(100% / 3) + 10px); }
+      &.top-right { padding-top: 0; top: -20px; }
+    }
+
+    // Add extra margin
+    margin-top: 25px;
+    margin-bottom: 30px;
+  }
+}
+@for $ind from 1 through 10 {
+  :host.input-col-#{$ind} {
+    .bf-input-form-group .input-wrapper { flex: #{$ind}; }
+  }
+}
+
 // Styles applied to the host (wrapper instance element) <bf-input>
 :host.flat {
   .bf-input-form-group { margin-bottom: 0; }
 }
-
 
 
 // --- Color layer override -----------------------------------------------------------------------------------

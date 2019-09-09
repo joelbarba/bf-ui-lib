@@ -1,25 +1,18 @@
-<div class="form-group  bf-input-form-group   error-{{errorPosition}}"
+<div class="form-group  bf-input-form-group"
      [class.is-required]="bfRequired"
      [class.is-disabled]="bfDisabled"
-     [class.is-error]="status === 'error'"
      [class.is-pristine]="isPristine"
      [class.is-dirty]="!isPristine"
      [class.is-focus]="isFocus"
-     [class.horizontalLayoutClass]="false">
+     [class.is-error]="status === 'error'"
 
-  status={{status}}, isPristine={{isPristine}}
-  <br>
-
-  INTERNAL FormControl:
-  value={{ngInputRef.value}}
-  , valid={{ngInputRef.valid}}
-  , invalid={{ngInputRef.invalid}}
-  , errors={{ngInputRef.errors | json}}
-  <br>
+     [class.error-default]="errorPosition === 'default'"
+     [class.error-top]="errorPosition === 'bottom-right'"
+     [class.error-bottom]="errorPosition === 'bottom-left' || errorPosition === 'bottom-right'">
 
   <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
     <span class="info-badge" *ngIf="!!bfTooltip"
-         [ngbPopover]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
+         [ngbTooltip]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
          [container]="(bfTooltipBody ? 'body' : '')">
       <span class="icon-info"></span>
     </span>
@@ -27,8 +20,11 @@
     <span *ngIf="bfRequired" class="asterisk">*</span>
   </label>
 
-  errorPosition={{errorPosition}}
-  <span *ngIf="status === 'error'" class="bf-input-error-text" [ngClass]="errorPosition">
+  <span *ngIf="status === 'error'" class="bf-input-error-text"
+        [class.default]="errorPosition === 'default'"
+        [class.top-right]="errorPosition === 'top-right'"
+        [class.bottom-left]="errorPosition === 'bottom-left'"
+        [class.bottom-right]="errorPosition === 'bottom-right'">
     {{errorTextTrans$ | async}}
   </span>
 
@@ -40,8 +36,8 @@
   <div class="input-wrapper"
        [class.has-autofill-detection]="hasAutofillDetection"
        [class.input-group]="!!bfLeftBtnIcon || !!bfRightBtnIcon || !!bfLeftBtnText || !!bfRightBtnText"
-       triggers="hover" container="body" [disablePopover]="!bfDisabled || !bfDisabledTip" placement="top"
-       [ngbPopover]="bfDisabledTipTrans$ | async">
+       triggers="hover" container="body" [disableTooltip]="!bfDisabled || !bfDisabledTip" placement="top"
+       [ngbTooltip]="bfDisabledTipTrans$ | async">
 
     <div class="input-group-prepend" *ngIf="!!bfLeftBtnIcon || !!bfLeftBtnText"
          (click)="bfLeftBtnClick.emit($event)">
@@ -55,6 +51,7 @@
     <input class="form-control" name="bfInput" #ngInputRef="ngModel"
            [ngModel]="bfModel" (ngModelChange)="parseModelChange($event)"
            [disabled]="bfDisabled"
+           title=""
 
            [required]="bfRequired"
            [minlength]="bfMinlength"
