@@ -1,11 +1,50 @@
-<div *ngIf="!!bfLabel">
-  <bf-label [bfText]="bfLabel" [bfRequired]="bfRequired"></bf-label>
-</div>
-<div class="bf-dropdown" [class.is-required]="bfRequired" [class.is-disabled]="bfDisabled">
-  <select class="form-control" name="bfDropdown"
-          [ngModel]="bfModel" (ngModelChange)="selectItem($event)"
-          [disabled]="bfDisabled"
-          [required]="bfRequired">
-    <option *ngFor="let item of extList" [ngValue]="item">{{ item.$renderedText }}</option>
-  </select>
+<div class="form-group bf-dropdown-form-group"
+     (keydown)="triggerKey($event)"
+     [class.is-required]="bfRequired"
+     [class.is-disabled]="bfDisabled"
+     [class.is-focus]="isFocus || isExpanded"
+     [class.is-error]="isInvalid && (!ngControl.pristine || bfErrorOnPristine)">
+
+  <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
+    <span class="info-badge" *ngIf="!!bfTooltip"
+         [ngbTooltip]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
+         [container]="(bfTooltipBody ? 'body' : '')">
+      <span class="icon-info"></span>
+    </span>
+    <span>{{bfLabelTrans$ | async}}</span>:
+    <span *ngIf="bfRequired" class="asterisk">*</span>
+  </label>
+
+  <div class="bf-dropdown" [class.is-expanded]="isExpanded">
+    <div class="input-group"
+         [disableTooltip]="!bfDisabled || !bfDisabledTip"
+         [ngbTooltip]="bfDisabledTipTrans$ | async">
+
+      <input type="text" class="form-control" #dropdownInput
+             [ngModel]="inputText" (ngModelChange)="filterList($event)"
+             [placeholder]="selModelText"
+             [disabled]="bfDisabled"
+             (focusin)="expandList()"
+             (focusout)="collapseList()">
+
+      <div class="input-group-append" (click)="!bfDisabled && onInputBtnClick()">
+        <button class="btn btn-outline-secondary" [disabled]="bfDisabled ? 'true' : ''">
+          <span class="icon-arrow-down22"></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="list-container">
+      <div *ngFor="let item of extList" class="option-row"
+           [class.selected]="bfModel === item"
+           [hidden]="!item.$isMatch"
+           (mousedown)="selectItem(item)">
+        {{item.$renderedText}}
+<!--        {{option.$isMatch}} - {{option.$renderedText}}-->
+      </div>
+    </div>
+  </div>
+
+  <!--pristine={{ngControl.pristine | json}}-->
+
 </div>

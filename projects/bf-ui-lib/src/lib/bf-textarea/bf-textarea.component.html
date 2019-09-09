@@ -8,7 +8,7 @@
 
   <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
     <span class="info-badge" *ngIf="!!bfTooltip"
-          [ngbPopover]="bfTooltipTrans" [placement]="bfTooltipPos" triggers="hover"
+          [ngbTooltip]="bfTooltipTrans" [placement]="bfTooltipPos" triggers="hover"
           [container]="(bfTooltipBody ? 'body' : '')">
       <span class="icon-info"></span>
     </span>

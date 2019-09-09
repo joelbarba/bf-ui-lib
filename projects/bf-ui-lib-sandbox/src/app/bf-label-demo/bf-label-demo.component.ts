@@ -29,7 +29,7 @@ export class BfLabelDemoComponent implements OnInit {
 
   public bfHtmlStructure =
 `<label class="is-required">
-  <span class="info-badge" [ngbPopover]="bfTooltip" [placement]="bfTooltipPos" triggers="hover" container="body">
+  <span class="info-badge" [ngbTooltip]="bfTooltip" [placement]="bfTooltipPos" triggers="hover" container="body">
     <span class="icon-info"></span>
   </span>
   <span>{{bfTextTranslated}}</span>:

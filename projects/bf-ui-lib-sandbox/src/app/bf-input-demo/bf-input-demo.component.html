@@ -29,7 +29,7 @@
                   [bfTooltip]="(compConf.hasTooltip ? compConf.inputTooltip : null)"
                   [bfTooltipPos]="(compConf.inputTooltipPos || 'top')"
                   [bfTooltipBody]="compConf.inputTooltipBody"
-                  [bfDisabledTip]="compConf.inputDisabledTip"
+                  [bfDisabledTip]="compConf.disabledTip"
                   [bfAutoFocus]="compConf.hasAutoFocus"
 
                   [bfLeftBtnText]="(compConf.hasLeftBtnText ? compConf.leftBtnText : '')"
@@ -84,7 +84,7 @@
       <div class="row marT15">
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>
         <div class="col-9">
-          <bf-input class="flat" [(ngModel)]="compConf.inputDisabledTip" bfPlaceholder="This input is disabled because..." (ngModelChange)="upComp()"></bf-input>
+          <bf-input class="flat" [(ngModel)]="compConf.disabledTip" bfPlaceholder="This input is disabled because..." (ngModelChange)="upComp()"></bf-input>
         </div>
       </div>
 

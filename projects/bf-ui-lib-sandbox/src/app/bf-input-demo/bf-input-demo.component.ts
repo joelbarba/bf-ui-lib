@@ -145,7 +145,7 @@ $disabled_input_color : #797979;
     hasPlaceholder: false, placeholderText: 'view.common.name',
     isRequired: true,
     hasType: false, inputType: 'text',
-    isDisabled: false, inputDisabledTip: '',
+    isDisabled: false, disabledTip: '',
     hasIcon: false, inputIcon: 'icon-search',
     hasTooltip: false, inputTooltip: 'Hello World', inputTooltipPos: null, inputTooltipBody: false,
     hasLeftBtn: false, leftBtnIcon: 'icon-plus', hasLeftBtnText: false, leftBtnText: '$',
@@ -177,6 +177,8 @@ $disabled_input_color : #797979;
     if (this.compConf.inputType !== 'text') { this.customCompCode += this.bsStr + `bfType="${this.compConf.inputType}"`; }
     if (this.compConf.hasAutoFocus) { this.customCompCode += this.bsStr + `bfAutoFocus="true"`; }
 
+    if (this.compConf.isDisabled) { this.customCompCode += this.bsStr + `[bfDisabled]="true"`; }
+    if (!!this.compConf.disabledTip) { this.customCompCode += this.bsStr + `bfDisabledTip="${this.compConf.disabledTip}"`; }
 
     if (this.compConf.hasTooltip) {
       this.customCompCode += this.bsStr + `bfTooltip="${this.compConf.inputTooltip}"`;

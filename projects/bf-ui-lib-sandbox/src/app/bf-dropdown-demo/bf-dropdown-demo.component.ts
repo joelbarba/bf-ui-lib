@@ -1,8 +1,5 @@
-// bf-dropdown = 'bf-btn'
-// BfDropdown = 'BfBtn'
-
-
 import { Component, OnInit } from '@angular/core';
+import {BehaviorSubject, Observable, Subject} from "rxjs";
 
 @Component({
   selector: 'app-bf-dropdown-demo]',
@@ -14,6 +11,12 @@ export class BfDropdownDemoComponent implements OnInit {
   public desc = BfDropdownDoc.desc;
   public api = BfDropdownDoc.api;
   public instance = BfDropdownDoc.instance;
+  public myList2 = [
+    { id:  1, username: 'view.common.name' },
+    { id:  2, username: 'view.common.username' },
+    { id:  3, username: 'view.common.yes' },
+    { id:  4, username: 'view.common.no' },
+  ];
   public myList = [
     { id:  0, username: 'joel.barba',   email: 'joel@barba.com', first_name: 'Joel', last_name: 'Barba'},
     { id:  2, username: 'syrax',        email: 'syrax@targaryen.com',        first_name: 'Syrax',        last_name: 'Targaryen' },
@@ -46,6 +49,8 @@ export class BfDropdownDemoComponent implements OnInit {
   public selObj3;
   public selObj4;
   public selObj5;
+  public selObj6;
+  public selObj7;
 
   public instance2 =
 `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList" bfSelect="username" bfRender="email">
@@ -59,15 +64,29 @@ export class BfDropdownDemoComponent implements OnInit {
 </bf-dropdown>`;
 
   public instance4 =
-`<bf-dropdown [(ngModel)]="selObj" 
+`<bf-dropdown [(ngModel)]="selObj"
              [bfList]="myList"
-             bfRender="email" 
+             bfRender="email"
              bfLabel="Email"
-             [bfRequired]="true" 
+             [bfRequired]="true"
              [bfDisabled]="false">
 </bf-dropdown>`;
 
+  public extCtrl$ = new Subject();
+  public ctrlActions = [
+    `{ action: 'expand' } ............... Expands the selection list`,
+    `{ action: 'collapse' } ............. Collapses the selection list`,
+    `{ action: 'toggle' } ............... Expands/Collapses the selection list`,
+    `{ action: 'type', value: text } .... Sets the value in the search input`,
+  ];
+  public extCtrlExample = `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList" [extCtrl$]="extCtrl$"></bf-dropdown>
 
+public extCtrl$ = new Subject();
+
+<bf-btn (bfClick)="extCtrl$.next({ action: 'expand' })"></bf-btn>
+<bf-btn (bfClick)="extCtrl$.ext({ action: 'collapse' })"></bf-btn>
+<bf-btn (bfClick)="extCtrl$.next({ action: 'toggle' })"></bf-btn>
+<bf-btn (bfClick)="extCtrl$.next({ action: 'type', value: 'ax' })"></bf-btn>`;
 
 
   public brStr = `
@@ -75,22 +94,25 @@ export class BfDropdownDemoComponent implements OnInit {
   public bsStr = `
              `;
   public customDropdownCode = `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`;
+  public isViewOn = true;
   public res = ``;
   public selObj10;
-  public compConf:any = {
+  public compConf = {
     isRequired: false,
-    isDisabled: false,
+    isDisabled: false, disabledTip: 'view.tooltip.message',
+    isErrorOnPristine: false,
     hasSelect: false,  selectField: 'username',
     hasRender: false,  renderExp: `$$$ $item.id + ' - ' + $item.username`,
-    hasLabel: false,   labelText: 'Dragon of the year',
+    hasLabel: false,   labelText: 'view.common.field_name',
+    hasTooltip: false, tooltipText: 'view.tooltip.message', tooltipPos: 'top', tooltipBody: true,
+    hasEmptyLabel: false, customEmptyLabel: 'view.common.all',
+    hasEmptyValue: false, customEmptyValue: 'everything',
     hasFullWidth: true,
   };
   public customExLinked = true;  // To link / unlink component
   public compSelFields = [{id: 'id'},{id: 'username'},{id: 'email'},{id: 'first_name'},{id: 'last_name'}];
   public upComp = () => {
     this.customDropdownCode = `<bf-dropdown `;
-
-
     let compClasses = '';
     if (this.compConf.hasFullWidth) { compClasses = 'full-width'; }
     // if (this.compConf.hasSquash) {
@@ -101,7 +123,7 @@ export class BfDropdownDemoComponent implements OnInit {
       this.customDropdownCode += `class="${compClasses}"` + this.bsStr;
     }
     this.customDropdownCode += `[(ngModel)]="selObj"` + this.bsStr;
-    this.customDropdownCode += `(ngModelChange)="doSomething($event)"` + this.bsStr;
+    // this.customDropdownCode += `(ngModelChange)="doSomething($event)"` + this.bsStr;
     this.customDropdownCode += `[bfList]="myList"`;
 
     if (this.compConf.isRequired) {
@@ -124,11 +146,36 @@ export class BfDropdownDemoComponent implements OnInit {
       this.customExLinked = false;
       setTimeout(() => { this.customExLinked = true; });
     }
+
+    if (this.compConf.hasTooltip) {
+      this.customDropdownCode += this.bsStr + `bfTooltip="${this.compConf.tooltipText}"`;
+      if (!!this.compConf.tooltipPos) {
+        this.customDropdownCode += this.bsStr + `bfTooltipPos="${this.compConf.tooltipPos}"`;
+      }
+      if (!!this.compConf.tooltipBody) {
+        this.customDropdownCode += this.bsStr + `bfTooltipBody="${this.compConf.tooltipBody}"`;
+      }
+    }
+
+    if (this.compConf.isDisabled) {
+      this.customDropdownCode += this.bsStr + `[bfDisabled]="true"`;
+      if (!!this.compConf.disabledTip) { this.customDropdownCode += this.bsStr + `bfDisabledTip="${this.compConf.disabledTip}"`; }
+    }
+
+
+
     this.customDropdownCode += (`>` + this.brStr + `</bf-dropdown>`);
   };
   public mockAutoSelect = () => {
-    this.selObj10 = {...this.myList.getById('13')};
+    this.selObj10 = {...this.myList.getById(13)};
   };
+
+  public rebuildView = () => {
+    this.isViewOn = false;
+    setTimeout(() => this.isViewOn = true);
+  };
+
+
 
   constructor() { }
 
@@ -143,16 +190,22 @@ export class BfDropdownDemoComponent implements OnInit {
 export const BfDropdownDoc = {
   name    : `bf-dropdown`,
   uiType  : 'component',
-  desc    : `Generates a dropdown using <select> and <option> html tags.`,
-  api     : `*[(ngModel)]     : The ngModel directive is linked to the inner <select>, so that can be used as a form element with ngForm (status is propagated).  
-*[bfList]        : Array of objects with the list to be displayed in the dropdown
-[bfSelect]       : The name of the property to be selected from the object of the list. If empty, all object selected. If multiple props add a keyMap list ('prop1, prop2, ...')
-[bfRender]       : Field to display on the list (property from bfList items).
-                   If empty, a row with all properties will be displayed.
-                   It can also be an eval() expression. Start with a '$$$' and use $item reference for eval. Example: bfRender="$$$ $item.first_name + ' ' + $item.last_name"    
-[bfRequired]     : Whether the value is required. If not, and "Empty" option will be added a the top of the list
-[bfDisabled]     : Whether the selector is disabled or not
-[bfLabel]        : If provided, a <bf-label> is added above the selector with the given text`,
+  desc    : `Generates a dropdown selector list.`,
+  api     : `*[(ngModel)]         : The ngModel directive is linked to the inner <select>, so that can be used as a form element with ngForm (status is propagated).  
+*[bfList]            : Array of objects with the list to be displayed in the dropdown
+[bfSelect]           : The name of the property to be selected from the object of the list. If empty, all object selected. If multiple props add a keyMap list ('prop1, prop2, ...')
+[bfRender]           : Field to display on the list (property from bfList items).
+                         If empty, a row with all properties will be displayed.
+                         It can also be an eval() expression. Start with a '$$$' and use $item reference for eval. Example: bfRender="$$$ $item.first_name + ' ' + $item.last_name"    
+[bfLabel]            : If provided, a <bf-label> is added above the selector with the given text
+[bfRequired]         : Whether the value is required. If not, and "Empty" option will be added a the top of the list
+[bfDisabled]         : Whether the selector is disabled or not
+[bfDisabledTip]      : Text with the tooltip to display on hover when the input is disabled
+[bfEmptyLabel]       : By default the empty option shows the "view.common.empty" label. In case you need to display a different label, add it here.
+[bfEmptyValue]       : By default the empty option sets "null" value to the ngModel. If you need a different value being set in this case, add it here.
+[bfErrorOnPristine]  : If true, errors will be shown in pristine state too (by default pristine shows always as valid).
+[extCtrl$]           : Observable to trigger external actions. Its .next() should emit an object with "action"/"value". Actions: ['expand', 'collapse', 'toggle', 'type']
+`,
   instance: `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`,
   demoComp: BfDropdownDemoComponent
 };

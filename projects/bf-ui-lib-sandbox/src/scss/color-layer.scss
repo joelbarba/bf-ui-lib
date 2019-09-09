@@ -126,9 +126,7 @@ div.bf-switch {
 }
 
 
-
-
-// --- <bf-switch> color reset --------------------------------------------------
+// --- <bf-dropdown> color reset --------------------------------------------------
 .bf-dropdown {
   select.form-control { // Placeholder color (https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder)
     &::-webkit-input-placeholder { color: $optional_input_color; } /* WebKit, Blink, Edge */

@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LibRegisterService } from './lib-register.service';
 import { IndexPageComponent } from './index-page/index-page.component';
-import { NgbPopoverModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbPopoverModule, NgbModalModule, NgbDatepicker, NgbDatepickerModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { BfUiLibModule } from '../../../bf-ui-lib/src/lib/bf-ui-lib.module';
 
@@ -17,7 +17,6 @@ import { BfListPlaceholderDemoComponent } from './bf-list-placeholder-demo/bf-li
 import { BfCheckboxDemoComponent } from './bf-checkbox-demo/bf-checkbox-demo.component';
 
 import { TranslateService } from './translate.service';
-import { TranslateDirective } from './translate.directive';
 import { BfInputDemoComponent } from './bf-input-demo/bf-input-demo.component';
 import { BfDropdownDemoComponent } from './bf-dropdown-demo/bf-dropdown-demo.component';
 import { BfSwitchDemoComponent } from './bf-switch-demo/bf-switch-demo.component';
@@ -41,7 +40,7 @@ import { BfQuantityInputDemoComponent } from './bf-quantity-input-demo/bf-quanti
     IndexPageComponent,
     BfListHeaderColDemoComponent,
     MenuComponent,
-    TranslateDirective,
+    // TranslateDirective,
     BfLabelDemoComponent,
     BfListPlaceholderDemoComponent,
     BfCheckboxDemoComponent,
@@ -65,6 +64,7 @@ import { BfQuantityInputDemoComponent } from './bf-quantity-input-demo/bf-quanti
     BrowserModule,
     AppRoutingModule,
     NgbPopoverModule,
+    NgbDatepickerModule,
     // NgbModalModule,
     FormsModule,
     ReactiveFormsModule,

@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-
-
+import {Component, Inject, OnInit} from '@angular/core';
+import {TranslateService} from "./translate.service";
 
 @Component({
   selector: 'app-root',
@@ -8,7 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor() {}
+  public lang = 'en';
+  constructor(
+    @Inject('TranslateService') public translate: TranslateService
+  ) {}
   ngOnInit() {
   }
 

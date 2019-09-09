@@ -1,4 +1,4 @@
-$primary_color    : #00B6F1; 
+$primary_color    : #00B6F1;
 $secondary_color  : #93C83E;
 $tertiary_color   : #ED0677;
 $quaternary_color : #004A64;
@@ -8,6 +8,8 @@ $white: #FFF;
 
 $disabled-color: #a0a0a0;
 
+$input-border: #ccc !default; // <-- this is a bootstrap default
+$input-border-color: #ced4da; // <-- this is a bootstrap default
 
 
 // Bootstrap Tooltips (+ ngb Tooltips)
