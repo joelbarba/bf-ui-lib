@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {BehaviorSubject, Observable, Subject} from "rxjs";
 
 @Component({
   selector: 'app-bf-dropdown-demo]',
@@ -63,15 +64,29 @@ export class BfDropdownDemoComponent implements OnInit {
 </bf-dropdown>`;
 
   public instance4 =
-`<bf-dropdown [(ngModel)]="selObj" 
+`<bf-dropdown [(ngModel)]="selObj"
              [bfList]="myList"
-             bfRender="email" 
+             bfRender="email"
              bfLabel="Email"
-             [bfRequired]="true" 
+             [bfRequired]="true"
              [bfDisabled]="false">
 </bf-dropdown>`;
 
+  public extCtrl$ = new Subject();
+  public ctrlActions = [
+    `{ action: 'expand' } ............... Expands the selection list`,
+    `{ action: 'collapse' } ............. Collapses the selection list`,
+    `{ action: 'toggle' } ............... Expands/Collapses the selection list`,
+    `{ action: 'type', value: text } .... Sets the value in the search input`,
+  ];
+  public extCtrlExample = `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList" [extCtrl$]="extCtrl$"></bf-dropdown>
 
+public extCtrl$ = new Subject();
+
+<bf-btn (bfClick)="extCtrl$.next({ action: 'expand' })"></bf-btn>
+<bf-btn (bfClick)="extCtrl$.ext({ action: 'collapse' })"></bf-btn>
+<bf-btn (bfClick)="extCtrl$.next({ action: 'toggle' })"></bf-btn>
+<bf-btn (bfClick)="extCtrl$.next({ action: 'type', value: 'ax' })"></bf-btn>`;
 
 
   public brStr = `
@@ -79,6 +94,7 @@ export class BfDropdownDemoComponent implements OnInit {
   public bsStr = `
              `;
   public customDropdownCode = `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`;
+  public isViewOn = true;
   public res = ``;
   public selObj10;
   public compConf = {
@@ -107,7 +123,7 @@ export class BfDropdownDemoComponent implements OnInit {
       this.customDropdownCode += `class="${compClasses}"` + this.bsStr;
     }
     this.customDropdownCode += `[(ngModel)]="selObj"` + this.bsStr;
-    this.customDropdownCode += `(ngModelChange)="doSomething($event)"` + this.bsStr;
+    // this.customDropdownCode += `(ngModelChange)="doSomething($event)"` + this.bsStr;
     this.customDropdownCode += `[bfList]="myList"`;
 
     if (this.compConf.isRequired) {
@@ -141,8 +157,10 @@ export class BfDropdownDemoComponent implements OnInit {
       }
     }
 
-    if (this.compConf.isDisabled) { this.customDropdownCode += this.bsStr + `[bfDisabled]="true"`; }
-    if (!!this.compConf.disabledTip) { this.customDropdownCode += this.bsStr + `bfDisabledTip="${this.compConf.disabledTip}"`; }
+    if (this.compConf.isDisabled) {
+      this.customDropdownCode += this.bsStr + `[bfDisabled]="true"`;
+      if (!!this.compConf.disabledTip) { this.customDropdownCode += this.bsStr + `bfDisabledTip="${this.compConf.disabledTip}"`; }
+    }
 
 
 
@@ -152,11 +170,12 @@ export class BfDropdownDemoComponent implements OnInit {
     this.selObj10 = {...this.myList.getById(13)};
   };
 
-  public isViewOn = true;
   public rebuildView = () => {
     this.isViewOn = false;
     setTimeout(() => this.isViewOn = true);
   };
+
+
 
   constructor() { }
 
@@ -184,7 +203,8 @@ export const BfDropdownDoc = {
 [bfDisabledTip]      : Text with the tooltip to display on hover when the input is disabled
 [bfEmptyLabel]       : By default the empty option shows the "view.common.empty" label. In case you need to display a different label, add it here.
 [bfEmptyValue]       : By default the empty option sets "null" value to the ngModel. If you need a different value being set in this case, add it here.
-[bfErrorOnUntouched] : If true, errors will be shown in pristine state too (by default pristine shows always as valid).
+[bfErrorOnPristine]  : If true, errors will be shown in pristine state too (by default pristine shows always as valid).
+[extCtrl$]           : Observable to trigger external actions. Its .next() should emit an object with "action"/"value". Actions: ['expand', 'collapse', 'toggle', 'type']
 `,
   instance: `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`,
   demoComp: BfDropdownDemoComponent

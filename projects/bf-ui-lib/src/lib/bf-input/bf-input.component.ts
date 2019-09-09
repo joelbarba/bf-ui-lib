@@ -44,17 +44,17 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   private ngControl;
   public bfModel: string; // Internal to hold the linked ngModel on the wrapper
 
-  @Input() bfLabel: string = '';          // Text for the label above the input. Translation applied.
-  @Input() bfRequired: boolean = false;   // It adds the required validator to the ngModel (input), meaning that the required field styles will be applied on the label and input.
-  @Input() bfDisabled: boolean = false;   // True=Input disabled. False=Input enabled.
-  @Input() bfPlaceholder: string = '';    // It adds a placeholder text onto the input. Translation applied.
+  @Input() bfLabel = '';          // Text for the label above the input. Translation applied.
+  @Input() bfRequired = false;   // It adds the required validator to the ngModel (input), meaning that the required field styles will be applied on the label and input.
+  @Input() bfDisabled = false;   // True=Input disabled. False=Input enabled.
+  @Input() bfPlaceholder = '';    // It adds a placeholder text onto the input. Translation applied.
 
   @Input() bfType: 'text' | 'number' | 'email' | 'password' = 'text';  // Set a type on the input (text by default)
 
-  @Input() bfTooltip    : string = '';
-  @Input() bfTooltipPos : string = 'top';     // If tooltip on the label, specific position (top by default)
-  @Input() bfTooltipBody : boolean = true;
-  @Input() bfDisabledTip : string;   // Label for the text of the tooltip to display when the input is disabled
+  @Input() bfTooltip = '';
+  @Input() bfTooltipPos = 'top';    // If tooltip on the label, specific position (top by default)
+  @Input() bfTooltipBody = true;
+  @Input() bfDisabledTip: string;   // Label for the text of the tooltip to display when the input is disabled
 
   // @Input() bfName: string = '';    // The name attribute specifies the name of an <input> element
   @Input() bfLeftBtnIcon: string;   // Icon to show into a button on the left of the input (prepend addon https://getbootstrap.com/docs/4.3/components/input-group/#button-addons)
@@ -74,7 +74,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   // @Input() bfValidIf = null; // Not possible to manage this due to ExpressionChangedAfterItHasBeenCheckedError
 
   @Input() bfErrorText: string;   // Custom error text (label) to display when invalid value
-  @Input() bfErrorPos : 'top-right' | 'bottom-left' | 'bottom-right';  // Custom position where to display the error text
+  @Input() bfErrorPos: 'top-right' | 'bottom-left' | 'bottom-right';  // Custom position where to display the error text
 
   @Input() bfIcon = '';             // Icon to show into the input floating at the right hand side (this is replace by bfValidIcon and bfInvalidIcon)
   @Input() bfValidIcon = '';        // Icon to show when the value is dirty and valid (by default none).
@@ -343,8 +343,10 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
       }
 
       this.isPristine = this.inputCtrl.pristine;
-      if (this.isPristine && !this.ngControl.pristine) { this.ngControl.markAsPristine(); }
-      if (!this.isPristine && this.ngControl.pristine) { this.ngControl.markAsDirty(); }
+      if (this.ngControl) {
+        if (this.isPristine && !this.ngControl.pristine) { this.ngControl.markAsPristine(); }
+        if (!this.isPristine && this.ngControl.pristine) { this.ngControl.markAsDirty(); }
+      }
     }
   };
 

@@ -182,8 +182,9 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfEmptyValue: any = null;  // By default the empty option sets a "null" value to the ngModel.
                                       // You can add a custom value here to be set when the empty option is selected
 
-  @Input() bfErrorOnUntouched = false; // If true, errors will be shown in initial state too (by default untouched shows as valid always)
+  @Input() bfErrorOnPristine = false; // If true, errors will be shown in initial state too (by default pristine shows as valid always)
 
+  @Input() extCtrl$: Observable<any>;
 
   // --------------
 
@@ -199,7 +200,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   public isInvalid = false;   // If the model holds an invalid option
   public isExpanded = false;  // Whether the list is shown (true) or hidden
   public isFocus = false;     // Whether the input is focused
-  public isTouched = false;   // Whether the element has ever been expanded
 
   // Empty option item (in extList)
   public emptyItem = {
@@ -212,7 +212,8 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   public bfLabelTrans$: Observable<string> = of('');         // Translated text for the label
   public bfTooltipTrans$: Observable<string> = of('');       // Translated text for the tooltip of the label
   public bfDisabledTipTrans$: Observable<string> = of('');   // Translated text for the disabled tooltip
-  public langSubscription;  // Subscription to language changes
+  public langSubs;  // Subscription to language changes
+  public ctrlSubs;  // Subscription to external control observable
 
   @ViewChild('dropdownInput') elInput: ElementRef<HTMLInputElement>;
 
@@ -221,12 +222,30 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   ) {
 
     // Rerender the list labels on language change
-    this.langSubscription = this.translate.onLangChange$.subscribe(this.translateExtList);
+    this.langSubs = this.translate.onLangChange$.subscribe(this.translateExtList);
 
   }
 
   ngOnChanges(changes) {
 
+    // External control via extCtrl$
+    if (changes.hasOwnProperty('extCtrl$')) {
+      if (!!this.ctrlSubs) { this.ctrlSubs.unsubscribe(); }
+      this.extCtrl$.subscribe((option: { action: string, value?: any }) => {
+        if (option.action === 'expand' && !this.isExpanded)  { this.deferExpand(); }
+        if (option.action === 'collapse' && this.isExpanded) { this.collapseList(); }
+        if (option.action === 'toggle') { this.isExpanded ? this.collapseList() : this.deferExpand(); }
+        if (option.action === 'type') {
+          setTimeout(() => {
+            this.elInput.nativeElement.focus();
+            this.inputText = option.value;
+            this.filterList(this.inputText);
+          }, 100);
+        }
+      });
+    }
+
+    // List generation
     if (!!changes.bfList) { this.generateExtList(); } // (bfList --> extList)
 
     // If values come as strings, convert them
@@ -258,7 +277,8 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   ngOnInit() { }
 
   ngOnDestroy() {
-    this.langSubscription.unsubscribe();
+    if (!!this.langSubs) { this.langSubs.unsubscribe(); }
+    if (!!this.ctrlSubs) { this.ctrlSubs.unsubscribe(); }
   }
 
   // ngAfterContentInit() { }
@@ -386,6 +406,8 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
 
 
+  // Focus on input (deferring it to next cycle)
+  public deferExpand = () => { setTimeout(() => this.elInput.nativeElement.focus()); };
 
   // Click on the expand/collapse input button
   public onInputBtnClick = () => {
@@ -403,7 +425,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     this.isExpanded = true;
     this.inputText = '';  // Clear the text to work as a filter
     this.filterList('');
-    this.isTouched = true;
   };
 
   // On input focus out -> Collapse the select list
