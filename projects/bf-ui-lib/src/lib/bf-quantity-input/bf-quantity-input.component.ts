@@ -18,7 +18,7 @@ export class BfQuantityInputComponent implements OnInit, ControlValueAccessor {
   @Input() bfOnChange: (obj) => void;
   @Input() bfMinVal: number;
   @Input() bfMaxVal: number;
-  @Input() bfSizeMode: 'small' | 'large' | 'input-fit' | 'button-fit';
+  @Input() bfSizeMode: string;
   @Input() bfDisabled: boolean;
 
   private bfModelControl: FormControl;
