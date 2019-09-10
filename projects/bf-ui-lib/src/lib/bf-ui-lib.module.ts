@@ -79,21 +79,23 @@ import {CommonModule} from "@angular/common";
   ]
 })
 export class BfUiLibModule {
-  // constructor (@Optional() @SkipSelf() parentModule: BfUiLibModule) {
-  //   if (parentModule) {
-  //     throw new Error(
-  //       'HEY YOU BAD DEVELOPER!!! BfUiLibModule is already loaded');
-  //   }
-  // }
+  constructor(@Optional() @SkipSelf() parentModule: BfUiLibModule) {
+    if (parentModule) {
+      console.warn('HEY YOU BAD DEVELOPER!!! BfUiLibModule is already loaded');
+      // throw new Error(
+      //   'HEY YOU BAD DEVELOPER!!! BfUiLibModule is already loaded');
+    }
+  }
 
   static forRoot(config): ModuleWithProviders {
-    // console.log('BfUiLibModule.forRoot()', new Date());
+    console.log('BfUiLibModule.forRoot()', new Date());
     return {
       ngModule: BfUiLibModule,
       providers: [
-        { provide: 'TranslateService', useClass: config.TranslateService || class {} },
+        { provide: 'TranslateService', useExisting: config.TranslateService || class {} },
         BfConfirmService,
-        NgbActiveModal, NgbModule,
+        NgbActiveModal,
+        NgbModule,
       ]
     };
   }

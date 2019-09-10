@@ -1,4 +1,4 @@
-import { TranslateService } from '../translate.service';
+import {BfTranslateService} from '../translate.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 
@@ -49,11 +49,11 @@ export class BfLabelDemoComponent implements OnInit {
   abstract doTranslate(label ?: string): string;
 }`;
 
-  public injectLibEx = `import { TranslateService } from './translate.service';
+  public injectLibEx = `import { BfTranslateService } from './translate.service';
 
 @NgModule({
  imports: [
-  BfUiLibModule.forRoot({ TranslateService })`;
+  BfUiLibModule.forRoot({ TranslateService: BfTranslateService })`;
 
 
   public extendTransLib = `export class TranslateService extends AbstractTranslateService {
@@ -68,7 +68,7 @@ export class BfLabelDemoComponent implements OnInit {
 
 
   constructor(
-    private translate: TranslateService,
+    private translate: BfTranslateService,
     private config: NgbPopoverConfig
   ) {
     // Popover default config

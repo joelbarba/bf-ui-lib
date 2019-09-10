@@ -16,7 +16,7 @@ import { BfLabelDemoComponent } from './bf-label-demo/bf-label-demo.component';
 import { BfListPlaceholderDemoComponent } from './bf-list-placeholder-demo/bf-list-placeholder-demo.component';
 import { BfCheckboxDemoComponent } from './bf-checkbox-demo/bf-checkbox-demo.component';
 
-import { TranslateService } from './translate.service';
+import {BfTranslateLoader, BfTranslateService } from './translate.service';
 import { BfInputDemoComponent } from './bf-input-demo/bf-input-demo.component';
 import { BfDropdownDemoComponent } from './bf-dropdown-demo/bf-dropdown-demo.component';
 import { BfSwitchDemoComponent } from './bf-switch-demo/bf-switch-demo.component';
@@ -31,6 +31,7 @@ import { BfPrototypesDemoComponent } from './bf-prototypes-demo/bf-prototypes-de
 import { BfLoadingBarDemoComponent } from './bf-loading-bar-demo/bf-loading-bar-demo.component';
 import { BfPromiseDemoComponent } from './bf-promise-demo/bf-promise-demo.component';
 import { BfDeferDemoComponent } from './bf-defer-demo/bf-defer-demo.component';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,13 @@ import { BfDeferDemoComponent } from './bf-defer-demo/bf-defer-demo.component';
     // NgbModalModule,
     FormsModule,
     ReactiveFormsModule,
-    BfUiLibModule.forRoot({ TranslateService }),
+    BfUiLibModule.forRoot({ TranslateService: BfTranslateService }),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useClass: BfTranslateLoader
+      }
+    })
   ],
   bootstrap: [AppComponent]
 })

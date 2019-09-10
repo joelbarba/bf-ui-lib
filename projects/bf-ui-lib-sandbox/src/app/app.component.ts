@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {TranslateService} from "./translate.service";
+import {BfTranslateService} from "./translate.service";
 
 @Component({
   selector: 'app-root',
@@ -9,9 +9,10 @@ import {TranslateService} from "./translate.service";
 export class AppComponent {
   public lang = 'en';
   constructor(
-    @Inject('TranslateService') public translate: TranslateService
+    // @Inject('BfTranslateService') public translate: BfTranslateService
+    public translate: BfTranslateService
   ) {}
-  ngOnInit() {
-  }
+
+  ngOnInit() { }
 
 }

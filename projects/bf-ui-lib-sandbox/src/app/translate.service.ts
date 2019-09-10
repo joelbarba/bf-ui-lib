@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { AbstractTranslateService } from '../../../bf-ui-lib/src/lib/abstract-translate.service';
-import { BehaviorSubject, Observable, of } from "rxjs";
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { TranslateLoader } from '@ngx-translate/core';
 import {map} from "rxjs/operators";
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class TranslateService extends AbstractTranslateService {
+export class BfTranslateService extends AbstractTranslateService {
   public transDict = {};
   public transDictEN = {
     'view.common.name'         : 'Name',
@@ -46,7 +48,7 @@ export class TranslateService extends AbstractTranslateService {
 
   constructor() {
     super();
-    // console.warn('TranslateService constructor');
+    console.warn('TranslateService constructor');
     this.changeLanguage('en');
   }
 
@@ -78,4 +80,31 @@ export class TranslateService extends AbstractTranslateService {
       this.transDict$.next(this.transDict);
     }
   };
+}
+
+
+
+
+
+
+/**********************************************
+ * Hook up the ngx-translate loader with getTranslation(), to load the dictionaries dynamically
+ **********************************************/
+@Injectable({
+  providedIn: 'root'
+})
+export class BfTranslateLoader implements TranslateLoader {
+  public transLoad$;  // Async dictionary loader
+  constructor() { }
+
+  getTranslation(lang: string): Observable<any> {
+    console.log('Loading translations for', lang);
+
+    const transDict = { AD: 'Andorra' };
+
+    this.transLoad$ = new Subject();
+    this.transLoad$.next(transDict);
+    this.transLoad$.complete();
+    return this.transLoad$;
+  }
 }
