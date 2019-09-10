@@ -19,7 +19,7 @@ export class BfLabelComponent implements OnInit {
   public bfTooltipTranslated: string;
 
   constructor(
-    @Inject('TranslateService') private translate: AbstractTranslateService,
+    @Inject('BfUILibTransService') private translate: AbstractTranslateService,
     private config: NgbPopoverConfig) {
   }
 

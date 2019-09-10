@@ -30,7 +30,7 @@ export class BfRadioComponent implements ControlValueAccessor, OnInit, OnChanges
   public bfLabelTrans$: Observable<string> = of('');        // Translated text for the button
 
   constructor(
-    @Inject('TranslateService') private translate: AbstractTranslateService,
+    @Inject('BfUILibTransService') private translate: AbstractTranslateService,
   ) { }
 
   // ------- ControlValueAccessor -----

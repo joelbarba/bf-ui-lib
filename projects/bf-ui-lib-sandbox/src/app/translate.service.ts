@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { AbstractTranslateService } from '../../../bf-ui-lib/src/lib/abstract-translate.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { TranslateLoader } from '@ngx-translate/core';
-import {map} from "rxjs/operators";
+import {map} from 'rxjs/operators';
+
+@Injectable({ providedIn: 'root'})
+export class ServiceB { val = 'BB2'; constructor() { console.warn('B'); } }
 
 
 @Injectable({
@@ -46,9 +49,11 @@ export class BfTranslateService extends AbstractTranslateService {
   public onLangChange$ = new BehaviorSubject({ lang: '', translations: null });
   public currLang: string;
 
-  constructor() {
+  constructor(
+    public pB: ServiceB,
+  ) {
     super();
-    console.warn('TranslateService constructor');
+    console.warn('TranslateService constructor', this.pB);
     this.changeLanguage('en');
   }
 

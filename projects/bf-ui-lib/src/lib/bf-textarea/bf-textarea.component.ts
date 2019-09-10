@@ -56,10 +56,10 @@ export class BfTextareaComponent implements OnInit {
   public errorText: string = 'Invalid value';
 
   @ViewChild('ngInputRef') ngInputRef: ElementRef;
-  public inputCtrl:FormControl; // <-- ngInputRef.control
+  public inputCtrl: FormControl; // <-- ngInputRef.control
 
   constructor(
-    @Inject('TranslateService') private translate: AbstractTranslateService,
+    @Inject('BfUILibTransService') private translate: AbstractTranslateService,
     private config: NgbPopoverConfig) {
   }
 

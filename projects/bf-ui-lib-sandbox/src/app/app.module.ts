@@ -1,21 +1,18 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // <-- NgModel lives here
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LibRegisterService } from './lib-register.service';
 import { IndexPageComponent } from './index-page/index-page.component';
 import {NgbPopoverModule, NgbModalModule, NgbDatepicker, NgbDatepickerModule} from '@ng-bootstrap/ng-bootstrap';
-
 import { BfUiLibModule } from '../../../bf-ui-lib/src/lib/bf-ui-lib.module';
-
 import { BfBtnDemoComponent } from './bf-btn-demo/bf-btn-demo.component';
 import { BfListHeaderColDemoComponent } from './bf-list-header-col-demo/bf-list-header-col-demo.component';
 import { MenuComponent } from './menu/menu.component';
 import { BfLabelDemoComponent } from './bf-label-demo/bf-label-demo.component';
 import { BfListPlaceholderDemoComponent } from './bf-list-placeholder-demo/bf-list-placeholder-demo.component';
 import { BfCheckboxDemoComponent } from './bf-checkbox-demo/bf-checkbox-demo.component';
-
 import {BfTranslateLoader, BfTranslateService } from './translate.service';
 import { BfInputDemoComponent } from './bf-input-demo/bf-input-demo.component';
 import { BfDropdownDemoComponent } from './bf-dropdown-demo/bf-dropdown-demo.component';
@@ -32,6 +29,7 @@ import { BfLoadingBarDemoComponent } from './bf-loading-bar-demo/bf-loading-bar-
 import { BfPromiseDemoComponent } from './bf-promise-demo/bf-promise-demo.component';
 import { BfDeferDemoComponent } from './bf-defer-demo/bf-defer-demo.component';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+
 
 @NgModule({
   declarations: [
@@ -67,7 +65,11 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
     // NgbModalModule,
     FormsModule,
     ReactiveFormsModule,
-    BfUiLibModule.forRoot({ TranslateService: BfTranslateService }),
+    // BfUiLibModule.forRoot({ TranslateService: BfTranslateService }),
+    BfUiLibModule.forRoot({ trans: {
+        useExisting: BfTranslateService
+      }
+    }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

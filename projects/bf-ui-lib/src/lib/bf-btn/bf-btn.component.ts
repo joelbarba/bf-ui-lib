@@ -34,15 +34,18 @@ export class BfBtnComponent implements OnInit, OnChanges {
 
 
   constructor(
-    @Inject('TranslateService') private translate: AbstractTranslateService,
+    @Inject('BfUILibTransService') private translate: AbstractTranslateService,
     private config: NgbPopoverConfig,
     public libService: BfUiLibService
   ) {
+    // console.log('BfBTN Constructor', this.translate);
   }
 
   ngOnInit() { }
 
   ngOnChanges(change) {
+    // console.log('BF-BTN', new Date(), this.translate);
+
     if (!this.bfIcon) { this.bfIcon = 'icon-arrow-right3'; }
 
     if (change.hasOwnProperty('bfType')) {

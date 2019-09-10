@@ -218,7 +218,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @ViewChild('dropdownInput') elInput: ElementRef<HTMLInputElement>;
 
   constructor(
-    @Inject('TranslateService') private translate: AbstractTranslateService,
+    @Inject('BfUILibTransService') private translate: AbstractTranslateService,
   ) {
 
     // Rerender the list labels on language change

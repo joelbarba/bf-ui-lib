@@ -88,11 +88,12 @@ export class BfUiLibModule {
   }
 
   static forRoot(config): ModuleWithProviders {
-    console.log('BfUiLibModule.forRoot()', new Date());
+    console.log('BfUiLibModule.forRoot()', new Date(), config.trans);
     return {
       ngModule: BfUiLibModule,
       providers: [
-        { provide: 'TranslateService', useExisting: config.TranslateService || class {} },
+        { provide: 'BfUILibTransService', ...config.trans },
+        // { provide: 'BfUILibTransService', ...config.trans },
         BfConfirmService,
         NgbActiveModal,
         NgbModule,

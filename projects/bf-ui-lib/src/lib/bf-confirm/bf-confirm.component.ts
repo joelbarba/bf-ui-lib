@@ -27,7 +27,7 @@ export class BfConfirmComponent implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
     private domSanitizer: DomSanitizer,
-    @Inject('TranslateService') private translate: AbstractTranslateService,
+    @Inject('BfUILibTransService') private translate: AbstractTranslateService,
   ) {}
 
   ngOnInit() {

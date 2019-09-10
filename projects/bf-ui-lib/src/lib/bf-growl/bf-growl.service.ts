@@ -10,7 +10,7 @@ export class BfGrowlService {
   public list$ = new BehaviorSubject([]);
 
   constructor(
-    @Inject('TranslateService') private translate: AbstractTranslateService) {
+    @Inject('BfUILibTransService') private translate: AbstractTranslateService) {
   }
 
   public success(text: string, timeOut = 2000) {

@@ -120,7 +120,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   public inputCtrl: FormControl; // <-- ngInputRef.control
 
   constructor(
-    @Inject('TranslateService') private translate: AbstractTranslateService,
+    @Inject('BfUILibTransService') private translate: AbstractTranslateService,
     private config: NgbPopoverConfig,
     private elementRef: ElementRef,
     // public ngControl: NgControl
