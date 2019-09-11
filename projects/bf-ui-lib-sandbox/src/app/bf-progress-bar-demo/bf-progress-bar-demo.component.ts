@@ -1,22 +1,22 @@
-// [[COMPONENT_NAME]] = 'bf-btn'
-// [[COMPONENT_NAME_CAMEL]] = 'BfBtn'
+// bf-progress-bar = 'bf-btn'
+// BfProgressBar = 'BfBtn'
 
 
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-[[COMPONENT_NAME]]-demo]',
-  templateUrl: './[[COMPONENT_NAME]]-demo.component.html',
-  styleUrls: ['./[[COMPONENT_NAME]]-demo.component.scss']
+  selector: 'app-bf-progress-bar-demo]',
+  templateUrl: './bf-progress-bar-demo.component.html',
+  styleUrls: ['./bf-progress-bar-demo.component.scss']
 })
-export class [[COMPONENT_NAME_CAMEL]]DemoComponent implements OnInit {
-  public name = [[COMPONENT_NAME_CAMEL]]Doc.name;
-  public desc = [[COMPONENT_NAME_CAMEL]]Doc.desc;
-  public api = [[COMPONENT_NAME_CAMEL]]Doc.api;
-  public instance = [[COMPONENT_NAME_CAMEL]]Doc.instance;
+export class BfProgressBarDemoComponent implements OnInit {
+  public name = BfProgressBarDoc.name;
+  public desc = BfProgressBarDoc.desc;
+  public api = BfProgressBarDoc.api;
+  public instance = BfProgressBarDoc.instance;
 
   public instance2 = 
-`<[[COMPONENT_NAME]]</[[COMPONENT_NAME]]>`;
+`<bf-progress-bar</bf-progress-bar>`;
 
 
   public cssReset = `$optional_input_color : $optional-color;
@@ -26,7 +26,7 @@ $invalid_input_color  : $invalid-color;
 $valid_input_color    : $primary_color;
 $disabled_input_color : $disabled-color;
 
-.[[COMPONENT_NAME]]-form-group {
+.bf-progress-bar-form-group {
   ...
 }`;
 
@@ -46,7 +46,7 @@ $disabled_input_color : $disabled-color;
     hasTooltip: false, tooltipText: 'Hello World', tooltipPos: null, tooltipBody: false,
   };
   public upComp = () => {
-    this.customCompCode = `<[[COMPONENT_NAME]] `;
+    this.customCompCode = `<bf-progress-bar `;
 
     let compClasses = '';
     if (this.compConf.hasFullWidth) { compClasses += (!!compClasses.length ? ' ' : '') + 'full-width'; }
@@ -67,7 +67,7 @@ $disabled_input_color : $disabled-color;
       if (!!this.compConf.tooltipBody) { this.customCompCode += this.bsStr + `bfTooltipBody="${this.compConf.tooltipBody}"`; }
     }
 
-    this.customCompCode += (`>` + this.brStr + `</[[COMPONENT_NAME]]>`);
+    this.customCompCode += (`>` + this.brStr + `</bf-progress-bar>`);
   };
 
 
@@ -81,11 +81,11 @@ $disabled_input_color : $disabled-color;
 }
 
 
-export const [[COMPONENT_NAME_CAMEL]]Doc = {
-  name    : `[[COMPONENT_NAME]]`,
+export const BfProgressBarDoc = {
+  name    : `bf-progress-bar`,
   uiType  : 'component',
   desc    : `Generates a ....`,
   api     : `[bfText]: The text... `,
-  instance: `<[[COMPONENT_NAME]]></[[COMPONENT_NAME]]>`, 
-  demoComp: [[COMPONENT_NAME_CAMEL]]DemoComponent
+  instance: `<bf-progress-bar></bf-progress-bar>`, 
+  demoComp: BfProgressBarDemoComponent
 };

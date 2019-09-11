@@ -28,6 +28,14 @@ import { BfDatePickerComponent } from './bf-date-picker/bf-date-picker.component
 import { BfListPaginatorComponent } from './bf-list-paginator/bf-list-paginator.component';
 import {CommonModule} from "@angular/common";
 import {BfUILibTransService} from "./abstract-translate.service";
+import { BfTimePickerComponent } from './bf-time-picker/bf-time-picker.component';
+import { BfAutocompleteComponent } from './bf-autocomplete/bf-autocomplete.component';
+import { BfMultiSelectorComponent } from './bf-multi-selector/bf-multi-selector.component';
+import { BfProgressBarComponent } from './bf-progress-bar/bf-progress-bar.component';
+import { BfStatusBadgeComponent } from './bf-status-badge/bf-status-badge.component';
+import { BfColorPickerComponent } from './bf-color-picker/bf-color-picker.component';
+import { BfSliderComponent } from './bf-slider/bf-slider.component';
+import { BfPagePlaceholderComponent } from './bf-page-placeholder/bf-page-placeholder.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +53,14 @@ import {BfUILibTransService} from "./abstract-translate.service";
     BfRadioComponent,
     BfDatePickerComponent,
     BfListPaginatorComponent,
+    BfTimePickerComponent,
+    BfAutocompleteComponent,
+    BfMultiSelectorComponent,
+    BfProgressBarComponent,
+    BfStatusBadgeComponent,
+    BfColorPickerComponent,
+    BfSliderComponent,
+    BfPagePlaceholderComponent,
   ],
   entryComponents: [BfConfirmComponent],
   imports: [
@@ -59,6 +75,14 @@ import {BfUILibTransService} from "./abstract-translate.service";
     BfLoadingBarModule,
   ],
   exports: [
+    BfPagePlaceholderComponent,  // <--- New component
+    BfSliderComponent,  // <--- New component
+    BfColorPickerComponent,  // <--- New component
+    BfStatusBadgeComponent,  // <--- New component
+    BfProgressBarComponent,  // <--- New component
+    BfMultiSelectorComponent,  // <--- New component
+    BfAutocompleteComponent,  // <--- New component
+    BfTimePickerComponent,  // <--- New component
     FormsModule,
     BfListPaginatorComponent,
     BfDatePickerComponent,

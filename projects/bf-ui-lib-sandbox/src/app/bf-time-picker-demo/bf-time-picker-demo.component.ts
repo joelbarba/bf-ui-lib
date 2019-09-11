@@ -1,32 +1,32 @@
-// [[COMPONENT_NAME]] = 'bf-btn'
-// [[COMPONENT_NAME_CAMEL]] = 'BfBtn'
+// bf-time-picker = 'bf-btn'
+// BfTimePicker = 'BfBtn'
 
 
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-[[COMPONENT_NAME]]-demo]',
-  templateUrl: './[[COMPONENT_NAME]]-demo.component.html',
-  styleUrls: ['./[[COMPONENT_NAME]]-demo.component.scss']
+  selector: 'app-bf-time-picker-demo]',
+  templateUrl: './bf-time-picker-demo.component.html',
+  styleUrls: ['./bf-time-picker-demo.component.scss']
 })
-export class [[COMPONENT_NAME_CAMEL]]DemoComponent implements OnInit {
-  public name = [[COMPONENT_NAME_CAMEL]]Doc.name;
-  public desc = [[COMPONENT_NAME_CAMEL]]Doc.desc;
-  public api = [[COMPONENT_NAME_CAMEL]]Doc.api;
-  public instance = [[COMPONENT_NAME_CAMEL]]Doc.instance;
+export class BfTimePickerDemoComponent implements OnInit {
+  public name = BfTimePickerDoc.name;
+  public desc = BfTimePickerDoc.desc;
+  public api = BfTimePickerDoc.api;
+  public instance = BfTimePickerDoc.instance;
 
   public instance2 = 
-`<[[COMPONENT_NAME]]</[[COMPONENT_NAME]]>`;
+`<bf-time-picker</bf-time-picker>`;
 
 
-  public cssReset = `$optional_input_color : $optional-color;
-$focused_input_color  : $focused-color;
-$required_input_color : $primary_color;
-$invalid_input_color  : $invalid-color;
-$valid_input_color    : $primary_color;
-$disabled_input_color : $disabled-color;
+  public cssReset = `$input-border: #ccc !default;
+$optional_input_color : $input-border;
+$disabled_input_color : #797979;
+$primary_color        : #00B6F1;
+$warning_color        : #ED0677;
+$invalid_input_color  : $warning_color;
 
-.[[COMPONENT_NAME]]-form-group {
+.bf-time-picker-form-group {
   ...
 }`;
 
@@ -46,7 +46,7 @@ $disabled_input_color : $disabled-color;
     hasTooltip: false, tooltipText: 'Hello World', tooltipPos: null, tooltipBody: false,
   };
   public upComp = () => {
-    this.customCompCode = `<[[COMPONENT_NAME]] `;
+    this.customCompCode = `<bf-textarea `;
 
     let compClasses = '';
     if (this.compConf.hasFullWidth) { compClasses += (!!compClasses.length ? ' ' : '') + 'full-width'; }
@@ -67,7 +67,7 @@ $disabled_input_color : $disabled-color;
       if (!!this.compConf.tooltipBody) { this.customCompCode += this.bsStr + `bfTooltipBody="${this.compConf.tooltipBody}"`; }
     }
 
-    this.customCompCode += (`>` + this.brStr + `</[[COMPONENT_NAME]]>`);
+    this.customCompCode += (`>` + this.brStr + `</bf-textarea>`);
   };
 
 
@@ -81,11 +81,11 @@ $disabled_input_color : $disabled-color;
 }
 
 
-export const [[COMPONENT_NAME_CAMEL]]Doc = {
-  name    : `[[COMPONENT_NAME]]`,
+export const BfTimePickerDoc = {
+  name    : `bf-time-picker`,
   uiType  : 'component',
-  desc    : `Generates a ....`,
-  api     : `[bfText]: The text... `,
-  instance: `<[[COMPONENT_NAME]]></[[COMPONENT_NAME]]>`, 
-  demoComp: [[COMPONENT_NAME_CAMEL]]DemoComponent
+  desc    : `Generates a button.`, 
+  api     : `[bfText]: Button text`,
+  instance: `<bf-time-picker></bf-time-picker>`, 
+  demoComp: BfTimePickerDemoComponent
 };

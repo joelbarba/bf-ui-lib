@@ -29,6 +29,15 @@ import { BfLoadingBarDemoComponent } from './bf-loading-bar-demo/bf-loading-bar-
 import { BfPromiseDemoComponent } from './bf-promise-demo/bf-promise-demo.component';
 import { BfDeferDemoComponent } from './bf-defer-demo/bf-defer-demo.component';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import { BfTimePickerDemoComponent } from './bf-time-picker-demo/bf-time-picker-demo.component';
+import { BfAutocompleteDemoComponent } from './bf-autocomplete-demo/bf-autocomplete-demo.component';
+import { BfMultiSelectorDemoComponent } from './bf-multi-selector-demo/bf-multi-selector-demo.component';
+import { BfProgressBarDemoComponent } from './bf-progress-bar-demo/bf-progress-bar-demo.component';
+import { BfStatusBadgeDemoComponent } from './bf-status-badge-demo/bf-status-badge-demo.component';
+import { BfColorPickerDemoComponent } from './bf-color-picker-demo/bf-color-picker-demo.component';
+import { BfSliderDemoComponent } from './bf-slider-demo/bf-slider-demo.component';
+import { BfPagePlaceholderDemoComponent } from './bf-page-placeholder-demo/bf-page-placeholder-demo.component';
+import {BfListHandlerDemoComponent} from "./bf-list-handler-demo/bf-list-handler-demo.component";
 
 
 @NgModule({
@@ -56,16 +65,23 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
     BfLoadingBarDemoComponent,
     BfPromiseDemoComponent,
     BfDeferDemoComponent,
+    BfListHandlerDemoComponent,
+    BfTimePickerDemoComponent,
+    BfAutocompleteDemoComponent,
+    BfMultiSelectorDemoComponent,
+    BfProgressBarDemoComponent,
+    BfStatusBadgeDemoComponent,
+    BfColorPickerDemoComponent,
+    BfSliderDemoComponent,
+    BfPagePlaceholderDemoComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbPopoverModule,
     NgbDatepickerModule,
-    // NgbModalModule,
     FormsModule,
     ReactiveFormsModule,
-    // BfUiLibModule.forRoot({ TranslateService: BfTranslateService }),
     BfUiLibModule.forRoot({ trans: {
         useExisting: BfTranslateService
       }

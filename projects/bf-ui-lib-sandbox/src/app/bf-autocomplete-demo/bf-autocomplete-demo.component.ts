@@ -1,22 +1,22 @@
-// [[COMPONENT_NAME]] = 'bf-btn'
-// [[COMPONENT_NAME_CAMEL]] = 'BfBtn'
+// bf-autocomplete = 'bf-btn'
+// BfAutocomplete = 'BfBtn'
 
 
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-[[COMPONENT_NAME]]-demo]',
-  templateUrl: './[[COMPONENT_NAME]]-demo.component.html',
-  styleUrls: ['./[[COMPONENT_NAME]]-demo.component.scss']
+  selector: 'app-bf-autocomplete-demo]',
+  templateUrl: './bf-autocomplete-demo.component.html',
+  styleUrls: ['./bf-autocomplete-demo.component.scss']
 })
-export class [[COMPONENT_NAME_CAMEL]]DemoComponent implements OnInit {
-  public name = [[COMPONENT_NAME_CAMEL]]Doc.name;
-  public desc = [[COMPONENT_NAME_CAMEL]]Doc.desc;
-  public api = [[COMPONENT_NAME_CAMEL]]Doc.api;
-  public instance = [[COMPONENT_NAME_CAMEL]]Doc.instance;
+export class BfAutocompleteDemoComponent implements OnInit {
+  public name = BfAutocompleteDoc.name;
+  public desc = BfAutocompleteDoc.desc;
+  public api = BfAutocompleteDoc.api;
+  public instance = BfAutocompleteDoc.instance;
 
   public instance2 = 
-`<[[COMPONENT_NAME]]</[[COMPONENT_NAME]]>`;
+`<bf-autocomplete</bf-autocomplete>`;
 
 
   public cssReset = `$optional_input_color : $optional-color;
@@ -26,7 +26,7 @@ $invalid_input_color  : $invalid-color;
 $valid_input_color    : $primary_color;
 $disabled_input_color : $disabled-color;
 
-.[[COMPONENT_NAME]]-form-group {
+.bf-autocomplete-form-group {
   ...
 }`;
 
@@ -46,7 +46,7 @@ $disabled_input_color : $disabled-color;
     hasTooltip: false, tooltipText: 'Hello World', tooltipPos: null, tooltipBody: false,
   };
   public upComp = () => {
-    this.customCompCode = `<[[COMPONENT_NAME]] `;
+    this.customCompCode = `<bf-autocomplete `;
 
     let compClasses = '';
     if (this.compConf.hasFullWidth) { compClasses += (!!compClasses.length ? ' ' : '') + 'full-width'; }
@@ -67,7 +67,7 @@ $disabled_input_color : $disabled-color;
       if (!!this.compConf.tooltipBody) { this.customCompCode += this.bsStr + `bfTooltipBody="${this.compConf.tooltipBody}"`; }
     }
 
-    this.customCompCode += (`>` + this.brStr + `</[[COMPONENT_NAME]]>`);
+    this.customCompCode += (`>` + this.brStr + `</bf-autocomplete>`);
   };
 
 
@@ -81,11 +81,11 @@ $disabled_input_color : $disabled-color;
 }
 
 
-export const [[COMPONENT_NAME_CAMEL]]Doc = {
-  name    : `[[COMPONENT_NAME]]`,
+export const BfAutocompleteDoc = {
+  name    : `bf-autocomplete`,
   uiType  : 'component',
   desc    : `Generates a ....`,
   api     : `[bfText]: The text... `,
-  instance: `<[[COMPONENT_NAME]]></[[COMPONENT_NAME]]>`, 
-  demoComp: [[COMPONENT_NAME_CAMEL]]DemoComponent
+  instance: `<bf-autocomplete></bf-autocomplete>`, 
+  demoComp: BfAutocompleteDemoComponent
 };

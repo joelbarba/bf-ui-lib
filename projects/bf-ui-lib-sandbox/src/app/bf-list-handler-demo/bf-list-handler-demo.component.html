@@ -1,0 +1,80 @@
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+<p>
+  This class generates an object that encapsulates the default behaviour we usually need to render a list in the UI.
+</p>
+<p>
+  The object generated with ListHandler is a “mini reducer” that handles the state for the list and all its configuration.
+  It provides a final observable render$ which we can subscribed to and react to any change on the rendered list.
+  <br>
+  The <span class="bold">render$</span> returns the whole configuration object. If we want to subscribe only to the list we can use <span class="bold">renderList$</span>,
+  which returns the list to render on the page (renderedList) so we can easily use | async.
+</p>
+
+<div class="row">
+  <div class="col-7">
+    <p>
+      There are 4 different types of events that can trigger a change on a rendering of the list:
+    </p>
+    <ul>
+      <li>content → Should the source of the list changes (data).</li>
+      <li>filter → If the user filter results of the list throuhg the UI.</li>
+      <li>order → If the user changes the order of the list</li>
+      <li>paginate → In case we paginate the list and want to change any of the pagination properties (items per page / current number)</li>
+    </ul>
+    <p>
+      All these inputs are held as internal subjects, and can be triggered manually using the provided shortcut functions.
+      Although the class works like a reducer, after updating the state that is also exposed as a public properties on the class (so they can be easily read):
+    </p>
+    <h5 class="mt-4">Methods / Members:</h5>
+    <pre>{{api}}</pre>
+  </div>
+  <div class="col-5">
+    <img style="max-width: 500px;" src="assets/listHandler.png">
+  </div>
+</div>
+
+
+<hr>
+<h5 class="marB20">Examples:</h5>
+
+<div class="row">
+  <div class="col-6 padT15">
+    <div class="examples-table">
+      <div class="code-box padV10 padH15">
+        <pre style="font-size: 16px;">{{example1}}</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <div class="row whiteBg">
+      <div class="col-12"><h5 class="marB20">Running Example:</h5></div>
+      <div class="col-3"><bf-input bfLabel="Resolve after" [(ngModel)]="resolveTime" [bfDisabled]="myDef?.status === 0"></bf-input></div>
+      <div class="col-3"><bf-input bfLabel="Reject after" [(ngModel)]="rejectTime" [bfDisabled]="myDef?.status === 0"></bf-input></div>
+      <div class="col-6 padT25 padH20">{{testLog}}</div>
+
+      <div class="col-3">
+        <bf-btn bfText="def.resolve()" bfType="save" class="full-width"
+                [bfDisabled]="myDef?.status !== 0"
+                (bfClick)="myDef.resolve('Manually')">
+        </bf-btn>
+      </div>
+      <div class="col-3">
+        <bf-btn bfText="def.reject()" bfType="warning" class="full-width"
+                [bfDisabled]="myDef?.status !== 0"
+                (bfClick)="myDef.reject('Manually')">
+        </bf-btn>
+      </div>
+
+
+      <div class="col-6">
+        <bf-btn bfText="def = new BfDefer()" class="full-width"
+                [bfDisabled]="myDef?.status === 0"
+                (bfClick)="initTest()">
+        </bf-btn>
+      </div>
+    </div>
+  </div>
+</div>
