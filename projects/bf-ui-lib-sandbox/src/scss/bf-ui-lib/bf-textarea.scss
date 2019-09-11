@@ -1,0 +1,31 @@
+@import 'variables';
+
+// --- <bf-textarea> color reset --------------------------------------------------
+
+.bf-textarea-form-group {
+  textarea.form-control {
+    border: 1px solid $optional-color;
+    &:focus { box-shadow: none; border: 1px solid $focused-color; }
+    //box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    //&:focus { box-shadow: 0 0 0 2px rgba($focused-color, 0.35); }
+  }
+  &.is-disabled textarea.form-control {
+    color: $disabled-color;
+  }
+  &.is-required  textarea.form-control {
+    border-color: $required-color;
+    &:focus { box-shadow: 0 0 0 2px rgba($required-color, 0.20); }
+  }
+  &.is-error {
+    label { color: $invalid-color; }
+    textarea.form-control {
+      border-color: $invalid-color;
+      &:focus { box-shadow: 0 0 0 2px rgba($invalid-color, 0.20); }
+    }
+    .bf-textarea-error-text {
+      color: $invalid-color;
+    }
+  }
+}
+
+

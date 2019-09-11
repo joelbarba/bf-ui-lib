@@ -1,0 +1,8 @@
+@import 'variables';
+
+// --- <bf-label> color reset --------------------------------------------------
+
+label.is-required {
+  color: $primary_color;
+}
+
