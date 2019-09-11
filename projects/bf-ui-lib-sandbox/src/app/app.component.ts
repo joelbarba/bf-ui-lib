@@ -1,5 +1,5 @@
 import {Component, Inject, Injectable, OnInit} from '@angular/core';
-import {BfTranslateService, ServiceB} from "./translate.service";
+import {BfTranslateService} from "./translate.service";
 
 
 @Component({
@@ -12,10 +12,7 @@ export class AppComponent implements OnInit {
   constructor(
     // @Inject('BfUILibTransService') public translate: BfTranslateService
     public translate: BfTranslateService,
-    public pB: ServiceB,
-  ) {
-    console.log('app component - ', this.pB);
-  }
+  ) { }
 
   ngOnInit() { }
 

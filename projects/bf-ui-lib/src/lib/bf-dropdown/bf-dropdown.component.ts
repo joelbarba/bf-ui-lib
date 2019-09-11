@@ -14,7 +14,7 @@ import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VA
 import BfObject from '../bf-prototypes/object.prototype';
 import BfArray from '../bf-prototypes/array.prototypes';
 import {Observable, of} from 'rxjs';
-import {AbstractTranslateService} from '../abstract-translate.service';
+import {AbstractTranslateService, BfUILibTransService} from '../abstract-translate.service';
 
 
 /****
@@ -218,7 +218,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @ViewChild('dropdownInput') elInput: ElementRef<HTMLInputElement>;
 
   constructor(
-    @Inject('BfUILibTransService') private translate: AbstractTranslateService,
+    private translate: BfUILibTransService,
   ) {
 
     // Rerender the list labels on language change

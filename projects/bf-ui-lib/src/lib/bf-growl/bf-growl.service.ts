@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { AbstractTranslateService } from '../abstract-translate.service';
+import {AbstractTranslateService, BfUILibTransService} from '../abstract-translate.service';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -10,8 +10,9 @@ export class BfGrowlService {
   public list$ = new BehaviorSubject([]);
 
   constructor(
-    @Inject('BfUILibTransService') private translate: AbstractTranslateService) {
-  }
+    // @Inject('BfUILibTransService') private translate: AbstractTranslateService,
+    private translate: BfUILibTransService
+  ) { }
 
   public success(text: string, timeOut = 2000) {
     this.pushMsg({ text, timeOut, msgType: 'success', msgIcon: 'icon-checkmark' });

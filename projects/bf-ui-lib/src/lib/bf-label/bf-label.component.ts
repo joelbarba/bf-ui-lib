@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
-import { AbstractTranslateService } from '../abstract-translate.service';
+import { AbstractTranslateService, BfUILibTransService} from '../abstract-translate.service';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -19,7 +19,8 @@ export class BfLabelComponent implements OnInit {
   public bfTooltipTranslated: string;
 
   constructor(
-    @Inject('BfUILibTransService') private translate: AbstractTranslateService,
+    // @Inject('BfUILibTransService') private translate: AbstractTranslateService,
+    private translate: BfUILibTransService,
     private config: NgbPopoverConfig) {
   }
 

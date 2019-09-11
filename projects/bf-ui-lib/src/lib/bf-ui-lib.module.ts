@@ -27,6 +27,7 @@ import { BfRadioComponent } from './bf-radio/bf-radio.component';
 import { BfDatePickerComponent } from './bf-date-picker/bf-date-picker.component';
 import { BfListPaginatorComponent } from './bf-list-paginator/bf-list-paginator.component';
 import {CommonModule} from "@angular/common";
+import {BfUILibTransService} from "./abstract-translate.service";
 
 @NgModule({
   declarations: [
@@ -82,33 +83,21 @@ export class BfUiLibModule {
   constructor(@Optional() @SkipSelf() parentModule: BfUiLibModule) {
     if (parentModule) {
       console.warn('HEY YOU BAD DEVELOPER!!! BfUiLibModule is already loaded');
-      // throw new Error(
-      //   'HEY YOU BAD DEVELOPER!!! BfUiLibModule is already loaded');
+      // throw new Error('');
     }
   }
 
   static forRoot(config): ModuleWithProviders {
-    console.log('BfUiLibModule.forRoot()', new Date(), config.trans);
+    // console.log('BfUiLibModule.forRoot()', new Date(), config.trans);
     return {
       ngModule: BfUiLibModule,
       providers: [
-        { provide: 'BfUILibTransService', ...config.trans },
         // { provide: 'BfUILibTransService', ...config.trans },
+        { provide: BfUILibTransService, ...config.trans },  // <-- To provide a class for the service externally
         BfConfirmService,
         NgbActiveModal,
         NgbModule,
       ]
     };
   }
-  // static forChild(config): ModuleWithProviders {
-  //   console.log('BfUiLibModule.forRoot()', new Date());
-  //   return {
-  //     ngModule: BfUiLibModule,
-  //     providers: [
-  //       { provide: 'TranslateService', useClass: config.TranslateService || class {} },
-  //       BfConfirmService,
-  //       NgbActiveModal, NgbModule,
-  //     ]
-  //   };
-  // }
 }

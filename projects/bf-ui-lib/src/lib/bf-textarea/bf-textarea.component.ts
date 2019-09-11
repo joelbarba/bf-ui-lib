@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, Inject, forwardRef } from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
 import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
-import { AbstractTranslateService } from '../abstract-translate.service';
+import {AbstractTranslateService, BfUILibTransService} from '../abstract-translate.service';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import * as Rx from 'rxjs';
 import * as RxOp from 'rxjs/operators';
@@ -59,7 +59,7 @@ export class BfTextareaComponent implements OnInit {
   public inputCtrl: FormControl; // <-- ngInputRef.control
 
   constructor(
-    @Inject('BfUILibTransService') private translate: AbstractTranslateService,
+    private translate: BfUILibTransService,
     private config: NgbPopoverConfig) {
   }
 

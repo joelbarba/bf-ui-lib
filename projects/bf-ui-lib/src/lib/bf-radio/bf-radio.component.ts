@@ -1,7 +1,7 @@
 import {Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, forwardRef, Inject, OnChanges} from '@angular/core';
 import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import {Observable, of} from 'rxjs';
-import {AbstractTranslateService} from '../abstract-translate.service';
+import {AbstractTranslateService, BfUILibTransService} from '../abstract-translate.service';
 
 @Component({
   selector: 'bf-radio',
@@ -30,7 +30,7 @@ export class BfRadioComponent implements ControlValueAccessor, OnInit, OnChanges
   public bfLabelTrans$: Observable<string> = of('');        // Translated text for the button
 
   constructor(
-    @Inject('BfUILibTransService') private translate: AbstractTranslateService,
+    private translate: BfUILibTransService,
   ) { }
 
   // ------- ControlValueAccessor -----
