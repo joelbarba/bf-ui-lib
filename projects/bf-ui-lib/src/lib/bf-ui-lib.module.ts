@@ -82,8 +82,8 @@ import {BfUILibTransService} from "./abstract-translate.service";
 export class BfUiLibModule {
   constructor(@Optional() @SkipSelf() parentModule: BfUiLibModule) {
     if (parentModule) {
-      console.warn('HEY YOU BAD DEVELOPER!!! BfUiLibModule is already loaded');
-      // throw new Error('');
+      // It's not a bad developer, could be a lazy loaded module
+      // throw new Error('HEY YOU BAD DEVELOPER!!! BfUiLibModule is already loaded');
     }
   }
 

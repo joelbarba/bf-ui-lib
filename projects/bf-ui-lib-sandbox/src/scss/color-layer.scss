@@ -26,7 +26,7 @@ $valid_input_color    : $primary_color;
 $required_input_color : $primary_color;
 
 $radio-color: #525254; // $text-color;
-
+$focused_input_color  : darken($primary_color, 20%);
 
 
 // --- <bf-btn> color reset ----------------------------------------------------
@@ -127,74 +127,116 @@ div.bf-switch {
 
 
 // --- <bf-dropdown> color reset --------------------------------------------------
-.bf-dropdown {
-  select.form-control { // Placeholder color (https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder)
-    &::-webkit-input-placeholder { color: $optional_input_color; } /* WebKit, Blink, Edge */
-    &:-moz-placeholder           { color: $optional_input_color; opacity:  1; } /* Mozilla Firefox 4 to 18 */
-    &::-moz-placeholder          { color: $optional_input_color; opacity:  1; } /* Mozilla Firefox 19+ */
-    &:-ms-input-placeholder      { color: $optional_input_color; } /* Internet Explorer 10-11 */
-    &::-ms-input-placeholder     { color: $optional_input_color; } /* Microsoft Edge */
-    &::placeholder               { color: $optional_input_color; } /* Most modern browsers support this now. */
+$dropdown-selection-bg: $quaternary_color;
+$dropdown-selection-hover: $primary_color;
+.bf-dropdown-form-group {
+  label { transition-property: color; transition-duration: 0.2s; }
+  input.form-control {
+    border: 1px solid $optional_input_color;
+  }
+
+  .bf-dropdown {
+    // Input expanding button (addon)
+    .btn.btn-outline-secondary {
+      border-color: $valid_input_color;
+      background: $valid_input_color;
+      color: $white;
+    }
+    .list-container {
+      background: $white;
+      border: 1px solid $optional_input_color;
+      border-top-color: rgba($optional_input_color, 0.5);
+      .option-row {
+        &.selected {
+          color: $white;
+          background: rgba($dropdown-selection-bg, 0.35);
+        }
+        &:hover {
+          background: $dropdown-selection-hover;
+          color: $white;
+        }
+      }
+    }
+    &.is-expanded {
+      .btn.btn-outline-secondary {
+        background: $white;
+        color: $valid_input_color;
+        border-top-color: $optional_input_color;
+        border-right-color: $optional_input_color;
+      }
+    }
+  }
+
+  &.is-disabled { input.form-control { color: $disabled_input_color; } }
+
+  // Changes the colors depending on the status
+  @mixin bf-dropdown-status-color($color) {
+    label { color: $color; }
+    .bf-dropdown {
+      input.form-control { border-color: $color; }
+      .btn.btn-outline-secondary {
+        background: $color;
+        border-color: $color;
+      }
+      &.is-expanded .btn.btn-outline-secondary {
+        background: $white;
+        color: $color;
+        border-color: $color $color transparent transparent;
+      }
+      .list-container {
+        border-color: $color;
+        border-top-color: rgba($optional_input_color, 0.5);
+      }
+    }
+  }
+
+  &.is-required { @include bf-dropdown-status-color($required_input_color); }
+  &.is-focus { @include bf-dropdown-status-color($focused_input_color); }
+  &.is-error { @include bf-dropdown-status-color($invalid_input_color); }
+
+}
+
+
+
+// --- <bf-textarea> color reset --------------------------------------------------
+.bf-textarea-form-group {
+  textarea.form-control {
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
     border: 1px solid $optional_input_color;
-    &:focus { box-shadow: 0 0 0 2px rgba($optional_input_color, 0.35); }
+    &:focus {
+      box-shadow: 0 0 0 2px rgba($optional_input_color, 0.35);
+      border: 1px solid $focused_input_color;
+    }
   }
-  &.is-disabled select.form-control {
+  &.is-disabled textarea.form-control {
     color: $disabled_input_color;
   }
-  &.is-required select.form-control {
+  &.is-required  textarea.form-control {
     border-color: $primary_color;
     &:focus { box-shadow: 0 0 0 2px rgba($primary_color, 0.20); }
   }
-}
-
-
-
-// --------------------------------------------------------------
-// This is to reset the Growl colors:
-div.growl-wrapper {
-  .msg-box.success {
-    background: darken($primary_color, 15%);
-    color: white;
-  }
-  .msg-box.error {
-    background: $warning_color;
-    color: white;
-  }
-}
-
-
-
-// --------------------------------------------------------------
-// This is to reset the bf-list-paginator colors:
-$primary_color: #00B6F1;
-$page_bg: white;
-$page_color: darken($primary_color, 10%);
-$page_border_color: #c0c0c0;
-$page_hover_bg: #eeeeee;
-
-div.bf-list-paginator {
-  .page-buttons {
-    .page-btn {
-      border-color: $page_border_color;
-      color: $page_color;
-      background: $page_bg;
-      &:not(.disabled):hover { background: $page_hover_bg; }
-      &.current {
-        color: $page_bg;
-        background: $page_color;
-        &:hover { background: $page_color; }
+  &.is-error {
+    label { color: $warning_color; }
+    textarea.form-control {
+      border: 1px solid $warning_color;
+      &:focus {
+        box-shadow: 0 0 0 2px rgba($warning_color, 0.20);
+        border: 1px solid $warning_color;
       }
+    }
+    .bf-textarea-error-text {
+      color: $invalid_input_color;
     }
   }
 }
 
 
 
-// --- <bf-input> color reset (Splice ngJS)-----------------------------------------------------------
+
+
+// --- <bf-input> -----------------------------------------------------------
 // -- This styles the bf-input to behave exactly like the old <bf-input> in the old Splice portal (AngularJS)
 $optional_input_color : $input-border; // <-- this is a bootstrap default
-$focused_input_color  : darken($primary_color, 20%);
 $required_input_color : $primary_color;
 $invalid_input_color  : $warning_color;
 $valid_input_color    : $primary_color;
@@ -256,83 +298,75 @@ $disabled_input_color : #797979;
 
 
 // --- <bf-input> color reset (New Splice ng8)-----------------------------------------------------------
-// -- This styles the bf-input with some improvements (to be applied after the migration is completed)
-//$input-border: #ccc !default; // <-- this is a bootstrap default
-//$optional_input_color : $input-border;
-//$input_focus_color : blue;
-//$required_input_color : $primary_color;
-//$invalid_input_color  : $warning_color;
-//$valid_input_color    : $primary_color;
-//$disabled_input_color : #797979;
-//
-//.bf-input-form-group {
-//  &.is-required .bf-input-inner-icon {
-//    color: $required_input_color; // Icon into the input to add info or error alert
-//  }
-//  .bf-input-inner-icon {
-//    &.bf-icon-error { color: $invalid_input_color; }
-//    &.bf-icon-valid { color: $valid_input_color; }
-//    &.bf-icon-loading { color: $valid_input_color; }
-//  }
-//  input.form-control { // Placeholder color (https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder)
-//    &::-webkit-input-placeholder { color: $optional_input_color; } /* WebKit, Blink, Edge */
-//    &:-moz-placeholder           { color: $optional_input_color; opacity:  1; } /* Mozilla Firefox 4 to 18 */
-//    &::-moz-placeholder          { color: $optional_input_color; opacity:  1; } /* Mozilla Firefox 19+ */
-//    &:-ms-input-placeholder      { color: $optional_input_color; } /* Internet Explorer 10-11 */
-//    &::-ms-input-placeholder     { color: $optional_input_color; } /* Microsoft Edge */
-//    &::placeholder               { color: $optional_input_color; } /* Most modern browsers support this now. */
-//    box-shadow: inset 0 2px 2px rgba(0, 0, 0, .075);
-//    border: 1px solid $optional_input_color;
-//    &:focus {
-//      box-shadow: 0 0 2px 2px rgba($optional_input_color, 0.35);
-//    }
-//  }
-//  &.is-disabled input.form-control { color: $disabled_input_color; }
-//  &.is-required  input.form-control {
-//    border-color: $primary_color;
-//    &:focus { box-shadow: 0 0 2px 2px rgba($primary_color, 0.20); }
-//  }
-//  &.is-error {
-//    label { color: $warning_color; }
-//    input.form-control {
-//      border-color: $warning_color;
-//      &:focus { box-shadow: 0 0 2px 2px rgba($warning_color, 0.20); }
-//    }
-//    .bf-input-error-text { color: $invalid_input_color; }
-//  }
-//}
+/* // -- This styles the bf-input with some improvements (to be applied after the migration is completed)
+$input-border: #ccc !default; // <-- this is a bootstrap default
+$optional_input_color : $input-border;
+$input_focus_color : blue;
+$required_input_color : $primary_color;
+$invalid_input_color  : $warning_color;
+$valid_input_color    : $primary_color;
+$disabled_input_color : #797979;
 
-
-
-
-// --- <bf-textarea> color reset --------------------------------------------------
-.bf-textarea-form-group {
-  textarea.form-control {
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+.bf-input-form-group {
+  &.is-required .bf-input-inner-icon {
+    color: $required_input_color; // Icon into the input to add info or error alert
+  }
+  .bf-input-inner-icon {
+    &.bf-icon-error { color: $invalid_input_color; }
+    &.bf-icon-valid { color: $valid_input_color; }
+    &.bf-icon-loading { color: $valid_input_color; }
+  }
+  input.form-control { // Placeholder color (https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder)
+    &::-webkit-input-placeholder { color: $optional_input_color; } // WebKit, Blink, Edge
+    &:-moz-placeholder           { color: $optional_input_color; opacity:  1; } // Mozilla Firefox 4 to 18
+    &::-moz-placeholder          { color: $optional_input_color; opacity:  1; } // Mozilla Firefox 19+
+    &:-ms-input-placeholder      { color: $optional_input_color; } // Internet Explorer 10-11
+    &::-ms-input-placeholder     { color: $optional_input_color; } // Microsoft Edge
+    &::placeholder               { color: $optional_input_color; } // Most modern browsers support this now.
+    box-shadow: inset 0 2px 2px rgba(0, 0, 0, .075);
     border: 1px solid $optional_input_color;
     &:focus {
-      box-shadow: 0 0 0 2px rgba($optional_input_color, 0.35);
-      border: 1px solid $focused_input_color;
+      box-shadow: 0 0 2px 2px rgba($optional_input_color, 0.35);
     }
   }
-  &.is-disabled textarea.form-control {
-    color: $disabled_input_color;
-  }
-  &.is-required  textarea.form-control {
+  &.is-disabled input.form-control { color: $disabled_input_color; }
+  &.is-required  input.form-control {
     border-color: $primary_color;
-    &:focus { box-shadow: 0 0 0 2px rgba($primary_color, 0.20); }
+    &:focus { box-shadow: 0 0 2px 2px rgba($primary_color, 0.20); }
   }
   &.is-error {
     label { color: $warning_color; }
-    textarea.form-control {
-      border: 1px solid $warning_color;
-      &:focus {
-        box-shadow: 0 0 0 2px rgba($warning_color, 0.20);
-        border: 1px solid $warning_color;
-      }
+    input.form-control {
+      border-color: $warning_color;
+      &:focus { box-shadow: 0 0 2px 2px rgba($warning_color, 0.20); }
     }
-    .bf-textarea-error-text {
-      color: $invalid_input_color;
+    .bf-input-error-text { color: $invalid_input_color; }
+  }
+}
+*/
+
+
+
+
+// --- bf-list-paginator -----------------------------------------------------------
+$primary_color: #00B6F1;
+$page_bg: white;
+$page_color: darken($primary_color, 10%);
+$page_border_color: #c0c0c0;
+$page_hover_bg: #eeeeee;
+
+div.bf-list-paginator {
+  .page-buttons {
+    .page-btn {
+      border-color: $page_border_color;
+      color: $page_color;
+      background: $page_bg;
+      &:not(.disabled):hover { background: $page_hover_bg; }
+      &.current {
+        color: $page_bg;
+        background: $page_color;
+        &:hover { background: $page_color; }
+      }
     }
   }
 }
@@ -340,7 +374,23 @@ $disabled_input_color : #797979;
 
 
 
-// --- bf-loading-bar color reset --------------------------------------------------
+
+
+// --- growl -----------------------------------------------------------
+div.growl-wrapper {
+  .msg-box.success {
+    background: darken($primary_color, 15%);
+    color: white;
+  }
+  .msg-box.error {
+    background: $warning_color;
+    color: white;
+  }
+}
+
+
+
+// --- bf-loading-bar --------------------------------------------------
 $bar-bg: #d4d4d4;
 $bar-color: #004A64;
 $locker-bg: rgba(white, 0.8);

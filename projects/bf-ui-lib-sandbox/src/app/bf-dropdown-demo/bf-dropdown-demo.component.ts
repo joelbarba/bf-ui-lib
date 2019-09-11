@@ -52,25 +52,92 @@ export class BfDropdownDemoComponent implements OnInit {
   public selObj6;
   public selObj7;
 
-  public instance2 =
-`<bf-dropdown [(ngModel)]="selObj" [bfList]="myList" bfSelect="username" bfRender="email">
+  public instance2 = `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList" bfSelect="username" bfRender="email">
 </bf-dropdown>`;
-
-  public instance3 =
-`<bf-dropdown [(ngModel)]="selObj"
+  public instance3 = `<bf-dropdown [(ngModel)]="selObj"
              [bfList]="myList"
              bfSelect="username, first_name, last_name"
              bfRender="$$$ $item.first_name + ' ' + $item.last_name + ' (' + $item.email + ')'">
 </bf-dropdown>`;
-
-  public instance4 =
-`<bf-dropdown [(ngModel)]="selObj"
+  public instance4 = `<bf-dropdown [(ngModel)]="selObj"
              [bfList]="myList"
              bfRender="email"
              bfLabel="Email"
              [bfRequired]="true"
              [bfDisabled]="false">
 </bf-dropdown>`;
+
+  public cssReset = `$dropdown-selection-bg: $quaternary_color;
+$dropdown-selection-hover: $primary_color;
+
+.bf-dropdown-form-group {
+  label { transition-property: color; transition-duration: 0.2s; }
+  input.form-control {
+    border: 1px solid $optional_input_color;
+  }
+
+  .bf-dropdown {
+    // Input expanding button (addon)
+    .btn.btn-outline-secondary {
+      border-color: $valid_input_color;
+      background: $valid_input_color;
+      color: $white;
+    }
+    .list-container {
+      background: $white;
+      border: 1px solid $optional_input_color;
+      border-top-color: rgba($optional_input_color, 0.5);
+      .option-row {
+        &.selected {
+          color: $white;
+          background: rgba($dropdown-selection-bg, 0.35);
+        }
+        &:hover {
+          background: $dropdown-selection-hover;
+          color: $white;
+        }
+      }
+    }
+    &.is-expanded {
+      .btn.btn-outline-secondary {
+        background: $white;
+        color: $valid_input_color;
+        border-top-color: $optional_input_color;
+        border-right-color: $optional_input_color;
+      }
+    }
+  }
+
+  &.is-disabled { input.form-control { color: $disabled_input_color; } }
+
+  // Changes the colors depending on the status
+  @mixin bf-dropdown-status-color($color) {
+    label { color: $color; }
+    .bf-dropdown {
+      input.form-control { border-color: $color; }
+      .btn.btn-outline-secondary {
+        background: $color;
+        border-color: $color;
+      }
+      &.is-expanded .btn.btn-outline-secondary {
+        background: $white;
+        color: $color;
+        border-color: $color $color transparent transparent;
+      }
+      .list-container {
+        border-color: $color;
+        border-top-color: rgba($optional_input_color, 0.5);
+      }
+    }
+  }
+
+  &.is-required { @include bf-dropdown-status-color($required_input_color); }
+  &.is-focus { @include bf-dropdown-status-color($focused_input_color); }
+  &.is-error { @include bf-dropdown-status-color($invalid_input_color); }
+
+}`;
+
+
 
   public extCtrl$ = new Subject();
   public ctrlActions = [
