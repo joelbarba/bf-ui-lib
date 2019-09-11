@@ -127,6 +127,10 @@ export class BfQuantityInputDemoComponent implements OnInit {
   ngOnInit() {
   }
 
+  myVar = 15;
+  lastMod = new Date();
+  setLastMod = () => this.lastMod = new Date();
+
 }
 
 export const BfQuantityInputDoc = {
