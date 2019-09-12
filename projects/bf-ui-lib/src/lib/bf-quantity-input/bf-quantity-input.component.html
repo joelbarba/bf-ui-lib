@@ -1,4 +1,4 @@
-<div class="quantity-controller" [ngClass]="bfSizeMode">
+<div class="quantity-controller">
   <div class="quantity-controller-box left"
        [ngClass]="{ 'blocked': (bfMinVal !== undefined && (bfModelControl.value <= bfMinVal) || bfDisabled) }"
        (click)="decreaseQuantity()">

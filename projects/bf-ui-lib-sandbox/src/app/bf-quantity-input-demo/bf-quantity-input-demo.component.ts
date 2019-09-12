@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BfQuantityInputDemoComponent implements OnInit {
 
+  public myVar = 15;
+  public lastMod = new Date();
   public name = BfQuantityInputDoc.name;
   public desc = BfQuantityInputDoc.desc;
   public api  = BfQuantityInputDoc.api;
@@ -17,12 +19,7 @@ export class BfQuantityInputDemoComponent implements OnInit {
       hasMinValue: false,
       hasMaxValue: false,
       hasMode: false,
-      modeOptions: [{ text: 'small' }, { text: 'large' }, { text: 'input-fit' }, { text: 'button-fit' }],
-      hasOnChangeFunction: false,
-      onChangeFunctionExample: `onChange: (item) => {
- const value = this.custom.object.quantityOnChange;
- value = item.quantity;
-}`
+      modeOptions: [{ text: 'small' }, { text: 'large' }, { text: 'button-fit' }]
     },
     object: {
       value: 0,
@@ -30,11 +27,7 @@ export class BfQuantityInputDemoComponent implements OnInit {
       disable: false,
       minValue: null,
       maxValue: null,
-      mode: null,
-      quantityOnChange: null,
-      onChange: (item) => {
-        this.custom.object.quantityOnChange = item.quantity;
-      }
+      mode: null
     },
     componentView: `<bf-quantity-input></bf-quantity-input>`,
     buildComponentView: () => {
@@ -50,9 +43,7 @@ export class BfQuantityInputDemoComponent implements OnInit {
       (config.hasMaxValue ? `
       [bfMaxVal]="${obj.maxValue}"` : '') +
       (config.hasMode ? `
-      [bfMode]="${obj.mode}"` : '') +
-      (config.hasOnChangeFunction ? `
-      [bfOnChange]="${obj.onChange}"` : '') + '>' + `
+      class="${obj.mode}"` : '') + '>' + `
 </bf-quantity-input>`;
       setTimeout(() => {
         this.custom.exLinked = true;
@@ -67,8 +58,7 @@ export class BfQuantityInputDemoComponent implements OnInit {
  [bfDisabled]="instance1.object.disable"   // false
  [bfMinVal]="instance1.object.minValue"    // 3
  [bfMaxVal]="instance1.object.maxValue"    // 30
- [bfSizeMode]="instance1.object.mode"      // input-fit
- [bfOnChange]="instance1.object.onChange"> // (i) => show(i.quantity)     
+ [bfSizeMode]="instance1.object.mode">     // input-fit   
 </bf-quantity-input>`,
     object: {
       name: 'instance1',
@@ -89,8 +79,7 @@ export class BfQuantityInputDemoComponent implements OnInit {
  [bfDisabled]="instance2.object.disable"   // false
  [bfMinVal]="instance2.object.minValue"    // null
  [bfMaxVal]="instance2.object.maxValue"    // 10
- [bfSizeMode]="instance2.object.mode"      // small
- [bfOnChange]="instance2.object.onChange"> // (i) => show(i.quantity)     
+ [bfSizeMode]="instance2.object.mode">     // small   
 </bf-quantity-input>`,
     object: {
       name: 'instance2',
@@ -98,9 +87,7 @@ export class BfQuantityInputDemoComponent implements OnInit {
       minValue: null,
       maxValue: 10,
       mode: 'small',
-      disable: false,
-      quantityOnChange: null,
-      onChange: (item) => this.instance2.object.quantityOnChange = item.quantity
+      disable: false
     }
   };
 
@@ -127,8 +114,6 @@ export class BfQuantityInputDemoComponent implements OnInit {
   ngOnInit() {
   }
 
-  myVar = 15;
-  lastMod = new Date();
   setLastMod = () => this.lastMod = new Date();
 
 }
@@ -139,11 +124,9 @@ export const BfQuantityInputDoc = {
   desc    : `Set quantity using the input or the side buttons`,
   api     : `* [(ngModel)]        : Model value
   [name]             : The input name used for control validations
+  [class]            : Options: small, large, button-fit
   [bfDisabled]       : Disable input and buttons
-  (bfOnChange)       : Trigger when the model change
   [bfMinVal]         : Minimum value permitted
-  [bfMaxVal]         : Maximum value permitted
-  [bfSizeMode]       : Used to set additional css classes regard the component size. Options:
-                       small, large, input-fit, button-fit`,
+  [bfMaxVal]         : Maximum value permitted`,
   demoComp: BfQuantityInputDemoComponent
 };

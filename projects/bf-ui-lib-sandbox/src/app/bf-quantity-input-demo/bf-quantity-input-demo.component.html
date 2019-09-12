@@ -53,11 +53,10 @@
           <bf-quantity-input
             [(ngModel)]="custom.object.value"
             [name]="custom.object.name"
+            [class] = "custom.config.hasMode ? custom.object.mode: null"
             [bfDisabled]="custom.object.disable"
             [bfMinVal]="custom.config.hasMinValue ? custom.object.minValue : null"
-            [bfMaxVal]="custom.config.hasMaxValue ? custom.object.maxValue : null"
-            [bfSizeMode]="custom.config.hasMode ? custom.object.mode: null"
-            [bfOnChange]="custom.config.hasOnChangeFunction ? custom.object.onChange : null">
+            [bfMaxVal]="custom.config.hasMaxValue ? custom.object.maxValue : null">
           </bf-quantity-input>
         </div>
         <div class="code-box pad15">
@@ -101,17 +100,6 @@
                          bfRender="text"> </bf-dropdown>
           </div>
         </div>
-
-        <div class="row marT15">
-          <div class="col-4 padT5"> <bf-checkbox [(ngModel)]="custom.config.hasOnChangeFunction" (ngModelChange)="custom.buildComponentView()" bfLabel="Has onChange function"></bf-checkbox> </div>
-          <div class="col-8" style="margin-bottom: -5px;" *ngIf="custom.config.hasOnChangeFunction">
-            <div class="code-box pad15">
-              <pre>{{custom.config.onChangeFunctionExample}}</pre>
-              <br>
-              <pre>Value: {{custom.object.quantityOnChange}}</pre>
-            </div>
-          </div>
-        </div>
       </div>
 
     </div>
@@ -132,13 +120,10 @@
           [bfDisabled]="instance1.object.disable"
           [bfMinVal]="instance1.object.minValue"
           [bfMaxVal]="instance1.object.maxValue"
-          [bfSizeMode]="instance1.object.mode"
-          [bfOnChange]="instance1.object.onChange">
+          [class]="instance1.object.mode">
         </bf-quantity-input>
         <br>
         <div class="whiteBg pad15">
-          Value from bfOnChange : {{ instance1.object.quantityOnChange }}
-          <br/>
           Value from ngModel    : {{ instance1.object.value }}
         </div>
       </div>
@@ -157,13 +142,10 @@
           [bfDisabled]="instance2.object.disable"
           [bfMinVal]="instance2.object.minValue"
           [bfMaxVal]="instance2.object.maxValue"
-          [bfSizeMode]="instance2.object.mode"
-          [bfOnChange]="instance2.object.onChange">
+          [class]="instance2.object.mode">
         </bf-quantity-input>
         <br>
         <div class="whiteBg pad15">
-          Value from bfOnChange : {{ instance2.object.quantityOnChange }}
-          <br/>
           Value from ngModel    : {{ instance2.object.value }}
         </div>
       </div>

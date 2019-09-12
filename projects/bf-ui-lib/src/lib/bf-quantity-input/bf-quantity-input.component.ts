@@ -15,10 +15,8 @@ import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, Validators } from
   ]
 })
 export class BfQuantityInputComponent implements OnInit, ControlValueAccessor {
-  @Input() bfOnChange: (obj) => void;
   @Input() bfMinVal: number;
   @Input() bfMaxVal: number;
-  @Input() bfSizeMode: string;
   @Input() bfDisabled: boolean;
 
   private bfModelControl: FormControl;
@@ -34,6 +32,7 @@ export class BfQuantityInputComponent implements OnInit, ControlValueAccessor {
   setMinMaxValues() {
     this.bfMinVal = (typeof this.bfMinVal === 'string' ? parseInt(this.bfMinVal, 10) : this.bfMinVal) || 1;
     this.bfMaxVal = (typeof this.bfMaxVal === 'string' ? parseInt(this.bfMaxVal, 10) : this.bfMaxVal) || 100;
+    this.bfMinVal = this.bfMinVal > this.bfMaxVal ? this.bfMaxVal : this.bfMinVal;
   }
 
   setModelControl() {
@@ -66,7 +65,7 @@ export class BfQuantityInputComponent implements OnInit, ControlValueAccessor {
   writeValue(value: number) {
 
     // Reset to min or max if overflow
-    if (value < this.bfMinVal || !value) {
+    if (value < this.bfMinVal || !value || typeof value !== 'number') {
       value = this.bfMinVal;
     } else if (value > this.bfMaxVal) {
       value = this.bfMaxVal;
@@ -74,11 +73,6 @@ export class BfQuantityInputComponent implements OnInit, ControlValueAccessor {
 
     // Avoid decimals
     value = Math.trunc(value);
-
-    // Execute onChange external function
-    if (typeof this.bfOnChange === 'function' && !!this.bfOnChange) {
-      this.bfOnChange({ quantity: value });
-    }
 
     // Update if the modelValue in the FormControl is different to the real value
     if (this.bfModelControl.value !== value) {
