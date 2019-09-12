@@ -21,7 +21,8 @@ export class BfQuantityInputComponent implements OnInit, ControlValueAccessor {
 
   private bfModelControl: FormControl;
 
-  constructor() {}
+  constructor() {
+  }
 
   ngOnInit() {
     this.bfSizeMode = this.bfSizeMode || 'input-fit'; // default value
@@ -56,16 +57,10 @@ export class BfQuantityInputComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  // ------- ControlValueAccessor ----- //
-
-  onChange: any = (value: number) => {};
-  onTouch: any = () => {};
-
-  // this method sets the value programmatically
-  writeValue(value: number) {
-
+  checkValidationsInModel(value) {
+    value = Number(value);
     // Reset to min or max if overflow
-    if (value < this.bfMinVal || !value || typeof value !== 'number') {
+    if (value < this.bfMinVal || !value) {
       value = this.bfMinVal;
     } else if (value > this.bfMaxVal) {
       value = this.bfMaxVal;
@@ -80,16 +75,27 @@ export class BfQuantityInputComponent implements OnInit, ControlValueAccessor {
         emitModelToViewChange: true
       });
     }
+  }
+
+  // ------- ControlValueAccessor ----- //
+
+  onChange: any = (_: any) => {};
+  onTouch: any = () => {};
+
+  // this method sets the value programmatically
+  writeValue(value) {
+    // Validate and update the model if has bad validation
+    this.checkValidationsInModel(value);
 
     // Propagate to the parent model
-    this.onChange(value);
+    this.onChange(this.bfModelControl.value);
   }
 
   // Upon UI element value changes, this method gets triggered
   registerOnChange(fn: any) {
     this.onChange = fn;
   }
-  // uUon touching the element, this method gets triggered
+  // Upon touching the element, this method gets triggered
   registerOnTouched(fn: any) {
     this.onTouch = fn;
   }
