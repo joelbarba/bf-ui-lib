@@ -31,6 +31,7 @@
 .quantity-controller {
   width: 100%;
   height: 34px;
+  display: flex;
 
   div.quantity-controller-box {
     padding: 10px 0;
@@ -39,7 +40,6 @@
   div.quantity-controller-box {
     width:30%;
     color:#FFFFFF;
-    float: left;
     cursor: pointer;
     text-align: center;
     height: 100%;
@@ -67,7 +67,6 @@
   div.quantity-controller-center {
     height:100%;
     width:40%;
-    float: left;
     input {
       height:100%;
       width:100%;
