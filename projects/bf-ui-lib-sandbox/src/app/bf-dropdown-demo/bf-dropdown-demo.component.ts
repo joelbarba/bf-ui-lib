@@ -272,6 +272,8 @@ export const BfDropdownDoc = {
 [bfEmptyValue]       : By default the empty option sets "null" value to the ngModel. If you need a different value being set in this case, add it here.
 [bfErrorOnPristine]  : If true, errors will be shown in pristine state too (by default pristine shows always as valid).
 [extCtrl$]           : Observable to trigger external actions. Its .next() should emit an object with "action"/"value". Actions: ['expand', 'collapse', 'toggle', 'type']
+(bfOnLoaded)         : Emitter to catch the moment when the component is ready (ngAfterViewInit)
+(bfBeforeChange)     : Emitter to catch the next value before it is set. It returns both (currentValue, nextValue)
 `,
   instance: `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`,
   demoComp: BfDropdownDemoComponent
