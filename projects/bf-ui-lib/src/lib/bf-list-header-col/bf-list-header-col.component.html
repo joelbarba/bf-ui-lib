@@ -1,14 +1,13 @@
-<div *ngIf="!!orderConf; else noOrderCol" class="col-with-order">
+<div *ngIf="!!orderConf" class="col-with-order">
   <h5 (click)="clickOrder()">
     <span>{{colTitle}}</span>
-    <span [hidden]="orderConf.field === fieldName" class="icon-sort"></span>
-    <span [hidden]="orderConf.field !== fieldName">
-      <span [hidden]="orderConf.reverse" class="icon-arrow-down7"></span>
-      <span [hidden]="!orderConf.reverse" class="icon-arrow-up7"></span>
+    <span [class.icon-sort]="orderConf.fields[0] !== fieldName"
+          [class.icon-arrow-down7]="orderConf.fields[0] === fieldName && !orderConf.reverse"
+          [class.icon-arrow-up7]="orderConf.fields[0] === fieldName && orderConf.reverse">
     </span>
   </h5>
 </div>
 
-<ng-template #noOrderCol>
+<div *ngIf="!orderConf">
   <h5> <span>{{colTitle}}</span> </h5>
-</ng-template>
+</div>

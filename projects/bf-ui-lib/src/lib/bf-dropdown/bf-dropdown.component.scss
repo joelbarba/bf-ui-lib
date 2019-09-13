@@ -1,5 +1,7 @@
 .bf-dropdown-form-group {
   display: inline-block;
+  margin-bottom: 15px;
+
   label {
     font-weight: 700;
     margin-bottom: 2px;
@@ -88,101 +90,13 @@
 }
 
 // Styles applied to the host (wrapper instance element) <bf-input>
+:host { display: block; }
+
 :host.full-width {
   .bf-dropdown-form-group { width: 100%; }
 }
 
-
-// --- Color layer override ------------------------------------------------------------------
-/*$primary_color    : #00B6F1;
-$secondary_color  : #93C83E;
-$tertiary_color   : #ED0677;
-$quaternary_color : #004A64;
-$warning_color    : #ED0677;
-$extra_color      : #F17B3F;
-$white: #FFF;
-$disabled-color: #a0a0a0;
-$input-border: #ccc !default; // <-- this is a bootstrap default
-$input-border-color: #ced4da; // <-- this is a bootstrap default
-
-
-$optional_input_color : $input-border-color;
-$disabled_input_color : #797979;
-$invalid_input_color  : $warning_color;
-$valid_input_color    : $primary_color;
-$required_input_color : $primary_color;
-$focused_input_color  : darken($primary_color, 20%);
-$dropdown-selection-bg: $quaternary_color;
-$dropdown-selection-hover: $primary_color;
-$disabled_input_color : #797979;
-
-
-.bf-dropdown-form-group {
-  label { transition-property: color; transition-duration: 0.2s; }
-  input.form-control {
-    border: 1px solid $optional_input_color;
-  }
-
-  .bf-dropdown {
-    // Input expanding button (addon)
-    .btn.btn-outline-secondary {
-      border-color: $valid_input_color;
-      background: $valid_input_color;
-      color: $white;
-    }
-    .list-container {
-      background: $white;
-      border: 1px solid $optional_input_color;
-      border-top-color: rgba($optional_input_color, 0.5);
-      .option-row {
-        &.selected {
-          color: $white;
-          background: rgba($dropdown-selection-bg, 0.35);
-        }
-        &:hover {
-          background: $dropdown-selection-hover;
-          color: $white;
-        }
-      }
-    }
-    &.is-expanded {
-      .btn.btn-outline-secondary {
-        background: $white;
-        color: $valid_input_color;
-        border-top-color: $optional_input_color;
-        border-right-color: $optional_input_color;
-      }
-    }
-  }
-
-  &.is-disabled { input.form-control { color: $disabled_input_color; } }
-
-  // Changes the colors depending on the status
-  @mixin bf-dropdown-status-color($color) {
-    label { color: $color; }
-    .bf-dropdown {
-      input.form-control { border-color: $color; }
-      .btn.btn-outline-secondary {
-        background: $color;
-        border-color: $color;
-      }
-      &.is-expanded .btn.btn-outline-secondary {
-        background: $white;
-        color: $color;
-        border-color: $color $color transparent transparent;
-      }
-      .list-container {
-        border-color: $color;
-        border-top-color: rgba($optional_input_color, 0.5);
-      }
-    }
-  }
-
-  &.is-required { @include bf-dropdown-status-color($required_input_color); }
-  &.is-focus { @include bf-dropdown-status-color($focused_input_color); }
-  &.is-error { @include bf-dropdown-status-color($invalid_input_color); }
-
-}*/
-
-
+:host.flat {
+  .bf-dropdown-form-group { margin-bottom: 0; };
+}
 

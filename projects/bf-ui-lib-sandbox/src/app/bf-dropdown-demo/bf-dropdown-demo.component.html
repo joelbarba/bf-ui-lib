@@ -9,6 +9,8 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
 
 
 
+
+
 <!--Button Customization-->
 <div *ngIf="isViewOn" class="whiteBg">
   <div class="row">
@@ -303,6 +305,8 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
 
 </div>
 
+
+
 <!--Applicable classes -->
 <div *ngIf="true" class="row">
   <div class="col-12 marT20">
@@ -312,12 +316,30 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
   </div>
   <div class="col-2 text-right">
     <p class="padT10">Full Width:</p>
-    <p>Normal:</p>
+    <p class="padT10">Normal:</p>
   </div>
   <div class="col-5" style="border: 1px dashed red; padding: 5px 0;">
     <bf-dropdown [(ngModel)]="selObj3" [bfList]="myList" bfRender="username" class="full-width"></bf-dropdown>
     <bf-dropdown [(ngModel)]="selObj3" [bfList]="myList" bfRender="username"></bf-dropdown>
   </div>
+
+  <div class="col-12 marT20">
+    <p>If you need a dropdown without the default margin bottom (15) you can apply class "<span class="bold">flat</span>":</p>
+  </div>
+
+  <div class="col-3 offset-2">
+    <p class="padT10">Regular:</p>
+    <div style="border: 1px dashed red; padding: 1px 10px;">
+      <bf-dropdown [(ngModel)]="selObj3" [bfList]="myList" bfRender="username"></bf-dropdown>
+    </div>
+  </div>
+  <div class="col-3">
+    <p class="padT10">Flat:</p>
+    <div style="border: 1px dashed red; padding: 1px 10px;">
+      <bf-dropdown class="flat" [(ngModel)]="selObj3" [bfList]="myList" bfRender="username"></bf-dropdown>
+    </div>
+  </div>
+
 </div>
 
 

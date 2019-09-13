@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, OnChanges, Output, ViewEncapsulation, DoCheck} from '@angular/core';
+import {Observable} from "rxjs";
 
 interface IBfCtrl {
   goToPage: (pageNum: number) => void;
@@ -6,7 +7,8 @@ interface IBfCtrl {
   currentPage: number;
   totalPages: number;
   rowsPerPage: number;
-  maxRowsPerPageList?: Array<{ num: number, label: string }>
+  maxRowsPerPageList?: Array<{ num: number, label: string }>;
+  render$ ?: Observable<any>;
 }
 
 @Component({
@@ -40,12 +42,25 @@ export class BfListPaginatorComponent implements OnInit, OnChanges, DoCheck {
   public listBtns = [];   // Buttons to display on the left (1, 2, 3 ...)
   public prevCtrl;        // Copy of the previous bfCtrl, to detect changes
   public listLength = 0;  // Keep the previous list length to recalculate pages (internal default function)
+  public renderSubs;      // Subscription to the bfCtrl.render$
 
   constructor() { }
 
   ngOnChanges(changes) {
     if (changes.hasOwnProperty('bfCtrl') || changes.hasOwnProperty('bfMaxButtons')) {
       this.bfCtrl = { ...this.defaultCtrl, ...this.bfCtrl };
+
+      // if bfCtrl comes with a render$ observable, subscribe
+      if (this.bfCtrl.render$) {
+        if (!!this.renderSubs) { this.renderSubs.unsubscribe(); }
+        this.renderSubs = this.bfCtrl.render$.subscribe(listState => {
+          this.bfCtrl.currentPage = listState.currentPage;
+          this.bfCtrl.totalPages = listState.totalPages;
+          this.bfCtrl.rowsPerPage = listState.rowsPerPage;
+          this.renderComponent();
+        });
+      }
+
       this.renderComponent();
     }
     this.listLength = this.bfCtrl.totalPages * this.bfCtrl.rowsPerPage;

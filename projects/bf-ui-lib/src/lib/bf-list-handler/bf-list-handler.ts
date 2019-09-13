@@ -2,302 +2,187 @@ import {BehaviorSubject, merge, Observable, Subject} from 'rxjs';
 import {debounceTime, map, scan} from 'rxjs/operators';
 
 
-enum IStatus { Empty = 0, Loading = 1, Ready = 2, Error = 3 }
-interface IListObs { status: IStatus; content: Array<any>; }
-export interface ListHandlerConfig {
+export interface BfListHandlerConfig {
   listName      ?: string;
-  filterText    ?: string;
-  filterField   ?: string;
   filterFields  ?: Array<string>;
   orderFields   ?: Array<string>;
   orderReverse  ?: boolean;
   rowsPerPage   ?: number;
-  currentPage   ?: number;
   totalPages    ?: number;
 }
 
 
-/****************************************************************
- - To create a new instance (all params are optionals):
- this.myList = new ListHandler({
-    filterText   : '',
-    filterFields : ['name'],
-    orderFields  : ['pos','amount'],
-    orderReverse : false,
-    rowsPerPage  : 15,
-    currentPage  : 1,
-    totalPages   : 1
-  });
- ******************************************************************/
+export class BfListHandler {
+  public render$: BehaviorSubject<any>; // Observable to listen to rendering changes
+  public renderList$: Observable<any>;  // Observable to listen to rendering changes, mapping only renderedList as output
 
-export class ListHandler {
-  private setContent;  // Subject to trigger a list content change -----> load()
-  private setFilter  = new Subject();  // Subject to trigger a list filter change ------> filter()
-  private setOrder   = new Subject();  // Subject to trigger a list reorder change -----> order()
-  private setPage    = new Subject();  // Subject to trigger a list pagination change --> paginate() / nextPate() / prevPage ()
-
-
-
-
-
-
-
-
-  // Input Observables
-  public filter$: Observable<any>;     // Observable to listen any change on the filter
-  public order$: Observable<any>;      // Observable to listen any change on the ordering parameters
-  public content$: Observable<any>;    // Observable to listen any change on the loaded list
-  public page$: Observable<any>;       // Observable to listen any change on the loaded list
-
-  // Output Observables
-  public render$: Observable<any>;     // Observable to listen to rendering changes
-  public renderList$: Observable<any>; // Observable to listen to rendering changes, mapping only renderedList as output
-  public loadingPromise;                  // Promise to wait while loading the list
-  public loadingStatus = 0;      // 0=Empty, 1=Loading, 2=Loaded, 3=Error
-
+  // ---- STATE ---------------
   public loadedList: Array<any>;    // Array with the full loaded content
   public renderedList: Array<any>;  // Array with the content to render on the list (filtered + ordered + paginated)
+  public listName = '';             // Optional list identifier
+  public loadingStatus = 0;         // 0=Empty, 1=Loading, 2=Loaded, 3=Error
+  public totalItems = 0;            // loadedList.length
+  public totalFiltered = 0;         // Total number of filtered items (middle step after filter and before pagination)
+  public renderedItems = 0;         // renderedList.length
+  public rowsPerPage = 10;          // Max number of rows per page of the pagination
+  public currentPage = 1;           // Current page of the pagination
+  public totalPages = 1;            // Calculation of the total number of pages
+  public filterText = '';           // Current filter value
+  // --------------------------
 
-  public filterText: string = '';      // Text of the filter (only matches will pass to renderedList)
-  public filterFields: Array<string>;  // Name of the field of the list where to apply the filter (filterText)
-
+  public filterFields: Array<string> = [];  // Name of the field where to apply the filter (filterText)
   public orderConf = {
-    field    : '',          // Name of the field of the list to order the list by (fields[0])
-    fields   : [],          // Array with all the order fields
-    reverse  : false,       // Whether the list is ordered asc (false) or desc (true)
-    onChange : (orderField) => this.setOrder.next(orderField) // Function to trigger a new order
+    fields: [],       // Array with all the fields the list is ordered by
+    reverse: false,   // Whether the list is ordered asc (false) or desc (true)
+    setField: (orderField) => this.order(orderField) // Function to add a new field to the order sequence
   };
-
-  public rowsPerPage: number;       // Max number of rows per page of the pagination
-  public currentPage: number;       // Current page of the pagination
-  public totalPages: number;        // Calculation of the total number of pages
-  public pagesList: Array<{id: number, isLast: boolean}>;   // List of page numbers (to loop)
-  public maxRowsPerPageList = [          // Selector for the max items per page
-    { num: 5,   label: 'Show 5 items per page' },
-    { num: 10,  label: 'Show 10 items per page' },
-    { num: 15,  label: 'Show 15 items per page' },
-    { num: 20,  label: 'Show 20 items per page' },
-    { num: 30,  label: 'Show 30 items per page' },
-    { num: 50,  label: 'Show 50 items per page' },
-    { num: 100, label: 'Show 100 items per page' },
-  ];
-  public listName: string;
+  public pagesList = [{id: 1, isLast: false}];   // List of page numbers (to loop)
 
 
-  constructor(customInit: ListHandlerConfig = {}) {
-    // console.log('constructor', customInit);
-    this.listName = customInit.listName;
+  private contentSubs;  // Content loader subscription
 
-    // Default values (to be overriden by constructor param if needs be)
-    const defaultState = {
-      loadedList   : [],
-      renderedList : [],
-      filterText   : '',
-      filterFields : [],
-      orderFields  : [],
-      orderReverse : false,
-      rowsPerPage  : 15,
-      currentPage  : 1,
-      totalPages   : 1
-    };
+  constructor(customInit: Partial<BfListHandlerConfig> = {}) {
+    if (customInit.hasOwnProperty('listName'))     { this.listName     = customInit.listName; }
+    if (customInit.hasOwnProperty('filterFields')) { this.filterFields = customInit.filterFields; }
+    if (customInit.hasOwnProperty('orderFields'))  { this.orderConf.fields = customInit.orderFields; }
+    if (customInit.hasOwnProperty('orderReverse')) { this.orderConf.reverse = customInit.orderReverse; }
+    if (customInit.hasOwnProperty('rowsPerPage'))  { this.rowsPerPage  = customInit.rowsPerPage; }
+    if (customInit.hasOwnProperty('totalPages'))   { this.totalPages   = customInit.totalPages; }
 
-    // If 'filteredField', add it to the 'filteredFields[]'
-    if (customInit.hasOwnProperty('filterField')) {
-      customInit.filterFields = customInit.filterFields || [];
-      customInit.filterFields.unshift(customInit.filterField);
+    this.loadedList = [];
+    this.renderedList = [];
+
+    this.loadingStatus = 0; // Empty
+    this.render$ = new BehaviorSubject(this.getState());
+    this.renderList$ = this.render$.pipe(map(state => state.renderedList ));
+  }
+
+
+  // ------------------------- REDUCER -----------------------------
+  // Apply an action to the current state to generate the next state
+  private dispatch = (change: { action?: string, payload?: any } = {}) => {
+    console.log('Reducer [', this.listName, ']----> ', change.action, change.payload);
+
+    switch (change.action) {
+      case 'LOAD' :
+        this.loadedList = change.payload;
+        this.loadedList.forEach(this.extendItem);
+        this.loadingStatus = 2;
+        break;
+
+      case 'ADD'    : this.loadedList.push(this.extendItem(change.payload)); break;
+      case 'REMOVE' : this.loadedList.splice(this.loadedList.indexOf(change.payload), 1); break;
+
+      case 'FILTER' : this.filterText = change.payload; break;
+
+      case 'ORDER'  :
+        const orderField = change.payload;
+        if (this.orderConf.fields[0] === orderField) {
+          this.orderConf.reverse = !this.orderConf.reverse; // Revers current order
+
+        } else { // Add selected field to the first field order
+          const fieldPos = this.orderConf.fields.indexOf(orderField);
+          if (fieldPos >= 0) { this.orderConf.fields.splice(fieldPos, 1); }
+          this.orderConf.fields.unshift(orderField);
+          this.orderConf.reverse = false;
+        }
+        break;
+
+      case 'PAGINATE': this.rowsPerPage = change.payload; break;
+      case 'GOTO':     this.currentPage = change.payload; break;
+      case 'NEXT':     this.currentPage++; break;
+      case 'PREV':     this.currentPage--; break;
+      case 'REFRESH' : break;
     }
 
-    const iniState = { ...defaultState, ...customInit };
-    this.exposeState(iniState);
+    // Generate rendered list
+    this.renderedList = this.loadedList;
 
-    this.setContent = new BehaviorSubject(iniState.loadedList);
+    // Filter list
+    this.renderedList = this.filterList(this.renderedList, this.filterText, this.filterFields);
+    this.totalFiltered = this.renderedList.length;
 
-    // --------------------------------------------------
+    // Order list
+    if (!!this.orderConf && !!this.orderConf.fields && this.orderConf.fields.length > 0) {
+      this.renderedList = this.orderList(this.renderedList, this.orderConf.fields, this.orderConf.reverse);
+    }
 
-    // List content changes
-    this.content$ = this.setContent.pipe(
-      map((loadedList) => {
-        return { loadedList, type: 'content'};
-      })
-    );
+    // Truncate pagination
+    if (this.rowsPerPage > 0) {
+      this.totalPages = Math.ceil(this.renderedList.length / this.rowsPerPage);
 
-    // List filter
-    this.filter$ = this.setFilter.pipe(
-      debounceTime(200),
-      map((filterText) => ({ filterText, type: 'filter' }))
-    );
+      if (this.currentPage < 1) { this.currentPage = 1; }
+      if (this.currentPage > this.totalPages) { this.currentPage = this.totalPages; }
 
-    // List order
-    this.order$ = this.setOrder.pipe(
-      map((orderField) => ({ orderField, type: 'order' }))
-    );
+      this.renderedList = this.renderedList.filter((item, ind) => {
+        const offSet = (this.currentPage - 1) * this.rowsPerPage;
+        const limit = this.currentPage * this.rowsPerPage;
+        return (ind >= offSet && ind < limit);
+      });
 
-    // List Pagination
-    this.page$ = this.setPage;
+      // Generate an array with all pages
+      this.pagesList = Array.from(Array(this.totalPages).keys())
+        .map(ind => ({ id: ind + 1, isLast: (ind === this.totalPages - 1) }));
+    }
 
-    this.setReducer(iniState);
-  }
+    this.totalItems = this.loadedList.length;
+    this.renderedItems = this.renderedList.length;
 
-  private setReducer = (iniState) => {
-    this.render$ = merge(this.order$, this.filter$, this.content$, this.page$).pipe(
-      scan((state, action: any) => {
-        if (action.type === 'content') {
-          console.log('Reducer pipe [', this.listName, ']----> ', action);
-        }
-
-        // Update the new state acording ot the actions
-        // content ----> action.loadedList
-        // filter -----> action.filterText
-        // order ------> action.orderField
-        // paginate ---> action.rowsPerPage
-        // nextPage ---> -
-        // prevPage ---> -
-
-        switch (action.type) {
-          case 'content':   state.loadedList = action.loadedList; break;
-          case 'filter':    state.filterText = action.filterText; break;
-          case 'order':     if (state.orderFields[0] !== action.orderField) {
-            let fieldPos = state.orderFields.indexOf(action.orderField);
-            if (fieldPos >= 0) {
-              state.orderFields.splice(fieldPos, 1);
-            }
-            state.orderFields.unshift(action.orderField);
-            state.orderReverse = false;
-          } else {
-            state.orderReverse = !state.orderReverse;
-          }
-            break;
-          case 'paginate': state.rowsPerPage = action.rowsPerPage;
-            state.currentPage = 1;
-            break;
-          case 'nextPage': state.currentPage++; break;
-          case 'prevPage': state.currentPage--; break;
-        }
-
-        // --- Generate output (renderedList) ---
-
-        state.renderedList = state.loadedList;
-
-        // Filter list
-        state.renderedList = this.filterList(state.renderedList, state.filterText, state.filterFields);
-
-        // Order list
-        if (!!state.orderFields && state.orderFields.length > 0) {
-          state.renderedList = this.orderList(state.renderedList, state.orderFields, state.orderReverse);
-        }
-
-        // Truncate pagination
-        if (state.rowsPerPage > 0) {
-          state.totalPages = Math.ceil(state.renderedList.length / state.rowsPerPage);
-
-          if (state.currentPage < 1) { state.currentPage = 1; }
-          if (state.currentPage > state.totalPages) { state.currentPage = state.totalPages; }
-
-          state.renderedList = state.renderedList.filter((item, ind) => {
-            const offSet = (state.currentPage - 1) * state.rowsPerPage;
-            const limit = state.currentPage * state.rowsPerPage;
-            return (ind >= offSet && ind < limit);
-          });
-
-          // Generate an array with all pages
-          state.pagesList = Array.from(Array(state.totalPages).keys()).map(ind => ({ id: ind+1, isLast: (ind === state.totalPages - 1) }));
-        }
-
-        this.exposeState(state);
-
-        return state;
-      }, iniState )
-    );
-
-    this.renderList$ = this.render$.pipe(map(res => res.renderedList));
-  }
-
-
-  // Update the class members as shortcut to current state (to be used out of subscriptions)
-  private exposeState = (state) => {
-    this.loadedList   = state.loadedList;
-    this.filterText   = state.filterText;
-    this.filterFields = state.filterFields;
-    this.rowsPerPage  = state.rowsPerPage;
-    this.currentPage  = state.currentPage;
-    this.totalPages   = state.totalPages;
-    this.pagesList    = state.pagesList;
-    this.renderedList = state.renderedList;
-
-    this.orderConf.field   = state.orderFields[0];
-    this.orderConf.fields  = state.orderFields;
-    this.orderConf.reverse = state.orderReverse;
+    // console.log('dispatching: ', change.action, this.getState());
+    this.render$.next(this.getState());
   };
 
-  // ---------------- Public methods ------------------------
-  public filter = (filterText: string = '') => this.setFilter.next(filterText);
-  public order  = (orderField: string = '') => this.setOrder.next(orderField);
-
-  public paginate = (rowsPerPage) => this.setPage.next({ rowsPerPage, type: 'paginate' });
-  public nextPage = () => this.setPage.next({ type: 'nextPage' });
-  public prevPage = () => this.setPage.next({ type: 'prevPage' });
-
-  public load = (loadedList) => { // Sync loading
-    this.setContent.next(loadedList);
-    this.loadingStatus = 2;
+  // Wrap the state the fields
+  public getState = () => {
+    return {
+      loadedList    : this.loadedList,
+      renderedList  : this.renderedList,
+      listName      : this.listName,
+      loadingStatus : this.loadingStatus,
+      totalItems    : this.totalItems,
+      totalFiltered : this.totalFiltered,
+      renderedItems : this.renderedItems,
+      rowsPerPage   : this.rowsPerPage,
+      currentPage   : this.currentPage,
+      totalPages    : this.totalPages,
+      filterFields  : this.filterFields,
+      filterText    : this.filterText,
+    };
   };
 
-  // Loads the content of the list from a promise that resolves it
-  public loadFromPromise = (loadPromise) => {
-    this.loadingPromise = loadPromise;
-    this.loadingStatus = 1;
-    return loadPromise.then(listContent => {
-      this.load(listContent);
-      this.loadingStatus = 2;
-      return listContent;
-    });
+  // ---------------- Public methods to trigger actions ----------------------
+
+  // Load a list of data
+  public load = (content) => this.dispatch({ action: 'LOAD', payload: content });
+
+  // Set an observable as the source of input data for the list
+  public setLoader = (load$) => {
+    if (!!this.contentSubs) { this.contentSubs.unsubscribe(); }
+    this.loadingStatus = 1; // loading
+    this.contentSubs = load$.subscribe(this.load);
   };
 
-  // Connects an incoming observable (that returns status and content) to the content subject
-  public subscription;
-  // public loadFromObs = (contentObs$:Observable<{ status: number, content: any }>, callbackFunc?) => {
-  public loadFromObs = (contentObs$, callbackFunc?) => {
-    this.loadingStatus = 1;
+  // Shortcuts to dispatch action
+  public refresh = () => this.dispatch({ action: 'REFRESH' });
+  public add = (item: any) => this.dispatch({ action: 'ADD', payload: item });
+  public filter = (filterText = '')    => this.dispatch({ action: 'FILTER',   payload: filterText });
+  public order  = (orderField = '')    => this.dispatch({ action: 'ORDER',    payload: orderField });
+  public paginate = (rowsPerPage = 10) => this.dispatch({ action: 'PAGINATE', payload: rowsPerPage });
+  public goToPage = (numPage = 1)      => this.dispatch({ action: 'GOTO',     payload: numPage });
+  public nextPage = () => this.dispatch({ action: 'NEXT' });
+  public prevPage = () => this.dispatch({ action: 'PREV' });
 
-    if (!!this.subscription) { this.subscription.unsubscribe(); }
-    this.subscription = contentObs$.subscribe(state => {
-      this.loadingStatus = state.status;
-      if (state.status === 2) {
-        console.log(`Loading list content from Observable [${this.listName}], ${state.content.length}`);
-        this.setContent.next(state.content);
-        if (!!callbackFunc && typeof callbackFunc === 'function') {
-          callbackFunc(state.content);
-        }
-      }
-    });
+
+
+  // Extend the list item with manipulation methods: $save(), $remove()
+  private extendItem = (item: any = {}) => {
+    item.$remove = () => this.dispatch({ action: 'REMOVE', payload: item });
+    item.$save = (nextItem = {}) => {
+      Object.assign(item, nextItem);
+      this.dispatch({ action: 'REFRESH' });
+    };
+    return item;
   };
-
-
-  // Conect an observable that emits the content to the inner content observable
-  public connectObs = (contentObs$) => {
-    console.log('Connecting content observables');
-    this.content$ = contentObs$.pipe(
-      map(content => {
-        console.log('mapping', content);
-        return ( { loadedList: content, type: 'content' } );
-        // return ( { loadedList: { status: 2, content }, type: 'content' } );
-      })
-    );
-
-    this.setReducer({
-      loadedList       : this.loadedList,
-      filterText       : this.filterText,
-      filterFields     : this.filterFields,
-      rowsPerPage      : this.rowsPerPage,
-      currentPage      : this.currentPage,
-      totalPages       : this.totalPages,
-      pagesList        : this.pagesList,
-      renderedList     : this.renderedList,
-      orderFields      : [this.orderConf.field],
-      orderReverse     : this.orderConf.reverse
-    });
-  }
-
 
   // Default function to filter the list (on render). If "filterList" is extended later, this can be used to refer to the default
   public defaultFilterList = (list: Array<any>, filterText: string = '', filterFields: Array<string>): Array<any> => {
@@ -305,13 +190,13 @@ export class ListHandler {
       return list;
 
     } else {
-      let matchPattern = filterText.toLowerCase();
+      const matchPattern = filterText.toLowerCase();
       return list.filter((item) => {
         let isMatch = false;
-        for (let ind = 0; ind <= filterFields.length; ind++) {
-          let field = filterFields[ind];
+        for (const field of filterFields) {
           if (item.hasOwnProperty(field)) {
-            isMatch = isMatch || item[field].toLowerCase().indexOf(matchPattern) >= 0;
+            const fieldStr = JSON.stringify(item[field]); // In case the field is not a string, parse it
+            isMatch = isMatch || fieldStr.toLowerCase().indexOf(matchPattern) >= 0;
           }
         }
         return isMatch;
@@ -330,21 +215,21 @@ export class ListHandler {
       const reVal = !!orderReverse ? -1 : 1;
 
       // Iterate all fields until we find a difference and can tell which goes first
-      for (let ind = 0; ind < orderFields.length; ind++) {
-        let valA = itemA[orderFields[ind]];
-        let valB = itemB[orderFields[ind]];
+      for (const field of orderFields) {
+        let valA = itemA[field];
+        let valB = itemB[field];
 
         if (!isNaN(valA) && !isNaN(valB)) { // If numbers, compare using number type
           valA = Number(valA);
           valB = Number(valB);
         }
 
-        if (valA != valB) { // If not equal, return which goes first
+        if (valA !== valB) { // If not equal, return which goes first
           return (valA > valB ? reVal : -reVal);
         }
       }
       return reVal;
     });
-  }
+  };
 
 }
