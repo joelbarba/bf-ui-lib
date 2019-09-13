@@ -39,26 +39,26 @@
 
   div.quantity-controller-box {
     width:30%;
-    color:#FFFFFF;
+    //color:#FFFFFF;
     cursor: pointer;
     text-align: center;
     height: 100%;
 
     &.left{
-      background: #00B6F1;
+      //background: #00B6F1;
       border-top-left-radius: 4px;
       border-bottom-left-radius: 4px;
       font-size: 10px;
     }
 
     &.right{
-      background: #00B6F1;
+      //background: #00B6F1;
       border-top-right-radius: 4px;
       border-bottom-right-radius: 4px;
       font-size: 10px;
     }
     &.blocked {
-      background: darken(#00B6F1, 8%);
+      //background: darken(#00B6F1, 8%);
       cursor: not-allowed;
     }
 
@@ -71,7 +71,7 @@
       height:100%;
       width:100%;
       text-align: center;
-      border:2px solid #00B6F1;
+      //border:2px solid #00B6F1;
       border-radius: 0;
       border-left:0 none;
       border-right:0 none;

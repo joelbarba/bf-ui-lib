@@ -1,0 +1,19 @@
+@import 'variables';
+
+div.quantity-controller-box {
+  color:$white;
+  &.left{
+    background: $primary_color;
+  }
+  &.right{
+    background: $primary_color;
+  }
+  &.blocked {
+    background: darken($primary_color, 8%);
+  }
+}
+div.quantity-controller-center {
+  input {
+    border:2px solid $primary_color;
+  }
+}
