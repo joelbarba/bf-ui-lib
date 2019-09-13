@@ -19,7 +19,7 @@ export class BfQuantityInputComponent implements OnInit, ControlValueAccessor {
   @Input() bfMaxVal: number;
   @Input() bfDisabled: boolean;
 
-  private bfModelControl: FormControl;
+  public bfModelControl: FormControl;
 
   constructor() {
   }
