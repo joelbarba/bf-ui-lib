@@ -25,7 +25,6 @@ export class BfQuantityInputComponent implements OnInit, ControlValueAccessor {
   }
 
   ngOnInit() {
-    this.bfSizeMode = this.bfSizeMode || 'input-fit'; // default value
     this.setMinMaxValues();
     this.setModelControl();
   }

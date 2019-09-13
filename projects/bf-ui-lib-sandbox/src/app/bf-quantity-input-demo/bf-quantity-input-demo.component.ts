@@ -58,7 +58,6 @@ export class BfQuantityInputDemoComponent implements OnInit {
  [bfDisabled]="instance1.object.disable"   // false
  [bfMinVal]="instance1.object.minValue"    // 3
  [bfMaxVal]="instance1.object.maxValue"    // 30
- [bfSizeMode]="instance1.object.mode">     // input-fit   
 </bf-quantity-input>`,
     object: {
       name: 'instance1',
@@ -78,8 +77,7 @@ export class BfQuantityInputDemoComponent implements OnInit {
  [name]="instance2.object.name"            // instance2
  [bfDisabled]="instance2.object.disable"   // false
  [bfMinVal]="instance2.object.minValue"    // null
- [bfMaxVal]="instance2.object.maxValue"    // 10
- [bfSizeMode]="instance2.object.mode">     // small   
+ [bfMaxVal]="instance2.object.maxValue"    // 10 
 </bf-quantity-input>`,
     object: {
       name: 'instance2',
