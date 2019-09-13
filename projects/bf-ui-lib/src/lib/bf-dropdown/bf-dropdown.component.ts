@@ -8,13 +8,14 @@ import {
   Inject,
   ViewChild,
   ElementRef,
-  Pipe, PipeTransform, OnDestroy
+  Pipe, PipeTransform, OnDestroy, EventEmitter, AfterViewInit
 } from '@angular/core';
 import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import BfObject from '../bf-prototypes/object.prototype';
 import BfArray from '../bf-prototypes/array.prototypes';
 import {Observable, of} from 'rxjs';
-import {AbstractTranslateService} from '../abstract-translate.service';
+import {AbstractTranslateService, BfUILibTransService} from '../abstract-translate.service';
+import {IbfInputCtrl} from "../bf-input/bf-input.component";
 
 
 /****
@@ -165,7 +166,7 @@ import {AbstractTranslateService} from '../abstract-translate.service';
     }
   ]
 })
-export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
+export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChanges, AfterViewInit, OnDestroy {
   @Input() bfList: Array<any>;    // List of options (array of objects)
   @Input() bfRender = '';         // How to display every option on the expanded list
   @Input() bfSelect = '';         // What fields need to be selected on the model (from the list object)
@@ -186,10 +187,14 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   @Input() extCtrl$: Observable<any>;
 
+  @Output() bfOnLoaded = new EventEmitter<any>();     // Emitter to catch the moment when the component is ready (ngAfterViewInit)
+  @Output() bfBeforeChange = new EventEmitter<any>(); // Emitter to catch the next value before it is set
+
+
   // --------------
 
 
-  private ngControl;  // Reference to the external formControl
+  public ngControl;  // Reference to the external formControl
 
   public bfModel; // <--- internal ngModel
   public isModelEmpty = false;  // Whether the bfModel is holding the empty option
@@ -218,7 +223,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @ViewChild('dropdownInput') elInput: ElementRef<HTMLInputElement>;
 
   constructor(
-    @Inject('TranslateService') private translate: AbstractTranslateService,
+    private translate: BfUILibTransService,
   ) {
 
     // Rerender the list labels on language change
@@ -276,13 +281,17 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   ngOnInit() { }
 
+  // ngAfterContentInit() { }
+
+  ngAfterViewInit() {
+    this.bfOnLoaded.emit({});
+  }
+
   ngOnDestroy() {
     if (!!this.langSubs) { this.langSubs.unsubscribe(); }
     if (!!this.ctrlSubs) { this.ctrlSubs.unsubscribe(); }
   }
 
-  // ngAfterContentInit() { }
-  // ngAfterViewInit() { }
 
 
   // Generates the extended list to be used internally (bfList --> extList)
@@ -318,6 +327,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
       $item.$isMatch = true;   // filter none by default
     });
 
+    this.toggleEmptyOption(); // Set Empty option
     this.translateExtList(); // Set $renderedText
   };
 
@@ -565,6 +575,10 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     }
 
     // console.log('propagateModelUp', selModel);
+    this.bfBeforeChange.emit({
+      // currentValue: this.ngControl.value,  // TODO: find a better way
+      nextValue: modelUp
+    });
     this.propagateModelUp(modelUp);
   };
 }

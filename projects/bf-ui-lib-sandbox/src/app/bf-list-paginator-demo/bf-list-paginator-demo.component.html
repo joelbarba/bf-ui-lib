@@ -9,7 +9,7 @@
 <div class="col-12"><pre>{{api}}</pre></div>
 
 <bf-list-paginator [bfCtrl]="compConf.myList"
-                   bfMaxButtons="4" bfShowSelector="false">
+                   bfMaxButtons="4" [bfShowSelector]="true">
 </bf-list-paginator>
 
 
@@ -19,15 +19,15 @@
     <div class="col-6 marB15">
       <h5 class="marB25">Customization:</h5>
       <div class="padB25">
-        <!--<bf-list-paginator-->
-        <!--        [class.full-width]="compConf.hasFullWidth"-->
-        <!--        [class.align-right]="compConf.hasAlignRight"-->
-        <!--        [class.align-center]="compConf.hasAlignCenter"-->
-        <!--        [bfCtrl]="compConf.myList"-->
-        <!--        [bfMaxButtons]="compConf.bfMaxButtons"-->
-        <!--        [bfShowSelector]="compConf.bfShowSelector"-->
-        <!--&gt;</bf-list-paginator>-->
-        <!--compConf.myList={{compConf.myList | json}}-->
+        <bf-list-paginator
+                [class.full-width]="compConf.hasFullWidth"
+                [class.align-right]="compConf.hasAlignRight"
+                [class.align-center]="compConf.hasAlignCenter"
+                [bfCtrl]="compConf.myList"
+                [bfMaxButtons]="compConf.bfMaxButtons"
+                [bfShowSelector]="compConf.bfShowSelector"
+        ></bf-list-paginator>
+        compConf.myList={{compConf.myList | json}}
       </div>
       <div>
         <div class="code-box pad15">

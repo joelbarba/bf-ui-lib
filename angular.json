@@ -69,6 +69,7 @@
             "styles": [
               "projects/bf-ui-lib-sandbox/src/styles.scss"
             ],
+            "stylePreprocessorOptions": { "includePaths": ["projects/bf-ui-lib-sandbox/src/scss"] },
             "scripts": [],
             "es5BrowserSupport": true
           },

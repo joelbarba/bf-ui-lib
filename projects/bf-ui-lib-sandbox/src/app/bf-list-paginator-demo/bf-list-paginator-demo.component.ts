@@ -75,11 +75,14 @@ div.bf-list-paginator {
   public brStr = `\n`;
   public bsStr = `\n                   `;
   public customCompCode = ``;
-  public compConf:any = {
+  public compConf = {
     myList: {
       totalPages: 241,
       currentPage: 8,
-      rowsPerPage: 3,
+      rowsPerPage: 10,
+      // paginate: (rowsPerPage) => {
+      //   console.log(rowsPerPage, new Date());
+      // }
     },
 
     hasPageChange: false,

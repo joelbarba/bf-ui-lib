@@ -1,17 +1,19 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {TranslateService} from "./translate.service";
+import {Component, Inject, Injectable, OnInit} from '@angular/core';
+import {BfTranslateService} from "./translate.service";
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   public lang = 'en';
   constructor(
-    @Inject('TranslateService') public translate: TranslateService
-  ) {}
-  ngOnInit() {
-  }
+    // @Inject('BfUILibTransService') public translate: BfTranslateService
+    public translate: BfTranslateService,
+  ) { }
+
+  ngOnInit() { }
 
 }

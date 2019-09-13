@@ -7,7 +7,13 @@ import { LibRegisterService } from '../lib-register.service';
   styleUrls: ['./index-page.component.scss']
 })
 export class IndexPageComponent implements OnInit {
-  
+  public libImport = `@NgModule({
+  ...
+  BfUiLibModule.forRoot({ trans: {
+      useExisting: BfTranslateService
+    }
+  }),
+})`;
   constructor(private reg: LibRegisterService) { }
   ngOnInit() { }
 

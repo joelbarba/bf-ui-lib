@@ -19,12 +19,12 @@ export class [[COMPONENT_NAME_CAMEL]]DemoComponent implements OnInit {
 `<[[COMPONENT_NAME]]</[[COMPONENT_NAME]]>`;
 
 
-  public cssReset = `$input-border: #ccc !default;
-$optional_input_color : $input-border;
-$disabled_input_color : #797979;
-$primary_color        : #00B6F1;
-$warning_color        : #ED0677;
-$invalid_input_color  : $warning_color;
+  public cssReset = `$optional_input_color : $optional-color;
+$focused_input_color  : $focused-color;
+$required_input_color : $primary_color;
+$invalid_input_color  : $invalid-color;
+$valid_input_color    : $primary_color;
+$disabled_input_color : $disabled-color;
 
 .[[COMPONENT_NAME]]-form-group {
   ...
@@ -46,7 +46,7 @@ $invalid_input_color  : $warning_color;
     hasTooltip: false, tooltipText: 'Hello World', tooltipPos: null, tooltipBody: false,
   };
   public upComp = () => {
-    this.customCompCode = `<bf-textarea `;
+    this.customCompCode = `<[[COMPONENT_NAME]] `;
 
     let compClasses = '';
     if (this.compConf.hasFullWidth) { compClasses += (!!compClasses.length ? ' ' : '') + 'full-width'; }
@@ -67,7 +67,7 @@ $invalid_input_color  : $warning_color;
       if (!!this.compConf.tooltipBody) { this.customCompCode += this.bsStr + `bfTooltipBody="${this.compConf.tooltipBody}"`; }
     }
 
-    this.customCompCode += (`>` + this.brStr + `</bf-textarea>`);
+    this.customCompCode += (`>` + this.brStr + `</[[COMPONENT_NAME]]>`);
   };
 
 
@@ -84,8 +84,8 @@ $invalid_input_color  : $warning_color;
 export const [[COMPONENT_NAME_CAMEL]]Doc = {
   name    : `[[COMPONENT_NAME]]`,
   uiType  : 'component',
-  desc    : `Generates a button.`, 
-  api     : `[bfText]: Button text`,
+  desc    : `Generates a ....`,
+  api     : `[bfText]: The text... `,
   instance: `<[[COMPONENT_NAME]]></[[COMPONENT_NAME]]>`, 
   demoComp: [[COMPONENT_NAME_CAMEL]]DemoComponent
 };

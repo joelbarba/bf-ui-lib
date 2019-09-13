@@ -1,0 +1,34 @@
+@import 'variables';
+
+$bar-bg: darken($white, 83%);
+$bar-color: $quaternary_color;
+$locker-bg: rgba($white, 0.8);
+
+// --- bf-loading-bar Reset --------------------------------------------------
+
+.bf-loading-bar {
+  &.bar-bg { background: $bar-bg;  }
+  &.bar-1, &.bar-2 {
+    background: linear-gradient(to left, transparent 0%, $bar-color 15%, $bar-color 85%, transparent 100%);
+  }
+}
+.bf-loading-bg-blocker { background: $locker-bg; }
+
+// Circular spinner running in the middle of the screen
+$spinner-color: rgba($primary_color, 0.7);
+.c-spinner { border: 7px solid transparent; }
+.c-spinner-inner { border: 5px solid $spinner-color; }
+
+// Bf Spinner
+.bf-spinner-box {
+  &.box1 { background: $primary_color !important; }
+  &.box2 { background: $secondary_color !important; }
+  &.box3 { background: $tertiary_color !important; }
+  &.box4 { background: $quaternary_color !important; }
+}
+
+// Decenter the spinner to match the same wrong position of the old spinner
+.bf-spinner {
+  left: calc(50% - 32px);
+  top: calc(50% - 11px);
+}

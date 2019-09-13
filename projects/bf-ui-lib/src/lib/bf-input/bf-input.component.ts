@@ -8,7 +8,7 @@ import {
   AbstractControl,
   NG_VALUE_ACCESSOR, NgControl
 } from '@angular/forms';
-import { AbstractTranslateService } from '../abstract-translate.service';
+import {AbstractTranslateService, BfUILibTransService} from '../abstract-translate.service';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of } from "rxjs";
 import {map} from "rxjs/operators";
@@ -120,7 +120,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   public inputCtrl: FormControl; // <-- ngInputRef.control
 
   constructor(
-    @Inject('TranslateService') private translate: AbstractTranslateService,
+    private translate: BfUILibTransService,
     private config: NgbPopoverConfig,
     private elementRef: ElementRef,
     // public ngControl: NgControl

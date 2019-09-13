@@ -19,12 +19,14 @@
   </div>
 
   <div *ngIf="bfShowSelector" class="page-num-selector text-right">
-    <select>
-      <option value="5">5 items</option>
-      <option value="10">10 items</option>
-      <option value="15">15 items</option>
-      <option value="25">25 items</option>
-    </select>
+    <bf-dropdown class="flat"
+                 [bfList]="bfCtrl.maxRowsPerPageList"
+                 [(ngModel)]="bfCtrl.rowsPerPage"
+                 (ngModelChange)="changeRowsPerPage($event)"
+                 bfSelect="num"
+                 bfRender="label"
+                 [bfRequired]="true">
+    </bf-dropdown>
   </div>
 </div>
 
