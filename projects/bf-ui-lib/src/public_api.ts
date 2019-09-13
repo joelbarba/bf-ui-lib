@@ -16,6 +16,9 @@ export * from './lib/bf-loading-bar/bf-loading-bar.service';
 export * from './lib/bf-loading-bar/bf-loading-bar.component';
 
 export * from './lib/bf-confirm/bf-confirm.service';
+export * from './lib/bf-promise/bf-promise';
+export * from './lib/bf-defer/bf-defer';
+export * from './lib/bf-list-handler/bf-list-handler';
 
 export * from './lib/bf-btn/bf-btn.component';
 export * from './lib/bf-list-header-col/bf-list-header-col.component';
@@ -30,8 +33,6 @@ export * from './lib/bf-textarea/bf-textarea.component';
 export * from './lib/bf-radio/bf-radio.component';
 export * from './lib/bf-date-picker/bf-date-picker.component';
 export * from './lib/bf-list-paginator/bf-list-paginator.component';
-export * from './lib/bf-promise/bf-promise';
-export * from './lib/bf-defer/bf-defer';
 export * from './lib/bf-time-picker/bf-time-picker.component';
 export * from './lib/bf-autocomplete/bf-autocomplete.component';
 export * from './lib/bf-multi-selector/bf-multi-selector.component';
