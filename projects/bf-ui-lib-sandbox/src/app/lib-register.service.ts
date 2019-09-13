@@ -40,7 +40,7 @@ export const compList = [
   BfSwitchDoc,
   BfCheckboxDoc,
   BfRadioDoc,
-  BfQuantityDoc,
+  BfQuantityInputDoc,
   BfDatePickerDoc,
   BfTimePickerDoc,
   BfSliderDoc,
