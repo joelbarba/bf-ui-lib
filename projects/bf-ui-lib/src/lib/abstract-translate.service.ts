@@ -16,7 +16,7 @@ export class BfUILibTransService extends AbstractTranslateService {
   public onLangChange$ = new BehaviorSubject({lang: '', translations: []});
 
   // Synchronous translation
-  public doTranslate = (label ?: string): string => label;
+  public doTranslate = (label ?: string, params ?: {}): string => label;
 
   // Async translation (returns an observable that emits the translated value of the label)
   public getLabel$ = (label ?: string) => of(label);

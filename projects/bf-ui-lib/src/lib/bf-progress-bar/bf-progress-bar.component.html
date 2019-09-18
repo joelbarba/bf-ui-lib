@@ -1,3 +1,20 @@
-<p>
-  bf-progress-bar works!
-</p>
+<div class="bf-progress-bar">
+  <!-- text on top of the progress bar-->
+  <span>{{bfLabel}}</span>
+
+  <!-- progress bar wrapper -->
+  <ngb-progressbar showValue="true" [value]="percentageValue"></ngb-progressbar>
+
+  <!-- texts below the progress bar -->
+  <div class="progress-sub-label">
+    <!-- text on the left that displays the value (used) -->
+    <span class="secondary-text">
+      {{bfValue + (bfUsedLabel ? (' ' + bfUsedLabel) : '')}}
+    </span>
+    <!-- text on the right that displays the value missing to reach the total (left) -->
+    <span class="primary-text float-right">
+      {{bfTotal - bfValue + (bfLeftLabel ? (' ' + bfLeftLabel) : '')}}
+    </span>
+  </div>
+
+</div>

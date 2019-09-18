@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {NgModule, ModuleWithProviders, Optional, SkipSelf} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // <-- NgModel lives here
-import {NgbPopoverModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbPopoverModule, NgbTooltipModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
 import { NgbModule, NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Modules
@@ -70,6 +70,7 @@ import { BfPagePlaceholderComponent } from './bf-page-placeholder/bf-page-placeh
     ReactiveFormsModule,
     NgbPopoverModule,
     NgbTooltipModule,
+    NgbProgressbarModule,
     NgbModalModule,
     BfGrowlModule,
     BfLoadingBarModule,

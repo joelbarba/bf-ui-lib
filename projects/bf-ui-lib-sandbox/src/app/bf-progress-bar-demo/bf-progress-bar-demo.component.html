@@ -1,108 +1,143 @@
 <!-- bf-progress-bar = 'bf-btn' -->
+<div class="progress-bar-demo">
+  <h2>{{name}}</h2>
+  <hr/>
+  <p>{{desc}}</p>
 
-<h2>{{name}}</h2>
-<hr/>
-<h5>{{desc}}</h5>
-<p>This is a nice thing...</p>
-
-<h5 class="mt-4">Parameters:</h5>
-<div class="col-12"><pre>{{api}}</pre></div>
-
-
-<!--bf-progress-bar Customization-->
-<div class="whiteBg">
-  <div class="row">
-    <div class="col-5 marB15">
-      <h5 class="marB25">bf-progress-bar Customization:</h5>
-      <div>
-        <!--<bf-dropdown class="full-width" name="dasda"-->
-        <!--             [(ngModel)]="selObj10"-->
-        <!--             [bfList]="myList"-->
-        <!--             [bfRequired]="compConf.isRequired"-->
-        <!--             [bfDisabled]="compConf.isDisabled"-->
-        <!--             [bfLabel]="(compConf.hasLabel ? compConf.labelText : '')"-->
-        <!--             [bfSelect]="(compConf.hasSelect && !!compConf.selectField) ? compConf.selectField : null"-->
-        <!--             [bfRender]="(compConf.hasRender ? compConf.renderExp : '')">-->
-        <!--</bf-dropdown>-->
-      </div>
-      <div>
-        <div class="code-box pad15">
-          <pre>{{customCompCode}}</pre>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-7">
-
-      <div class="row marT15">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>
-      </div>
-
-      <div class="row marT15">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>
-      </div>
-
-      <div class="row marT15">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasLabel" (ngModelChange)="upComp()" bfLabel="Has Label"></bf-checkbox> </div>
-        <div class="col-10" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasLabel"></bf-input> </div>
-      </div>
-
-      <div class="row marT10">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox> </div>
-        <div class="col-10" *ngIf="compConf.hasTooltip">
-          <bf-input [(ngModel)]="compConf.tooltipText" (ngModelChange)="upComp()"></bf-input>
-        </div>
-        <div class="col-2" *ngIf="compConf.hasTooltip"></div>
-        <div class="col-5" *ngIf="compConf.hasTooltip">
-          bfTooltipPos: <bf-dropdown [(ngModel)]="compConf.tooltipPos" (ngModelChange)="upComp()"
-                                     [bfList]="[{ id: 'top', text: 'top' }, { id: 'right', text: 'right' }, { id: 'bottom', text: 'bottom' }, { id: 'left', text: 'left' }]"
-                                     bfRender="text" bfSelect="id"> </bf-dropdown>
-        </div>
-        <div class="col-5" *ngIf="compConf.hasTooltip">
-          bfTooltipBody: <bf-dropdown [(ngModel)]="compConf.tooltipBody" (ngModelChange)="upComp()" [bfList]="[{ id: 'true', text: 'true' }, { id: 'false', text: 'false' }]" bfRender="text" bfSelect="id"> </bf-dropdown>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<hr>
-
-
-
-
-<h5 class="mt-4">Examples:</h5>
-<div class="col-12 examples-table">
-  
-  <div class="row">
-    <div class="col-5">
-      <bf-progress-bar></bf-progress-bar>
-    </div>
-    <div class="col-7"> <pre>{{instance}}</pre> </div>
-  </div>
-  
-  <div class="row">
-    <div class="col-5">
-      <bf-progress-bar></bf-progress-bar>
-    </div>
-    <div class="col-7"> <pre>{{instance2}}</pre> </div>
-  </div>
-
-</div>
-
-
-
-<!--CSS Styling-->
-<div class="row marT40">
+  <h5 class="mt-4">Parameters:</h5>
   <div class="col-12">
-    <hr>
-    <h4>CSS Styling</h4>
-    <p>The encapsulated styles of the button use a default color. However, we may want to apply different colors externally (depending on the theme)
-      <br/>
-      To provide a color restyiling based on a SCSS theme you can apply the following rules on a css global level :
-    </p>
-    <pre>{{ cssReset }}</pre>
+    <pre>{{api}}</pre>
   </div>
-</div>
 
+
+  <!--bf-progress-bar Customization-->
+  <div class="whiteBg">
+    <div class="row">
+
+      <div class="col-5 marB15">
+        <h5 class="marB25">bf-progress-bar Customization:</h5>
+        <div class="padB50">
+          <bf-progress-bar
+            [bfValue]="custom.obj.bfValue"
+            [bfTotal]="custom.obj.bfTotal"
+            [bfLabel]="custom.obj.bfLabel"
+            [bfUsedLabel]="custom.obj.bfUsedLabel"
+            [bfLeftLabel]="custom.obj.bfLeftLabel">
+          </bf-progress-bar>
+        </div>
+        <div>
+          <div class="code-box pad15">
+            <pre>{{custom.obj.componentView}}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-7">
+
+        <div class="row marT15">
+          <div class="col-6 padT5">
+            <bf-input [(ngModel)]="custom.obj.bfValue"
+                      (ngModelChange)="custom.buildComponentView()"
+                      bfLabel="bfValue:"></bf-input>
+          </div>
+          <div class="col-6 padT5">
+            <bf-input [(ngModel)]="custom.obj.bfTotal"
+                      (ngModelChange)="custom.buildComponentView()"
+                      bfLabel="bfTotal:"></bf-input>
+          </div>
+        </div>
+
+        <div class="row marT15">
+          <div class="col-4 padT30">
+            <bf-checkbox [(ngModel)]="custom.config.hasLabel" (ngModelChange)="custom.buildComponentView()"
+                         bfLabel="Has label"></bf-checkbox>
+          </div>
+          <div class="col-8 padT5">
+            <bf-input [(ngModel)]="custom.obj.bfLabel"
+                      (ngModelChange)="custom.buildComponentView()"
+                      bfLabel="bfLabel:"
+                      [bfDisabled]="!custom.config.hasLabel"></bf-input>
+          </div>
+        </div>
+
+        <div class="row marT15">
+          <div class="col-4 padT30">
+            <bf-checkbox [(ngModel)]="custom.config.hasUsedLabel" (ngModelChange)="custom.buildComponentView()"
+                         bfLabel="Has used label"></bf-checkbox>
+          </div>
+          <div class="col-8 padT5">
+            <bf-input [(ngModel)]="custom.obj.bfUsedLabel"
+                      (ngModelChange)="custom.buildComponentView()"
+                      bfLabel="bfUsedLabel:"
+                      [bfDisabled]="!custom.config.hasUsedLabel"></bf-input>
+          </div>
+        </div>
+
+        <div class="row marT15">
+          <div class="col-4 padT30">
+            <bf-checkbox [(ngModel)]="custom.config.hasLeftLabel" (ngModelChange)="custom.buildComponentView()"
+                         bfLabel="Has left label"></bf-checkbox>
+          </div>
+          <div class="col-8 padT5">
+            <bf-input [(ngModel)]="custom.obj.bfLeftLabel"
+                      (ngModelChange)="custom.buildComponentView()"
+                      bfLabel="bfLeftLabel:"
+                      [bfDisabled]="!custom.config.hasLeftLabel"></bf-input>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <hr>
+
+  <h5 class="mt-4">Examples:</h5>
+  <div class="col-12 examples-table">
+
+    <div class="row">
+      <div class="col-5">
+        <bf-progress-bar
+          [bfValue]="45"
+          [bfTotal]="100">
+        </bf-progress-bar>
+      </div>
+      <div class="col-7">
+        <pre>{{instance1}}</pre>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-5">
+        <bf-progress-bar
+          [bfLabel]="'Mobile Minutes 250'"
+          [bfValue]="1299"
+          [bfTotal]="2048"
+          [bfUsedLabel]="'minutes used'"
+          [bfLeftLabel]="'minutes left'">
+        </bf-progress-bar>
+      </div>
+      <div class="col-7">
+        <pre>{{instance2}}</pre>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!--CSS Styling-->
+  <div class="row marT40">
+    <div class="col-12">
+      <hr>
+      <h4>CSS Styling</h4>
+      <p>The encapsulated styles of the button use a default color. However, we may want to apply different colors
+        externally (depending on the theme)
+        <br/>
+        To provide a color restyiling based on a SCSS theme you can apply the following rules on a css global level :
+      </p>
+      <pre>{{ cssReset }}</pre>
+    </div>
+  </div>
+
+</div>
