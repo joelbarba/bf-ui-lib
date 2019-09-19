@@ -15,11 +15,17 @@ export class BfProgressBarDemoComponent implements OnInit {
   public api = BfProgressBarDoc.api;
 
   public instance1 = `<bf-progress-bar
-  [bfValue]="45"
+  [bfValue]="8"
   [bfTotal]="100">
 </bf-progress-bar>`;
 
   public instance2 = `<bf-progress-bar
+  [bfValue]="45"
+  [bfTotal]="100"
+  [bfShowValues]="true">
+</bf-progress-bar>`;
+
+  public instance3 = `<bf-progress-bar
   [bfLabel]="'Mobile Minutes 250'"
   [bfValue]="1299"
   [bfTotal]="2048"
@@ -29,6 +35,7 @@ export class BfProgressBarDemoComponent implements OnInit {
 
   public custom = {
     config: {
+      hasValues: false,
       hasLabel: false,
       hasUsedLabel: false,
       hasLeftLabel: false
@@ -39,6 +46,7 @@ export class BfProgressBarDemoComponent implements OnInit {
       bfLabel: '',
       bfUsedLabel: '',
       bfLeftLabel: '',
+      bfShowValues: false,
       componentView: `<bf-progress-bar></bf-progress-bar>`
     },
     buildComponentView: () => {
@@ -47,6 +55,8 @@ export class BfProgressBarDemoComponent implements OnInit {
       this.custom.obj.componentView = `<bf-progress-bar
   [bfValue]="${obj.bfValue}"
   [bfTotal]="${obj.bfTotal}"` +
+  (obj.bfShowValues ? `
+  [bfShowValues]="${obj.bfShowValues}"` : ``) +
   (config.hasLabel ? `
   [bfLabel]="${obj.bfLabel}"` : ``) +
   (config.hasUsedLabel ? `
@@ -56,6 +66,27 @@ export class BfProgressBarDemoComponent implements OnInit {
 </bf-progress-bar>`;
     }
   };
+
+  public cssReset = `.bf-progress-bar {
+  .progress {
+    color: $white;
+    .progress-bar {
+      background-color: $primary_color;
+    }
+  }
+  .used-label {
+    color: $secondary_color;
+  }
+  .left-label {
+    color: $primary_color;
+  }
+  .percentage-outside {
+    span {
+      color: $primary_color;
+    }
+  }
+}
+`;
 
   constructor() {
   }
@@ -75,6 +106,7 @@ export const BfProgressBarDoc = {
   [bfTotal]: maximum value that can be reached
   [bfValue]: actual value
   [bfUsedLabel]: translation for the label below the component on the left
-  [bfLeftLabel]: translation for the label below the component on the right`,
+  [bfLeftLabel]: translation for the label below the component on the right
+  [bfShowValues]: display the values under the bar`,
   demoComp: BfProgressBarDemoComponent
 };

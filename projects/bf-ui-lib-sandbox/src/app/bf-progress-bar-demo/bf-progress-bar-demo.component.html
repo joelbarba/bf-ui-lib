@@ -34,20 +34,25 @@
 
       <div class="col-7">
 
-        <div class="row marT15">
-          <div class="col-6 padT5">
+        <div class="row">
+          <div class="col-4 padT5">
             <bf-input [(ngModel)]="custom.obj.bfValue"
                       (ngModelChange)="custom.buildComponentView()"
                       bfLabel="bfValue:"></bf-input>
           </div>
-          <div class="col-6 padT5">
+          <div class="col-4 padT5">
             <bf-input [(ngModel)]="custom.obj.bfTotal"
                       (ngModelChange)="custom.buildComponentView()"
                       bfLabel="bfTotal:"></bf-input>
           </div>
+          <div class="col-4 padT30">
+            <bf-checkbox [(ngModel)]="custom.obj.bfShowValues"
+                         (ngModelChange)="custom.buildComponentView()"
+                         bfLabel="Show values"></bf-checkbox>
+          </div>
         </div>
 
-        <div class="row marT15">
+        <div class="row">
           <div class="col-4 padT30">
             <bf-checkbox [(ngModel)]="custom.config.hasLabel" (ngModelChange)="custom.buildComponentView()"
                          bfLabel="Has label"></bf-checkbox>
@@ -60,7 +65,7 @@
           </div>
         </div>
 
-        <div class="row marT15">
+        <div class="row">
           <div class="col-4 padT30">
             <bf-checkbox [(ngModel)]="custom.config.hasUsedLabel" (ngModelChange)="custom.buildComponentView()"
                          bfLabel="Has used label"></bf-checkbox>
@@ -73,7 +78,7 @@
           </div>
         </div>
 
-        <div class="row marT15">
+        <div class="row">
           <div class="col-4 padT30">
             <bf-checkbox [(ngModel)]="custom.config.hasLeftLabel" (ngModelChange)="custom.buildComponentView()"
                          bfLabel="Has left label"></bf-checkbox>
@@ -99,12 +104,25 @@
     <div class="row">
       <div class="col-5">
         <bf-progress-bar
-          [bfValue]="45"
+          [bfValue]="8"
           [bfTotal]="100">
         </bf-progress-bar>
       </div>
       <div class="col-7">
         <pre>{{instance1}}</pre>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-5">
+        <bf-progress-bar
+          [bfValue]="1299"
+          [bfTotal]="2048"
+          [bfShowValues]="true">
+        </bf-progress-bar>
+      </div>
+      <div class="col-7">
+        <pre>{{instance2}}</pre>
       </div>
     </div>
 
@@ -119,7 +137,7 @@
         </bf-progress-bar>
       </div>
       <div class="col-7">
-        <pre>{{instance2}}</pre>
+        <pre>{{instance3}}</pre>
       </div>
     </div>
 
