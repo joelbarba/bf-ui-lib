@@ -26,6 +26,7 @@ import { BfTextareaComponent } from './bf-textarea/bf-textarea.component';
 import { BfRadioComponent } from './bf-radio/bf-radio.component';
 import { BfDatePickerComponent } from './bf-date-picker/bf-date-picker.component';
 import { BfListPaginatorComponent } from './bf-list-paginator/bf-list-paginator.component';
+import { BfStatusBadgeComponent } from './bf-status-badge/bf-status-badge.component';
 import {CommonModule} from "@angular/common";
 
 @NgModule({
@@ -44,6 +45,7 @@ import {CommonModule} from "@angular/common";
     BfRadioComponent,
     BfDatePickerComponent,
     BfListPaginatorComponent,
+    BfStatusBadgeComponent,
   ],
   entryComponents: [BfConfirmComponent],
   imports: [
@@ -73,7 +75,7 @@ import {CommonModule} from "@angular/common";
     BfLabelComponent,
     BfBtnComponent,
     BfListHeaderColComponent,
-
+    BfStatusBadgeComponent,  // <--- New component
     BfGrowlModule,
     BfLoadingBarModule,
   ]

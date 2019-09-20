@@ -1,0 +1,5 @@
+<div class="bf-status-badge" [ngClass]="bfStatusCss"
+     [class.bf-status-badge-circle]="bfCircle"
+     [ngbTooltip]="bfCurrentLabel$ | async" [disableTooltip]="!bfCircle">
+  <span class="bf-status-badge-text">{{bfCurrentLabel$ | async}}</span>
+</div>

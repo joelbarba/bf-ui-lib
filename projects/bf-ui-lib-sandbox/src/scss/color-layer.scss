@@ -148,6 +148,39 @@ div.bf-switch {
   }
 }
 
+// --- <bf-status-badge> color reset --------------------------------------------------
+.bf-status-badge {
+  color: $white;
+  border: 1px solid $offWhite;
+  &-active {
+    background: $primary_color;
+    background-color: $primary_color;
+  }
+  &-inactive {
+    background: $warning_color;
+    background-color: $warning_color;
+  }
+  &-pending {
+    background: $quaternary_color;
+    background-color: $quaternary_color;
+  }
+  &-other {
+    background: $secondary_color;
+    background-color: $secondary_color;
+  }
+  &-other-2 {
+    background: $extra_color;
+    background-color: $extra_color;
+  }
+  &-other-3 {
+    background: darken($secondary_color, 15);
+    background-color: darken($secondary_color, 15);
+  }
+  &-other-4 {
+    background: darken($bf_color3_shadow2, 20%);
+    background-color: darken($bf_color3_shadow2, 20%);
+  }
+}
 
 
 // --------------------------------------------------------------

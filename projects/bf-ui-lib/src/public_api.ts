@@ -30,5 +30,6 @@ export * from './lib/bf-textarea/bf-textarea.component';
 export * from './lib/bf-radio/bf-radio.component';
 export * from './lib/bf-date-picker/bf-date-picker.component';
 export * from './lib/bf-list-paginator/bf-list-paginator.component';
+export * from './lib/bf-status-badge/bf-status-badge.component';
 export * from './lib/bf-promise/bf-promise';
 export * from './lib/bf-defer/bf-defer';

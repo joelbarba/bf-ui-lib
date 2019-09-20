@@ -1,3 +1,4 @@
+import { BfStatusBadgeDoc } from './bf-status-badge-demo/bf-status-badge-demo.component';
 import { BfDeferDoc } from './bf-defer-demo/bf-defer-demo.component';
 import { BfPromiseDoc } from './bf-promise-demo/bf-promise-demo.component';
 import { BfLoadingBarDoc } from './bf-loading-bar-demo/bf-loading-bar-demo.component';
@@ -34,6 +35,7 @@ export const compList = [
   BfListHeaderColDoc,
   BfListPlaceholderDoc,
   BfListPaginatorDoc,
+  BfStatusBadgeDoc,
   BfGrowlDoc,
   BfLoadingBarDoc,
   BfConfirmDoc,
