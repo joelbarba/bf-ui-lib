@@ -1,0 +1,14 @@
+.bf-date-picker {
+  .ngb-datepicker {
+    position: absolute;
+    top: 40px !important;
+    left: 15px !important;
+  }
+  .footerButtons {
+    text-align: center;
+    padding: 0 5px 5px 5px;
+  }
+  input{
+    cursor: pointer !important;
+  }
+}

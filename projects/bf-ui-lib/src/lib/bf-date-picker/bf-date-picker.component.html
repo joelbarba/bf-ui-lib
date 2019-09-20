@@ -1,3 +1,40 @@
-<p>
-  bf-date-picker works!
-</p>
+<div class="bf-date-picker">
+  <bf-input
+    (click)="dp.toggle();"
+    [ngModel]="modelInput"
+    [bfLabel]="bfLabel"
+    [bfIcon]="bfIcon"
+    bfType="text"
+    bfDisabled="true"
+    [bfRequired]="bfRequired">
+  </bf-input>
+  <div [ngClass]="{ 'ngb-datepicker' : dp.isOpen() }">
+    <input
+      [hidden]="true"
+      name="dp"
+      [(ngModel)]="modelDate"
+      (dateSelect)="selectDateForNgModel($event)"
+      ngbDatepicker
+      autoClose="false"
+      [minDate]="datePickerConfig.maxDate"
+      [maxDate]="datePickerConfig.minDate"
+      [footerTemplate]="t"
+      #dp="ngbDatepicker">
+  </div>
+
+  <ng-template #t>
+    <ng-content></ng-content>
+    <div *ngIf="haveFooterButtons">
+      <hr/>
+      <div class="footerButtons">
+        <bf-btn bfType="save" bfText="Today" (bfClick)="today(dp)" bfIconPos="none"></bf-btn>
+        <bf-btn bfType="delete" bfText="Cancel" (bfClick)="cancel()" bfIconPos="none"></bf-btn>
+        <bf-btn bfType="save" bfText="Ok" (bfClick)="close(dp)" bfIconPos="none"></bf-btn>
+      </div>
+    </div>
+  </ng-template>
+
+  <br>
+  <pre>Model: {{ modelInput | json }}</pre>
+  <pre>Date: {{ modelDate | json }}</pre>
+</div>

@@ -1,8 +1,7 @@
-import { BrowserModule } from '@angular/platform-browser';
 import {NgModule, ModuleWithProviders, Optional, SkipSelf} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // <-- NgModel lives here
-import {NgbPopoverModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import { NgbModule, NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+// tslint:disable-next-line:max-line-length
+import { NgbDatepickerModule, NgbPopoverModule, NgbTooltipModule, NgbModule, NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Modules
 import { BfGrowlModule } from './bf-growl/bf-growl.module';
@@ -73,6 +72,8 @@ import { BfPagePlaceholderComponent } from './bf-page-placeholder/bf-page-placeh
     NgbModalModule,
     BfGrowlModule,
     BfLoadingBarModule,
+    NgbDatepickerModule,
+    NgbModule
   ],
   exports: [
     BfPagePlaceholderComponent,  // <--- New component
