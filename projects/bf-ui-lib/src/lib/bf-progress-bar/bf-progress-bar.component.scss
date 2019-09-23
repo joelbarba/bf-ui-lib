@@ -7,7 +7,7 @@
     .progress-bar {
       //background-color: #00B6F1;
       text-align: right;
-      padding-right: 5px;
+      padding-right: 0.5rem;
     }
   }
 
@@ -27,7 +27,7 @@
   /deep/ .percentage-outside {
      span {
       //color: #00B6F1;
-      margin-left: calc(100% + 10px);
+      margin-left: calc(100% + 0.5rem);
     }
   }
 
