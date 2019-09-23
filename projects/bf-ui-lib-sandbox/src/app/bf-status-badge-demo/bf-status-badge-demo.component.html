@@ -19,7 +19,7 @@
       <div>
         <bf-status-badge [bfStatus]="compConf.status"
                          [bfLabel]="(compConf.hasLabel? compConf.labelText : '')"
-                         [bfColor]=""
+                         [bfColor]="(compConf.hasColor? compConf.colorCode : '')"
                          [bfCircle]="compConf.isCircle">
         </bf-status-badge>
       </div>
@@ -50,24 +50,12 @@
         <div class="col-10"> <bf-input [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasLabel || !compConf.isSingleLabel"></bf-input></div>
       </div>
       <div class="row marT15">
+        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasColor" (ngModelChange)="upComp(); setColor()" bfLabel="Add Color"></bf-checkbox> </div>
+        <div class="col-10" *ngIf="compConf.hasColor"><input [(ngModel)]="compConf.colorCode" type="color" (ngModelChange)="upComp()" [disabled]="!compConf.hasColor"/></div>
+      </div>
+      <div class="row marT15">
         <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.isCircle" (ngModelChange)="upComp()" bfLabel="Is Circle"></bf-checkbox> </div>
       </div>
-
-      <!--<div class="row marT10">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox> </div>
-        <div class="col-10" *ngIf="compConf.hasTooltip">
-          <bf-input [(ngModel)]="compConf.tooltipText" (ngModelChange)="upComp()"></bf-input>
-        </div>
-        <div class="col-2" *ngIf="compConf.hasTooltip"></div>
-        <div class="col-5" *ngIf="compConf.hasTooltip">
-          bfTooltipPos: <bf-dropdown [(ngModel)]="compConf.tooltipPos" (ngModelChange)="upComp()"
-                                     [bfList]="[{ id: 'top', text: 'top' }, { id: 'right', text: 'right' }, { id: 'bottom', text: 'bottom' }, { id: 'left', text: 'left' }]"
-                                     bfRender="text" bfSelect="id"> </bf-dropdown>
-        </div>
-        <div class="col-5" *ngIf="compConf.hasTooltip">
-          bfTooltipBody: <bf-dropdown [(ngModel)]="compConf.tooltipBody" (ngModelChange)="upComp()" [bfList]="[{ id: 'true', text: 'true' }, { id: 'false', text: 'false' }]" bfRender="text" bfSelect="id"> </bf-dropdown>
-        </div>
-      </div>-->
     </div>
 
   </div>
@@ -83,16 +71,41 @@
   
   <div class="row">
     <div class="col-5">
-      <bf-status-badge></bf-status-badge>
+      <bf-status-badge [bfStatus]="0"></bf-status-badge>
+      <bf-status-badge [bfStatus]="1"></bf-status-badge>
+      <bf-status-badge [bfStatus]="2"></bf-status-badge>
     </div>
     <div class="col-7"> <pre>{{instance}}</pre> </div>
   </div>
   
   <div class="row">
     <div class="col-5">
-      <bf-status-badge></bf-status-badge>
+      <bf-status-badge [bfStatus]="1" [bfLabel]="'Custom Label'"></bf-status-badge>
     </div>
     <div class="col-7"> <pre>{{instance2}}</pre> </div>
+  </div>
+
+  <div class="row">
+    <div class="col-5">
+      <bf-status-badge [bfStatus]="0" [bfLabel]="['YES', 'NO']"></bf-status-badge>
+      <bf-status-badge [bfStatus]="1" [bfLabel]="['YES', 'NO']"></bf-status-badge>
+    </div>
+    <div class="col-7"> <pre>{{instance3}}</pre> </div>
+  </div>
+
+  <div class="row">
+    <div class="col-5">
+      <bf-status-badge [bfStatus]="2" [bfLabel]="'Circle Example'" [bfCircle]="true">
+      </bf-status-badge>
+    </div>
+    <div class="col-7"> <pre>{{instance4}}</pre> </div>
+  </div>
+
+  <div class="row">
+    <div class="col-5">
+      <bf-status-badge [bfStatus]="2" [bfColor]="'7f3fc0'"></bf-status-badge>
+    </div>
+    <div class="col-7"> <pre>{{instance5}}</pre> </div>
   </div>
 
 </div>

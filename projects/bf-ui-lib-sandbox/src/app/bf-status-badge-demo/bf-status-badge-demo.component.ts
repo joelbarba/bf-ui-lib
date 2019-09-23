@@ -15,8 +15,25 @@ export class BfStatusBadgeDemoComponent implements OnInit {
   public api = BfStatusBadgeDoc.api;
   public instance = BfStatusBadgeDoc.instance;
 
-  public instance2 = `<bf-status-badge</bf-status-badge>`;
+  public instance2 = `<bf-status-badge [bfStatus]="item.status"
+                 [bfLabel]="item.label">
+</bf-status-badge>`;
+  public instance3 = `<bf-status-badge [bfStatus]="item.status = 0"
+                 [bfLabel]="['yes','no']">
+</bf-status-badge>
+<bf-status-badge [bfStatus]="item.status = 1"
+                 [bfLabel]="['yes','no']">
+</bf-status-badge>`;
+  public instance4 = `<bf-status-badge [bfStatus]="item.status = 2"
+                 [bfLabel]="'Circle Example'"
+                 [bfCircle]="true">
+</bf-status-badge>`;
+  public instance5 = `<bf-status-badge [bfStatus]="item.status" [bfColor]="'7f3fc0'">
+</bf-status-badge>`;
 
+  public firstStatus = { status: 2, label: 'No Bonus' };
+  public secondStatus = { status: true, label: 'No Bonus' };
+  public thirdStatus = { status: 2, label: ['None', 'Low', 'Medium', 'High', 'Max'] };
 
   public cssReset = `$primary_color    : #00B6F1;
 $secondary_color  : #93C83E;
@@ -75,8 +92,8 @@ $bf_color3_shadow2: #E99FB7;
     isSingleLabel: true,
     labelText: 'My label',
     isCircle: false,
-    isRequired: false,
-    isDisabled: false,
+    hasColor: false,
+    colorCode: '',
     rows: null,
     hasTooltip: false, tooltipText: 'Hello World', tooltipPos: null, tooltipBody: false
   };
@@ -89,12 +106,9 @@ $bf_color3_shadow2: #E99FB7;
     { id: 5, name: 'Other 3' },
     { id: 6, name: 'Other 4' }
   ];
-  public firstStatus = { status: 2, label: 'No Bonus' };
-  public secondStatus = { status: true, label: 'No Bonus' };
-  public thirdStatus = { status: 2, label: ['None', 'Low', 'Medium', 'High', 'Max'] };
 
   public setList = () => {
-    if(this.compConf.isSingleLabel) {
+    if (this.compConf.isSingleLabel) {
       this.compConf.labelText = 'My label';
       this.statusList = [
         { id: 0, name: 'Active' },
@@ -118,6 +132,14 @@ $bf_color3_shadow2: #E99FB7;
     }
   };
 
+  public setColor = () => {
+    if (this.compConf.hasColor) {
+      this.compConf.colorCode = '#00B6F1';
+    } else {
+      this.compConf.colorCode = '';
+    }
+  };
+
   public upComp = () => {
     this.customCompCode = `<bf-status-badge `;
 
@@ -125,8 +147,8 @@ $bf_color3_shadow2: #E99FB7;
     this.customCompCode += `[bfStatus]="${this.compConf.status}"`;
 
     if (this.compConf.hasLabel)   { this.customCompCode += this.bsStr + `[bfLabel]="${this.compConf.labelText}"`; }
-    if (this.compConf.isCircle) { this.customCompCode += this.bsStr + `[bfCircle]="true"`; }
-    if (this.compConf.isDisabled) { this.customCompCode += this.bsStr + `[bfDisabled]="true"`; }
+    if (this.compConf.hasColor)   { this.customCompCode += this.bsStr + `[bfColor]="${this.compConf.colorCode}"`; }
+    if (this.compConf.isCircle)   { this.customCompCode += this.bsStr + `[bfCircle]="true"`; }
 
     if (this.compConf.hasTooltip) {
       this.customCompCode += this.bsStr + `bfTooltip="${this.compConf.tooltipText}"`;
@@ -152,6 +174,11 @@ export const BfStatusBadgeDoc = {
 [bfLabel] : (String) Display the label translated on the status, (Array) list of labels
 [bfColor] : Background Color of the staus 
 [bfCircle]: Condition that display the badge in a circle`,
-  instance: `<bf-status-badge></bf-status-badge>`,
+  instance: `<bf-status-badge [bfStatus]="myStatus=0">
+</bf-status-badge>
+<bf-status-badge [bfStatus]="myStatus=1">
+</bf-status-badge>
+<bf-status-badge [bfStatus]="myStatus=2">
+</bf-status-badge>`,
   demoComp: BfStatusBadgeDemoComponent
 };

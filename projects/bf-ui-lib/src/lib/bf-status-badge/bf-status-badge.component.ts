@@ -29,17 +29,20 @@ export class BfStatusBadgeComponent implements OnInit, OnChanges {
 
   public bfCurrentStatus = 0;
   public bfStatusCss = '';
+  public bfCurrentColor = '';
 
   constructor(@Inject('TranslateService') private translate: AbstractTranslateService) { }
 
   ngOnInit() {
     this.setStatus(this.bfStatus);
     this.setLabel();
+    this.setColor();
   }
 
   ngOnChanges(change) {
     this.setStatus(this.bfStatus);
     this.setLabel();
+    this.setColor();
     // if (change.hasOwnProperty('bfStatus')) { this.setStatus(this.bfStatus); }
     // if (change.hasOwnProperty('bfLabel')) { this.setLabel(); }
   }
@@ -59,6 +62,18 @@ export class BfStatusBadgeComponent implements OnInit, OnChanges {
       if (typeof this.bfLabel === 'object') { this.bfCurrentLabel$ = this.translate.getLabel$(this.bfLabel[this.bfCurrentStatus]); }
     } else {
       this.bfCurrentLabel$ = this.translate.getLabel$(this.defaultLabels[this.bfCurrentStatus] || this.defaultLabels[0]);
+    }
+  }
+
+  setColor = () => {
+    if (this.bfColor) {
+      if (this.bfColor.charAt(0) === '#') {
+        this.bfCurrentColor = this.bfColor;
+      } else {
+        this.bfCurrentColor = '#' + this.bfColor;
+      }
+    } else {
+      this.bfCurrentColor = '';
     }
   }
 
