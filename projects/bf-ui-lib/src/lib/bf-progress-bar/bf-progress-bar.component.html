@@ -13,11 +13,13 @@
   <div *ngIf="bfShowValues || bfUsedLabel || bfLeftLabel" class="progress-sub-label">
     <!-- text on the left that displays the value (used) -->
     <span class="used-label secondary-text">
-      {{bfValue + (bfUsedLabel ? (' ' + bfUsedLabel) : '')}}
+      <span>{{bfValue}} </span>
+      <span *ngIf="bfUsedLabel">{{bfUsedLabel}}</span>
     </span>
     <!-- text on the right that displays the value missing to reach the total (left) -->
     <span class="left-label float-right">
-      {{bfTotal - bfValue + (bfLeftLabel ? (' ' + bfLeftLabel) : '')}}
+      <span>{{bfTotal - bfValue}} </span>
+      <span *ngIf="bfLeftLabel">{{bfLeftLabel}}</span>
     </span>
   </div>
 

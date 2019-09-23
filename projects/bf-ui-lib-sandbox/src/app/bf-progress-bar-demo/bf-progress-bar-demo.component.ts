@@ -1,7 +1,3 @@
-// bf-progress-bar = 'bf-btn'
-// BfProgressBar = 'BfBtn'
-
-
 import {Component, OnInit} from '@angular/core';
 
 @Component({
