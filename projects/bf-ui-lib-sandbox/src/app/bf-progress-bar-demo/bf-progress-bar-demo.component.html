@@ -104,7 +104,7 @@
     <div class="row">
       <div class="col-5">
         <bf-progress-bar
-          [bfValue]="8"
+          [bfValue]="cyclingProgress | async"
           [bfTotal]="100">
         </bf-progress-bar>
       </div>

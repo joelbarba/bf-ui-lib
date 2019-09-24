@@ -1,4 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { interval, range, zip } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-bf-progress-bar-demo]',
@@ -10,8 +12,11 @@ export class BfProgressBarDemoComponent implements OnInit {
   public desc = BfProgressBarDoc.desc;
   public api = BfProgressBarDoc.api;
 
+  // Small RxJS trick to loop through 0 to 99
+  public cyclingProgress = zip(interval(100), range(0, 101)).pipe(map((pair) => pair[1]));
+
   public instance1 = `<bf-progress-bar
-  [bfValue]="8"
+  [bfValue]="cyclingProgress | async"
   [bfTotal]="100">
 </bf-progress-bar>`;
 
