@@ -52,9 +52,9 @@ export class BfProgressBarDemoComponent implements OnInit {
   (config.hasLabel ? `
   [bfLabel]="${obj.bfLabel}"` : ``) +
   (config.hasUsedLabel ? `
-  [bfLeftLabel]="${obj.bfLeftLabel}"` : ``) +
+  [bfLeftLabel]="${obj.bfUsedLabel}"` : ``) +
   (config.hasLeftLabel ? `
-  [bfUsedLabel]="${obj.bfUsedLabel}"` : ``) + `>` + `
+  [bfUsedLabel]="${obj.bfLeftLabel}"` : ``) + `>` + `
 </bf-progress-bar>`;
     }
   };
