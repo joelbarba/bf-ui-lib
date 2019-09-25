@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
-import { AbstractTranslateService } from '../abstract-translate.service';
+import {AbstractTranslateService, BfUILibTransService} from '../abstract-translate.service';
 import { NgbModal, NgbActiveModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
@@ -25,9 +25,10 @@ export class BfConfirmComponent implements OnInit {
   public customHtmlContent: SafeHtml; // Sanitized html content
 
   constructor(
+    // @Inject('BfUILibTransService') private translate: AbstractTranslateService,
+    private translate: BfUILibTransService,
     public activeModal: NgbActiveModal,
     private domSanitizer: DomSanitizer,
-    @Inject('TranslateService') private translate: AbstractTranslateService,
   ) {}
 
   ngOnInit() {

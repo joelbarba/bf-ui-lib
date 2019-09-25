@@ -1,5 +1,5 @@
 // bf-status-badge = 'bf-btn'
-// Bf-Status-Badge = 'BfBtn'
+// BfStatusBadge = 'BfBtn'
 
 
 import { Component, OnInit } from '@angular/core';

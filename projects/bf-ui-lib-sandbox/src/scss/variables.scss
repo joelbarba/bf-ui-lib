@@ -4,13 +4,32 @@ $tertiary_color   : #ED0677;
 $quaternary_color : #004A64;
 $warning_color    : #ED0677;
 $extra_color      : #F17B3F;
-$white: #FFF;
-$offWhite: #f8f8f8;
 
-$disabled-color: #a0a0a0;
 
-$input-border: #ccc !default; // <-- this is a bootstrap default
-$input-border-color: #ced4da; // <-- this is a bootstrap default
+$white          : #fff;
+$offWhite       : #f8f8f8;
+$grey           : #929292;
+$text-color     : #525254;
+$optional-color : #ccc;       // (bootstrap default - $input-border)
+$disabled-color : #a0a0a0;
+$focused-color  : darken($primary_color, 20%);
+$required-color : $primary_color;
+$valid-color    : $primary_color;
+$invalid-color  : $warning_color;
+
+$bf-colors: (
+  'primary'     : $primary_color,
+  'secondary'   : $secondary_color,
+  'tertiary'    : $tertiary_color,
+  'quaternary'  : $quaternary_color,
+  'warning'     : $warning_color,
+  'extra'       : $extra_color,
+  'white'       : $white,
+  'disabled'    : $disabled-color
+);
+
+
+
 
 
 // Bootstrap Tooltips (+ ngb Tooltips)
@@ -18,39 +37,9 @@ $zindex-tooltip: 5100;  // Show tooltips over navbar and menu
 $tooltip-bg: #17495B;
 $tooltip-opacity: 1;
 
-//$tooltip-font-size:                 $font-size-sm !default;
-//$tooltip-max-width:                 200px !default;
-//$tooltip-color:                     $white !default;
-//$tooltip-border-radius:             $border-radius !default;
-//$tooltip-padding-y:                 .25rem !default;
-//$tooltip-padding-x:                 .5rem !default;
-//$tooltip-margin:                    0 !default;
-//
-//$tooltip-arrow-width:               .8rem !default;
-//$tooltip-arrow-height:              .4rem !default;
-//$tooltip-arrow-color:               $tooltip-bg !default;
-
-
-
 // Bootstrap Popovers
 $popover-bg: #17495B;
 $popover-body-color: white;
-//$popover-font-size:                 $font-size-sm !default;
-//$popover-max-width:                 276px !default;
-//$popover-border-width:              $border-width !default;
-//$popover-border-color:              rgba($black, .2) !default;
-//$popover-border-radius:             $border-radius-lg !default;
-//$popover-box-shadow:                0 .25rem .5rem rgba($black, .2) !default;
-//$popover-header-bg:                 darken($popover-bg, 3%) !default;
-//$popover-header-color:              $headings-color !default;
-//$popover-header-padding-y:          .5rem !default;
-//$popover-header-padding-x:          .75rem !default;
-//$popover-body-padding-y:            $popover-header-padding-y !default;
-//$popover-body-padding-x:            $popover-header-padding-x !default;
-//$popover-arrow-width:               1rem !default;
-//$popover-arrow-height:              .5rem !default;
-//$popover-arrow-color:               $popover-bg !default;
-//$popover-arrow-outer-color:         fade-in($popover-border-color, .05) !default;
 
 // Tertiary Colors
 $bf_color3_shadow2 : #E99FB7;

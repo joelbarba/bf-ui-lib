@@ -1,0 +1,120 @@
+
+body {
+  background: #ebeff2;
+
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #525254;
+  font-size: 14px;
+  //font-size: 14px;
+  //line-height: 1.42857;
+}
+
+.code-box, .code-box-sm {
+  background: black;
+  pre {
+    font-size: 14px;
+    color: white;
+    margin-bottom: 0;
+  }
+  &.code-box-sm pre { font-size: 10px; }
+}
+
+.examples-table {
+  .row {
+    border-top: 1px solid gray;
+    &:last-child {
+      border-bottom: 1px solid gray;
+    }
+  }
+  [class*="col-"] {
+    border-left: 1px solid gray;;
+    padding: 5px 15px;
+    &:last-child {
+      border-right: 1px solid gray;
+    }
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+  }
+  pre {
+    margin: 0;
+    white-space: pre-wrap;
+    font-size: 18px;
+  }
+  .code-box, .code-box-sm {
+    background: black;
+    pre { font-size: 14px; color: white; }
+    &.code-box-sm pre { font-size: 10px; }
+  }
+}
+
+
+
+// --- Imported from the app to mock it here ----
+
+ul.table-list {
+  background-color: white;
+  box-shadow: 0 1px 2px rgba(34, 36, 38, 0.15);
+  margin-bottom: 0;
+
+  flex: 0 0 100%;
+  max-width: 100%;
+  li.list-header, li.list-row  {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  li.list-header {
+    background: $primary_color;
+    color: $white;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    width: 100%;
+    padding: 10px 15px;
+    word-break: break-word;
+    h4 {
+      color: $white;
+      font-size: 16px;
+      letter-spacing: 1px;
+      margin-bottom: 0;
+      cursor: pointer;
+    }
+  }
+  li.list-row {
+    width: 100%;
+    padding: 5px 15px;
+    word-break: break-word;
+    &:nth-child(even) {
+      background: rgba($primary_color, 0.08);
+    }
+    &:nth-child(odd) {
+      background: $white;
+    }
+    // border-top: 1px solid $white;
+
+    h5 {
+      font-size: 16px;
+      letter-spacing: 1px;
+      margin-top: 7.5px;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.whiteBg {
+  padding: 25px;
+  margin: 15px 0;
+  background-color: white;
+  box-shadow: 0 1px 2px rgba(34,36,38,.15);
+  border-radius: 3px;
+  &.row {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+
+.modal-confirmation .modal-content  {
+  margin-top: -20px;
+}
+

@@ -1,5 +1,15 @@
-import {Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, Inject, OnChanges} from '@angular/core';
-import { AbstractTranslateService } from '../abstract-translate.service';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewEncapsulation,
+  Inject,
+  OnChanges,
+  Host, Optional
+} from '@angular/core';
+import {AbstractTranslateService, BfUILibTransService} from '../abstract-translate.service';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { BfUiLibService } from '../bf-ui-lib.service';
 import { Observable, of } from 'rxjs';
@@ -34,15 +44,16 @@ export class BfBtnComponent implements OnInit, OnChanges {
 
 
   constructor(
-    @Inject('TranslateService') private translate: AbstractTranslateService,
+    private translate: BfUILibTransService,
     private config: NgbPopoverConfig,
     public libService: BfUiLibService
-  ) {
-  }
+  ) { }
 
   ngOnInit() { }
 
   ngOnChanges(change) {
+    // console.log('BF-BTN', new Date(), this.translate);
+
     if (!this.bfIcon) { this.bfIcon = 'icon-arrow-right3'; }
 
     if (change.hasOwnProperty('bfType')) {

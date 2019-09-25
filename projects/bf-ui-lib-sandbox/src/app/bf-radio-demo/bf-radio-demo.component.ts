@@ -37,9 +37,9 @@ div.radio label input[type='radio'] {
   }
 
   &[required]:not([disabled]) { // Required
-    &:checked + span.radio-box { background: $required_input_color; }
+    &:checked + span.radio-box { background: $required-color; }
     + span.radio-box {
-      border-color: darken($required_input_color, 3%);
+      border-color: darken($required-color, 3%);
     }
   }
 

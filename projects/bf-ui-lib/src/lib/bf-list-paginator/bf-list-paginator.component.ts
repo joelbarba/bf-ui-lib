@@ -1,4 +1,15 @@
-import {Component, EventEmitter, Input, OnInit, OnChanges, Output, ViewEncapsulation} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, OnChanges, Output, ViewEncapsulation, DoCheck} from '@angular/core';
+import {Observable} from "rxjs";
+
+interface IBfCtrl {
+  goToPage: (pageNum: number) => void;
+  paginate?: (rowsPerPage: number) => void;
+  currentPage: number;
+  totalPages: number;
+  rowsPerPage: number;
+  maxRowsPerPageList?: Array<{ num: number, label: string }>;
+  render$ ?: Observable<any>;
+}
 
 @Component({
   selector: 'bf-list-paginator',
@@ -6,26 +17,53 @@ import {Component, EventEmitter, Input, OnInit, OnChanges, Output, ViewEncapsula
   styleUrls: ['./bf-list-paginator.component.scss'],
   // encapsulation: ViewEncapsulation.None
 })
-export class BfListPaginatorComponent implements OnInit {
+export class BfListPaginatorComponent implements OnInit, OnChanges, DoCheck {
+  @Output() bfPageChange = new EventEmitter<any>();
   @Input() bfShowSelector = false; // Whether to show the dropdown with the number of items per page
   @Input() bfMaxButtons = 4; // Number of maximum extra page buttons to display (0=1, 1=3, 2=5, 3=7, 4=9 ... x=2x+1)
-  @Input() bfCtrl = {
-    goToPage: (pageNum) => { },
+  @Input() bfCtrl: IBfCtrl;
+
+  public defaultCtrl: IBfCtrl = { // Default values for bfCtrl
+    goToPage: (pageNum) => {},
     currentPage : 1,
     totalPages  : 1,
-    rowsPerPage : 1,
+    rowsPerPage : 10,
+    maxRowsPerPageList : [ // Selector for the max items per page
+      { num: 5,   label: 'Show 5 items per page' },
+      { num: 10,  label: 'Show 10 items per page' },
+      { num: 15,  label: 'Show 15 items per page' },
+      { num: 20,  label: 'Show 20 items per page' },
+      { num: 30,  label: 'Show 30 items per page' },
+      { num: 50,  label: 'Show 50 items per page' },
+      { num: 100, label: 'Show 100 items per page' },
+    ]
   };
-  @Output() bfPageChange = new EventEmitter<any>();
 
-  public listBtns = [];    // Buttons to display on the left (1, 2, 3 ...)
-  public prevCtrl;  // Copy of the previous bfCtrl, to detect changes
+  public listBtns = [];   // Buttons to display on the left (1, 2, 3 ...)
+  public prevCtrl;        // Copy of the previous bfCtrl, to detect changes
+  public listLength = 0;  // Keep the previous list length to recalculate pages (internal default function)
+  public renderSubs;      // Subscription to the bfCtrl.render$
 
   constructor() { }
 
   ngOnChanges(changes) {
     if (changes.hasOwnProperty('bfCtrl') || changes.hasOwnProperty('bfMaxButtons')) {
+      this.bfCtrl = { ...this.defaultCtrl, ...this.bfCtrl };
+
+      // if bfCtrl comes with a render$ observable, subscribe
+      if (this.bfCtrl.render$) {
+        if (!!this.renderSubs) { this.renderSubs.unsubscribe(); }
+        this.renderSubs = this.bfCtrl.render$.subscribe(listState => {
+          this.bfCtrl.currentPage = listState.currentPage;
+          this.bfCtrl.totalPages = listState.totalPages;
+          this.bfCtrl.rowsPerPage = listState.rowsPerPage;
+          this.renderComponent();
+        });
+      }
+
       this.renderComponent();
     }
+    this.listLength = this.bfCtrl.totalPages * this.bfCtrl.rowsPerPage;
   }
 
   // The object change "bfCtrl" is not detected by ngChanges. Do it here:
@@ -64,9 +102,26 @@ export class BfListPaginatorComponent implements OnInit {
     }
   }
 
+  // Recalculate rows per page
+  public changeRowsPerPage = (rowsPerPage) => {
+    if (!!this.bfCtrl.paginate) {
+      this.bfCtrl.paginate(rowsPerPage);
+
+    } else {
+      // If bfCtrl does not provide a paginate() function, run this by default to recalculate totalPages
+      this.bfCtrl.totalPages = Math.ceil(this.listLength / rowsPerPage);
+      if (this.bfCtrl.currentPage < 1) { this.bfCtrl.currentPage = 1; }
+      if (this.bfCtrl.currentPage > this.bfCtrl.totalPages) { this.bfCtrl.currentPage = this.bfCtrl.totalPages; }
+      this.listLength = this.bfCtrl.totalPages * rowsPerPage;
+    }
+    this.renderComponent();
+  };
+
+
   // Check and convert the value to a number
   public checkNumber = (value) => {
     if (typeof value !== 'number' && !Number.isNaN(value)) {
+      // tslint:disable-next-line:radix
       return parseInt(value) || 1;
     } else {
       return value;
@@ -115,7 +170,9 @@ export class BfListPaginatorComponent implements OnInit {
             // [1 ... 93 94 95 96 97 98 99]
             this.listBtns.push({ pageNum: 1 });
             this.listBtns.push({ pageNum: null });
-            for (let ind = this.bfCtrl.totalPages - totalMax + 3; ind <= this.bfCtrl.totalPages; ind++) { this.listBtns.push({ pageNum: ind }); }
+            for (let ind = this.bfCtrl.totalPages - totalMax + 3; ind <= this.bfCtrl.totalPages; ind++) {
+              this.listBtns.push({ pageNum: ind });
+            }
 
           } else {
             // [1 ... 4 5 6 7 8 ... 99]

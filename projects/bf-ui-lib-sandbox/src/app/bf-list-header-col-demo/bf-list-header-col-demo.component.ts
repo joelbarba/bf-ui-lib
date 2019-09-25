@@ -24,16 +24,16 @@ export class BfListHeaderColDemoComponent implements OnInit {
     { id: 9, username: 'greyghost',    email: '09.greyghost@targaryen.com',    first_name: 'Greyghost',    last_name: 'Targaryen' },
   ]
   public orderConf = {
-    field: '', 
-    reverse: false, 
-    onChange: (fieldName) => {
-      if (this.orderConf.field === fieldName) { 
+    fields: [''],
+    reverse: false,
+    setField: (fieldName) => {
+      if (this.orderConf.fields[0] === fieldName) {
         this.orderConf.reverse = !this.orderConf.reverse;
       }
-      this.orderConf.field = fieldName;
+      this.orderConf.fields[0] = fieldName;
       const ascNum = this.orderConf.reverse ? -1 : 1;
       this.usersList = this.usersList.sort((itemA, itemB) => {
-        return (itemA[this.orderConf.field] > itemB[this.orderConf.field]) ? ascNum : -ascNum;
+        return (itemA[this.orderConf.fields[0]] > itemB[this.orderConf.fields[0]]) ? ascNum : -ascNum;
       });
     }
   }
@@ -64,14 +64,14 @@ export class BfListHeaderColDemoComponent implements OnInit {
 public orderConf = {
   field: '', 
   reverse: false, 
-  onChange: (fieldName) => {
-    if (this.orderConf.field === fieldName) { 
+  setField: (fieldName) => {
+    if (this.orderConf.fields[0] === fieldName) {
       this.orderConf.reverse = !this.orderConf.reverse;
     }
-    this.orderConf.field = fieldName;
+    this.orderConf.fields[0] = fieldName;
     const ascNum = this.orderConf.reverse ? -1 : 1;
     this.usersList = this.usersList.sort((itemA, itemB) => {
-      return (itemA[this.orderConf.field] > itemB[this.orderConf.field]) ? ascNum : -ascNum;
+      return (itemA[this.orderConf.fields[0]] > itemB[this.orderConf.fields[0]]) ? ascNum : -ascNum;
     });
   }
 }`;
@@ -79,7 +79,7 @@ public orderConf = {
   constructor() { }
 
   ngOnInit() { 
-    this.orderConf.onChange('username');
+    this.orderConf.setField('username');
   }
 
 }
@@ -95,8 +95,8 @@ export const BfListHeaderColDoc = {
              It is an object with the following properties:
              - field: string -> Name of the current column the list is ordered by
              - reversed: boolean -> Whether the current order is asc or desc
-             - onChange: Function -> To call when the header is clicked to reorder the list. It accepts the field name
-(onChange): Event to spread up the reorder event`,
+             - setField: Function -> To call when the header is clicked to reorder the list. It accepts the field name
+(bfOnChange): Event to spread up the reorder event`,
   instance: `<bf-list-header-col></bf-list-header-col>`, 
   demoComp: BfListHeaderColDemoComponent
 }

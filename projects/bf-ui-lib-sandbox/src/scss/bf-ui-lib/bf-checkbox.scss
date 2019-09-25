@@ -1,0 +1,25 @@
+@import 'variables';
+
+// --- <bf-checkbox> color reset --------------------------------------------------
+
+@mixin checkbox-color-mixin($main-color) {
+  div.checkbox label input[type='checkbox'] {
+    + span.check-box {  // Box unmarked (unchecked)
+      background: $white;
+      border-color: $main-color;
+    }
+
+    &:checked + span.check-box {  // Box marked (checked)
+      background: $main-color;
+      border-color: darken($main-color, 3%);
+      &:before { color: $white; }
+    }
+
+    &[disabled] + span.check-box {  // Box disabled (checked or unchecked)
+      background: $disabled-color;
+      border-color: darken($disabled-color, 3%);
+    }
+  }
+}
+@include checkbox-color-mixin($primary_color);
+

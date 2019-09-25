@@ -1,0 +1,19 @@
+@import 'variables';
+
+
+// --- Growl reset --------------------------------------------------
+div.growl-wrapper {
+  .msg-box.success {
+    background: darken($primary_color, 15%);
+    color: $white;
+  }
+  .msg-box.error {
+    background: $warning_color;
+    color: $white;
+  }
+  .msg-box {
+    border: 1px solid rgba($white, 0.4);
+    border-radius: 4px;
+  }
+}
+

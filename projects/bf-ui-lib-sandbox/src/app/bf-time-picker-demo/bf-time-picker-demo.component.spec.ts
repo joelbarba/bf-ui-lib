@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BfQuantityComponent } from './bf-quantity.component';
+import { BfTimePickerDemoComponent } from './bf-time-picker-demo.component';
 
-describe('BfQuantityComponent', () => {
-  let component: BfQuantityComponent;
-  let fixture: ComponentFixture<BfQuantityComponent>;
+describe('BfTimePickerDemoComponent', () => {
+  let component: BfTimePickerDemoComponent;
+  let fixture: ComponentFixture<BfTimePickerDemoComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BfQuantityComponent ]
+      declarations: [ BfTimePickerDemoComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BfQuantityComponent);
+    fixture = TestBed.createComponent(BfTimePickerDemoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
