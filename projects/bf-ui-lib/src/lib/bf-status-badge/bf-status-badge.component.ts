@@ -1,5 +1,5 @@
 import {Component, Inject, Input, OnChanges, OnInit} from '@angular/core';
-import {AbstractTranslateService} from '../abstract-translate.service';
+import {BfUILibTransService} from '../abstract-translate.service';
 import {Observable, of} from 'rxjs';
 
 @Component({
@@ -31,7 +31,7 @@ export class BfStatusBadgeComponent implements OnInit, OnChanges {
   public bfStatusCss = '';
   public bfCurrentColor = '';
 
-  constructor(@Inject('TranslateService') private translate: AbstractTranslateService) { }
+  constructor(private translate: BfUILibTransService) { }
 
   ngOnInit() {
     this.setStatus(this.bfStatus);
@@ -49,7 +49,7 @@ export class BfStatusBadgeComponent implements OnInit, OnChanges {
 
   setStatus = (status) => {
     if (typeof status === 'boolean') {
-      this.bfCurrentStatus = this.bfStatus ? 1 : 0;
+      this.bfCurrentStatus = this.bfStatus ? 0 : 1;
     } else if (typeof status === 'number') {
       this.bfCurrentStatus = typeof this.bfStatus === 'number' ? this.bfStatus : 0;
     }

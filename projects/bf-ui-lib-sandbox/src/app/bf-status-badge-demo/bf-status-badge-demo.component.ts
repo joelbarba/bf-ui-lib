@@ -18,10 +18,10 @@ export class BfStatusBadgeDemoComponent implements OnInit {
   public instance2 = `<bf-status-badge [bfStatus]="item.status"
                  [bfLabel]="item.label">
 </bf-status-badge>`;
-  public instance3 = `<bf-status-badge [bfStatus]="item.status = 0"
+  public instance3 = `<bf-status-badge [bfStatus]="item.status = true"
                  [bfLabel]="['yes','no']">
 </bf-status-badge>
-<bf-status-badge [bfStatus]="item.status = 1"
+<bf-status-badge [bfStatus]="item.status = false"
                  [bfLabel]="['yes','no']">
 </bf-status-badge>`;
   public instance4 = `<bf-status-badge [bfStatus]="item.status = 2"
@@ -35,46 +35,35 @@ export class BfStatusBadgeDemoComponent implements OnInit {
   public secondStatus = { status: true, label: 'No Bonus' };
   public thirdStatus = { status: 2, label: ['None', 'Low', 'Medium', 'High', 'Max'] };
 
-  public cssReset = `$primary_color    : #00B6F1;
-$secondary_color  : #93C83E;
-$tertiary_color   : #ED0677;
-$quaternary_color : #004A64;
-$warning_color    : #ED0677;
-$extra_color      : #F17B3F;
-$white            : #FFF;
-$offWhite         : #f8f8f8;
-$bf_color3_shadow2: #E99FB7;
+  public cssReset = `$bf-status-active   : $primary_color;
+$bf-status-inactive : $warning_color;
+$bf-status-pending  : $quaternary_color;
+$bf-status-other    : $secondary_color;
+$bf-status-other2   : $extra_color;
+$bf-status-other3   : darken($secondary_color, 15);
+$bf-status-other4   : darken($bf_color3_shadow2, 20%);
 
 .bf-status-badge {
-  color: $white;
-  border: 1px solid $offWhite;
   &-active {
-    background: $primary_color;
-    background-color: $primary_color;
+    @include statusBox($bf-status-active);
   }
   &-inactive {
-    background: $warning_color;
-    background-color: $warning_color;
+    @include statusBox($bf-status-inactive);
   }
   &-pending {
-    background: $quaternary_color;
-    background-color: $quaternary_color;
+    @include statusBox($bf-status-pending);
   }
   &-other {
-    background: $secondary_color;
-    background-color: $secondary_color;
+    @include statusBox($bf-status-other);
   }
   &-other-2 {
-    background: $extra_color;
-    background-color: $extra_color;
+    @include statusBox($bf-status-other2);
   }
   &-other-3 {
-    background: darken($secondary_color, 15);
-    background-color: darken($secondary_color, 15);
+    @include statusBox($bf-status-other3);
   }
   &-other-4 {
-    background: darken($bf_color3_shadow2, 20%);
-    background-color: darken($bf_color3_shadow2, 20%);
+    @include statusBox($bf-status-other4);
   }
 }`;
 
