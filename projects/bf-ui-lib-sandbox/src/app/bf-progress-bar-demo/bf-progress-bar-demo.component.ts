@@ -12,7 +12,7 @@ export class BfProgressBarDemoComponent implements OnInit {
   public desc = BfProgressBarDoc.desc;
   public api = BfProgressBarDoc.api;
 
-  // Small RxJS trick to loop through 0 to 99
+  // Small RxJS trick to loop through 0 to 100
   public cyclingProgress = zip(interval(100), range(0, 101)).pipe(map((pair) => pair[1]));
 
   public instance1 = `<bf-progress-bar
@@ -21,17 +21,11 @@ export class BfProgressBarDemoComponent implements OnInit {
 </bf-progress-bar>`;
 
   public instance2 = `<bf-progress-bar
-  [bfValue]="45"
-  [bfTotal]="100"
-  [bfShowValues]="true">
-</bf-progress-bar>`;
-
-  public instance3 = `<bf-progress-bar
   [bfLabel]="'Mobile Minutes 250'"
   [bfValue]="1299"
   [bfTotal]="2048"
-  [bfUsedLabel]="\'minutes used\'"
-  [bfLeftLabel]="\'minutes left\'">
+  [bfUsedLabel]="\'view.minutes_used\'" // {{value}} minutes used
+  [bfLeftLabel]="\'view.minutes_left\'"> // {{leftValue}} minutes left
 </bf-progress-bar>`;
 
   public custom = {
@@ -47,7 +41,6 @@ export class BfProgressBarDemoComponent implements OnInit {
       bfLabel: '',
       bfUsedLabel: '',
       bfLeftLabel: '',
-      bfShowValues: false,
       componentView: `<bf-progress-bar></bf-progress-bar>`
     },
     buildComponentView: () => {
@@ -56,8 +49,6 @@ export class BfProgressBarDemoComponent implements OnInit {
       this.custom.obj.componentView = `<bf-progress-bar
   [bfValue]="${obj.bfValue}"
   [bfTotal]="${obj.bfTotal}"` +
-  (obj.bfShowValues ? `
-  [bfShowValues]="${obj.bfShowValues}"` : ``) +
   (config.hasLabel ? `
   [bfLabel]="${obj.bfLabel}"` : ``) +
   (config.hasUsedLabel ? `
@@ -106,8 +97,13 @@ export const BfProgressBarDoc = {
   api: `  [bfLabel]: label on top of the component
   [bfTotal]: maximum value that can be reached
   [bfValue]: actual value
-  [bfUsedLabel]: translation for the label below the component on the left
-  [bfLeftLabel]: translation for the label below the component on the right
-  [bfShowValues]: display the values under the bar`,
+  [bfUsedLabel]: translation for the label below the component on the left and have the value as binding {{value}}
+  [bfLeftLabel]: translation for the label below the component on the right and have the missing value as binding {{leftValue}}
+  
+  For example: [bfUsedLabel]="'view.subscriptions.minutes_used'" -> {{value}} minutes used
+               [bfLeftLabel]="'view.subscriptions.minutes_left'" -> {{leftValue}} minutes left
+               
+  If you want to display only the values you might do a translation key with inside just the binding in this way:
+  [bfUsedLabel]="'view.subscriptions.value_used'" -> {{value}}`,
   demoComp: BfProgressBarDemoComponent
 };

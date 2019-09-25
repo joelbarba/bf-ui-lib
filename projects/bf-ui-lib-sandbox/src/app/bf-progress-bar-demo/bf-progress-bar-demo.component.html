@@ -45,11 +45,6 @@
                       (ngModelChange)="custom.buildComponentView()"
                       bfLabel="bfTotal:"></bf-input>
           </div>
-          <div class="col-4 padT30">
-            <bf-checkbox [(ngModel)]="custom.obj.bfShowValues"
-                         (ngModelChange)="custom.buildComponentView()"
-                         bfLabel="Show values"></bf-checkbox>
-          </div>
         </div>
 
         <div class="row">
@@ -116,28 +111,15 @@
     <div class="row">
       <div class="col-5">
         <bf-progress-bar
+          [bfLabel]="'Mobile Minutes 250'"
           [bfValue]="1299"
           [bfTotal]="2048"
-          [bfShowValues]="true">
+          [bfUsedLabel]="'1299 minutes used'"
+          [bfLeftLabel]="'2048 minutes left'">
         </bf-progress-bar>
       </div>
       <div class="col-7">
         <pre>{{instance2}}</pre>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-5">
-        <bf-progress-bar
-          [bfLabel]="'Mobile Minutes 250'"
-          [bfValue]="1299"
-          [bfTotal]="2048"
-          [bfUsedLabel]="'minutes used'"
-          [bfLeftLabel]="'minutes left'">
-        </bf-progress-bar>
-      </div>
-      <div class="col-7">
-        <pre>{{instance3}}</pre>
       </div>
     </div>
 

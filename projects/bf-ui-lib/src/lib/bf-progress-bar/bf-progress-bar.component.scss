@@ -1,34 +1,23 @@
-
 .bf-progress-bar {
+
   /deep/ .progress {
     height: 1.2rem;
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
-    //color: #FFFFFF;
     .progress-bar {
-      //background-color: #00B6F1;
       text-align: right;
       padding-right: 0.5rem;
     }
   }
 
-  //Label below the progress bar and on the left that displays the used value
-  .used-label {
-    //color: #93C83E;
-  }
-
-  //Label below the progress bar and on the right that displays the missing value to reach the max
-  .left-label {
-    //color: #00B6F1;
-  }
-
-  //ngClass added when the percentage value is less than 10 to display the percentage value outside of
-  // the colored bar to better display the value.
-  // margin-left: size of the progress + 10px of margin from it
   /deep/ .percentage-outside {
      span {
-      //color: #00B6F1;
       margin-left: calc(100% + 0.5rem);
     }
+  }
+
+  .progress-sub-label {
+    display: flex;
+    justify-content: space-between;
   }
 
 }

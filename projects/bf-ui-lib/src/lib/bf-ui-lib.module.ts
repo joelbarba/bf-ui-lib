@@ -3,6 +3,7 @@ import {NgModule, ModuleWithProviders, Optional, SkipSelf} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // <-- NgModel lives here
 import {NgbPopoverModule, NgbTooltipModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
 import { NgbModule, NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 
 // Modules
 import { BfGrowlModule } from './bf-growl/bf-growl.module';
@@ -74,6 +75,7 @@ import { BfPagePlaceholderComponent } from './bf-page-placeholder/bf-page-placeh
     NgbModalModule,
     BfGrowlModule,
     BfLoadingBarModule,
+    TranslateModule
   ],
   exports: [
     BfPagePlaceholderComponent,  // <--- New component
