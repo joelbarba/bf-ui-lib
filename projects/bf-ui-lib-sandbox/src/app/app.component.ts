@@ -1,5 +1,5 @@
 import {Component, Inject, Injectable, OnInit} from '@angular/core';
-import {BfTranslateService} from "./translate.service";
+import {BfTranslateService} from './translate.service';
 
 
 @Component({

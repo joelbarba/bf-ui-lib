@@ -2,8 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { IndexPageComponent } from './index-page/index-page.component';
-import { LibRegisterService, compList } from './lib-register.service';
-import {BfBtnDemoComponent, BfBtnDoc} from "./bf-btn-demo/bf-btn-demo.component";
+import { compList } from './lib-register.service';
 
 const routes: Routes = [
   { path: '', redirectTo: '/index', pathMatch: 'full' },
@@ -15,15 +14,15 @@ const routes: Routes = [
       }),
   },
  ];
- compList.forEach((item) => {
-  routes.push({ path: item.name,  component: item.demoComp });
+
+compList.forEach((item) => {
+   routes.push({ path: item.name,  component: item.demoComp });
 });
- 
 
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule, 
+    CommonModule,
     RouterModule.forRoot(routes),
   ],
   exports: [ RouterModule ]
