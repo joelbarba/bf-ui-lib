@@ -1,18 +1,17 @@
-@import 'variables';
-
-@import './bf-ui-lib/bf-btn.scss';
-@import './bf-ui-lib/bf-checkbox.scss';
-@import './bf-ui-lib/bf-radio.scss';
-@import './bf-ui-lib/bf-label.scss';
-@import './bf-ui-lib/bf-input.scss';
-@import './bf-ui-lib/bf-textarea.scss';
-@import './bf-ui-lib/bf-switch.scss';
-@import './bf-ui-lib/bf-dropdown.scss';
-@import './bf-ui-lib/bf-quantity-input.scss';
-@import './bf-ui-lib/bf-list-paginator.scss';
-@import './bf-ui-lib/bf-growl.scss';
-@import './bf-ui-lib/bf-loading.scss';
-@import './bf-ui-lib/bf-confirm.scss';
+@import './bf-ui-lib/bf-btn';
+@import './bf-ui-lib/bf-checkbox';
+@import './bf-ui-lib/bf-radio';
+@import './bf-ui-lib/bf-label';
+@import './bf-ui-lib/bf-input';
+@import './bf-ui-lib/bf-textarea';
+@import './bf-ui-lib/bf-switch';
+@import './bf-ui-lib/bf-dropdown';
+@import './bf-ui-lib/bf-quantity-input';
+@import './bf-ui-lib/bf-list-paginator';
+@import './bf-ui-lib/bf-growl';
+@import './bf-ui-lib/bf-loading';
+@import './bf-ui-lib/bf-confirm';
+@import './bf-ui-lib/bf-progress-bar';
 
 // Add spacing when 2+ components in a row
 bf-btn + bf-btn { margin-left: 5px; }

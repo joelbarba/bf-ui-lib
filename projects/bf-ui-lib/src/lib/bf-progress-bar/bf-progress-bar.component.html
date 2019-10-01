@@ -10,14 +10,14 @@
   </ngb-progressbar>
 
   <!-- texts below the progress bar -->
-  <div *ngIf="bfUsedLabel || bfLeftLabel" class="progress-sub-label">
+  <div *ngIf="!!bfUsedLabel || !!bfLeftLabel" class="progress-sub-label">
     <!-- text on the left that displays the value (used) -->
-    <span class="used-label secondary-text">
-      <span>{{bfUsedLabel | translate: { 'value':  bfValue } }}</span>
+    <span *ngIf="!!bfUsedLabel"  class="used-label">
+      <span>{{bfTotal >= bfValue ? bfValue: bfTotal}} {{bfUsedLabel | translate }}</span>
     </span>
     <!-- text on the right that displays the value missing to reach the total (left) -->
-    <span class="left-label">
-      <span>{{bfLeftLabel | translate: { 'leftValue':  bfTotal - bfValue } }}</span>
+    <span *ngIf="!!bfLeftLabel" class="left-label">
+      <span>{{bfTotal >= bfValue ? bfTotal - bfValue: 0}} {{bfLeftLabel | translate }}</span>
     </span>
   </div>
 

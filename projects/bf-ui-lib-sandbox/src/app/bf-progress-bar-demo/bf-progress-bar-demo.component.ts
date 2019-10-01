@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { interval, range, zip } from 'rxjs';
 import { map } from 'rxjs/operators';
 
