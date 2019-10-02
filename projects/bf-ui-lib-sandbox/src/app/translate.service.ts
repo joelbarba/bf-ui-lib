@@ -39,6 +39,7 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.empty'     : 'Buit',
     'view.tooltip.message'  : 'Aquest és un missatge flotant molt útil',
     'view.common.field_name': `Drac de l'any`,
+    'view.common.placeholder' : 'Omplidor per defecte',
   };
 
   public transDict$ = new BehaviorSubject(this.transDict);

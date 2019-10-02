@@ -1,10 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter, Inject, forwardRef } from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, Inject, forwardRef, OnChanges} from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
 import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
-import {AbstractTranslateService, BfUILibTransService} from '../abstract-translate.service';
-import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
-import * as Rx from 'rxjs';
-import * as RxOp from 'rxjs/operators';
+import { BfUILibTransService} from '../abstract-translate.service';
+import {Observable, of} from "rxjs";
 
 @Component({
   selector: 'bf-textarea',
@@ -21,24 +19,20 @@ import * as RxOp from 'rxjs/operators';
     }
   ]
 })
-export class BfTextareaComponent implements OnInit {
-// export class BfInputComponent implements OnInit {
-  // @Output() bfModelChange = new EventEmitter<string>();
-  // @Input() bfModel: string;
-
+export class BfTextareaComponent implements OnInit, OnChanges {
   public bfModel: string; // Internal to hold the linked ngModel on the wrapper
 
-  @Input() bfLabel: string = '';
-  @Input() bfRequired: boolean = false;
-  @Input() bfDisabled: boolean = false;
+  @Input() bfLabel = '';
+  @Input() bfRequired = false;
+  @Input() bfDisabled = false;
   @Input() bfRows = 4;
-  @Input() bfPlaceholder: string = '';
+  @Input() bfPlaceholder = '';
 
-  @Input() bfTooltip    : string = '';
-  @Input() bfTooltipPos : string = 'top';
-  @Input() bfTooltipBody : boolean = true;
+  @Input() bfTooltip = '';
+  @Input() bfTooltipPos = 'top';
+  @Input() bfTooltipBody = true;
 
-  @Input() bfErrorPos: string = 'top-right';  // top-right, bottom-left, bottom-right
+  @Input() bfErrorPos = 'top-right';  // top-right, bottom-left, bottom-right
 
   @Output() bfOnKeyDown = new EventEmitter<any>();  // Emitter when a key is pressed
   @Output() bfOnEsc = new EventEmitter<any>();      // Emitter when esc key is pressed
@@ -46,23 +40,20 @@ export class BfTextareaComponent implements OnInit {
 
 
 
-  public status : string = 'pristine';      // pristine, valid, error, loading
+  public status = 'pristine';      // pristine, valid, error, loading
 
-  public bfLabelTrans: string = '';         // Translated text for the label
-  public bfTooltipTrans: string = '';       // Translated text for the tooltip of the label
+  public bfLabelTrans$: Observable<string> = of('');        // Translated text for the label
+  public bfPlaceholderTrans$: Observable<string> = of('');  // Translated text for the placeholder
+  public bfTooltipTrans$: Observable<string> = of('');      // Translated text for the tooltip
 
-  public bfPlaceholderTrans: string = '';   // Translated text for the placeholder of the input
-  public errorPosition: string = 'top-right';
-  public errorText: string = 'Invalid value';
+
+  public errorPosition = 'top-right';
+  public errorText = 'Invalid value';
 
   @ViewChild('ngInputRef') ngInputRef: ElementRef;
   public inputCtrl: FormControl; // <-- ngInputRef.control
 
-  constructor(
-    private translate: BfUILibTransService,
-    private config: NgbPopoverConfig) {
-  }
-
+  constructor(private translate: BfUILibTransService) {}
 
   // ------- ControlValueAccessor -----
 
@@ -129,15 +120,9 @@ export class BfTextareaComponent implements OnInit {
       this.inputCtrl = this.ngInputRef['control'];
     }
 
-    if (!!this.translate.doTranslate) {
-      if (!!change.bfLabel)       { this.bfLabelTrans = this.translate.doTranslate(this.bfLabel); }
-      if (!!change.bfTooltip)     { this.bfTooltipTrans = this.translate.doTranslate(this.bfTooltip); }
-      if (!!change.bfPlaceholder) { this.bfPlaceholderTrans = this.translate.doTranslate(this.bfPlaceholder); }
-    } else {
-      if (!!change.bfLabel)       { this.bfLabelTrans = this.bfLabel; }
-      if (!!change.bfTooltip)     { this.bfTooltipTrans = this.bfTooltip; }
-      if (!!change.bfPlaceholder) { this.bfPlaceholderTrans = this.bfPlaceholder; }
-    }
+    if (change.hasOwnProperty('bfLabel'))       { this.bfLabelTrans$       = this.translate.getLabel$(this.bfLabel); }
+    if (change.hasOwnProperty('bfPlaceholder')) { this.bfPlaceholderTrans$ = this.translate.getLabel$(this.bfPlaceholder); }
+    if (change.hasOwnProperty('bfTooltip'))     { this.bfTooltipTrans$     = this.translate.getLabel$(this.bfTooltip); }
 
     this.propagateModelUp(this.bfModel);
     this.updateStatus();
@@ -166,7 +151,7 @@ export class BfTextareaComponent implements OnInit {
     this.propagateModelUp(this.bfModel);
     this.updateStatus();
     // this.bfModelChange.emit(this.bfModel);
-  }
+  };
 
 
   public triggerKey = (event) => {

@@ -8,11 +8,11 @@
 
   <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
     <span class="info-badge" *ngIf="!!bfTooltip"
-          [ngbTooltip]="bfTooltipTrans" [placement]="bfTooltipPos" triggers="hover"
+          [ngbTooltip]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
           [container]="(bfTooltipBody ? 'body' : '')">
       <span class="icon-info"></span>
     </span>
-    <span>{{bfLabelTrans}}</span>:
+    <span>{{bfLabelTrans$ | async}}</span>:
     <span *ngIf="bfRequired" class="asterisk">*</span>
   </label>
 
@@ -21,7 +21,7 @@
   <!--[formControl]="inputCtrl"-->
   <textarea class="form-control" name="bfTextarea" #ngInputRef="ngModel"
             [rows]="bfRows"
-            [placeholder]="bfPlaceholderTrans"
+            [placeholder]="bfPlaceholderTrans$ | async"
             [ngModel]="bfModel" (ngModelChange)="parseModelChange($event)"
             [required]="bfRequired"
             [disabled]="bfDisabled"
