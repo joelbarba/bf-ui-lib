@@ -31,15 +31,18 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.empty': 'Empty'
   };
   public transDictCAT = {
-    'view.common.name'      : 'Nom',
-    'view.common.username'  : `Nom d'usuari`,
-    'view.common.yes'       : 'Sí',
-    'view.common.no'        : 'No',
-    'view.common.all'       : 'Tot',
-    'view.common.empty'     : 'Buit',
-    'view.tooltip.message'  : 'Aquest és un missatge flotant molt útil',
-    'view.common.field_name': `Drac de l'any`,
-    'view.common.placeholder' : 'Omplidor per defecte',
+    'view.common.name'            : 'Nom',
+    'view.common.username'        : `Nom d'usuari`,
+    'view.common.yes'             : 'Sí',
+    'view.common.no'              : 'No',
+    'view.common.all'             : 'Tot',
+    'view.common.empty'           : 'Buit',
+    'view.tooltip.message'        : 'Aquest és un missatge flotant molt útil',
+    'view.common.field_name'      : `Drac de l'any`,
+    'view.common.placeholder'     : 'Omplidor per defecte',
+    'view.common.required_field'  : 'Camp obligatori',
+    'view.common.invalid_min_length' : 'Massa curt',
+    'view.common.invalid_max_length' : 'Massa llarg',
   };
 
   public transDict$ = new BehaviorSubject(this.transDict);

@@ -1,4 +1,14 @@
-import {Component, Input, Output, EventEmitter, Inject, forwardRef, OnInit, OnChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  Inject,
+  forwardRef,
+  OnInit,
+  OnChanges,
+  AfterViewInit
+} from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
 import {
   FormControl,
@@ -19,9 +29,9 @@ export interface IbfInputCtrl {
   setFocus    ?: { () };
   setDirty    ?: { (opts?) };
   setPristine ?: { (opts?) };
-  removeError ?: { () },
-  addError    ?: { (err) }
-  refresh     ?: { () }
+  removeError ?: { () };
+  addError    ?: { (err) };
+  refresh     ?: { () };
 }
 
 
@@ -40,7 +50,7 @@ export interface IbfInputCtrl {
     }
   ]
 })
-export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges {
+export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges, AfterViewInit {
   private ngControl;
   public bfModel: string; // Internal to hold the linked ngModel on the wrapper
 
@@ -97,13 +107,15 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
 
 
 
-
-
   public bfLabelTrans$: Observable<string> = of('');         // Translated text for the label
   public bfTooltipTrans$: Observable<string> = of('');       // Translated text for the tooltip of the label
   public bfPlaceholderTrans$: Observable<string> = of('');   // Translated text for the placeholder of the input
   public bfDisabledTipTrans$: Observable<string> = of('');   // Translated text for the disabled tooltip of the input
   public errorTextTrans$: Observable<string> = of(''); // Translated text for the error message
+
+  public errTxtRequired$: Observable<string> = of(''); // Default error text for required
+  public errTxtMinLen$: Observable<string> = of('');   // Default error text for minlength
+  public errTxtMaxLen$: Observable<string> = of('');   // Default error text for maxlength
 
   // Status of the bfInput. Pristine will be valid even if the value is wrong (unless bfErrorOnPristine)
   public status: 'valid' | 'error' | 'loading' = 'valid';  // pristine, valid, error, loading
@@ -127,6 +139,9 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   ) {
     // ngControl.valueAccessor = this;
     this.errorTextTrans$ = this.translate.getLabel$('view.common.invalid_value'); // Default error message
+    this.errTxtRequired$ = this.translate.getLabel$('view.common.required_field');
+    this.errTxtMinLen$ = this.translate.getLabel$('view.common.invalid_min_length');
+    this.errTxtMaxLen$ = this.translate.getLabel$('view.common.invalid_max_length');
   }
 
 
@@ -164,9 +179,9 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
     }
 
     if (!this.bfErrorText) {
-      if (change.hasOwnProperty('bfRequired'))  { this.errorTextTrans$ = this.translate.getLabel$('view.common.required_field'); }
-      if (change.hasOwnProperty('bfMinlength')) { this.errorTextTrans$ = this.translate.getLabel$('view.common.invalid_min_length'); }
-      if (change.hasOwnProperty('bfMaxlength')) { this.errorTextTrans$ = this.translate.getLabel$('view.common.invalid_max_length'); }
+      if (change.hasOwnProperty('bfRequired'))  { this.errorTextTrans$ = this.errTxtRequired$; }
+      if (change.hasOwnProperty('bfMinlength')) { this.errorTextTrans$ = this.errTxtMinLen$; }
+      if (change.hasOwnProperty('bfMaxlength')) { this.errorTextTrans$ = this.errTxtMaxLen$; }
     }
 
 
@@ -255,7 +270,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
     // console.log('writeValue -> ', value, this.ngInputRef);
     // if (value === null) {} // First time, when the component is initialized but the outer value not ready yet
 
-    this.bfModel = value ? value: '';
+    this.bfModel = value ? value : '';
     setTimeout(this.updateStatus);  // Update status (after internal ngModel cycle)
 
     // Set the value to the internal formControl to force the internal validators run
@@ -326,9 +341,9 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
         this.displayIcon = this.bfIcon || this.bfInvalidIcon;
 
         if (!this.bfErrorText) {
-          if (this.inputCtrl.errors.required)  { this.errorTextTrans$ = this.translate.getLabel$('view.common.required_field'); }
-          if (this.inputCtrl.errors.minlength) { this.errorTextTrans$ = this.translate.getLabel$('view.common.invalid_min_length'); }
-          if (this.inputCtrl.errors.maxlength) { this.errorTextTrans$ = this.translate.getLabel$('view.common.invalid_max_length'); }
+          if (this.inputCtrl.errors.required)  { this.errorTextTrans$ = this.errTxtRequired$; }
+          if (this.inputCtrl.errors.minlength) { this.errorTextTrans$ = this.errTxtMinLen$; }
+          if (this.inputCtrl.errors.maxlength) { this.errorTextTrans$ = this.errTxtMaxLen$; }
           if (!!this.manualError && this.manualError.label) {
             this.errorTextTrans$ = this.translate.getLabel$(this.manualError.label);
           }

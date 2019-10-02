@@ -114,9 +114,18 @@ export const BfTextareaDoc = {
 [bfRequired]    : Whether the input is required or not
 [bfDisabled]    : Whether the input is disabled or not
 [bfPlaceholder] : Placeholder text (automatically translated)
+
+[bfErrorText]   : Custom error text (label) to display when invalid value
+[bfErrorPos]    : Custom position where to display the error text. Values = ['top-right', 'bottom-left', 'bottom-right', 'none', 'default'].
+[bfMinlength]   : Min number of chars. Built in validator "minlength"
+[bfMaxlength]   : Max number of chars. Built in validator "maxlength". Null means no max. It blocks input if limit.
+[bfValidator]   : Callback function called every time the internal ngModel validates its value. Parameter = current value of the model. 
+                  It should return null (valid) or error object (invalid).
+
 [bfTooltip]     : If label provided, adds a info badge with a tooltip (automatically translated)
 [bfTooltipPos]  : Position of the tooltip (top by default)
 [bfTooltipBody] : Whether the tooltip is append to the body (default true) or next the the html element (false). The parent contaniner may affect the visibility of the tooltip
+
 (bfOnKeyDown)   : Triggered when a key is pressed on the textarea
 (bfOnEsc)       : Triggered when keys Esc is pressed.
 (bfOnSave)      : Triggered when keys Ctrl + Enter are pressed. This represents the keyboard combination to save the value

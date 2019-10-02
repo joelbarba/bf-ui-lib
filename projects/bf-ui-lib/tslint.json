@@ -13,6 +13,15 @@
       "element",
       "bf",
       "kebab-case"
+    ],
+    "max-line-length": [
+      true,
+      {
+        "limit": 300,
+        "ignore-pattern": "^import |^export {(.*?)}",
+        "check-strings": true,
+        "check-regex": true
+      }
     ]
   }
 }

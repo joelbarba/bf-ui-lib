@@ -104,9 +104,15 @@
     <div class="col-7">
       <bf-textarea [(ngModel)]="myVal"
                    bfLabel="My Text"
+                   [bfRequired]="true"
+                   [bfMinlength]="4"
+                   [bfMaxlength]="10"
                    (bfOnSave)="growl.success('Saving the value')"
                    #myInput="ngModel"
       ></bf-textarea>
+      <p>bfRequired="true"<br>
+      bfMinlength="4"<br>
+      bfMaxlength="10"</p>
     </div>
     <div class="col-5">
       <pre>
@@ -114,6 +120,7 @@ myInput.value = {{myInput.value}}
 myInput.dirty = {{myInput.dirty}}
 myInput.valid = {{myInput.valid}}
 myInput.pristine = {{myInput.pristine}}
+myInput.errors = {{myInput.errors | json}}
       </pre>
     </div>
   </div>
