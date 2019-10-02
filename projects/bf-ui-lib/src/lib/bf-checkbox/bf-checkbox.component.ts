@@ -22,14 +22,18 @@ export class BfCheckboxComponent implements ControlValueAccessor, OnInit, OnChan
   public bfModel = false;
   @Input() bfLabel = '';
   @Input() bfDisabled = false;
+  @Input() bfTooltip = '';
+  @Input() bfTooltipPos = 'top';
+  @Input() bfTooltipBody = true;
 
-  public bfLabelText$: Observable<string> = of(''); // Translated text for the label
+  public bfLabelText$ = of('');     // Translated text for the label
+  public bfTooltipTrans$ = of('');  // Translated text for the tooltip
 
   constructor(private translate: BfUILibTransService) { }
 
   // ------- ControlValueAccessor -----
   writeValue(value: any) {
-    if (value !== undefined) { this.bfModel = value; }
+    this.bfModel = !!value;
   }
   public propagateModelUp = (_: any) => {}; // This is just to avoid type error (it's overwritten on register)
   registerOnChange(fn) { this.propagateModelUp = fn; }
@@ -39,7 +43,8 @@ export class BfCheckboxComponent implements ControlValueAccessor, OnInit, OnChan
   ngOnInit() {}
 
   ngOnChanges(change) {
-    if (change.hasOwnProperty('bfLabel'))  { this.bfLabelText$ = this.translate.getLabel$(this.bfLabel);  }
+    if (change.hasOwnProperty('bfLabel'))   { this.bfLabelText$ = this.translate.getLabel$(this.bfLabel);  }
+    if (change.hasOwnProperty('bfTooltip')) { this.bfTooltipTrans$ = this.translate.getLabel$(this.bfTooltip); }
   }
 
   onChange(value) {

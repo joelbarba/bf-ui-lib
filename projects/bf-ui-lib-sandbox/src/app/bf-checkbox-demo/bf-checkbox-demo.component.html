@@ -5,12 +5,76 @@
 <h5 class="mt-4">Parameters:</h5>
 <div class="col-12"><pre>{{api}}</pre></div>
 
-<div>
-  <hr>
-  <h5>
-    <bf-checkbox [(ngModel)]="myValue" bfLabel="view.common.field_name2"></bf-checkbox>
-  </h5>
+
+<!--Customization-->
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-6 marB15">
+      <h5 class="marB25">Customized Checkbox:</h5>
+      <div class="padB25">
+        <!--<h5>-->
+          <bf-checkbox [(ngModel)]="myValue"
+                       [class.block]="compConf.isClassBlock"
+                       [style.background]="compConf.isClassBlock ? 'lightgray' : 'white'"
+                       [bfLabel]="compConf.bfLabel"
+                       [bfDisabled]="compConf.isDisabled"
+                       [bfTooltip]="(compConf.hasTooltip ? compConf.tooltipText : null)"
+                       [bfTooltipPos]="(compConf.tooltipPos || 'top')"
+                       [bfTooltipBody]="compConf.tooltipBody">
+          </bf-checkbox>
+        <!--</h5>-->
+      </div>
+      <div>
+        <div class="code-box pad15">
+          <pre>{{customCompCode}}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+
+      <div class="row marT15">
+        <bf-checkbox class="col-3" bfLabel="Disabled" [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()"></bf-checkbox>
+        <bf-input class="col-9" bfLabel="bfLabel" [(ngModel)]="compConf.bfLabel" (ngModelChange)="upComp()"></bf-input>
+      </div>
+
+      <div class="row marT10">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox> </div>
+        <div class="col-9" *ngIf="compConf.hasTooltip">
+          <bf-input [(ngModel)]="compConf.tooltipText" (ngModelChange)="upComp()"></bf-input>
+        </div>
+        <div class="col-5" *ngIf="compConf.hasTooltip">
+          <bf-dropdown bfLabel="bfTooltipPos"
+                       [(ngModel)]="compConf.tooltipPos" (ngModelChange)="upComp()"
+                       [bfList]="[{ id: 'top', text: 'top' }, { id: 'right', text: 'right' }, { id: 'bottom', text: 'bottom' }, { id: 'left', text: 'left' }]"
+                       bfRender="text" bfSelect="id">
+          </bf-dropdown>
+        </div>
+        <div class="col-4" *ngIf="compConf.hasTooltip">
+          <bf-dropdown bfLabel="bfTooltipBody"
+                       [(ngModel)]="compConf.tooltipBody" (ngModelChange)="upComp()"
+                       [bfList]="[{ id: 'true', text: 'true' }, { id: 'false', text: 'false' }]"
+                       bfRender="text" bfSelect="id">
+          </bf-dropdown>
+        </div>
+      </div>
+
+      <!--Classes-->
+      <div class="row padT10">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isClassBlock" (ngModelChange)="upComp()" bfLabel="block"></bf-checkbox> </div>
+        <!--<div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasColon" (ngModelChange)="upComp()" bfLabel="colon"></bf-checkbox> </div>-->
+      </div>
+
+    </div>
+
+  </div>
 </div>
+
+<hr>
+
+
+
+
 
 
 <h5 class="mt-4">Examples:</h5>

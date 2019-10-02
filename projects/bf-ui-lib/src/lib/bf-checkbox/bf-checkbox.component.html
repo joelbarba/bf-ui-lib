@@ -1,4 +1,6 @@
-<div class="checkbox">
+<div class="checkbox"
+     [ngbTooltip]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
+     [container]="(bfTooltipBody ? 'body' : '')">
   <label>
     <input type="checkbox" [ngModel]="bfModel" (ngModelChange)="onChange($event)" [disabled]="bfDisabled">
     <span class="check-box icon-checkmark3"></span>
