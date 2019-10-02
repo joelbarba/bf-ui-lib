@@ -38,6 +38,7 @@
         <bf-input class="col-9" bfLabel="bfLabel" [(ngModel)]="compConf.bfLabel" (ngModelChange)="upComp()"></bf-input>
       </div>
 
+      <!--Tooltip-->
       <div class="row marT10">
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox> </div>
         <div class="col-9" *ngIf="compConf.hasTooltip">
@@ -150,8 +151,6 @@
     <bf-checkbox class="block" bfLabel="Block check 5"></bf-checkbox>
     <bf-checkbox class="block" bfLabel="Block check 6"></bf-checkbox>
   </div>
-
-
 </div>
 
 
