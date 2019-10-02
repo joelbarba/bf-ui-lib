@@ -84,16 +84,9 @@ export class BfSwitchDemoComponent implements OnInit {
       }
     }
 
-    if (this.swConf.hasOnText) {
-      this.swCode += this.bsStr + ` bfOnText="${this.swConf.onText}"`;
-    }
-    if (this.swConf.hasOffText) {
-      this.swCode += this.bsStr + ` bfOffText="${this.swConf.offText}"`;
-    }
-
-    if (this.swConf.isDisabled) {
-      this.swCode += this.bsStr + `[bfDisabled]="true"`;
-    }
+    if (this.swConf.hasOnText)  { this.swCode += this.bsStr + ` bfOnText="${this.swConf.onText}"`; }
+    if (this.swConf.hasOffText) { this.swCode += this.bsStr + ` bfOffText="${this.swConf.offText}"`; }
+    if (this.swConf.isDisabled) { this.swCode += this.bsStr + `[bfDisabled]="true"`; }
 
     if (this.swConf.hasTooltip) {
       this.swCode += this.bsStr + ` bfTooltip="${this.swConf.btnTooltip}"`;

@@ -1,5 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, forwardRef } from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, forwardRef, OnChanges} from '@angular/core';
 import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
+import { Observable, of } from 'rxjs';
+import {BfUILibTransService} from "../abstract-translate.service";
 
 @Component({
   selector: 'bf-checkbox',
@@ -14,14 +16,16 @@ import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VA
   ]
 })
 // export class BfCheckboxComponent implements OnInit {
-export class BfCheckboxComponent implements ControlValueAccessor, OnInit {
+export class BfCheckboxComponent implements ControlValueAccessor, OnInit, OnChanges {
   // @Input() bfModel: boolean = false;
   // @Output() bfModelChange = new EventEmitter<boolean>();
-  public bfModel: boolean = false;
-  @Input() bfLabel: string = '';
-  @Input() bfDisabled: boolean = false;
+  public bfModel = false;
+  @Input() bfLabel = '';
+  @Input() bfDisabled = false;
 
-  constructor() { }
+  public bfLabelText$: Observable<string> = of(''); // Translated text for the label
+
+  constructor(private translate: BfUILibTransService) { }
 
   // ------- ControlValueAccessor -----
   writeValue(value: any) {
@@ -33,6 +37,10 @@ export class BfCheckboxComponent implements ControlValueAccessor, OnInit {
 
 
   ngOnInit() {}
+
+  ngOnChanges(change) {
+    if (change.hasOwnProperty('bfLabel'))  { this.bfLabelText$ = this.translate.getLabel$(this.bfLabel);  }
+  }
 
   onChange(value) {
     this.bfModel = value;
