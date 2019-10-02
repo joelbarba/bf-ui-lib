@@ -7,25 +7,25 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
 <h5 class="mt-4">Parameters:</h5>
 <div class="col-12"><pre>{{api}}</pre></div>
 
-<div class="row">
-  <div class="col-9">
-                 <!--bfRenderImage="none"-->
-                 <!--bfRender="$$$ 'AA ' + $item.username"-->
-    <bf-dropdown class="full-width"
-                 [(ngModel)]="selObj8"
-                 bfRender="username"
-                 [bfList]="myList3"
-    >
-    </bf-dropdown>
-  </div>
-  <!--<div class="col-3">-->
-  <!--  <bf-dropdown [(ngModel)]="selObj8"-->
-  <!--               [bfList]="myList"-->
-  <!--               bfRender="username"-->
-  <!--  >-->
-  <!--  </bf-dropdown>-->
-  <!--</div>-->
-</div>
+<!--<div class="row">-->
+<!--  <div class="col-9">-->
+<!--                 &lt;!&ndash;bfRender="$$$ 'AA ' + $item.username"&ndash;&gt;-->
+<!--    <bf-dropdown class="full-width"-->
+<!--                 [(ngModel)]="selObj9"-->
+<!--                 bfRender="username"-->
+<!--                 [bfList]="myList3"-->
+<!--    >-->
+<!--    </bf-dropdown>-->
+<!--                 &lt;!&ndash;bfRenderImg="none"&ndash;&gt;-->
+<!--  </div>-->
+<!--  &lt;!&ndash;<div class="col-3">&ndash;&gt;-->
+<!--  &lt;!&ndash;  <bf-dropdown [(ngModel)]="selObj8"&ndash;&gt;-->
+<!--  &lt;!&ndash;               [bfList]="myList"&ndash;&gt;-->
+<!--  &lt;!&ndash;               bfRender="username"&ndash;&gt;-->
+<!--  &lt;!&ndash;  >&ndash;&gt;-->
+<!--  &lt;!&ndash;  </bf-dropdown>&ndash;&gt;-->
+<!--  &lt;!&ndash;</div>&ndash;&gt;-->
+<!--</div>-->
 
 
 
@@ -139,8 +139,12 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
       </div>
 
       <div class="row marT15">
-        <bf-checkbox class="col-3 padT5" [(ngModel)]="compConf.hasImages" (ngModelChange)="upComp()" bfLabel="Show images"></bf-checkbox>
-        <p class="marT5" [hidden]="!compConf.hasImages">To show images just add the property "<b>img</b>" on every object of the array with the url</p>
+        <bf-checkbox class="col-3 padT5" [(ngModel)]="compConf.hasImages" (ngModelChange)="switchList()" bfLabel="Show images"></bf-checkbox>
+        <span class="marT5" [hidden]="!compConf.hasImages">To show images just add the property "<b>img</b>" on every object of the array with the url</span>
+     </div>
+      <div class="row">
+        <bf-checkbox class="col-3 padT5" [(ngModel)]="compConf.hasIcons" (ngModelChange)="switchList()" bfLabel="Show icons"></bf-checkbox>
+        <span class="marT5" [hidden]="!compConf.hasIcons">To show icons just add the property "<b>icon</b>" on every object of the array with the icomoon class</span>
      </div>
 
       <div class="row marT15">

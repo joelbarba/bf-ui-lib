@@ -29,9 +29,18 @@
       &.fade { opacity: 0.4; }
     }
 
+    // Optional icon into the input (before the text)
+    .input-icon {
+      position: absolute;
+      z-index: 999;
+      left: 12px;
+      top: 10px;
+      &.fade { opacity: 0.4; }
+    }
+
     // Input for the selected value
     input.form-control {
-      &.has-image{ padding-left: 35px; } // If image present, make room
+      &.has-image, &.has-icon { padding-left: 35px; } // If image present, make room
 
       height: 34px;
       font-size: 14px;
@@ -95,8 +104,8 @@
           font-weight: 700;
         }
 
-        // Optional image into the input (left)
-        .option-row-image {
+        // Optional image / icon into the input (left)
+        .option-row-image, .option-row-icon {
           width: 18px;
           height: 18px;
           margin-right: 10px;

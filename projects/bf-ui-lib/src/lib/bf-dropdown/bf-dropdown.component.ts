@@ -172,6 +172,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfDisabled: unknown = false; // Whether the dropdown is disabled
   @Input() bfDisabledTip = '';    // If dropdown disabled, tooltip to display on hover (label)
   @Input() bfRenderImg = 'img';   // Field of the object that contains the url of the image to display
+  @Input() bfRenderIco = 'icon';  // Field of the object that contains the css class of the icon (icomoon) to display
 
   @Input() bfLabel = '';          // Label to display above the dropdown
   @Input() bfTooltip = '';        // Add a badge next to the label with the tooltip to give more info
