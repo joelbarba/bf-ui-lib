@@ -32,6 +32,13 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.empty': 'Empty',
     'scripts.common.directives.on_label'  : 'ON',
     'scripts.common.directives.off_label' : 'OFF',
+    'views.common.5_items_per_page'     : 'Show 5 items per page',
+    'views.common.10_items_per_page'    : 'Show 10 items per page',
+    'views.common.15_items_per_page'    : 'Show 15 items per page',
+    'views.common.20_items_per_page'    : 'Show 20 items per page',
+    'views.common.30_items_per_page'    : 'Show 30 items per page',
+    'views.common.50_items_per_page'    : 'Show 50 items per page',
+    'views.common.100_items_per_page'   : 'Show 100 items per page',
   };
   public transDictCAT = {
     'view.common.name'            : 'Nom',
@@ -45,10 +52,19 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.field_name2'     : 'Opció disponible',
     'view.common.placeholder'     : 'Omplidor per defecte',
     'view.common.required_field'  : 'Camp obligatori',
+    'view.modal.confirm.title'    : 'Confirmació',
+    'view.modal.confirm.text'     : `Estàs segur d'això?`,
     'view.common.invalid_min_length' : 'Massa curt',
     'view.common.invalid_max_length' : 'Massa llarg',
     'scripts.common.directives.on_label'  : 'ENCÉS',
     'scripts.common.directives.off_label' : 'APAGAT',
+    'views.common.5_items_per_page'     : 'Mostra 5 ítems per pàgina',
+    'views.common.10_items_per_page'    : 'Mostra 10 ítems per pàgina',
+    'views.common.15_items_per_page'    : 'Mostra 15 ítems per pàgina',
+    'views.common.20_items_per_page'    : 'Mostra 20 ítems per pàgina',
+    'views.common.30_items_per_page'    : 'Mostra 30 ítems per pàgina',
+    'views.common.50_items_per_page'    : 'Mostra 50 ítems per pàgina',
+    'views.common.100_items_per_page'   : 'Mostra 100 ítems per pàgina',
   };
 
   public transDict$ = new BehaviorSubject(this.transDict);

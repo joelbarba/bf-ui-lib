@@ -21,7 +21,7 @@ this.confirm.open().then(
 });`;
 
   public example2 = `this.confirm.open({ 
-    text             : 'Do you confirm that:',
+    text             : 'view.common.custom_error',
     htmlContent      : '<h4 class="marT20">You want to delete user <span class="bold primary">Joel</span> ?</h4>',
     yesButtonText    : 'Yes, delete it',
     noButtonText     : 'No, keep it',
@@ -59,7 +59,7 @@ this.confirm.open().then(
 
   public openPopUp2 = () => {
     this.confirm.open({
-      text             : 'Do you confirm that:',
+      text             : 'view.common.custom_error',
       htmlContent      : `<h4 class="marT20">You want to delete user <span class="bold primary">Joel</span> ?</h4>`,
       yesButtonText    : 'Yes, delete it',
       noButtonText     : 'No, keep it',

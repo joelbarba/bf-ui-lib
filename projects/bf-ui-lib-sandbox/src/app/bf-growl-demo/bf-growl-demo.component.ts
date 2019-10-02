@@ -38,8 +38,9 @@ constructor(private growl: BfGrowlService) { }`;
   ngOnInit() { }
 
   pushSuccess() {
-    const nowTime = new Date();
-    this.growl.success(`Success message pushed - ${nowTime}`);
+    this.growl.success(`view.tooltip.message`);
+    // const nowTime = new Date();
+    // this.growl.success(`Success message pushed - ${nowTime}`);
   }
   pushError() {
     const nowTime = new Date();
