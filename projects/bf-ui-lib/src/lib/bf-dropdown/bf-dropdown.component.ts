@@ -5,17 +5,15 @@ import {
   Output,
   forwardRef,
   OnChanges,
-  Inject,
   ViewChild,
   ElementRef,
-  Pipe, PipeTransform, OnDestroy, EventEmitter, AfterViewInit
+  OnDestroy, EventEmitter, AfterViewInit
 } from '@angular/core';
-import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
+import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import BfObject from '../bf-prototypes/object.prototype';
 import BfArray from '../bf-prototypes/array.prototypes';
 import {Observable, of} from 'rxjs';
-import {AbstractTranslateService, BfUILibTransService} from '../abstract-translate.service';
-import {IbfInputCtrl} from "../bf-input/bf-input.component";
+import { BfUILibTransService} from '../abstract-translate.service';
 
 
 /****
@@ -173,6 +171,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfRequired: unknown = false; // Whether the model is required (can't be empty)
   @Input() bfDisabled: unknown = false; // Whether the dropdown is disabled
   @Input() bfDisabledTip = '';    // If dropdown disabled, tooltip to display on hover (label)
+  @Input() bfRenderImg = 'img';   // Field of the object that contains the url of the image to display
 
   @Input() bfLabel = '';          // Label to display above the dropdown
   @Input() bfTooltip = '';        // Add a badge next to the label with the tooltip to give more info
@@ -484,6 +483,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   // Given an external object/value, find and select the match on the internal list
   public matchSelection = (value) => {
+    console.log('matchSelection', value);
     let matchItem = null;
 
     if (value !== null && value !== undefined) {

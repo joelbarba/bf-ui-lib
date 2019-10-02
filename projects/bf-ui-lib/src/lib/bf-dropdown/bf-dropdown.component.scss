@@ -18,8 +18,21 @@
   .bf-dropdown {
     position: relative;
 
+    // Optional image into the input (before the text)
+    .input-image {
+      width: 18px;
+      height: 18px;
+      position: absolute;
+      z-index: 999;
+      left: 10px;
+      top: 7.5px;
+      &.fade { opacity: 0.4; }
+    }
+
     // Input for the selected value
     input.form-control {
+      &.has-image{ padding-left: 35px; } // If image present, make room
+
       height: 34px;
       font-size: 14px;
       border-right: none;
@@ -80,6 +93,13 @@
         cursor: pointer;
         &.selected {
           font-weight: 700;
+        }
+
+        // Optional image into the input (left)
+        .option-row-image {
+          width: 18px;
+          height: 18px;
+          margin-right: 10px;
         }
       }
     }

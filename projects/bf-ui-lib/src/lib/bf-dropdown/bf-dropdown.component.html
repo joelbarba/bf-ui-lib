@@ -21,11 +21,15 @@
          [ngbTooltip]="bfDisabledTipTrans$ | async">
 
       <input type="text" class="form-control" #dropdownInput
+             [class.has-image]="!!bfModel[bfRenderImg]"
              [ngModel]="inputText" (ngModelChange)="filterList($event)"
              [placeholder]="selModelText"
              [disabled]="bfDisabled"
              (focusin)="expandList()"
              (focusout)="collapseList()">
+
+      <img *ngIf="!!bfModel[bfRenderImg]" class="input-image fade" [class.fade]="isExpanded"
+           [src]="bfModel[bfRenderImg]">
 
       <div class="input-group-append" (click)="!bfDisabled && onInputBtnClick()">
         <button class="btn btn-outline-secondary" [disabled]="bfDisabled ? 'true' : ''">
@@ -39,7 +43,8 @@
            [class.selected]="bfModel === item"
            [hidden]="!item.$isMatch"
            (mousedown)="selectItem(item)">
-        {{item.$renderedText}}
+        <img *ngIf="!!item[bfRenderImg]" class="option-row-image" [src]="item[bfRenderImg]">
+        <span>{{item.$renderedText}}</span>
 <!--        {{option.$isMatch}} - {{option.$renderedText}}-->
       </div>
     </div>
