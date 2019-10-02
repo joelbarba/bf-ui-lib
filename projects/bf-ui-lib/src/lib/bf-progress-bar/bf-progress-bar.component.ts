@@ -19,7 +19,7 @@ export class BfProgressBarComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     // Recalculate the percentage value
-    this.percentageValue = Math.round(this.bfValue * 100 / this.bfTotal);
+    this.percentageValue = Math.round(Number(this.bfValue) * 100 / Number(this.bfTotal));
   }
 
   getUsedValue() {
