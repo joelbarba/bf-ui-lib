@@ -1,7 +1,6 @@
-import {Component, OnInit, Input, Inject, OnChanges} from '@angular/core';
-import { AbstractTranslateService, BfUILibTransService} from '../abstract-translate.service';
-import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
-import {Observable, of} from "rxjs";
+import {Component, OnInit, Input, OnChanges} from '@angular/core';
+import { BfUILibTransService} from '../abstract-translate.service';
+import {Observable, of} from 'rxjs';
 
 @Component({
   selector: 'bf-label',

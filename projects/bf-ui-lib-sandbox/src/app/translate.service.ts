@@ -14,6 +14,7 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.email'        : 'Email',
     'view.common.username'     : 'User Name',
     'view.common.field_name'   : 'Dragon of the year',
+    'view.common.field_name2'  : 'Feature Enabled',
     'view.common.placeholder'  : 'Placeholder',
     'view.tooltip.message'     : 'This is a very useful tooltip message',
     'view.tooltip.message2'    : 'This is a very useful tooltip message in a popover with two lines',
@@ -28,7 +29,9 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.invalid_min_length': 'Too short',
     'view.common.invalid_max_length': 'Too long',
     'view.common.custom_error': 'This value is not correct',
-    'view.common.empty': 'Empty'
+    'view.common.empty': 'Empty',
+    'scripts.common.directives.on_label'  : 'ON',
+    'scripts.common.directives.off_label' : 'OFF',
   };
   public transDictCAT = {
     'view.common.name'            : 'Nom',
@@ -39,10 +42,13 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.empty'           : 'Buit',
     'view.tooltip.message'        : 'Aquest és un missatge flotant molt útil',
     'view.common.field_name'      : `Drac de l'any`,
+    'view.common.field_name2'     : 'Opció disponible',
     'view.common.placeholder'     : 'Omplidor per defecte',
     'view.common.required_field'  : 'Camp obligatori',
     'view.common.invalid_min_length' : 'Massa curt',
     'view.common.invalid_max_length' : 'Massa llarg',
+    'scripts.common.directives.on_label'  : 'ENCÉS',
+    'scripts.common.directives.off_label' : 'APAGAT',
   };
 
   public transDict$ = new BehaviorSubject(this.transDict);

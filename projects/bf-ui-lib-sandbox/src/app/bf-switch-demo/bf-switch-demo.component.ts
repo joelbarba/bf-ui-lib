@@ -67,10 +67,10 @@ export class BfSwitchDemoComponent implements OnInit {
   ];
   public swCode = ``;
   public swConf = {
-    hasLabel: false, labelText: 'Feature Enabled', labelPosLeft: false,
-    hasTooltip: false, btnTooltip: 'Hello World', btnTooltipPos: null, btnTooltipBody: false,
+    hasLabel: false, labelText: 'view.common.field_name2', labelPosLeft: false,
+    hasTooltip: false, btnTooltip: 'view.tooltip.message', btnTooltipPos: null, btnTooltipBody: false,
     isDisabled: false,
-    hasOnText: false, hasOffText: false, onText: 'Yes', offText: 'No'
+    hasOnText: false, hasOffText: false, onText: 'view.common.yes', offText: 'view.common.no'
   };
 
   public updateCustomSw = () => {
