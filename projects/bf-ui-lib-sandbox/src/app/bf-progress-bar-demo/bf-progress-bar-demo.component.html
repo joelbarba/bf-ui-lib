@@ -37,11 +37,13 @@
         <div class="row">
           <div class="col-4 padT5">
             <bf-input [(ngModel)]="custom.obj.bfValue"
+                      bfType="number"
                       (ngModelChange)="custom.buildComponentView()"
                       bfLabel="bfValue"></bf-input>
           </div>
           <div class="col-4 padT5">
             <bf-input [(ngModel)]="custom.obj.bfTotal"
+                      bfType="number"
                       (ngModelChange)="custom.buildComponentView()"
                       bfLabel="bfTotal"></bf-input>
           </div>

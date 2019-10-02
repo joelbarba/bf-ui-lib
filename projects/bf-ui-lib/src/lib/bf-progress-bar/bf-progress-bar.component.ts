@@ -1,9 +1,9 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 
 @Component({
   selector: 'bf-progress-bar',
   templateUrl: './bf-progress-bar.component.html',
-  styleUrls: ['./bf-progress-bar.component.scss'],
+  styleUrls: ['./bf-progress-bar.component.scss']
 })
 export class BfProgressBarComponent implements OnInit, OnChanges {
   @Input() bfLabel: string;      // Label to translate and display on top of the progress bar
@@ -20,6 +20,14 @@ export class BfProgressBarComponent implements OnInit, OnChanges {
   ngOnChanges() {
     // Recalculate the percentage value
     this.percentageValue = Math.round(this.bfValue * 100 / this.bfTotal);
+  }
+
+  getUsedValue() {
+    return Number(this.bfTotal) >= Number(this.bfValue) ? this.bfValue : this.bfTotal;
+  }
+
+  getLeftValue() {
+    return Number(this.bfTotal) >= Number(this.bfValue) ? (this.bfTotal - this.bfValue) : 0;
   }
 
 }
