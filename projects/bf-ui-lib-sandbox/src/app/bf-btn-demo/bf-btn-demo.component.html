@@ -30,7 +30,7 @@ If the property "bfText" is defined, it generates a button with both text and ic
         <bf-btn (bfClick)="customBtnFunc()"
                 [class.full-width]="btnConf.hasFullWidth"
                 [class.squash]="btnConf.hasSquash"
-                [bfIconPos]="btnConf.hasIconLeft ? 'left' : 'right'"
+                [bfIconPos]="btnConf.iconPos"
                 [bfText]="(btnConf.hasText ? btnConf.btnText : '')"
                 [bfType]="(btnConf.hasType ? btnConf.btnType : null)"
                 [bfIcon]="(btnConf.hasIcon ? btnConf.btnIcon : null)"
@@ -64,9 +64,17 @@ If the property "bfText" is defined, it generates a button with both text and ic
       </div>
 
       <div class="row marT15">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="btnConf.hasIcon" (ngModelChange)="upBtn()" bfLabel="Has Icon"></bf-checkbox> </div>
-        <div class="col-10" *ngIf="btnConf.hasIcon">
-          <bf-dropdown [(ngModel)]="btnConf.btnIcon" (ngModelChange)="upBtn()" [bfList]="btnIcons" bfRender="text" bfSelect="id" [bfRequired]="true"> </bf-dropdown>
+        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="btnConf.hasIcon" (ngModelChange)="upBtn()" bfLabel="Custom Icon"></bf-checkbox> </div>
+        <div class="col-5">
+          <bf-dropdown *ngIf="btnConf.hasIcon" bfLabel="bfIcon" class="full-width"
+                       [(ngModel)]="btnConf.btnIcon" (ngModelChange)="upBtn()"
+                       [bfList]="btnIcons" bfRender="icon" bfSelect="icon" [bfRequired]="true">
+          </bf-dropdown>
+        </div>
+        <div class="col-5">
+          <bf-dropdown bfLabel="Icon Position" [(ngModel)]="btnConf.iconPos" (ngModelChange)="upBtn()" [bfRequired]="true"
+                       [bfList]="[{id:'right'},{id:'left'},{id:'none'}]" bfRender="id" bfSelect="id">
+          </bf-dropdown>
         </div>
       </div>
 
@@ -84,10 +92,10 @@ If the property "bfText" is defined, it generates a button with both text and ic
         </div>
         <div class="col-2" *ngIf="btnConf.hasTooltip"></div>
         <div class="col-5" *ngIf="btnConf.hasTooltip">
-          bfTooltipPos: <bf-dropdown [(ngModel)]="btnConf.btnTooltipPos" (ngModelChange)="upBtn()" [bfList]="btnTooltipPoss" bfRender="text" bfSelect="id"> </bf-dropdown>
+          <bf-dropdown bfLabel="bfTooltipPos" [(ngModel)]="btnConf.btnTooltipPos" (ngModelChange)="upBtn()" [bfList]="btnTooltipPoss" bfRender="text" bfSelect="id"> </bf-dropdown>
         </div>
         <div class="col-5" *ngIf="btnConf.hasTooltip">
-          bfTooltipBody: <bf-dropdown [(ngModel)]="btnConf.btnTooltipBody" (ngModelChange)="upBtn()" [bfList]="btnTooltipBody" bfRender="text" bfSelect="id"> </bf-dropdown>
+          <bf-dropdown bfLabel="bfTooltipBody" [(ngModel)]="btnConf.btnTooltipBody" (ngModelChange)="upBtn()" [bfList]="btnTooltipBody" bfRender="text" bfSelect="id"> </bf-dropdown>
         </div>
       </div>
 
@@ -97,7 +105,6 @@ If the property "bfText" is defined, it generates a button with both text and ic
           <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasSquash" (ngModelChange)="upBtn()" bfLabel="Squash"></bf-checkbox>
           <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasAsync1" (ngModelChange)="upBtn()" bfLabel="Async 1"></bf-checkbox>
           <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasAsync2" (ngModelChange)="upBtn()" bfLabel="Async 2"></bf-checkbox>
-          <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasIconLeft" (ngModelChange)="upBtn()" bfLabel="Icon Left"></bf-checkbox>
         </div>
       </div>
 

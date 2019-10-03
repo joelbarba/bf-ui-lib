@@ -484,7 +484,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   // Given an external object/value, find and select the match on the internal list
   public matchSelection = (value) => {
-    console.log('matchSelection', value);
     let matchItem = null;
 
     if (value !== null && value !== undefined) {
