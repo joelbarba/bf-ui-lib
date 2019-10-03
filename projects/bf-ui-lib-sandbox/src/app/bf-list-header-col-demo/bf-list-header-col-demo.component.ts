@@ -41,25 +41,27 @@ export class BfListHeaderColDemoComponent implements OnInit {
   public instance2 = `<div class="col-12">
   <ul class="list-unstyled table-list">
     <li class="list-header">
-      <div class="row">
-        <bf-list-header-col class="col-3" colTitle="Username" fieldName="username" [orderConf]="orderConf"></bf-list-header-col>
-        <bf-list-header-col class="col-3" colTitle="Email"    fieldName="email"    [orderConf]="orderConf"></bf-list-header-col>
-        <bf-list-header-col class="col-3" colTitle="First Name"></bf-list-header-col>
-        <bf-list-header-col class="col-3" colTitle="Last Name"></bf-list-header-col>
-      </div>
+      <bf-list-header-col class="col-2" colTitle="Username"   fieldName="username"   [orderConf]="usersList.orderConf"></bf-list-header-col>
+      <bf-list-header-col class="col-3" colTitle="Email"      fieldName="email"      [orderConf]="usersList.orderConf"></bf-list-header-col>
+      <bf-list-header-col class="col-2" colTitle="First Name"></bf-list-header-col>
+      <bf-list-header-col class="col-2" colTitle="Last Name"></bf-list-header-col>
     </li>
 
-    <li *ngFor="let userItem of usersList" class="list-row">
-      <div class="row">
-        <div class="col-3"><h5>{{userItem.username}}</h5></div>
-        <div class="col-3"><h5>{{userItem.email}}</h5></div>
-        <div class="col-3"><h5>{{userItem.first_name}}</h5></div>
-        <div class="col-3"><h5>{{userItem.last_name}}</h5></div>
+    <bf-list-placeholder [hidden]="usersList.loadingStatus > 1" [bfColumns]="[2, 3, 2, 2, 3]"></bf-list-placeholder>
+    <li class="list-row" [hidden]="usersList.loadingStatus <= 1"
+        *ngFor="let userItem of usersList.renderList$ | async">
+      <div class="col-2"><h5>{{userItem.username}}</h5></div>
+      <div class="col-3"><h5>{{userItem.email}}</h5></div>
+      <div class="col-2"><h5>{{userItem.first_name}}</h5></div>
+      <div class="col-2"><h5>{{userItem.last_name}}</h5></div>
+      <div class="col-3 text-right">
+        <bf-btn bfType="delete" (bfClick)="userItem.$remove()"></bf-btn>
+        <bf-btn bfType="edit"   (bfClick)="userItem.$save({ username: 'new value' })"></bf-btn>
       </div>
     </li>
   </ul>
-</div>
-`
+</div>`
+
   public instance3 = `public usersList = [...];
 public orderConf = {
   field: '', 
