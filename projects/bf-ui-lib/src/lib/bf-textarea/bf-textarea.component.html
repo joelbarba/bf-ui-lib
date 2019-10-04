@@ -8,23 +8,36 @@
 
   <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
     <span class="info-badge" *ngIf="!!bfTooltip"
-          [ngbTooltip]="bfTooltipTrans" [placement]="bfTooltipPos" triggers="hover"
+          [ngbTooltip]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
           [container]="(bfTooltipBody ? 'body' : '')">
       <span class="icon-info"></span>
     </span>
-    <span>{{bfLabelTrans}}</span>:
+    <span>{{bfLabelTrans$ | async}}</span>:
     <span *ngIf="bfRequired" class="asterisk">*</span>
   </label>
 
-  <span *ngIf="status === 'error'" class="bf-textarea-error-text" [ngClass]="errorPosition">{{errorText}}</span>
+  <!--Error Message-->
+  <span *ngIf="status === 'error'"
+        class="bf-textarea-error-text"
+        [class.pull-up]="!bfLabel"
+        [class.default]="errorPosition === 'default'"
+        [class.top-right]="errorPosition === 'top-right'"
+        [class.bottom-left]="errorPosition === 'bottom-left'"
+        [class.bottom-right]="errorPosition === 'bottom-right'">
+    {{errorTextTrans$ | async}}
+  </span>
 
   <!--[formControl]="inputCtrl"-->
   <textarea class="form-control" name="bfTextarea" #ngInputRef="ngModel"
             [rows]="bfRows"
-            [placeholder]="bfPlaceholderTrans"
+            [placeholder]="bfPlaceholderTrans$ | async"
             [ngModel]="bfModel" (ngModelChange)="parseModelChange($event)"
-            [required]="bfRequired"
             [disabled]="bfDisabled"
+
+            [required]="bfRequired"
+            [minlength]="bfMinlength"
+            [maxlength]="bfMaxlength"
+
             (keydown)="triggerKey($event)">
   </textarea>
 

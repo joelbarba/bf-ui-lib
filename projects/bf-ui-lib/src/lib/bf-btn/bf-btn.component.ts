@@ -45,7 +45,6 @@ export class BfBtnComponent implements OnInit, OnChanges {
 
   constructor(
     private translate: BfUILibTransService,
-    private config: NgbPopoverConfig,
     public libService: BfUiLibService
   ) { }
 

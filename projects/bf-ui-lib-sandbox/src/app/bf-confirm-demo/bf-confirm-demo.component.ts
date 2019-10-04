@@ -21,11 +21,12 @@ this.confirm.open().then(
 });`;
 
   public example2 = `this.confirm.open({ 
-    text             : 'Do you confirm that:',
+    title            : 'view.modal.confirm.title',
+    text             : 'view.common.custom_error',
     htmlContent      : '<h4 class="marT20">You want to delete user <span class="bold primary">Joel</span> ?</h4>',
     yesButtonText    : 'Yes, delete it',
     noButtonText     : 'No, keep it',
-    showNo           : true  
+    showNo           : true,
 }).then((res) => {
   if (res === 'yes') {
     console.log('Ok');
@@ -59,7 +60,7 @@ this.confirm.open().then(
 
   public openPopUp2 = () => {
     this.confirm.open({
-      text             : 'Do you confirm that:',
+      text             : 'view.common.custom_error',
       htmlContent      : `<h4 class="marT20">You want to delete user <span class="bold primary">Joel</span> ?</h4>`,
       yesButtonText    : 'Yes, delete it',
       noButtonText     : 'No, keep it',
@@ -84,15 +85,15 @@ export const BfConfirmDoc = {
   desc    : `Service to trigger a confirmation modal`,
   api     : `
 .open()   It triggers a confirmation pop up before performing an action. It takes an optional parameter to config specific values:
-            - title            (string)   - Title on the modal
-            - text             (string)   - Description text of the confirmation
+            - title            (string)   - Title on the modal (view.modal.confirm.title)
+            - text             (string)   - Description text of the confirmation (view.modal.confirm.text)
             - htmlContent      (string)   - Html content to display, in case we need a styled message
-            - showYes          (boolean)  - Whether to display the "Yes" button
-            - showNo           (boolean)  - Whether to display the "No" button
-            - showCancel       (boolean)  - Whether to display the "Cancel" button
-            - yesButtonText    (string)   - Text for the "Yes" button
-            - noButtonText     (string)   - Text for the "No" button
-            - cancelButtonText (string)   - Text for the "Cancel" button`,
+            - showYes          (boolean)  - Whether to display the "Yes" button (by default = true)
+            - showNo           (boolean)  - Whether to display the "No" button (by default = false)
+            - showCancel       (boolean)  - Whether to display the "Cancel" button (by default = true)
+            - yesButtonText    (string)   - Text for the "Yes" button (view.common.yes)
+            - noButtonText     (string)   - Text for the "No" button (view.common.no)
+            - cancelButtonText (string)   - Text for the "Cancel" button (view.common.cancel)`,
   instance: `this.confirm.open().then(() => { });`,
   demoComp: BfConfirmDemoComponent
 };

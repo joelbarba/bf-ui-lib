@@ -5,32 +5,77 @@
 <h5 class="mt-4">Parameters:</h5>
 <div class="col-12"><pre>{{api}}</pre></div>
 
-<div class="row">
-  <div class="col-12"><hr></div>
-  <div class="col-7">
-    <p>We have changed the structure to improve the look and feel as:</p>
-    <pre>{{ bfHtmlStructure }}</pre>
-  </div>
-  <div class="col-5">
-    <p>The <a href="https://getbootstrap.com/docs/4.0/components/forms/#checkboxes-and-radios">original structure for checkbox inputs in Bootstrap</a>
-      was:
-    </p>
-    <pre>{{ bootstrapHtmlStructure }}</pre>
+
+<!--Customization-->
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-6 marB15">
+      <h5 class="marB25">Customized Checkbox:</h5>
+      <div class="padB25">
+        <!--<h5>-->
+          <bf-checkbox [(ngModel)]="myValue"
+                       [class.block]="compConf.isClassBlock"
+                       [style.background]="compConf.isClassBlock ? 'lightgray' : 'white'"
+                       [bfLabel]="compConf.bfLabel"
+                       [bfDisabled]="compConf.isDisabled"
+                       [bfTooltip]="(compConf.hasTooltip ? compConf.tooltipText : null)"
+                       [bfTooltipPos]="(compConf.tooltipPos || 'top')"
+                       [bfTooltipBody]="compConf.tooltipBody">
+          </bf-checkbox>
+        <!--</h5>-->
+      </div>
+      <div>
+        <div class="code-box pad15">
+          <pre>{{customCompCode}}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+
+      <div class="row marT15">
+        <bf-checkbox class="col-3" bfLabel="Disabled" [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()"></bf-checkbox>
+        <bf-input class="col-9" bfLabel="bfLabel" [(ngModel)]="compConf.bfLabel" (ngModelChange)="upComp()"></bf-input>
+      </div>
+
+      <!--Tooltip-->
+      <div class="row marT10">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox> </div>
+        <div class="col-9" *ngIf="compConf.hasTooltip">
+          <bf-input [(ngModel)]="compConf.tooltipText" (ngModelChange)="upComp()"></bf-input>
+        </div>
+        <div class="col-5" *ngIf="compConf.hasTooltip">
+          <bf-dropdown bfLabel="bfTooltipPos"
+                       [(ngModel)]="compConf.tooltipPos" (ngModelChange)="upComp()"
+                       [bfList]="[{ id: 'top', text: 'top' }, { id: 'right', text: 'right' }, { id: 'bottom', text: 'bottom' }, { id: 'left', text: 'left' }]"
+                       bfRender="text" bfSelect="id">
+          </bf-dropdown>
+        </div>
+        <div class="col-4" *ngIf="compConf.hasTooltip">
+          <bf-dropdown bfLabel="bfTooltipBody"
+                       [(ngModel)]="compConf.tooltipBody" (ngModelChange)="upComp()"
+                       [bfList]="[{ id: 'true', text: 'true' }, { id: 'false', text: 'false' }]"
+                       bfRender="text" bfSelect="id">
+          </bf-dropdown>
+        </div>
+      </div>
+
+      <!--Classes-->
+      <div class="row padT10">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isClassBlock" (ngModelChange)="upComp()" bfLabel="block"></bf-checkbox> </div>
+        <!--<div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasColon" (ngModelChange)="upComp()" bfLabel="colon"></bf-checkbox> </div>-->
+      </div>
+
+    </div>
+
   </div>
 </div>
-<p>The idea of the restructuring is to hide the {{inputCheckboxHtml}} element and mock it with the "span.check-box".
-This allows us to apply a better styling on the check box, with borders and shadows, keeping the same the behaviour of the input
-</p>
+
+<hr>
 
 
-<div>
-  <h5>
-    <bf-checkbox [(ngModel)]="myValue" bfLabel="Check me"></bf-checkbox>
-  </h5>
-</div>
-<div class="marT20">
-  <bf-checkbox [(ngModel)]="myValue" bfLabel="Check me"></bf-checkbox>
-</div>
+
+
 
 
 <h5 class="mt-4">Examples:</h5>
@@ -60,13 +105,31 @@ This allows us to apply a better styling on the check box, with borders and shad
 
   <div class="row">
     <div class="col-3">
-      <bf-checkbox [ngModel]="true"  bfLabel="Checked" [bfDisabled]="true"></bf-checkbox>
-      <bf-checkbox [ngModel]="false" bfLabel="Unchecked" [bfDisabled]="true"></bf-checkbox>
+      <bf-checkbox class="block" [ngModel]="true"  bfLabel="Checked" [bfDisabled]="true"></bf-checkbox>
+      <bf-checkbox class="block marL0" [ngModel]="false" bfLabel="Unchecked" [bfDisabled]="true"></bf-checkbox>
     </div>
     <div class="col-9"> <pre>{{instance4}}</pre> </div>
   </div>
 
 </div>
+
+<div class="row">
+  <div class="col-12"><hr></div>
+  <div class="col-7">
+    <p>We have changed the structure to improve the look and feel as:</p>
+    <pre>{{ bfHtmlStructure }}</pre>
+  </div>
+  <div class="col-5">
+    <p>The <a href="https://getbootstrap.com/docs/4.0/components/forms/#checkboxes-and-radios">original structure for checkbox inputs in Bootstrap</a>
+      was:
+    </p>
+    <pre>{{ bootstrapHtmlStructure }}</pre>
+  </div>
+</div>
+<p>The idea of the restructuring is to hide the {{inputCheckboxHtml}} element and mock it with the "span.check-box".
+  This allows us to apply a better styling on the check box, with borders and shadows, keeping the same the behaviour of the input
+</p>
+
 
 <!--Applicable classes -->
 <div class="row">
@@ -88,8 +151,6 @@ This allows us to apply a better styling on the check box, with borders and shad
     <bf-checkbox class="block" bfLabel="Block check 5"></bf-checkbox>
     <bf-checkbox class="block" bfLabel="Block check 6"></bf-checkbox>
   </div>
-
-
 </div>
 
 

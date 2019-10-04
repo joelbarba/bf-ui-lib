@@ -94,15 +94,48 @@ public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"
     { id: 'collapse',   text: 'bfType = collapse', },
   ];
   public btnIcons = [
-    { id: 'icon-pencil',        text: 'bfIcon = icon-pencil'        },
-    { id: 'icon-eye',           text: 'bfIcon = icon-eye'           },
-    { id: 'icon-arrow-right3',  text: 'bfIcon = icon-arrow-right3'  },
-    { id: 'icon-arrow-left6',   text: 'bfIcon = icon-arrow-left6'   },
-    { id: 'icon-plus',          text: 'bfIcon = icon-plus'          },
-    { id: 'icon-cross',         text: 'bfIcon = icon-cross'         },
-    { id: 'icon-blocked',       text: 'bfIcon = icon-blocked'       },
-    { id: 'icon-arrow-down3',   text: 'bfIcon = icon-arrow-down3'   },
-    { id: 'icon-arrow-up3',     text: 'bfIcon = icon-arrow-up3'     },
+    { icon: 'icon-pencil'        },
+    { icon: 'icon-eye'           },
+    { icon: 'icon-arrow-right3'  },
+    { icon: 'icon-arrow-left6'   },
+    { icon: 'icon-plus'          },
+    { icon: 'icon-minus'         },
+    { icon: 'icon-cross'         },
+    { icon: 'icon-blocked'       },
+    { icon: 'icon-arrow-down3'   },
+    { icon: 'icon-arrow-up3'     },
+    { icon: 'icon-users4'        },
+    { icon: 'icon-undo2'         },
+    { icon: 'icon-volume-high'   },
+    { icon: 'icon-first2'        },
+    { icon: 'icon-last2'         },
+    { icon: 'icon-download5'     },
+    { icon: 'icon-upload5'       },
+    { icon: 'icon-home'          },
+    { icon: 'icon-office'        },
+    { icon: 'icon-phone2'        },
+    { icon: 'icon-bell2'         },
+    { icon: 'icon-user'          },
+    { icon: 'icon-users'         },
+    { icon: 'icon-lock'          },
+    { icon: 'icon-cog'           },
+    { icon: 'icon-bin'           },
+    { icon: 'icon-shield'        },
+    { icon: 'icon-switch'        },
+    { icon: 'icon-list'          },
+    { icon: 'icon-tree6'         },
+    { icon: 'icon-menu3'         },
+    { icon: 'icon-earth2'        },
+    { icon: 'icon-link'          },
+    { icon: 'icon-star-full'     },
+    { icon: 'icon-thumbs-up'     },
+    { icon: 'icon-notification2' },
+    { icon: 'icon-warning2'      },
+    { icon: 'icon-checkmark'     },
+    { icon: 'icon-square'        },
+    { icon: 'icon-circle2'       },
+    { icon: 'icon-loop3'         },
+    { icon: 'icon-spell-check'   },
   ];
   public btnTooltipPoss = [
     { id: 'top',        text: 'top'    },
@@ -119,6 +152,7 @@ public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"
     hasType: false, btnType: 'primary',
     hasIcon: false, btnIcon: 'icon-plus',
     isDisabled: false,
+    iconPos: 'right',
     hasTooltip: false, btnTooltip: 'Hello World', btnTooltipPos: null, btnTooltipBody: false,
     btnDisabledTip: ''
   };
@@ -153,12 +187,10 @@ public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"
       }
     }
 
-
-
     if (this.btnConf.hasText) { this.customBtnCode += this.bsStr + ` bfText="${this.btnConf.btnText}"`; }
     if (this.btnConf.hasType) { this.customBtnCode += this.bsStr + ` bfType="${this.btnConf.btnType}"`; }
     if (this.btnConf.hasIcon) { this.customBtnCode += this.bsStr + ` bfIcon="${this.btnConf.btnIcon}"`; }
-    if (this.btnConf.hasIconLeft) { this.customBtnCode += this.bsStr + ` bfIconPos="left"`; }
+    if (this.btnConf.iconPos !== 'right') { this.customBtnCode += this.bsStr + ` bfIconPos="${this.btnConf.iconPos}"`; }
     if (this.btnConf.isDisabled) { this.customBtnCode += this.bsStr + `[bfDisabled]="true"`; }
 
     if (!!this.btnConf.btnDisabledTip) { this.customBtnCode += this.bsStr + ` bfDisabledTip="${this.btnConf.btnDisabledTip}"`; }

@@ -29,13 +29,13 @@ export class BfListPaginatorComponent implements OnInit, OnChanges, DoCheck {
     totalPages  : 1,
     rowsPerPage : 10,
     maxRowsPerPageList : [ // Selector for the max items per page
-      { num: 5,   label: 'Show 5 items per page' },
-      { num: 10,  label: 'Show 10 items per page' },
-      { num: 15,  label: 'Show 15 items per page' },
-      { num: 20,  label: 'Show 20 items per page' },
-      { num: 30,  label: 'Show 30 items per page' },
-      { num: 50,  label: 'Show 50 items per page' },
-      { num: 100, label: 'Show 100 items per page' },
+      { num: 5,   label: 'views.common.5_items_per_page' },
+      { num: 10,  label: 'views.common.10_items_per_page' },
+      { num: 15,  label: 'views.common.15_items_per_page' },
+      { num: 20,  label: 'views.common.20_items_per_page' },
+      { num: 30,  label: 'views.common.30_items_per_page' },
+      { num: 50,  label: 'views.common.50_items_per_page' },
+      { num: 100, label: 'views.common.100_items_per_page' },
     ]
   };
 

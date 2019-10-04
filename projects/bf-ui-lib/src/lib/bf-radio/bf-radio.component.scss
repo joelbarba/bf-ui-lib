@@ -75,6 +75,9 @@ div.radio {
   }
 }
 
+:host.block { display: block; width: 100%; }
+
+
 
 // --- <bf-radio> color reset --------------------------------------------------
 //$radio-color: #525254; // text color

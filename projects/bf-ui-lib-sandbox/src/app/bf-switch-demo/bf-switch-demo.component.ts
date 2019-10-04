@@ -67,10 +67,10 @@ export class BfSwitchDemoComponent implements OnInit {
   ];
   public swCode = ``;
   public swConf = {
-    hasLabel: false, labelText: 'Feature Enabled', labelPosLeft: false,
-    hasTooltip: false, btnTooltip: 'Hello World', btnTooltipPos: null, btnTooltipBody: false,
+    hasLabel: false, labelText: 'view.common.field_name2', labelPosLeft: false,
+    hasTooltip: false, btnTooltip: 'view.tooltip.message', btnTooltipPos: null, btnTooltipBody: false,
     isDisabled: false,
-    hasOnText: false, hasOffText: false, onText: 'Yes', offText: 'No'
+    hasOnText: false, hasOffText: false, onText: 'view.common.yes', offText: 'view.common.no'
   };
 
   public updateCustomSw = () => {
@@ -84,16 +84,9 @@ export class BfSwitchDemoComponent implements OnInit {
       }
     }
 
-    if (this.swConf.hasOnText) {
-      this.swCode += this.bsStr + ` bfOnText="${this.swConf.onText}"`;
-    }
-    if (this.swConf.hasOffText) {
-      this.swCode += this.bsStr + ` bfOffText="${this.swConf.offText}"`;
-    }
-
-    if (this.swConf.isDisabled) {
-      this.swCode += this.bsStr + `[bfDisabled]="true"`;
-    }
+    if (this.swConf.hasOnText)  { this.swCode += this.bsStr + ` bfOnText="${this.swConf.onText}"`; }
+    if (this.swConf.hasOffText) { this.swCode += this.bsStr + ` bfOffText="${this.swConf.offText}"`; }
+    if (this.swConf.isDisabled) { this.swCode += this.bsStr + `[bfDisabled]="true"`; }
 
     if (this.swConf.hasTooltip) {
       this.swCode += this.bsStr + ` bfTooltip="${this.swConf.btnTooltip}"`;
