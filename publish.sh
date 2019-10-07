@@ -50,17 +50,23 @@ echo ""
 echo "Generate library:"
 npm run pack_all
 
+
 # Publishing
-npmPass=`cat .npm_credentials.txt`
 echo ""
 echo "Login into NPM register"
-npm-cli-login -u blueface_npm -p $npmPass -e npm@blueface.com
-
-
+echo "(Enter=Use Joel's credentials, anything else=Your own NPM user)"
+read x
+if [ "$x" = "" ]; then
+    npmPass=`cat .npm_credentials.txt`
+    npm-cli-login -u joel.blueface -p $npmPass -e joel.barba@blueface.com
+    npm whoami
+else
+    npm login
+fi
 
 
 pkgVer=`cat dist/bf-ui-lib/package.json | grep version | cut -d"\"" -f 4`
-pkgTar="./dist/bf-ui-lib/bf-ui-lib-$pkgVer.tgz"
+pkgTar="./dist/bf-ui-lib/blueface_npm-bf-ui-lib-$pkgVer.tgz"
 echo ""
 echo "Publish the library (version $pkgVer) Tar File: $pkgTar"
 npm publish $pkgTar
