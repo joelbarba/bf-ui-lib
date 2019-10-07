@@ -1,5 +1,3 @@
-@import 'variables';
-
 @mixin btn-color-mixin($btn-color) {
   color: white;
   background: $btn-color;
@@ -13,6 +11,6 @@
 
 
 
-@each $color, $value in $bf-colors {
+@each $color, $value in $bf-ui-lib-colors {
   .#{$color}.bf-btn  { @include btn-color-mixin($value); }
 }

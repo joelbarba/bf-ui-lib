@@ -80,33 +80,47 @@
   </div>
 </div>
 
+<hr>
+<h4>Color styling</h4>
+<p>
+  The library exposes the SCSS styles to reset the main colors.
+  <br>A "scss" folder is included and can be imported at convenience. A default variables set is can be included
+  (in <b>_defaults.scss</b>) and later being reset before the main styles are processed (in <b>_index.css</b>)
+</p>
+<p>Example:</p>
+<div class="col-12 examples-table">
+  <div class="row">
+    <div class="col-12 code-box">
+      <pre style="font-size: 16px;">{{stylesExample}}</pre>
+    </div>
+  </div>
+</div>
 
 
 
 
+<!--<h3 class="marT50">Index of components</h3>-->
 
-<h3 class="marT50">Index of components</h3>
-
-<table class="index-table">
-  <thead class="index-header">
-    <tr>
-      <th>Component</th>
-      <!-- <th>Api</th> -->
-      <th>Instance</th>
-      <th>Example</th>
-    </tr>
-  </thead>
-  
-  <tbody>
-    <tr *ngFor="let compItem of reg.compList">
-      <td routerLink="{{ '/' + compItem.name }}"><pre>{{ compItem.name }}</pre></td>
-      <!-- <td><pre>{{ compItem.api }}</pre></td> -->
-      <td><pre>{{ compItem.instance }}</pre></td>
-      <td>
-        <!-- <bf-btn></bf-btn>    -->
-      </td> 
-    </tr>
-  <tbody>
-</table>
+<!--<table class="index-table">-->
+<!--  <thead class="index-header">-->
+<!--    <tr>-->
+<!--      <th>Component</th>-->
+<!--      &lt;!&ndash; <th>Api</th> &ndash;&gt;-->
+<!--      <th>Instance</th>-->
+<!--      <th>Example</th>-->
+<!--    </tr>-->
+<!--  </thead>-->
+<!--  -->
+<!--  <tbody>-->
+<!--    <tr *ngFor="let compItem of reg.compList">-->
+<!--      <td routerLink="{{ '/' + compItem.name }}"><pre>{{ compItem.name }}</pre></td>-->
+<!--      &lt;!&ndash; <td><pre>{{ compItem.api }}</pre></td> &ndash;&gt;-->
+<!--      <td><pre>{{ compItem.instance }}</pre></td>-->
+<!--      <td>-->
+<!--        &lt;!&ndash; <bf-btn></bf-btn>    &ndash;&gt;-->
+<!--      </td> -->
+<!--    </tr>-->
+<!--  <tbody>-->
+<!--</table>-->
 
 <div style="height: 60px;"></div>
