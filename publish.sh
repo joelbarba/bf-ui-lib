@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 
 # Check git status
 isClean=`git status | grep "nothing to commit, working directory clean" | wc -l`
@@ -50,9 +51,13 @@ echo "Generate library:"
 npm run pack_all
 
 # Publishing
+npmPass=`cat .npm_credentials.txt`
 echo ""
-echo "Login into NPM register (as joel.blueface)"
-npm login
+echo "Login into NPM register"
+npm-cli-login -u blueface_npm -p $npmPass -e npm@blueface.com
+
+
+
 
 pkgVer=`cat dist/bf-ui-lib/package.json | grep version | cut -d"\"" -f 4`
 pkgTar="./dist/bf-ui-lib/bf-ui-lib-$pkgVer.tgz"
