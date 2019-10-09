@@ -3,7 +3,6 @@
 
 
 import { Component, OnInit } from '@angular/core';
-import { BfStatusColorSet } from '../../../../bf-ui-lib/src/lib/bf-status-badge/bf-status-badge.component';
 
 @Component({
   selector: 'app-bf-status-badge-demo',
@@ -31,55 +30,6 @@ export class BfStatusBadgeDemoComponent implements OnInit {
 </bf-status-badge>`;
   public instance5 = `<bf-status-badge [bfStatus]="item.status" [bfColor]="'7f3fc0'">
 </bf-status-badge>`;
-  public instance6 = `<bf-status-badge [bfStatus]="0" [bfLabel]="Not Paid"
-                 [bfColorSet]="new BfStatusColorSet().getOrders()">
-</bf-status-badge>
-<bf-status-badge [bfStatus]="1" [bfLabel]="Partially"
-                 [bfColorSet]="new BfStatusColorSet().getOrder()">
-</bf-status-badge>
-<bf-status-badge [bfStatus]="2" [bfLabel]="Paid"
-                 [bfColorSet]="new BfStatusColorSet().getOrder()">
-</bf-status-badge>
-<bf-status-badge [bfStatus]="3" [bfLabel]="Cancelled"
-                 [bfColorSet]="new BfStatusColorSet().getOrder()">
-</bf-status-badge>
-<bf-status-badge [bfStatus]="4" [bfLabel]="Waiting"
-                 [bfColorSet]="new BfStatusColorSet().getOrder()">
-</bf-status-badge>
-<bf-status-badge [bfStatus]="5" [bfLabel]="Refunded"
-                 [bfColorSet]="new BfStatusColorSet().getOrder()">
-</bf-status-badge>
-<bf-status-badge [bfStatus]="6" [bfLabel]="Submitted"
-                 [bfColorSet]="new BfStatusColorSet().getOrder()">
-</bf-status-badge>`;
-  public instance7 = `<bf-status-badge [bfStatus]="0" [bfLabel]="Waiting for signature"
-                 [bfColorSet]="new BfStatusColorSet().getContract()">
-</bf-status-badge>
-<bf-status-badge [bfStatus]="1" [bfLabel]="Signed"
-                 [bfColorSet]="new BfStatusColorSet().getContract()">
-</bf-status-badge>
-<bf-status-badge [bfStatus]="2" [bfLabel]="Expired"
-                 [bfColorSet]="new BfStatusColorSet().getContract()">
-</bf-status-badge>`;
-  public instance8 = `<bf-status-badge [bfStatus]="0" [bfLabel]="Draft"
-                 [bfColorSet]="new BfStatusColorSet().getQuotes()">
-</bf-status-badge>
-<bf-status-badge [bfStatus]="1" [bfLabel]="Waiting for approval"
-                 [bfColorSet]="new BfStatusColorSet().getQuotes()">
-</bf-status-badge>
-<bf-status-badge [bfStatus]="2" [bfLabel]="Rejected"
-                 [bfColorSet]="new BfStatusColorSet().getQuotes()">
-</bf-status-badge>
-<bf-status-badge [bfStatus]="3" [bfLabel]="Cancelled"
-                 [bfColorSet]="new BfStatusColorSet().getQuotes()">
-</bf-status-badge>
-<bf-status-badge [bfStatus]="4" [bfLabel]="Approved"
-                 [bfColorSet]="new BfStatusColorSet().getQuotes()">
-</bf-status-badge>`;
-
-  public firstStatus = { status: 2, label: 'No Bonus' };
-  public secondStatus = { status: true, label: 'No Bonus' };
-  public thirdStatus = { status: 2, label: ['None', 'Low', 'Medium', 'High', 'Max'] };
 
   public cssReset = `$bf-status-active   : $primary_color;
 $bf-status-inactive : $warning_color;
@@ -91,30 +41,16 @@ $bf-status-other4   : darken($bf_color3_shadow2, 20%);
 $bf-status-submitted: darken($tertiary_color, 15);
 
 .bf-status-badge {
-  &-active {
-    @include statusBox($bf-status-active);
-  }
-  &-inactive {
-    @include statusBox($bf-status-inactive);
-  }
-  &-pending {
-    @include statusBox($bf-status-pending);
-  }
-  &-other {
-    @include statusBox($bf-status-other);
-  }
-  &-other-2 {
-    @include statusBox($bf-status-other2);
-  }
-  &-other-3 {
-    @include statusBox($bf-status-other3);
-  }
-  &-other-4 {
-    @include statusBox($bf-status-other4);
-  }
-  &-submitted {
-    @include statusBox($bf-status-submitted);
-  }
+  color: $white;
+  border: 1px solid #f8f8f8;
+  &.bf-color-first   { background: $bf-status-active;   }
+  &.bf-color-second  { background: $bf-status-inactive; }
+  &.bf-color-third   { background: $bf-status-pending;  }
+  &.bf-color-fourth  { background: $bf-status-other;    }
+  &.bf-color-fifth   { background: $bf-status-other2;   }
+  &.bf-color-sixth   { background: $bf-status-other3;   }
+  &.bf-color-seventh { background: $bf-status-other4;   }
+  &.bf-color-eighth  { background: $bf-status-submitted;}
 }`;
 
 
@@ -126,9 +62,6 @@ $bf-status-submitted: darken($tertiary_color, 15);
   public bsStr = `\n                 `;
   public customCompCode = `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`;
   public customModCode   = `<bf-status-badge [bfStatus]="0" [bfLabel]="Module default"></bf-status-badge>`;
-  public customModCode1   = `<bf-status-badge [bfStatus]="0" [bfLabel]="Module default"></bf-status-badge>`;
-  public customModCode2   = `<bf-status-badge [bfStatus]="0" [bfLabel]="Module default"></bf-status-badge>`;
-  public customModCode3   = `<bf-status-badge [bfStatus]="0" [bfLabel]="Module default"></bf-status-badge>`;
   public compConf: any = {
     status: 0,
     hasLabel: false,
@@ -144,97 +77,22 @@ $bf-status-submitted: darken($tertiary_color, 15);
     status: 0,
     labelText: 'Module default',
     defaultList: [
-      { id: 0, name: 'Active' },
-      { id: 1, name: 'Inactive' },
-      { id: 2, name: 'Pending' },
-      { id: 3, name: 'Other 1' },
-      { id: 4, name: 'Other 2' },
-      { id: 5, name: 'Other 3' },
-      { id: 6, name: 'Other 4' },
-      { id: 7, name: 'Submitted'}
+      { id: 0, name: 'Not Paid' },
+      { id: 1, name: 'Partially' },
+      { id: 2, name: 'Paid' },
+      { id: 3, name: 'Cancelled' },
+      { id: 4, name: 'Waiting' },
+      { id: 5, name: 'Refunded' },
+      { id: 6, name: 'Submitted'}
     ],
-    setOrders: {
-      name: 'Orders',
-      list: new BfStatusColorSet().getOrder(),
-      labels: [
-        'Not Paid', 'Partially', 'Paid',
-        'Cancelled', 'Waiting', 'Refunded', 'Submitted'
-      ]
-    },
-    setContracts: {
-      name: 'Contract',
-      list: new BfStatusColorSet().getContract(),
-      labels: ['Waiting for signature', 'Signed', 'Expired']
-    },
-    setQuotes: {
-      name: 'Quotes',
-      list: new BfStatusColorSet().getQuotes(),
-      labels: [
-        'Draft', 'Waiting for approval',
-        'Rejected', 'Cancelled', 'Approved'
-      ]
-    },
-    bfDefaultColor: {
-      status: 0,
-      labelText: 'bfColorSet default',
-      color_set: new BfStatusColorSet().updateDefaultColorSet(['active', 'inactive', 'pending', 'other', 'other-2', 'other-3', 'other-4', 'submitted']),
-      color_selected: 'active',
-      list: [
-        { name: 'active' },
-        { name: 'inactive' },
-        { name: 'pending' },
-        { name: 'other' },
-        { name: 'other-2' },
-        { name: 'other-3' },
-        { name: 'other-4' },
-        { name: 'submitted'}
-      ]
-    },
-    bfClassSet: {
-      status: 0,
-      labelText: 'bfColorSet default',
-      color_set: new BfStatusColorSet().addClassColorSet(['custom-color-class1', 'custom-color-class2', 'custom-color-class3']),
-      color_class1: '.custom-color-class1 { \n' +
-        '  @include statusBox(#c592b7);\n' +
-        '}',
-      color_class2: '.custom-color-class2 {\n' +
-        '  text-align: center;\n' +
-        '  color: #fff;\n' +
-        '  font-weight: bold;\n' +
-        '  background-color: #5D733D;\n' +
-        '  border-radius: 40px;\n' +
-        '  margin: 0 40px;\n' +
-        '}',
-      color_class3: '.custom-color-class3 {\n' +
-        '  text-align: center;\n' +
-        '  color: #D8C6C6;\n' +
-        '  font-size: 20px;\n' +
-        '  font-weight: bold;\n' +
-        '  background-color: $focused-color;\n' +
-        '  border-radius: 5px;\n' +
-        '  padding: 15px;\n' +
-        '}',
-      list: [
-        { id: 0, class: 'custom-color-class1' },
-        { id: 1, class: 'custom-color-class2' },
-        { id: 2, class: 'custom-color-class3' },
-      ]
-    },
-    bfCodeSet: {
-      status: 0,
-      labelText: 'bfColorSet default',
-      color_set: new BfStatusColorSet().addCodeColorSet(['#929292', '#ED0677', '#F17B3F', '#00B6F1', '#C592B7', '#5D733D', '#004A64', '#a0a0a0']),
-      code_selected: '#929292',
-      list: [
-        { code: '#929292' },
-        { code: '#ED0677' },
-        { code: '#F17B3F' },
-        { code: '#00B6F1' },
-        { code: '#C592B7' },
-        { code: '#5D733D' },
-        { code: '#004A64' },
-        { code: '#a0a0a0' }
-      ]
+    orderColorSet: {
+      0: 'bf-color-third',
+      1: 'bf-color-fourth',
+      2: 'bf-color-first',
+      3: 'bf-color-second',
+      4: 'bf-color-fifth',
+      5: 'bf-color-sixth',
+      6: 'bf-color-eighth'
     }
   };
   public statusList = [
@@ -299,57 +157,16 @@ $bf-status-submitted: darken($tertiary_color, 15);
     this.customCompCode += (`>` + this.brStr + `</bf-status-badge>`);
   }
 
-  public upMod = (textType: 'default' | 'code' | 'class') => {
+  public upMod = () => {
     this.customModCode = `<bf-status-badge `;
-    if (textType === 'default') {
-      this.customModCode += `[bfStatus]="${this.modConf.bfDefaultColor.status}"`;
-      this.customModCode += this.bsStr + `[bfLabel]="${this.modConf.bfDefaultColor.labelText}"`;
-      this.customModCode += this.bsStr + `[bfColorSet]="new BfStatusColorSet().updateDefaultColorSet([${this.modConf.bfDefaultColor.color_set.set}])"`;
-      this.customModCode += (`>` + this.brStr + `</bf-status-badge>`);
-      this.customModCode1 = this.customModCode;
-    }
-
-    if (textType === 'class')   {
-      this.customModCode += `[bfStatus]="${this.modConf.bfClassSet.status}"`;
-      this.customModCode += this.bsStr + `[bfLabel]="${this.modConf.bfClassSet.labelText}"`;
-      this.customModCode += this.bsStr + `[bfColorSet]="new BfStatusColorSet().addClassColorSet([${this.modConf.bfClassSet.color_set.set}])"`;
-      this.customModCode += (`>` + this.brStr + `</bf-status-badge>`);
-      this.customModCode2 = this.customModCode;
-    }
-
-    if (textType === 'code')    {
-      this.customModCode += `[bfStatus]="${this.modConf.bfCodeSet.status}"`;
-      this.customModCode += this.bsStr + `[bfLabel]="${this.modConf.bfCodeSet.labelText}"`;
-      this.customModCode += this.bsStr + `[bfColorSet]="new BfStatusColorSet().addCodeColorSet([${this.modConf.bfCodeSet.color_set.set}])"`;
-      this.customModCode += (`>` + this.brStr + `</bf-status-badge>`);
-      this.customModCode3 = this.customModCode;
-    }
+    this.customModCode += `[bfStatus]="${this.modConf.status}"`;
+    this.customModCode += this.bsStr + `[bfLabel]="${this.modConf.labelText}"`;
+    this.customModCode += this.bsStr + `[bfColorSet]="modConf.orderColorSet"`;
+    this.customModCode += (`>` + this.brStr + `</bf-status-badge>`);
   }
 
-  public updateStatusDC = () => {
-    const index = this.modConf.bfDefaultColor.status;
-    this.modConf.bfDefaultColor.labelText = this.modConf.defaultList[index].name;
-    this.modConf.bfDefaultColor.color_selected = this.modConf.bfDefaultColor.color_set.set[index];
-  }
-  public updateColorSetDC = () => {
-    const colorSet = this.modConf.bfDefaultColor.color_set.set;
-    const index = this.modConf.bfDefaultColor.status;
-    colorSet[index] = this.modConf.bfDefaultColor.color_selected;
-    this.modConf.bfDefaultColor.color_set = new BfStatusColorSet().updateDefaultColorSet(colorSet);
-  }
-  public addColorSetClass = () => {
-    this.modConf.bfClassSet.labelText = this.modConf.defaultList[this.modConf.bfClassSet.status].name;
-  }
-  public statusCodeSet = () => {
-    const index = this.modConf.bfCodeSet.status;
-    this.modConf.bfCodeSet.labelText = this.modConf.defaultList[index].name;
-    this.modConf.bfCodeSet.code_selected = this.modConf.bfCodeSet.color_set.set[index];
-  }
-  public updateStatusCodeSet = () => {
-    const codeSet = this.modConf.bfCodeSet.color_set.set;
-    const index = this.modConf.bfCodeSet.status;
-    codeSet[index] = this.modConf.bfCodeSet.code_selected;
-    this.modConf.bfCodeSet.color_set = new BfStatusColorSet().addCodeColorSet(codeSet);
+  public updateModStatus = () => {
+    this.modConf.labelText = this.modConf.defaultList[this.modConf.status].name;
   }
 
   constructor() { }
@@ -367,14 +184,7 @@ export const BfStatusBadgeDoc = {
 [bfLabel]   : (String) Display the label translated on the status, (Array) list of labels
 [bfColor]   : Background Color of the staus
 [bfCircle]  : Condition that display the badge in a circle
-[bfColorSet]: (BfStatusColorSet) class to modify the color set of the status with the following methods
-                      BfStatusColorSet.getDefault()
-                      BfStatusColorSet.getOrder()
-                      BfStatusColorSet.getContract()
-                      BfStatusColorSet.getQuotes()
-                      BfStatusColorSet.addClassColorSet([string])
-                      BfStatusColorSet.addCodeColorSet([string])
-                      BfStatusColorSet.updateDefaultColorSet([ColorDefault])`,
+[bfColorSet]: (ColorSet) array the color set of the status`,
   instance: `<bf-status-badge [bfStatus]="myStatus=0">
 </bf-status-badge>
 <bf-status-badge [bfStatus]="myStatus=1">

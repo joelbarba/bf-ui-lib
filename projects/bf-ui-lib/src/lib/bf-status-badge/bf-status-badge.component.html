@@ -1,4 +1,4 @@
-<div class="bf-status-badge" [ngClass]="bfStatusCss"
+<div class="bf-status-badge" [ngClass]="bfStatusCss[bfCurrentStatus]"
      [class.bf-status-badge-circle]="bfCircle"
      [ngStyle]="{'background-color': bfCurrentColor}"
      [ngbTooltip]="bfCurrentLabel$ | async" [disableTooltip]="!bfCircle">
