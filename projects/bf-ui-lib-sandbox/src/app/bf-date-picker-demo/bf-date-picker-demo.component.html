@@ -15,15 +15,14 @@
     <div class="col-5 marB15">
       <h5 class="marB25">bf-date-picker Customization:</h5>
       <div>
-        <!--<bf-dropdown class="full-width" name="dasda"-->
-        <!--             [(ngModel)]="selObj10"-->
-        <!--             [bfList]="myList"-->
-        <!--             [bfRequired]="compConf.isRequired"-->
-        <!--             [bfDisabled]="compConf.isDisabled"-->
-        <!--             [bfLabel]="(compConf.hasLabel ? compConf.labelText : '')"-->
-        <!--             [bfSelect]="(compConf.hasSelect && !!compConf.selectField) ? compConf.selectField : null"-->
-        <!--             [bfRender]="(compConf.hasRender ? compConf.renderExp : '')">-->
-        <!--</bf-dropdown>-->
+        <bf-date-picker
+          [(ngModel)]="compConf.data.ngModel"
+          (ngModelChange)="compConf.convertToText($event)"
+          [bfLabel]="compConf.hasLabel ? compConf.labelText : null"
+          [bfRequired]="compConf.isRequired"
+          [bfMinDate]="compConf.data.min"
+          [bfMaxDate]="compConf.data.max"
+        ></bf-date-picker>
       </div>
       <div>
         <div class="code-box pad15">
@@ -35,11 +34,11 @@
     <div class="col-7">
 
       <div class="row marT15">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>
+        <div class="col-12 padT5"> <bf-input bfType="text" [(ngModel)]="compConf.data.ngInputModel" (ngModelChange)="compConf.convertToDate()" bfLabel="Value"></bf-input> </div>
       </div>
 
       <div class="row marT15">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>
+        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>
       </div>
 
       <div class="row marT15">
@@ -47,21 +46,29 @@
         <div class="col-10" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasLabel"></bf-input> </div>
       </div>
 
-      <div class="row marT10">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox> </div>
-        <div class="col-10" *ngIf="compConf.hasTooltip">
-          <bf-input [(ngModel)]="compConf.tooltipText" (ngModelChange)="upComp()"></bf-input>
-        </div>
-        <div class="col-2" *ngIf="compConf.hasTooltip"></div>
-        <div class="col-5" *ngIf="compConf.hasTooltip">
-          bfTooltipPos: <bf-dropdown [(ngModel)]="compConf.tooltipPos" (ngModelChange)="upComp()"
-                                     [bfList]="[{ id: 'top', text: 'top' }, { id: 'right', text: 'right' }, { id: 'bottom', text: 'bottom' }, { id: 'left', text: 'left' }]"
-                                     bfRender="text" bfSelect="id"> </bf-dropdown>
-        </div>
-        <div class="col-5" *ngIf="compConf.hasTooltip">
-          bfTooltipBody: <bf-dropdown [(ngModel)]="compConf.tooltipBody" (ngModelChange)="upComp()" [bfList]="[{ id: 'true', text: 'true' }, { id: 'false', text: 'false' }]" bfRender="text" bfSelect="id"> </bf-dropdown>
-        </div>
+      <div class="row marT15">
+        <div class="col-12 padT5"> <bf-input bfType="text" [(ngModel)]="compConf.data.inputMin" (ngModelChange)="compConf.convertToDate()" bfLabel="Minimum Date"></bf-input> </div>
       </div>
+
+      <div class="row marT15">
+        <div class="col-12 padT5"> <bf-input bfType="text" [(ngModel)]="compConf.data.inputMax" (ngModelChange)="compConf.convertToDate()" bfLabel="Maximum Date"></bf-input> </div>
+      </div>
+
+<!--      <div class="row marT10">-->
+<!--        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox> </div>-->
+<!--        <div class="col-10" *ngIf="compConf.hasTooltip">-->
+<!--          <bf-input [(ngModel)]="compConf.tooltipText" (ngModelChange)="upComp()"></bf-input>-->
+<!--        </div>-->
+<!--        <div class="col-2" *ngIf="compConf.hasTooltip"></div>-->
+<!--        <div class="col-5" *ngIf="compConf.hasTooltip">-->
+<!--          bfTooltipPos: <bf-dropdown [(ngModel)]="compConf.tooltipPos" (ngModelChange)="upComp()"-->
+<!--                                     [bfList]="[{ id: 'top', text: 'top' }, { id: 'right', text: 'right' }, { id: 'bottom', text: 'bottom' }, { id: 'left', text: 'left' }]"-->
+<!--                                     bfRender="text" bfSelect="id"> </bf-dropdown>-->
+<!--        </div>-->
+<!--        <div class="col-5" *ngIf="compConf.hasTooltip">-->
+<!--          bfTooltipBody: <bf-dropdown [(ngModel)]="compConf.tooltipBody" (ngModelChange)="upComp()" [bfList]="[{ id: 'true', text: 'true' }, { id: 'false', text: 'false' }]" bfRender="text" bfSelect="id"> </bf-dropdown>-->
+<!--        </div>-->
+<!--      </div>-->
     </div>
 
   </div>
@@ -74,14 +81,14 @@
 
 <h5 class="mt-4">Examples:</h5>
 <div class="col-12 examples-table">
-  
+
   <div class="row">
     <div class="col-5">
       <bf-date-picker></bf-date-picker>
     </div>
     <div class="col-7"> <pre>{{instance}}</pre> </div>
   </div>
-  
+
   <div class="row">
     <div class="col-5">
       <bf-date-picker></bf-date-picker>

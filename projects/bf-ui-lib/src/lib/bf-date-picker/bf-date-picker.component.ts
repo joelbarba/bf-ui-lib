@@ -2,7 +2,6 @@ import {
   Component,
   OnInit,
   Input,
-  ChangeDetectionStrategy,
   forwardRef,
   OnDestroy,
   OnChanges,
@@ -10,7 +9,13 @@ import {
 } from '@angular/core';
 import { NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  FormControl,
+  NG_VALUE_ACCESSOR,
+  ValidatorFn
+} from '@angular/forms';
 import { Subscription} from 'rxjs';
 
 @Component({
@@ -33,10 +38,11 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   @Input() bfRequired: boolean;
   @Input() bfMinDate: Date;
   @Input() bfMaxDate: Date;
-  @Input() bfIcon: string;
   @Input() bfTimeZone: string;
   @Input() bfLocale: string;
   @Input() bfFormat: string;
+  @Input() bfTime: string;
+  @Input() bfIcon: string;
 
   private modelInput: string;
   private modelDate: NgbDate;
@@ -52,36 +58,49 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   constructor() {}
 
   ngOnInit() {
-    this.datePipe = new DatePipe(this.bfLocale || 'en-US');
+    this.bfIcon = this.bfIcon || 'icon-calendar4';
+    this.datePipe = new DatePipe(this.bfLocale || 'en-IE');
     this.bfFormat = this.bfFormat || 'shortDate';
-    this.bfIcon = this.bfIcon || 'clock';
     this.bfModelControl = new FormControl(null);
+    // tslint:disable-next-line:max-line-length
+    this.originalModel = this.existTheControlValue() ? new Date(this.bfModelControl.value) : null;
+    this.createRangeDatepickerConfig();
     this.bfModelControlSubscription = this.bfModelControl.valueChanges.subscribe(() => {
       this.setModelInput();
       this.updateCalendar();
     });
-    // tslint:disable-next-line:max-line-length
-    this.originalModel = !!this.bfModelControl.value && typeof this.bfModelControl.value !== 'function' ? new Date(this.bfModelControl.value) : null;
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // if (changes.bfMaxDate.previousValue !== changes.bfMaxDate.currentValue) {
-    //   this.datePickerConfig.maxDate = this.dateToNgbDate(changes.bfMaxDate.currentValue);
-    // }
-    // if (changes.bfMinDate.previousValue !== changes.bfMinDate.currentValue) {
-    //   this.datePickerConfig.minDate = this.dateToNgbDate(changes.bfMinDate.currentValue);
-    // }
-    // if (changes.bfLocale.previousValue !== changes.bfLocale.currentValue) {
-    //   this.datePipe = new DatePipe(changes.bfLocale.currentValue || 'en-IE');
-    //   this.setModelInput();
-    // }
-    // if (changes.bfTimeZone.previousValue !== changes.bfTimeZone.currentValue) {
-    //   this.setModelInput();
-    // }
+    if (changes.bfTime && changes.bfTime.previousValue !== changes.bfTime.currentValue) {
+      this.setModelInput();
+    }
+    // tslint:disable-next-line:max-line-length
+    if (changes.bfMinDate && changes.bfMinDate.previousValue !== changes.bfMinDate.currentValue || changes.bfMaxDate && changes.bfMaxDate.previousValue !== changes.bfMaxDate.currentValue) {
+      this.createRangeDatepickerConfig();
+    }
   }
 
   ngOnDestroy() {
     this.bfModelControlSubscription.unsubscribe();
+  }
+
+  createRangeDatepickerConfig() {
+    this.bfMaxDate = this.bfMinDate > this.bfMaxDate ? new Date(this.bfMinDate) : this.bfMaxDate;
+    if (this.existTheControlValue() && this.bfMinDate > this.bfModelControl.value) {
+      this.writeValue(this.bfMinDate);
+    }
+    if (this.existTheControlValue() && this.bfMaxDate < this.bfModelControl.value) {
+      this.writeValue(this.bfMaxDate);
+    }
+    this.datePickerConfig = {
+      maxDate: this.dateToNgbDate(this.bfMaxDate),
+      minDate: this.dateToNgbDate(this.bfMinDate)
+    };
+  }
+
+  existTheControlValue() {
+    return !!this.bfModelControl && !!this.bfModelControl.value && typeof this.bfModelControl.value !== 'function';
   }
 
   selectDateForNgModel(date: NgbDateStruct) {
@@ -107,7 +126,7 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
 
   setModelInput() {
     // tslint:disable-next-line:max-line-length
-    this.modelInput = !!this.bfModelControl.value && typeof this.bfModelControl.value !== 'function' ? this.datePipe.transform(this.bfModelControl.value, this.bfFormat) + (this.bfTimeZone ? (' - ' + this.bfTimeZone) : '') : null;
+    this.modelInput = this.existTheControlValue() ? this.datePipe.transform(this.bfModelControl.value, this.bfFormat) + (this.bfTime || '') + ( this.bfTimeZone || '') : null;
   }
 
   today(calendar) {
