@@ -40,6 +40,7 @@ $l-rootClass: '.bf-status-badge';
 //$bf-status-other2   : $extra_color;
 //$bf-status-other3   : darken($secondary_color, 15);
 //$bf-status-other4   : darken($bf_color3_shadow2, 20%);
+//$bf-status-submitted: darken($tertiary_color, 15);
 //
 //.bf-status-badge {
 //  &-active {
@@ -62,5 +63,8 @@ $l-rootClass: '.bf-status-badge';
 //  }
 //  &-other-4 {
 //    @include statusBox($bf-status-other4);
+//  }
+//  &-submitted {
+//    @include statusBox($bf-status-submitted);
 //  }
 //}

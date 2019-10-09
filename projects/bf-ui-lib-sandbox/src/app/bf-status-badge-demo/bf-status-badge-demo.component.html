@@ -61,6 +61,143 @@
   </div>
 </div>
 
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-5">
+      <h5 class="marB25">Custome bfColorSet Example</h5>
+      <p class="marB10">Update Default ColorSet</p>
+      <pre class="marB25">new BfStatusColorSet().updateDefaultColorSet(ColorSet[])</pre>
+      <div>
+        <bf-status-badge [bfStatus]="modConf.bfDefaultColor.status"
+                         [bfLabel]="modConf.bfDefaultColor.labelText"
+                         [bfColorSet]="modConf.bfDefaultColor.color_set">
+        </bf-status-badge>
+      </div>
+      <div class="padT30">
+        <div class="code-box pad15">
+          <pre>{{customModCode1}}</pre>
+        </div>
+      </div>
+    </div>
+    <div class="col-7">
+      <div class="row marT15">
+        <div class="col-6">
+          <bf-dropdown [(ngModel)]="modConf.bfDefaultColor.status"
+                       (ngModelChange)="updateStatusDC();upMod('default');"
+                       [bfList]="modConf.defaultList"
+                       [bfRequired]="true"
+                       bfLabel="Status"
+                       bfSelect="id"
+                       bfRender="$$$ $item.id +' - '+ $item.name">
+          </bf-dropdown>
+          <label style="color: #00B6F1;font-weight: 700;">Color List:</label>
+          <div *ngFor="let color of modConf.bfDefaultColor.list">
+            <bf-radio [(ngModel)]="modConf.bfDefaultColor.color_selected"
+                      [bfLabel]="color.name"
+                      [bfValue]="color.name"
+                      (ngModelChange)="updateColorSetDC();upMod('default');">
+            </bf-radio>
+          </div>
+        </div>
+        <div class="col-6">
+          <pre class="padT10">[bfColorSet] = {{modConf.bfDefaultColor.color_set | json}}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-5">
+      <h5 class="marB25">Custome bfColorSet Example</h5>
+      <p class="marB10">Add Classes ColorSet</p>
+      <pre class="marB25">new BfStatusColorSet().addClassColorSet(string[])</pre>
+      <div>
+        <bf-status-badge [bfStatus]="modConf.bfClassSet.status"
+                         [bfLabel]="modConf.bfClassSet.labelText"
+                         [bfColorSet]="modConf.bfClassSet.color_set">
+        </bf-status-badge>
+      </div>
+      <div class="padT30">
+        <div class="code-box pad15">
+          <pre>{{customModCode2}}</pre>
+        </div>
+      </div>
+    </div>
+    <div class="col-7">
+      <div class="row marT15">
+        <div class="col-6">
+          <bf-dropdown [(ngModel)]="modConf.bfClassSet.status"
+                       (ngModelChange)="addColorSetClass();upMod('class');"
+                       [bfList]="modConf.bfClassSet.list"
+                       [bfRequired]="true"
+                       bfLabel="Status class"
+                       bfSelect="id"
+                       bfRender="$$$ $item.id +' - '+ $item.class">
+          </bf-dropdown>
+          <div class="padT30">
+            <label style="color: #00B6F1;font-weight: 700;">Class selected:</label>
+            <pre *ngIf="modConf.bfClassSet.status === 0">{{modConf.bfClassSet.color_class1}}</pre>
+            <pre *ngIf="modConf.bfClassSet.status === 1">{{modConf.bfClassSet.color_class2}}</pre>
+            <pre *ngIf="modConf.bfClassSet.status === 2">{{modConf.bfClassSet.color_class3}}</pre>
+          </div>
+        </div>
+        <div class="col-6">
+          <pre class="padT10">[bfColorSet] = {{modConf.bfClassSet.color_set | json}}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-5">
+      <h5 class="marB25">Custome bfColorSet Example</h5>
+      <p class="marB25">Add ColorCode</p>
+      <p class="marB25">new BfStatusColorSet().addCodeColorSet(string[])</p>
+      <div>
+        <bf-status-badge [bfStatus]="modConf.bfCodeSet.status"
+                         [bfLabel]="modConf.bfCodeSet.labelText"
+                         [bfColorSet]="modConf.bfCodeSet.color_set">
+        </bf-status-badge>
+      </div>
+      <div class="padT30">
+        <div class="code-box pad15">
+          <pre>{{customModCode3}}</pre>
+        </div>
+      </div>
+    </div>
+    <div class="col-7">
+      <div class="row marT15">
+        <div class="col-6">
+          <bf-dropdown [(ngModel)]="modConf.bfCodeSet.status"
+                       (ngModelChange)="statusCodeSet();upMod('code');"
+                       [bfList]="modConf.defaultList"
+                       [bfRequired]="true"
+                       bfLabel="Status"
+                       bfSelect="id"
+                       bfRender="$$$ $item.id +' - '+ $item.name">
+          </bf-dropdown>
+
+          <bf-input [(ngModel)]="modConf.bfCodeSet.code_selected"
+                    bfDisabled="true"
+                    bfLabel="Change ColorCode"></bf-input>
+          <div>
+            <input [(ngModel)]="modConf.bfCodeSet.code_selected"
+                   type="color"
+                   (ngModelChange)="updateStatusCodeSet();upMod('code');"/>
+          </div>
+        </div>
+        <div class="col-6">
+          <pre class="padT10">[bfColorSet] = {{modConf.bfCodeSet.color_set | json}}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <hr>
 
 
@@ -70,42 +207,86 @@
 <div class="col-12 examples-table">
   
   <div class="row">
-    <div class="col-5">
+    <div class="col-4">
+      <h5 class="bold">Default Color Set</h5>
+      <br/><br/>
       <bf-status-badge [bfStatus]="0"></bf-status-badge>
       <bf-status-badge [bfStatus]="1"></bf-status-badge>
       <bf-status-badge [bfStatus]="2"></bf-status-badge>
     </div>
-    <div class="col-7"> <pre>{{instance}}</pre> </div>
+    <div class="col-8"> <pre>{{instance}}</pre> </div>
   </div>
   
   <div class="row">
-    <div class="col-5">
+    <div class="col-4">
       <bf-status-badge [bfStatus]="1" [bfLabel]="'Custom Label'"></bf-status-badge>
     </div>
-    <div class="col-7"> <pre>{{instance2}}</pre> </div>
+    <div class="col-8"> <pre>{{instance2}}</pre> </div>
   </div>
 
   <div class="row">
-    <div class="col-5">
+    <div class="col-4">
       <bf-status-badge [bfStatus]="true" [bfLabel]="['YES', 'NO']"></bf-status-badge>
       <bf-status-badge [bfStatus]="false" [bfLabel]="['YES', 'NO']"></bf-status-badge>
     </div>
-    <div class="col-7"> <pre>{{instance3}}</pre> </div>
+    <div class="col-8"> <pre>{{instance3}}</pre> </div>
   </div>
 
   <div class="row">
-    <div class="col-5">
-      <bf-status-badge [bfStatus]="2" [bfLabel]="'Circle Example'" [bfCircle]="true">
+    <div class="col-4">
+      <bf-status-badge [bfStatus]="2" bfLabel="Circle Example" [bfCircle]="true">
       </bf-status-badge>
     </div>
-    <div class="col-7"> <pre>{{instance4}}</pre> </div>
+    <div class="col-8"> <pre>{{instance4}}</pre> </div>
   </div>
 
   <div class="row">
-    <div class="col-5">
+    <div class="col-4">
       <bf-status-badge [bfStatus]="2" [bfColor]="'7f3fc0'"></bf-status-badge>
     </div>
-    <div class="col-7"> <pre>{{instance5}}</pre> </div>
+    <div class="col-8"> <pre>{{instance5}}</pre> </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <h5 class="bold">BfColorSet</h5>
+      <h5 class="bold">{{modConf.setOrders.name}}</h5>
+      <br/><br/><br/>
+      <bf-status-badge [bfStatus]="0" [bfLabel]="modConf.setOrders.labels[0]" [bfColorSet]="modConf.setOrders.list"></bf-status-badge>
+      <bf-status-badge [bfStatus]="1" [bfLabel]="modConf.setOrders.labels[1]" [bfColorSet]="modConf.setOrders.list"></bf-status-badge>
+      <bf-status-badge [bfStatus]="2" [bfLabel]="modConf.setOrders.labels[2]" [bfColorSet]="modConf.setOrders.list"></bf-status-badge>
+      <bf-status-badge [bfStatus]="3" [bfLabel]="modConf.setOrders.labels[3]" [bfColorSet]="modConf.setOrders.list"></bf-status-badge>
+      <bf-status-badge [bfStatus]="4" [bfLabel]="modConf.setOrders.labels[4]" [bfColorSet]="modConf.setOrders.list"></bf-status-badge>
+      <bf-status-badge [bfStatus]="5" [bfLabel]="modConf.setOrders.labels[5]" [bfColorSet]="modConf.setOrders.list"></bf-status-badge>
+      <bf-status-badge [bfStatus]="6" [bfLabel]="modConf.setOrders.labels[6]" [bfColorSet]="modConf.setOrders.list"></bf-status-badge>
+    </div>
+    <div class="col-8"><pre>{{instance6}}</pre></div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <h5 class="bold">BfColorSet</h5>
+      <h5 class="bold">{{modConf.setContracts.name}}</h5>
+      <br/><br/><br/>
+      <bf-status-badge [bfStatus]="0" [bfLabel]="modConf.setContracts.labels[0]" [bfColorSet]="modConf.setContracts.list"></bf-status-badge>
+      <bf-status-badge [bfStatus]="1" [bfLabel]="modConf.setContracts.labels[1]" [bfColorSet]="modConf.setContracts.list"></bf-status-badge>
+      <bf-status-badge [bfStatus]="2" [bfLabel]="modConf.setContracts.labels[2]" [bfColorSet]="modConf.setContracts.list"></bf-status-badge>
+    </div>
+    <div class="col-8"><pre>{{instance7}}</pre></div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <h5 class="bold">BfColorSet</h5>
+      <h5 class="bold">{{modConf.setQuotes.name}}</h5>
+      <br/><br/><br/>
+      <bf-status-badge [bfStatus]="0" [bfLabel]="modConf.setQuotes.labels[0]" [bfColorSet]="modConf.setQuotes.list"></bf-status-badge>
+      <bf-status-badge [bfStatus]="1" [bfLabel]="modConf.setQuotes.labels[1]" [bfColorSet]="modConf.setQuotes.list"></bf-status-badge>
+      <bf-status-badge [bfStatus]="2" [bfLabel]="modConf.setQuotes.labels[2]" [bfColorSet]="modConf.setQuotes.list"></bf-status-badge>
+      <bf-status-badge [bfStatus]="3" [bfLabel]="modConf.setQuotes.labels[3]" [bfColorSet]="modConf.setQuotes.list"></bf-status-badge>
+      <bf-status-badge [bfStatus]="4" [bfLabel]="modConf.setQuotes.labels[4]" [bfColorSet]="modConf.setQuotes.list"></bf-status-badge>
+    </div>
+    <div class="col-8"><pre>{{instance8}}</pre></div>
   </div>
 
 </div>

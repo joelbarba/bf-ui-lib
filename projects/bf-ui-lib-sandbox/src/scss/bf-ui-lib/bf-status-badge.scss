@@ -7,6 +7,7 @@ $bf-status-other    : $secondary_color;
 $bf-status-other2   : $extra_color;
 $bf-status-other3   : darken($secondary_color, 15);
 $bf-status-other4   : darken($bf_color3_shadow2, 20%);
+$bf-status-submitted: darken($tertiary_color, 15);
 
 
 @mixin statusBox($color) {
@@ -49,4 +50,29 @@ $bf-status-other4   : darken($bf_color3_shadow2, 20%);
   &-other-4 {
     @include statusBox($bf-status-other4);
   }
+  &-submitted {
+    @include statusBox($bf-status-submitted);
+  }
+}
+
+
+.custom-color-class1 {
+  @include statusBox(#c592b7);
+}
+.custom-color-class2 {
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  background-color: #5D733D;
+  border-radius: 40px;
+  margin: 0 40px;
+}
+.custom-color-class3 {
+  text-align: center;
+  color: #D8C6C6;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: $focused-color;
+  border-radius: 5px;
+  padding: 15px;
 }
