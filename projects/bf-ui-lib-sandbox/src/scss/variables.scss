@@ -1,34 +1,32 @@
 $primary_color    : #00B6F1;
+//$primary_color    : green;
 $secondary_color  : #93C83E;
 $tertiary_color   : #ED0677;
 $quaternary_color : #004A64;
 $warning_color    : #ED0677;
 $extra_color      : #F17B3F;
 
-
 $white          : #fff;
 $offWhite       : #f8f8f8;
-$grey           : #929292;
-$text-color     : #525254;
-$optional-color : #ccc;       // (bootstrap default - $input-border)
-$disabled-color : #a0a0a0;
-$focused-color  : darken($primary_color, 20%);
-$required-color : $primary_color;
-$valid-color    : $primary_color;
-$invalid-color  : $warning_color;
+//$grey           : #929292;
+//$text-color     : #525254;
+//$optional-color : #ccc;       // (bootstrap default - $input-border)
+//$disabled-color : #a0a0a0;
+//$focused-color  : darken($primary_color, 20%);
+//$required-color : $primary_color;
+//$valid-color    : $primary_color;
+//$invalid-color  : red;
 
-$bf-colors: (
-  'primary'     : $primary_color,
-  'secondary'   : $secondary_color,
-  'tertiary'    : $tertiary_color,
-  'quaternary'  : $quaternary_color,
-  'warning'     : $warning_color,
-  'extra'       : $extra_color,
-  'white'       : $white,
-  'disabled'    : $disabled-color
-);
-
-
+//$bf-ui-lib-colors: (
+//  'primary'     : $primary_color,
+//  'secondary'   : $secondary_color,
+//  'tertiary'    : $tertiary_color,
+//  'quaternary'  : $quaternary_color,
+//  'warning'     : $warning_color,
+//  'extra'       : $extra_color,
+//  'white'       : $white,
+//  'disabled'    : $disabled-color
+//);
 
 
 
@@ -39,7 +37,7 @@ $tooltip-opacity: 1;
 
 // Bootstrap Popovers
 $popover-bg: #17495B;
-$popover-body-color: white;
+$popover-body-color: #white;
 
 // Tertiary Colors
 $bf_color3_shadow2 : #E99FB7;

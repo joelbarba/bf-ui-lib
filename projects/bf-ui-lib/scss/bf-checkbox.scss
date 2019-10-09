@@ -1,7 +1,3 @@
-@import 'variables';
-
-// --- <bf-checkbox> color reset --------------------------------------------------
-
 @mixin checkbox-color-mixin($main-color) {
   div.checkbox label input[type='checkbox'] {
     + span.check-box {  // Box unmarked (unchecked)
