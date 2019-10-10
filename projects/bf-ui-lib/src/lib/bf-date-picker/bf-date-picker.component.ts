@@ -8,15 +8,14 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { DatePipe } from '@angular/common';
 import {
-  AbstractControl,
   ControlValueAccessor,
   FormControl,
-  NG_VALUE_ACCESSOR,
-  ValidatorFn
+  NG_VALUE_ACCESSOR
 } from '@angular/forms';
+
 import { Subscription} from 'rxjs';
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'bf-date-picker',
@@ -32,12 +31,12 @@ import { Subscription} from 'rxjs';
 })
 export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
 
-  public bfModelControl: FormControl;
+  public bfModelControl = new FormControl();
 
   @Input() bfLabel: string;
   @Input() bfRequired: boolean;
-  @Input() bfMinDate: Date;
-  @Input() bfMaxDate: Date;
+  @Input() bfMinDate: moment.Moment;
+  @Input() bfMaxDate: moment.Moment;
   @Input() bfTimeZone: string;
   @Input() bfLocale: string;
   @Input() bfFormat: string;
@@ -47,8 +46,7 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   private modelInput: string;
   private modelDate: NgbDate;
   private haveFooterButtons = true;
-  private originalModel: Date;
-  private datePipe: DatePipe;
+  private originalModel: moment.Moment;
   private datePickerConfig = {
     maxDate: null,
     minDate: null
@@ -58,16 +56,14 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   constructor() {}
 
   ngOnInit() {
+    moment.locale(this.bfLocale || moment.locale());
     this.bfIcon = this.bfIcon || 'icon-calendar4';
-    this.datePipe = new DatePipe(this.bfLocale || 'en-IE');
-    this.bfFormat = this.bfFormat || 'shortDate';
-    this.bfModelControl = new FormControl(null);
-    // tslint:disable-next-line:max-line-length
-    this.originalModel = this.existTheControlValue() ? new Date(this.bfModelControl.value) : null;
-    this.createRangeDatepickerConfig();
+    this.bfFormat = this.bfFormat || 'L';
+    this.originalModel = this.existTheControlValue() ? moment(this.bfModelControl.value) : null;
     this.bfModelControlSubscription = this.bfModelControl.valueChanges.subscribe(() => {
       this.setModelInput();
       this.updateCalendar();
+      this.createRangeDatepickerConfig();
     });
   }
 
@@ -86,16 +82,16 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   }
 
   createRangeDatepickerConfig() {
-    this.bfMaxDate = this.bfMinDate > this.bfMaxDate ? new Date(this.bfMinDate) : this.bfMaxDate;
-    if (this.existTheControlValue() && this.bfMinDate > this.bfModelControl.value) {
+    this.bfMaxDate = !!this.bfMinDate && this.bfMinDate.isAfter(this.bfMaxDate) ? moment(this.bfMinDate) : this.bfMaxDate;
+    if (this.existTheControlValue() && !!this.bfMinDate && this.bfMinDate.isAfter(this.bfModelControl.value)) {
       this.writeValue(this.bfMinDate);
     }
-    if (this.existTheControlValue() && this.bfMaxDate < this.bfModelControl.value) {
+    if (this.existTheControlValue() && !!this.bfMaxDate && this.bfMaxDate.isBefore(this.bfModelControl.value)) {
       this.writeValue(this.bfMaxDate);
     }
     this.datePickerConfig = {
-      maxDate: this.dateToNgbDate(this.bfMaxDate),
-      minDate: this.dateToNgbDate(this.bfMinDate)
+      maxDate: this.momentToNgbDate(this.bfMaxDate),
+      minDate: this.momentToNgbDate(this.bfMinDate)
     };
   }
 
@@ -104,21 +100,15 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   }
 
   selectDateForNgModel(date: NgbDateStruct) {
-    let value = this.bfModelControl.value;
-    if (!!value) {
-      value.setFullYear(date.year, date.month - 1, date.day);
-    } else {
-      value = new Date(date.year, date.month - 1, date.day);
-    }
-    this.writeValue(value);
+    this.writeValue(moment([date.year, date.month, date.day]));
   }
 
-  dateToNgbDate(date: Date): NgbDate {
-    return !!date ? new NgbDate(date.getFullYear(), date.getMonth() + 1, date.getDate()) : null;
+  momentToNgbDate(date: moment.Moment): NgbDate {
+    return !!date ? new NgbDate(date.year(), date.month() + 1, date.day()) : null;
   }
 
   updateCalendar() {
-    const date = this.dateToNgbDate(this.bfModelControl.value);
+    const date = this.momentToNgbDate(this.bfModelControl.value);
     if (!date || !this.modelDate || !date.equals(this.modelDate)) {
       this.modelDate = date;
     }
@@ -126,7 +116,7 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
 
   setModelInput() {
     // tslint:disable-next-line:max-line-length
-    this.modelInput = this.existTheControlValue() ? this.datePipe.transform(this.bfModelControl.value, this.bfFormat) + (this.bfTime || '') + ( this.bfTimeZone || '') : null;
+    this.modelInput = this.existTheControlValue() ? this.bfModelControl.value.format(this.bfFormat) + (!!this.bfTime ? ' ' + this.bfTime : '') + (!!this.bfTimeZone ? ' - ' + this.bfTimeZone : '') : null;
   }
 
   today(calendar) {
@@ -144,7 +134,7 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   }
 
   close(calendar) {
-    this.originalModel = new Date(this.bfModelControl.value);
+    this.originalModel = moment(this.bfModelControl.value);
     calendar.toggle();
   }
 

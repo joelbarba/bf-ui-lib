@@ -3,6 +3,7 @@
 
 
 import { Component, OnInit } from '@angular/core';
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'app-bf-date-picker-demo]',
@@ -34,22 +35,22 @@ $disabled_input_color : $disabled-color;
   public customCompCode = null;
   public compConf: any = {
     data: {
-      ngModel : new Date('Thu Oct 31 2019 00:00:00 GMT+0000 (Greenwich Mean Time)'),
+      ngModel : moment('Thu Oct 31 2019 00:00:00 GMT+0000 (Greenwich Mean Time)'),
       ngInputModel: null,
-      min: null,
+      min: moment('Thu Oct 31 2019 00:00:00 GMT+0000 (Greenwich Mean Time)'),
       inputMin: null,
-      max: null,
+      max: moment('Thu Oct 31 2019 00:00:00 GMT+0000 (Greenwich Mean Time)'),
       inputMax: null
     },
     isRequired: false,
     hasLabel: false, labelText: 'My Description',
     // hasTooltip: false, tooltipText: 'Hello World', tooltipPos: null, tooltipBody: false,
     convertToText(value) {
-      this.data.ngInputModel = !!value ? value.toString() : null;
+      this.data.ngInputModel = !!value ? value.format('L') : null;
     },
     convertToDate() {
       const converter = (input) => {
-        return !!input && new Date(input).toString() !== 'Invalid Date' ? new Date(input) : null;
+        return !!input && moment(input).format('L') !== 'Invalid date' ? moment(input) : null;
       };
       this.data.ngModel = converter(this.data.ngInputModel);
       this.data.min = converter(this.data.inputMin);
