@@ -100,11 +100,11 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   }
 
   selectDateForNgModel(date: NgbDateStruct) {
-    this.writeValue(moment([date.year, date.month, date.day]));
+    this.writeValue(moment([date.year, date.month - 1, date.day]));
   }
 
   momentToNgbDate(date: moment.Moment): NgbDate {
-    return !!date ? new NgbDate(date.year(), date.month() + 1, date.day()) : null;
+    return !!date ? new NgbDate(date.year(), date.month() + 1, date.date()) : null;
   }
 
   updateCalendar() {
