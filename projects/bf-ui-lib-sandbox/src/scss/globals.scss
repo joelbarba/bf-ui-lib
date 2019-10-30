@@ -118,6 +118,18 @@ ul.table-list {
   margin-top: -20px;
 }
 
+// Almost hidden button to expand/collapse whiteBgs
+.collapse-btn {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: rgba(0, 0, 0, 0.04);
+  right: 0;
+  display: inline-block;
+  margin-top: -20px;
+  margin-right: 20px;
+  z-index: 999;
+}
 
 
 // Add spacing when 2+ components in a row

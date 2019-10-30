@@ -185,7 +185,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   @Input() bfErrorOnPristine = false; // If true, errors will be shown in initial state too (by default pristine shows as valid always)
 
-  @Input() extCtrl$: Observable<any>;
+  @Input() extCtrl$: Observable<any>; // To trigger actions manually from an external observable (subject)
 
   @Output() bfOnLoaded = new EventEmitter<any>();     // Emitter to catch the moment when the component is ready (ngAfterViewInit)
   @Output() bfBeforeChange = new EventEmitter<any>(); // Emitter to catch the next value before it is set

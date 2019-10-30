@@ -1,8 +1,12 @@
 <h2>{{name}}</h2>
 <hr/>
 <p>{{desc}}</p>
-<h5 class="mt-4">Parameters:</h5>
-<div class="col-12"><pre>{{api}}</pre></div>
+
+<div class="whiteBg">
+  <div class="collapse-btn" (click)="boxCo[0] = !boxCo[0]"></div>
+  <h5 style="margin-top: -10px;">Parameters:</h5>
+  <div class="col-12" [hidden]="boxCo[0]"><pre>{{api}}</pre></div>
+</div>
 
 <p>
   This component has been implemented as a "custom controller", so it can be linked to a formControl to work in Reactive and Template forms.
@@ -14,7 +18,9 @@
 
 <!--Input Customization-->
 <div class="whiteBg">
-  <div class="row">
+  <div class="collapse-btn" (click)="boxCo[1] = !boxCo[1]"></div>
+  <h5 [hidden]="!boxCo[1]">BfInput Customization:</h5>
+  <div class="row" [hidden]="boxCo[1]">
     <div class="col-5 marB15">
       <h5 class="marB25">BfInput Customization:</h5>
       <div *ngIf="linkCustomInput">
@@ -162,12 +168,15 @@
 
 
 
-<!--Validators Example-->
+<!--Input Validators-->
 <div class="whiteBg row">
   <h5 class="col-12 marB15">Input Validators</h5>
-  <div class="col-6">
+  <div class="collapse-btn" (click)="boxCo[2] = !boxCo[2]"></div>
+
+  <div class="col-6" [hidden]="boxCo[2]" >
     <!--[bfIcon]="bfInputRef.valid ? 'icon-search' : 'icon-thumbs-down'"-->
     <bf-input [(ngModel)]="val1"  #bfInputRef="ngModel"
+              [bfDisabled]="valEx.isDisabled"
               [bfRequired]="valEx.isRequired"
               [bfMinlength]="valEx.minLen"
               [bfMaxlength]="valEx.isMaxLen ? valEx.maxLen : null"
@@ -208,7 +217,7 @@
     </div>
 
   </div>
-  <div class="col-6" *ngIf="isInputReady">
+  <div class="col-6" [hidden]="boxCo[2]" *ngIf="isInputReady">
     <div class="marB10">
       <span>ngModel:</span><input type="text" [(ngModel)]="val1">
       <span>Change this to manipulate the value of the input externally</span>
@@ -217,6 +226,9 @@
 
       <!--Required-->
       <bf-checkbox bfLabel="Is Required" [(ngModel)]="valEx.isRequired" (ngModelChange)="upComp2()"></bf-checkbox>
+
+      <!--Disabled-->
+      <bf-checkbox bfLabel="Is Disabled" [(ngModel)]="valEx.isDisabled" (ngModelChange)="upComp2()"></bf-checkbox>
 
       <!--MinLen-->
       <span class="marL15">MinLength: <input class="marL15" type="text" style="width: 50px;" [(ngModel)]="valEx.minLen" (ngModelChange)="upComp2()"></span>
@@ -254,12 +266,12 @@
     </div>
 
     <div class="marB20">
-      <bf-btn bfText="Dirty"    (bfClick)="inputCtrl.setDirty()"    [hidden]="bfInputRef.pristine"></bf-btn>
-      <bf-btn bfText="Pristine" (bfClick)="inputCtrl.setPristine()" [hidden]="!bfInputRef.pristine"></bf-btn>
-      <bf-btn bfText="Focus" (bfClick)="inputCtrl.setFocus()"></bf-btn>
+      <bf-btn bfText="Dirty"       (bfClick)="inputCtrl.setDirty()"    [hidden]="bfInputRef.pristine"></bf-btn>
+      <bf-btn bfText="Pristine"    (bfClick)="inputCtrl.setPristine()" [hidden]="!bfInputRef.pristine"></bf-btn>
+      <bf-btn bfText="Focus"       (bfClick)="inputCtrl.setFocus()"></bf-btn>
       <bf-btn bfText="Clear Error" (bfClick)="inputCtrl.removeError()"></bf-btn>
-      <bf-btn bfText="Add Error" (bfClick)="inputCtrl.addError({ label: 'manual error here' })"></bf-btn>
-      <bf-btn bfText="Refresh"   (bfClick)="inputCtrl.refresh()"></bf-btn>
+      <bf-btn bfText="Add Error"   (bfClick)="inputCtrl.addError({ label: 'manual error here' })"></bf-btn>
+      <bf-btn bfText="Refresh"     (bfClick)="inputCtrl.refresh()"></bf-btn>
     </div>
 
 
@@ -305,18 +317,84 @@
 
 
 
-
-
-
-
+<!--External Control-->
 <div class="whiteBg">
-  <div class="row">
-    <div class="col-12 marB15">
-      <h5>Inputs in a Form - Linking ngForm with bfInput - ngModel</h5>
-    </div>
-  </div>
+  <h5 class="marB25">External Control Example (extCtrl$):</h5>
+  <div class="collapse-btn" (click)="boxCo[3] = !boxCo[3]"></div>
 
-  <form #myForm="ngForm">
+  <div class="row" [hidden]="boxCo[3]">
+    <div class="col-12">
+      <p>It is possible to control some options of the input externally. There are 2 ways to do it: With "extCtrl$" or hooking up (bfOnLoad) event</p>
+    </div>
+
+    <div class="col-5">
+      <p>
+        You can pass an observable in "extCtrl$". The component will subscribe and listen to it, so actions
+        can be triggered from outside. You can use a Subject if you need to trigger them manually. The .next() should send an object with an "action" and "value"
+      </p>
+      <bf-input [(ngModel)]="val1" [extCtrl$]="extCtrl$" [bfMinlength]="2" bfLabel="Using extCtrl$"></bf-input>
+      <code>
+        <ul><li *ngFor="let ctrlAction of ctrlActions">{{ctrlAction}}</li></ul>
+      </code>
+    </div>
+
+    <div class="col-7">
+      <bf-btn bfText="setFocus"    (bfClick)="extCtrl$.next({ action: 'setFocus' })"></bf-btn>
+      <bf-btn bfText="setDirty"    (bfClick)="extCtrl$.next({ action: 'setDirty' })"></bf-btn>
+      <bf-btn bfText="setPristine" (bfClick)="extCtrl$.next({ action: 'setPristine' })"></bf-btn>
+      <bf-btn bfText="addError"    (bfClick)="extCtrl$.next({ action: 'addError', label: 'Oh oh!' })"></bf-btn>
+      <bf-btn bfText="removeError" (bfClick)="extCtrl$.next({ action: 'removeError' })"></bf-btn>
+      <bf-btn bfText="refresh"     (bfClick)="extCtrl$.next({ action: 'refresh' })"></bf-btn>
+
+      <div class="marT10">
+        <div class="code-box pad15">
+          <pre style="overflow-x: hidden;">{{extCtrlExample}}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12"><hr></div>
+
+    <div class="col-5">
+      <p>
+        It is also possible to use the returned object in (bfOnLoaded) to trigger internal actions.<br>
+        You should make sure though that the object has been initialized before using it. That's done on ngAfterViewInit lifecycle.
+      </p>
+      <bf-input [(ngModel)]="val1"
+                (bfOnLoaded)="ctrl = $event"
+                bfLabel="Using bfOnLoaded">
+      </bf-input>
+    </div>
+    <div class="col-7">
+      <div class="marT10">
+        <div class="code-box pad15">
+          <pre style="overflow-x: hidden;">{{extCtrlExample2}}</pre>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <bf-btn bfText="ctrl.setFocus()"    (bfClick)="ctrl.setFocus()" ></bf-btn>
+      <bf-btn bfText="ctrl.setDirty()"    (bfClick)="ctrl.setDirty()" ></bf-btn>
+      <bf-btn bfText="ctrl.setPristine()" (bfClick)="ctrl.setPristine()" ></bf-btn>
+      <bf-btn bfText="ctrl.addError({ label: 'Oh no!' })" (bfClick)="ctrl.addError({ label: 'Oh no!' })" ></bf-btn>
+      <bf-btn bfText="ctrl.removeError()" (bfClick)="ctrl.removeError()" ></bf-btn>
+      <bf-btn bfText="ctrl.refresh()"     (bfClick)="ctrl.refresh()" ></bf-btn>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+<!--Inputs in a Form-->
+<div class="whiteBg">
+  <div class="collapse-btn" (click)="boxCo[2] = !boxCo[2]"></div>
+  <h5 class="marB15">Inputs in a Form - Linking ngForm with bfInput - ngModel</h5>
+
+  <form #myForm="ngForm" [hidden]="boxCo[2]">
     <div class="row">
       <div class="col-2">
         <pre>myForm.status = {{ myForm.status | json }} </pre>

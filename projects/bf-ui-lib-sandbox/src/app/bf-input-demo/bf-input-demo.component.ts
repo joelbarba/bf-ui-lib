@@ -3,6 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import {BfGrowlService} from "../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service";
 import {IbfInputCtrl} from "../../../../bf-ui-lib/src/lib/bf-input/bf-input.component";
 import {map} from "rxjs/operators";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-bf-input-demo]',
@@ -17,7 +18,8 @@ export class BfInputDemoComponent implements OnInit {
   public val1 = '1';
   public val2 = 'Barba';
 
-  public myModel:string = 'My default value';
+  public myModel = 'My default value';
+  public boxCo = new Array(10); // Box collapsers
 
 
 
@@ -93,6 +95,31 @@ $disabled_input_color : #797979;
           (bfOnCtrlEnter)="growl.success('Ctrl + Enter key pressed')">
 </bf-input>`;
 
+  public ctrl: IbfInputCtrl = {};
+  public extCtrl$ = new Subject();
+  public ctrlActions = [
+    `{ action: 'setFocus' } ................. Sets the focus on the input`,
+    `{ action: 'setDirty' } ................. Turns the input dirty`,
+    `{ action: 'setPristine' } .............. Turns the input pristine`,
+    `{ action: 'addError', label: text } .... Adds an manual error`,
+    `{ action: 'removeError' } .............. Removes the manual error`,
+    `{ action: 'refresh' } .................. Forces internal refresh`,
+  ];
+  public extCtrlExample = `<bf-input [(ngModel)]="val" [extCtrl$]="extCtrl$"></bf-input>
+
+public extCtrl$ = new Subject();
+
+<bf-btn bfText="setFocus"    (bfClick)="extCtrl$.next({ action: 'setFocus' })"></bf-btn>
+<bf-btn bfText="setDirty"    (bfClick)="extCtrl$.next({ action: 'setDirty' })"></bf-btn>
+<bf-btn bfText="setPristine" (bfClick)="extCtrl$.next({ action: 'setPristine' })"></bf-btn>
+<bf-btn bfText="addError"    (bfClick)="extCtrl$.next({ action: 'addError', label: 'Oh oh!' })"></bf-btn>
+<bf-btn bfText="removeError" (bfClick)="extCtrl$.next({ action: 'removeError' })"></bf-btn>
+<bf-btn bfText="refresh"     (bfClick)="extCtrl$.next({ action: 'refresh' })"></bf-btn>`;
+
+  public extCtrlExample2 = `public ctrl: IbfInputCtrl = {};
+this.ctrl.setFocus();
+
+<bf-input [(ngModel)]="val" (bfOnLoaded)="ctrl = $event"></bf-input>`;
 
 
   constructor(
@@ -101,6 +128,10 @@ $disabled_input_color : #797979;
   ngOnInit() {
     this.upComp();
     this.upComp2();
+    // this.boxCo[0] = true;
+    // this.boxCo[1] = true;
+    // this.boxCo[2] = true;
+    // this.boxCo[3] = true;
   }
 
 
@@ -297,7 +328,7 @@ $disabled_input_color : #797979;
 export const BfInputDoc = {
   name    : `bf-input`,
   uiType  : 'component',
-  desc    : `Generates a button.`,
+  desc    : `Generates an text input field.`,
   api     : `[(ngModel)]       : The ngModel directive is linked to the inner <input>, so that can be used as a form element with ngForm (status is propagated).
 [bfLabel]         : Label of the input (automatically translated). If not provided, no label is displayed.
 [bfRequired]      : Whether the input is required or not
