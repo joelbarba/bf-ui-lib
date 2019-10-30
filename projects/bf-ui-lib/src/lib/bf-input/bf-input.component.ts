@@ -11,6 +11,7 @@ export interface IbfInputCtrl {
   getControl  ?: { _: FormControl };
   inputCtrl$  ?: Observable<FormControl>;
   setFocus    ?: { () };
+  setBlur     ?: { () };
   setDirty    ?: { (opts?) };
   setPristine ?: { (opts?) };
   removeError ?: { () };
@@ -20,6 +21,7 @@ export interface IbfInputCtrl {
 
 type TExtCtrl$ =
   { action: 'setFocus'    }
+| { action: 'setBlur'     }
 | { action: 'setDirty',    opts?: any }
 | { action: 'setPristine', opts?: any }
 | { action: 'addError',    label?: string }
@@ -141,6 +143,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
 
     this.ctrlObject = {
       setFocus    : () => this.elementRef.nativeElement.querySelector('input').focus({ preventScroll: false }),
+      setBlur     : () => this.elementRef.nativeElement.querySelector('input').blur(),
       setDirty    : (opts?) => { this.inputCtrl.markAsDirty(opts); this.deferRefresh(); },
       setPristine : (opts?) => { this.inputCtrl.markAsPristine(opts); this.deferRefresh(); },
       removeError : () => {
@@ -227,6 +230,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
       if (!!this.ctrlSubs) { this.ctrlSubs.unsubscribe(); }
       this.extCtrl$.subscribe((op: TExtCtrl$) => {
         if (op.action === 'setFocus')    { this.ctrlObject.setFocus(); }
+        if (op.action === 'setBlur')     { this.ctrlObject.setBlur(); }
         if (op.action === 'setDirty')    { this.ctrlObject.setDirty(op.opts); }
         if (op.action === 'setPristine') { this.ctrlObject.setPristine(op.opts); }
         if (op.action === 'addError')    { this.ctrlObject.addError(op); }

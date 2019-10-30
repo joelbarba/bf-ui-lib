@@ -319,8 +319,8 @@
 
 <!--External Control-->
 <div class="whiteBg">
-  <h5 class="marB25">External Control Example (extCtrl$):</h5>
   <div class="collapse-btn" (click)="boxCo[3] = !boxCo[3]"></div>
+  <h5 class="marB25">External Control Example (extCtrl$):</h5>
 
   <div class="row" [hidden]="boxCo[3]">
     <div class="col-12">
@@ -340,11 +340,12 @@
 
     <div class="col-7">
       <bf-btn bfText="setFocus"    (bfClick)="extCtrl$.next({ action: 'setFocus' })"></bf-btn>
+      <bf-btn bfText="setBlur"     (bfClick)="extCtrl$.next({ action: 'setBlur' })"></bf-btn>
       <bf-btn bfText="setDirty"    (bfClick)="extCtrl$.next({ action: 'setDirty' })"></bf-btn>
       <bf-btn bfText="setPristine" (bfClick)="extCtrl$.next({ action: 'setPristine' })"></bf-btn>
       <bf-btn bfText="addError"    (bfClick)="extCtrl$.next({ action: 'addError', label: 'Oh oh!' })"></bf-btn>
       <bf-btn bfText="removeError" (bfClick)="extCtrl$.next({ action: 'removeError' })"></bf-btn>
-      <bf-btn bfText="refresh"     (bfClick)="extCtrl$.next({ action: 'refresh' })"></bf-btn>
+      <!--<bf-btn bfText="refresh"     (bfClick)="extCtrl$.next({ action: 'refresh' })"></bf-btn>-->
 
       <div class="marT10">
         <div class="code-box pad15">
@@ -374,6 +375,7 @@
     </div>
     <div class="col-12">
       <bf-btn bfText="ctrl.setFocus()"    (bfClick)="ctrl.setFocus()" ></bf-btn>
+      <bf-btn bfText="ctrl.setBlur()"     (bfClick)="ctrl.setBlur()" ></bf-btn>
       <bf-btn bfText="ctrl.setDirty()"    (bfClick)="ctrl.setDirty()" ></bf-btn>
       <bf-btn bfText="ctrl.setPristine()" (bfClick)="ctrl.setPristine()" ></bf-btn>
       <bf-btn bfText="ctrl.addError({ label: 'Oh no!' })" (bfClick)="ctrl.addError({ label: 'Oh no!' })" ></bf-btn>

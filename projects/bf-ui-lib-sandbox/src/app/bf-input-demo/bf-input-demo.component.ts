@@ -99,6 +99,7 @@ $disabled_input_color : #797979;
   public extCtrl$ = new Subject();
   public ctrlActions = [
     `{ action: 'setFocus' } ................. Sets the focus on the input`,
+    `{ action: 'setBlur' } .................. Forces focus lose`,
     `{ action: 'setDirty' } ................. Turns the input dirty`,
     `{ action: 'setPristine' } .............. Turns the input pristine`,
     `{ action: 'addError', label: text } .... Adds an manual error`,
