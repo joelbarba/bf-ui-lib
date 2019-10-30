@@ -13,6 +13,7 @@ If the property "bfText" is defined, it generates a button with both text and ic
 <div class="col-12"><pre>{{api}}</pre></div>
 
 
+
 <!--<bf-btn (bfClick)="myFunc($event)"-->
 <!--        bfText="view.common.yes"-->
 <!--        [bfDisabled]="true"-->
@@ -114,6 +115,30 @@ If the property "bfText" is defined, it generates a button with both text and ic
 </div>
 
 <hr>
+
+<div class="whiteBg row">
+  <div class="col-7">
+    <h5>Toggle</h5>
+    <p>The component keeps an internal flag to be used as a toggle (true/false).
+      The arrow icons will be default according to the value.<br>
+      You just need to bind it:</p>
+
+  </div>
+  <div class="col-5 padT10">
+    <bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>
+    <span class="marL15">Value={{isExp}}</span>
+    <div class="code-box pad15 marT10">
+      <pre>{{toggleExample}}</pre>
+    </div>
+  </div>
+
+</div>
+
+
+
+<hr>
+
+
 
 
 <!--Examples-->
@@ -218,9 +243,9 @@ If the property "bfText" is defined, it generates a button with both text and ic
     <pre class="pad10">{{ asyncExample2 }}</pre>
   </div>
   <div class="col-6">
-    <bf-btn bfText="Async Click Option 2"
-            [bfAsyncClick]="asyncClickFunc.bind(this, 'myValue2', desc)">
-    </bf-btn>
+    <!--<bf-btn bfText="Async Click Option 2"-->
+    <!--        [bfAsyncClick]="asyncClickFunc.bind(this, 'myValue2', desc)">-->
+    <!--</bf-btn>-->
   </div>
 </div>
 

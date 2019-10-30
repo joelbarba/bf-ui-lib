@@ -36,12 +36,16 @@ export class BfBtnComponent implements OnInit, OnChanges {
   @Input() bfTooltipBody  = true;
   @Input() bfDisabledTip  = '';
 
+  @Input() bfToggle = false;
+  @Output() bfToggleChange = new EventEmitter<boolean>();
+
   public btnClass = 'primary';
 
   public bfTextTrans$: Observable<string> = of('');        // Translated text for the button
   public bfTooltipTrans$: Observable<string> = of('');     // Translated text for the tooltip of the label
   public bfDisabledTipTrans$: Observable<string> = of(''); // Translated text for the tooltip when disabled
 
+  private hasIcon = false;  // If a bfIcon is linked, do not set it internally
 
   constructor(
     private translate: BfUILibTransService,
@@ -52,8 +56,12 @@ export class BfBtnComponent implements OnInit, OnChanges {
 
   ngOnChanges(change) {
     // console.log('BF-BTN', new Date(), this.translate);
+    if (change.hasOwnProperty('bfIcon') && !!change.bfIcon.currentValue) { this.hasIcon = true; }
 
-    if (!this.bfIcon) { this.bfIcon = 'icon-arrow-right3'; }
+    if (!this.hasIcon) { this.bfIcon = 'icon-arrow-right3'; }
+    if (!this.hasIcon && change.hasOwnProperty('bfToggle')) {
+      this.bfIcon = this.bfToggle ? 'icon-arrow-up3' : 'icon-arrow-down3';
+    }
 
     if (change.hasOwnProperty('bfType')) {
       if (!!this.bfType) { this.btnClass = this.bfType; }
@@ -76,6 +84,7 @@ export class BfBtnComponent implements OnInit, OnChanges {
     if (change.hasOwnProperty('bfAsyncPromise')) {
       this.initLoadingPromise();
     }
+
   }
 
   private initLoadingPromise = () => {
@@ -98,6 +107,10 @@ export class BfBtnComponent implements OnInit, OnChanges {
       this.bfAsyncPromise = this.bfAsyncClick();
       this.initLoadingPromise();
     }
+
+    // Internal toggle
+    this.bfToggle = !this.bfToggle;
+    this.bfToggleChange.emit(this.bfToggle);
 
     this.bfClick.emit($event);
   };

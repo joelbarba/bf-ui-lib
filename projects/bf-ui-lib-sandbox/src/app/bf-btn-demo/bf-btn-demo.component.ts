@@ -72,6 +72,9 @@ public cssReset =
 public squashExample = `<bf-btn class="squash" bfType="expand"></bf-btn>`;
 public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"></bf-btn>`;
 
+
+public toggleExample = `<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>`;
+
   public brStr = `
 `;
   public bsStr = `
@@ -238,6 +241,7 @@ export const BfBtnDoc = {
 [bfTooltipPos]   : Position of the tooltip (top by default)
 [bfTooltipBody]  : Whether the tooltip is append to the body (default true) or next the the html element (false). The parent container may affect the visibility of the tooltip
 [bfDisabledTip]  : Tooltip text to be displayed when the button is disabled (useful to give tips about why it's disabled)
+[(bfToggle)]     : Boolean flag to use the button as a toggle. Logic is held internally (also default arrow icons)
 `,
   instance: `<bf-btn bfType="edit" (bfClick)="myFunc($event)"></bf-btn>`,
   demoComp: BfBtnDemoComponent
