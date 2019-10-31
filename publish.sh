@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+# Use "sh publish.sh Y" to accept all defaults and run the script without stops
+allYes=$1
+if [ "$allYes" != "y" ]; then
+    echo "#########################################################"
+    echo "#       Running with no stops - Yes All mode            #"
+    echo "#########################################################"
+fi
+
 # Check git status
 isClean=`git status | grep "nothing to commit, working directory clean" | wc -l`
 if [ "$isClean" = "0" ]; then
@@ -18,7 +26,7 @@ currPkgVer=`cat projects/bf-ui-lib/package.json | grep version | cut -d"\"" -f 4
 echo ""
 echo "Going from version $prevPkgVer --- to ---> $currPkgVer ?"
 echo "Is that ok? If not, type the version (it will update projects/bf-ui-lib/package.json)"
-read x
+if [ "$allYes" != "y" ]; then read x; else x=""; fi
 if [ "$x" != "" ]; then
     cd projects/bf-ui-lib/
     npm version $x
@@ -33,7 +41,7 @@ echo ""
 echo "     #$lastCommitHash : $lastCommitMsg"
 echo ""
 echo "(Enter=Yes, anything else=No)"
-read x
+if [ "$allYes" != "y" ]; then read x; else x=""; fi
 if [ "$x" = "" ]; then
     git add -A
     git commit --fixup $lastCommitHash
@@ -55,7 +63,7 @@ npm run pack_all
 echo ""
 echo "Login into NPM register"
 echo "(Enter=Use Joel's credentials, anything else=Your own NPM user)"
-read x
+if [ "$allYes" != "y" ]; then read x; else x=""; fi
 if [ "$x" = "" ]; then
     npmPass=`cat .npm_credentials.txt`
     npm-cli-login -u joel.blueface -p $npmPass -e joel.barba@blueface.com

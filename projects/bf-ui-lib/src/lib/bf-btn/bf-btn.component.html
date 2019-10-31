@@ -4,7 +4,7 @@
      [ngbTooltip]="bfDisabledTipTrans$ | async"
      [placement]="bfTooltipPos">
 
-  <button type="submit"
+  <button [type]="bfSubmit ? 'submit' : 'button'"
           class="bf-btn"
           [ngClass]="btnClass"
           (click)="btnClick($event)"
