@@ -39,6 +39,12 @@ export class BfTranslateService extends BfUILibTransService {
     'views.common.30_items_per_page'    : 'Show 30 items per page',
     'views.common.50_items_per_page'    : 'Show 50 items per page',
     'views.common.100_items_per_page'   : 'Show 100 items per page',
+    'view.common.search'  :  'Search',
+    'view.common.edit'    :  'Edit',
+    'view.common.save'    :  'Save',
+    'views.common.update' :  'Update',
+    'view.common.add'     :  'Add',
+    'view.common.delete'  :  'Delete',
   };
   public transDictCAT = {
     'view.common.name'            : 'Nom',
@@ -65,6 +71,12 @@ export class BfTranslateService extends BfUILibTransService {
     'views.common.30_items_per_page'    : 'Mostra 30 ítems per pàgina',
     'views.common.50_items_per_page'    : 'Mostra 50 ítems per pàgina',
     'views.common.100_items_per_page'   : 'Mostra 100 ítems per pàgina',
+    'view.common.search'  :  'Buscar',
+    'view.common.edit'    :  'Editar',
+    'view.common.save'    :  'Guardar',
+    'views.common.update' :  'Modificar',
+    'view.common.add'     :  'Afegir',
+    'view.common.delete'  :  'Eliminar',
   };
 
   public transDict$ = new BehaviorSubject(this.transDict);

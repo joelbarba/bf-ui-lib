@@ -355,7 +355,7 @@ export const BfInputDoc = {
 [bfInvalidIcon]     : Icon to show when the value is dirty and invalid (by default icon-warning22)
 [bfValidIcon]       : Icon to show when the value is dirty and valid (by default none). ()
 [bfErrorText]       : Custom error text (label) to display when invalid value
-[bfErrorPos]        : Custom position where to display the error text. Values = ['top-right', 'bottom-left', 'bottom-right'].
+[bfErrorPos]        : Custom position where to display the error text. Values = ['top-right', 'bottom-left', 'bottom-right', 'none']. None will hide the error text.
 
 (bfOnLoaded)        : Emitter to catch the moment when the component is ready (ngAfterViewInit)
 (bfBeforeChange)    : Emitter to catch the next value before it is set. It returns both (currentValue, nextValue)

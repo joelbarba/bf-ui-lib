@@ -12,7 +12,7 @@ If the property "bfText" is defined, it generates a button with both text and ic
 <h5 class="mt-4">Parameters (all optional):</h5>
 <div class="col-12"><pre>{{api}}</pre></div>
 
-
+<!--<bf-btn bfType="search"></bf-btn>-->
 
 <!--<bf-btn (bfClick)="myFunc($event)"-->
 <!--        bfText="view.common.yes"-->
@@ -21,6 +21,8 @@ If the property "bfText" is defined, it generates a button with both text and ic
 <!--        bfIcon="icon-arrow-left6"-->
 <!--        bfDisabledTip="This button is disabled because X">-->
 <!--</bf-btn>-->
+
+<div *ngIf="true">
 
 <!--Button Customization-->
 <div class="whiteBg">
@@ -32,7 +34,7 @@ If the property "bfText" is defined, it generates a button with both text and ic
                 [class.full-width]="btnConf.hasFullWidth"
                 [class.squash]="btnConf.hasSquash"
                 [bfIconPos]="btnConf.iconPos"
-                [bfText]="(btnConf.hasText ? btnConf.btnText : '')"
+                [bfText]="(btnConf.hasText ? btnConf.btnText : null)"
                 [bfType]="(btnConf.hasType ? btnConf.btnType : null)"
                 [bfIcon]="(btnConf.hasIcon ? btnConf.btnIcon : null)"
                 [bfDisabled]="btnConf.isDisabled"
@@ -288,4 +290,7 @@ If the property "bfText" is defined, it generates a button with both text and ic
     </p>
     <pre>{{ cssReset }}</pre>
   </div>
+</div>
+
+
 </div>

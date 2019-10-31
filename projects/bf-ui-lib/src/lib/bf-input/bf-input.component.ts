@@ -78,7 +78,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   // @Input() bfValidIf = null; // Not possible to manage this due to ExpressionChangedAfterItHasBeenCheckedError
 
   @Input() bfErrorText: string;   // Custom error text (label) to display when invalid value
-  @Input() bfErrorPos: 'top-right' | 'bottom-left' | 'bottom-right';  // Custom position where to display the error text
+  @Input() bfErrorPos: 'top-right' | 'bottom-left' | 'bottom-right' | 'none';  // Custom position where to display the error text
 
   @Input() bfIcon = '';             // Icon to show into the input floating at the right hand side (this is replace by bfValidIcon and bfInvalidIcon)
   @Input() bfValidIcon = '';        // Icon to show when the value is dirty and valid (by default none).
