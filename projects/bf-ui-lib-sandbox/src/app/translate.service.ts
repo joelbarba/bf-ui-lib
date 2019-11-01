@@ -39,6 +39,9 @@ export class BfTranslateService extends BfUILibTransService {
     'views.common.30_items_per_page'    : 'Show 30 items per page',
     'views.common.50_items_per_page'    : 'Show 50 items per page',
     'views.common.100_items_per_page'   : 'Show 100 items per page',
+    'view.common.active'               : 'Active',
+    'view.common.inactive'             : 'Inactive',
+    'view.common.pending'              : 'Pending'
   };
   public transDictCAT = {
     'view.common.name'            : 'Nom',
