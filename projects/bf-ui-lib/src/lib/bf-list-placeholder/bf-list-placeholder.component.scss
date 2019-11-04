@@ -1,6 +1,7 @@
 ul.table-list li.list-header { min-height: 52px; }
 
 .fake-row-placeholder {
+  list-style: none;
   .placeholder-text {
     background: #f6f7f8;
     background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);

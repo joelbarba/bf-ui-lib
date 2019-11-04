@@ -41,3 +41,4 @@ export * from './lib/bf-status-badge/bf-status-badge.component';
 export * from './lib/bf-color-picker/bf-color-picker.component';
 export * from './lib/bf-slider/bf-slider.component';
 export * from './lib/bf-page-placeholder/bf-page-placeholder.component';
+export * from './lib/bf-loading-spinner/bf-loading-spinner.component';

@@ -8,7 +8,7 @@ interface IBfCtrl {
   totalPages: number;
   rowsPerPage: number;
   maxRowsPerPageList?: Array<{ num: number, label: string }>;
-  render$ ?: Observable<any>;
+  render$ ?: Observable<{ currentPage, totalPages, rowsPerPage }>;
 }
 
 @Component({

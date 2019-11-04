@@ -1,0 +1,126 @@
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+
+<h5 class="mt-4">Parameters:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+<p>
+  This generates a component the necessary styles to display the spinner.
+  <br>You can also apply the class <b>bf-loading</b> directly to an element to get a small spinner<b>{{innerInstance}}</b>
+</p>
+
+
+
+
+<!--bf-loading-spinner Customization-->
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-5 marB15">
+      <h5 class="marB25">Customization:</h5>
+      <div style="width: 400px; height: 150px; border: 1px dashed grey;">
+        <bf-loading-spinner
+                [class.xs]="compConf.size === 'xs'"
+                [class.sm]="compConf.size === 'sm'"
+                [class.md]="compConf.size === 'md'"
+                [class.lg]="compConf.size === 'lg'"
+                [class.xl]="compConf.size === 'xl'"
+                [class.center]="compConf.isCenter && compConf.centerPos === 'center'"
+                [class.center-top]="compConf.isCenter && compConf.centerPos === 'center-top'"
+                [class.center-left]="compConf.isCenter && compConf.centerPos === 'center-left'"
+                [class.center-right]="compConf.isCenter && compConf.centerPos === 'center-right'"
+                [class.center-bottom]="compConf.isCenter && compConf.centerPos === 'center-bottom'"
+            ></bf-loading-spinner>
+      </div>
+
+    </div>
+
+    <div class="col-7">
+
+      <div class="row marT15">
+        <div class="col-12">
+          <bf-label bfText="Size" class="marR30"></bf-label>
+          <bf-radio [(ngModel)]="compConf.size" bfLabel="XS" bfValue="xs" (ngModelChange)="upComp()"></bf-radio>
+          <bf-radio [(ngModel)]="compConf.size" bfLabel="SM" bfValue="sm" (ngModelChange)="upComp()"></bf-radio>
+          <bf-radio [(ngModel)]="compConf.size" bfLabel="MD" bfValue="md" (ngModelChange)="upComp()"></bf-radio>
+          <bf-radio [(ngModel)]="compConf.size" bfLabel="LG" bfValue="lg" (ngModelChange)="upComp()"></bf-radio>
+          <bf-radio [(ngModel)]="compConf.size" bfLabel="XL" bfValue="xl" (ngModelChange)="upComp()"></bf-radio>
+        </div>
+      </div>
+
+      <div class="row marT15">
+        <div class="col-2"> <bf-checkbox [(ngModel)]="compConf.isCenter" (ngModelChange)="upComp()" bfLabel="Is Centered"></bf-checkbox> </div>
+        <div class="col-10" [hidden]="!compConf.isCenter">
+          <bf-radio bfRadioGroup="center" [(ngModel)]="compConf.centerPos" bfLabel="Center" bfValue="center" (ngModelChange)="upComp()"></bf-radio>
+          <bf-radio bfRadioGroup="center" [(ngModel)]="compConf.centerPos" bfLabel="Top" bfValue="center-top" (ngModelChange)="upComp()"></bf-radio>
+          <bf-radio bfRadioGroup="center" [(ngModel)]="compConf.centerPos" bfLabel="Left" bfValue="center-left" (ngModelChange)="upComp()"></bf-radio>
+          <bf-radio bfRadioGroup="center" [(ngModel)]="compConf.centerPos" bfLabel="Right" bfValue="center-right" (ngModelChange)="upComp()"></bf-radio>
+          <bf-radio bfRadioGroup="center" [(ngModel)]="compConf.centerPos" bfLabel="Bottom" bfValue="center-bottom" (ngModelChange)="upComp()"></bf-radio>
+        </div>
+      </div>
+
+      <div class="marT25">
+        <div class="code-box pad15">
+          <pre>{{customCompCode}}</pre>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<hr>
+
+<!--Applicable classes -->
+<div class="row">
+  <div class="col-12">
+    <hr>
+    <h5 class="mt-4">Applicable classes:</h5>
+    <p>It is possible to change the size of the spinner with the classes:</p>
+    <ul>
+      <li>{{sizeCss.sm}}</li>
+      <li>{{sizeCss.md}}</li>
+      <li>{{sizeCss.lg}}</li>
+      <li>{{sizeCss.xl}}</li>
+    </ul>
+  </div>
+
+  <div class="col-12">
+    <p>By default the spinner is an inline element. You can turn it centered to it's container applying the "<b>center"</b> class.
+      By doing that though, the spinner becomes a block element.
+      <br>It is also possible to center the spinner to one side only
+    </p>
+    <ul>
+      <li>{{centerCss.top}}</li>
+      <li>{{centerCss.right}}</li>
+      <li>{{centerCss.left}}</li>
+      <li>{{centerCss.bottom}}</li>
+    </ul>
+  </div>
+
+</div>
+
+
+<h5 class="mt-4">Examples:</h5>
+<div class="col-12 examples-table">
+  
+  <div class="row">
+    <div class="col-5" style="flex-flow: row; align-items: flex-end; justify-content: space-evenly">
+      <bf-loading-spinner class=""></bf-loading-spinner>
+      <bf-loading-spinner class="sm"></bf-loading-spinner>
+      <bf-loading-spinner class="md"></bf-loading-spinner>
+      <bf-loading-spinner class="lg"></bf-loading-spinner>
+      <bf-loading-spinner class="xl"></bf-loading-spinner>
+    </div>
+    <div class="col-7"> <pre>{{instance}}</pre> </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-5">
+      <span class="bf-loading"></span>
+    </div>
+    <div class="col-7"> <pre>{{innerInstance}}</pre> </div>
+  </div>
+
+</div>
+
