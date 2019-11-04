@@ -1,10 +1,10 @@
 bf-loading-spinner {
   display: inline-block;
   height: 1em; width: 1em;
-  &.sm { height: 2em; width: 2em; .bf-loading-spinner:after { border-width: 4px; }}
-  &.md { height: 3em; width: 3em; .bf-loading-spinner:after { border-width: 6px; }}
-  &.lg { height: 5em; width: 5em; .bf-loading-spinner:after { border-width: 7px; }}
-  &.xl { height: 8em; width: 8em; .bf-loading-spinner:after { border-width: 10px; }}
+  &.sm { height: 2em; width: 2em; .bf-spin:after { border-width: 4px; }}
+  &.md { height: 3em; width: 3em; .bf-spin:after { border-width: 6px; }}
+  &.lg { height: 5em; width: 5em; .bf-spin:after { border-width: 7px; }}
+  &.xl { height: 8em; width: 8em; .bf-spin:after { border-width: 10px; }}
 
   &.center-top,
   &.center-bottom,
@@ -16,15 +16,15 @@ bf-loading-spinner {
     display: flex;
     justify-content: center;
     align-items: center;
-    .bf-loading-spinner {
+    .bf-spin {
       display: inline-block;
       position: relative;
       height: 1em; width: 1em;
     }
-    &.sm .bf-loading-spinner { height: 2em; width: 2em; }
-    &.md .bf-loading-spinner { height: 3em; width: 3em; }
-    &.lg .bf-loading-spinner { height: 5em; width: 5em; }
-    &.xl .bf-loading-spinner { height: 8em; width: 8em; }
+    &.sm .bf-spin { height: 2em; width: 2em; }
+    &.md .bf-spin { height: 3em; width: 3em; }
+    &.lg .bf-spin { height: 5em; width: 5em; }
+    &.xl .bf-spin { height: 8em; width: 8em; }
   }
   &.center-top    { align-items: flex-start; }
   &.center-bottom { align-items: flex-end; }
@@ -32,7 +32,7 @@ bf-loading-spinner {
   &.center-right  { justify-content: flex-end; }
 }
 
-.bf-loading-spinner, .bf-loading {
+.bf-spin, .bf-loading-spinner {
   &:after {
     animation: bfSpinAround 500ms infinite linear;
     border: 2px solid $primary_color;
@@ -46,7 +46,7 @@ bf-loading-spinner {
   }
 }
 
-.bf-loading {
+.bf-loading-spinner {
   display: block;
   height: 1em;
   position: relative;
