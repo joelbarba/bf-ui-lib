@@ -90,6 +90,10 @@ bf-btn {
   width: fit-content;
   display: inline-block;
 
+  &.block {
+    display: block;
+  }
+
   // Styles for full width buttons (class "full-width" applied on the <bf-btn>)
   &.full-width {
     display: block;

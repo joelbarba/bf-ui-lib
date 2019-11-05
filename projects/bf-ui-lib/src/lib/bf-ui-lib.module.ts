@@ -36,7 +36,8 @@ import { BfStatusBadgeComponent } from './bf-status-badge/bf-status-badge.compon
 import { BfColorPickerComponent } from './bf-color-picker/bf-color-picker.component';
 import { BfSliderComponent } from './bf-slider/bf-slider.component';
 import { BfPagePlaceholderComponent } from './bf-page-placeholder/bf-page-placeholder.component';
-import { BfLoadingSpinnerComponent } from './bf-loading-spinner/bf-loading-spinner.component';
+import {BfLoadingSpinnerComponent, BfLoadingSpinnerDirective} from './bf-loading-spinner/bf-loading-spinner.component';
+import { ShowDirective } from './show/show.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,8 @@ import { BfLoadingSpinnerComponent } from './bf-loading-spinner/bf-loading-spinn
     BfSliderComponent,
     BfPagePlaceholderComponent,
     BfLoadingSpinnerComponent,
+    BfLoadingSpinnerDirective,
+    ShowDirective,
   ],
   entryComponents: [BfConfirmComponent],
   imports: [
@@ -77,6 +80,8 @@ import { BfLoadingSpinnerComponent } from './bf-loading-spinner/bf-loading-spinn
     BfLoadingBarModule,
   ],
   exports: [
+    ShowDirective,
+    BfLoadingSpinnerDirective,  // <--- New component
     BfLoadingSpinnerComponent,  // <--- New component
     BfPagePlaceholderComponent,  // <--- New component
     BfSliderComponent,  // <--- New component

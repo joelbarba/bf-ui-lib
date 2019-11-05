@@ -42,3 +42,4 @@ export * from './lib/bf-color-picker/bf-color-picker.component';
 export * from './lib/bf-slider/bf-slider.component';
 export * from './lib/bf-page-placeholder/bf-page-placeholder.component';
 export * from './lib/bf-loading-spinner/bf-loading-spinner.component';
+export * from './lib/show/show.component';

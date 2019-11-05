@@ -133,6 +133,8 @@ ul.table-list {
 
 
 // Add spacing when 2+ components in a row
-bf-btn + bf-btn { margin-left: 5px; }
+bf-btn:not(.block) + bf-btn:not(.block) { margin-left: 5px; }
+bf-btn.block + bf-btn.block { margin-top: 5px; }
+
 bf-checkbox:not(.block) + bf-checkbox:not(.block) { margin-left: 15px; }
 bf-radio:not(.block) + bf-radio:not(.block) { margin-left: 15px; }
