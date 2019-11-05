@@ -36,7 +36,7 @@ export class BfLoadingSpinnerDirective implements OnChanges {
         this.isLoading = true;
         if (!!this.lastSubscription) { this.lastSubscription.unsubscribe(); }
         this.lastSubscription = this.trigger.subscribe({
-          next     : () => this.isLoading = false,
+          next     : (val) => this.isLoading = !!val,
           error    : () => this.isLoading = false,
           complete : () => this.isLoading = false
         });

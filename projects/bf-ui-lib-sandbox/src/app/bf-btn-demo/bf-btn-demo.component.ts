@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {BfGrowlService} from "../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service";
 
 @Component({
   selector: 'app-bf-btn-demo',
@@ -214,12 +215,12 @@ public toggleExample = `<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>`;
   };
 
 
+  public count = '';
 
-  constructor() { }
+  constructor(public growl: BfGrowlService) { }
   ngOnInit() {
     this.upBtn();
   }
-  public count = '';
 }
 
 
@@ -228,10 +229,10 @@ public toggleExample = `<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>`;
 
 export const BfBtnDoc = {
   name    : `bf-btn`,
-  desc    : `Generates a button.`, 
+  desc    : `Generates a button.`,
   uiType  : 'component',
-  api     : `(bfClick)        : Click event handler
-[bfAsyncPromise] : For async tasks, promise to block all buttons until the task is completed. 
+  api     : `(bfClick) : Click event handler
+[bfAsyncPromise] : For async tasks, promise to block all buttons until the task is completed.
 [bfAsyncClick]   : Click callback function. Instead of using the (bfClick) output, it is also possible to pass a callback function. The return promise is automatically caught.   
 [bfText]         : Text of the button
 [bfType]         : Class of the button [primary, secondary, tertiary, quaternary, warning, extra] or predefined type [search, add, save, edit, delete, cancel, expand, collapse]

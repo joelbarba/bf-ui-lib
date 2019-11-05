@@ -14,16 +14,13 @@
 </ul>
 <!--<span class="bf-loading-spinner"></span>-->
 
-
-
-
 <h5 class="mt-4">Parameters:</h5>
 <div class="col-12"><pre>{{api}}</pre></div>
 
 
 
 
-<!--bf-loading-spinner Customization-->
+<!--Component usage-->
 <div class="whiteBg">
   <div class="row">
     <div class="col-5 marB15">
@@ -80,7 +77,7 @@
   </div>
 </div>
 
-
+<!--Directive usage-->
 <div class="whiteBg row">
   <h5 class="col-12 marB15">Overlay example (directive)</h5>
 
@@ -136,11 +133,12 @@
     </div>
 
     <div [show]="compConf.triggerType === 'observable'">
-      <bf-btn class="block" bfText="New Observable" (bfClick)="loadObs = generateObs()"></bf-btn>
+      <bf-btn bfText="New Observable" (bfClick)="loadObs = generateObs()"></bf-btn>
+      <bf-btn bfText="Complete" (bfClick)="loadObs.complete()"></bf-btn>
       <div class="marT10">
-        <bf-btn bfText="Next"     (bfClick)="loadObs.next()"></bf-btn>
+        <bf-btn bfText=".next(true)"  (bfClick)="loadObs.next(true)"></bf-btn>
+        <bf-btn bfText=".next(false)" (bfClick)="loadObs.next(false)"></bf-btn>
         <bf-btn bfText="Error"    (bfClick)="loadObs.error('none')"></bf-btn>
-        <bf-btn bfText="Complete" (bfClick)="loadObs.complete()"></bf-btn>
       </div>
     </div>
 
@@ -202,7 +200,7 @@
     <div class="col-5">
       <span class="bf-loading-spinner"></span>
     </div>
-    <div class="col-7"> <pre>{{innerInstance}}</pre> </div>
+    <div class="col-7"> <pre>{{cssInstance}}</pre> </div>
   </div>
 
 </div>
