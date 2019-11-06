@@ -12,9 +12,19 @@ If the property "bfText" is defined, it generates a button with both text and ic
 <h5 class="mt-4">Parameters (all optional):</h5>
 <div class="col-12"><pre>{{api}}</pre></div>
 
-<bf-btn bfText="Click to async resolve"
-        (bfClick)="growl.success('cliiick')">
-</bf-btn>
+<div class="col-12">
+  <bf-btn class="block" (bfClick)="blockPr = asyncClick()" [bfAsyncPromise]="blockPr"
+          bfAsyncGroup="me2"
+          bfText="Async Click 1"></bf-btn>
+  <bf-btn class="block" (bfClick)="asyncClick()" bfText="Async Click 2"></bf-btn>
+  <bf-btn class="block" (bfClick)="asyncClick()" bfText="Async Click 3"></bf-btn>
+  <bf-btn class="block" (bfClick)="asyncClick()" bfText="Async Click 4 (me)" bfAsyncGroup="me"></bf-btn>
+  <bf-btn class="block" (bfClick)="asyncClick()" bfText="Async Click 5"></bf-btn>
+</div>
+
+<!--<bf-btn bfText="Click to async resolve"-->
+<!--        (bfClick)="growl.success('cliiick')">-->
+<!--</bf-btn>-->
 
 <!--<bf-btn bfType="search"></bf-btn>-->
 
@@ -26,7 +36,7 @@ If the property "bfText" is defined, it generates a button with both text and ic
 <!--        bfDisabledTip="This button is disabled because X">-->
 <!--</bf-btn>-->
 
-<div *ngIf="false">
+<div *ngIf="true">
 
 <!--Button Customization-->
 <div class="whiteBg">

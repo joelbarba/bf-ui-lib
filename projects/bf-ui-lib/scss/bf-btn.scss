@@ -15,72 +15,73 @@
 
 
 
-
-.bf-btn {
-  border: 0;
-  border-radius: 4px;
-  height: 35px;
-  //margin: 2.5px;
-  padding: 0;
-  overflow: hidden;
-  cursor: pointer;
-  &:focus { outline: none; }
-
-  box-shadow: 0 1px 2px rgba(34, 36, 38, 0.6);
-
-  .btn-text-section {
+bf-btn {
+  max-height: 35px;
+  .disabled-tooltip {
     display: inline-block;
-    font-size: 13px;
-    letter-spacing: 1px;
-    padding: 0 15px;
-    line-height: 35px;
-    vertical-align: top;
   }
-  .btn-icon-section {
-    display: inline-block;
-    padding: 10px 10.5px;
-    &.small-btn { padding: 10px 12px; }
-    line-height: 14px;
-    font-size: 14px;
+  .bf-btn {
+    border: 0;
+    border-radius: 4px;
+    height: 35px;
+    //margin: 2.5px;
+    padding: 0;
+    overflow: hidden;
+    cursor: pointer;
+    &:focus { outline: none; }
 
-    .loading-spinner {
-      animation-duration: 600ms;
-      animation-iteration-count: infinite;
-      animation-timing-function: linear;
-      animation-name: bf-btn-spinner;
-      @keyframes bf-btn-spinner {
-        from { transform: rotate(0deg);   }
-        to { transform: rotate(360deg); }
-      }
+    box-shadow: 0 1px 2px rgba(34, 36, 38, 0.6);
 
-      border: 2px solid rgba(255, 255, 255, 0.6);
-      width: 14px;
-      height: 14px;
-      border-radius: 100%;
-      border-top-color: transparent;
+    .btn-text-section {
+      display: inline-block;
+      font-size: 13px;
+      letter-spacing: 1px;
+      padding: 0 15px;
+      line-height: 35px;
+      vertical-align: top;
     }
-  }
-
-  &:hover:not(:disabled) {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
-    .btn-icon-section { }
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: .65;
-  }
-
-  &:active:not(:disabled) {
-    box-shadow: inset 2px 2px 5px rgba(34, 36, 38, 0.4);
     .btn-icon-section {
-      box-shadow: inset 0px 2px 5px rgba(34, 36, 38, 0.4);
+      display: inline-block;
+      padding: 10px 10.5px;
+      &.small-btn { padding: 10px 12px; }
+      line-height: 14px;
+      font-size: 14px;
+
+      .loading-spinner {
+        animation-duration: 600ms;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        animation-name: bf-btn-spinner;
+        @keyframes bf-btn-spinner {
+          from { transform: rotate(0deg);   }
+          to { transform: rotate(360deg); }
+        }
+
+        border: 2px solid rgba(255, 255, 255, 0.6);
+        width: 14px;
+        height: 14px;
+        border-radius: 100%;
+        border-top-color: transparent;
+      }
+    }
+
+    &:hover:not(:disabled) {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+      .btn-icon-section { }
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: .65;
+    }
+
+    &:active:not(:disabled) {
+      box-shadow: inset 2px 2px 5px rgba(34, 36, 38, 0.4);
+      .btn-icon-section {
+        box-shadow: inset 0px 2px 5px rgba(34, 36, 38, 0.4);
+      }
     }
   }
-}
-
-.disabled-tooltip {
-  display: inline-block;
 }
 
 

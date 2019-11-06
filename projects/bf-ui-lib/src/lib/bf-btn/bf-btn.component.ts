@@ -22,7 +22,8 @@ import { Observable, of } from 'rxjs';
 })
 export class BfBtnComponent implements OnInit, OnChanges {
 
-  @Input() bfAsyncPromise;
+  @Input() bfAsyncPromise: Promise<any>;
+  @Input() bfAsyncGroup = 'all';
   @Input() bfAsyncClick;
 
   @Output() bfClick = new EventEmitter<any>();
@@ -91,8 +92,14 @@ export class BfBtnComponent implements OnInit, OnChanges {
     if (change.hasOwnProperty('bfTooltip'))     { this.bfTooltipTrans$     = this.translate.getLabel$(this.bfTooltip); }
     if (change.hasOwnProperty('bfDisabledTip')) { this.bfDisabledTipTrans$ = this.translate.getLabel$(this.bfDisabledTip); }
 
+    console.log('bfAsyncGroup', this.bfAsyncGroup);
+
     // If new async blocking promise, block buttons until that is resolved
     if (change.hasOwnProperty('bfAsyncPromise')) {
+      this.initLoadingPromise();
+    }
+    if (change.hasOwnProperty('bfAsyncGroup')) {
+      console.log('eee', new Date());
       this.initLoadingPromise();
     }
 
@@ -100,14 +107,13 @@ export class BfBtnComponent implements OnInit, OnChanges {
 
   private initLoadingPromise = () => {
     if (!!this.bfAsyncPromise && Object.prototype.toString.call(this.bfAsyncPromise) === '[object Promise]') {
-      this.libService.loadingPromise = this.bfAsyncPromise;
-      this.libService.isBtnLoading = true;
-
-      this.libService.loadingPromise.then(
-        () => { this.libService.isBtnLoading = false; },
-        () => { this.libService.isBtnLoading = false; });
+      this.libService[this.bfAsyncGroup] = this.bfAsyncPromise;
+      this.libService[this.bfAsyncGroup].then(
+        () => { delete this.libService[this.bfAsyncGroup]; },
+        () => { delete this.libService[this.bfAsyncGroup]; }
+      );
     } else {
-      this.libService.isBtnLoading = false;
+      delete this.libService[this.bfAsyncGroup];
     }
   };
 

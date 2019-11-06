@@ -221,6 +221,16 @@ public toggleExample = `<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>`;
   ngOnInit() {
     this.upBtn();
   }
+
+  public blockPr;
+  public blockPr2;
+  public asyncClick = () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 5000);
+    });
+  }
 }
 
 

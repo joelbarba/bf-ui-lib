@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
+import {BehaviorSubject} from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class BfUiLibService {
-  public isBtnLoading: boolean = false;   // Global flag to disable all buttons while async
-  public loadingPromise: Promise<any>;    // Current loading promise
+  // public isBtnLoading = false;   // Global flag to disable all buttons while async
+  // public loadingPromise: Promise<any>;  // Current loading promise
+
+  public loadingGroup = {
+    // group1: new Promise(resolve)
+  };
 
   constructor() { }
 }
