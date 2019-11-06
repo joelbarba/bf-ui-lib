@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BfGrowlService } from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service';
+import {BfUILibTransService} from '../../../../bf-ui-lib/src/lib/abstract-translate.service';
 
 @Component({
   selector: 'app-bf-growl-demo',
@@ -16,26 +17,28 @@ constructor(private growl: BfGrowlService) { }
 
 this.growl.success('Success message pushed');
 this.growl.error('Error message pushed');
-this.growl.pushMsg({ text: 'view.tooltip.message', timeOut: 4000, msgType: 'success', msgIcon: 'icon-cool' });`;
+this.growl.pushMsg({ text: 'view.tooltip.message', timeOut: 4000, msgType: 'success', msgIcon: 'icon-cool' });
+this.growl.success('view.common.customer_changed_successfully', { customer_name: 'Other Guy' })`;
 
   public instance2 = `<bf-growl-pop-up></bf-growl-pop-up>`;
   public instance3 = `import { BfGrowlService } from 'bf-ui-lib';
 constructor(private growl: BfGrowlService) { }`;
 
 
-  public cssReset = `div.growl-wrapper {
-  .msg-box.success {
-    background: darken($primary_color, 15%);
-    color: white;
-  }
-  .msg-box.error {
-    background: $warning_color;
-    color: white;
-  }
-}`;
+  public cssReset = `$growl-border: rgba($white, 0.4) !default;
 
-  constructor(private growl: BfGrowlService) { }
-  ngOnInit() { }
+$growl-success: $white !default;
+$growl-success-bg: darken($primary_color, 15%) !default;
+
+$growl-error: $white !default;
+$growl-error-bg: $warning_color !default;`;
+
+  public text$;
+
+  constructor(private growl: BfGrowlService, private translate: BfUILibTransService) { }
+  ngOnInit() {
+    this.text$ = this.translate.getLabel$('view.common.customer_changed_successfully', { customer_name: 'Other Guy' });
+  }
 
   pushSuccess() {
     this.growl.success(`view.tooltip.message`);

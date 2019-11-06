@@ -45,6 +45,7 @@ export class BfTranslateService extends BfUILibTransService {
     'views.common.update' :  'Update',
     'view.common.add'     :  'Add',
     'view.common.delete'  :  'Delete',
+    'view.common.customer_changed_successfully': 'Customer changed to {{customer_name}}',
   };
   public transDictCAT = {
     'view.common.name'            : 'Nom',
@@ -77,6 +78,7 @@ export class BfTranslateService extends BfUILibTransService {
     'views.common.update' :  'Modificar',
     'view.common.add'     :  'Afegir',
     'view.common.delete'  :  'Eliminar',
+    'view.common.customer_changed_successfully': 'Compte canviat a {{customer_name}}',
   };
 
   public transDict$ = new BehaviorSubject(this.transDict);
@@ -89,15 +91,18 @@ export class BfTranslateService extends BfUILibTransService {
     this.changeLanguage('en');
   }
 
-  doTranslate = (label ?: string): string => {
+  doTranslate = (label ?: string, params?): string => {
     return this.transDict[label] || label;
   };
 
-  getLabel$ = (label ?: string): Observable<string> => {
+  getLabel$ = (label ?: string, params = {}): Observable<string> => {
     return this.transDict$.pipe(
       map(translations => {
-        // console.log('Translate', label, translations[label]);
-        return translations[label] || label || '';
+        let text = translations[label] || label || '';
+        for (const [key, value] of Object.entries(params)) {
+          text = text.replace(new RegExp('{{' + key + '}}', 'gi'), value);
+        }
+        return text;
       })
     );
   };
