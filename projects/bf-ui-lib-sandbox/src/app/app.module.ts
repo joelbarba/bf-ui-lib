@@ -3,8 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { LibRegisterService } from './lib-register.service';
 import { IndexPageComponent } from './index-page/index-page.component';
-import { NgbPopoverModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbPopoverModule, NgbModalModule, NgbDatepicker, NgbDatepickerModule} from '@ng-bootstrap/ng-bootstrap';
 import { BfUiLibModule } from '../../../bf-ui-lib/src/lib/bf-ui-lib.module';
 import { BfBtnDemoComponent } from './bf-btn-demo/bf-btn-demo.component';
 import { BfListHeaderColDemoComponent } from './bf-list-header-col-demo/bf-list-header-col-demo.component';
@@ -36,7 +37,9 @@ import { BfStatusBadgeDemoComponent } from './bf-status-badge-demo/bf-status-bad
 import { BfColorPickerDemoComponent } from './bf-color-picker-demo/bf-color-picker-demo.component';
 import { BfSliderDemoComponent } from './bf-slider-demo/bf-slider-demo.component';
 import { BfPagePlaceholderDemoComponent } from './bf-page-placeholder-demo/bf-page-placeholder-demo.component';
-import { BfListHandlerDemoComponent } from './bf-list-handler-demo/bf-list-handler-demo.component';
+import {BfListHandlerDemoComponent} from "./bf-list-handler-demo/bf-list-handler-demo.component";
+import { BfLoadingSpinnerDemoComponent } from './bf-loading-spinner-demo/bf-loading-spinner-demo.component';
+import { ShowDemoComponent } from './show-demo/show-demo.component';
 
 
 @NgModule({
@@ -73,6 +76,8 @@ import { BfListHandlerDemoComponent } from './bf-list-handler-demo/bf-list-handl
     BfColorPickerDemoComponent,
     BfSliderDemoComponent,
     BfPagePlaceholderDemoComponent,
+    BfLoadingSpinnerDemoComponent,
+    ShowDemoComponent,
   ],
   imports: [
     BrowserModule,

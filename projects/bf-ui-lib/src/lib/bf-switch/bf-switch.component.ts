@@ -1,5 +1,7 @@
-import {Component, EventEmitter, forwardRef, Input, OnInit, Output} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
+import {Component, EventEmitter, forwardRef, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {BfUILibTransService} from '../abstract-translate.service';
+import {Observable, of} from 'rxjs';
 
 @Component({
   selector: 'bf-switch',
@@ -12,12 +14,12 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
     },
   ]
 })
-export class BfSwitchComponent implements ControlValueAccessor, OnInit {
+export class BfSwitchComponent implements ControlValueAccessor, OnInit, OnChanges {
 
   // @Output() bfClick = new EventEmitter<any>();
   @Input() bfDisabled = false;
-  @Input() bfOnText = 'ON';
-  @Input() bfOffText = 'OFF';
+  @Input() bfOnText = 'scripts.common.directives.on_label';
+  @Input() bfOffText = 'scripts.common.directives.off_label';
 
   @Input() bfLabel: string;
   @Input() bfLabelPos: 'top' | 'left' = 'top';
@@ -27,15 +29,19 @@ export class BfSwitchComponent implements ControlValueAccessor, OnInit {
 
   public bfModel = false; // Internal holding of the ngModel
 
-  constructor() { }
+  public bfOnText$: Observable<string> = of(''); // Translated text for the ON label
+  public bfOffText$: Observable<string> = of(''); // Translated text for the OFF label
+
+  constructor(private translate: BfUILibTransService) {
+    this.bfOnText$ = this.translate.getLabel$(this.bfOnText);
+    this.bfOffText$ = this.translate.getLabel$(this.bfOffText);
+  }
 
   // ------- ControlValueAccessor -----
 
   // ControlValueAccessor --> writes a new value from the form model into the view
   writeValue(value: any) {
-    if (value !== undefined) {
-      this.bfModel = !!value;
-    }
+    this.bfModel = !!value;
   }
   public propagateModelUp = (_: boolean) => {}; // This is just to avoid type error (it's overwritten on register)
   registerOnChange(fn) { this.propagateModelUp = fn; }
@@ -45,6 +51,11 @@ export class BfSwitchComponent implements ControlValueAccessor, OnInit {
 
 
   ngOnInit() { }
+
+  ngOnChanges(change) {
+    if (change.hasOwnProperty('bfOnText'))  { this.bfOnText$  = this.translate.getLabel$(this.bfOnText);  }
+    if (change.hasOwnProperty('bfOffText')) { this.bfOffText$ = this.translate.getLabel$(this.bfOffText); }
+  }
 
   public onSwitch = () => {
     if (!this.bfDisabled) {

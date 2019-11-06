@@ -10,10 +10,11 @@
     "e2e": "ng e2e",
     "build_lib": "ng build bf-ui-lib",
     "copy_md": "cp ./README.md ./dist/bf-ui-lib/",
+    "copy_styles": "cp -r ./projects/bf-ui-lib/scss ./dist/bf-ui-lib/scss",
     "version_up": "cd ./projects/bf-ui-lib &&   npm version patch",
     "npm_pack": "cd dist/bf-ui-lib &&   npm pack",
-    "pack_all": "npm run build_lib &&   npm run copy_md &&   npm run npm_pack",
-    "publish": "npm run version_up &&   npm run pack_all &&   npm publish ./bf-ui-lib/dist/bf-ui-lib/bf-ui-lib-999.999.999.tgz",
+    "pack_all": "npm run build_lib &&   npm run copy_md  &&  npm run copy_styles  &&  npm run npm_pack",
+    "publish": "npm run version_up &&   npm run pack_all &&  npm publish ./bf-ui-lib/dist/bf-ui-lib/bf-ui-lib-999.999.999.tgz",
     "build_doc": "ng build bf-ui-lib-sandbox --deployUrl=bf-ui-lib-doc/ --base-href '/bf-ui-lib-doc'"
   },
   "private": false,

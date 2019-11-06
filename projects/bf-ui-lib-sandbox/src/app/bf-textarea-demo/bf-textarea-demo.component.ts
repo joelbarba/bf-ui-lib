@@ -17,6 +17,7 @@ export class BfTextareaDemoComponent implements OnInit {
   public instance = BfTextareaDoc.instance;
   public instance2 = `<bf-textarea</bf-textarea>`;
   public myVal = '';
+  public flatExample = '<bf-textarea class="flat" [ngModel]="myVal"></bf-textarea>';
   public cssReset = `$input-border: #ccc !default; // <-- this is a bootstrap default
 $optional_input_color : $input-border;
 $disabled_input_color : #797979;
@@ -53,26 +54,29 @@ $invalid_input_color  : $warning_color;
   public brStr = `\n`;
   public bsStr = `\n             `;
   public customCompCode = `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`;
-  public compConf:any = {
+  public compConf = {
     isRequired: false,
     isDisabled: false,
-    rows: null,
-    hasLabel: false,   labelText: 'My Description',
-    hasTooltip: false, tooltipText: 'Hello World', tooltipPos: null, tooltipBody: false,
+    rows: 4,
+    hasLabel: false,      labelText: 'view.common.username',
+    hasPlaceholder: false, placeholder: 'view.common.placeholder',
+    hasTooltip: false, tooltipText: 'view.tooltip.message', tooltipPos: null, tooltipBody: false,
+    hasKeyDown: false, hasKeyEsc: false, hasKeyCtrlEnter: false,
+    hasFlat: false,
   };
   public upComp = () => {
     this.customCompCode = `<bf-textarea `;
 
-    // let compClasses = '';
-    // if (this.compConf.hasFullWidth) { compClasses += (!!compClasses.length ? ' ' : '') + 'full-width'; }
-    // if (this.compConf.hasSquash)    { compClasses += (!!compClasses.length ? ' ' : '') + 'squash'; }
-    // if (!!compClasses) {
-    //   this.customCompCode += `class="${compClasses}"` + this.bsStr;
-    // }
-    this.customCompCode += `[(ngModel)]="myVal"` + this.bsStr;
-    this.customCompCode += `(ngModelChange)="doSomething($event)"`;
+    let compClasses = '';
+    if (this.compConf.hasFlat) { compClasses += (!!compClasses.length ? ' ' : '') + 'flat'; }
+    if (!!compClasses) {
+      this.customCompCode += `class="${compClasses}"` + this.bsStr;
+    }
+    this.customCompCode += `[(ngModel)]="myVal"`;
 
-    if (this.compConf.hasLabel)   { this.customCompCode += this.bsStr + `bfLabel="${this.compConf.labelText}"`; }
+    if (this.compConf.hasLabel)       { this.customCompCode += this.bsStr + `bfLabel="${this.compConf.labelText}"`; }
+    if (this.compConf.hasPlaceholder) { this.customCompCode += this.bsStr + `bfPlaceholder="${this.compConf.placeholder}"`; }
+    if (this.compConf.rows !== 4) { this.customCompCode += this.bsStr + `[bfRows]="${this.compConf.rows}"`; }
     if (this.compConf.isRequired) { this.customCompCode += this.bsStr + `[bfRequired]="true"`; }
     if (this.compConf.isDisabled) { this.customCompCode += this.bsStr + `[bfDisabled]="true"`; }
 
@@ -81,6 +85,10 @@ $invalid_input_color  : $warning_color;
       if (!!this.compConf.tooltipPos)  { this.customCompCode += this.bsStr + `bfTooltipPos="${this.compConf.tooltipPos}"`; }
       if (!!this.compConf.tooltipBody) { this.customCompCode += this.bsStr + `bfTooltipBody="${this.compConf.tooltipBody}"`; }
     }
+
+    if (this.compConf.hasKeyDown) { this.customCompCode += this.bsStr + `(bfOnKeyDown)="onClickFn($event)"`; }
+    if (this.compConf.hasKeyEsc)  { this.customCompCode += this.bsStr + `(bfOnEsc)="onClickFn($event)"`; }
+    if (this.compConf.hasKeyCtrlEnter) { this.customCompCode += this.bsStr + `(bfOnSave)="onClickFn($event)"`; }
 
     this.customCompCode += (`>` + this.brStr + `</bf-textarea>`);
   };
@@ -106,9 +114,18 @@ export const BfTextareaDoc = {
 [bfRequired]    : Whether the input is required or not
 [bfDisabled]    : Whether the input is disabled or not
 [bfPlaceholder] : Placeholder text (automatically translated)
+
+[bfErrorText]   : Custom error text (label) to display when invalid value
+[bfErrorPos]    : Custom position where to display the error text. Values = ['top-right', 'bottom-left', 'bottom-right', 'none', 'default'].
+[bfMinlength]   : Min number of chars. Built in validator "minlength"
+[bfMaxlength]   : Max number of chars. Built in validator "maxlength". Null means no max. It blocks input if limit.
+[bfValidator]   : Callback function called every time the internal ngModel validates its value. Parameter = current value of the model. 
+                  It should return null (valid) or error object (invalid).
+
 [bfTooltip]     : If label provided, adds a info badge with a tooltip (automatically translated)
 [bfTooltipPos]  : Position of the tooltip (top by default)
 [bfTooltipBody] : Whether the tooltip is append to the body (default true) or next the the html element (false). The parent contaniner may affect the visibility of the tooltip
+
 (bfOnKeyDown)   : Triggered when a key is pressed on the textarea
 (bfOnEsc)       : Triggered when keys Esc is pressed.
 (bfOnSave)      : Triggered when keys Ctrl + Enter are pressed. This represents the keyboard combination to save the value

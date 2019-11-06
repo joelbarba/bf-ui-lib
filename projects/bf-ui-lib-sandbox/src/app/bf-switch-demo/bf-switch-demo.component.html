@@ -17,21 +17,11 @@
     <div class="col-5 marB15">
       <h5 class="marB25">Switch Customization:</h5>
       <div>
-<!--        <bf-switch [(ngModel)]="myValue"-->
-<!--                   bfLabel="Active"-->
-<!--                   bfLabelPos="top"-->
-<!--                   bfOnText="Yes"-->
-<!--                   bfOffText="No"-->
-<!--                   bfTooltip="view.tooltip.message"-->
-<!--                   bfTooltipPos="top"-->
-<!--                   [bfTooltipBody]="true"-->
-<!--                   [bfDisabled]="false">-->
-<!--        </bf-switch>-->
         <bf-switch [(ngModel)]="myValue"
                    [bfLabel]="(swConf.hasLabel ? swConf.labelText : '')"
                    [bfLabelPos]="(swConf.labelPosLeft ? 'left' : 'top')"
-                   [bfOnText]="(swConf.hasOnText ? swConf.onText : 'ON')"
-                   [bfOffText]="(swConf.hasOffText ? swConf.offText : 'OFF')"
+                   [bfOnText]="(swConf.hasOnText ? swConf.onText : 'scripts.common.directives.on_label')"
+                   [bfOffText]="(swConf.hasOffText ? swConf.offText : 'scripts.common.directives.off_label')"
                    [bfTooltip]="(swConf.hasTooltip ? swConf.btnTooltip : null)"
                    [bfTooltipPos]="(swConf.btnTooltipPos || 'top')"
                    [bfTooltipBody]="swConf.btnTooltipBody"

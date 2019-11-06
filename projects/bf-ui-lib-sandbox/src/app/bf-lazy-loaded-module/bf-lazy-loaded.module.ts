@@ -13,7 +13,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forChild(routes),
-    BfUiLibModule.forRoot({ TranslateService: BfTranslateService }),
+    BfUiLibModule.forRoot({ trans: { useExisting: BfTranslateService }}),
   ],
   declarations: [BfLazyLoadedTestComponent],
   exports: [],

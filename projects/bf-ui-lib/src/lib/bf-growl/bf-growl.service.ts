@@ -1,49 +1,44 @@
-import { Injectable, Inject } from '@angular/core';
-import {AbstractTranslateService, BfUILibTransService} from '../abstract-translate.service';
+import { Injectable } from '@angular/core';
+import { BfUILibTransService} from '../abstract-translate.service';
 import { BehaviorSubject } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class BfGrowlService {
   public msgList = [];
-  public list$ = new BehaviorSubject([]);
 
   constructor(
-    // @Inject('BfUILibTransService') private translate: AbstractTranslateService,
     private translate: BfUILibTransService
   ) { }
 
-  public success(text: string, timeOut = 2000) {
-    this.pushMsg({ text, timeOut, msgType: 'success', msgIcon: 'icon-checkmark' });
+  public success(text: string, labelParams = {}, timeOut = 2000) {
+    this.pushMsg({ text, timeOut, labelParams, msgType: 'success', msgIcon: 'icon-checkmark' });
   }
 
-  public error(text: string, timeOut = 2000) {
-    this.pushMsg({ text, timeOut, msgType: 'error', msgIcon: 'icon-warning2' });
+  public error(text: string, labelParams = {}, timeOut = 2000) {
+    this.pushMsg({ text, timeOut, labelParams, msgType: 'error', msgIcon: 'icon-warning2' });
   }
 
   // Push a message into the queue
   public pushMsg(msg) {
-    const newMsg = { ...msg, iniTime: new Date(), status: 'active' };
+    const newMsg = { labelParams: {}, ...msg };
+    newMsg.iniTime = new Date();
+    newMsg.status = 'active';
 
     if (!!this.translate.getLabel$) {
-      newMsg.text$ = this.translate.getLabel$(newMsg.text);
+      newMsg.text$ = this.translate.getLabel$(newMsg.text, newMsg.labelParams);
     } else {
       newMsg.text$ = new BehaviorSubject(newMsg.text);
     }
 
     this.msgList.unshift(newMsg);
-    this.list$.next(this.msgList);
 
     newMsg.remove = () => {
-      // Start the animation of fading out
-      newMsg.status = 'fading'; this.list$.next(this.msgList);
+      newMsg.status = 'fading'; // Start the animation of fading out
 
       // Remove the message after the vanishing animation
       setTimeout(() => {
         const ind = this.msgList.indexOf(newMsg);
         this.msgList.splice(ind, 1);
-        this.list$.next(this.msgList);
       }, 600);
     };
 

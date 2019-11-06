@@ -12,6 +12,11 @@ If the property "bfText" is defined, it generates a button with both text and ic
 <h5 class="mt-4">Parameters (all optional):</h5>
 <div class="col-12"><pre>{{api}}</pre></div>
 
+<bf-btn bfText="Click to async resolve"
+        (bfClick)="growl.success('cliiick')">
+</bf-btn>
+
+<!--<bf-btn bfType="search"></bf-btn>-->
 
 <!--<bf-btn (bfClick)="myFunc($event)"-->
 <!--        bfText="view.common.yes"-->
@@ -20,6 +25,8 @@ If the property "bfText" is defined, it generates a button with both text and ic
 <!--        bfIcon="icon-arrow-left6"-->
 <!--        bfDisabledTip="This button is disabled because X">-->
 <!--</bf-btn>-->
+
+<div *ngIf="false">
 
 <!--Button Customization-->
 <div class="whiteBg">
@@ -30,8 +37,8 @@ If the property "bfText" is defined, it generates a button with both text and ic
         <bf-btn (bfClick)="customBtnFunc()"
                 [class.full-width]="btnConf.hasFullWidth"
                 [class.squash]="btnConf.hasSquash"
-                [bfIconPos]="btnConf.hasIconLeft ? 'left' : 'right'"
-                [bfText]="(btnConf.hasText ? btnConf.btnText : '')"
+                [bfIconPos]="btnConf.iconPos"
+                [bfText]="(btnConf.hasText ? btnConf.btnText : null)"
                 [bfType]="(btnConf.hasType ? btnConf.btnType : null)"
                 [bfIcon]="(btnConf.hasIcon ? btnConf.btnIcon : null)"
                 [bfDisabled]="btnConf.isDisabled"
@@ -64,9 +71,17 @@ If the property "bfText" is defined, it generates a button with both text and ic
       </div>
 
       <div class="row marT15">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="btnConf.hasIcon" (ngModelChange)="upBtn()" bfLabel="Has Icon"></bf-checkbox> </div>
-        <div class="col-10" *ngIf="btnConf.hasIcon">
-          <bf-dropdown [(ngModel)]="btnConf.btnIcon" (ngModelChange)="upBtn()" [bfList]="btnIcons" bfRender="text" bfSelect="id" [bfRequired]="true"> </bf-dropdown>
+        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="btnConf.hasIcon" (ngModelChange)="upBtn()" bfLabel="Custom Icon"></bf-checkbox> </div>
+        <div class="col-5">
+          <bf-dropdown *ngIf="btnConf.hasIcon" bfLabel="bfIcon" class="full-width"
+                       [(ngModel)]="btnConf.btnIcon" (ngModelChange)="upBtn()"
+                       [bfList]="btnIcons" bfRender="icon" bfSelect="icon" [bfRequired]="true">
+          </bf-dropdown>
+        </div>
+        <div class="col-5">
+          <bf-dropdown bfLabel="Icon Position" [(ngModel)]="btnConf.iconPos" (ngModelChange)="upBtn()" [bfRequired]="true"
+                       [bfList]="[{id:'right'},{id:'left'},{id:'none'}]" bfRender="id" bfSelect="id">
+          </bf-dropdown>
         </div>
       </div>
 
@@ -84,10 +99,10 @@ If the property "bfText" is defined, it generates a button with both text and ic
         </div>
         <div class="col-2" *ngIf="btnConf.hasTooltip"></div>
         <div class="col-5" *ngIf="btnConf.hasTooltip">
-          bfTooltipPos: <bf-dropdown [(ngModel)]="btnConf.btnTooltipPos" (ngModelChange)="upBtn()" [bfList]="btnTooltipPoss" bfRender="text" bfSelect="id"> </bf-dropdown>
+          <bf-dropdown bfLabel="bfTooltipPos" [(ngModel)]="btnConf.btnTooltipPos" (ngModelChange)="upBtn()" [bfList]="btnTooltipPoss" bfRender="text" bfSelect="id"> </bf-dropdown>
         </div>
         <div class="col-5" *ngIf="btnConf.hasTooltip">
-          bfTooltipBody: <bf-dropdown [(ngModel)]="btnConf.btnTooltipBody" (ngModelChange)="upBtn()" [bfList]="btnTooltipBody" bfRender="text" bfSelect="id"> </bf-dropdown>
+          <bf-dropdown bfLabel="bfTooltipBody" [(ngModel)]="btnConf.btnTooltipBody" (ngModelChange)="upBtn()" [bfList]="btnTooltipBody" bfRender="text" bfSelect="id"> </bf-dropdown>
         </div>
       </div>
 
@@ -97,7 +112,6 @@ If the property "bfText" is defined, it generates a button with both text and ic
           <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasSquash" (ngModelChange)="upBtn()" bfLabel="Squash"></bf-checkbox>
           <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasAsync1" (ngModelChange)="upBtn()" bfLabel="Async 1"></bf-checkbox>
           <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasAsync2" (ngModelChange)="upBtn()" bfLabel="Async 2"></bf-checkbox>
-          <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasIconLeft" (ngModelChange)="upBtn()" bfLabel="Icon Left"></bf-checkbox>
         </div>
       </div>
 
@@ -107,6 +121,30 @@ If the property "bfText" is defined, it generates a button with both text and ic
 </div>
 
 <hr>
+
+<div class="whiteBg row">
+  <div class="col-7">
+    <h5>Toggle</h5>
+    <p>The component keeps an internal flag to be used as a toggle (true/false).
+      The arrow icons will be default according to the value.<br>
+      You just need to bind it:</p>
+
+  </div>
+  <div class="col-5 padT10">
+    <bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>
+    <span class="marL15">Value={{isExp}}</span>
+    <div class="code-box pad15 marT10">
+      <pre>{{toggleExample}}</pre>
+    </div>
+  </div>
+
+</div>
+
+
+
+<hr>
+
+
 
 
 <!--Examples-->
@@ -211,9 +249,9 @@ If the property "bfText" is defined, it generates a button with both text and ic
     <pre class="pad10">{{ asyncExample2 }}</pre>
   </div>
   <div class="col-6">
-    <bf-btn bfText="Async Click Option 2"
-            [bfAsyncClick]="asyncClickFunc.bind(this, 'myValue2', desc)">
-    </bf-btn>
+    <!--<bf-btn bfText="Async Click Option 2"-->
+    <!--        [bfAsyncClick]="asyncClickFunc.bind(this, 'myValue2', desc)">-->
+    <!--</bf-btn>-->
   </div>
 </div>
 
@@ -256,4 +294,7 @@ If the property "bfText" is defined, it generates a button with both text and ic
     </p>
     <pre>{{ cssReset }}</pre>
   </div>
+</div>
+
+
 </div>

@@ -20,7 +20,8 @@
     <span *ngIf="bfRequired" class="asterisk">*</span>
   </label>
 
-  <span *ngIf="status === 'error'" class="bf-input-error-text"
+  <span *ngIf="status === 'error' && errorPosition !== 'none'" class="bf-input-error-text"
+        [class.pull-up]="!bfLabel"
         [class.default]="errorPosition === 'default'"
         [class.top-right]="errorPosition === 'top-right'"
         [class.bottom-left]="errorPosition === 'bottom-left'"

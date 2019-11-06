@@ -26,7 +26,7 @@ export class BfBtnComponent implements OnInit, OnChanges {
   @Input() bfAsyncClick;
 
   @Output() bfClick = new EventEmitter<any>();
-  @Input() bfText = '';
+  @Input() bfText: string;
   @Input() bfType = ''; // save, update, add, delete, cancel
   @Input() bfIcon = 'icon-arrow-right3';
   @Input() bfIconPos      = 'right';
@@ -35,17 +35,22 @@ export class BfBtnComponent implements OnInit, OnChanges {
   @Input() bfTooltipPos   = 'top';
   @Input() bfTooltipBody  = true;
   @Input() bfDisabledTip  = '';
+  @Input() bfSubmit = false;
+
+  @Input() bfToggle = false;
+  @Output() bfToggleChange = new EventEmitter<boolean>();
 
   public btnClass = 'primary';
+  public textLabel: string;  // Internal label to display (can be either from bfText or defaulted from bfType)
 
   public bfTextTrans$: Observable<string> = of('');        // Translated text for the button
   public bfTooltipTrans$: Observable<string> = of('');     // Translated text for the tooltip of the label
   public bfDisabledTipTrans$: Observable<string> = of(''); // Translated text for the tooltip when disabled
 
+  private hasIcon = false;  // If a bfIcon is linked, do not set it internally
 
   constructor(
     private translate: BfUILibTransService,
-    private config: NgbPopoverConfig,
     public libService: BfUiLibService
   ) { }
 
@@ -53,23 +58,36 @@ export class BfBtnComponent implements OnInit, OnChanges {
 
   ngOnChanges(change) {
     // console.log('BF-BTN', new Date(), this.translate);
+    if (change.hasOwnProperty('bfIcon') && !!change.bfIcon.currentValue) { this.hasIcon = true; }
 
-    if (!this.bfIcon) { this.bfIcon = 'icon-arrow-right3'; }
+    if (!this.hasIcon) { this.bfIcon = 'icon-arrow-right3'; }
+    if (!this.hasIcon && change.hasOwnProperty('bfToggle')) {
+      this.bfIcon = this.bfToggle ? 'icon-arrow-up3' : 'icon-arrow-down3';
+    }
 
     if (change.hasOwnProperty('bfType')) {
       if (!!this.bfType) { this.btnClass = this.bfType; }
-      if (this.bfType === 'edit')     { this.btnClass = 'primary';   this.bfIcon = 'icon-pencil'; }
-      if (this.bfType === 'save')     { this.btnClass = 'primary';   this.bfIcon = 'icon-arrow-right3'; }
-      if (this.bfType === 'update')   { this.btnClass = 'primary';   this.bfIcon = 'icon-arrow-right3'; }
-      if (this.bfType === 'add')      { this.btnClass = 'primary';   this.bfIcon = 'icon-plus'; }
-      if (this.bfType === 'delete')   { this.btnClass = 'tertiary';  this.bfIcon = 'icon-cross'; }
-      if (this.bfType === 'cancel')   { this.btnClass = 'secondary'; this.bfIcon = 'icon-blocked'; }
+      let typeText = '';
+      if (this.bfType === 'search')   { this.btnClass = 'primary';   this.bfIcon = 'icon-search';       typeText = 'view.common.search';  }
+      if (this.bfType === 'edit')     { this.btnClass = 'primary';   this.bfIcon = 'icon-pencil';       typeText = 'view.common.edit';    }
+      if (this.bfType === 'save')     { this.btnClass = 'primary';   this.bfIcon = 'icon-arrow-right3'; typeText = 'view.common.save';    }
+      if (this.bfType === 'update')   { this.btnClass = 'primary';   this.bfIcon = 'icon-arrow-right3'; typeText = 'views.common.update'; }
+      if (this.bfType === 'add')      { this.btnClass = 'primary';   this.bfIcon = 'icon-plus';         typeText = 'view.common.add';     }
+      if (this.bfType === 'delete')   { this.btnClass = 'tertiary';  this.bfIcon = 'icon-cross';        typeText = 'view.common.delete';  }
+      if (this.bfType === 'cancel')   { this.btnClass = 'secondary'; this.bfIcon = 'icon-blocked';      typeText = 'view.common.cancel';  }
       if (this.bfType === 'expand')   { this.btnClass = 'secondary'; this.bfIcon = 'icon-arrow-down3'; }
       if (this.bfType === 'collapse') { this.btnClass = 'secondary'; this.bfIcon = 'icon-arrow-up3'; }
+      if (!this.bfText) {
+        this.textLabel = typeText;
+        this.bfTextTrans$ = this.translate.getLabel$(this.textLabel);
+      }
     }
 
     // Generate new observables for the dynamic text
-    if (change.hasOwnProperty('bfText'))        { this.bfTextTrans$        = this.translate.getLabel$(this.bfText); }
+    if (change.hasOwnProperty('bfText')) {
+      this.textLabel = this.bfText;
+      this.bfTextTrans$ = this.translate.getLabel$(this.textLabel);
+    }
     if (change.hasOwnProperty('bfTooltip'))     { this.bfTooltipTrans$     = this.translate.getLabel$(this.bfTooltip); }
     if (change.hasOwnProperty('bfDisabledTip')) { this.bfDisabledTipTrans$ = this.translate.getLabel$(this.bfDisabledTip); }
 
@@ -77,6 +95,7 @@ export class BfBtnComponent implements OnInit, OnChanges {
     if (change.hasOwnProperty('bfAsyncPromise')) {
       this.initLoadingPromise();
     }
+
   }
 
   private initLoadingPromise = () => {
@@ -99,6 +118,10 @@ export class BfBtnComponent implements OnInit, OnChanges {
       this.bfAsyncPromise = this.bfAsyncClick();
       this.initLoadingPromise();
     }
+
+    // Internal toggle
+    this.bfToggle = !this.bfToggle;
+    this.bfToggleChange.emit(this.bfToggle);
 
     this.bfClick.emit($event);
   };
