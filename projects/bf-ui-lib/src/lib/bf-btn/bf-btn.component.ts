@@ -92,14 +92,9 @@ export class BfBtnComponent implements OnInit, OnChanges {
     if (change.hasOwnProperty('bfTooltip'))     { this.bfTooltipTrans$     = this.translate.getLabel$(this.bfTooltip); }
     if (change.hasOwnProperty('bfDisabledTip')) { this.bfDisabledTipTrans$ = this.translate.getLabel$(this.bfDisabledTip); }
 
-    console.log('bfAsyncGroup', this.bfAsyncGroup);
 
     // If new async blocking promise, block buttons until that is resolved
-    if (change.hasOwnProperty('bfAsyncPromise')) {
-      this.initLoadingPromise();
-    }
-    if (change.hasOwnProperty('bfAsyncGroup')) {
-      console.log('eee', new Date());
+    if (change.hasOwnProperty('bfAsyncPromise') || change.hasOwnProperty('bfAsyncGroup')) {
       this.initLoadingPromise();
     }
 
