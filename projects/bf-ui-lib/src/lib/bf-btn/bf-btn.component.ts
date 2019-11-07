@@ -10,7 +10,6 @@ import { Observable, of} from 'rxjs';
 })
 export class BfBtnComponent implements OnInit, OnChanges {
   @Input() bfAsyncPromise: Promise<any>;
-  @Input() bfAsyncGroup = 'all';
   @Input() bfAsyncClick;
 
   @Output() bfClick = new EventEmitter<any>();
@@ -82,7 +81,7 @@ export class BfBtnComponent implements OnInit, OnChanges {
 
 
     // If new async blocking promise, block buttons until that is resolved
-    if (change.hasOwnProperty('bfAsyncPromise') || change.hasOwnProperty('bfAsyncGroup')) {
+    if (change.hasOwnProperty('bfAsyncPromise')) {
       this.initLoadingPromise();
     }
 
@@ -91,17 +90,9 @@ export class BfBtnComponent implements OnInit, OnChanges {
   private initLoadingPromise = () => {
     if (!!this.bfAsyncPromise && Object.prototype.toString.call(this.bfAsyncPromise) === '[object Promise]') {
       this.isLoading = true;
-      this.bfAsyncPromise.then(() => {
-        this.isLoading = false;
-      });
-      // this.libService[this.bfAsyncGroup] = new BehaviorSubject(false);
-      // this.bfAsyncPromise.then(
-      //   () => { delete this.libService[this.bfAsyncGroup]; },
-      //   () => { delete this.libService[this.bfAsyncGroup]; }
-      // );
+      this.bfAsyncPromise.then(() => this.isLoading = false, () => this.isLoading = false);
     } else {
       this.isLoading = false;
-      // delete this.libService[this.bfAsyncGroup];
     }
   };
 
