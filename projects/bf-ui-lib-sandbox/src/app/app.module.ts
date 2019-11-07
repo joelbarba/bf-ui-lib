@@ -40,6 +40,7 @@ import { BfPagePlaceholderDemoComponent } from './bf-page-placeholder-demo/bf-pa
 import {BfListHandlerDemoComponent} from "./bf-list-handler-demo/bf-list-handler-demo.component";
 import { BfLoadingSpinnerDemoComponent } from './bf-loading-spinner-demo/bf-loading-spinner-demo.component';
 import { ShowDemoComponent } from './show-demo/show-demo.component';
+import { BfNoDataDemoComponent } from './bf-no-data-demo/bf-no-data-demo.component';
 
 
 @NgModule({
@@ -78,6 +79,7 @@ import { ShowDemoComponent } from './show-demo/show-demo.component';
     BfPagePlaceholderDemoComponent,
     BfLoadingSpinnerDemoComponent,
     ShowDemoComponent,
+    BfNoDataDemoComponent,
   ],
   imports: [
     BrowserModule,

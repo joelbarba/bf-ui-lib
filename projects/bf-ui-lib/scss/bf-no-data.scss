@@ -1,0 +1,14 @@
+
+$no-data-bg: darken($primary_color, 20%) !default;
+$no-data-color: $white !default;
+
+bf-no-data .no-data-bg {
+  width: 100%;
+  background: $no-data-bg;
+  color: $no-data-color;
+
+  padding: 15px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  text-align: center;
+}

@@ -1,3 +1,4 @@
+import { BfNoDataDoc } from './bf-no-data-demo/bf-no-data-demo.component';
 import { ShowDoc } from './show-demo/show-demo.component';
 import { BfLoadingSpinnerDoc } from './bf-loading-spinner-demo/bf-loading-spinner-demo.component';
 import { BfPagePlaceholderDoc } from './bf-page-placeholder-demo/bf-page-placeholder-demo.component';
@@ -53,6 +54,7 @@ export const compList = [
   BfListPlaceholderDoc,
   BfPagePlaceholderDoc,
   BfListPaginatorDoc,
+  BfNoDataDoc,
   BfLoadingSpinnerDoc,
   BfGrowlDoc,
   BfLoadingBarDoc,

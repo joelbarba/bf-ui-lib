@@ -46,6 +46,7 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.add'     :  'Add',
     'view.common.delete'  :  'Delete',
     'view.common.customer_changed_successfully': 'Customer changed to {{customer_name}}',
+    'view.common.no_data_to_show': 'No Data',
   };
   public transDictCAT = {
     'view.common.name'            : 'Nom',
@@ -79,6 +80,7 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.add'     :  'Afegir',
     'view.common.delete'  :  'Eliminar',
     'view.common.customer_changed_successfully': 'Compte canviat a {{customer_name}}',
+    'view.common.no_data_to_show': 'Sense Info',
   };
 
   public transDict$ = new BehaviorSubject(this.transDict);

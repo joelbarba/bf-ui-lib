@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Pipe, PipeTransform} from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
 type doTranslateFn = (label ?: string) => string;
@@ -24,4 +24,10 @@ export class BfUILibTransService extends AbstractTranslateService {
 }
 
 
-
+@Pipe({ name: 'getLabel$' })
+export class BfTranslatePipe implements PipeTransform {
+  constructor(private translate: BfUILibTransService) {}
+  transform(label: string = '') {
+    return this.translate.getLabel$(label);
+  }
+}

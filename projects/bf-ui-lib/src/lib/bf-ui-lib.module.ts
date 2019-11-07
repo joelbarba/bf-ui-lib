@@ -27,7 +27,7 @@ import { BfRadioComponent } from './bf-radio/bf-radio.component';
 import { BfDatePickerComponent } from './bf-date-picker/bf-date-picker.component';
 import { BfListPaginatorComponent } from './bf-list-paginator/bf-list-paginator.component';
 import {CommonModule} from "@angular/common";
-import {BfUILibTransService} from "./abstract-translate.service";
+import {BfTranslatePipe, BfUILibTransService} from "./abstract-translate.service";
 import { BfTimePickerComponent } from './bf-time-picker/bf-time-picker.component';
 import { BfAutocompleteComponent } from './bf-autocomplete/bf-autocomplete.component';
 import { BfMultiSelectorComponent } from './bf-multi-selector/bf-multi-selector.component';
@@ -38,9 +38,12 @@ import { BfSliderComponent } from './bf-slider/bf-slider.component';
 import { BfPagePlaceholderComponent } from './bf-page-placeholder/bf-page-placeholder.component';
 import {BfLoadingSpinnerComponent, BfLoadingSpinnerDirective} from './bf-loading-spinner/bf-loading-spinner.component';
 import { ShowDirective } from './show/show.component';
+import { BfNoDataComponent } from './bf-no-data/bf-no-data.component';
 
 @NgModule({
   declarations: [
+    BfTranslatePipe,  // Internal
+
     BfBtnComponent,
     BfListHeaderColComponent,
     BfLabelComponent,
@@ -66,6 +69,7 @@ import { ShowDirective } from './show/show.component';
     BfLoadingSpinnerComponent,
     BfLoadingSpinnerDirective,
     ShowDirective,
+    BfNoDataComponent,
   ],
   entryComponents: [BfConfirmComponent],
   imports: [
@@ -80,6 +84,7 @@ import { ShowDirective } from './show/show.component';
     BfLoadingBarModule,
   ],
   exports: [
+    BfNoDataComponent,  // <--- New component
     ShowDirective,
     BfLoadingSpinnerDirective,  // <--- New component
     BfLoadingSpinnerComponent,  // <--- New component
