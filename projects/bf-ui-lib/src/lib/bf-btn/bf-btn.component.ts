@@ -1,27 +1,14 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  ViewEncapsulation,
-  Inject,
-  OnChanges,
-  Host, Optional
-} from '@angular/core';
-import {AbstractTranslateService, BfUILibTransService} from '../abstract-translate.service';
-import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { BfUILibTransService} from '../abstract-translate.service';
 import { BfUiLibService } from '../bf-ui-lib.service';
-import { Observable, of } from 'rxjs';
+import { Observable, of} from 'rxjs';
 
 @Component({
   selector: 'bf-btn',
   templateUrl: './bf-btn.component.html',
-  styleUrls: ['./bf-btn.component.scss'],
   // encapsulation: ViewEncapsulation.None
 })
 export class BfBtnComponent implements OnInit, OnChanges {
-
   @Input() bfAsyncPromise: Promise<any>;
   @Input() bfAsyncGroup = 'all';
   @Input() bfAsyncClick;
@@ -36,7 +23,6 @@ export class BfBtnComponent implements OnInit, OnChanges {
   @Input() bfTooltipPos   = 'top';
   @Input() bfTooltipBody  = true;
   @Input() bfDisabledTip  = '';
-  @Input() bfSubmit = false;
 
   @Input() bfToggle = false;
   @Output() bfToggleChange = new EventEmitter<boolean>();
@@ -49,6 +35,8 @@ export class BfBtnComponent implements OnInit, OnChanges {
   public bfDisabledTipTrans$: Observable<string> = of(''); // Translated text for the tooltip when disabled
 
   private hasIcon = false;  // If a bfIcon is linked, do not set it internally
+
+  public isLoading = false;
 
   constructor(
     private translate: BfUILibTransService,
@@ -102,13 +90,18 @@ export class BfBtnComponent implements OnInit, OnChanges {
 
   private initLoadingPromise = () => {
     if (!!this.bfAsyncPromise && Object.prototype.toString.call(this.bfAsyncPromise) === '[object Promise]') {
-      this.libService[this.bfAsyncGroup] = this.bfAsyncPromise;
-      this.libService[this.bfAsyncGroup].then(
-        () => { delete this.libService[this.bfAsyncGroup]; },
-        () => { delete this.libService[this.bfAsyncGroup]; }
-      );
+      this.isLoading = true;
+      this.bfAsyncPromise.then(() => {
+        this.isLoading = false;
+      });
+      // this.libService[this.bfAsyncGroup] = new BehaviorSubject(false);
+      // this.bfAsyncPromise.then(
+      //   () => { delete this.libService[this.bfAsyncGroup]; },
+      //   () => { delete this.libService[this.bfAsyncGroup]; }
+      // );
     } else {
-      delete this.libService[this.bfAsyncGroup];
+      this.isLoading = false;
+      // delete this.libService[this.bfAsyncGroup];
     }
   };
 
