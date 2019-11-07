@@ -1,0 +1,21 @@
+@import 'variables';
+
+.bf-progress-bar {
+  .progress {
+    color: $white;
+    .progress-bar {
+      background-color: $primary_color;
+    }
+  }
+  .used-label {
+    color: $secondary_color;
+  }
+  .left-label {
+    color: $primary_color;
+  }
+  .percentage-outside {
+    span {
+      color: $primary_color;
+    }
+  }
+}
