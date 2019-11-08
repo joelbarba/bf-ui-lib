@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {BfGrowlService} from "../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service";
-import {BfListHandler} from "../../../../bf-ui-lib/src/lib/bf-list-handler/bf-list-handler";
-import {BehaviorSubject, Subject} from "rxjs";
+import {BfGrowlService} from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service';
+import {BfListHandler} from '../../../../bf-ui-lib/src/lib/bf-list-handler/bf-list-handler';
+import {BehaviorSubject, Subject} from 'rxjs';
 
 @Component({
   selector: 'app-bf-list-handler-demo',

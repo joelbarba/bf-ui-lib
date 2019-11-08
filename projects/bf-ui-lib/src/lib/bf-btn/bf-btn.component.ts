@@ -65,6 +65,11 @@ export class BfBtnComponent implements OnInit, OnChanges {
       if (this.bfType === 'cancel')   { this.btnClass = 'secondary'; this.bfIcon = 'icon-blocked';      typeText = 'view.common.cancel';  }
       if (this.bfType === 'expand')   { this.btnClass = 'secondary'; this.bfIcon = 'icon-arrow-down3'; }
       if (this.bfType === 'collapse') { this.btnClass = 'secondary'; this.bfIcon = 'icon-arrow-up3'; }
+
+      if (this.bfType === 'delete-icon') { this.btnClass = 'tertiary';  this.bfIcon = 'icon-cross';  }
+      if (this.bfType === 'edit-icon')   { this.btnClass = 'primary';   this.bfIcon = 'icon-pencil'; }
+      if (this.bfType === 'view-icon')   { this.btnClass = 'primary';   this.bfIcon = 'icon-eye'; }
+
       if (!this.bfText) {
         this.textLabel = typeText;
         this.bfTextTrans$ = this.translate.getLabel$(this.textLabel);

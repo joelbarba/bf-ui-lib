@@ -16,7 +16,8 @@
 }
 
 $btn-height: 35px;
-$btn-icon-width: 35px;
+$btn-section-width: 35px; // Size of the icon section when text btn
+$btn-icon-width: 40px;    // Size of the button when only icon
 
 bf-btn {
   display: inline-block;
@@ -43,11 +44,12 @@ bf-btn {
         letter-spacing: 1px;
         padding: 0 15px;
         max-height: $btn-height;
+        white-space: nowrap;
       }
       .btn-icon-section {
         display: flex;
-        width: $btn-icon-width;
         height: $btn-height;
+        width: $btn-section-width;
         padding: 0;
         align-items: center;
         justify-content: center;
@@ -69,6 +71,10 @@ bf-btn {
           border-top-color: transparent;
         }
       }
+        &.small-btn { width: $btn-icon-width; }
+
+      // Special size for icon buttons
+      &.small-btn .btn-icon-section { width: $btn-icon-width; }
 
       &:focus { outline: none; }
 
