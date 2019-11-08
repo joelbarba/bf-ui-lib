@@ -1,13 +1,12 @@
-import {Directive, HostBinding, Input, OnChanges} from '@angular/core';
-
-// --- TODO: Add this to documentation ----
+import {Directive, ElementRef, HostBinding, Input, OnChanges} from '@angular/core';
 
 @Directive({ selector: '[show]' })
 export class ShowDirective implements OnChanges {
   @Input('show') show = true;
-  @HostBinding('class.d-none') private isHidden = false;
-  constructor() { }
+  // @HostBinding('class.d-none') private isHidden = false;
+  constructor(private el: ElementRef) { }
   ngOnChanges(changes) {
-    this.isHidden = !this.show;
+    this.el.nativeElement.style.display = this.show ? null : 'none';
+    // this.isHidden = !this.show;
   }
 }
