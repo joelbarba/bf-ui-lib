@@ -155,7 +155,7 @@ $dropdown-selection-hover: $primary_color;
 public extCtrl$ = new Subject();
 
 <bf-btn (bfClick)="extCtrl$.next({ action: 'expand' })"></bf-btn>
-<bf-btn (bfClick)="extCtrl$.ext({ action: 'collapse' })"></bf-btn>
+<bf-btn (bfClick)="extCtrl$.next({ action: 'collapse' })"></bf-btn>
 <bf-btn (bfClick)="extCtrl$.next({ action: 'toggle' })"></bf-btn>
 <bf-btn (bfClick)="extCtrl$.next({ action: 'type', value: 'ax' })"></bf-btn>`;
 

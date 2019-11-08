@@ -39,6 +39,13 @@ export class BfTranslateService extends BfUILibTransService {
     'views.common.30_items_per_page'    : 'Show 30 items per page',
     'views.common.50_items_per_page'    : 'Show 50 items per page',
     'views.common.100_items_per_page'   : 'Show 100 items per page',
+    'view.common.search'  :  'Search',
+    'view.common.edit'    :  'Edit',
+    'view.common.save'    :  'Save',
+    'views.common.update' :  'Update',
+    'view.common.add'     :  'Add',
+    'view.common.delete'  :  'Delete',
+    'view.common.customer_changed_successfully': 'Customer changed to {{customer_name}}',
     'view.common.active'               : 'Active',
     'view.common.inactive'             : 'Inactive',
     'view.common.pending'              : 'Pending'
@@ -68,6 +75,13 @@ export class BfTranslateService extends BfUILibTransService {
     'views.common.30_items_per_page'    : 'Mostra 30 ítems per pàgina',
     'views.common.50_items_per_page'    : 'Mostra 50 ítems per pàgina',
     'views.common.100_items_per_page'   : 'Mostra 100 ítems per pàgina',
+    'view.common.search'  :  'Buscar',
+    'view.common.edit'    :  'Editar',
+    'view.common.save'    :  'Guardar',
+    'views.common.update' :  'Modificar',
+    'view.common.add'     :  'Afegir',
+    'view.common.delete'  :  'Eliminar',
+    'view.common.customer_changed_successfully': 'Compte canviat a {{customer_name}}',
   };
 
   public transDict$ = new BehaviorSubject(this.transDict);
@@ -80,15 +94,18 @@ export class BfTranslateService extends BfUILibTransService {
     this.changeLanguage('en');
   }
 
-  doTranslate = (label ?: string): string => {
+  doTranslate = (label ?: string, params?): string => {
     return this.transDict[label] || label;
   };
 
-  getLabel$ = (label ?: string): Observable<string> => {
+  getLabel$ = (label ?: string, params = {}): Observable<string> => {
     return this.transDict$.pipe(
       map(translations => {
-        // console.log('Translate', label, translations[label]);
-        return translations[label] || label || '';
+        let text = translations[label] || label || '';
+        for (const [key, value] of Object.entries(params)) {
+          text = text.replace(new RegExp('{{' + key + '}}', 'gi'), value);
+        }
+        return text;
       })
     );
   };

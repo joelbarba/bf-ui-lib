@@ -5,7 +5,9 @@
 
   <h5 class="mt-4">Parameters:</h5>
   <br/>
-  <div class="col-12"><pre>{{api}}</pre></div>
+  <div class="col-12">
+    <pre>{{api}}</pre>
+  </div>
 
 
   <div>
@@ -43,17 +45,16 @@
   </div>
 
 
-
   <!-- bfQuantityInput Customization-->
   <div class="whiteBg">
     <div class="row">
       <div class="col-4 marB15">
         <h5 class="marB25">bfQuantityInput customization:</h5>
-        <div  class="padB30" *ngIf="custom.exLinked">
+        <div class="padB30" *ngIf="custom.exLinked">
           <bf-quantity-input
             [(ngModel)]="custom.object.value"
             [name]="custom.object.name"
-            [class] = "custom.config.hasMode ? custom.object.mode: null"
+            [class]="custom.config.hasMode ? custom.object.mode: null"
             [bfDisabled]="custom.object.disable"
             [bfMinVal]="custom.config.hasMinValue ? custom.object.minValue : null"
             [bfMaxVal]="custom.config.hasMaxValue ? custom.object.maxValue : null">
@@ -68,28 +69,38 @@
 
       <div class="col-8">
         <div class="row marT15">
-          <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="custom.object.disable" (ngModelChange)="custom.buildComponentView();" bfLabel="Is Disabled"></bf-checkbox> </div>
-        </div>
-
-        <div class="row marT15">
-          <div class="col-4 padT5"> <bf-checkbox [(ngModel)]="custom.config.hasMinValue" (ngModelChange)="custom.buildComponentView()" bfLabel="Has minimum value"></bf-checkbox> </div>
-          <div class="col-8" style="margin-bottom: -5px;">
-            <bf-input [(ngModel)]="custom.object.minValue" (ngModelChange)="custom.buildComponentView()" [bfDisabled]="!custom.config.hasMinValue"></bf-input>
+          <div class="col-3 padT5">
+            <bf-checkbox [(ngModel)]="custom.object.disable" (ngModelChange)="custom.buildComponentView();"
+                         bfLabel="Is Disabled"></bf-checkbox>
           </div>
         </div>
 
         <div class="row marT15">
           <div class="col-4 padT5">
-            <bf-checkbox [(ngModel)]="custom.config.hasMaxValue" (ngModelChange)="custom.buildComponentView()" bfLabel="Has maximum value"></bf-checkbox>
+            <bf-checkbox [(ngModel)]="custom.config.hasMinValue" (ngModelChange)="custom.buildComponentView()"
+                         bfLabel="Has minimum value"></bf-checkbox>
           </div>
           <div class="col-8" style="margin-bottom: -5px;">
-            <bf-input [(ngModel)]="custom.object.maxValue" (ngModelChange)="custom.buildComponentView()" [bfDisabled]="!custom.config.hasMaxValue"></bf-input>
+            <bf-input [(ngModel)]="custom.object.minValue" (ngModelChange)="custom.buildComponentView()"
+                      [bfDisabled]="!custom.config.hasMinValue"></bf-input>
           </div>
         </div>
 
         <div class="row marT15">
           <div class="col-4 padT5">
-            <bf-checkbox [(ngModel)]="custom.config.hasMode" (ngModelChange)="custom.buildComponentView()" bfLabel="Has specific mode"></bf-checkbox>
+            <bf-checkbox [(ngModel)]="custom.config.hasMaxValue" (ngModelChange)="custom.buildComponentView()"
+                         bfLabel="Has maximum value"></bf-checkbox>
+          </div>
+          <div class="col-8" style="margin-bottom: -5px;">
+            <bf-input [(ngModel)]="custom.object.maxValue" (ngModelChange)="custom.buildComponentView()"
+                      [bfDisabled]="!custom.config.hasMaxValue"></bf-input>
+          </div>
+        </div>
+
+        <div class="row marT15">
+          <div class="col-4 padT5">
+            <bf-checkbox [(ngModel)]="custom.config.hasMode" (ngModelChange)="custom.buildComponentView()"
+                         bfLabel="Has specific mode"></bf-checkbox>
           </div>
           <div class="col-8" style="margin-bottom: -5px;">
             <bf-dropdown [(ngModel)]="custom.object.mode"
@@ -97,7 +108,7 @@
                          [bfList]="custom.config.modeOptions"
                          [bfDisabled]="!custom.config.hasMode"
                          bfSelect="text"
-                         bfRender="text"> </bf-dropdown>
+                         bfRender="text"></bf-dropdown>
           </div>
         </div>
       </div>
@@ -124,7 +135,7 @@
         </bf-quantity-input>
         <br>
         <div class="whiteBg pad15">
-          Value from ngModel    : {{ instance1.object.value }}
+          Value from ngModel : {{ instance1.object.value }}
         </div>
       </div>
       <div class="col-9">
@@ -146,10 +157,12 @@
         </bf-quantity-input>
         <br>
         <div class="whiteBg pad15">
-          Value from ngModel    : {{ instance2.object.value }}
+          Value from ngModel : {{ instance2.object.value }}
         </div>
       </div>
-      <div class="col-9"> <pre>{{instance2.template}}</pre> </div>
+      <div class="col-9">
+        <pre>{{instance2.template}}</pre>
+      </div>
     </div>
 
   </div>
@@ -159,7 +172,8 @@
     <div class="col-12">
       <hr>
       <h4>CSS Styling</h4>
-      <p>The encapsulated styles of the button use a default color. However, we may want to apply different colors externally (depending on the theme)
+      <p>The encapsulated styles of the button use a default color. However, we may want to apply different colors
+        externally (depending on the theme)
         <br/>
         To provide a color restyiling based on a SCSS theme you can apply the following rules on a css global level :
       </p>

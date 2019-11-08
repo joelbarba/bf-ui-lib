@@ -1,3 +1,5 @@
+import { ShowDoc } from './show-demo/show-demo.component';
+import { BfLoadingSpinnerDoc } from './bf-loading-spinner-demo/bf-loading-spinner-demo.component';
 import { BfPagePlaceholderDoc } from './bf-page-placeholder-demo/bf-page-placeholder-demo.component';
 import { BfSliderDoc } from './bf-slider-demo/bf-slider-demo.component';
 import { BfColorPickerDoc } from './bf-color-picker-demo/bf-color-picker-demo.component';
@@ -51,6 +53,7 @@ export const compList = [
   BfListPlaceholderDoc,
   BfPagePlaceholderDoc,
   BfListPaginatorDoc,
+  BfLoadingSpinnerDoc,
   BfGrowlDoc,
   BfLoadingBarDoc,
   BfConfirmDoc,
@@ -58,6 +61,7 @@ export const compList = [
   BfListHandlerDoc,
   BfPromiseDoc,
   BfDeferDoc,
+  ShowDoc,
 ];
 
 /* {

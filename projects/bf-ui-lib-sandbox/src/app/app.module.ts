@@ -38,6 +38,8 @@ import { BfColorPickerDemoComponent } from './bf-color-picker-demo/bf-color-pick
 import { BfSliderDemoComponent } from './bf-slider-demo/bf-slider-demo.component';
 import { BfPagePlaceholderDemoComponent } from './bf-page-placeholder-demo/bf-page-placeholder-demo.component';
 import {BfListHandlerDemoComponent} from "./bf-list-handler-demo/bf-list-handler-demo.component";
+import { BfLoadingSpinnerDemoComponent } from './bf-loading-spinner-demo/bf-loading-spinner-demo.component';
+import { ShowDemoComponent } from './show-demo/show-demo.component';
 
 
 @NgModule({
@@ -74,6 +76,8 @@ import {BfListHandlerDemoComponent} from "./bf-list-handler-demo/bf-list-handler
     BfColorPickerDemoComponent,
     BfSliderDemoComponent,
     BfPagePlaceholderDemoComponent,
+    BfLoadingSpinnerDemoComponent,
+    ShowDemoComponent,
   ],
   imports: [
     BrowserModule,

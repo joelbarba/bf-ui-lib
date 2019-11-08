@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {BfGrowlService} from "../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service";
 
 @Component({
   selector: 'app-bf-btn-demo',
@@ -72,26 +73,30 @@ public cssReset =
 public squashExample = `<bf-btn class="squash" bfType="expand"></bf-btn>`;
 public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"></bf-btn>`;
 
+
+public toggleExample = `<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>`;
+
   public brStr = `
 `;
   public bsStr = `
         `;
   public customBtnCode = '<bf-btn (bfClick)="myFunc($event)"></bf-btn>';
   public btnTypes = [
-    { id: 'primary',    text: 'bfType = primary',    },
-    { id: 'secondary',  text: 'bfType = secondary',  },
-    { id: 'tertiary',   text: 'bfType = tertiary',   },
-    { id: 'quaternary', text: 'bfType = quaternary', },
-    { id: 'warning',    text: 'bfType = warning',    },
-    { id: 'extra',      text: 'bfType = extra',      },
-    { id: 'edit',       text: 'bfType = edit',     },
-    { id: 'save',       text: 'bfType = save',     },
-    { id: 'update',     text: 'bfType = update',   },
-    { id: 'add',        text: 'bfType = add',      },
-    { id: 'delete',     text: 'bfType = delete',   },
-    { id: 'cancel',     text: 'bfType = cancel',   },
-    { id: 'expand',     text: 'bfType = expand',   },
-    { id: 'collapse',   text: 'bfType = collapse', },
+    { id: 'search',     text: 'search',   icon: 'icon-search' },
+    { id: 'edit',       text: 'edit',     icon: 'icon-pencil' },
+    { id: 'save',       text: 'save',     icon: 'icon-arrow-right3' },
+    { id: 'update',     text: 'update',   icon: 'icon-arrow-right3' },
+    { id: 'add',        text: 'add',      icon: 'icon-plus' },
+    { id: 'delete',     text: 'delete',   icon: 'icon-cross' },
+    { id: 'cancel',     text: 'cancel',   icon: 'icon-blocked' },
+    { id: 'expand',     text: 'expand',   icon: 'icon-arrow-down3' },
+    { id: 'collapse',   text: 'collapse', icon: 'icon-arrow-up3' },
+    { id: 'primary',    text: 'primary',    },
+    { id: 'secondary',  text: 'secondary',  },
+    { id: 'tertiary',   text: 'tertiary',   },
+    { id: 'quaternary', text: 'quaternary', },
+    { id: 'warning',    text: 'warning',    },
+    { id: 'extra',      text: 'extra',      },
   ];
   public btnIcons = [
     { icon: 'icon-pencil'        },
@@ -147,7 +152,7 @@ public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"
     { id: 'true',       text: 'true'   },
     { id: 'false',      text: 'false'  },
   ];
-  public btnConf:any = {
+  public btnConf: any = {
     hasText: false, btnText: 'Click Me',
     hasType: false, btnType: 'primary',
     hasIcon: false, btnIcon: 'icon-plus',
@@ -210,12 +215,12 @@ public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"
   };
 
 
+  public count = '';
 
-  constructor() { }
+  constructor(public growl: BfGrowlService) { }
   ngOnInit() {
     this.upBtn();
   }
-  public count = '';
 }
 
 
@@ -224,13 +229,13 @@ public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"
 
 export const BfBtnDoc = {
   name    : `bf-btn`,
-  desc    : `Generates a button.`, 
+  desc    : `Generates a button.`,
   uiType  : 'component',
-  api     : `(bfClick)        : Click event handler
-[bfAsyncPromise] : For async tasks, promise to block all buttons until the task is completed. 
+  api     : `(bfClick) : Click event handler
+[bfAsyncPromise] : For async tasks, promise to block all buttons until the task is completed.
 [bfAsyncClick]   : Click callback function. Instead of using the (bfClick) output, it is also possible to pass a callback function. The return promise is automatically caught.   
 [bfText]         : Text of the button
-[bfType]         : Class of the button [primary, secondary, tertiary, quaternary, warning, extra] or predefined type [add, save, edit, delete, cancel, expand, collapse]
+[bfType]         : Class of the button [primary, secondary, tertiary, quaternary, warning, extra] or predefined type [search, add, save, edit, delete, cancel, expand, collapse]
 [bfIcon]         : Icon of the button (icomoon class)
 [bfIconPos]      : Position of the icon (left / right)
 [bfDisabled]     : True=Button is disabled, False=Enabled
@@ -238,6 +243,7 @@ export const BfBtnDoc = {
 [bfTooltipPos]   : Position of the tooltip (top by default)
 [bfTooltipBody]  : Whether the tooltip is append to the body (default true) or next the the html element (false). The parent container may affect the visibility of the tooltip
 [bfDisabledTip]  : Tooltip text to be displayed when the button is disabled (useful to give tips about why it's disabled)
+[(bfToggle)]     : Boolean flag to use the button as a toggle. Logic is held internally (also default arrow icons)
 `,
   instance: `<bf-btn bfType="edit" (bfClick)="myFunc($event)"></bf-btn>`,
   demoComp: BfBtnDemoComponent

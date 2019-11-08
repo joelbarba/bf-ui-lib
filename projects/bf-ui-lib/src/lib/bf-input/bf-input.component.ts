@@ -1,38 +1,32 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  Inject,
-  forwardRef,
-  OnInit,
-  OnChanges,
-  AfterViewInit
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter, forwardRef} from '@angular/core';
+import { OnInit, OnChanges, AfterViewInit, OnDestroy} from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
-import {
-  FormControl,
-  ControlValueAccessor,
-  Validators,
-  NG_VALIDATORS,
-  AbstractControl,
-  NG_VALUE_ACCESSOR, NgControl
-} from '@angular/forms';
-import {AbstractTranslateService, BfUILibTransService} from '../abstract-translate.service';
+import { FormControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {BfUILibTransService} from '../abstract-translate.service';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
-import { Observable, of } from "rxjs";
-import {map} from "rxjs/operators";
+import { Observable, of } from 'rxjs';
+import {map} from 'rxjs/operators';
 
 export interface IbfInputCtrl {
-  getControl  ?: { (): FormControl };
+  getControl  ?: { _: FormControl };
   inputCtrl$  ?: Observable<FormControl>;
   setFocus    ?: { () };
+  setBlur     ?: { () };
   setDirty    ?: { (opts?) };
   setPristine ?: { (opts?) };
   removeError ?: { () };
   addError    ?: { (err) };
   refresh     ?: { () };
 }
+
+type TExtCtrl$ =
+  { action: 'setFocus'    }
+| { action: 'setBlur'     }
+| { action: 'setDirty',    opts?: any }
+| { action: 'setPristine', opts?: any }
+| { action: 'addError',    label?: string }
+| { action: 'removeError' }
+| { action: 'refresh'     };
 
 
 @Component({
@@ -50,7 +44,7 @@ export interface IbfInputCtrl {
     }
   ]
 })
-export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges, AfterViewInit {
+export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges, AfterViewInit, OnDestroy {
   private ngControl;
   public bfModel: string; // Internal to hold the linked ngModel on the wrapper
 
@@ -84,7 +78,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   // @Input() bfValidIf = null; // Not possible to manage this due to ExpressionChangedAfterItHasBeenCheckedError
 
   @Input() bfErrorText: string;   // Custom error text (label) to display when invalid value
-  @Input() bfErrorPos: 'top-right' | 'bottom-left' | 'bottom-right';  // Custom position where to display the error text
+  @Input() bfErrorPos: 'top-right' | 'bottom-left' | 'bottom-right' | 'none';  // Custom position where to display the error text
 
   @Input() bfIcon = '';             // Icon to show into the input floating at the right hand side (this is replace by bfValidIcon and bfInvalidIcon)
   @Input() bfValidIcon = '';        // Icon to show when the value is dirty and valid (by default none).
@@ -102,6 +96,8 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
 
   @Output() bfOnLoaded = new EventEmitter<IbfInputCtrl>();  // Emitter to catch the moment when the component is ready (ngAfterViewInit)
   @Output() bfBeforeChange = new EventEmitter<any>();       // Emitter to catch the next value before it is set
+
+  @Input() extCtrl$: Observable<any>; // To trigger actions manually from an external observable (subject)
 
   // bfAsyncValidator  : '&?',     // Function to validate asynchronously, returning a promise. Resolve=valid, reject=invalid
 
@@ -126,6 +122,8 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   public isFocus = false; // Whether the focus is on the input
   public hasAutofillDetection = false;  // Whether is has autofill detection (any parameter linked to bfOnAutofill)
   public manualError = null; // Manual error (set through addError() / removeError())
+  public ctrlSubs;  // Subscription to external control observable
+  private ctrlObject; // Hold an object with the input controller and the action methods
 
 
   @ViewChild('ngInputRef') ngInputRef: ElementRef;
@@ -142,6 +140,27 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
     this.errTxtRequired$ = this.translate.getLabel$('view.common.required_field');
     this.errTxtMinLen$ = this.translate.getLabel$('view.common.invalid_min_length');
     this.errTxtMaxLen$ = this.translate.getLabel$('view.common.invalid_max_length');
+
+    this.ctrlObject = {
+      setFocus    : () => this.elementRef.nativeElement.querySelector('input').focus({ preventScroll: false }),
+      setBlur     : () => this.elementRef.nativeElement.querySelector('input').blur(),
+      setDirty    : (opts?) => { this.inputCtrl.markAsDirty(opts); this.deferRefresh(); },
+      setPristine : (opts?) => { this.inputCtrl.markAsPristine(opts); this.deferRefresh(); },
+      removeError : () => {
+        this.manualError = null;
+        this.inputCtrl.updateValueAndValidity();
+        this.deferRefresh();
+      },
+      addError    : (err) => {
+        this.manualError = err;
+        this.inputCtrl.updateValueAndValidity();
+        this.deferRefresh();
+      },
+      refresh : () => {
+        this.inputCtrl.updateValueAndValidity();
+        this.deferRefresh();
+      }
+    };
   }
 
 
@@ -193,13 +212,31 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
       // if (this.bfValidType === 'email')   { this.bfPattern = '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'; }
 
       // Email regex from W3C (https://www.w3.org/TR/html5/forms.html#valid-e-mail-address):
-      if (this.bfValidType === 'email')   { this.bfPattern = "^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"; }
+      if (this.bfValidType === 'email')   {
+        // tslint:disable-next-line
+        this.bfPattern = "^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
+      }
     }
 
     if (change.hasOwnProperty('bfAutoFocus') && !!this.bfAutoFocus) {
       setTimeout(() => {  // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus
         this.elementRef.nativeElement.querySelector('input').focus({ preventScroll: false });
       }, 50);
+    }
+
+
+    // External control via extCtrl$
+    if (change.hasOwnProperty('extCtrl$')) {
+      if (!!this.ctrlSubs) { this.ctrlSubs.unsubscribe(); }
+      this.extCtrl$.subscribe((op: TExtCtrl$) => {
+        if (op.action === 'setFocus')    { this.ctrlObject.setFocus(); }
+        if (op.action === 'setBlur')     { this.ctrlObject.setBlur(); }
+        if (op.action === 'setDirty')    { this.ctrlObject.setDirty(op.opts); }
+        if (op.action === 'setPristine') { this.ctrlObject.setPristine(op.opts); }
+        if (op.action === 'addError')    { this.ctrlObject.addError(op); }
+        if (op.action === 'removeError') { this.ctrlObject.removeError(); }
+        if (op.action === 'refresh')     { this.ctrlObject.refresh(); }
+      });
     }
 
     // Update the model (once ready)
@@ -227,35 +264,20 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
       this.inputCtrl = this.ngInputRef['control'];
     }
 
-    this.bfOnLoaded.emit({
-      inputCtrl$  : this.inputCtrl ? this.inputCtrl.statusChanges.pipe(map(status => this.inputCtrl)) : null, // expose the whole formControl
-      setFocus    : () => this.elementRef.nativeElement.querySelector('input').focus({ preventScroll: false }),
-      setDirty    : (opts?) => { this.inputCtrl.markAsDirty(opts); this.deferRefresh(); },
-      setPristine : (opts?) => { this.inputCtrl.markAsPristine(opts); this.deferRefresh(); },
-      removeError : () => {
-        this.manualError = null;
-        this.inputCtrl.updateValueAndValidity();
-        this.deferRefresh();
-      },
-      addError    : (err) => {
-        this.manualError = err;
-        this.inputCtrl.updateValueAndValidity();
-        this.deferRefresh();
-      },
-      refresh : () => {
-        this.inputCtrl.updateValueAndValidity();
-        this.deferRefresh();
-      }
+    this.bfOnLoaded.emit({ // expose the formControl
+      inputCtrl$ : this.inputCtrl ? this.inputCtrl.statusChanges.pipe(map(status => this.inputCtrl)) : null,
+      ...this.ctrlObject  // Add control methods here too
     });
-  };
-
-
-
+  }
 
   // ngAfterViewChecked() {
   //   console.log('ngAfterViewChecked');
   // }
 
+
+  ngOnDestroy() {
+    if (!!this.ctrlSubs) { this.ctrlSubs.unsubscribe(); }
+  }
 
 
   // ------- ControlValueAccessor -----
@@ -302,6 +324,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   };
 
   // Custom validator for the internal ngModel (input)
+  // tslint:disable-next-line
   public customValidator = ((intFormCtrl: FormControl) => {
     // intFormCtrl <-- FormControl of the internal ngModel (same as this.inputCtrl)
     let result = null;

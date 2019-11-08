@@ -1,0 +1,23 @@
+.bf-progress-bar {
+
+  /deep/ .progress {
+    height: 1.2rem;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+    .progress-bar {
+      text-align: right;
+      padding-right: 0.5rem;
+    }
+  }
+
+  /deep/ .percentage-outside {
+     span {
+      margin-left: calc(100% + 0.5rem);
+    }
+  }
+
+  .progress-sub-label {
+    display: flex;
+    justify-content: space-between;
+  }
+
+}
