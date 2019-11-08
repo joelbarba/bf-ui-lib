@@ -18,8 +18,8 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class BfNoDataComponent implements OnInit {
   @Input() bfMessage = 'view.common.no_data_to_show';
-  @Input() bfDescription: string;
-  @Input() bfIcon: string;
+  // @Input() bfDescription: string;
+  // @Input() bfIcon: string;
 
   constructor() { }
 

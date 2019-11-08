@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Pipe, PipeTransform} from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Pipe, PipeTransform } from '@angular/core';
 
 type doTranslateFn = (label ?: string) => string;
 type getFn = (label ?: string) => Observable<string>;
@@ -7,7 +7,6 @@ export abstract class AbstractTranslateService {
   public onLangChange$; // : BehaviorSubject<{ lang: '', translations: null }>;
   abstract doTranslate: doTranslateFn;  // Synchronous translation
   abstract getLabel$: getFn;            // Async translation
-  // abstract changeLanguage;
 }
 
 export class BfUILibTransService extends AbstractTranslateService {
@@ -24,6 +23,8 @@ export class BfUILibTransService extends AbstractTranslateService {
 }
 
 
+// Shortcut to get the label observable in the view, with change detection included
+// Can be used like: {{ myLabel | getLabel$ | async }}
 @Pipe({ name: 'getLabel$' })
 export class BfTranslatePipe implements PipeTransform {
   constructor(private translate: BfUILibTransService) {}
