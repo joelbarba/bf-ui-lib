@@ -40,6 +40,7 @@ export class BfListHandler {
 
 
   private contentSubs;  // Content loader subscription
+  private stateSubs;    // State loader subscription
 
   constructor(customInit: Partial<BfListHandlerConfig> = {}) {
     if (customInit.hasOwnProperty('listName'))     { this.listName     = customInit.listName; }
@@ -160,6 +161,15 @@ export class BfListHandler {
     if (!!this.contentSubs) { this.contentSubs.unsubscribe(); }
     this.loadingStatus = 1; // loading
     this.contentSubs = load$.subscribe(this.load);
+  };
+
+  // Set an observable as the source of input state (state: { status, list })
+  public setState = (state$) => {
+    if (!!this.stateSubs) { this.stateSubs.unsubscribe(); }
+    this.stateSubs = state$.subscribe(state => {
+      this.loadingStatus = state.status;
+      if (state.status === 2) { this.load(state.list); }
+    });
   };
 
   // Shortcuts to dispatch action
