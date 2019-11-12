@@ -48,11 +48,9 @@ export class BfStatusBadgeComponent implements OnInit, OnChanges {
   ngOnChanges(change) {
     this.setStatus(this.bfStatus);
     this.setLabel();
-    // if (change.hasOwnProperty('bfStatus')) { this.setStatus(this.bfStatus); }
-    // if (change.hasOwnProperty('bfLabel')) { this.setLabel(); }
   }
 
-  setStatus = (status) => {
+  setStatus(status) {
     if (typeof status === 'boolean') {
       this.bfCurrentStatus = this.bfStatus ? 0 : 1;
     } else if (typeof status === 'number') {
