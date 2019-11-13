@@ -109,7 +109,6 @@ import { ShowDirective } from './show/show.component';
     BfLabelComponent,
     BfBtnComponent,
     BfListHeaderColComponent,
-
     BfGrowlModule,
     BfLoadingBarModule,
   ]

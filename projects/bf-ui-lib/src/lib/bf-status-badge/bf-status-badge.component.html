@@ -1,3 +1,6 @@
-<p>
-  bf-status-badge works!
-</p>
+<div class="bf-status-badge" [ngClass]="bfStatusCss[bfCurrentStatus]"
+     [class.bf-status-badge-circle]="bfCircle"
+     [ngStyle]="{'background-color': bfCurrentColor}"
+     [ngbTooltip]="bfCurrentLabel$ | async" [disableTooltip]="!bfCircle">
+  <span class="bf-status-badge-text">{{bfCurrentLabel$ | async}}</span>
+</div>
