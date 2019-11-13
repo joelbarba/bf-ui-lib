@@ -6,13 +6,13 @@ $bf-status-other2   : $extra_color;
 $bf-status-other3   : darken($secondary_color, 15);
 $bf-status-other4   : darken($bf_color3_shadow2, 20%);
 $bf-status-submitted: darken($tertiary_color, 15);
-$bf-fontSize        : 12px;
-$bf-weight          : 600;
+$bf-status-font-size: 12px;
+$bf-status-font-weight: 600;
 
 .bf-status-badge {
   color: $white;
-  font-size: $bf-fontSize;
-  font-weight: $bf-weight;
+  font-size: $bf-status-font-size;
+  font-weight: $bf-status-font-weight;
   border: 1px solid #f8f8f8;
   &.bf-color-first   { background: $bf-status-active;   }
   &.bf-color-second  { background: $bf-status-inactive; }
