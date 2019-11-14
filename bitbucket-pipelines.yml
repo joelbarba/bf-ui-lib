@@ -11,6 +11,6 @@ pipelines:
           - npm ci
           # npm run lint:ci
           # npm run test:ci
-          # npm run e2e:webdriver:update
+          - npm run e2e:webdriver:update
           # ./node_modules/.bin/webdriver-manager status
           - npm run e2e:ci
