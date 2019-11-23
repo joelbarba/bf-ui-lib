@@ -21,19 +21,18 @@
          [ngbTooltip]="bfDisabledTipTrans$ | async">
 
       <input type="text" class="form-control" #dropdownInput
-             [class.has-image]="!!bfModel[bfRenderImg]"
-             [class.has-icon]="!!bfModel[bfRenderIco]"
              [ngModel]="inputText" (ngModelChange)="filterList($event)"
+             [class.has-image]="!!bfModel?.$img"
+             [class.has-icon]="!!bfModel?.$icon"
              [placeholder]="selModelText"
              [disabled]="bfDisabled"
              (focusin)="expandList()"
              (focusout)="collapseList()">
 
-      <img *ngIf="!!bfModel[bfRenderImg]" class="input-image" [class.fade]="isExpanded"
-           [src]="bfModel[bfRenderImg]">
+      <img *ngIf="!!bfModel?.$img" class="input-image" [class.fade]="isExpanded" [src]="bfModel?.$img">
 
-      <span *ngIf="bfModel[bfRenderIco] && !bfModel[bfRenderImg]" class="input-icon" [class.fade]="isExpanded"
-            [ngClass]="bfModel[bfRenderIco]">
+      <span *ngIf="bfModel?.$icon && !bfModel?.$img" class="input-icon" [class.fade]="isExpanded"
+            [ngClass]="bfModel?.$icon">
       </span>
 
       <div class="input-group-append" (click)="!bfDisabled && onInputBtnClick()">
@@ -48,8 +47,8 @@
            [class.selected]="bfModel === item"
            [hidden]="!item.$isMatch"
            (mousedown)="selectItem(item)">
-        <img *ngIf="!!item[bfRenderImg]"  class="option-row-image" [src]="item[bfRenderImg]">
-        <span *ngIf="!!item[bfRenderIco]" class="option-row-icon" [ngClass]="item[bfRenderIco]"></span>
+        <img *ngIf="!!item?.$img"  class="option-row-image" [src]="item?.$img">
+        <span *ngIf="!!item?.$icon" class="option-row-icon" [ngClass]="item?.$icon"></span>
         <span>{{item.$renderedText}}</span>
 <!--        {{option.$isMatch}} - {{option.$renderedText}}-->
       </div>
@@ -57,5 +56,6 @@
   </div>
 
   <!--pristine={{ngControl.pristine | json}}-->
+  <!--bfModel={{bfModel | json}}-->
 
 </div>

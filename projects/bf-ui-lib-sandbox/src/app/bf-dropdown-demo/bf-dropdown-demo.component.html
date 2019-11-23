@@ -7,6 +7,23 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
 <h5 class="mt-4">Parameters:</h5>
 <div class="col-12"><pre>{{api}}</pre></div>
 
+<!--Test dropdown in a form-->
+<div class="col-4">
+  <form #profileSettingsForm="ngForm">
+    invalid={{profileSettingsForm.invalid}}
+    <bf-dropdown class="col-12 full-width" name="timeZone"
+                 [(ngModel)]="profileForm.time_zone"
+                 [bfList]="timeZones"
+                 bfLabel="view.common.timezone"
+                 bfSelect="time_zone"
+                 bfRender="time_zone"
+                 [bfRequired]="true">
+    </bf-dropdown>
+  </form>
+</div>
+
+
+
 <!--<div class="row">-->
 <!--  <div class="col-9">-->
 <!--                 &lt;!&ndash;bfRender="$$$ 'AA ' + $item.username"&ndash;&gt;-->

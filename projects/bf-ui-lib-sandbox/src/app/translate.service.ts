@@ -48,8 +48,8 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.customer_changed_successfully': 'Customer changed to {{customer_name}}',
     'view.common.active'               : 'Active',
     'view.common.inactive'             : 'Inactive',
-    'view.common.pending'              : 'Pending'
-    'view.common.no_data_to_show': 'No Data',
+    'view.common.pending'              : 'Pending',
+    'view.common.no_data_to_show' : 'No Data',
   };
   public transDictCAT = {
     'view.common.name'            : 'Nom',

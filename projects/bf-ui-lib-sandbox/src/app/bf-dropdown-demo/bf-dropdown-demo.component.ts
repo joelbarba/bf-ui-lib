@@ -70,6 +70,12 @@ export class BfDropdownDemoComponent implements OnInit {
              [bfRequired]="true"
              [bfDisabled]="false">
 </bf-dropdown>`;
+  public timeZones =  [
+    { country_code: null, time_zone: 'Africa/Addis_Ababa', img: 'assets/language-flags/ja.png' },
+    { country_code: null, time_zone: 'Africa/Algiers',     img: 'assets/language-flags/us.png'  },
+    { country_code: null, time_zone: 'Africa/Asmara',      img: 'assets/language-flags/ie.png'  },
+  ];
+  public profileForm = { time_zone: 'Africa/Algiers' };
 
   public cssReset = `$dropdown-selection-bg: $quaternary_color;
 $dropdown-selection-hover: $primary_color;

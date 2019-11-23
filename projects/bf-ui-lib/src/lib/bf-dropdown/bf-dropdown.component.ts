@@ -211,7 +211,9 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     $index: 0,
     $label: 'view.common.empty',
     $renderedText: 'Empty',
-    $isMatch: true
+    $isMatch: true,
+    $img: null,
+    $icon: null,
   };
 
   public bfLabelTrans$: Observable<string> = of('');         // Translated text for the label
@@ -325,6 +327,8 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
       $item.$label = itemLabel;
       $item.$index = ind + 1;  // Internal unique index
       $item.$isMatch = true;   // filter none by default
+      $item.$img = $item[this.bfRenderImg] || null;
+      $item.$icon = $item[this.bfRenderIco] || null;
     });
 
     this.toggleEmptyOption(); // Set Empty option
@@ -504,6 +508,8 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
           delete oriItem.$label;
           delete oriItem.$renderedText;
           delete oriItem.$isMatch;
+          delete oriItem.$img;
+          delete oriItem.$icon;
 
 
           // Stringify comparison is quite bad. TODO: Add a better object compare here
@@ -563,6 +569,8 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
         delete extModel.$label;
         delete extModel.$renderedText;
         delete extModel.$isMatch;
+        delete extModel.$img;
+        delete extModel.$icon;
         modelUp = this.bfList.find(item => JSON.stringify(item) === JSON.stringify(extModel));
 
       } else {
