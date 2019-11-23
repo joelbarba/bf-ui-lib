@@ -114,7 +114,6 @@ import { BfNoDataComponent } from './bf-no-data/bf-no-data.component';
     BfLabelComponent,
     BfBtnComponent,
     BfListHeaderColComponent,
-
     BfGrowlModule,
     BfLoadingBarModule,
   ]
