@@ -33,12 +33,12 @@ import { BfPromise } from "../bf-promise/bf-promise";
 
 export enum ILoadingStatus { Off = 0, Running = 1, Displayed = 2 }
 export interface ILoadingOptions {
-  blockScreen: boolean    // Whether the whole screen should be blocked
-  delayTime: number       // Time to wait to trigger the animation after the loading is started
-  showBar: boolean        // Whether the loading bar should be displayed
-  showSpinner: boolean    // Whether the show the center spinner
-  spinnerType: 'circular' | 'blueface'  // The type of the spinner to display
-  showLogs: boolean       // Debug flag - If on, console logs will be prompted
+  blockScreen: boolean;    // Whether the whole screen should be blocked
+  delayTime: number;       // Time to wait to trigger the animation after the loading is started
+  showBar: boolean;        // Whether the loading bar should be displayed
+  showSpinner: boolean;    // Whether the show the center spinner
+  spinnerType: 'circular' | 'blueface';  // The type of the spinner to display
+  showLogs: boolean;       // Debug flag - If on, console logs will be prompted
 }
 
 @Injectable({ providedIn: 'root' })
@@ -47,7 +47,7 @@ export class BfLoadingBarService {
     showBar     : true,
     blockScreen : true,
     showSpinner : false,
-    delayTime   : 1000,
+    delayTime   : 0,
     spinnerType : 'circular',
     showLogs    : false
   };
@@ -96,7 +96,7 @@ export class BfLoadingBarService {
 
   // Finish the loading process. If there's any promise waiting in the queue, clear it up
   public stop = () => {
-    if (this.options.showLogs) { console.log('LOADING BAR: Stopped'); }
+    if (this.options.showLogs) { console.log('LOADING BAR: Stopped', (new Date()).getSeconds(), (new Date()).getMilliseconds()); }
     this.waitingQueue = [];
     if (!!this.delayPromise) { this.delayPromise.cancel(); }
     this.setStatus(ILoadingStatus.Off);
@@ -108,9 +108,9 @@ export class BfLoadingBarService {
     this.status = newStatus;
     this.status$.next(this.status);
     if (this.options.showLogs) {
-      if (this.status === ILoadingStatus.Off) { console.log('LOADING BAR: Off'); }
-      if (this.status === ILoadingStatus.Running) { console.log('LOADING BAR: Running'); }
-      if (this.status === ILoadingStatus.Displayed) { console.log('LOADING BAR: Displayed'); }
+      if (this.status === ILoadingStatus.Off) { console.log('LOADING BAR: Off', (new Date()).getSeconds(), (new Date()).getMilliseconds()); }
+      if (this.status === ILoadingStatus.Running) { console.log('LOADING BAR: Running', (new Date()).getSeconds(), (new Date()).getMilliseconds()); }
+      if (this.status === ILoadingStatus.Displayed) { console.log('LOADING BAR: Displayed', (new Date()).getSeconds(), (new Date()).getMilliseconds()); }
     }
   };
 
@@ -125,7 +125,7 @@ export class BfLoadingBarService {
 
         if (!this.waitingQueue.length) {  // If no more promise to wait, finish
           if (!!this.delayPromise) { this.delayPromise.cancel(); }
-          if (this.options.showLogs) { console.log('LOADING BAR: Resolved'); }
+          if (this.options.showLogs) { console.log('LOADING BAR: Resolved', (new Date()).getSeconds(), (new Date()).getMilliseconds()); }
           this.setStatus(ILoadingStatus.Off);
         }
       }

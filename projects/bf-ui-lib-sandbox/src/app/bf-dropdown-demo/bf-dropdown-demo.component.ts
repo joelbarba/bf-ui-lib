@@ -75,7 +75,7 @@ export class BfDropdownDemoComponent implements OnInit {
     { country_code: null, time_zone: 'Africa/Algiers',     img: 'assets/language-flags/us.png'  },
     { country_code: null, time_zone: 'Africa/Asmara',      img: 'assets/language-flags/ie.png'  },
   ];
-  public profileForm = { time_zone: 'Africa/Algiers' };
+  public profileForm = { time_zone: 'Europe/Dublin' };
 
   public cssReset = `$dropdown-selection-bg: $quaternary_color;
 $dropdown-selection-hover: $primary_color;

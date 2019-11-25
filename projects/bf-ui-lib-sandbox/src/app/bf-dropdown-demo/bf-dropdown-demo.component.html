@@ -17,8 +17,11 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
                  bfLabel="view.common.timezone"
                  bfSelect="time_zone"
                  bfRender="time_zone"
+                 #profileTimeZone="ngModel"
                  [bfRequired]="true">
     </bf-dropdown>
+    valid={{profileTimeZone.valid}}
+    , errors={{profileTimeZone.errors | json}}
   </form>
 </div>
 
