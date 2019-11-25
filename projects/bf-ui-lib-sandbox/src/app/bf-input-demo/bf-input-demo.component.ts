@@ -320,7 +320,9 @@ this.ctrl.setFocus();
     }
   };
 
-
+  public validIfEqual = (value) => {
+    return (value === '666' || value === '') ? null : { label : 'views.common.invalidddd', value: 'xxx' };
+  }
 
 }
 

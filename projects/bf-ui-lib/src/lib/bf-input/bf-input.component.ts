@@ -330,6 +330,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
     let result = null;
 
     if (!!this.bfValidator && typeof this.bfValidator === 'function') {
+      console.log('bfValidator', new Date());
       result = this.bfValidator(intFormCtrl.value);
     }
 
@@ -364,11 +365,20 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
         this.displayIcon = this.bfIcon || this.bfInvalidIcon;
 
         if (!this.bfErrorText) {
-          if (this.inputCtrl.errors.required)  { this.errorTextTrans$ = this.errTxtRequired$; }
-          if (this.inputCtrl.errors.minlength) { this.errorTextTrans$ = this.errTxtMinLen$; }
-          if (this.inputCtrl.errors.maxlength) { this.errorTextTrans$ = this.errTxtMaxLen$; }
+          if (this.inputCtrl.errors.required) {
+            this.errorTextTrans$ = this.errTxtRequired$;
+          }
+          if (this.inputCtrl.errors.minlength) {
+            this.errorTextTrans$ = this.translate.getLabel$('view.common.invalid_min_length', { min: this.inputCtrl.errors.minlength.requiredLength });
+          }
+          if (this.inputCtrl.errors.maxlength) {
+            this.errorTextTrans$ = this.translate.getLabel$('view.common.invalid_max_length', { max: this.inputCtrl.errors.minlength.requiredLength });
+          }
+          if (this.inputCtrl.errors.label) {
+            this.errorTextTrans$ = this.translate.getLabel$(this.inputCtrl.errors.label, this.inputCtrl.errors);
+          }
           if (!!this.manualError && this.manualError.label) {
-            this.errorTextTrans$ = this.translate.getLabel$(this.manualError.label);
+            this.errorTextTrans$ = this.translate.getLabel$(this.manualError.label, this.manualError);
           }
         }
       }
