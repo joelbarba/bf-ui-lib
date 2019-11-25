@@ -26,28 +26,20 @@ export class BfSwitchDemoComponent implements OnInit {
   public instance4 =
 `<bf-switch [(ngModel)]="myVal" bfLabel="view.common.name"></bf-switch>`;
 
-  public cssReset = `div.bf-switch {
+  public cssReset = `$switch-bar-bg    : #fff;
+$switch-bar-color : #ccc;
+$switch-lever-bg  : #f3f3f3;
+$switch-color-on  : $valid-color;
+$switch-color-off : $switch-lever-bg`;
 
-  .switch-bar {  // Background bar
-    background: white;
-    border-color: #ccc;
-  }
-
+  public cssReset2 = `.bf-switch {
   .switch-value {  // Text color (ON/OFF)
     .bf-switch-off-text { color: red; }
     .bf-switch-on-text  { color: green; }
   }
-
-  .switch-lever {  // Switch color
-    color: white;
-    background: #f3f3f3;
-    &.is-on  { background: $primary_color; }
-    &.is-off { background: red; }
-  }
-
-  &.is-disabled {
-    .switch-bar   { background: #d4d4d4; }
-    .switch-lever { background: #f3f3f3; }
+  .switch-lever { // Lever color
+    &.is-on  { background: yellow; }
+    &.is-off { background: purple; }
   }
 }`;
 

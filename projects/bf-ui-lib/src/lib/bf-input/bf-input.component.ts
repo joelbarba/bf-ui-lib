@@ -330,7 +330,6 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
     let result = null;
 
     if (!!this.bfValidator && typeof this.bfValidator === 'function') {
-      console.log('bfValidator', new Date());
       result = this.bfValidator(intFormCtrl.value);
     }
 
