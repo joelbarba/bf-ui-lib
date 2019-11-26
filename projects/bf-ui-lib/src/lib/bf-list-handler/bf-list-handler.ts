@@ -9,6 +9,7 @@ export interface BfListHandlerConfig {
   orderReverse  ?: boolean;
   rowsPerPage   ?: number;
   totalPages    ?: number;
+  extMethods    ?: boolean;
 }
 
 
@@ -30,6 +31,7 @@ export class BfListHandler {
   public filterText = '';           // Current filter value
   // --------------------------
 
+  public extMethods = false;        // Whether to extend the items with handling methods ($remove, $save)
   public filterFields: Array<string> = [];  // Name of the field where to apply the filter (filterText)
   public orderConf = {
     fields: [],       // Array with all the fields the list is ordered by
@@ -49,6 +51,7 @@ export class BfListHandler {
     if (customInit.hasOwnProperty('orderReverse')) { this.orderConf.reverse = customInit.orderReverse; }
     if (customInit.hasOwnProperty('rowsPerPage'))  { this.rowsPerPage  = customInit.rowsPerPage; }
     if (customInit.hasOwnProperty('totalPages'))   { this.totalPages   = customInit.totalPages; }
+    if (customInit.hasOwnProperty('extMethods'))   { this.extMethods   = customInit.extMethods; }
 
     this.loadedList = [];
     this.renderedList = [];
@@ -157,7 +160,7 @@ export class BfListHandler {
   public load = (content) => this.dispatch({ action: 'LOAD', payload: content });
 
   // Set an observable as the source of input data for the list
-  public setLoader = (load$) => {
+  public subscribeTo = (load$) => {
     if (!!this.contentSubs) { this.contentSubs.unsubscribe(); }
     this.loadingStatus = 1; // loading
     this.contentSubs = load$.subscribe(this.load);
@@ -186,11 +189,15 @@ export class BfListHandler {
 
   // Extend the list item with manipulation methods: $save(), $remove()
   private extendItem = (item: any = {}) => {
-    item.$remove = () => this.dispatch({ action: 'REMOVE', payload: item });
-    item.$save = (nextItem = {}) => {
-      Object.assign(item, nextItem);
-      this.dispatch({ action: 'REFRESH' });
-    };
+    if (this.extMethods) {
+      item.$remove = () => {
+        this.dispatch({ action: 'REMOVE', payload: item });
+      };
+      item.$save = (nextItem = {}) => {
+        Object.assign(item, nextItem);
+        this.dispatch({ action: 'REFRESH' });
+      };
+    }
     return item;
   };
 

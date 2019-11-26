@@ -220,6 +220,7 @@ rowsPerPage   : number   → Current number of rows per page (pagination)
 currentPage   : number   → Current page (pagination)
 totalPages    : number   → Current total of pages (pagination)
 filterText    : string   → Current filtered match (the pattern to match with the content)
+extMethods    : boolean  → Current filtered match (the pattern to match with the content)
 
 filterFields  : Array<string> → Array of the fields that will be match with the "filterText" during the filter process.
 orderConf { → Object to manage order (ready to be link to <bf-list-header-col [bfCtrl]="orderConf">)
@@ -229,10 +230,12 @@ orderConf { → Object to manage order (ready to be link to <bf-list-header-col 
                             it swaps it to the first position (first field to order by)
 }
 
-.load(data: Array<T>)                     → To load a new content passing a new array of objects.
-.setLoader(loader$: Observable<Array<T>>) → Subscribes to the loader$ observable to load the content every time it emits.
-                                            Setting the loader turns the loadingStatus to 1 (loading). When the content
-                                            is loaded (loader$.next()) it turns it to 2 (loaded).
+.load(data: Array<T>)                                       → To load a new content passing a new array of objects.
+.subscribeTo(loader$: Observable<Array<T>>)                 → Subscribes to a source (array to load on the list). 
+.setLoader(loader$: Observable<{ status, list: Array<T> }>) → Same as .subscribeTo() but with status.
+                                                              Subscribes to the loader$ observable to load the content every time it emits.
+                                                              Setting the loader turns the loadingStatus to 1 (loading). When the content
+                                                              is loaded (loader$.next()) it turns it to 2 (loaded).
 
 // Action dispatchers - All this methods will trigger a list render after the state changes
 .filter(filterText)     → To update filterText with a new match
