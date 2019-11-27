@@ -81,6 +81,9 @@ export class BfLabelDemoComponent implements OnInit {
     hasColon: false,
     hasValueInline: false,
     hasValueList: false,
+    hasValueBold: false,
+    hasValueLight: false,
+    hasEllipsis: false,
   };
   public upComp = () => {
     this.customCompCode = `<bf-label `;
@@ -91,6 +94,9 @@ export class BfLabelDemoComponent implements OnInit {
     if (this.compConf.hasValueInline) { compClasses += (!!compClasses.length ? ' ' : '') + 'value-inline'; }
     if (this.compConf.hasValueList)   { compClasses += (!!compClasses.length ? ' ' : '') + 'value-list'; }
     if (this.compConf.hasNoBold)      { compClasses += (!!compClasses.length ? ' ' : '') + 'no-bold'; }
+    if (this.compConf.hasValueBold)   { compClasses += (!!compClasses.length ? ' ' : '') + 'value-bold'; }
+    if (this.compConf.hasValueLight)  { compClasses += (!!compClasses.length ? ' ' : '') + 'value-light'; }
+    if (this.compConf.hasEllipsis)    { compClasses += (!!compClasses.length ? ' ' : '') + 'ellipsis'; }
     if (!!compClasses) {
       this.customCompCode += `class="${compClasses}"` + this.bsStr;
     }

@@ -159,7 +159,7 @@ this.myList.render$.subscribe(state => ...);`;
   }
 
   ngOnInit() {
-    this.myList.setLoader(this.loader$);
+    this.myList.subscribeTo(this.loader$);
     this.loader$.next(this.getRandomData());
     // this.myList.load(this.getRandomData());
   }

@@ -1,11 +1,12 @@
-import {Component, OnInit, Input, OnChanges} from '@angular/core';
-import { BfUILibTransService} from '../abstract-translate.service';
+import {Component, Input, OnChanges, OnInit, ViewEncapsulation} from '@angular/core';
+import {BfUILibTransService} from '../abstract-translate.service';
 import {Observable, of} from 'rxjs';
 
 @Component({
   selector: 'bf-label',
   templateUrl: './bf-label.component.html',
-  styleUrls: ['./bf-label.component.scss']
+  styleUrls: ['./bf-label.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class BfLabelComponent implements OnInit, OnChanges {
   @Input() bfText = '';

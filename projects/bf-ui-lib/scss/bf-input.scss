@@ -28,6 +28,7 @@ $disabled_input_color : $disabled-color;
   }
 
   label { transition-property: color; transition-duration: 0.2s; }
+  &.is-required label { color: $required_input_color; }
   &.is-focus label { color: $focused_input_color; }
 
   &.is-error {

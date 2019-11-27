@@ -1,4 +1,4 @@
-<label [class.is-required]="bfRequired">
+<label [class.is-required]="bfRequired" *ngIf="!!bfText">
   <span class="info-badge" *ngIf="!!bfTooltip"
        [ngbTooltip]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
        [container]="(bfTooltipBody ? 'body' : '')">
