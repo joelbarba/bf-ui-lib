@@ -84,7 +84,13 @@ export class BfLabelDemoComponent implements OnInit {
     hasValueBold: false,
     hasValueLight: false,
     hasEllipsis: false,
+    textSize: null,
+    valueList: null,
+    valueMar: null,
   };
+  public textSizes = [];
+  public valueLists = [];
+  public valueMars = [];
   public upComp = () => {
     this.customCompCode = `<bf-label `;
 
@@ -97,6 +103,9 @@ export class BfLabelDemoComponent implements OnInit {
     if (this.compConf.hasValueBold)   { compClasses += (!!compClasses.length ? ' ' : '') + 'value-bold'; }
     if (this.compConf.hasValueLight)  { compClasses += (!!compClasses.length ? ' ' : '') + 'value-light'; }
     if (this.compConf.hasEllipsis)    { compClasses += (!!compClasses.length ? ' ' : '') + 'ellipsis'; }
+    if (this.compConf.textSize)       { compClasses += (!!compClasses.length ? ' ' : '') + this.compConf.textSize; }
+    if (this.compConf.valueMar)       { compClasses += (!!compClasses.length ? ' ' : '') + this.compConf.valueMar; }
+    if (this.compConf.valueList)      { compClasses += (!!compClasses.length ? ' ' : '') + this.compConf.valueList; }
     if (!!compClasses) {
       this.customCompCode += `class="${compClasses}"` + this.bsStr;
     }
@@ -116,6 +125,8 @@ export class BfLabelDemoComponent implements OnInit {
   };
 
 
+
+
   constructor(
     private translate: BfTranslateService,
     private config: NgbPopoverConfig
@@ -124,6 +135,10 @@ export class BfLabelDemoComponent implements OnInit {
     // config.placement = 'top';
     // config.triggers = 'hover';
     // config.container = 'body';
+
+    for (let t = 30; t >= 1; t--) { this.textSizes.push({id: 'text-' + t }); }
+    for (let t = 1; t <= 10; t++) { this.valueLists.push({id: 'value-list-' + t }); }
+    for (let t = 0; t <=  6; t++) { this.valueMars.push({id: 'value-mar-' + (t * 5) }); }
   }
 
   ngOnInit() {

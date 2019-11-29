@@ -14,11 +14,11 @@ It also makes use of the translation service (if present), to automatically tran
     <div class="col-6 marB15">
       <h5 class="marB25">Customization:</h5>
       <div class="padB25">
-        <bf-label class="text-12" bfValue="view.common.field_name"></bf-label>
-        <bf-label class="text-14" bfValue="view.common.field_name"></bf-label>
-        <bf-label class="text-16" bfValue="view.common.field_name"></bf-label>
-        <bf-label class="text-18" bfValue="view.common.field_name"></bf-label>
-        <bf-label class="text-24" bfValue="view.common.field_name"></bf-label>
+        <!--<bf-label class="text-12" bfValue="view.common.field_name"></bf-label>-->
+        <!--<bf-label class="text-14" bfValue="view.common.field_name"></bf-label>-->
+        <!--<bf-label class="text-16" bfValue="view.common.field_name"></bf-label>-->
+        <!--<bf-label class="text-18" bfValue="view.common.field_name"></bf-label>-->
+        <!--<bf-label class="text-24" bfValue="view.common.field_name"></bf-label>-->
 
         <bf-label [class.no-colon]="compConf.hasNoColon"
                   [class.colon]="compConf.hasColon"
@@ -28,6 +28,7 @@ It also makes use of the translation service (if present), to automatically tran
                   [class.value-bold]="compConf.hasValueBold"
                   [class.value-ellipsis]="compConf.hasEllipsis"
                   [class.value-light]="compConf.hasValueLight"
+                  [ngClass]="(compConf.textSize + ' ' + compConf.valueMar + ' ' + compConf.valueList)"
                   [bfText]="compConf.hasLabel ? compConf.text : ''"
                   [bfValue]="compConf.hasValue ? compConf.value: ''"
                   [bfRequired]="compConf.isRequired"
@@ -77,6 +78,7 @@ It also makes use of the translation service (if present), to automatically tran
       </div>
 
       <div class="row padT10">
+        <div class="col-12"><hr></div>
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasNoColon" (ngModelChange)="upComp()" bfLabel="no-colon"></bf-checkbox> </div>
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasColon" (ngModelChange)="upComp()" bfLabel="colon"></bf-checkbox> </div>
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasValueInline" (ngModelChange)="upComp()" bfLabel="value-inline"></bf-checkbox> </div>
@@ -86,6 +88,25 @@ It also makes use of the translation service (if present), to automatically tran
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasValueLight" (ngModelChange)="upComp()" bfLabel="value-light"></bf-checkbox> </div>
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasEllipsis" (ngModelChange)="upComp()" bfLabel="value-ellipsis"></bf-checkbox> </div>
       </div>
+
+      <div class="row marT10">
+        <div class="col-4">
+          <bf-dropdown bfLabel="Text Size" [(ngModel)]="compConf.textSize" (ngModelChange)="upComp()"
+                       [bfList]="textSizes" bfRender="id" bfSelect="id" bfEmptyLabel="default (14px)">
+          </bf-dropdown>
+        </div>
+        <div class="col-4" *ngIf="compConf.hasValueList || compConf.hasValueInline">
+          <bf-dropdown bfLabel="Value Margin" [(ngModel)]="compConf.valueMar" (ngModelChange)="upComp()"
+                       [bfList]="valueMars" bfRender="id" bfSelect="id" bfEmptyLabel="default (15px)">
+          </bf-dropdown>
+        </div>
+        <div class="col-4" *ngIf="compConf.hasValueList">
+          <bf-dropdown bfLabel="Value List" [(ngModel)]="compConf.valueList" (ngModelChange)="upComp()"
+                       [bfList]="valueLists" bfRender="id" bfSelect="id" bfEmptyLabel="default (1)">
+          </bf-dropdown>
+        </div>
+      </div>
+
     </div>
 
   </div>

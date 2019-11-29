@@ -53,6 +53,7 @@ bf-label.value-list, bf-label[class*="value-list-"] {
     margin-left: 15px;
     flex: 1;
   }
+
 }
 @for $ind from 1 through 10 {
   bf-label.value-list-#{$ind} { .label-value { flex: #{$ind}; } }
@@ -62,6 +63,11 @@ bf-label.value-list, bf-label[class*="value-list-"] {
   bf-label.text-#{$ind} { .label-value, label { font-size: #{$ind}px; } }
 }
 
+bf-label.value-list, bf-label.value-inline {
+  @for $ind from 0 through 6 {
+    &.value-mar-#{$ind * 5} .label-value { margin-left: #{$ind * 5}px; }
+  }
+}
 
 
 // --- Label color reset --------------------------------------------------
