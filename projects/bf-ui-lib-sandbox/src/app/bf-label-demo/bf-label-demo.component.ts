@@ -87,6 +87,8 @@ export class BfLabelDemoComponent implements OnInit {
     textSize: null,
     valueList: null,
     valueMar: null,
+    valuePrimary: false,
+    valueWarning: false,
   };
   public textSizes = [];
   public valueLists = [];
@@ -103,6 +105,8 @@ export class BfLabelDemoComponent implements OnInit {
     if (this.compConf.hasValueBold)   { compClasses += (!!compClasses.length ? ' ' : '') + 'value-bold'; }
     if (this.compConf.hasValueLight)  { compClasses += (!!compClasses.length ? ' ' : '') + 'value-light'; }
     if (this.compConf.hasEllipsis)    { compClasses += (!!compClasses.length ? ' ' : '') + 'ellipsis'; }
+    if (this.compConf.valuePrimary)   { compClasses += (!!compClasses.length ? ' ' : '') + 'value-primary'; }
+    if (this.compConf.valueWarning)   { compClasses += (!!compClasses.length ? ' ' : '') + 'value-warning'; }
     if (this.compConf.textSize)       { compClasses += (!!compClasses.length ? ' ' : '') + this.compConf.textSize; }
     if (this.compConf.valueMar)       { compClasses += (!!compClasses.length ? ' ' : '') + this.compConf.valueMar; }
     if (this.compConf.valueList)      { compClasses += (!!compClasses.length ? ' ' : '') + this.compConf.valueList; }

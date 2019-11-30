@@ -28,6 +28,8 @@ It also makes use of the translation service (if present), to automatically tran
                   [class.value-bold]="compConf.hasValueBold"
                   [class.value-ellipsis]="compConf.hasEllipsis"
                   [class.value-light]="compConf.hasValueLight"
+                  [class.value-primary]="compConf.valuePrimary"
+                  [class.value-warning]="compConf.valueWarning"
                   [ngClass]="(compConf.textSize + ' ' + compConf.valueMar + ' ' + compConf.valueList)"
                   [bfText]="compConf.hasLabel ? compConf.text : ''"
                   [bfValue]="compConf.hasValue ? compConf.value: ''"
@@ -87,6 +89,8 @@ It also makes use of the translation service (if present), to automatically tran
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasValueBold" (ngModelChange)="upComp()" bfLabel="value-bold"></bf-checkbox> </div>
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasValueLight" (ngModelChange)="upComp()" bfLabel="value-light"></bf-checkbox> </div>
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasEllipsis" (ngModelChange)="upComp()" bfLabel="value-ellipsis"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.valuePrimary" (ngModelChange)="upComp()" bfLabel="value-primary"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.valueWarning" (ngModelChange)="upComp()" bfLabel="value-warning"></bf-checkbox> </div>
       </div>
 
       <div class="row marT10">
@@ -97,7 +101,7 @@ It also makes use of the translation service (if present), to automatically tran
         </div>
         <div class="col-4" *ngIf="compConf.hasValueList || compConf.hasValueInline">
           <bf-dropdown bfLabel="Value Margin" [(ngModel)]="compConf.valueMar" (ngModelChange)="upComp()"
-                       [bfList]="valueMars" bfRender="id" bfSelect="id" bfEmptyLabel="default (15px)">
+                       [bfList]="valueMars" bfRender="id" bfSelect="id" bfEmptyLabel="default (5px)">
           </bf-dropdown>
         </div>
         <div class="col-4" *ngIf="compConf.hasValueList">

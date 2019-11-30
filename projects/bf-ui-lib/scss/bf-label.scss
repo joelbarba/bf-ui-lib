@@ -34,7 +34,7 @@ bf-label {
   &.colon    { .the-colon { display: inline !important; } }
   &.value-inline .label-value {
     display: inline-block;
-    margin-left: 15px;
+    margin-left: 5px;
   }
 
 
@@ -50,7 +50,7 @@ bf-label.value-list, bf-label[class*="value-list-"] {
   }
   .label-value {
     display: inline-block;
-    margin-left: 15px;
+    margin-left: 5px;
     flex: 1;
   }
 
@@ -69,6 +69,8 @@ bf-label.value-list, bf-label.value-inline {
   }
 }
 
+bf-label.value-primary  .label-value { color: $primary_color; }
+bf-label.value-warning  .label-value { color: $warning_color; }
 
 // --- Label color reset --------------------------------------------------
 //bf-label {
