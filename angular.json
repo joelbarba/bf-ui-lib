@@ -108,6 +108,9 @@
           "configurations": {
             "production": {
               "browserTarget": "bf-ui-lib-sandbox:build:production"
+            },
+            "ci": {
+              "progress": false
             }
           }
         },
@@ -156,12 +159,12 @@
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "projects/bf-ui-lib-sandbox-e2e/protractor.conf.js",
-            "devServerTarget": "bf-ui-lib-sandbox:serve"
+            "protractorConfig": "projects/bf-ui-lib-sandbox-e2e/protractor.conf.js"
           },
           "configurations": {
-            "production": {
-              "devServerTarget": "bf-ui-lib-sandbox:serve:production"
+            "ci": {
+              "devServerTarget": "bf-ui-lib-sandbox:serve:ci",
+              "protractorConfig": "projects/bf-ui-lib-sandbox-e2e/protractor-ci.conf.js"
             }
           }
         },
