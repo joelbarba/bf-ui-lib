@@ -27,8 +27,8 @@ export class BfLabelComponent implements OnInit, OnChanges {
 
   ngOnChanges(change) {
     if (change.hasOwnProperty('bfText'))    { this.bfTextTrans$    = this.translate.getLabel$(this.bfText); }
-    if (change.hasOwnProperty('bfValue'))   { this.bfValueTrans$   = this.translate.getLabel$(this.bfValue); }
     if (change.hasOwnProperty('bfTooltip')) { this.bfTooltipTrans$ = this.translate.getLabel$(this.bfTooltip); }
+    if (change.hasOwnProperty('bfValue'))   { this.bfValueTrans$   = this.translate.getLabel$(this.bfValue); }
   }
 
 }

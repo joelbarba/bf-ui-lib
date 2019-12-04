@@ -1,6 +1,6 @@
 <div *ngIf="!!orderConf" class="col-with-order">
   <h5 (click)="clickOrder()">
-    <span>{{colTitle}}</span>
+    <span>{{colTitle$ | async}}</span>
     <span [class.icon-sort]="orderConf.fields[0] !== fieldName"
           [class.icon-arrow-down7]="orderConf.fields[0] === fieldName && !orderConf.reverse"
           [class.icon-arrow-up7]="orderConf.fields[0] === fieldName && orderConf.reverse">
@@ -9,5 +9,5 @@
 </div>
 
 <div *ngIf="!orderConf">
-  <h5> <span>{{colTitle}}</span> </h5>
+  <h5> <span>{{colTitle$ | async}}</span> </h5>
 </div>
