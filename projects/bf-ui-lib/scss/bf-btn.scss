@@ -118,6 +118,24 @@ bf-btn {
       .btn-icon-section { height: 27px; }
     }
   }
+
+  // Styles to cut off the text (when having a max width on the button)
+  &.ellipsis {
+    max-width: 100%;
+    .disabled-tooltip {
+      max-width: 100%;
+      .bf-btn {
+        max-width: 100%;
+        .btn-text-section {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+
+
 }
 
 

@@ -176,10 +176,8 @@ public toggleExample = `<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>`;
 
     let btnClasses = '';
     if (this.btnConf.hasFullWidth) { btnClasses = 'full-width'; }
-    if (this.btnConf.hasSquash) {
-      if (!!btnClasses) { btnClasses += ' '; }
-      btnClasses += 'squash';
-    }
+    if (this.btnConf.hasSquash) { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'squash'; }
+    if (this.btnConf.hasEllipsis) { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'ellipsis'; }
     if (!!btnClasses) {
       this.customBtnCode += `class="${btnClasses}"` + this.bsStr;
     }

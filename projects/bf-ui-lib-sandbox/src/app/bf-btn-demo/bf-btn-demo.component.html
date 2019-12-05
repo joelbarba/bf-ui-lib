@@ -52,6 +52,7 @@ If the property "bfText" is defined, it generates a button with both text and ic
         <bf-btn (bfClick)="customBtnFunc()"
                 [class.full-width]="btnConf.hasFullWidth"
                 [class.squash]="btnConf.hasSquash"
+                [class.ellipsis]="btnConf.hasEllipsis"
                 [bfIconPos]="btnConf.iconPos"
                 [bfText]="(btnConf.hasText ? btnConf.btnText : null)"
                 [bfType]="(btnConf.hasType ? btnConf.btnType : null)"
@@ -124,6 +125,7 @@ If the property "bfText" is defined, it generates a button with both text and ic
       <div class="row marT15">
         <div class="col-12 padT5">
           <bf-checkbox [(ngModel)]="btnConf.hasFullWidth" (ngModelChange)="upBtn()" bfLabel="Full Width"></bf-checkbox>
+          <bf-checkbox [(ngModel)]="btnConf.hasEllipsis" (ngModelChange)="upBtn()" bfLabel="Ellipsis"></bf-checkbox>
           <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasSquash" (ngModelChange)="upBtn()" bfLabel="Squash"></bf-checkbox>
           <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasAsync1" (ngModelChange)="upBtn()" bfLabel="Async 1"></bf-checkbox>
           <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasAsync2" (ngModelChange)="upBtn()" bfLabel="Async 2"></bf-checkbox>
