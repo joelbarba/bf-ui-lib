@@ -15,6 +15,7 @@ export class BfConfirmComponent implements OnInit {
     title           : 'view.modal.confirm.title', // Title on the modal
     text            : '',                         // Description text of the confirmation
     htmlContent     : '',                         // Description html content (to customize how to display the message better)
+    unsafeHtml      : '',                         // Same as "htmlContent" but bypassing the sanitaze filter
     showYes         : true,                       // Whether to display the "Yes" button
     showNo          : false,                      // Whether to display the "No" button
     showCancel      : true,                       // Whether to display the "Cancel" button
@@ -55,8 +56,11 @@ export class BfConfirmComponent implements OnInit {
       this.trans.cancelButtonText$ = this.translate.getLabel$(this.conf.cancelButtonText);
     }
 
+    if (!!this.conf.unsafeHtml) {
+      this.customHtmlContent = this.domSanitizer.bypassSecurityTrustHtml(this.conf.unsafeHtml);
+    }
     if (!!this.conf.htmlContent) {
-      this.customHtmlContent = this.domSanitizer.bypassSecurityTrustHtml(this.conf.htmlContent);
+      this.customHtmlContent = this.conf.htmlContent;
     }
   }
 
