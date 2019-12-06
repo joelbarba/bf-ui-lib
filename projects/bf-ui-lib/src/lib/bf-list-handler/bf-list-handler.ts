@@ -241,6 +241,10 @@ export class BfListHandler {
           valB = Number(valB);
         }
 
+        // Turn string order fields lowercase to make the search not case sensitive
+        if (typeof valA === 'string') { valA = valA.toLowerCase(); }
+        if (typeof valB === 'string') { valB = valB.toLowerCase(); }
+
         if (valA !== valB) { // If not equal, return which goes first
           return (valA > valB ? reVal : -reVal);
         }
