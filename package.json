@@ -3,7 +3,7 @@
   "version": "0.0.4",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --no-live-reload",
     "build": "ng build",
     "test": "ng test",
     "test:ci": "ng test --progress false --code-coverage --browsers ChromeHeadless --watch false",
@@ -38,7 +38,8 @@
     "core-js": "^2.5.4",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
-    "zone.js": "~0.8.26"
+    "zone.js": "~0.8.26",
+    "debug": "^4.1.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.13.0",
@@ -50,7 +51,6 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
     "codelyzer": "^5.1.2",
-    "debug": "^4.1.1",
     "jasmine-core": "~3.5.0",
     "jasmine-reporters": "^2.3.2",
     "jasmine-spec-reporter": "~4.2.1",

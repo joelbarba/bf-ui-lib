@@ -1,6 +1,7 @@
 import {BehaviorSubject, merge, Observable, Subject} from 'rxjs';
 import {debounceTime, map, scan} from 'rxjs/operators';
-
+import Debug from 'debug';
+const debugList = Debug('bfUiLib:bfListHandler');
 
 export interface BfListHandlerConfig {
   listName      ?: string;
@@ -65,7 +66,7 @@ export class BfListHandler {
   // ------------------------- REDUCER -----------------------------
   // Apply an action to the current state to generate the next state
   private dispatch = (change: { action?: string, payload?: any } = {}) => {
-    console.log('Reducer [', this.listName, ']----> ', change.action, change.payload);
+    debugList('Reducer [', this.listName, ']----> ', change.action, change.payload);
 
     switch (change.action) {
       case 'LOAD' :
@@ -132,7 +133,7 @@ export class BfListHandler {
     this.totalItems = this.loadedList.length;
     this.renderedItems = this.renderedList.length;
 
-    // console.log('dispatching: ', change.action, this.getState());
+    // debugList('dispatching: ', change.action, this.getState());
     this.render$.next(this.getState());
   };
 

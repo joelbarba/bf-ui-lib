@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { BfPromise } from "../bf-promise/bf-promise";
+import { BfPromise } from '../bf-promise/bf-promise';
+import Debug from 'debug';
+const debugBar = Debug('bfUiLib:bfLoadingBar');
 
 /*******************************************************************************************************************
  * Initiate the loading by calling .run() and passing a native Promise.
@@ -96,7 +98,7 @@ export class BfLoadingBarService {
 
   // Finish the loading process. If there's any promise waiting in the queue, clear it up
   public stop = () => {
-    if (this.options.showLogs) { console.log('LOADING BAR: Stopped', (new Date()).getSeconds(), (new Date()).getMilliseconds()); }
+    debugBar('LOADING BAR: Stopped', (new Date()).getSeconds(), (new Date()).getMilliseconds());
     this.waitingQueue = [];
     if (!!this.delayPromise) { this.delayPromise.cancel(); }
     this.setStatus(ILoadingStatus.Off);
@@ -107,11 +109,9 @@ export class BfLoadingBarService {
   private setStatus = (newStatus: ILoadingStatus) => {
     this.status = newStatus;
     this.status$.next(this.status);
-    if (this.options.showLogs) {
-      if (this.status === ILoadingStatus.Off) { console.log('LOADING BAR: Off', (new Date()).getSeconds(), (new Date()).getMilliseconds()); }
-      if (this.status === ILoadingStatus.Running) { console.log('LOADING BAR: Running', (new Date()).getSeconds(), (new Date()).getMilliseconds()); }
-      if (this.status === ILoadingStatus.Displayed) { console.log('LOADING BAR: Displayed', (new Date()).getSeconds(), (new Date()).getMilliseconds()); }
-    }
+    if (this.status === ILoadingStatus.Off) { debugBar('LOADING BAR: Off', (new Date()).getSeconds(), (new Date()).getMilliseconds()); }
+    if (this.status === ILoadingStatus.Running) { debugBar('LOADING BAR: Running', (new Date()).getSeconds(), (new Date()).getMilliseconds()); }
+    if (this.status === ILoadingStatus.Displayed) { debugBar('LOADING BAR: Displayed', (new Date()).getSeconds(), (new Date()).getMilliseconds()); }
   };
 
   // When a promise in the queue is resolve / reject
@@ -125,7 +125,7 @@ export class BfLoadingBarService {
 
         if (!this.waitingQueue.length) {  // If no more promise to wait, finish
           if (!!this.delayPromise) { this.delayPromise.cancel(); }
-          if (this.options.showLogs) { console.log('LOADING BAR: Resolved', (new Date()).getSeconds(), (new Date()).getMilliseconds()); }
+          debugBar('LOADING BAR: Resolved', (new Date()).getSeconds(), (new Date()).getMilliseconds());
           this.setStatus(ILoadingStatus.Off);
         }
       }
