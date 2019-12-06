@@ -35,7 +35,7 @@ $growl-error-bg: $warning_color !default;`;
 
   public text$;
 
-  constructor(private growl: BfGrowlService, private translate: BfUILibTransService) { }
+  constructor(public growl: BfGrowlService, private translate: BfUILibTransService) { }
   ngOnInit() {
     this.text$ = this.translate.getLabel$('view.common.customer_changed_successfully', { customer_name: 'Other Guy' });
   }
@@ -57,6 +57,12 @@ $growl-error-bg: $warning_color !default;`;
       msgType: 'success',
       msgIcon: 'icon-cool'
     });
+  }
+
+  htmlExample() {
+    this.growl.success('Device <strong>IN BOLD</strong> of the user <strong>JOEL</strong>');
+    this.growl.success(`<script>alert("XSS Attack")</script> <h1 style="color: blue;">HEEY</h1>`);
+    this.growl.success(`views.test_label`);
   }
 
 }

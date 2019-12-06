@@ -50,6 +50,7 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.inactive'             : 'Inactive',
     'view.common.pending'              : 'Pending',
     'view.common.no_data_to_show' : 'No Data',
+    'views.test_label': 'p1 = {{p1}} ### Test & test2 & test3 [b] AAA BBB [/b]',
   };
   public transDictCAT = {
     'view.common.name'            : 'Nom',
@@ -84,6 +85,7 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.delete'  :  'Eliminar',
     'view.common.customer_changed_successfully': 'Compte canviat a {{customer_name}}',
     'view.common.no_data_to_show': 'Sense Info',
+    'views.test_label': '<script deferred>alert("XSS Attack");</script>',
   };
 
   public transDict$ = new BehaviorSubject(this.transDict);

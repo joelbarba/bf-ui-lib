@@ -36,8 +36,9 @@
       <bf-btn class="block" bfType="secondary" bfText="Custom .pushMsg() notification" (bfClick)="pushCustom()"></bf-btn>
 
       <bf-btn bfText="Label with params" class="block"
-              (bfClick)="this.growl.success('view.common.customer_changed_successfully', { customer_name: 'Other Guy' })">
+              (bfClick)="growl.success('view.common.customer_changed_successfully', { customer_name: 'Other Guy' })">
       </bf-btn>
+      <bf-btn bfText="Label with html" class="block" (bfClick)="htmlExample()"></bf-btn>
     </div>
   </div>
 </div>

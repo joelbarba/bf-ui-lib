@@ -94,7 +94,8 @@ this.confirm.open().then(
   public openPopUp4 = () => {
     this.confirm.open({
       text             : 'Example with Unsafe html (sanitize bypass)',
-      unsafeHtml       : `<script>alert("XSS Attack")</script> <h1 styles="color: blue;">HEEY</h1>`,
+      unsafeHtml       : `<script>alert("XSS Attack")</script> <h1 style="color: blue;">HEEY</h1>`,
+      // unsafeHtml       : `<span translate>views.test_label</span>`,
       yesButtonText    : 'Yes, delete it',
       noButtonText     : 'No, keep it',
       showNo           : true
