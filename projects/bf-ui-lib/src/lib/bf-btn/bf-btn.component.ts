@@ -1,12 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
-import { BfUILibTransService} from '../abstract-translate.service';
-import { BfUiLibService } from '../bf-ui-lib.service';
-import { Observable, of} from 'rxjs';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { BfUILibTransService } from '../abstract-translate.service';
 
 @Component({
   selector: 'bf-btn',
   templateUrl: './bf-btn.component.html',
-  // encapsulation: ViewEncapsulation.None
 })
 export class BfBtnComponent implements OnInit, OnChanges {
   @Input() bfAsyncPromise: Promise<any>;
@@ -15,7 +13,7 @@ export class BfBtnComponent implements OnInit, OnChanges {
   @Output() bfClick = new EventEmitter<any>();
   @Input() bfText: string;
   @Input() bfType = ''; // save, update, add, delete, cancel
-  @Input() bfIcon = 'icon-arrow-right3';
+  @Input() bfIcon: string;
   @Input() bfIconPos      = 'right';
   @Input() bfDisabled     = false;
   @Input() bfTooltip      = '';
@@ -33,24 +31,24 @@ export class BfBtnComponent implements OnInit, OnChanges {
   public bfTooltipTrans$: Observable<string> = of('');     // Translated text for the tooltip of the label
   public bfDisabledTipTrans$: Observable<string> = of(''); // Translated text for the tooltip when disabled
 
-  private hasIcon = false;  // If a bfIcon is linked, do not set it internally
-
   public isLoading = false;
 
   constructor(
     private translate: BfUILibTransService,
-    public libService: BfUiLibService
   ) { }
 
   ngOnInit() { }
 
   ngOnChanges(change) {
-    // console.log('BF-BTN', new Date(), this.translate);
-    if (change.hasOwnProperty('bfIcon') && !!change.bfIcon.currentValue) { this.hasIcon = true; }
+    // FIXME changing the icon dynamically in ngOnChanges is unreliable. Should be refactored to a dedicated function.
+    const hasIcon = change.hasOwnProperty('bfIcon') && !!change.bfIcon.currentValue;
 
-    if (!this.hasIcon) { this.bfIcon = 'icon-arrow-right3'; }
-    if (!this.hasIcon && change.hasOwnProperty('bfToggle')) {
+    if (!hasIcon && change.hasOwnProperty('bfToggle')) {
       this.bfIcon = this.bfToggle ? 'icon-arrow-up3' : 'icon-arrow-down3';
+    }
+
+    if (!hasIcon && !this.bfText) {
+      this.bfIcon = 'icon-arrow-right3';
     }
 
     if (change.hasOwnProperty('bfType')) {

@@ -4,7 +4,7 @@
 <p>
 If the property "bfText" is defined, it generates a button with both text and icon. If not, just an icon button (small version)
 <br/>You can set the color of the button using "bfType". It accepts "primary", "secondary", ... (all defined brand colors)
-<br/>You can also use "bfType" to set a predefined button (color + icon), like "add", "save", 
+<br/>You can also use "bfType" to set a predefined button (color + icon), like "add", "save",
 
 </p>
 <p>There are some predefined types and icons to be used</p>
@@ -14,16 +14,20 @@ If the property "bfText" is defined, it generates a button with both text and ic
 
 <div class="row">
   <div class="col-7">
-    <bf-btn class="block squash" (bfClick)="blockPr = asyncClick()" [bfAsyncPromise]="blockPr"
+    <bf-btn class="block squash"
+            (bfClick)="asyncClick()"
+            [bfAsyncPromise]="blockPr"
             bfAsyncGroup="me2"
-            bfText="Async Click 1"></bf-btn>
+            bfText="Async Click 1"
+            bfIcon="icon-arrow-right3"
+    ></bf-btn>
     <bf-btn class="block" (bfClick)="asyncClick()" bfText="Async Click 2"></bf-btn>
     <bf-btn class="block" (bfClick)="asyncClick()" bfText="Async Click 3"></bf-btn>
     <bf-btn class="block" (bfClick)="asyncClick()" bfText="Async Click 4 (me)" bfAsyncGroup="me"></bf-btn>
     <bf-btn class="block" (bfClick)="asyncClick()" bfText="Async Click 5"></bf-btn>
   </div>
   <div class="col-5">
-    <bf-btn bfType="save" bfText="This is a nice button"></bf-btn>
+    <bf-btn bfType="save" bfText="This is a nice button"></bf-btn> perfectly aligned with text.
   </div>
 </div>
 
@@ -168,13 +172,13 @@ If the property "bfText" is defined, it generates a button with both text and ic
 <h5 class="mt-4">Examples:</h5>
 <div class="row">
   <div class="col-12 examples-table">
-  
+
     <div class="row">
       <div class="col-3">
         <bf-btn bfType="edit" (bfClick)="(count = count + 'a')"></bf-btn>
         {{count}}
       </div>
-      <div class="col-9"> <pre>{{instance}}</pre> </div>    
+      <div class="col-9"> <pre>{{instance}}</pre> </div>
 
       <!-- <div class="col-4"> Simple instance with no text only icon (small version) </div> -->
     </div>
