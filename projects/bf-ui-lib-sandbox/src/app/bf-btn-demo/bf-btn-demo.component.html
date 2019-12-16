@@ -12,7 +12,14 @@ If the property "bfText" is defined, it generates a button with both text and ic
 <h5 class="mt-4">Parameters (all optional):</h5>
 <div class="col-12"><pre>{{api}}</pre></div>
 
-<div class="row">
+<!--<bf-btn (bfClick)="customBtnFunc()"></bf-btn>-->
+<!--<bf-btn (bfClick)="customBtnFunc()" bfText="Test 1" bfIcon=""></bf-btn>-->
+<!--<bf-btn (bfClick)="customBtnFunc()" bfIcon="icon-plus"></bf-btn>-->
+<!--<bf-btn (bfClick)="customBtnFunc()" bfIcon="icon-plus" bfText="Test 2"></bf-btn>-->
+<!--<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>-->
+
+
+<div class="row" *ngIf="true">
   <div class="col-7">
     <bf-btn class="block squash"
             (bfClick)="asyncClick()"
@@ -45,7 +52,6 @@ If the property "bfText" is defined, it generates a button with both text and ic
 <!--        bfDisabledTip="This button is disabled because X">-->
 <!--</bf-btn>-->
 
-<div *ngIf="true">
 
 <!--Button Customization-->
 <div class="whiteBg">
@@ -65,8 +71,11 @@ If the property "bfText" is defined, it generates a button with both text and ic
                 [bfTooltip]="(btnConf.hasTooltip ? btnConf.btnTooltip : null)"
                 [bfTooltipPos]="(btnConf.btnTooltipPos || 'top')"
                 [bfTooltipBody]="btnConf.btnTooltipBody"
+                [bfToggle]="btnConf.hasToggle ? btnConf.toggleValue : null"
+                (bfToggleChange)="btnConf.toggleValue = $event"
                 [bfDisabledTip]="btnConf.btnDisabledTip">
         </bf-btn>
+        <span *ngIf="btnConf.hasToggle"> toggleValue = {{ btnConf.toggleValue }} </span>
       </div>
       <div class="padT10">{{res}}</div>
       <div class="padT15">
@@ -85,8 +94,11 @@ If the property "bfText" is defined, it generates a button with both text and ic
 
       <div class="row">
         <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="btnConf.hasType" (ngModelChange)="upBtn()" bfLabel="Has Type"></bf-checkbox> </div>
-        <div class="col-10" *ngIf="btnConf.hasType">
+        <div class="col-5" *ngIf="btnConf.hasType">
           <bf-dropdown [(ngModel)]="btnConf.btnType" (ngModelChange)="upBtn()" [bfList]="btnTypes" bfRender="text" bfSelect="id" [bfRequired]="true"> </bf-dropdown>
+        </div>
+        <div class="col-5 padT5">
+          <bf-checkbox [(ngModel)]="btnConf.hasToggle" (ngModelChange)="upBtn()" bfLabel="Is Toggle"></bf-checkbox>
         </div>
       </div>
 
@@ -95,7 +107,7 @@ If the property "bfText" is defined, it generates a button with both text and ic
         <div class="col-5">
           <bf-dropdown *ngIf="btnConf.hasIcon" bfLabel="bfIcon" class="full-width"
                        [(ngModel)]="btnConf.btnIcon" (ngModelChange)="upBtn()"
-                       [bfList]="btnIcons" bfRender="icon" bfSelect="icon" [bfRequired]="true">
+                       [bfList]="btnIcons" bfRender="icon" bfSelect="icon" [bfRequired]="false">
           </bf-dropdown>
         </div>
         <div class="col-5">
@@ -141,9 +153,13 @@ If the property "bfText" is defined, it generates a button with both text and ic
   </div>
 </div>
 
+
+
+
 <hr>
 
-<div class="whiteBg row">
+<!--Toggle Example-->
+<div class="whiteBg row" *ngIf="true">
   <div class="col-7">
     <h5>Toggle</h5>
     <p>The component keeps an internal flag to be used as a toggle (true/false).
@@ -160,9 +176,6 @@ If the property "bfText" is defined, it generates a button with both text and ic
   </div>
 
 </div>
-
-
-
 <hr>
 
 
@@ -170,7 +183,7 @@ If the property "bfText" is defined, it generates a button with both text and ic
 
 <!--Examples-->
 <h5 class="mt-4">Examples:</h5>
-<div class="row">
+<div class="row" *ngIf="true">
   <div class="col-12 examples-table">
 
     <div class="row">
@@ -241,7 +254,7 @@ If the property "bfText" is defined, it generates a button with both text and ic
 
 
 <!--Asynchronous Handling -->
-<div class="row">
+<div class="row" *ngIf="true">
   <div class="col-12">
     <h5 class="mt-4">Asynchronous Handling</h5>
     <p>In order to handle asynchronous tasks triggered by buttons, there's an option to automatically block all buttons until an async process is resolved.
@@ -279,7 +292,7 @@ If the property "bfText" is defined, it generates a button with both text and ic
 
 
 <!--Applicable classes -->
-<div class="row">
+<div class="row" *ngIf="true">
   <div class="col-12">
     <hr>
     <h5 class="mt-4">Applicable classes:</h5>
@@ -305,7 +318,7 @@ If the property "bfText" is defined, it generates a button with both text and ic
 
 
 <!--CSS Styling-->
-<div class="row marT40">
+<div class="row marT40" *ngIf="true">
   <div class="col-12">
     <hr>
     <h4>CSS Styling</h4>
@@ -317,5 +330,3 @@ If the property "bfText" is defined, it generates a button with both text and ic
   </div>
 </div>
 
-
-</div>

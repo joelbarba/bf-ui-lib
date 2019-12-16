@@ -164,7 +164,8 @@ public toggleExample = `<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>`;
     isDisabled: false,
     iconPos: 'right',
     hasTooltip: false, btnTooltip: 'Hello World', btnTooltipPos: null, btnTooltipBody: false,
-    btnDisabledTip: ''
+    btnDisabledTip: '',
+    hasToggle: false, toggleValue: undefined,
   };
   public res;
   public asyncClickFunc(param1, param2) {
@@ -197,7 +198,11 @@ public toggleExample = `<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>`;
 
     if (this.btnConf.hasText) { this.customBtnCode += this.bsStr + ` bfText="${this.btnConf.btnText}"`; }
     if (this.btnConf.hasType) { this.customBtnCode += this.bsStr + ` bfType="${this.btnConf.btnType}"`; }
-    if (this.btnConf.hasIcon) { this.customBtnCode += this.bsStr + ` bfIcon="${this.btnConf.btnIcon}"`; }
+    if (this.btnConf.hasIcon) {
+      if (!!this.btnConf.btnIcon) {
+               this.customBtnCode += this.bsStr + ` bfIcon="${this.btnConf.btnIcon}"`;
+      } else { this.customBtnCode += this.bsStr + ` bfIcon=""`; }
+    }
     if (this.btnConf.iconPos !== 'right') { this.customBtnCode += this.bsStr + ` bfIconPos="${this.btnConf.iconPos}"`; }
     if (this.btnConf.isDisabled) { this.customBtnCode += this.bsStr + `[bfDisabled]="true"`; }
 

@@ -13,16 +13,16 @@
           [placement]="bfTooltipPos"
           [container]="(bfTooltipBody ? 'body' : '')">
 
-    <span *ngIf="!!bfIcon && bfIconPos === 'left'" class="btn-icon-section left">
-      <span [class]="isLoading ? 'loading-spinner' : bfIcon"></span>
+    <span *ngIf="!!btnIcon && bfIconPos === 'left'" class="btn-icon-section left">
+      <span [class]="isLoading ? 'loading-spinner' : btnIcon"></span>
     </span>
 
     <span [hidden]="!textLabel" class="btn-text-section">
       {{ bfTextTrans$ | async }}
     </span>
 
-    <span *ngIf="!!bfIcon && bfIconPos === 'right'" class="btn-icon-section right">
-      <span [class]="isLoading ? 'loading-spinner' : bfIcon"></span>
+    <span *ngIf="!!btnIcon && bfIconPos === 'right'" class="btn-icon-section right">
+      <span [class]="isLoading ? 'loading-spinner' : btnIcon"></span>
     </span>
 
   </button>
