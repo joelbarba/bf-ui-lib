@@ -1,15 +1,16 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {BfGrowlService} from "../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service";
+import { BfGrowlService } from 'projects/bf-ui-lib/src/lib/bf-growl/bf-growl.service';
 
 @Component({
   selector: 'app-bf-btn-demo',
   templateUrl: './bf-btn-demo.component.html',
   styleUrls: ['./bf-btn-demo.component.scss'],
-  // encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class BfBtnDemoComponent implements OnInit {
   public name = BfBtnDoc.name;
   public desc = BfBtnDoc.desc;
+  public blockPr;
   public api = BfBtnDoc.api;
   public instance = BfBtnDoc.instance;
 
@@ -31,7 +32,7 @@ export class BfBtnDemoComponent implements OnInit {
 <bf-btn bfText="Tertiary"   bfType="tertiary"   bfIcon="icon-pencil">       </bf-btn>
 <bf-btn bfText="Quaternary" bfType="quaternary" bfIcon="icon-blocked">      </bf-btn>
 <bf-btn bfText="Warning"    bfType="warning"    bfIcon="icon-cross">        </bf-btn>
-<bf-btn bfText="Extra"      bfType="extra"      bfIcon="icon-arrow-down3">  </bf-btn>`
+<bf-btn bfText="Extra"      bfType="extra"      bfIcon="icon-arrow-down3">  </bf-btn>`;
 
 public instance6 = `<bf-btn bfText="Simple Tooltip" bfTooltip="Hello World"></bf-btn>
 <bf-btn bfText="Better tooltip" bfTooltip="Hey" bfTooltipPos="left" [bfTooltipBody]="true"></bf-btn>`;
@@ -49,13 +50,13 @@ public asyncExample2 = `<bf-btn bfText="Async Click Option 2"
 public cssReset =
 `$bf-colors: (
   "primary"     : $primary_color,
-  "secondary"   : $secondary_color,  
-  "tertiary"    : $tertiary_color,   
-  "quaternary"  : $quaternary_color, 
-  "warning"     : $warning_color,    
-  "extra"       : $extra_color,      
+  "secondary"   : $secondary_color,
+  "tertiary"    : $tertiary_color,
+  "quaternary"  : $quaternary_color,
+  "warning"     : $warning_color,
+  "extra"       : $extra_color,
   "white"       : $white,
-);          
+);
 
 // Button color reset
 @mixin btn-color-mixin($btn-color) {
@@ -80,6 +81,7 @@ public toggleExample = `<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>`;
 `;
   public bsStr = `
         `;
+  public count = '';
   public customBtnCode = '<bf-btn (bfClick)="myFunc($event)"></bf-btn>';
   public btnTypes = [
     { id: 'search',       text: 'search',       icon: 'icon-search' },
@@ -162,16 +164,17 @@ public toggleExample = `<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>`;
     isDisabled: false,
     iconPos: 'right',
     hasTooltip: false, btnTooltip: 'Hello World', btnTooltipPos: null, btnTooltipBody: false,
-    btnDisabledTip: ''
+    btnDisabledTip: '',
+    hasToggle: false, toggleValue: undefined,
   };
   public res;
-  public asyncClickFunc = (param1, param2) => {
+  public asyncClickFunc(param1, param2) {
     return new Promise((resolve) => {
       setTimeout(resolve, 4000);
     });
-  };
-  public customBtnFunc = () => { this.res = ('Click at ' + new Date()); };
-  public upBtn = () => {
+  }
+  public customBtnFunc() { this.res = ('Click at ' + new Date()); }
+  public upBtn() {
     this.customBtnCode = `<bf-btn `;
 
     let btnClasses = '';
@@ -195,7 +198,11 @@ public toggleExample = `<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>`;
 
     if (this.btnConf.hasText) { this.customBtnCode += this.bsStr + ` bfText="${this.btnConf.btnText}"`; }
     if (this.btnConf.hasType) { this.customBtnCode += this.bsStr + ` bfType="${this.btnConf.btnType}"`; }
-    if (this.btnConf.hasIcon) { this.customBtnCode += this.bsStr + ` bfIcon="${this.btnConf.btnIcon}"`; }
+    if (this.btnConf.hasIcon) {
+      if (!!this.btnConf.btnIcon) {
+               this.customBtnCode += this.bsStr + ` bfIcon="${this.btnConf.btnIcon}"`;
+      } else { this.customBtnCode += this.bsStr + ` bfIcon=""`; }
+    }
     if (this.btnConf.iconPos !== 'right') { this.customBtnCode += this.bsStr + ` bfIconPos="${this.btnConf.iconPos}"`; }
     if (this.btnConf.isDisabled) { this.customBtnCode += this.bsStr + `[bfDisabled]="true"`; }
 
@@ -213,20 +220,16 @@ public toggleExample = `<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>`;
     }
 
     this.customBtnCode += (`>` + this.brStr + `</bf-btn>`);
-  };
+  }
 
-
-  public count = '';
 
   constructor(public growl: BfGrowlService) { }
   ngOnInit() {
     this.upBtn();
   }
 
-  public blockPr;
-  public blockPr2;
-  public asyncClick = () => {
-    return new Promise((resolve) => {
+  public asyncClick() {
+    return this.blockPr = new Promise((resolve) => {
       setTimeout(() => {
         resolve();
       }, 5000);
@@ -244,7 +247,7 @@ export const BfBtnDoc = {
   uiType  : 'component',
   api     : `(bfClick) : Click event handler
 [bfAsyncPromise] : For async tasks, promise to block all buttons until the task is completed.
-[bfAsyncClick]   : Click callback function. Instead of using the (bfClick) output, it is also possible to pass a callback function. The return promise is automatically caught.   
+[bfAsyncClick]   : Click callback function. Instead of using the (bfClick) output, it is also possible to pass a callback function. The return promise is automatically caught.
 [bfText]         : Text of the button
 [bfType]         : Class of the button [primary, secondary, tertiary, quaternary, warning, extra] or predefined type [search, add, save, edit, delete, cancel, expand, collapse]
 [bfIcon]         : Icon of the button (icomoon class)

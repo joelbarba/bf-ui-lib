@@ -1,12 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
-import { BfUILibTransService} from '../abstract-translate.service';
-import { BfUiLibService } from '../bf-ui-lib.service';
-import { Observable, of} from 'rxjs';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { BfUILibTransService } from '../abstract-translate.service';
 
 @Component({
   selector: 'bf-btn',
   templateUrl: './bf-btn.component.html',
-  // encapsulation: ViewEncapsulation.None
 })
 export class BfBtnComponent implements OnInit, OnChanges {
   @Input() bfAsyncPromise: Promise<any>;
@@ -15,7 +13,7 @@ export class BfBtnComponent implements OnInit, OnChanges {
   @Output() bfClick = new EventEmitter<any>();
   @Input() bfText: string;
   @Input() bfType = ''; // save, update, add, delete, cancel
-  @Input() bfIcon = 'icon-arrow-right3';
+  @Input() bfIcon: string;
   @Input() bfIconPos      = 'right';
   @Input() bfDisabled     = false;
   @Input() bfTooltip      = '';
@@ -28,47 +26,41 @@ export class BfBtnComponent implements OnInit, OnChanges {
 
   public btnClass = 'primary';
   public textLabel: string;  // Internal label to display (can be either from bfText or defaulted from bfType)
+  public btnIcon: string;    // Internal icon to display (usually from bfIcon)
 
   public bfTextTrans$: Observable<string> = of('');        // Translated text for the button
   public bfTooltipTrans$: Observable<string> = of('');     // Translated text for the tooltip of the label
   public bfDisabledTipTrans$: Observable<string> = of(''); // Translated text for the tooltip when disabled
 
-  private hasIcon = false;  // If a bfIcon is linked, do not set it internally
-
+  public isToggle = false;  // Whether the button is used as a toggle
   public isLoading = false;
 
   constructor(
     private translate: BfUILibTransService,
-    public libService: BfUiLibService
   ) { }
 
-  ngOnInit() { }
+  ngOnChanges(changes) {
+    let defaultIcon: string; // In case the bfType sets a different default icon
 
-  ngOnChanges(change) {
-    // console.log('BF-BTN', new Date(), this.translate);
-    if (change.hasOwnProperty('bfIcon') && !!change.bfIcon.currentValue) { this.hasIcon = true; }
+    if (changes.hasOwnProperty('bfToggle') && this.bfToggle !== null) { this.isToggle = true; }
 
-    if (!this.hasIcon) { this.bfIcon = 'icon-arrow-right3'; }
-    if (!this.hasIcon && change.hasOwnProperty('bfToggle')) {
-      this.bfIcon = this.bfToggle ? 'icon-arrow-up3' : 'icon-arrow-down3';
-    }
-
-    if (change.hasOwnProperty('bfType')) {
+    if (changes.hasOwnProperty('bfType')) {
       if (!!this.bfType) { this.btnClass = this.bfType; }
       let typeText = '';
-      if (this.bfType === 'search')   { this.btnClass = 'primary';   this.bfIcon = 'icon-search';       typeText = 'view.common.search';  }
-      if (this.bfType === 'edit')     { this.btnClass = 'primary';   this.bfIcon = 'icon-pencil';       typeText = 'view.common.edit';    }
-      if (this.bfType === 'save')     { this.btnClass = 'primary';   this.bfIcon = 'icon-arrow-right3'; typeText = 'view.common.save';    }
-      if (this.bfType === 'update')   { this.btnClass = 'primary';   this.bfIcon = 'icon-arrow-right3'; typeText = 'views.common.update'; }
-      if (this.bfType === 'add')      { this.btnClass = 'primary';   this.bfIcon = 'icon-plus';         typeText = 'view.common.add';     }
-      if (this.bfType === 'delete')   { this.btnClass = 'tertiary';  this.bfIcon = 'icon-cross';        typeText = 'view.common.delete';  }
-      if (this.bfType === 'cancel')   { this.btnClass = 'secondary'; this.bfIcon = 'icon-blocked';      typeText = 'view.common.cancel';  }
-      if (this.bfType === 'expand')   { this.btnClass = 'secondary'; this.bfIcon = 'icon-arrow-down3'; }
-      if (this.bfType === 'collapse') { this.btnClass = 'secondary'; this.bfIcon = 'icon-arrow-up3'; }
 
-      if (this.bfType === 'delete-icon') { this.btnClass = 'tertiary';  this.bfIcon = 'icon-cross';  }
-      if (this.bfType === 'edit-icon')   { this.btnClass = 'primary';   this.bfIcon = 'icon-pencil'; }
-      if (this.bfType === 'view-icon')   { this.btnClass = 'primary';   this.bfIcon = 'icon-eye'; }
+      if (this.bfType === 'search')   { this.btnClass = 'primary';   defaultIcon = 'icon-search';       typeText = 'view.common.search';  }
+      if (this.bfType === 'edit')     { this.btnClass = 'primary';   defaultIcon = 'icon-pencil';       typeText = 'view.common.edit';    }
+      if (this.bfType === 'save')     { this.btnClass = 'primary';   defaultIcon = 'icon-arrow-right3'; typeText = 'view.common.save';    }
+      if (this.bfType === 'update')   { this.btnClass = 'primary';   defaultIcon = 'icon-arrow-right3'; typeText = 'views.common.update'; }
+      if (this.bfType === 'add')      { this.btnClass = 'primary';   defaultIcon = 'icon-plus';         typeText = 'view.common.add';     }
+      if (this.bfType === 'delete')   { this.btnClass = 'tertiary';  defaultIcon = 'icon-cross';        typeText = 'view.common.delete';  }
+      if (this.bfType === 'cancel')   { this.btnClass = 'secondary'; defaultIcon = 'icon-blocked';      typeText = 'view.common.cancel';  }
+      if (this.bfType === 'expand')   { this.btnClass = 'secondary'; defaultIcon = 'icon-arrow-down3'; }
+      if (this.bfType === 'collapse') { this.btnClass = 'secondary'; defaultIcon = 'icon-arrow-up3'; }
+
+      if (this.bfType === 'delete-icon') { this.btnClass = 'tertiary';  defaultIcon = 'icon-cross';  }
+      if (this.bfType === 'edit-icon')   { this.btnClass = 'primary';   defaultIcon = 'icon-pencil'; }
+      if (this.bfType === 'view-icon')   { this.btnClass = 'primary';   defaultIcon = 'icon-eye';    }
 
       if (!this.bfText) {
         this.textLabel = typeText;
@@ -77,20 +69,40 @@ export class BfBtnComponent implements OnInit, OnChanges {
     }
 
     // Generate new observables for the dynamic text
-    if (change.hasOwnProperty('bfText')) {
+    if (changes.hasOwnProperty('bfText')) {
       this.textLabel = this.bfText;
       this.bfTextTrans$ = this.translate.getLabel$(this.textLabel);
     }
-    if (change.hasOwnProperty('bfTooltip'))     { this.bfTooltipTrans$     = this.translate.getLabel$(this.bfTooltip); }
-    if (change.hasOwnProperty('bfDisabledTip')) { this.bfDisabledTipTrans$ = this.translate.getLabel$(this.bfDisabledTip); }
+    if (changes.hasOwnProperty('bfTooltip'))     { this.bfTooltipTrans$     = this.translate.getLabel$(this.bfTooltip); }
+    if (changes.hasOwnProperty('bfDisabledTip')) { this.bfDisabledTipTrans$ = this.translate.getLabel$(this.bfDisabledTip); }
 
 
     // If new async blocking promise, block buttons until that is resolved
-    if (change.hasOwnProperty('bfAsyncPromise')) {
+    if (changes.hasOwnProperty('bfAsyncPromise')) {
       this.initLoadingPromise();
     }
 
+    this.setDefaultIcon(defaultIcon);
   }
+
+  ngOnInit() {
+    this.setDefaultIcon();
+  }
+
+  private setDefaultIcon = (defaultIcon = 'icon-arrow-right3') => {
+    this.btnIcon = null;
+
+    if (this.bfIcon) {
+      this.btnIcon = this.bfIcon;
+
+    } else if (this.isToggle) {
+      this.btnIcon = this.bfToggle ? 'icon-arrow-up3' : 'icon-arrow-down3';
+
+    } else if (!this.textLabel) {
+      this.btnIcon = defaultIcon;
+    }
+  };
+
 
   private initLoadingPromise = () => {
     if (!!this.bfAsyncPromise && Object.prototype.toString.call(this.bfAsyncPromise) === '[object Promise]') {
@@ -109,9 +121,12 @@ export class BfBtnComponent implements OnInit, OnChanges {
       this.initLoadingPromise();
     }
 
-    // Internal toggle
-    this.bfToggle = !this.bfToggle;
-    this.bfToggleChange.emit(this.bfToggle);
+    // Toggle option
+    if (this.isToggle) {
+      this.bfToggle = !this.bfToggle;
+      this.bfToggleChange.emit(this.bfToggle);
+      this.setDefaultIcon();
+    }
 
     this.bfClick.emit($event);
   };
