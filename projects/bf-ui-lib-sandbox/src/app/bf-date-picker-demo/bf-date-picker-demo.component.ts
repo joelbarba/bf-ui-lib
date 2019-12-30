@@ -14,6 +14,10 @@ export class BfDatePickerDemoComponent implements OnInit {
   public desc = BfDatePickerDoc.desc;
   public api = BfDatePickerDoc.api;
   public instance = BfDatePickerDoc.instance;
+  public model = '';
+  public myVar = '';
+  public instance3 = '';
+
 
   public instance2 = 
 `<bf-date-picker</bf-date-picker>`;

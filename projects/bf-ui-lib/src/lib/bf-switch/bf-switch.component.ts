@@ -1,4 +1,4 @@
-import {Component, EventEmitter, forwardRef, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, forwardRef, Inject, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {BfUILibTransService} from '../abstract-translate.service';
 import {Observable, of} from 'rxjs';
@@ -32,7 +32,9 @@ export class BfSwitchComponent implements ControlValueAccessor, OnInit, OnChange
   public bfOnText$: Observable<string> = of(''); // Translated text for the ON label
   public bfOffText$: Observable<string> = of(''); // Translated text for the OFF label
 
-  constructor(private translate: BfUILibTransService) {
+  constructor(
+    @Inject(BfUILibTransService) private translate: BfUILibTransService,
+  ) {
     this.bfOnText$ = this.translate.getLabel$(this.bfOnText);
     this.bfOffText$ = this.translate.getLabel$(this.bfOffText);
   }

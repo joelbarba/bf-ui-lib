@@ -96,7 +96,7 @@ $invalid_input_color  : $warning_color;
 
 
   constructor(
-    private growl: BfGrowlService,
+    public growl: BfGrowlService,
   ) { }
 
   ngOnInit() { }

@@ -71,7 +71,8 @@
             ],
             "stylePreprocessorOptions": { "includePaths": ["projects/bf-ui-lib-sandbox/src/scss"] },
             "scripts": [],
-            "es5BrowserSupport": true
+            "es5BrowserSupport": true,
+            "aot": true
           },
           "configurations": {
             "production": {

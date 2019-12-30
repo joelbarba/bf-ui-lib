@@ -9,7 +9,7 @@ console.log('BfLazyLoadedTestComponent', new Date());
   // encapsulation: ViewEncapsulation.None
 })
 export class BfLazyLoadedTestComponent implements OnInit {
-
+  public myVal = '';
   constructor() {}
 
   ngOnInit() { }

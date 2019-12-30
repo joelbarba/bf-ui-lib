@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BfQuantityInputDemoComponent implements OnInit {
 
-  public myVar = 15;
+  public myVar: any = 15;
   public lastMod = new Date();
   public name = BfQuantityInputDoc.name;
   public desc = BfQuantityInputDoc.desc;

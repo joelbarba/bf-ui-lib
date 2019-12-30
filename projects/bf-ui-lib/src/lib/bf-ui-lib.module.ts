@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import {NgModule, ModuleWithProviders, Optional, SkipSelf} from '@angular/core';
+import {NgModule, ModuleWithProviders, Optional, SkipSelf, InjectionToken} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // <-- NgModel lives here
 import {NgbPopoverModule, NgbTooltipModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
 import { NgbModule, NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
@@ -40,6 +40,7 @@ import { BfPagePlaceholderComponent } from './bf-page-placeholder/bf-page-placeh
 import {BfLoadingSpinnerComponent, BfLoadingSpinnerDirective} from './bf-loading-spinner/bf-loading-spinner.component';
 import { ShowDirective } from './show/show.component';
 import { BfNoDataComponent } from './bf-no-data/bf-no-data.component';
+
 
 @NgModule({
   declarations: [
@@ -128,11 +129,14 @@ export class BfUiLibModule {
 
   static forRoot(config): ModuleWithProviders {
     // console.log('BfUiLibModule.forRoot()', new Date(), config.trans);
+
+
     return {
       ngModule: BfUiLibModule,
       providers: [
         // { provide: 'BfUILibTransService', ...config.trans },
-        { provide: BfUILibTransService, ...config.trans },  // <-- To provide a class for the service externally
+        { provide: BfUILibTransService, useExisting: config.trans.useExisting },
+        // { provide: MY_SERVICE_TOKEN, useExisting: config.trans.useExisting },
         BfConfirmService,
         NgbActiveModal,
         NgbModule,

@@ -20,6 +20,12 @@ export class BfInputDemoComponent implements OnInit {
 
   public myModel = 'My default value';
   public boxCo = new Array(10); // Box collapsers
+  public myVariable3: any;
+  public myVariable4: any;
+  public myVariable5: any;
+  public user: any;
+  public pass: any;
+  public bfModel: any;
 
 
 
@@ -124,7 +130,7 @@ this.ctrl.setFocus();
 
 
   constructor(
-    private growl: BfGrowlService,
+    public growl: BfGrowlService,
   ) { }
   ngOnInit() {
     this.upComp();

@@ -4,9 +4,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { TranslateLoader } from '@ngx-translate/core';
 import {map} from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class BfTranslateService extends BfUILibTransService {
   public transDict = {};
   public transDictEN = {
@@ -94,15 +92,15 @@ export class BfTranslateService extends BfUILibTransService {
 
   constructor() {
     super();
-    // console.warn('TranslateService constructor');
+    console.log('SANDBOX: TranslateService constructor');
     this.changeLanguage('en');
   }
 
-  doTranslate = (label ?: string, params?): string => {
+  public doTranslate = (label ?: string, params?): string => {
     return this.transDict[label] || label;
   };
 
-  getLabel$ = (label ?: string, params = {}): Observable<string> => {
+  public getLabel$ = (label ?: string, params = {}): Observable<string> => {
     return this.transDict$.pipe(
       map(translations => {
         let text = translations[label] || label || '';
@@ -139,9 +137,7 @@ export class BfTranslateService extends BfUILibTransService {
 /**********************************************
  * Hook up the ngx-translate loader with getTranslation(), to load the dictionaries dynamically
  **********************************************/
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class BfTranslateLoader implements TranslateLoader {
   public transLoad$;  // Async dictionary loader
   constructor() { }
