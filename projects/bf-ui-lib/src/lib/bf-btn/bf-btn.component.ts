@@ -27,6 +27,7 @@ export class BfBtnComponent implements OnInit, OnChanges {
   public btnClass = 'primary';
   public textLabel: string;  // Internal label to display (can be either from bfText or defaulted from bfType)
   public btnIcon: string;    // Internal icon to display (usually from bfIcon)
+  public typeIcon: string;   // Default button icon preset by bfType
 
   public bfTextTrans$: Observable<string> = of('');        // Translated text for the button
   public bfTooltipTrans$: Observable<string> = of('');     // Translated text for the tooltip of the label
@@ -40,27 +41,25 @@ export class BfBtnComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnChanges(changes) {
-    let defaultIcon: string; // In case the bfType sets a different default icon
-
     if (changes.hasOwnProperty('bfToggle') && this.bfToggle !== null) { this.isToggle = true; }
 
     if (changes.hasOwnProperty('bfType')) {
       if (!!this.bfType) { this.btnClass = this.bfType; }
       let typeText = '';
 
-      if (this.bfType === 'search')   { this.btnClass = 'primary';   defaultIcon = 'icon-search';       typeText = 'view.common.search';  }
-      if (this.bfType === 'edit')     { this.btnClass = 'primary';   defaultIcon = 'icon-pencil';       typeText = 'view.common.edit';    }
-      if (this.bfType === 'save')     { this.btnClass = 'primary';   defaultIcon = 'icon-arrow-right3'; typeText = 'view.common.save';    }
-      if (this.bfType === 'update')   { this.btnClass = 'primary';   defaultIcon = 'icon-arrow-right3'; typeText = 'views.common.update'; }
-      if (this.bfType === 'add')      { this.btnClass = 'primary';   defaultIcon = 'icon-plus';         typeText = 'view.common.add';     }
-      if (this.bfType === 'delete')   { this.btnClass = 'tertiary';  defaultIcon = 'icon-cross';        typeText = 'view.common.delete';  }
-      if (this.bfType === 'cancel')   { this.btnClass = 'secondary'; defaultIcon = 'icon-blocked';      typeText = 'view.common.cancel';  }
-      if (this.bfType === 'expand')   { this.btnClass = 'secondary'; defaultIcon = 'icon-arrow-down3'; }
-      if (this.bfType === 'collapse') { this.btnClass = 'secondary'; defaultIcon = 'icon-arrow-up3'; }
+      if (this.bfType === 'search')   { this.btnClass = 'primary';   this.typeIcon = 'icon-search';       typeText = 'view.common.search';  }
+      if (this.bfType === 'edit')     { this.btnClass = 'primary';   this.typeIcon = 'icon-pencil';       typeText = 'view.common.edit';    }
+      if (this.bfType === 'save')     { this.btnClass = 'primary';   this.typeIcon = 'icon-arrow-right3'; typeText = 'view.common.save';    }
+      if (this.bfType === 'update')   { this.btnClass = 'primary';   this.typeIcon = 'icon-arrow-right3'; typeText = 'views.common.update'; }
+      if (this.bfType === 'add')      { this.btnClass = 'primary';   this.typeIcon = 'icon-plus';         typeText = 'view.common.add';     }
+      if (this.bfType === 'delete')   { this.btnClass = 'tertiary';  this.typeIcon = 'icon-cross';        typeText = 'view.common.delete';  }
+      if (this.bfType === 'cancel')   { this.btnClass = 'secondary'; this.typeIcon = 'icon-blocked';      typeText = 'view.common.cancel';  }
+      if (this.bfType === 'expand')   { this.btnClass = 'secondary'; this.typeIcon = 'icon-arrow-down3'; }
+      if (this.bfType === 'collapse') { this.btnClass = 'secondary'; this.typeIcon = 'icon-arrow-up3'; }
 
-      if (this.bfType === 'delete-icon') { this.btnClass = 'tertiary';  defaultIcon = 'icon-cross';  }
-      if (this.bfType === 'edit-icon')   { this.btnClass = 'primary';   defaultIcon = 'icon-pencil'; }
-      if (this.bfType === 'view-icon')   { this.btnClass = 'primary';   defaultIcon = 'icon-eye';    }
+      if (this.bfType === 'delete-icon') { this.btnClass = 'tertiary';  this.typeIcon = 'icon-cross';  }
+      if (this.bfType === 'edit-icon')   { this.btnClass = 'primary';   this.typeIcon = 'icon-pencil'; }
+      if (this.bfType === 'view-icon')   { this.btnClass = 'primary';   this.typeIcon = 'icon-eye';    }
 
       if (!this.bfText) {
         this.textLabel = typeText;
@@ -82,15 +81,14 @@ export class BfBtnComponent implements OnInit, OnChanges {
       this.initLoadingPromise();
     }
 
-    this.setDefaultIcon(defaultIcon);
+    this.setDefaultIcon();
   }
 
   ngOnInit() {
     if (!this.btnIcon) { this.setDefaultIcon(); }
   }
 
-  private setDefaultIcon = (defaultIcon?: string) => {
-    this.btnIcon = null;
+  private setDefaultIcon = () => {
 
     if (this.bfIcon) {
       this.btnIcon = this.bfIcon;
@@ -98,11 +96,14 @@ export class BfBtnComponent implements OnInit, OnChanges {
     } else if (this.isToggle) {
       this.btnIcon = this.bfToggle ? 'icon-arrow-up3' : 'icon-arrow-down3';
 
-    } else if (!!defaultIcon) {
-      this.btnIcon = defaultIcon;
+    } else if (!!this.typeIcon) {
+      this.btnIcon = this.typeIcon;
 
     } else if (!this.textLabel) {
       this.btnIcon = 'icon-arrow-right3';
+
+    } else {
+      this.btnIcon = null;
     }
   };
 

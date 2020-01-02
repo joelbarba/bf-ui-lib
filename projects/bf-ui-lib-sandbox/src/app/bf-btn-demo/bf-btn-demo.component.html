@@ -34,6 +34,7 @@ If the property "bfText" is defined, it generates a button with both text and ic
     <bf-btn class="block" (bfClick)="asyncClick()" bfText="Async Click 5"></bf-btn>
   </div>
   <div class="col-5">
+    <bf-btn bfType="save" (bfClick)="asyncClick()" [bfAsyncPromise]="blockPr"></bf-btn>
     <bf-btn bfType="save" bfText="This is a nice button"></bf-btn> perfectly aligned with text.
   </div>
 </div>
