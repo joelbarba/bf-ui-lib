@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 @Component({
   selector: 'bf-textarea',
   templateUrl: './bf-textarea.component.html',
-  styleUrls: ['./bf-textarea.component.scss'],
+  styleUrls: [],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR, multi: true,

@@ -20,6 +20,7 @@ export class BfLoadingSpinnerDemoComponent implements OnInit {
   <div>....</div>
   <div>....</div>
 </div>`;
+  public cssReset = `$loading-spinner-color: $primary_color !default;`;
 
   public loadingPromise;
   public promiseDef;

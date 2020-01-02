@@ -3,7 +3,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 @Component({
   selector: 'bf-progress-bar',
   templateUrl: './bf-progress-bar.component.html',
-  styleUrls: ['./bf-progress-bar.component.scss']
+  styleUrls: []
 })
 export class BfProgressBarComponent implements OnInit, OnChanges {
   @Input() bfLabel: string;      // Label to translate and display on top of the progress bar

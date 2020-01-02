@@ -59,26 +59,11 @@ export class BfProgressBarDemoComponent implements OnInit {
     }
   };
 
-  public cssReset = `.bf-progress-bar {
-  .progress {
-    color: $white;
-    .progress-bar {
-      background-color: $primary_color;
-    }
-  }
-  .used-label {
-    color: $secondary_color;
-  }
-  .left-label {
-    color: $primary_color;
-  }
-  .percentage-outside {
-    span {
-      color: $primary_color;
-    }
-  }
-}
-`;
+  public cssReset = `$progress-bar-bg: $primary_color !default;
+$progress-bar-color: $white !default;
+$progress-bar-used-label: $secondary_color !default;
+$progress-bar-left-label: $primary_color !default;
+$progress-bar-per-outside: $primary_color !default;`;
 
   constructor() {
   }

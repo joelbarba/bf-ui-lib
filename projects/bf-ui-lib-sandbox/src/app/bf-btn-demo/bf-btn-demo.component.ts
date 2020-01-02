@@ -47,29 +47,8 @@ public asyncExample2 = `<bf-btn bfText="Async Click Option 2"
 </bf-btn>`;
 
 
-public cssReset =
-`$bf-colors: (
-  "primary"     : $primary_color,
-  "secondary"   : $secondary_color,
-  "tertiary"    : $tertiary_color,
-  "quaternary"  : $quaternary_color,
-  "warning"     : $warning_color,
-  "extra"       : $extra_color,
-  "white"       : $white,
-);
-
-// Button color reset
-@mixin btn-color-mixin($btn-color) {
-  color: $white;
-  background: $btn-color;
-  .btn-icon-section { background: darken($btn-color, 5%); }
-  .btn-icon-section.small-btn { background: $btn-color; } // If icon btn
-  &:hover:not(:disabled) {
-    background: darken($btn-color, 3%);
-    .btn-icon-section { background: darken($btn-color, 7%); }
-  }
-}
-@each $color, $value in $bf-colors { .#{$color}.bf-btn  { @include btn-color-mixin($value); } }`;
+public cssReset = `@import 'bf-ui-lib/scss/bf-btn';
+bf-btn.yellow-btn { @include custom-btn-color(green, black); }`;
 
 public squashExample = `<bf-btn class="squash" bfType="expand"></bf-btn>`;
 public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"></bf-btn>`;

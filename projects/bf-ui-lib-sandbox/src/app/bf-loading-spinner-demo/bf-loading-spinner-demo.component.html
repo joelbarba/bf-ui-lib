@@ -121,10 +121,10 @@
     </div>
 
     <div [show]="compConf.triggerType === 'promise'">
-      <bf-btn class="block" bfText="Run promise" (bfClick)="generatePromise()"></bf-btn>
+      <bf-btn class="block" bfText="Run promise" (bfClick)="generatePromise()" bfType="save"></bf-btn>
       <div class="marT10">
-        <bf-btn bfText="Resolve"     (bfClick)="promiseDef.resolve()"></bf-btn>
-        <bf-btn bfText="Reject"      (bfClick)="promiseDef.reject()"></bf-btn>
+        <bf-btn bfText="Resolve"  bfType="save"   (bfClick)="promiseDef.resolve()"></bf-btn>
+        <bf-btn bfText="Reject"   bfType="save"   (bfClick)="promiseDef.reject()"></bf-btn>
       </div>
     </div>
 
@@ -133,12 +133,12 @@
     </div>
 
     <div [show]="compConf.triggerType === 'observable'">
-      <bf-btn bfText="New Observable" (bfClick)="loadObs = generateObs()"></bf-btn>
-      <bf-btn bfText="Complete" (bfClick)="loadObs.complete()"></bf-btn>
+      <bf-btn bfText="New Observable" (bfClick)="loadObs = generateObs()" bfType="save"></bf-btn>
+      <bf-btn bfText="Complete" (bfClick)="loadObs.complete()" bfType="save"></bf-btn>
       <div class="marT10">
-        <bf-btn bfText=".next(true)"  (bfClick)="loadObs.next(true)"></bf-btn>
-        <bf-btn bfText=".next(false)" (bfClick)="loadObs.next(false)"></bf-btn>
-        <bf-btn bfText="Error"    (bfClick)="loadObs.error('none')"></bf-btn>
+        <bf-btn bfText=".next(true)"  (bfClick)="loadObs.next(true)" bfType="save"></bf-btn>
+        <bf-btn bfText=".next(false)" (bfClick)="loadObs.next(false)" bfType="save"></bf-btn>
+        <bf-btn bfText="Error"    (bfClick)="loadObs.error('none')" bfType="save"></bf-btn>
       </div>
     </div>
 
@@ -205,3 +205,9 @@
 
 </div>
 
+<!--CSS Styling-->
+<div class="col-12 marT40">
+  <h3>CSS Styling</h3>
+  <p>The following SASS variables can be overridden to provide customized coloring:</p>
+  <pre class="padL30">{{ cssReset }}</pre>
+</div>

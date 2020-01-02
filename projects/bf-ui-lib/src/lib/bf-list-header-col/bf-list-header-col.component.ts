@@ -1,5 +1,5 @@
 import {Component, OnInit, Input, Output, EventEmitter, OnChanges} from '@angular/core';
-import {BfUILibTransService} from "../abstract-translate.service";
+import {BfUILibTransService} from '../abstract-translate.service';
 
 interface IOrderConf {
   fields: Array<string>;
@@ -11,7 +11,7 @@ interface IOrderConf {
 @Component({
   selector: 'bf-list-header-col',
   templateUrl: './bf-list-header-col.component.html',
-  styleUrls: ['./bf-list-header-col.component.scss']
+  styleUrls: []
 })
 export class BfListHeaderColComponent implements OnInit, OnChanges {
   @Input() colTitle: string = null;

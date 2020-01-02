@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  BfLoadingBarService,
-  ILoadingOptions
-} from "../../../../bf-ui-lib/src/lib/bf-loading-bar/bf-loading-bar.service";
-import {BfDefer} from "../../../../bf-ui-lib/src/lib/bf-defer/bf-defer";
-import {BfGrowlService} from "../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service";
+import { BfLoadingBarService, ILoadingOptions } from '../../../../bf-ui-lib/src/lib/bf-loading-bar/bf-loading-bar.service';
+import {BfDefer} from '../../../../bf-ui-lib/src/lib/bf-defer/bf-defer';
+import {BfGrowlService} from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service';
 
 @Component({
   selector: 'app-bf-loading-bar-demo]',
@@ -17,36 +14,16 @@ export class BfLoadingBarDemoComponent implements OnInit {
   public api = BfLoadingBarDoc.api;
   public instance = BfLoadingBarDoc.instance;
 
-  public cssReset = `$bar-bg: #d4d4d4;
-$bar-color: #004A64;
-$locker-bg: rgba(white, 0.8);
+  public cssReset = `$locker-bg: rgba($white, 0.8) !default;   // Background color when blocking
 
-.bf-loading-bar {
-  &.bar-bg { background: $bar-bg;  }
-  &.bar-1, &.bar-2 {
-    background: linear-gradient(to left, transparent 0%, $bar-color 15%, $bar-color 85%, transparent 100%);
-  }
-}
-.bf-loading-bg-blocker { background: $locker-bg; }
+$bar-bg: darken($white, 83%) !default;    // Header loading bar
+$bar-color: $quaternary_color !default;
 
-// Circular spinner running in the middle of the screen
-$spinner-color: rgba(#00B6F1, 0.7);
-.c-spinner { border: 7px solid transparent; }
-.c-spinner-inner { border: 5px solid $spinner-color; }
+$spinner-color: rgba($primary_color, 0.7) !default; // Round spinner
+$spinner-size: 60 !default;
+$menu-size: 35 !default;
 
-// Bf Spinner
-.bf-spinner-box {
-  &.box1 { background: $primary_color; }
-  &.box2 { background: $secondary_color; }
-  &.box3 { background: $tertiary_color; }
-  &.box4 { background: $quaternary_color; }
-}
-
-// Decenter the spinner to match the same wrong position of the old spinner
-.bf-spinner {
-  left: calc(50% - 32px);
-  top: calc(50% - 11px);
-}`;
+$ani-time: 8 !default; // Animation time for BF loading spinner`;
 
   public example1 = `constructor(public loadingBar: BfLoadingBarService) { ... }  
   

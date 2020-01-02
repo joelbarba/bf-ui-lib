@@ -36,27 +36,10 @@ export class BfListPaginatorDemoComponent implements OnInit {
   };
 
 
-  public cssReset = `$primary_color: #00B6F1;
-$page_bg: white;
-$page_color: darken($primary_color, 10%);
-$page_border_color: #c0c0c0;
-$page_hover_bg: #eeeeee;
-
-div.bf-list-paginator {
-  .page-buttons {
-    .page-btn {
-      border-color: $page_border_color;
-      color: $page_color;
-      background: $page_bg;
-      &:not(.disabled):hover { background: $page_hover_bg; }
-      &.current {
-        color: $page_bg;
-        background: $page_color;
-        &:hover { background: $page_color; }
-      }
-    }
-  }
-}`;
+  public cssReset = `$page_bg: $white !default;
+$page_color: darken($primary_color, 10%) !default;
+$page_border_color: #d7dade !default;
+$page_hover_bg: #eeeeee !default;`;
 
   public page = 1;
 

@@ -1,72 +1,175 @@
-$dropdown-selection-bg: $quaternary_color;
-$dropdown-selection-hover: $primary_color;
-$dropdown-valid-color: $valid-color;
+$dropdown-selection-bg: rgba($quaternary_color, 0.35) !default;
+$dropdown-selection-hover: $primary_color !default;
+$dropdown-valid-color: $valid-color !default;
 
-// --- <bf-dropdown> color reset --------------------------------------------------
-.bf-dropdown-form-group {
-  label { transition-property: color; transition-duration: 0.2s; }
-  input.form-control {
-    border: 1px solid $optional-color;
-  }
+bf-dropdown {
+  display: block;
 
-  .bf-dropdown {
-    // Input expanding button (addon)
-    .btn.btn-outline-secondary {
-      border-color: $dropdown-valid-color;
-      background: $dropdown-valid-color;
-      color: $white;
-    }
-    .list-container {
-      background: $white;
-      border: 1px solid $optional-color;
-      border-top-color: rgba($optional-color, 0.5);
-      .option-row {
-        &.selected {
-          color: $white;
-          background: rgba($dropdown-selection-bg, 0.35);
-        }
-        &:hover {
-          background: $dropdown-selection-hover;
-          color: $white;
-        }
+  .bf-dropdown-form-group {
+    display: inline-block;
+    margin-bottom: 15px;
+
+    label {
+      transition-property: color;
+      transition-duration: 0.2s;
+      font-weight: 700;
+      margin-bottom: 2px;
+      .info-badge {
+        display: inline-block;
+        margin-right: 7px;
+        cursor: pointer;
+      }
+      .asterisk {
+        margin-left: 3px;
       }
     }
-    &.is-expanded {
-      .btn.btn-outline-secondary {
-        background: $white;
-        color: $dropdown-valid-color;
-        border-top-color: $optional-color;
-        border-right-color: $optional-color;
-      }
-    }
-  }
 
-  &.is-disabled { input.form-control { color: $disabled-color; } }
-
-  // Changes the colors depending on the status
-  @mixin bf-dropdown-status-color($color) {
-    label { color: $color; }
     .bf-dropdown {
-      input.form-control { border-color: $color; }
-      .btn.btn-outline-secondary {
-        background: $color;
-        border-color: $color;
+      position: relative;
+
+      // Optional image into the input (before the text)
+      .input-image {
+        width: 18px;
+        height: 18px;
+        position: absolute;
+        z-index: 999;
+        left: 10px;
+        top: 7.5px;
+        &.fade { opacity: 0.4; }
       }
-      &.is-expanded .btn.btn-outline-secondary {
-        background: $white;
-        color: $color;
-        border-color: $color $color transparent transparent;
+
+      // Optional icon into the input (before the text)
+      .input-icon {
+        position: absolute;
+        z-index: 999;
+        left: 12px;
+        top: 10px;
+        &.fade { opacity: 0.4; }
       }
+
+      // Input for the selected value
+      input.form-control {
+        border: 1px solid $optional-color;
+        &.has-image, &.has-icon { padding-left: 35px; } // If image present, make room
+
+        height: 34px;
+        font-size: 14px;
+        border-right: none;
+        &:focus {
+          outline: 0;
+          box-shadow: none; // Remove it from Bootstrap
+        }
+      }
+
+      // Right button next to the input to expand the list
+      .input-group-append {
+        margin-left: 0;
+        .btn.btn-outline-secondary {
+          border-color: $dropdown-valid-color;
+          background: $dropdown-valid-color;
+          color: $white;
+          border-left: none;
+          font-size: 14px;
+          padding: 0;
+          min-width: 38px;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          div { padding: 0 7.5px; }
+          &:focus { box-shadow: none; }
+          &:active { box-shadow: none; }
+        }
+      }
+
+      &.is-expanded {
+        input.form-control {
+          border-bottom-left-radius: 0;
+          border-bottom: none;
+        }
+        .btn.btn-outline-secondary {
+          border-bottom-right-radius: 0;
+          border-left-color: transparent;
+          border-bottom-color: transparent;
+          background: $white;
+          color: $dropdown-valid-color;
+          border-top-color: $optional-color;
+          border-right-color: $optional-color;
+        }
+        .list-container { display: block; }
+      }
+
+      // Expanded list to select an item
       .list-container {
-        border-color: $color;
+        background: $white;
+        border: 1px solid $optional-color;
         border-top-color: rgba($optional-color, 0.5);
+        display: none;
+        position: absolute;
+        width: 100%;
+        z-index: 6000;
+        max-height: 300px;
+        padding: 5px 0;
+        overflow: auto;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        .option-row {
+          padding: 4px 10px;
+          margin: 1px 0;
+          min-height: 36px;
+          max-height: 72px;
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          &.selected {
+            font-weight: 700;
+            color: $white;
+            background: $dropdown-selection-bg
+          }
+          &:hover {
+            background: $dropdown-selection-hover;
+            color: $white;
+          }
+
+          // Optional image / icon into the input (left)
+          .option-row-image, .option-row-icon {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+          }
+        }
+      }
+
+    }
+
+    &.is-disabled { input.form-control { color: $disabled-color; cursor: not-allowed; } }
+
+    // Changes the colors depending on the status
+    @mixin bf-dropdown-status-color($color) {
+      label { color: $color; }
+      .bf-dropdown {
+        input.form-control { border-color: $color; }
+        .btn.btn-outline-secondary {
+          background: $color;
+          border-color: $color;
+        }
+        &.is-expanded .btn.btn-outline-secondary {
+          background: $white;
+          color: $color;
+          border-color: $color $color transparent transparent;
+        }
+        .list-container {
+          border-color: $color;
+          border-top-color: rgba($optional-color, 0.5);
+        }
       }
     }
+
+    &.is-required { @include bf-dropdown-status-color($required-color); }
+    &.is-focus { @include bf-dropdown-status-color($focused-color); }
+    &.is-error { @include bf-dropdown-status-color($invalid-color); }
   }
 
-  &.is-required { @include bf-dropdown-status-color($required-color); }
-  &.is-focus { @include bf-dropdown-status-color($focused-color); }
-  &.is-error { @include bf-dropdown-status-color($invalid-color); }
-
+  &.full-width .bf-dropdown-form-group { width: 100%; }
+  &.flat       .bf-dropdown-form-group { margin-bottom: 0; };
 }
 

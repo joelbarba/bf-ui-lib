@@ -1,115 +1,222 @@
-$optional_input_color : $optional-color; // <-- this is a bootstrap default
-$focused_input_color  : $focused-color;
-$required_input_color : $primary_color;
-$invalid_input_color  : $invalid-color;
-$valid_input_color    : $primary_color;
-$disabled_input_color : $disabled-color;
+$input-optional-color  : $optional-color !default;  // <-- this is a bootstrap default
+$input-focused-color   : $focused-color !default;
+$input-disabled-color  : $disabled-color !default;
+$input-required-color  : $required-color !default;
+$input-invalid-color   : $invalid-color !default;
+$input-valid-color     : $valid-color !default;
+
+bf-input {
+
+  .bf-input-form-group {
+    margin-bottom: 15px;
+    position: relative; // Set it as a container for the internal relatives
+
+    .bf-input-inner-icon {
+      position: absolute;
+      display: block;
+      z-index: 2;
+      top: initial;
+      width: 34px;
+      height: 34px;
+      bottom: 0;
+      right: 0;
+      padding: 10px;
+      font-size: 14px;
+      text-align: center;
+      pointer-events: none;
+      &.bf-icon-loading {
+        -webkit-animation: spinAround 1000ms infinite linear;
+        animation: spinAround 1000ms infinite linear;
+      }
+    }
+
+    label {
+      font-weight: 700;
+      margin-bottom: 2px;
+
+      .info-badge {
+        display: inline-block;
+        margin-right: 7px;
+        cursor: pointer;
+      }
+      .asterisk {
+        margin-left: 3px;
+      }
+    }
+
+    input.form-control {
+      height: 34px;
+      font-size: 14px;
+      &:focus { outline: 0; }
+    }
+
+    .input-wrapper {
+      .input-group-prepend, .input-group-append {
+        .btn.btn-outline-secondary {
+          font-size: 14px;
+          padding: 0;
+          min-width: 38px;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          div { padding: 0 7.5px; }
+          &:focus { box-shadow: none; }
+          //&:active:not(.disabled) {
+          //  box-shadow: inset 2px 2px 5px rgba(34, 36, 38, 0.4);
+          //}
+        }
+      }
+    }
+
+    &.is-disabled input.form-control {
+      cursor: not-allowed;
+    }
+
+    &.is-error {
+      .bf-input-error-text {  // Error message
+        font-size: 12px;
+        position: absolute;
+        &.pull-up { top: -23px; } // If no label, pull message up above the box
+
+        // errorPosition:
+        &.none { display: none; } // Hide error text
+
+        &.default { // Default error position:
+          @media (min-width: 767px) { right: 5px; padding-top: 2px; } // Default > xs = Top right
+          @media (max-width: 768px) { bottom: -20px; right: 5px; }    // Default xs = Bottom right
+        }
+        &.top-right { right: 5px; padding-top: 2px; }
+        &.bottom-left  { bottom: -20px; left: 5px; }
+        &.bottom-right { bottom: -20px; right: 5px; }
+      }
+
+      // If error text at the bottom, add extra margin
+      &.error-bottom { margin-bottom: 30px; }
+      @media (max-width: 768px) { &.error-default { margin-bottom: 30px; } } // Small default goes to the bottom too
+    }
+
+
+    // Expose an animation when autofill is triggered, to be hooked up in JS through 'animationstart' event
+    @keyframes onAutoFillStart {
+      0%   { transform: translateX(0); }
+      50%  { transform: translateX(1px); }
+      100% { transform: translateX(0); }
+    }
+    .has-autofill-detection input:-webkit-autofill {
+      animation: onAutoFillStart 0.05s ease-in-out 0s;
+      transform: translateX(0);
+    }
+  }
+
+
+  // Horizontal layout (label to the left, input to the right)
+  &.input-col, :host[class*="input-col-"] {
+    .bf-input-form-group {
+      display: flex;
+      label {
+        flex: 1;
+        text-align: right;
+        padding-top: 5px;
+        max-height: 30px;
+      }
+      .input-wrapper {
+        display: flex;
+        margin-left: 15px;
+        flex: 1;
+      }
+      .bf-input-inner-icon { top: 0; }
+
+      .bf-input-error-text {  // Error message
+
+        &.default { // Default error position:
+          @media (min-width: 767px) { padding-top: 0; top: -20px; } // Default > xs = Top right
+          @media (max-width: 768px) { }  // Default xs = Bottom right
+        }
+        &.bottom-left { padding-left: calc(calc(100% / 3) + 10px); }
+        &.top-right { padding-top: 0; top: -20px; }
+      }
+
+      // Add extra margin
+      margin-top: 25px;
+      margin-bottom: 30px;
+    }
+  }
+
+  @for $ind from 1 through 10 {
+    &.input-col-#{$ind} {
+      .bf-input-form-group .input-wrapper { flex: #{$ind}; }
+    }
+  }
+
+  &.flat .bf-input-form-group { margin-bottom: 0; }
+}
+
+
+
+
 
 // --- <bf-input> color reset -----------------------------------------------------------
 // This styles the bf-input to behave exactly like the old <bf-input> in the old Splice portal (AngularJS)
-
-.bf-input-form-group {
+bf-input .bf-input-form-group {
   &.is-required .bf-input-inner-icon {
-    color: $required_input_color; // Icon into the input to add info or error alert
+    color: $input-required-color; // Icon into the input to add info or error alert
   }
   .bf-input-inner-icon {
-    &.bf-icon-error { color: $invalid_input_color; }
-    &.bf-icon-valid { color: $valid_input_color; }
-    &.bf-icon-loading { color: $valid_input_color; }
+    &.bf-icon-error { color: $input-invalid-color; }
+    &.bf-icon-valid { color: $input-valid-color; }
+    &.bf-icon-loading { color: $input-valid-color; }
   }
   input.form-control {
-    border: 1px solid $optional_input_color;
-    &:focus { border-color: $focused_input_color; }
+    border: 1px solid $input-optional-color;
+    &:focus { border-color: $input-focused-color; }
+
+    //&::-webkit-input-placeholder { color: $input-optional-color; } /* WebKit, Blink, Edge */
+    //&:-moz-placeholder           { color: $input-optional-color; opacity:  1; } /* Mozilla Firefox 4 to 18 */
+    //&::-moz-placeholder          { color: $input-optional-color; opacity:  1; } /* Mozilla Firefox 19+ */
+    //&:-ms-input-placeholder      { color: $input-optional-color; } /* Internet Explorer 10-11 */
+    //&::-ms-input-placeholder     { color: $input-optional-color; } /* Microsoft Edge */
+    //&::placeholder               { color: $input-optional-color; } /* Most modern browsers support this now. */
+    //box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    //&:focus { box-shadow: 0 0 0 2px rgba($input-optional-color, 0.35); }
   }
-  &.is-disabled input.form-control { color: $disabled_input_color; }
+  &.is-disabled input.form-control { color: $input-disabled-color; }
   &.is-required  input.form-control {
-    border-color: $required_input_color;
-    &:focus { border-color: $focused_input_color; }
+    border-color: $input-required-color;
+    &:focus { border-color: $input-focused-color; }
   }
 
   label { transition-property: color; transition-duration: 0.2s; }
-  &.is-required label { color: $required_input_color; }
-  &.is-focus label { color: $focused_input_color; }
+  &.is-required label { color: $input-required-color; }
+  &.is-focus label { color: $input-focused-color; }
 
   &.is-error {
-    label { color: $invalid_input_color; }
-    input.form-control { border-color: $invalid_input_color; }
-    input.form-control:focus { border-color: $invalid_input_color; }
-    .bf-input-error-text { color: $invalid_input_color; }
+    label { color: $input-invalid-color; }
+    input.form-control { border-color: $input-invalid-color; }
+    input.form-control:focus { border-color: $input-invalid-color; }
+    .bf-input-error-text { color: $input-invalid-color; }
   }
 
   // Addon buttons
   .btn.btn-outline-secondary {
-    border-color: $valid_input_color;
-    background: $valid_input_color;
+    border-color: $input-valid-color;
+    background: $input-valid-color;
     color: $white;
     //transition-property: none;
     &:active:not(.disabled) {
       //  box-shadow: inset 2px 2px 5px rgba(34, 36, 38, 0.4);
-      border-color: $valid_input_color;
-      background: $valid_input_color;
+      border-color: $input-valid-color;
+      background: $input-valid-color;
     }
   }
   &.is-focus .btn.btn-outline-secondary {
-    border-color: $focused_input_color;
-    background: $focused_input_color;
+    border-color: $input-focused-color;
+    background: $input-focused-color;
   }
   &.is-error .btn.btn-outline-secondary, &.is-error .btn.btn-outline-secondary:active {
-    border-color: $invalid_input_color;
-    background: $invalid_input_color;
+    border-color: $input-invalid-color;
+    background: $input-invalid-color;
   }
 
 
   input.form-control:focus { box-shadow: none; }  // Remove it from Bootstrap
 }
-
-
-
-// --- <bf-input> color reset (New Splice ng8)-----------------------------------------------------------
-/* // -- This styles the bf-input with some improvements (to be applied after the migration is completed)
-$input-border: #ccc !default; // <-- this is a bootstrap default
-$optional_input_color : $input-border;
-$input_focus_color : blue;
-$required_input_color : $primary_color;
-$invalid_input_color  : $warning_color;
-$valid_input_color    : $primary_color;
-$disabled_input_color : #797979;
-
-.bf-input-form-group {
-  &.is-required .bf-input-inner-icon {
-    color: $required_input_color; // Icon into the input to add info or error alert
-  }
-  .bf-input-inner-icon {
-    &.bf-icon-error { color: $invalid_input_color; }
-    &.bf-icon-valid { color: $valid_input_color; }
-    &.bf-icon-loading { color: $valid_input_color; }
-  }
-  input.form-control { // Placeholder color (https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder)
-    &::-webkit-input-placeholder { color: $optional_input_color; } // WebKit, Blink, Edge
-    &:-moz-placeholder           { color: $optional_input_color; opacity:  1; } // Mozilla Firefox 4 to 18
-    &::-moz-placeholder          { color: $optional_input_color; opacity:  1; } // Mozilla Firefox 19+
-    &:-ms-input-placeholder      { color: $optional_input_color; } // Internet Explorer 10-11
-    &::-ms-input-placeholder     { color: $optional_input_color; } // Microsoft Edge
-    &::placeholder               { color: $optional_input_color; } // Most modern browsers support this now.
-    box-shadow: inset 0 2px 2px rgba(0, 0, 0, .075);
-    border: 1px solid $optional_input_color;
-    &:focus {
-      box-shadow: 0 0 2px 2px rgba($optional_input_color, 0.35);
-    }
-  }
-  &.is-disabled input.form-control { color: $disabled_input_color; }
-  &.is-required  input.form-control {
-    border-color: $primary_color;
-    &:focus { box-shadow: 0 0 2px 2px rgba($primary_color, 0.20); }
-  }
-  &.is-error {
-    label { color: $warning_color; }
-    input.form-control {
-      border-color: $warning_color;
-      &:focus { box-shadow: 0 0 2px 2px rgba($warning_color, 0.20); }
-    }
-    .bf-input-error-text { color: $invalid_input_color; }
-  }
-}
-*/
-

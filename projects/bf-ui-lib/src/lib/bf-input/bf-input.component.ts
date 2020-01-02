@@ -32,7 +32,7 @@ type TExtCtrl$ =
 @Component({
   selector: 'bf-input',
   templateUrl: './bf-input.component.html',
-  styleUrls: ['./bf-input.component.scss'],
+  styleUrls: [],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR, multi: true,
