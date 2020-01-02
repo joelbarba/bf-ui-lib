@@ -86,10 +86,10 @@ export class BfBtnComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.setDefaultIcon();
+    if (!this.btnIcon) { this.setDefaultIcon(); }
   }
 
-  private setDefaultIcon = (defaultIcon = 'icon-arrow-right3') => {
+  private setDefaultIcon = (defaultIcon?: string) => {
     this.btnIcon = null;
 
     if (this.bfIcon) {
@@ -98,8 +98,11 @@ export class BfBtnComponent implements OnInit, OnChanges {
     } else if (this.isToggle) {
       this.btnIcon = this.bfToggle ? 'icon-arrow-up3' : 'icon-arrow-down3';
 
-    } else if (!this.textLabel) {
+    } else if (!!defaultIcon) {
       this.btnIcon = defaultIcon;
+
+    } else if (!this.textLabel) {
+      this.btnIcon = 'icon-arrow-right3';
     }
   };
 
