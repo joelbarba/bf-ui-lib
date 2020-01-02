@@ -20,9 +20,9 @@
                          name="d8s87fsd89" bfMinVal="10">
       </bf-quantity-input>
 
-      <bf-btn bfText="Set value = 2" (bfClick)="myVar = 2"></bf-btn>
-      <bf-btn bfText="Set string" (bfClick)="myVar = 'hey'"></bf-btn>
-      <bf-btn bfText="Set object" (bfClick)="myVar = { name: 'hey' }"></bf-btn>
+      <bf-btn bfText="Set value = 2" (bfClick)="myVar = 2" bfType="save"></bf-btn>
+      <bf-btn bfText="Set string" (bfClick)="myVar = 'hey'" bfType="save"></bf-btn>
+      <bf-btn bfText="Set object" (bfClick)="myVar = { name: 'hey' }" bfType="save"></bf-btn>
 
       <div *ngIf="!!bfQuantityRef">
         FromControl:
@@ -172,12 +172,8 @@
     <div class="col-12">
       <hr>
       <h4>CSS Styling</h4>
-      <p>The encapsulated styles of the button use a default color. However, we may want to apply different colors
-        externally (depending on the theme)
-        <br/>
-        To provide a color restyiling based on a SCSS theme you can apply the following rules on a css global level :
-      </p>
-      <pre>{{ cssReset }}</pre>
+      <p>The following SASS variables can be overridden to provide customized coloring:</p>
+      <pre class="padL30">{{ cssReset }}</pre>
     </div>
   </div>
 </div>

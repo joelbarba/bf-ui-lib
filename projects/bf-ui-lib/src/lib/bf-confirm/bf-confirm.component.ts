@@ -1,13 +1,13 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
-import {AbstractTranslateService, BfUILibTransService} from '../abstract-translate.service';
-import { NgbModal, NgbActiveModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, Input} from '@angular/core';
+import {BfUILibTransService} from '../abstract-translate.service';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import {Observable, of} from "rxjs";
+import {of} from 'rxjs';
 
 @Component({
   selector: 'bf-confirm',
   templateUrl: './bf-confirm.component.html',
-  styleUrls: ['./bf-confirm.component.scss']
+  styleUrls: []
 })
 export class BfConfirmComponent implements OnInit {
   @Input() options;

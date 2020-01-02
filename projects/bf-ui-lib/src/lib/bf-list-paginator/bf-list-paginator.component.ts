@@ -14,7 +14,7 @@ interface IBfCtrl {
 @Component({
   selector: 'bf-list-paginator',
   templateUrl: './bf-list-paginator.component.html',
-  styleUrls: ['./bf-list-paginator.component.scss'],
+  styleUrls: [],
   // encapsulation: ViewEncapsulation.None
 })
 export class BfListPaginatorComponent implements OnInit, OnChanges, DoCheck {

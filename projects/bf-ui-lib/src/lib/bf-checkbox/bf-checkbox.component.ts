@@ -1,12 +1,12 @@
 import {Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, forwardRef, OnChanges} from '@angular/core';
 import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-import {BfUILibTransService} from "../abstract-translate.service";
+import {BfUILibTransService} from '../abstract-translate.service';
 
 @Component({
   selector: 'bf-checkbox',
   templateUrl: './bf-checkbox.component.html',
-  styleUrls: ['./bf-checkbox.component.scss'],
+  styleUrls: [],
   // encapsulation: ViewEncapsulation.None,
   providers: [
     {

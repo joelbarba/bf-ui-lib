@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import {BfGrowlService} from "../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service";
-import {IbfInputCtrl} from "../../../../bf-ui-lib/src/lib/bf-input/bf-input.component";
-import {map} from "rxjs/operators";
-import {Subject} from "rxjs";
+import {BfGrowlService} from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service';
+import {IbfInputCtrl} from '../../../../bf-ui-lib/src/lib/bf-input/bf-input.component';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-bf-input-demo]',
@@ -50,47 +48,12 @@ export class BfInputDemoComponent implements OnInit {
 <bf-input [(ngModel)]="myVar" class="input-col-2" bfLabel="view.common.name"></bf-input>  
 <bf-input [(ngModel)]="myVar" class="input-col-3" bfLabel="view.common.name"></bf-input>`;
 
-  public cssReset = `$input-border: #ccc !default; // <-- this is a bootstrap default
-$optional_input_color : $input-border;
-$required_input_color : $primary_color;
-$invalid_input_color  : $warning_color;
-$valid_input_color    : $primary_color;
-$disabled_input_color : #797979;
-
-.bf-input-form-group {
-    &.is-required .bf-input-inner-icon {
-    color: $required_input_color; // Icon into the input to add info or error alert
-  }
-  .bf-input-inner-icon {
-    &.bf-icon-error { color: $invalid_input_color; }
-    &.bf-icon-valid { color: $valid_input_color; }
-    &.bf-icon-loading { color: $valid_input_color; }
-  }
-  input.form-control { // Placeholder color (https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder)
-    &::-webkit-input-placeholder { color: $optional_input_color; } /* WebKit, Blink, Edge */
-    &:-moz-placeholder           { color: $optional_input_color; opacity:  1; } /* Mozilla Firefox 4 to 18 */
-    &::-moz-placeholder          { color: $optional_input_color; opacity:  1; } /* Mozilla Firefox 19+ */
-    &:-ms-input-placeholder      { color: $optional_input_color; } /* Internet Explorer 10-11 */
-    &::-ms-input-placeholder     { color: $optional_input_color; } /* Microsoft Edge */
-    &::placeholder               { color: $optional_input_color; } /* Most modern browsers support this now. */
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-    border: 1px solid $optional_input_color;
-    &:focus { box-shadow: 0 0 0 2px rgba($optional_input_color, 0.35); }
-  }
-  &.is-disabled input.form-control { color: $disabled_input_color; }
-  &.is-required  input.form-control {
-    border-color: $primary_color;
-    &:focus { box-shadow: 0 0 0 2px rgba($primary_color, 0.20); }
-  }
-  &.is-error {
-    label { color: $warning_color; }
-    input.form-control {
-      border-color: $warning_color;
-      &:focus { box-shadow: 0 0 0 2px rgba($warning_color, 0.20); }
-    }
-    .bf-input-error-text { color: $invalid_input_color; }
-  }
-}`;
+  public cssReset = `$input-optional-color  : $optional-color !default;  // <-- this is a bootstrap default
+$input-focused-color   : $focused-color !default;
+$input-disabled-color  : $disabled-color !default;
+$input-required-color  : $required-color !default;
+$input-invalid-color   : $invalid-color !default;
+$input-valid-color     : $valid-color !default;`;
 
   public instance4 = `<bf-input [(ngModel)]="myModel" bfAutoFocus="true"
           (bfOnKeyDown)="growl.success('Key pressed -> ' + $event.key)">

@@ -323,11 +323,17 @@ If the property "bfText" is defined, it generates a button with both text and ic
   <div class="col-12">
     <hr>
     <h4>CSS Styling</h4>
-    <p>The encapsulated styles of the button use a default color. However, we may want to apply different colors externally (depending on the theme)
-      <br/>
-      To provide a color restyiling based on a SCSS theme you can apply the following rules on a css global level :
+    <p>
+      Every name in <b>"$bf-ui-lib-colors"</b> represents a css class that you can apply on the button to color it (primary, secondary, tertiary, quaternary, warning, extra, white, disabled)
     </p>
+    <p>To change the color of the buttons use the SASS variable <b>$default-btn-text-color</b></p>
+    <p>To add extra colors, there is a mixin that can be used inside a selector <b>"custom-btn-color(color-bg, text-color)"</b>:</p>
+  </div>
+  <div class="col-6">
     <pre>{{ cssReset }}</pre>
+  </div>
+  <div class="col-6">
+    <bf-btn class="yellow-btn" bfText="This is a custom button" bfIcon="icon-plus"></bf-btn>
   </div>
 </div>
 

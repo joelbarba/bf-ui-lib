@@ -1,5 +1,12 @@
+$default-btn-text-color: $white !default;
+
+$btn-border-radius: 4px;
+$btn-height: 35px;
+$btn-section-width: 35px; // Size of the icon section when text btn
+$btn-icon-width: 40px;    // Size of the button when only icon
+
 @mixin btn-color-mixin($btn-color) {
-  color: $white;
+  color: $default-btn-text-color;
   background: $btn-color;
   .btn-icon-section { background: darken($btn-color, 5%); }
   &:hover:not(:disabled) {
@@ -10,21 +17,21 @@
     .btn-icon-section { background: $btn-color; }
   }
 }
-
-@each $color, $value in $bf-ui-lib-colors {
-  .#{$color}.bf-btn  { @include btn-color-mixin($value); }
+@mixin custom-btn-color($btn-color, $text-color) {
+  .bf-btn { @include btn-color-mixin($btn-color); }
+  .bf-btn { color: $text-color !important; }
 }
-
-$btn-border-radius: 4px;
-$btn-height: 35px;
-$btn-section-width: 35px; // Size of the icon section when text btn
-$btn-icon-width: 40px;    // Size of the button when only icon
 
 bf-btn {
   display: inline-block;
 
   .disabled-tooltip {
     display: inline-block;
+
+    // Apply color classes
+    @each $color, $value in $bf-ui-lib-colors {
+      .#{$color} { @include btn-color-mixin($value); }
+    }
 
     .bf-btn {
       display: flex;
@@ -34,6 +41,7 @@ bf-btn {
       overflow: hidden;
       cursor: pointer;
       box-shadow: 0 1px 2px rgba(34, 36, 38, 0.6);
+
 
       & > * {
         height: $btn-height;

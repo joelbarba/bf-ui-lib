@@ -1,3 +1,5 @@
+$loading-spinner-color: $primary_color !default;
+
 bf-loading-spinner {
   display: inline-block;
   height: 1em; width: 1em;
@@ -35,7 +37,7 @@ bf-loading-spinner {
 .bf-spin, .bf-loading-spinner {
   &:after {
     animation: bfSpinAround 500ms infinite linear;
-    border: 2px solid $primary_color;
+    border: 2px solid $loading-spinner-color;
     border-radius: 100%;
     border-right-color: transparent;
     border-top-color: transparent;
@@ -64,7 +66,7 @@ bf-loading-spinner {
   > * { opacity: 0.5; }
   &:after {
     animation: bfSpinAround 500ms infinite linear;
-    border: 2px solid $primary_color;
+    border: 2px solid $loading-spinner-color;
     border-radius: 100%;
     border-right-color: transparent;
     border-top-color: transparent;

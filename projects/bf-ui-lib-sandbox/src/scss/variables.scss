@@ -1,3 +1,7 @@
+// This is an example of how to override the library colors in order to customize it in the application
+// Every one of these variables has a default value, so they are all optional
+
+// ---------- Defaults ---------------
 $primary_color    : #00B6F1;
 //$primary_color    : green;
 $secondary_color  : #93C83E;
@@ -7,28 +11,141 @@ $warning_color    : #ED0677;
 $extra_color      : #F17B3F;
 
 $white          : #fff;
-$offWhite       : #f8f8f8;
-//$grey           : #929292;
-//$text-color     : #525254;
-//$optional-color : #ccc;       // (bootstrap default - $input-border)
-//$disabled-color : #a0a0a0;
-//$focused-color  : darken($primary_color, 20%);
-//$required-color : $primary_color;
-//$valid-color    : $primary_color;
-//$invalid-color  : red;
+$grey           : #929292;
+$text-color     : #525254;
+$optional-color : #ccc;       // (bootstrap default - $input-border)
+$disabled-color : #a0a0a0;
+$focused-color  : darken($primary_color, 20%);
+$required-color : $primary_color;
+$valid-color    : $primary_color;
+$invalid-color  : $warning_color;
 
-//$bf-ui-lib-colors: (
-//  'primary'     : $primary_color,
-//  'secondary'   : $secondary_color,
-//  'tertiary'    : $tertiary_color,
-//  'quaternary'  : $quaternary_color,
-//  'warning'     : $warning_color,
-//  'extra'       : $extra_color,
-//  'white'       : $white,
-//  'disabled'    : $disabled-color
-//);
+$bf-ui-lib-colors: (
+  'primary'     : $primary_color,
+  'secondary'   : $secondary_color,
+  'tertiary'    : $tertiary_color,
+  'quaternary'  : $quaternary_color,
+  'warning'     : $warning_color,
+  'extra'       : $extra_color,
+  'white'       : $white,
+  'disabled'    : $disabled-color
+);
+
+$bf_color3_shadow2 : #E99FB7;
 
 
+// ---------- bf-autocomplete ----------
+
+// ---------- bf-btn -------------------
+//$default-btn-text-color: #ff0000;
+//@import '../../../bf-ui-lib/scss/bf-btn';
+//bf-btn.yellow-btn { @include custom-btn-color(green, black); }
+
+// ---------- bf-checkbox --------------
+//$checkbox-uncheck-bg: yellow;
+//$checkbox-uncheck-border: purple;
+//$checkbox-check-bg: green;
+//$checkbox-check-border: black;
+//$checkbox-check-color: #fffff0;
+//$checkbox-disabled-bg: gray;
+//$checkbox-disabled-border: darken(gray, 30%);
+
+// ---------- bf-confirm ---------------
+// ---------- bf-date-picker -----------
+
+// ---------- bf-dropdown --------------
+//$dropdown-selection-bg: red;
+//$dropdown-selection-hover: rgba(yellow, 0.3);
+//$dropdown-valid-color: green;
+
+// ---------- bf-growl -----------------
+//$growl-border: red;
+//$growl-success: yellow;
+//$growl-success-bg: green;
+//$growl-error: yellow;
+//$growl-error-bg: red;
+
+// ---------- bf-input -----------------
+//$input-optional-color  : cyan;
+//$input-focused-color   : purple;
+//$input-disabled-color  : orange;
+//$input-required-color  : black;
+//$input-invalid-color   : red;
+//$input-valid-color     : green;
+
+// ---------- bf-label -----------------
+// ---------- bf-list-paginator --------
+//$page_bg: gray;
+//$page_color: green;
+//$page_border_color: red;
+//$page_hover_bg: yellow;
+
+// ---------- bf-loading ---------------
+//$locker-bg: rgba(yellow, 0.8);   // Background color when blocking
+//$bar-bg: black; // Header loading bar
+//$bar-color: red;
+//$spinner-color: orange; // Round spinner
+//$spinner-size: 120;
+//$menu-size: 35;
+//$ani-time: 4; // Animation time for BF loading spinner
+
+// ---------- bf-loading-spinner -------
+//$loading-spinner-color: $secondary_color;
+
+// ---------- bf-no-data ---------------
+//$no-data-bg: orange;
+//$no-data-color: red;
+
+// ---------- bf-progress-bar ----------
+//$progress-bar-bg: blue;
+//$progress-bar-color: yellow;
+//$progress-bar-used-label: purple;
+//$progress-bar-left-label: orange;
+//$progress-bar-per-outside: red;
+
+// ---------- bf-quantity-input --------
+//$quantity-input-bg: yellow;
+//$quantity-input-border: orange;
+//$quantity-input-left-btn: brown;
+//$quantity-input-right-btn: red;
+//$quantity-input-blocked-btn: gray;
+
+// ---------- bf-radio -----------------
+//$radio-color: green;
+//$radio-check-color: yellow;
+
+// ---------- bf-status-badge ----------
+//$bf-status-badge-text-color : yellow;
+//$bf-status-badge-border     : red;
+//$bf-status-font-size        : 8px;
+//$bf-status-font-weight      : 300;
+//$bf-status-active   : blue;
+//$bf-status-inactive : orange;
+//$bf-status-pending  : gray;
+//$bf-status-other    : green;
+//$bf-status-other2   : purple;
+//$bf-status-other3   : cyan;
+//$bf-status-other4   : brown;
+//$bf-status-submitted: pink;
+
+// ---------- bf-switch ----------------
+//$switch-bar-bg: yellow;
+//$switch-bar-color: blue;
+//$switch-lever-bg: purple;
+//$switch-color-on: green;
+//$switch-color-off: red;
+
+// ---------- bf-textarea --------------
+//$textarea-optional-color  : purple;
+//$textarea-focused-color   : blue;
+//$textarea-disabled-color  : black;
+//$textarea-required-color  : orange;
+//$textarea-invalid-color   : red;
+
+// ---------- bf-time-picker --------------
+
+
+// ---------- Others ---------------
 
 // Bootstrap Tooltips (+ ngb Tooltips)
 $zindex-tooltip: 5100;  // Show tooltips over navbar and menu

@@ -5,7 +5,7 @@ import {Observable, of} from 'rxjs';
 @Component({
   selector: 'bf-label',
   templateUrl: './bf-label.component.html',
-  styleUrls: ['./bf-label.component.scss'],
+  styleUrls: [],
   encapsulation: ViewEncapsulation.None,
 })
 export class BfLabelComponent implements OnInit, OnChanges {

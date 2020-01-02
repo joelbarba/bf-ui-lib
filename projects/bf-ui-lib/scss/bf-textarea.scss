@@ -1,25 +1,102 @@
-.bf-textarea-form-group {
+$textarea-optional-color  : $optional-color !default;  // <-- this is a bootstrap default
+$textarea-focused-color   : $focused-color !default;
+$textarea-disabled-color  : $disabled-color !default;
+$textarea-required-color  : $required-color !default;
+$textarea-invalid-color   : $invalid-color !default;
+
+bf-textarea {
+  .bf-textarea-form-group {
+    margin-bottom: 15px;
+    position: relative; // Set it as a container for the internal relatives
+
+    label {
+      font-weight: 700;
+      margin-bottom: 2px;
+
+      .info-badge {
+        display: inline-block;
+        margin-right: 7px;
+        cursor: pointer;
+      }
+      .asterisk {
+        margin-left: 3px;
+      }
+    }
+
+    textarea.form-control {
+      max-height: 350px;
+      font-size: 14px;
+      &:focus {
+        outline: 0;
+        box-shadow: none;  // Remove it from Bootstrap
+      }
+    }
+
+    &.is-disabled {
+      textarea.form-control {
+        cursor: not-allowed;
+      }
+    }
+
+    &.is-error {
+      // Error message on the top right
+      .bf-textarea-error-text {
+        font-size: 12px;
+        position: absolute;
+        &.pull-up { top: -23px; } // If no label, pull message up above the box
+
+        // errorPosition:
+        &.none { display: none; } // Hide error text
+
+        &.default { // Default error position:
+          @media (min-width: 767px) { right: 5px; padding-top: 2px; } // Default > xs = Top right
+          @media (max-width: 768px) { bottom: -20px; right: 5px; }    // Default xs = Bottom right
+        }
+        &.top-right { right: 5px; padding-top: 2px; }
+        &.bottom-left  { bottom: -20px; left: 5px; }
+        &.bottom-right { bottom: -20px; right: 5px; }
+      }
+
+      // If error text at the bottom, add extra margin
+      &.error-bottom { margin-bottom: 30px; }
+      @media (max-width: 768px) { &.error-default { margin-bottom: 30px; } } // Small default goes to the bottom too
+    }
+
+  }
+
+
+
+
+  // Styles applied to the host (wrapper instance element) <bf-input>
+  &.flat { .bf-textarea-form-group { margin-bottom: 0; } }
+}
+
+
+
+
+// --- Color layer -----------------------------------------------------------------------------------
+bf-textarea .bf-textarea-form-group {
   textarea.form-control {
-    border: 1px solid $optional-color;
-    &:focus { box-shadow: none; border: 1px solid $focused-color; }
+    border: 1px solid $textarea-optional-color;
+    &:focus { box-shadow: none; border: 1px solid $textarea-focused-color; }
     //box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
     //&:focus { box-shadow: 0 0 0 2px rgba($focused-color, 0.35); }
   }
   &.is-disabled textarea.form-control {
-    color: $disabled-color;
+    color: $textarea-disabled-color;
   }
   &.is-required  textarea.form-control {
-    border-color: $required-color;
-    &:focus { box-shadow: 0 0 0 2px rgba($required-color, 0.20); }
+    border-color: $textarea-required-color;
+    //&:focus { box-shadow: 0 0 0 2px rgba($textarea-required-color, 0.20); }
   }
   &.is-error {
-    label { color: $invalid-color; }
+    label { color: $textarea-invalid-color; }
     textarea.form-control {
-      border-color: $invalid-color;
-      &:focus { box-shadow: 0 0 0 2px rgba($invalid-color, 0.20); }
+      border-color: $textarea-invalid-color;
+      //&:focus { box-shadow: 0 0 0 2px rgba($textarea-invalid-color, 0.20); }
     }
     .bf-textarea-error-text {
-      color: $invalid-color;
+      color: $textarea-invalid-color;
     }
   }
 }

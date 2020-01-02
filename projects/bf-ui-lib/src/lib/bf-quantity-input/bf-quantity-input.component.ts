@@ -4,7 +4,7 @@ import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, Validators } from
 @Component({
   selector: 'bf-quantity-input',
   templateUrl: './bf-quantity-input.component.html',
-  styleUrls: ['./bf-quantity-input.component.scss'],
+  styleUrls: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {

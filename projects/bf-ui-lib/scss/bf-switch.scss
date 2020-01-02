@@ -4,7 +4,7 @@ $switch-lever-bg: #f3f3f3 !default;
 $switch-color-on: $valid-color !default;
 $switch-color-off: $switch-lever-bg !default;
 
-.bf-switch {
+bf-switch .bf-switch {
   position: relative;
   cursor: pointer;
   display: inline-block;
@@ -59,7 +59,7 @@ $switch-color-off: $switch-lever-bg !default;
 }
 
 
-.switch-label {
+bf-switch .switch-label {
   &.horizontal {
     display: inline-block;
     margin-right: 15px;
@@ -67,17 +67,4 @@ $switch-color-off: $switch-lever-bg !default;
     position: relative;
   }
 }
-
-
-// --- <bf-switch> reset --------------------------------------------------
-//.bf-switch {
-//  .switch-value {  // Text color (ON/OFF)
-//    .bf-switch-off-text { color: red; }
-//    .bf-switch-on-text  { color: green; }
-//  }
-//  .switch-lever { // Lever color
-//    &.is-on  { background: yellow; }
-//    &.is-off { background: purple; }
-//  }
-//}
 

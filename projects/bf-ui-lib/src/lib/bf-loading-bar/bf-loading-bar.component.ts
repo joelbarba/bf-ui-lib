@@ -4,7 +4,7 @@ import { BfLoadingBarService } from './bf-loading-bar.service';
 @Component({
   selector: 'bf-loading-bar',
   templateUrl: './bf-loading-bar.component.html',
-  styleUrls: ['./bf-loading-bar.component.scss'],
+  styleUrls: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BfLoadingBarComponent implements OnInit, OnDestroy {

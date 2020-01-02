@@ -1,3 +1,13 @@
 .modal-confirmation .modal-content  {
   margin-top: -20px;
 }
+
+bf-confirm {
+  .modal-header, .modal-body, .modal-footer {
+    padding: 25px;
+    p { margin-bottom: 0; }
+    button.close {
+      outline: none;
+    }
+  }
+}

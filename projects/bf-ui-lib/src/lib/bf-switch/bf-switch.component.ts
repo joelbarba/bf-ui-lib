@@ -1,4 +1,4 @@
-import {Component, EventEmitter, forwardRef, Inject, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, forwardRef, Inject, Input, OnChanges, OnInit} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {BfUILibTransService} from '../abstract-translate.service';
 import {Observable, of} from 'rxjs';
@@ -6,7 +6,7 @@ import {Observable, of} from 'rxjs';
 @Component({
   selector: 'bf-switch',
   templateUrl: './bf-switch.component.html',
-  styleUrls: ['./bf-switch.component.scss'],
+  styleUrls: [],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR, multi: true,

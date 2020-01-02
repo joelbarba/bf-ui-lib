@@ -20,33 +20,9 @@ import { Component, OnInit } from '@angular/core';
 <bf-radio [(ngModel)]="myVariable" bfLabel="Option 3" bfValue="3" bfRequired="true"></bf-radio>`;
 
 
-  public cssReset = `$radio-color: #525254; // text color
-$disabled-color: #a0a0a0;
-$required_input_color: #00B6F1;
-$white: #fff;
+  public cssReset = `$radio-color: $text-color !default;  // Default radio background color (when not required)
+$radio-check-color: $white !default;`;
 
-div.radio label input[type='radio'] {
-  + span.radio-box {
-    border-color: darken($radio-color, 3%);
-  }
-
-  &:checked + span.radio-box {  // Option selected (checked)
-    background: $radio-color;
-    &:before { color: $white; }
-  }
-
-  &[required]:not([disabled]) { // Required
-    &:checked + span.radio-box { background: $required-color; }
-    + span.radio-box {
-      border-color: darken($required-color, 3%);
-    }
-  }
-
-  &[disabled] + span.radio-box {  // Disabled
-    background: $disabled-color;
-    border-color: darken($disabled-color, 3%);
-  }
-}`;
   public blockExample = `<bf-checkbox bfLabel="Inline check 1"></bf-checkbox>
 <bf-checkbox bfLabel="Inline check 2"></bf-checkbox>
 <bf-checkbox bfLabel="Inline check 3"></bf-checkbox>

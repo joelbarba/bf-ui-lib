@@ -152,7 +152,7 @@ import { BfUILibTransService} from '../abstract-translate.service';
 @Component({
   selector: 'bf-dropdown',
   templateUrl: './bf-dropdown.component.html',
-  styleUrls: ['./bf-dropdown.component.scss'],
+  styleUrls: [],
     providers: [
     {
       provide: NG_VALUE_ACCESSOR, multi: true,

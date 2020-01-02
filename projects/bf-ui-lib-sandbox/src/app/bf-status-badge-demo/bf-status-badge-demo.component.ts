@@ -31,27 +31,19 @@ export class BfStatusBadgeDemoComponent implements OnInit {
   public instance5 = `<bf-status-badge [bfStatus]="item.status" [bfColor]="'7f3fc0'">
 </bf-status-badge>`;
 
-  public cssReset = `$bf-status-active   : $primary_color;
-$bf-status-inactive : $warning_color;
-$bf-status-pending  : $quaternary_color;
-$bf-status-other    : $secondary_color;
-$bf-status-other2   : $extra_color;
-$bf-status-other3   : darken($secondary_color, 15);
-$bf-status-other4   : darken($bf_color3_shadow2, 20%);
-$bf-status-submitted: darken($tertiary_color, 15);
+  public cssReset = `$bf-status-badge-text-color : $white !default;
+$bf-status-badge-border     : #f8f8f8 !default;
+$bf-status-font-size        : 12px !default;
+$bf-status-font-weight      : 600 !default;
 
-.bf-status-badge {
-  color: $white;
-  border: 1px solid #f8f8f8;
-  &.bf-color-first   { background: $bf-status-active;   }
-  &.bf-color-second  { background: $bf-status-inactive; }
-  &.bf-color-third   { background: $bf-status-pending;  }
-  &.bf-color-fourth  { background: $bf-status-other;    }
-  &.bf-color-fifth   { background: $bf-status-other2;   }
-  &.bf-color-sixth   { background: $bf-status-other3;   }
-  &.bf-color-seventh { background: $bf-status-other4;   }
-  &.bf-color-eighth  { background: $bf-status-submitted;}
-}`;
+$bf-status-active   : $primary_color !default;
+$bf-status-inactive : $warning_color !default;
+$bf-status-pending  : $quaternary_color !default;
+$bf-status-other    : $secondary_color !default;
+$bf-status-other2   : $extra_color !default;
+$bf-status-other3   : darken($secondary_color, 15) !default;
+$bf-status-other4   : darken($bf_color3_shadow2, 20%) !default;
+$bf-status-submitted: darken($tertiary_color, 15) !default;`;
 
 
 

@@ -9,7 +9,7 @@ interface ColorSet {
 @Component({
   selector: 'bf-status-badge',
   templateUrl: './bf-status-badge.component.html',
-  styleUrls: ['./bf-status-badge.component.scss']
+  styleUrls: []
 })
 export class BfStatusBadgeComponent implements OnInit, OnChanges {
 
