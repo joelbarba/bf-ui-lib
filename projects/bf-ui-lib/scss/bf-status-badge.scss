@@ -8,7 +8,7 @@ $bf-status-pending  : $quaternary_color !default;
 $bf-status-other    : $secondary_color !default;
 $bf-status-other2   : $extra_color !default;
 $bf-status-other3   : darken($secondary_color, 15) !default;
-$bf-status-other4   : darken($bf_color3_shadow2, 20%) !default;
+$bf-status-other4   : darken(#E99FB7, 20%) !default;
 $bf-status-submitted: darken($tertiary_color, 15) !default;
 
 $l-rootClass: '.bf-status-badge';
