@@ -60,6 +60,7 @@ export class BfTextareaComponent implements ControlValueAccessor, OnInit, OnChan
   public errTxtMaxLen$: Observable<string> = of('');   // Default error text for maxlength
 
   public errorPosition = 'default';
+  public isFocus = false; // Whether the focus is on the input
 
   @ViewChild('ngInputRef') ngInputRef: ElementRef;
   public inputCtrl: FormControl; // <-- ngInputRef.control

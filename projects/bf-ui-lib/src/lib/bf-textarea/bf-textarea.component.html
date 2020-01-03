@@ -4,6 +4,7 @@
      [class.is-error]="status === 'error'"
      [class.is-pristine]="status === 'pristine'"
      [class.is-dirty]="status === 'dirty'"
+     [class.is-focus]="isFocus"
      [class.horizontalLayoutClass]="false">
 
   <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
@@ -38,6 +39,8 @@
             [minlength]="bfMinlength"
             [maxlength]="bfMaxlength"
 
+            (focusin)="isFocus=true"
+            (focusout)="isFocus=false"
             (keydown)="triggerKey($event)">
   </textarea>
 
