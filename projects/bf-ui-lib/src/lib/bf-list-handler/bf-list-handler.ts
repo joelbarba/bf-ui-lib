@@ -166,7 +166,7 @@ export class BfListHandler {
     if (!!this.contentSubs) { this.contentSubs.unsubscribe(); }
     this.loadingStatus = 1; // loading
     this.contentSubs = load$.subscribe(list => {
-      this.load(JSON.parse(JSON.stringify(list)));
+      this.load(JSON.parse(JSON.stringify(list || [])));
     });
   };
 
