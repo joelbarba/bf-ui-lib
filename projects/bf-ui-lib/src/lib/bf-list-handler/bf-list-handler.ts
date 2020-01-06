@@ -1,6 +1,7 @@
 import {BehaviorSubject, merge, Observable, Subject} from 'rxjs';
 import {debounceTime, map, scan} from 'rxjs/operators';
 import Debug from 'debug';
+import {BfPrototypes} from "../bf-prototypes/bf-prototypes";
 const debugList = Debug('bfUiLib:bfListHandler');
 
 export interface BfListHandlerConfig {
@@ -164,7 +165,9 @@ export class BfListHandler {
   public subscribeTo = (load$) => {
     if (!!this.contentSubs) { this.contentSubs.unsubscribe(); }
     this.loadingStatus = 1; // loading
-    this.contentSubs = load$.subscribe(this.load);
+    this.contentSubs = load$.subscribe(list => {
+      this.load(JSON.parse(JSON.stringify(list)));
+    });
   };
 
   // Set an observable as the source of input state (state: { status, list })
