@@ -3,7 +3,6 @@ export { arrayDeepCopy };
 export { objectDeepCopy };
 
 /**
- * @function arrayDeepCopy
  * @description Deep copy (clone) - Makes an exact copy of the array (no references) and returns it
  */
 function arrayDeepCopy() {
@@ -26,7 +25,6 @@ function arrayDeepCopy() {
 
 
 /**
- * @function objectDeepCopy
  * @description It returns a deep copy of the object (no references at any level)
  */
 function objectDeepCopy() {
