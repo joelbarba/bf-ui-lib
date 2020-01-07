@@ -50,10 +50,10 @@ export class BfListHeaderColDemoComponent implements OnInit {
     <bf-list-placeholder [hidden]="usersList.loadingStatus > 1" [bfColumns]="[2, 3, 2, 2, 3]"></bf-list-placeholder>
     <li class="list-row" [hidden]="usersList.loadingStatus <= 1"
         *ngFor="let userItem of usersList.renderList$ | async">
-      <div class="col-2"><h5>{{userItem.username}}</h5></div>
-      <div class="col-3"><h5>{{userItem.email}}</h5></div>
-      <div class="col-2"><h5>{{userItem.first_name}}</h5></div>
-      <div class="col-2"><h5>{{userItem.last_name}}</h5></div>
+      <div class="col-2">{{userItem.username}}</div>
+      <div class="col-3">{{userItem.email}}</div>
+      <div class="col-2">{{userItem.first_name}}</div>
+      <div class="col-2">{{userItem.last_name}}</div>
       <div class="col-3 text-right">
         <bf-btn bfType="delete" (bfClick)="userItem.$remove()"></bf-btn>
         <bf-btn bfType="edit"   (bfClick)="userItem.$save({ username: 'new value' })"></bf-btn>
