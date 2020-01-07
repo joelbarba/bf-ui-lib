@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-bf-list-header-col-demo]',
+  selector: 'app-bf-list-header-col-demo',
   templateUrl: './bf-list-header-col-demo.component.html',
   styleUrls: ['./bf-list-header-col-demo.component.scss']
 })
@@ -64,8 +64,8 @@ export class BfListHeaderColDemoComponent implements OnInit {
 
   public instance3 = `public usersList = [...];
 public orderConf = {
-  field: '', 
-  reverse: false, 
+  field: '',
+  reverse: false,
   setField: (fieldName) => {
     if (this.orderConf.fields[0] === fieldName) {
       this.orderConf.reverse = !this.orderConf.reverse;
@@ -80,7 +80,7 @@ public orderConf = {
 
   constructor() { }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.orderConf.setField('username');
   }
 
@@ -90,7 +90,7 @@ public orderConf = {
 export const BfListHeaderColDoc = {
   name    : `bf-list-header-col`,
   uiType  : 'component',
-  desc    : `Generates the column header for a list. It also adds the options for ordering the list, showing the arrow icons next to the title`, 
+  desc    : `Generates the column header for a list. It also adds the options for ordering the list, showing the arrow icons next to the title`,
   api     : `[colTitle]:  Text of the column title
 [fieldName]: Column name. Name of the property that every object of the array has for that column. This is necessary if we want to apply order.
 [orderConf]: If provided, the column will have order. This should be always linked to the same order config object for all columns of the list
@@ -99,6 +99,6 @@ export const BfListHeaderColDoc = {
              - reversed: boolean -> Whether the current order is asc or desc
              - setField: Function -> To call when the header is clicked to reorder the list. It accepts the field name
 (bfOnChange): Event to spread up the reorder event`,
-  instance: `<bf-list-header-col></bf-list-header-col>`, 
+  instance: `<bf-list-header-col></bf-list-header-col>`,
   demoComp: BfListHeaderColDemoComponent
 };

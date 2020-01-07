@@ -5,7 +5,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-bf-multi-selector-demo]',
+  selector: 'app-bf-multi-selector-demo',
   templateUrl: './bf-multi-selector-demo.component.html',
   styleUrls: ['./bf-multi-selector-demo.component.scss']
 })
@@ -15,7 +15,7 @@ export class BfMultiSelectorDemoComponent implements OnInit {
   public api = BfMultiSelectorDoc.api;
   public instance = BfMultiSelectorDoc.instance;
 
-  public instance2 = 
+  public instance2 =
 `<bf-multi-selector</bf-multi-selector>`;
 
 
@@ -86,6 +86,6 @@ export const BfMultiSelectorDoc = {
   uiType  : 'component',
   desc    : `Generates a ....`,
   api     : `[bfText]: The text... `,
-  instance: `<bf-multi-selector></bf-multi-selector>`, 
+  instance: `<bf-multi-selector></bf-multi-selector>`,
   demoComp: BfMultiSelectorDemoComponent
 };

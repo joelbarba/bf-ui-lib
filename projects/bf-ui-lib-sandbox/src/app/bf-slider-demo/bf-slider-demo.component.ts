@@ -5,7 +5,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-bf-slider-demo]',
+  selector: 'app-bf-slider-demo',
   templateUrl: './bf-slider-demo.component.html',
   styleUrls: ['./bf-slider-demo.component.scss']
 })
@@ -15,7 +15,7 @@ export class BfSliderDemoComponent implements OnInit {
   public api = BfSliderDoc.api;
   public instance = BfSliderDoc.instance;
 
-  public instance2 = 
+  public instance2 =
 `<bf-slider</bf-slider>`;
 
 
@@ -86,6 +86,6 @@ export const BfSliderDoc = {
   uiType  : 'component',
   desc    : `Generates a ....`,
   api     : `[bfText]: The text... `,
-  instance: `<bf-slider></bf-slider>`, 
+  instance: `<bf-slider></bf-slider>`,
   demoComp: BfSliderDemoComponent
 };

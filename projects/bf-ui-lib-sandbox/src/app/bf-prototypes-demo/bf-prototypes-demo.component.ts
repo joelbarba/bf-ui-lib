@@ -71,7 +71,7 @@ BfPrototypes.run();
 
 
 @Component({
-  selector: 'app-bf-prototypes-demo]',
+  selector: 'app-bf-prototypes-demo',
   templateUrl: './bf-prototypes-demo.component.html',
   styleUrls: ['./bf-prototypes-demo.component.scss']
 })
@@ -81,7 +81,7 @@ export class BfPrototypesDemoComponent implements OnInit {
   public api = BfPrototypesDoc.api;
   public instance = BfPrototypesDoc.instance;
 
-  public instance2 = 
+  public instance2 =
 `<bf-prototypes</bf-prototypes>`;
 
 
@@ -99,20 +99,20 @@ $invalid_input_color  : $warning_color;
 
   public example1 = `  import { BfPrototypes } from 'bf-ui-lib';
   BfPrototypes.run();
-  
+
   const myArray = [{ id: '1' }, { id: '2' }, { id: '3' }];
   const item = myArray.getById('3');`;
 
 
   public example2 = `  import { BfArray } from 'bf-ui-lib';
-    
+
   const myArray = [{ id: '1' }, { id: '2' }, { id: '3' }];
   const item = BfArray.getById.call(myArray, '3');`;
 
   public arrayT = `Array<T>`;
   public partialT = `Partial<T>`;
   public example3 = `import { BfPrototypes } from 'bf-ui-lib';
-  
+
 BfPrototypes.run(); // This will override all prototypes`;
 
   public example4 = `// This will define prototypes for only 3 functions
@@ -172,6 +172,6 @@ export const BfPrototypesDoc = {
   uiType  : 'function',
   desc    : `Collection of helper functions to perform basic variable types operations`,
   api     : `[bfText]: Button text`,
-  instance: `<bf-prototypes></bf-prototypes>`, 
+  instance: `<bf-prototypes></bf-prototypes>`,
   demoComp: BfPrototypesDemoComponent
 };

@@ -4,7 +4,7 @@ import {IbfInputCtrl} from '../../../../bf-ui-lib/src/lib/bf-input/bf-input.comp
 import {Subject} from 'rxjs';
 
 @Component({
-  selector: 'app-bf-input-demo]',
+  selector: 'app-bf-input-demo',
   templateUrl: './bf-input-demo.component.html',
   styleUrls: ['./bf-input-demo.component.scss']
 })
@@ -37,20 +37,20 @@ export class BfInputDemoComponent implements OnInit {
 
 
   public formExampleInput100 = `<form #myForm="ngForm">
-  
+
   <bf-input [bfRequired]="true" ngModel="val1" #firstRef="ngModel" name="first">
   </bf-input>
-  
+
   <bf-input [bfRequired]="true" ngModel="val2" #lastRef="ngModel" name="last">
   </bf-input>
-  
+
   <bf-btn bfText="Save Form" [bfDisabled]="myForm.invalid"></bf-btn>
 
 </form>`;
 
   public flatExample = '<bf-input class="flat" [ngModel]="bfModel"></bf-input>';
-  public inputColExample = `<bf-input [(ngModel)]="myVar" class="input-col-1" bfLabel="view.common.name"></bf-input>  
-<bf-input [(ngModel)]="myVar" class="input-col-2" bfLabel="view.common.name"></bf-input>  
+  public inputColExample = `<bf-input [(ngModel)]="myVar" class="input-col-1" bfLabel="view.common.name"></bf-input>
+<bf-input [(ngModel)]="myVar" class="input-col-2" bfLabel="view.common.name"></bf-input>
 <bf-input [(ngModel)]="myVar" class="input-col-3" bfLabel="view.common.name"></bf-input>`;
 
   public cssReset = `$input-optional-color  : $optional-color !default;  // <-- this is a bootstrap default
@@ -320,7 +320,7 @@ export const BfInputDoc = {
 [bfMaxlength]       : Max number of chars. Built in validator "maxlength". Null means no max. It blocks input if limit.
 [bfPattern]         : Regex validator. Built in validator "pattern". Null means no validation.
 [bfValidType]       : Predefined validator patterns. It overrides bfPattern. Values = [integer, number, decimal, email]
-[bfValidator]       : Callback function called every time the internal ngModel validates its value. Parameter = current value of the model. 
+[bfValidator]       : Callback function called every time the internal ngModel validates its value. Parameter = current value of the model.
                       It should return null (valid) or error object (invalid).
 [bfErrorOnPristine] : If true, errors will be shown in pristine state too (by default pristine shows as valid always).
 [bfInvalidIcon]     : Icon to show when the value is dirty and invalid (by default icon-warning22)

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BfConfirmService } from '../../../../bf-ui-lib/src/lib/bf-confirm/bf-confirm.service';
 
 @Component({
-  selector: 'app-bf-confirm-demo]',
+  selector: 'app-bf-confirm-demo',
   templateUrl: './bf-confirm-demo.component.html',
   styleUrls: ['./bf-confirm-demo.component.scss']
 })
@@ -15,12 +15,12 @@ export class BfConfirmDemoComponent implements OnInit {
   public result = '';
   public example1 = `constructor(private confirm: BfConfirmService)
 
-this.confirm.open().then( 
-  (res) => { console.log('Ok'); }, 
-  (res) => { console.log('Cancel'); 
+this.confirm.open().then(
+  (res) => { console.log('Ok'); },
+  (res) => { console.log('Cancel');
 });`;
 
-  public example2 = `this.confirm.open({ 
+  public example2 = `this.confirm.open({
     title            : 'view.modal.confirm.title',
     text             : 'view.common.custom_error',
     htmlContent      : '<h4 class="marT20">You want to delete user <span class="bold primary">Joel</span> ?</h4>',

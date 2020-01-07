@@ -5,7 +5,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-bf-time-picker-demo]',
+  selector: 'app-bf-time-picker-demo',
   templateUrl: './bf-time-picker-demo.component.html',
   styleUrls: ['./bf-time-picker-demo.component.scss']
 })
@@ -15,7 +15,7 @@ export class BfTimePickerDemoComponent implements OnInit {
   public api = BfTimePickerDoc.api;
   public instance = BfTimePickerDoc.instance;
 
-  public instance2 = 
+  public instance2 =
 `<bf-time-picker</bf-time-picker>`;
 
 
@@ -84,8 +84,8 @@ $invalid_input_color  : $warning_color;
 export const BfTimePickerDoc = {
   name    : `bf-time-picker`,
   uiType  : 'component',
-  desc    : `Generates a button.`, 
+  desc    : `Generates a button.`,
   api     : `[bfText]: Button text`,
-  instance: `<bf-time-picker></bf-time-picker>`, 
+  instance: `<bf-time-picker></bf-time-picker>`,
   demoComp: BfTimePickerDemoComponent
 };

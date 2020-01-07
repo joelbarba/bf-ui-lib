@@ -5,7 +5,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-bf-list-paginator-demo]',
+  selector: 'app-bf-list-paginator-demo',
   templateUrl: './bf-list-paginator-demo.component.html',
   styleUrls: ['./bf-list-paginator-demo.component.scss']
 })
@@ -18,9 +18,9 @@ export class BfListPaginatorDemoComponent implements OnInit {
   public api = BfListPaginatorDoc.api;
   public instance = BfListPaginatorDoc.instance;
 
-  public instance2 = 
-`<bf-list-paginator [bfCtrl]="myList" 
-                   (bfPageChange)="page = $event">                   
+  public instance2 =
+`<bf-list-paginator [bfCtrl]="myList"
+                   (bfPageChange)="page = $event">
 </bf-list-paginator>`;
 
   public instance3 =

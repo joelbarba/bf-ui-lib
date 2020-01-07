@@ -4,7 +4,7 @@ import {BfDefer} from '../../../../bf-ui-lib/src/lib/bf-defer/bf-defer';
 import {BfGrowlService} from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service';
 
 @Component({
-  selector: 'app-bf-loading-bar-demo]',
+  selector: 'app-bf-loading-bar-demo',
   templateUrl: './bf-loading-bar-demo.component.html',
   styleUrls: ['./bf-loading-bar-demo.component.scss']
 })
@@ -34,8 +34,8 @@ $menu-size: 35 !default;
 
 $ani-time: 8 !default; // Animation time for BF loading spinner`;
 
-  public example1 = `constructor(public loadingBar: BfLoadingBarService) { ... }  
-  
+  public example1 = `constructor(public loadingBar: BfLoadingBarService) { ... }
+
 this.loadingBar.config({
   blockScreen : true,
   delayTime   : 1000,
@@ -158,7 +158,7 @@ export const BfLoadingBarDoc = {
   uiType  : 'module',
   desc    : `Global loading animation to block the page while something is going on`,
   api     : `
-status : ILoadingStatus                   --> ILoadingStatus { Off = 0, Running = 1, Displayed = 2 }  
+status : ILoadingStatus                   --> ILoadingStatus { Off = 0, Running = 1, Displayed = 2 }
 status$: BehaviorSubject<ILoadingStatus>  --> Observable that emits every time the status changes.
 options: Partial<ILoadingOptions>         --> Configurable options to display the loading bar:
                    - blockScreen : boolean --> Whether the screen is blocked while the loading is running
@@ -172,6 +172,6 @@ options: Partial<ILoadingOptions>         --> Configurable options to display th
 .run(waitingPromise?, options)  --> Function to set the loading bar configuration (default params)
 .stop()                         --> Finishes the running loading. If any promise waiting in the queue, clears them up
   `,
-  instance: `<bf-loading-bar></bf-loading-bar>`, 
+  instance: `<bf-loading-bar></bf-loading-bar>`,
   demoComp: BfLoadingBarDemoComponent
 };

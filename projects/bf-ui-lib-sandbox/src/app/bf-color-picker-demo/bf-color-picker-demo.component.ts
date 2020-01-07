@@ -5,7 +5,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-bf-color-picker-demo]',
+  selector: 'app-bf-color-picker-demo',
   templateUrl: './bf-color-picker-demo.component.html',
   styleUrls: ['./bf-color-picker-demo.component.scss']
 })
@@ -15,7 +15,7 @@ export class BfColorPickerDemoComponent implements OnInit {
   public api = BfColorPickerDoc.api;
   public instance = BfColorPickerDoc.instance;
 
-  public instance2 = 
+  public instance2 =
 `<bf-color-picker</bf-color-picker>`;
 
 
@@ -86,6 +86,6 @@ export const BfColorPickerDoc = {
   uiType  : 'component',
   desc    : `Generates a ....`,
   api     : `[bfText]: The text... `,
-  instance: `<bf-color-picker></bf-color-picker>`, 
+  instance: `<bf-color-picker></bf-color-picker>`,
   demoComp: BfColorPickerDemoComponent
 };

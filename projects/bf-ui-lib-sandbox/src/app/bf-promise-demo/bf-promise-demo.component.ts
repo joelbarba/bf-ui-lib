@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {BfPromise} from '../../../../bf-ui-lib/src/lib/bf-promise/bf-promise';
 
 @Component({
-  selector: 'app-bf-promise-demo]',
+  selector: 'app-bf-promise-demo',
   templateUrl: './bf-promise-demo.component.html',
   styleUrls: ['./bf-promise-demo.component.scss']
 })
@@ -12,8 +12,8 @@ export class BfPromiseDemoComponent implements OnInit {
   public api = BfPromiseDoc.api;
   public instance = BfPromiseDoc.instance;
 
-  public example1 = `import { BfPromise } from 'bf-ui-lib';  
-  
+  public example1 = `import { BfPromise } from 'bf-ui-lib';
+
 const bfPromise = new BfPromise((resolve, reject, cancel) => {
   setTimeout(() => { cancel(1);  }, 2000);
   setTimeout(() => { resolve(2); }, 3000);

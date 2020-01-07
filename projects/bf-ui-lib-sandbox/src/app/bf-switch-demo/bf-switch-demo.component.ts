@@ -5,7 +5,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-bf-switch-demo]',
+  selector: 'app-bf-switch-demo',
   templateUrl: './bf-switch-demo.component.html',
   styleUrls: ['./bf-switch-demo.component.scss']
 })
@@ -17,7 +17,7 @@ export class BfSwitchDemoComponent implements OnInit {
   public myValue = true;
   public myVal = false;
 
-  public instance2 = 
+  public instance2 =
 `<bf-switch [(ngModel)]="myVal" [bfDisabled]="true"></bf-switch>`;
 
   public instance3 =

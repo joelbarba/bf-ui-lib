@@ -3,7 +3,7 @@ import {BfDefer} from '../../../../bf-ui-lib/src/lib/bf-defer/bf-defer';
 import {Subject} from 'rxjs';
 
 @Component({
-  selector: 'app-bf-loading-spinner-demo]',
+  selector: 'app-bf-loading-spinner-demo',
   templateUrl: './bf-loading-spinner-demo.component.html',
   styleUrls: ['./bf-loading-spinner-demo.component.scss']
 })

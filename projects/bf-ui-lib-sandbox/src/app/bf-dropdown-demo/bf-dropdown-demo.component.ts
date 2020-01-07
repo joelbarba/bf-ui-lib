@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 
 @Component({
-  selector: 'app-bf-dropdown-demo]',
+  selector: 'app-bf-dropdown-demo',
   templateUrl: './bf-dropdown-demo.component.html',
   styleUrls: ['./bf-dropdown-demo.component.scss']
 })
@@ -224,12 +224,12 @@ export const BfDropdownDoc = {
   name    : `bf-dropdown`,
   uiType  : 'component',
   desc    : `Generates a dropdown selector list.`,
-  api     : `*[(ngModel)]         : The ngModel directive is linked to the inner <select>, so that can be used as a form element with ngForm (status is propagated).  
+  api     : `*[(ngModel)]         : The ngModel directive is linked to the inner <select>, so that can be used as a form element with ngForm (status is propagated).
 *[bfList]            : Array of objects with the list to be displayed in the dropdown
 [bfSelect]           : The name of the property to be selected from the object of the list. If empty, all object selected. If multiple props add a keyMap list ('prop1, prop2, ...')
 [bfRender]           : Field to display on the list (property from bfList items).
                          If empty, a row with all properties will be displayed.
-                         It can also be an eval() expression. Start with a '$$$' and use $item reference for eval. Example: bfRender="$$$ $item.first_name + ' ' + $item.last_name"    
+                         It can also be an eval() expression. Start with a '$$$' and use $item reference for eval. Example: bfRender="$$$ $item.first_name + ' ' + $item.last_name"
 [bfRenderImg]        : Name of the field that contains the url of the image to display on the item ("img" by default)
 [bfRenderIcon]       : Name of the field that contains the css class of the (icomoon) icon to display on the item ("icon" by default)
 [bfLabel]            : If provided, a <bf-label> is added above the selector with the given text

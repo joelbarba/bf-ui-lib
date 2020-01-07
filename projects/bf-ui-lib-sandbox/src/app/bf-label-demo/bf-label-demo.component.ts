@@ -3,7 +3,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-bf-label-demo]',
+  selector: 'app-bf-label-demo',
   templateUrl: './bf-label-demo.component.html',
   styleUrls: ['./bf-label-demo.component.scss']
 })
@@ -157,7 +157,7 @@ export const BfLabelDoc = {
   uiType  : 'component',
   desc    : `Generates a label to title an element in a form.`,
   api     : `[bfText]        : Text to display as label
-[bfValue]       : Static value for the label (optional). 
+[bfValue]       : Static value for the label (optional).
 [bfRequired]    : Whether the label is for a required field. It adds the class "is-required" on the label (to change the color), and an asterisk after the text.
 [bfTooltip]     : If set, an info bullet will be added before the label, with a tooltip of the text
 [bfTooltipPos]  : Position of the tooltip (top by default)

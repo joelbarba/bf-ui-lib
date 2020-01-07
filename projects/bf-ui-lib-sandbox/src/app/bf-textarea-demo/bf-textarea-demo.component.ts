@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {BfGrowlService} from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service';
 
 @Component({
-  selector: 'app-bf-textarea-demo]',
+  selector: 'app-bf-textarea-demo',
   templateUrl: './bf-textarea-demo.component.html',
   styleUrls: ['./bf-textarea-demo.component.scss']
 })
@@ -89,7 +89,7 @@ export const BfTextareaDoc = {
 [bfErrorPos]    : Custom position where to display the error text. Values = ['top-right', 'bottom-left', 'bottom-right', 'none', 'default'].
 [bfMinlength]   : Min number of chars. Built in validator "minlength"
 [bfMaxlength]   : Max number of chars. Built in validator "maxlength". Null means no max. It blocks input if limit.
-[bfValidator]   : Callback function called every time the internal ngModel validates its value. Parameter = current value of the model. 
+[bfValidator]   : Callback function called every time the internal ngModel validates its value. Parameter = current value of the model.
                   It should return null (valid) or error object (invalid).
 
 [bfTooltip]     : If label provided, adds a info badge with a tooltip (automatically translated)

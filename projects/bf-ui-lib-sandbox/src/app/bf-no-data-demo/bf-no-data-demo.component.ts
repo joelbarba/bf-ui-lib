@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-bf-no-data-demo]',
+  selector: 'app-bf-no-data-demo',
   templateUrl: './bf-no-data-demo.component.html',
   styleUrls: ['./bf-no-data-demo.component.scss']
 })
@@ -11,7 +11,7 @@ export class BfNoDataDemoComponent implements OnInit {
   public api = BfNoDataDoc.api;
   public instance = BfNoDataDoc.instance;
 
-  public instance2 = 
+  public instance2 =
 `<bf-no-data</bf-no-data>`;
 
 
@@ -71,6 +71,6 @@ export const BfNoDataDoc = {
   uiType  : 'component',
   desc    : `Generates an alert with the no data placeholder`,
   api     : `[bfMessage]: The message to display (by default = 'view.common.no_data_to_show')`,
-  instance: `<bf-no-data></bf-no-data>`, 
+  instance: `<bf-no-data></bf-no-data>`,
   demoComp: BfNoDataDemoComponent
 };

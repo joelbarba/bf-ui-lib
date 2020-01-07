@@ -121,7 +121,6 @@ export class BfListPaginatorComponent implements OnInit, OnChanges, DoCheck {
   // Check and convert the value to a number
   public checkNumber = (value) => {
     if (typeof value !== 'number' && !Number.isNaN(value)) {
-      // tslint:disable-next-line:radix
       return parseInt(value) || 1;
     } else {
       return value;
