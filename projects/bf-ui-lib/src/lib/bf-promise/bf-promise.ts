@@ -34,7 +34,7 @@
  *
  */
 export enum IBfDeferStatus { pending = 0, resolved = 1, rejected = 2, cancelled = 3 }
-interface IChainStack { fn: Function, promise?: BfPromise }
+interface IChainStack { fn: Function; promise?: BfPromise; }
 
 export class BfPromise {
   public status: IBfDeferStatus;
@@ -44,7 +44,7 @@ export class BfPromise {
   private catchStack    : Array<IChainStack>;
   private completeStack : Array<IChainStack>;
 
-  constructor(iniFn?:Function) {
+  constructor(iniFn?: Function) {
     this.status = IBfDeferStatus.pending;
     this.resetStacks();
 

@@ -124,7 +124,7 @@ BfPrototypes.run(['Array.getById', 'Array.getByProp', 'Object.dCopy']);`;
   public brStr = `\n`;
   public bsStr = `\n             `;
   public customCompCode = `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`;
-  public compConf:any = {
+  public compConf: any = {
     isRequired: false,
     isDisabled: false,
     rows: null,
@@ -154,7 +154,7 @@ BfPrototypes.run(['Array.getById', 'Array.getByProp', 'Object.dCopy']);`;
     }
 
     this.customCompCode += (`>` + this.brStr + `</bf-textarea>`);
-  };
+  }
 
 
 

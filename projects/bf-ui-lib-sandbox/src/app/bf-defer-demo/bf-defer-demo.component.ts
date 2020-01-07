@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {BfDefer} from "../../../../bf-ui-lib/src/lib/bf-defer/bf-defer";
-import {BfPromise} from "../../../../bf-ui-lib/src/lib/bf-promise/bf-promise";
-import {BfGrowlService} from "../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service";
+import {BfDefer} from '../../../../bf-ui-lib/src/lib/bf-defer/bf-defer';
+import {BfPromise} from '../../../../bf-ui-lib/src/lib/bf-promise/bf-promise';
+import {BfGrowlService} from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service';
 
 @Component({
   selector: 'app-bf-defer-demo]',
@@ -68,7 +68,7 @@ def.promise.then(
     this.cancelRes = setTimeout(() => this.myDef.resolve('Timout'), this.resolveTime * 1000);
     this.cancelRej = setTimeout(() => this.myDef.reject('Timout'), this.rejectTime * 1000);
     this.renderLog();
-  };
+  }
   renderLog = () => {
     if (!this.myDef) { this.testLog = '-'; return false; }
     let statusName = '-';
@@ -76,7 +76,7 @@ def.promise.then(
     if (this.myDef.status === 1) { statusName = 'Resolved'; }
     if (this.myDef.status === 2) { statusName = 'Rejected'; }
     this.testLog = `${this.elapsedTime} seg --> Status = ${this.myDef.status} (${statusName})`;
-  };
+  }
   clearAll = () => {
     clearInterval(this.cancelInt);
     clearTimeout(this.cancelRes);

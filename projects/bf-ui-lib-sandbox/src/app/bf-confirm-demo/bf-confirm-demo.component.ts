@@ -56,7 +56,7 @@ this.confirm.open().then(
       (res) => { this.result = '(resolved) Clicked on Yes'; },
       (res) => { this.result = '(rejected) Cancelled'; }
     );
-  };
+  }
 
   public openPopUp2 = () => {
     this.confirm.open({
@@ -72,7 +72,7 @@ this.confirm.open().then(
         this.result = '(resolved) Clicked on No';
       }
     }, (res) => { this.result = '(rejected) Cancelled'; });
-  };
+  }
 
   public openPopUp3 = () => {
     this.confirm.open({
@@ -89,7 +89,7 @@ this.confirm.open().then(
         this.result = '(resolved) Clicked on No';
       }
     }, (res) => { this.result = '(rejected) Cancelled'; });
-  };
+  }
 
   public openPopUp4 = () => {
     this.confirm.open({
@@ -106,7 +106,7 @@ this.confirm.open().then(
         this.result = '(resolved) Clicked on No';
       }
     }, (res) => { this.result = '(rejected) Cancelled'; });
-  };
+  }
 
 
 

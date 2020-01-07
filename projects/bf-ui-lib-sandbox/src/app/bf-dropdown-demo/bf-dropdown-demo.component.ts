@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {BehaviorSubject, Observable, Subject} from "rxjs";
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 
 @Component({
   selector: 'app-bf-dropdown-demo]',
@@ -135,7 +135,7 @@ public extCtrl$ = new Subject();
       this.upComp();
       this.customExLinked = true;
     });
-  };
+  }
   public upComp = () => {
     this.customDropdownCode = `<bf-dropdown `;
     let compClasses = '';
@@ -190,15 +190,15 @@ public extCtrl$ = new Subject();
 
 
     this.customDropdownCode += (`>` + this.brStr + `</bf-dropdown>`);
-  };
+  }
   public mockAutoSelect = () => {
     this.selObj10 = {...this.myList.getById(13)};
-  };
+  }
 
   public rebuildView = () => {
     this.isViewOn = false;
     setTimeout(() => this.isViewOn = true);
-  };
+  }
 
 
 

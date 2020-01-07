@@ -53,7 +53,7 @@ $no-data-color: $white !default;`;
     }
 
     this.customCompCode += (`>` + this.brStr + `</bf-no-data>`);
-  };
+  }
 
 
 

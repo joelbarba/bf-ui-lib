@@ -1,4 +1,4 @@
-import {noUndefined} from "@angular/compiler/src/util";
+import {noUndefined} from '@angular/compiler/src/util';
 
 declare global {
   interface Date {
@@ -27,7 +27,7 @@ const BfDate: any = {}; // Wrap all functions here
  * @example dateVar.toUTC()
  */
 BfDate.toUTC = function() {
-  let utcTime = new Date(this);
+  const utcTime = new Date(this);
   BfDate.addMinutes.call(utcTime, utcTime.getTimezoneOffset());   // getTimezoneOffset returns the difference in seconds
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getTimezoneOffset
   return utcTime;
@@ -117,7 +117,7 @@ BfDate.addMinutes = function(minutes: number) {
  * @description Add hours to the current date
  * @example myDate.addHours(20)
  */
-BfDate.addHours = function(hours:number) {
+BfDate.addHours = function(hours: number) {
   this.setHours(this.getHours() + hours);
   return this;
 };
@@ -128,7 +128,7 @@ BfDate.addHours = function(hours:number) {
  * @description Add days to the current date
  * @example addDays.addDays(20)
  */
-BfDate.addDays = function(days:number) {
+BfDate.addDays = function(days: number) {
   this.setDate(this.getDate() + days);
   return this;
 };
@@ -139,7 +139,7 @@ BfDate.addDays = function(days:number) {
  * @description Add hours to the current date
  * @example myDate.addMonths(20)
  */
-BfDate.addMonths = function(months:number) {
+BfDate.addMonths = function(months: number) {
   this.setMonth(this.getMonth() + months);
   return this;
 };

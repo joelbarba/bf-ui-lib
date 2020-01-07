@@ -10,6 +10,9 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./bf-list-paginator-demo.component.scss']
 })
 export class BfListPaginatorDemoComponent implements OnInit {
+
+
+  constructor() { }
   public name = BfListPaginatorDoc.name;
   public desc = BfListPaginatorDoc.desc;
   public api = BfListPaginatorDoc.api;
@@ -29,7 +32,7 @@ export class BfListPaginatorDemoComponent implements OnInit {
 `<bf-list-paginator class="full-width" [bfCtrl]="myList"></bf-list-paginator>`;
 
   public myList = {
-    goToPage: (numPage) => { console.log('Going to page ', numPage)},
+    goToPage: (numPage) => { console.log('Going to page ', numPage); },
     currentPage : 1,
     totalPages  : 18,
     rowsPerPage : 10,
@@ -42,15 +45,6 @@ $page_border_color: #d7dade !default;
 $page_hover_bg: #eeeeee !default;`;
 
   public page = 1;
-
-
-  constructor() { }
-
-  ngOnInit() { }
-
-  public pageChangeFn = (numPage) => {
-    console.log('bfPageChange callback ', numPage);
-  };
 
 
 
@@ -78,6 +72,12 @@ $page_hover_bg: #eeeeee !default;`;
     hasAlignCenter: false,
 
   };
+
+  ngOnInit() { }
+
+  public pageChangeFn = (numPage) => {
+    console.log('bfPageChange callback ', numPage);
+  }
   public upComp = () => {
     this.customCompCode = `<bf-list-paginator `;
 
@@ -94,7 +94,7 @@ $page_hover_bg: #eeeeee !default;`;
     if (this.compConf.bfShowSelector) { this.customCompCode += this.bsStr + `bfShowSelector="true"`; }
 
     this.customCompCode += (`>` + this.brStr + `</bf-list-paginator>`);
-  };
+  }
   public changeNum = (value, delta) => {
     let result: number;
     if (typeof value !== 'number' && !Number.isNaN(value)) {

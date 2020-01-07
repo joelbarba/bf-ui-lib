@@ -60,7 +60,7 @@ $radio-check-color: $white !default;`;
     }
 
     this.customCompCode += (`>` + this.brStr + `</bf-radio>`);
-  };
+  }
 
   constructor() { }
 

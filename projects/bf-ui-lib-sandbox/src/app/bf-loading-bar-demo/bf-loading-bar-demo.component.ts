@@ -9,6 +9,15 @@ import {BfGrowlService} from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.se
   styleUrls: ['./bf-loading-bar-demo.component.scss']
 })
 export class BfLoadingBarDemoComponent implements OnInit {
+
+
+  constructor(
+    public loadingBar: BfLoadingBarService,
+    private growl: BfGrowlService,
+  ) {
+
+
+  }
   public name = BfLoadingBarDoc.name;
   public desc = BfLoadingBarDoc.desc;
   public api = BfLoadingBarDoc.api;
@@ -65,14 +74,8 @@ this.loadingBar.run(myPromise, { blockScreen: false }).then(() => {
   public resTimePromise = 5;
   public testLog2 = '';
 
-
-  constructor(
-    public loadingBar: BfLoadingBarService,
-    private growl: BfGrowlService,
-  ) {
-
-
-  }
+  public promStack = [];
+  public promId = 1;
 
   ngOnInit() {
     // this.simpleRun();
@@ -106,12 +109,12 @@ this.loadingBar.run(myPromise, { blockScreen: false }).then(() => {
       this.clearAll();
     }, this.autoStopTime * 1000);
     this.renderLog();
-  };
+  }
 
   public simpleStop = () => {
     this.loadingBar.stop();
     this.clearAll();
-  };
+  }
 
   public renderLog = () => {
     let statusName = '-';
@@ -119,16 +122,13 @@ this.loadingBar.run(myPromise, { blockScreen: false }).then(() => {
     if (this.loadingBar.status === 1) { statusName = 'Running'; }
     if (this.loadingBar.status === 2) { statusName = 'Displayed'; }
     this.testLog = `${this.elapsedTime} seg --> Status = ${this.loadingBar.status} (${statusName})`;
-  };
+  }
 
   public clearAll = () => {
     clearInterval(this.cancelInt);
     clearTimeout(this.cancelRes);
     this.renderLog();
-  };
-
-  public promStack = [];
-  public promId = 1;
+  }
   public pushPromise = (resTime) => {
     const def = new BfDefer();
     const id = this.promId++;

@@ -77,7 +77,7 @@ $checkbox-disabled-border: darken($disabled-color, 3%) !default;`;
     }
 
     this.customCompCode += (`>` + this.brStr + `</bf-checkbox>`);
-  };
+  }
 
 
   constructor() { }

@@ -38,7 +38,7 @@ $invalid_input_color  : $warning_color;
   public brStr = `\n`;
   public bsStr = `\n             `;
   public customCompCode = `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`;
-  public compConf:any = {
+  public compConf: any = {
     isRequired: false,
     isDisabled: false,
     rows: null,
@@ -68,7 +68,7 @@ $invalid_input_color  : $warning_color;
     }
 
     this.customCompCode += (`>` + this.brStr + `</bf-textarea>`);
-  };
+  }
 
 
 

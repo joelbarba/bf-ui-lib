@@ -61,7 +61,7 @@ $textarea-invalid-color   : $invalid-color !default;`;
     if (this.compConf.hasKeyCtrlEnter) { this.customCompCode += this.bsStr + `(bfOnSave)="onClickFn($event)"`; }
 
     this.customCompCode += (`>` + this.brStr + `</bf-textarea>`);
-  };
+  }
 
 
 

@@ -42,4 +42,4 @@ export const BfListPlaceholderDoc = {
 [bfColumns]: Array with the sizes of the columns (up to 12)`,
   instance: `<bf-list-placeholder bfType="table"></bf-list-placeholder>`, 
   demoComp: BfListPlaceholderDemoComponent
-}
+};

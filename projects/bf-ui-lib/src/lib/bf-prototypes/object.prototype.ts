@@ -1,5 +1,5 @@
 // Export functions to extend the Object prototype
-import { objectDeepCopy } from "./deep-copy";
+import { objectDeepCopy } from './deep-copy';
 
 declare global {
   interface Object {
@@ -26,7 +26,7 @@ const BfObject: any = {}; // Wrap all functions here
  *      myObj1.keyMap('id, age, isValid');  // --> Returns an object = { id: 1, age: 10, isValid:true };
  */
 BfObject.keyMap = function(propNames: string) {
-  let newObj = {};
+  const newObj = {};
   if (!!propNames && typeof propNames === 'string') {
     propNames.replace(/[ ]/g, '').split(',').forEach(keyName => {
       newObj[keyName] = this[keyName];

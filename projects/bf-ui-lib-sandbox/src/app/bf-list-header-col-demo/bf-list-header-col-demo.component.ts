@@ -22,7 +22,7 @@ export class BfListHeaderColDemoComponent implements OnInit {
     { id: 7, username: 'tyraxes',      email: '07.tyraxes@targaryen.com',      first_name: 'Tyraxes',      last_name: 'Targaryen' },
     { id: 8, username: 'moondancer',   email: '08.moondancer@targaryen.com',   first_name: 'Moondancer',   last_name: 'Targaryen' },
     { id: 9, username: 'greyghost',    email: '09.greyghost@targaryen.com',    first_name: 'Greyghost',    last_name: 'Targaryen' },
-  ]
+  ];
   public orderConf = {
     fields: [''],
     reverse: false,
@@ -36,7 +36,7 @@ export class BfListHeaderColDemoComponent implements OnInit {
         return (itemA[this.orderConf.fields[0]] > itemB[this.orderConf.fields[0]]) ? ascNum : -ascNum;
       });
     }
-  }
+  };
 
   public instance2 = `<div class="col-12">
   <ul class="list-unstyled table-list">
@@ -60,7 +60,7 @@ export class BfListHeaderColDemoComponent implements OnInit {
       </div>
     </li>
   </ul>
-</div>`
+</div>`;
 
   public instance3 = `public usersList = [...];
 public orderConf = {
@@ -101,4 +101,4 @@ export const BfListHeaderColDoc = {
 (bfOnChange): Event to spread up the reorder event`,
   instance: `<bf-list-header-col></bf-list-header-col>`, 
   demoComp: BfListHeaderColDemoComponent
-}
+};

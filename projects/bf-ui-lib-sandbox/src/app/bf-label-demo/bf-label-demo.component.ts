@@ -126,7 +126,7 @@ export class BfLabelDemoComponent implements OnInit {
     }
 
     this.customCompCode += (`>` + this.brStr + `</bf-label>`);
-  };
+  }
 
 
 

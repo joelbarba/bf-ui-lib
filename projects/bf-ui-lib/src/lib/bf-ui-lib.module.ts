@@ -7,7 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 // Modules
 import { BfGrowlModule } from './bf-growl/bf-growl.module';
-import { BfLoadingBarModule } from "./bf-loading-bar/bf-loading-bar.module";
+import { BfLoadingBarModule } from './bf-loading-bar/bf-loading-bar.module';
 
 // Services
 import { BfConfirmService } from './bf-confirm/bf-confirm.service';
@@ -27,8 +27,8 @@ import { BfTextareaComponent } from './bf-textarea/bf-textarea.component';
 import { BfRadioComponent } from './bf-radio/bf-radio.component';
 import { BfDatePickerComponent } from './bf-date-picker/bf-date-picker.component';
 import { BfListPaginatorComponent } from './bf-list-paginator/bf-list-paginator.component';
-import {CommonModule} from "@angular/common";
-import {BfTranslatePipe, BfUILibTransService} from "./abstract-translate.service";
+import {CommonModule} from '@angular/common';
+import {BfTranslatePipe, BfUILibTransService} from './abstract-translate.service';
 import { BfTimePickerComponent } from './bf-time-picker/bf-time-picker.component';
 import { BfAutocompleteComponent } from './bf-autocomplete/bf-autocomplete.component';
 import { BfMultiSelectorComponent } from './bf-multi-selector/bf-multi-selector.component';

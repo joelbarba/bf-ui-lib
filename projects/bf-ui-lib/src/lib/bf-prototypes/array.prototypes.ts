@@ -1,5 +1,5 @@
 // Export functions to extend the Array prototype
-import { arrayDeepCopy } from "./deep-copy";
+import { arrayDeepCopy } from './deep-copy';
 
 declare global {
   interface Array<T> {
@@ -74,7 +74,7 @@ BfArray.getLast = function() {
  * @description Gets an object by its ID and returns a selected property of it (if present).
  * */
 BfArray.getKeyById = function(keyName: string, id: any) {
-  let obj = this.find(item => item['id'] === id);
+  const obj = this.find(item => item['id'] === id);
   if (!keyName) { return obj; }
   if (!!obj && obj.hasOwnProperty(keyName)) {
     return obj[keyName];
@@ -92,7 +92,7 @@ BfArray.getKeyById = function(keyName: string, id: any) {
  * @description Gets an object by matching by "property" and returns its selected property (keyName).
  * */
 BfArray.getKeyByProp = function(keyName: string, property: string, value: any) {
-  let obj = this.find(item => item[property] === value);
+  const obj = this.find(item => item[property] === value);
   if (!keyName) { return obj; }
   if (!!obj && obj.hasOwnProperty(keyName)) {
     return obj[keyName];

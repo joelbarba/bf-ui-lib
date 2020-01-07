@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {BfDefer} from "../../../../bf-ui-lib/src/lib/bf-defer/bf-defer";
-import {Subject} from "rxjs";
+import {BfDefer} from '../../../../bf-ui-lib/src/lib/bf-defer/bf-defer';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-bf-loading-spinner-demo]',
@@ -8,6 +8,14 @@ import {Subject} from "rxjs";
   styleUrls: ['./bf-loading-spinner-demo.component.scss']
 })
 export class BfLoadingSpinnerDemoComponent implements OnInit {
+
+
+
+
+
+  constructor() {
+    this.loadingPromise = new Promise(resolve => setTimeout(resolve, 5000));
+  }
   public name = BfLoadingSpinnerDoc.name;
   public desc = BfLoadingSpinnerDoc.desc;
   public api = BfLoadingSpinnerDoc.api;
@@ -38,30 +46,8 @@ export class BfLoadingSpinnerDemoComponent implements OnInit {
     centerPos: 'center',
     triggerType: 'promise',
   };
-  public upComp = () => {
-    this.customCompCode = `<bf-loading-spinner `;
-
-    let compClasses = '';
-    if (this.compConf.size !== 'xs') { compClasses += (!!compClasses.length ? ' ' : '') + this.compConf.size; }
-    if (this.compConf.isCenter)      { compClasses += (!!compClasses.length ? ' ' : '') + this.compConf.centerPos; }
-    if (!!compClasses) {
-      this.customCompCode += `class="${compClasses}"`;
-    }
-    this.customCompCode += (`>` + `</bf-loading-spinner>`);
-  };
 
   public customCompCode2 = `<bf-loading-spinner></bf-loading-spinner>`;
-  public upComp2 = () => {
-    this.customCompCode2 = `<bf-loading-spinner `;
-
-    let compClasses = '';
-    if (this.compConf.size !== 'xs') { compClasses += (!!compClasses.length ? ' ' : '') + this.compConf.size; }
-    if (this.compConf.isCenter)      { compClasses += (!!compClasses.length ? ' ' : '') + this.compConf.centerPos; }
-    if (!!compClasses) {
-      this.customCompCode2 += `class="${compClasses}"`;
-    }
-    this.customCompCode2 += (`>` + `</bf-loading-spinner>`);
-  };
 
   public sizeCss = {
    sm: `<bf-loading-spinner class="sm"></bf-loading-spinner>`,
@@ -76,13 +62,27 @@ export class BfLoadingSpinnerDemoComponent implements OnInit {
    left   : `<bf-loading-spinner class="center-left"></bf-loading-spinner>`,
    bottom : `<bf-loading-spinner class="center-bottom"></bf-loading-spinner>`,
   };
+  public upComp = () => {
+    this.customCompCode = `<bf-loading-spinner `;
 
+    let compClasses = '';
+    if (this.compConf.size !== 'xs') { compClasses += (!!compClasses.length ? ' ' : '') + this.compConf.size; }
+    if (this.compConf.isCenter)      { compClasses += (!!compClasses.length ? ' ' : '') + this.compConf.centerPos; }
+    if (!!compClasses) {
+      this.customCompCode += `class="${compClasses}"`;
+    }
+    this.customCompCode += (`>` + `</bf-loading-spinner>`);
+  }
+  public upComp2 = () => {
+    this.customCompCode2 = `<bf-loading-spinner `;
 
-
-
-
-  constructor() {
-    this.loadingPromise = new Promise(resolve => setTimeout(resolve, 5000));
+    let compClasses = '';
+    if (this.compConf.size !== 'xs') { compClasses += (!!compClasses.length ? ' ' : '') + this.compConf.size; }
+    if (this.compConf.isCenter)      { compClasses += (!!compClasses.length ? ' ' : '') + this.compConf.centerPos; }
+    if (!!compClasses) {
+      this.customCompCode2 += `class="${compClasses}"`;
+    }
+    this.customCompCode2 += (`>` + `</bf-loading-spinner>`);
   }
 
   ngOnInit() {
@@ -92,7 +92,7 @@ export class BfLoadingSpinnerDemoComponent implements OnInit {
   generatePromise = () => {
     this.promiseDef = new BfDefer();
     return this.promiseDef.promise;
-  };
+  }
 
   generateObs = () => new Subject();
 
