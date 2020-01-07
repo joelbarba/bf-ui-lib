@@ -82,7 +82,7 @@
   <h5 class="col-12 marB15">Overlay example (directive)</h5>
 
   <div class="col-4" *ngIf="compConf.triggerType === 'promise'">
-    <div [bf-loading-spinner]="promiseDef?.promise"
+    <div [bfLoadingSpinner]="promiseDef?.promise"
          class="pad15" style="min-height: 80px; width: 100%; border: 1px dashed grey;">
       <h6 class="marB15">Promise loading</h6>
       <bf-label class="value-list-3" bfText="Email"       bfValue="joel.barba@blueface.com"></bf-label>
@@ -92,7 +92,7 @@
   </div>
 
   <div class="col-4" *ngIf="compConf.triggerType === 'boolean'">
-    <div [bf-loading-spinner]="loadOn"
+    <div [bfLoadingSpinner]="loadOn"
          class="pad15" style="min-height: 80px; width: 100%; border: 1px dashed grey;">
       <h6 class="marB15">Boolean loading</h6>
       <bf-label class="value-list-3" bfText="Email"       bfValue="joel.barba@blueface.com"></bf-label>
@@ -102,7 +102,7 @@
   </div>
 
   <div class="col-4" *ngIf="compConf.triggerType === 'observable'">
-    <div [bf-loading-spinner]="loadObs"
+    <div [bfLoadingSpinner]="loadObs"
          class="pad15" style="min-height: 80px; width: 100%; border: 1px dashed grey;">
       <h6 class="marB15">Observable loading</h6>
       <bf-label class="value-list-3" bfText="Email"       bfValue="joel.barba@blueface.com"></bf-label>
@@ -184,7 +184,7 @@
 
 <h5 class="mt-4">Examples:</h5>
 <div class="col-12 examples-table">
-  
+
   <div class="row">
     <div class="col-5" style="flex-flow: row; align-items: flex-end; justify-content: space-evenly">
       <bf-loading-spinner class=""></bf-loading-spinner>
@@ -195,7 +195,7 @@
     </div>
     <div class="col-7"> <pre>{{instance}}</pre> </div>
   </div>
-  
+
   <div class="row">
     <div class="col-5">
       <span class="bf-loading-spinner"></span>

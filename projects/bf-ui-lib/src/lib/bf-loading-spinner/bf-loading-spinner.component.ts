@@ -1,4 +1,4 @@
-import {Component, Directive, ElementRef, HostBinding, Input, OnChanges, OnInit} from '@angular/core';
+import { Component, Directive, HostBinding, Input, OnChanges, OnInit } from '@angular/core';
 import { isObservable } from 'rxjs';
 
 @Component({
@@ -11,9 +11,9 @@ export class BfLoadingSpinnerComponent implements OnInit {
 }
 
 
-@Directive({ selector: '[bf-loading-spinner]' })
+@Directive({ selector: '[bfLoadingSpinner]' })
 export class BfLoadingSpinnerDirective implements OnChanges {
-  @Input('bf-loading-spinner') trigger;
+  @Input('bfLoadingSpinner') trigger;
   @HostBinding('class.bf-spin-over') private isLoading = false;
   public lastSubscription; // To unsubscribe in case a new obs needs be linked
   constructor() {}

@@ -21,9 +21,9 @@ export class BfLoadingSpinnerDemoComponent implements OnInit {
   public api = BfLoadingSpinnerDoc.api;
   public instance = BfLoadingSpinnerDoc.instance;
 
-  public directiveInstance = `<div [bf-loading-spinner]="loadingPromise"></div>`;
+  public directiveInstance = `<div [bfLoadingSpinner]="loadingPromise"></div>`;
   public cssInstance = `<span class="bf-loading-spinner"></span>`;
-  public overlayExample = `<div [bf-loading-spinner]="loadingPromise">
+  public overlayExample = `<div [bfLoadingSpinner]="loadingPromise">
   <div>....</div>
   <div>....</div>
   <div>....</div>
@@ -103,7 +103,7 @@ export const BfLoadingSpinnerDoc = {
   name    : `bf-loading-spinner`,
   uiType  : 'component',
   desc    : `Generates an element with a spinning circle to represent a loading status`,
-  api     : `[bf-loading-spinner]   It can be either a boolean, a promise or an observable`,
+  api     : `[bfLoadingSpinner]   It can be either a boolean, a promise or an observable`,
   instance: `<bf-loading-spinner></bf-loading-spinner>`,
   demoComp: BfLoadingSpinnerDemoComponent
 };
