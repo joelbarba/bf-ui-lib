@@ -4,6 +4,7 @@
     "codelyzer"
   ],
   "rules": {
+    "semicolon": [true, "always", "ignore-bound-class-methods"],
     "no-trailing-whitespace": true,
     "no-string-literal": false,
     "array-type": false,

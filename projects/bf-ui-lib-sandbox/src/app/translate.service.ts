@@ -49,6 +49,8 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.pending'              : 'Pending',
     'view.common.no_data_to_show' : 'No Data',
     'views.test_label': 'p1 = {{p1}} ### Test & test2 & test3 [b] AAA BBB [/b]',
+    'view.voicemails.no_voicemails_title': 'No Voicemails yet',
+    'view.voicemails.no_voicemails': 'Please click on the button above to check your Mailbox settings.'
   };
   public transDictCAT = {
     'view.common.name'            : 'Nom',

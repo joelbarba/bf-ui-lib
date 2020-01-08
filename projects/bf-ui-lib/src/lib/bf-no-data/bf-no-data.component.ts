@@ -3,13 +3,8 @@ import {Component, Input, OnInit} from '@angular/core';
 /**
  * @ngdoc component
  * @description Generates a row with a "No data to show" alert message or a No data with a big
- * icon if an illustration is set as attribute
- *
- * icon -> icon to use on the illustration if not set default will be used
- * message -> the message to display under the icon or in the row placeholder
- * description -> text below the message, usually used to describe the action onClick
- * illustration -> if present we display icon + label as attribute
- * smaller -> if present as an attribute the size of the icon will be 1/2 as attribute
+ * If it is a placeholder for empty lists, it styles the alert without background and displaying
+ * more options (icon, title, description)
  *
  */
 @Component({
@@ -18,8 +13,11 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class BfNoDataComponent implements OnInit {
   @Input() bfMessage = 'view.common.no_data_to_show';
-  // @Input() bfDescription: string;
-  // @Input() bfIcon: string;
+
+  @Input() bfIsPlaceholder = false;    // If true, a placeholder styled message is displayed instead
+  @Input() bfIcon: string = null;
+  @Input() bfTitle = '';          // (eg: No messages yet)
+  @Input() bfDescription = '';    // (eg: Click to add a new bla bla)
 
   constructor() { }
 

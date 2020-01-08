@@ -91,7 +91,7 @@ $switch-color-off: $switch-lever-bg !default;`;
 
     }
 
-    this.swCode += (`>` + this.brStr + `</bf-btn>`);
+    this.swCode += (`>` + this.brStr + `</bf-switch>`);
   }
 
 

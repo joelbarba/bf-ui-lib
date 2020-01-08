@@ -1,13 +1,24 @@
 $no-data-bg: darken($primary_color, 20%) !default;
 $no-data-color: $white !default;
+$placeholder-color: $primary_color !default;
 
-bf-no-data .no-data-bg {
-  width: 100%;
-  background: $no-data-bg;
-  color: $no-data-color;
-
-  padding: 15px;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  text-align: center;
+bf-no-data {
+  .no-data-bg {
+    width: 100%;
+    padding: 15px;
+    text-align: center;
+    background: $no-data-bg;
+    color: $no-data-color;
+    border: 1px solid transparent;
+    border-radius: 4px;
+  }
+  .empty-placeholder {
+    width: 100%;
+    padding: 15px;
+    text-align: center;
+    color: $placeholder-color;
+    div[class*="icon-"] { font-size: 30vh; }
+    .empty-title        { font-size: 25px; margin-top: 15px; }
+    .empty-description  { font-size: 16px; margin-top: 10px; }
+  }
 }
