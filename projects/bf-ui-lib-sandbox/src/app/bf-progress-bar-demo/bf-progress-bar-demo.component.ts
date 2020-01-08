@@ -3,7 +3,7 @@ import { interval, range, zip } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-bf-progress-bar-demo]',
+  selector: 'app-bf-progress-bar-demo',
   templateUrl: './bf-progress-bar-demo.component.html',
   styleUrls: ['./bf-progress-bar-demo.component.scss']
 })
@@ -84,10 +84,10 @@ export const BfProgressBarDoc = {
   [bfValue]: actual value
   [bfUsedLabel]: translation for the label below the component on the left and have the value as binding {{value}}
   [bfLeftLabel]: translation for the label below the component on the right and have the missing value as binding {{leftValue}}
-  
+
   For example: [bfUsedLabel]="'view.subscriptions.minutes_used'" -> {{value}} minutes used
                [bfLeftLabel]="'view.subscriptions.minutes_left'" -> {{leftValue}} minutes left
-               
+
   If you want to display only the values you might do a translation key with inside just the binding in this way:
   [bfUsedLabel]="'view.subscriptions.value_used'" -> {{value}}`,
   demoComp: BfProgressBarDemoComponent

@@ -5,7 +5,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-bf-color-picker-demo]',
+  selector: 'app-bf-color-picker-demo',
   templateUrl: './bf-color-picker-demo.component.html',
   styleUrls: ['./bf-color-picker-demo.component.scss']
 })
@@ -15,7 +15,7 @@ export class BfColorPickerDemoComponent implements OnInit {
   public api = BfColorPickerDoc.api;
   public instance = BfColorPickerDoc.instance;
 
-  public instance2 = 
+  public instance2 =
 `<bf-color-picker</bf-color-picker>`;
 
 
@@ -38,7 +38,7 @@ $disabled_input_color : $disabled-color;
   public brStr = `\n`;
   public bsStr = `\n             `;
   public customCompCode = `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`;
-  public compConf:any = {
+  public compConf: any = {
     isRequired: false,
     isDisabled: false,
     rows: null,
@@ -68,7 +68,7 @@ $disabled_input_color : $disabled-color;
     }
 
     this.customCompCode += (`>` + this.brStr + `</bf-color-picker>`);
-  };
+  }
 
 
 
@@ -86,6 +86,6 @@ export const BfColorPickerDoc = {
   uiType  : 'component',
   desc    : `Generates a ....`,
   api     : `[bfText]: The text... `,
-  instance: `<bf-color-picker></bf-color-picker>`, 
+  instance: `<bf-color-picker></bf-color-picker>`,
   demoComp: BfColorPickerDemoComponent
 };

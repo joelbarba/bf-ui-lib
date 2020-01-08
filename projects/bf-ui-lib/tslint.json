@@ -24,6 +24,7 @@
         "check-strings": true,
         "check-regex": true
       }
-    ]
+    ],
+    "radix": false
   }
 }

@@ -1,5 +1,5 @@
 // Export functions to extend the Object prototype
-import { objectDeepCopy } from "./deep-copy";
+import { objectDeepCopy } from './deep-copy';
 
 declare global {
   interface Object {
@@ -17,7 +17,6 @@ const BfObject: any = {}; // Wrap all functions here
 
 /**
  * @ngdoc Object.prototype
- * @name keyMap
  * @description It returns the same object but only with the selected properties
  * @param propNames ? String - String with the names of the properties to select, seperated by ','. Spaces will be ignored
  * @example
@@ -26,7 +25,7 @@ const BfObject: any = {}; // Wrap all functions here
  *      myObj1.keyMap('id, age, isValid');  // --> Returns an object = { id: 1, age: 10, isValid:true };
  */
 BfObject.keyMap = function(propNames: string) {
-  let newObj = {};
+  const newObj = {};
   if (!!propNames && typeof propNames === 'string') {
     propNames.replace(/[ ]/g, '').split(',').forEach(keyName => {
       newObj[keyName] = this[keyName];
@@ -38,7 +37,6 @@ BfObject.keyMap = function(propNames: string) {
 
 /**
  * @ngdoc Object.prototype
- * @name cloneProp
  * @description Clones a property from an other object to itself.
  *              If that value is null / undefined, or not found on the other object, it deletes the property of the object.
  * @param propName       ? String - Name of the property to copy
@@ -62,7 +60,6 @@ BfObject.cloneProp = function(propName: string, fromObject: Object) {
 
 /**
  * @ngdoc Object.prototype
- * @name copy
  * @description It returns a deep copy of the object (no references at any level)
  * @example myObj2 = myObj1.dCopy();
  */

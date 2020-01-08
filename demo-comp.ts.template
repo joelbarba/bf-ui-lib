@@ -5,7 +5,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-[[COMPONENT_NAME]]-demo]',
+  selector: 'app-[[COMPONENT_NAME]]-demo',
   templateUrl: './[[COMPONENT_NAME]]-demo.component.html',
   styleUrls: ['./[[COMPONENT_NAME]]-demo.component.scss']
 })
@@ -15,7 +15,7 @@ export class [[COMPONENT_NAME_CAMEL]]DemoComponent implements OnInit {
   public api = [[COMPONENT_NAME_CAMEL]]Doc.api;
   public instance = [[COMPONENT_NAME_CAMEL]]Doc.instance;
 
-  public instance2 = 
+  public instance2 =
 `<[[COMPONENT_NAME]]</[[COMPONENT_NAME]]>`;
 
 
@@ -86,6 +86,6 @@ export const [[COMPONENT_NAME_CAMEL]]Doc = {
   uiType  : 'component',
   desc    : `Generates a ....`,
   api     : `[bfText]: The text... `,
-  instance: `<[[COMPONENT_NAME]]></[[COMPONENT_NAME]]>`, 
+  instance: `<[[COMPONENT_NAME]]></[[COMPONENT_NAME]]>`,
   demoComp: [[COMPONENT_NAME_CAMEL]]DemoComponent
 };

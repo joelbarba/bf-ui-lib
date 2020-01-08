@@ -4,11 +4,20 @@ import {BfDefer} from '../../../../bf-ui-lib/src/lib/bf-defer/bf-defer';
 import {BfGrowlService} from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service';
 
 @Component({
-  selector: 'app-bf-loading-bar-demo]',
+  selector: 'app-bf-loading-bar-demo',
   templateUrl: './bf-loading-bar-demo.component.html',
   styleUrls: ['./bf-loading-bar-demo.component.scss']
 })
 export class BfLoadingBarDemoComponent implements OnInit {
+
+
+  constructor(
+    public loadingBar: BfLoadingBarService,
+    private growl: BfGrowlService,
+  ) {
+
+
+  }
   public name = BfLoadingBarDoc.name;
   public desc = BfLoadingBarDoc.desc;
   public api = BfLoadingBarDoc.api;
@@ -25,8 +34,8 @@ $menu-size: 35 !default;
 
 $ani-time: 8 !default; // Animation time for BF loading spinner`;
 
-  public example1 = `constructor(public loadingBar: BfLoadingBarService) { ... }  
-  
+  public example1 = `constructor(public loadingBar: BfLoadingBarService) { ... }
+
 this.loadingBar.config({
   blockScreen : true,
   delayTime   : 1000,
@@ -65,14 +74,8 @@ this.loadingBar.run(myPromise, { blockScreen: false }).then(() => {
   public resTimePromise = 5;
   public testLog2 = '';
 
-
-  constructor(
-    public loadingBar: BfLoadingBarService,
-    private growl: BfGrowlService,
-  ) {
-
-
-  }
+  public promStack = [];
+  public promId = 1;
 
   ngOnInit() {
     // this.simpleRun();
@@ -106,12 +109,12 @@ this.loadingBar.run(myPromise, { blockScreen: false }).then(() => {
       this.clearAll();
     }, this.autoStopTime * 1000);
     this.renderLog();
-  };
+  }
 
   public simpleStop = () => {
     this.loadingBar.stop();
     this.clearAll();
-  };
+  }
 
   public renderLog = () => {
     let statusName = '-';
@@ -119,16 +122,13 @@ this.loadingBar.run(myPromise, { blockScreen: false }).then(() => {
     if (this.loadingBar.status === 1) { statusName = 'Running'; }
     if (this.loadingBar.status === 2) { statusName = 'Displayed'; }
     this.testLog = `${this.elapsedTime} seg --> Status = ${this.loadingBar.status} (${statusName})`;
-  };
+  }
 
   public clearAll = () => {
     clearInterval(this.cancelInt);
     clearTimeout(this.cancelRes);
     this.renderLog();
-  };
-
-  public promStack = [];
-  public promId = 1;
+  }
   public pushPromise = (resTime) => {
     const def = new BfDefer();
     const id = this.promId++;
@@ -158,7 +158,7 @@ export const BfLoadingBarDoc = {
   uiType  : 'module',
   desc    : `Global loading animation to block the page while something is going on`,
   api     : `
-status : ILoadingStatus                   --> ILoadingStatus { Off = 0, Running = 1, Displayed = 2 }  
+status : ILoadingStatus                   --> ILoadingStatus { Off = 0, Running = 1, Displayed = 2 }
 status$: BehaviorSubject<ILoadingStatus>  --> Observable that emits every time the status changes.
 options: Partial<ILoadingOptions>         --> Configurable options to display the loading bar:
                    - blockScreen : boolean --> Whether the screen is blocked while the loading is running
@@ -172,6 +172,6 @@ options: Partial<ILoadingOptions>         --> Configurable options to display th
 .run(waitingPromise?, options)  --> Function to set the loading bar configuration (default params)
 .stop()                         --> Finishes the running loading. If any promise waiting in the queue, clears them up
   `,
-  instance: `<bf-loading-bar></bf-loading-bar>`, 
+  instance: `<bf-loading-bar></bf-loading-bar>`,
   demoComp: BfLoadingBarDemoComponent
 };

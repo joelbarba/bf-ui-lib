@@ -1,7 +1,7 @@
 import {BehaviorSubject, merge, Observable, Subject} from 'rxjs';
 import {debounceTime, map, scan} from 'rxjs/operators';
 import Debug from 'debug';
-import {BfPrototypes} from "../bf-prototypes/bf-prototypes";
+import {BfPrototypes} from '../bf-prototypes/bf-prototypes';
 const debugList = Debug('bfUiLib:bfListHandler');
 
 export interface BfListHandlerConfig {

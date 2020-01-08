@@ -8,6 +8,7 @@
     "no-string-literal": false,
     "array-type": false,
     "arrow-parens": false,
+    "ban-types": false,
     "deprecation": {
       "severity": "warn"
     },

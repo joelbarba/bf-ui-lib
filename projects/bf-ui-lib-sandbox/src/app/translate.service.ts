@@ -98,7 +98,7 @@ export class BfTranslateService extends BfUILibTransService {
 
   public doTranslate = (label ?: string, params?): string => {
     return this.transDict[label] || label;
-  };
+  }
 
   public getLabel$ = (label ?: string, params = {}): Observable<string> => {
     return this.transDict$.pipe(
@@ -110,7 +110,7 @@ export class BfTranslateService extends BfUILibTransService {
         return text;
       })
     );
-  };
+  }
 
 
 
@@ -126,7 +126,7 @@ export class BfTranslateService extends BfUILibTransService {
       this.onLangChange$.next({ lang: newLang, translations: this.transDict });
       this.transDict$.next(this.transDict);
     }
-  };
+  }
 }
 
 

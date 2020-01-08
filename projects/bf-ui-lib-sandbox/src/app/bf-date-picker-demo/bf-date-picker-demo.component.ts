@@ -5,7 +5,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-bf-date-picker-demo]',
+  selector: 'app-bf-date-picker-demo',
   templateUrl: './bf-date-picker-demo.component.html',
   styleUrls: ['./bf-date-picker-demo.component.scss']
 })
@@ -19,7 +19,7 @@ export class BfDatePickerDemoComponent implements OnInit {
   public instance3 = '';
 
 
-  public instance2 = 
+  public instance2 =
 `<bf-date-picker</bf-date-picker>`;
 
   constructor() { }
@@ -32,8 +32,8 @@ export class BfDatePickerDemoComponent implements OnInit {
 export const BfDatePickerDoc = {
   name    : `bf-date-picker`,
   uiType  : 'component',
-  desc    : `Generates a button.`, 
+  desc    : `Generates a button.`,
   api     : `[bfText]: Button text`,
-  instance: `<bf-date-picker></bf-date-picker>`, 
+  instance: `<bf-date-picker></bf-date-picker>`,
   demoComp: BfDatePickerDemoComponent
 };

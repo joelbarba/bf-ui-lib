@@ -5,7 +5,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-bf-page-placeholder-demo]',
+  selector: 'app-bf-page-placeholder-demo',
   templateUrl: './bf-page-placeholder-demo.component.html',
   styleUrls: ['./bf-page-placeholder-demo.component.scss']
 })
@@ -15,7 +15,7 @@ export class BfPagePlaceholderDemoComponent implements OnInit {
   public api = BfPagePlaceholderDoc.api;
   public instance = BfPagePlaceholderDoc.instance;
 
-  public instance2 = 
+  public instance2 =
 `<bf-page-placeholder</bf-page-placeholder>`;
 
 
@@ -38,7 +38,7 @@ $disabled_input_color : $disabled-color;
   public brStr = `\n`;
   public bsStr = `\n             `;
   public customCompCode = `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`;
-  public compConf:any = {
+  public compConf: any = {
     isRequired: false,
     isDisabled: false,
     rows: null,
@@ -68,7 +68,7 @@ $disabled_input_color : $disabled-color;
     }
 
     this.customCompCode += (`>` + this.brStr + `</bf-page-placeholder>`);
-  };
+  }
 
 
 
@@ -86,6 +86,6 @@ export const BfPagePlaceholderDoc = {
   uiType  : 'component',
   desc    : `Generates a ....`,
   api     : `[bfText]: The text... `,
-  instance: `<bf-page-placeholder></bf-page-placeholder>`, 
+  instance: `<bf-page-placeholder></bf-page-placeholder>`,
   demoComp: BfPagePlaceholderDemoComponent
 };

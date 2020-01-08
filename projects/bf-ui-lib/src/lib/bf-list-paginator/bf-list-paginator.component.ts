@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, OnChanges, Output, ViewEncapsulation, DoCheck} from '@angular/core';
-import {Observable} from "rxjs";
+import {Observable} from 'rxjs';
 
 interface IBfCtrl {
   goToPage: (pageNum: number) => void;
@@ -88,7 +88,7 @@ export class BfListPaginatorComponent implements OnInit, OnChanges, DoCheck {
     if (!!this.bfCtrl.goToPage && typeof this.bfCtrl.goToPage === 'function') {
       this.bfCtrl.goToPage(pageNum);
     }
-  };
+  }
 
   public goToPrev() {
     if (this.bfCtrl.currentPage > 1) {
@@ -121,7 +121,6 @@ export class BfListPaginatorComponent implements OnInit, OnChanges, DoCheck {
   // Check and convert the value to a number
   public checkNumber = (value) => {
     if (typeof value !== 'number' && !Number.isNaN(value)) {
-      // tslint:disable-next-line:radix
       return parseInt(value) || 1;
     } else {
       return value;

@@ -5,7 +5,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-bf-slider-demo]',
+  selector: 'app-bf-slider-demo',
   templateUrl: './bf-slider-demo.component.html',
   styleUrls: ['./bf-slider-demo.component.scss']
 })
@@ -15,7 +15,7 @@ export class BfSliderDemoComponent implements OnInit {
   public api = BfSliderDoc.api;
   public instance = BfSliderDoc.instance;
 
-  public instance2 = 
+  public instance2 =
 `<bf-slider</bf-slider>`;
 
 
@@ -38,7 +38,7 @@ $disabled_input_color : $disabled-color;
   public brStr = `\n`;
   public bsStr = `\n             `;
   public customCompCode = `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`;
-  public compConf:any = {
+  public compConf: any = {
     isRequired: false,
     isDisabled: false,
     rows: null,
@@ -68,7 +68,7 @@ $disabled_input_color : $disabled-color;
     }
 
     this.customCompCode += (`>` + this.brStr + `</bf-slider>`);
-  };
+  }
 
 
 
@@ -86,6 +86,6 @@ export const BfSliderDoc = {
   uiType  : 'component',
   desc    : `Generates a ....`,
   api     : `[bfText]: The text... `,
-  instance: `<bf-slider></bf-slider>`, 
+  instance: `<bf-slider></bf-slider>`,
   demoComp: BfSliderDemoComponent
 };

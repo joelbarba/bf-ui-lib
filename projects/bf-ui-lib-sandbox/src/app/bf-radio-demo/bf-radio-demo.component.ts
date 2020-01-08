@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-bf-radio-demo]',
+  selector: 'app-bf-radio-demo',
   templateUrl: './bf-radio-demo.component.html',
   styleUrls: ['./bf-radio-demo.component.scss']
 })export class BfRadioDemoComponent implements OnInit {
@@ -60,7 +60,7 @@ $radio-check-color: $white !default;`;
     }
 
     this.customCompCode += (`>` + this.brStr + `</bf-radio>`);
-  };
+  }
 
   constructor() { }
 
@@ -75,7 +75,7 @@ export const BfRadioDoc = {
   name    : `bf-radio`,
   uiType  : 'component',
   desc    : `Generates a radio button input element.`,
-  api     : `[(ngModel)]     : The ngModel directive is linked to the inner <input>, so that can be used as a form element with ngForm (status is propagated).  
+  api     : `[(ngModel)]     : The ngModel directive is linked to the inner <input>, so that can be used as a form element with ngForm (status is propagated).
 [bfValue]       : Value to set to the model when this radio is selected in the group
 [bfLabel]       : Text of the label (optional)
 [bfRadioGroup]  : (optional) Name of the group the radio belongs to. The selection is unique within this group.

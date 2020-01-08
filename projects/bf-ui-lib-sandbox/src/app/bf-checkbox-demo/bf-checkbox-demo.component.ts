@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-bf-checkbox-demo]',
+  selector: 'app-bf-checkbox-demo',
   templateUrl: './bf-checkbox-demo.component.html',
   styleUrls: ['./bf-checkbox-demo.component.scss']
 })
@@ -77,7 +77,7 @@ $checkbox-disabled-border: darken($disabled-color, 3%) !default;`;
     }
 
     this.customCompCode += (`>` + this.brStr + `</bf-checkbox>`);
-  };
+  }
 
 
   constructor() { }
@@ -91,7 +91,7 @@ export const BfCheckboxDoc = {
   name    : `bf-checkbox`,
   uiType  : 'component',
   desc    : `Generates a button.`,
-  api     : `[(ngModel)]     : The ngModel directive is linked to the inner <input>, so that can be used as a form element with ngForm (status is propagated).  
+  api     : `[(ngModel)]     : The ngModel directive is linked to the inner <input>, so that can be used as a form element with ngForm (status is propagated).
 [bfLabel]       : Text of the label (optional)
 [bfDisabled]    : Boolean value to disable (true) the input
 [bfTooltip]     : If set, an info bullet will be added before the label, with a tooltip of the text

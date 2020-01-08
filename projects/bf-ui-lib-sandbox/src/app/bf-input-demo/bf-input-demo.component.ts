@@ -4,11 +4,16 @@ import {IbfInputCtrl} from '../../../../bf-ui-lib/src/lib/bf-input/bf-input.comp
 import {Subject} from 'rxjs';
 
 @Component({
-  selector: 'app-bf-input-demo]',
+  selector: 'app-bf-input-demo',
   templateUrl: './bf-input-demo.component.html',
   styleUrls: ['./bf-input-demo.component.scss']
 })
 export class BfInputDemoComponent implements OnInit {
+
+
+  constructor(
+    public growl: BfGrowlService,
+  ) { }
   public name = BfInputDoc.name;
   public desc = BfInputDoc.desc;
   public api = BfInputDoc.api;
@@ -32,20 +37,20 @@ export class BfInputDemoComponent implements OnInit {
 
 
   public formExampleInput100 = `<form #myForm="ngForm">
-  
+
   <bf-input [bfRequired]="true" ngModel="val1" #firstRef="ngModel" name="first">
   </bf-input>
-  
+
   <bf-input [bfRequired]="true" ngModel="val2" #lastRef="ngModel" name="last">
   </bf-input>
-  
+
   <bf-btn bfText="Save Form" [bfDisabled]="myForm.invalid"></bf-btn>
 
 </form>`;
 
   public flatExample = '<bf-input class="flat" [ngModel]="bfModel"></bf-input>';
-  public inputColExample = `<bf-input [(ngModel)]="myVar" class="input-col-1" bfLabel="view.common.name"></bf-input>  
-<bf-input [(ngModel)]="myVar" class="input-col-2" bfLabel="view.common.name"></bf-input>  
+  public inputColExample = `<bf-input [(ngModel)]="myVar" class="input-col-1" bfLabel="view.common.name"></bf-input>
+<bf-input [(ngModel)]="myVar" class="input-col-2" bfLabel="view.common.name"></bf-input>
 <bf-input [(ngModel)]="myVar" class="input-col-3" bfLabel="view.common.name"></bf-input>`;
 
   public cssReset = `$input-optional-color  : $optional-color !default;  // <-- this is a bootstrap default
@@ -92,30 +97,9 @@ this.ctrl.setFocus();
 <bf-input [(ngModel)]="val" (bfOnLoaded)="ctrl = $event"></bf-input>`;
 
 
-  constructor(
-    public growl: BfGrowlService,
-  ) { }
-  ngOnInit() {
-    this.upComp();
-    this.upComp2();
-    // this.boxCo[0] = true;
-    // this.boxCo[1] = true;
-    // this.boxCo[2] = true;
-    // this.boxCo[3] = true;
-  }
-
-
   public linkCustomInput = true;
-  public resetInput = () => {
-    this.linkCustomInput = false;
-    setTimeout(() => { this.linkCustomInput = true; });
-  };
 
   public clickMsg;
-  public addonClick = (msg = '') => {
-    this.clickMsg += ' ' + msg;
-    setTimeout(() => { this.clickMsg = ''; }, 1000);
-  };
 
   public isAutofilled = '';
 
@@ -159,6 +143,58 @@ this.ctrl.setFocus();
     hasKeyCtrlEnter: false,
     hasFlat: false,
   };
+
+
+
+
+
+
+
+
+
+
+
+  public valCompCode = '';
+  public valEx: any = {
+    isRequired: false, minLen: 0,
+    isMaxLen: false, maxLen: 5,
+    hasPattern: false, pattern: '[A-Za-z]{3,8}',
+    valType: null, valTypes: [
+      { id: 'integer',  text: 'integer',  },
+      { id: 'number',   text: 'number',   },
+      { id: 'decimal',  text: 'decimal',  },
+      { id: 'email',    text: 'email',    },
+    ],
+    hasBfValidator: false, bfValMatchVal: '666',
+    hasErrOnPristine: false,
+    hasIcon: false,        hasInvalidIcon: false,             hasValidIcon: false,
+    bfIcon: 'icon-search', bfInvalidIcon: 'icon-thumbs-down', bfValidIcon: 'icon-checkmark4',
+    hasErrorText: false, bfErrorText: 'view.common.custom_error',
+    errorPos: '', errorPosOpts : [
+      { id: 'top-right',    text: 'top-right',  },
+      { id: 'bottom-left',  text: 'bottom-left',   },
+      { id: 'bottom-right', text: 'bottom-right',  },
+    ],
+    hasOnLoad: false, hasBeforeChange: false,
+  };
+  public isInputReady = false;
+  public inputCtrl: IbfInputCtrl = {};
+  ngOnInit() {
+    this.upComp();
+    this.upComp2();
+    // this.boxCo[0] = true;
+    // this.boxCo[1] = true;
+    // this.boxCo[2] = true;
+    // this.boxCo[3] = true;
+  }
+  public resetInput = () => {
+    this.linkCustomInput = false;
+    setTimeout(() => { this.linkCustomInput = true; });
+  }
+  public addonClick = (msg = '') => {
+    this.clickMsg += ' ' + msg;
+    setTimeout(() => { this.clickMsg = ''; }, 1000);
+  }
   public upComp = () => {
     this.customCompCode = `<bf-input `;
 
@@ -207,54 +243,18 @@ this.ctrl.setFocus();
     if (this.compConf.hasKeyCtrlEnter) { this.customCompCode += this.bsStr + `(bfOnCtrlEnter)="onClickFn($event)"`; }
 
     this.customCompCode += (`>` + this.brStr + `</bf-input>`);
-  };
-
-
-
-
-
-
-
-
-
-
-
-  public valCompCode = '';
-  public valEx: any = {
-    isRequired: false, minLen: 0,
-    isMaxLen: false, maxLen: 5,
-    hasPattern: false, pattern: '[A-Za-z]{3,8}',
-    valType: null, valTypes: [
-      { id: 'integer',  text: 'integer',  },
-      { id: 'number',   text: 'number',   },
-      { id: 'decimal',  text: 'decimal',  },
-      { id: 'email',    text: 'email',    },
-    ],
-    hasBfValidator: false, bfValMatchVal: '666',
-    hasErrOnPristine: false,
-    hasIcon: false,        hasInvalidIcon: false,             hasValidIcon: false,
-    bfIcon: 'icon-search', bfInvalidIcon: 'icon-thumbs-down', bfValidIcon: 'icon-checkmark4',
-    hasErrorText: false, bfErrorText: 'view.common.custom_error',
-    errorPos: '', errorPosOpts : [
-      { id: 'top-right',    text: 'top-right',  },
-      { id: 'bottom-left',  text: 'bottom-left',   },
-      { id: 'bottom-right', text: 'bottom-right',  },
-    ],
-    hasOnLoad: false, hasBeforeChange: false,
-  };
-  public isInputReady = false;
-  public inputCtrl: IbfInputCtrl = {};
+  }
   public inputInit = (inputCtrl) => {
     this.inputCtrl = inputCtrl;
     // this.inputCtrl.inputCtrl$.subscribe(val => console.log('inputCtrl$ ----> ', val));
     setTimeout(() => this.isInputReady = true);
-  };
+  }
   public validIfFn = (value) => {
     return (value === this.valEx.bfValMatchVal) ? null : { label : 'this is wrong' };
-  };
+  }
   public catchValue = (obj) => {
     // console.log(obj);
-  };
+  }
 
   public upComp2 = () => {
     this.valCompCode = `<bf-input #bfInputRef="ngModel"`;
@@ -287,7 +287,7 @@ this.ctrl.setFocus();
       this.valCompCode += `bfInput.addError({ label: 'manual error here' });\n`;
       this.valCompCode += `bfInput.removeError();\n`;
     }
-  };
+  }
 
   public validIfEqual = (value) => {
     return (value === '666' || value === '') ? null : { label : 'views.common.invalidddd', value: 'xxx' };
@@ -320,7 +320,7 @@ export const BfInputDoc = {
 [bfMaxlength]       : Max number of chars. Built in validator "maxlength". Null means no max. It blocks input if limit.
 [bfPattern]         : Regex validator. Built in validator "pattern". Null means no validation.
 [bfValidType]       : Predefined validator patterns. It overrides bfPattern. Values = [integer, number, decimal, email]
-[bfValidator]       : Callback function called every time the internal ngModel validates its value. Parameter = current value of the model. 
+[bfValidator]       : Callback function called every time the internal ngModel validates its value. Parameter = current value of the model.
                       It should return null (valid) or error object (invalid).
 [bfErrorOnPristine] : If true, errors will be shown in pristine state too (by default pristine shows as valid always).
 [bfInvalidIcon]     : Icon to show when the value is dirty and invalid (by default icon-warning22)

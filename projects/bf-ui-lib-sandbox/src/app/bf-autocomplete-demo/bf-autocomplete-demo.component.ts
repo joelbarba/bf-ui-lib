@@ -5,7 +5,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-bf-autocomplete-demo]',
+  selector: 'app-bf-autocomplete-demo',
   templateUrl: './bf-autocomplete-demo.component.html',
   styleUrls: ['./bf-autocomplete-demo.component.scss']
 })
@@ -15,7 +15,7 @@ export class BfAutocompleteDemoComponent implements OnInit {
   public api = BfAutocompleteDoc.api;
   public instance = BfAutocompleteDoc.instance;
 
-  public instance2 = 
+  public instance2 =
 `<bf-autocomplete</bf-autocomplete>`;
 
 
@@ -38,7 +38,7 @@ $disabled_input_color : $disabled-color;
   public brStr = `\n`;
   public bsStr = `\n             `;
   public customCompCode = `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`;
-  public compConf:any = {
+  public compConf: any = {
     isRequired: false,
     isDisabled: false,
     rows: null,
@@ -68,7 +68,7 @@ $disabled_input_color : $disabled-color;
     }
 
     this.customCompCode += (`>` + this.brStr + `</bf-autocomplete>`);
-  };
+  }
 
 
 
@@ -86,6 +86,6 @@ export const BfAutocompleteDoc = {
   uiType  : 'component',
   desc    : `Generates a ....`,
   api     : `[bfText]: The text... `,
-  instance: `<bf-autocomplete></bf-autocomplete>`, 
+  instance: `<bf-autocomplete></bf-autocomplete>`,
   demoComp: BfAutocompleteDemoComponent
 };
