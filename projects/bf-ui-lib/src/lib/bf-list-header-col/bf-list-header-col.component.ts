@@ -1,4 +1,5 @@
 import {Component, OnInit, Input, Output, EventEmitter, OnChanges} from '@angular/core';
+import {BfUILibTransService} from '../abstract-translate.service';
 
 interface IOrderConf {
   fields: Array<string>;
@@ -10,7 +11,7 @@ interface IOrderConf {
 @Component({
   selector: 'bf-list-header-col',
   templateUrl: './bf-list-header-col.component.html',
-  styleUrls: ['./bf-list-header-col.component.scss']
+  styleUrls: []
 })
 export class BfListHeaderColComponent implements OnInit, OnChanges {
   @Input() colTitle: string = null;
@@ -18,12 +19,13 @@ export class BfListHeaderColComponent implements OnInit, OnChanges {
   @Input() orderConf: IOrderConf;
   @Output() bfOnChange = new EventEmitter<IOrderConf>();
 
-  constructor() { }
+  public colTitle$;
+
+  constructor(private translate: BfUILibTransService) {}
 
   ngOnChanges(changes) {
-    if (changes.hasOwnProperty('orderConf')) {
-      this.orderConf.fields = this.orderConf.fields || [];
-    }
+    if (changes.orderConf) { this.orderConf.fields = this.orderConf.fields || []; }
+    if (changes.colTitle) { this.colTitle$ = this.translate.getLabel$(this.colTitle); }
   }
 
   ngOnInit() { }

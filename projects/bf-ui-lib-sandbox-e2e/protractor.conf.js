@@ -5,11 +5,15 @@ const { SpecReporter } = require('jasmine-spec-reporter');
 
 exports.config = {
   allScriptsTimeout: 11000,
+  disableChecks: true,
   specs: [
     './src/**/*.e2e-spec.ts'
   ],
   capabilities: {
-    'browserName': 'chrome'
+    'browserName': 'chrome',
+    'chromeOptions': {
+      args: ['--disable-gpu', 'lang=en-IE']
+    }
   },
   directConnect: true,
   baseUrl: 'http://localhost:4200/',
@@ -19,6 +23,7 @@ exports.config = {
     defaultTimeoutInterval: 30000,
     print: function() {}
   },
+  SELENIUM_PROMISE_MANAGER: false,
   onPrepare() {
     require('ts-node').register({
       project: require('path').join(__dirname, './tsconfig.e2e.json')

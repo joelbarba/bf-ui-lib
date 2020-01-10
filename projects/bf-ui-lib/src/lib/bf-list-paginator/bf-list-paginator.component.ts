@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, OnChanges, Output, ViewEncapsulation, DoCheck} from '@angular/core';
-import {Observable} from "rxjs";
+import {Observable} from 'rxjs';
 
 interface IBfCtrl {
   goToPage: (pageNum: number) => void;
@@ -8,13 +8,13 @@ interface IBfCtrl {
   totalPages: number;
   rowsPerPage: number;
   maxRowsPerPageList?: Array<{ num: number, label: string }>;
-  render$ ?: Observable<any>;
+  render$ ?: Observable<{ currentPage, totalPages, rowsPerPage }>;
 }
 
 @Component({
   selector: 'bf-list-paginator',
   templateUrl: './bf-list-paginator.component.html',
-  styleUrls: ['./bf-list-paginator.component.scss'],
+  styleUrls: [],
   // encapsulation: ViewEncapsulation.None
 })
 export class BfListPaginatorComponent implements OnInit, OnChanges, DoCheck {
@@ -29,13 +29,13 @@ export class BfListPaginatorComponent implements OnInit, OnChanges, DoCheck {
     totalPages  : 1,
     rowsPerPage : 10,
     maxRowsPerPageList : [ // Selector for the max items per page
-      { num: 5,   label: 'Show 5 items per page' },
-      { num: 10,  label: 'Show 10 items per page' },
-      { num: 15,  label: 'Show 15 items per page' },
-      { num: 20,  label: 'Show 20 items per page' },
-      { num: 30,  label: 'Show 30 items per page' },
-      { num: 50,  label: 'Show 50 items per page' },
-      { num: 100, label: 'Show 100 items per page' },
+      { num: 5,   label: 'views.common.5_items_per_page' },
+      { num: 10,  label: 'views.common.10_items_per_page' },
+      { num: 15,  label: 'views.common.15_items_per_page' },
+      { num: 20,  label: 'views.common.20_items_per_page' },
+      { num: 30,  label: 'views.common.30_items_per_page' },
+      { num: 50,  label: 'views.common.50_items_per_page' },
+      { num: 100, label: 'views.common.100_items_per_page' },
     ]
   };
 
@@ -88,7 +88,7 @@ export class BfListPaginatorComponent implements OnInit, OnChanges, DoCheck {
     if (!!this.bfCtrl.goToPage && typeof this.bfCtrl.goToPage === 'function') {
       this.bfCtrl.goToPage(pageNum);
     }
-  };
+  }
 
   public goToPrev() {
     if (this.bfCtrl.currentPage > 1) {
@@ -121,7 +121,6 @@ export class BfListPaginatorComponent implements OnInit, OnChanges, DoCheck {
   // Check and convert the value to a number
   public checkNumber = (value) => {
     if (typeof value !== 'number' && !Number.isNaN(value)) {
-      // tslint:disable-next-line:radix
       return parseInt(value) || 1;
     } else {
       return value;

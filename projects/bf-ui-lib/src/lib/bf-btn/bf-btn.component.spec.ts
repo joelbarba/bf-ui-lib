@@ -1,4 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+
+import { TestingModule } from '../../testing/testing-module';
 
 import { BfBtnComponent } from './bf-btn.component';
 
@@ -8,7 +11,8 @@ describe('BfBtnComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BfBtnComponent ]
+      declarations: [ BfBtnComponent, NgbTooltip ],
+      imports: [ TestingModule ],
     })
     .compileComponents();
   }));

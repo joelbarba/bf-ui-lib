@@ -1,11 +1,14 @@
-import {NgModule, ModuleWithProviders, Optional, SkipSelf} from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import {NgModule, ModuleWithProviders, Optional, SkipSelf, InjectionToken} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // <-- NgModel lives here
-// tslint:disable-next-line:max-line-length
-import { NgbDatepickerModule, NgbPopoverModule, NgbTooltipModule, NgbModule, NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbPopoverModule, NgbTooltipModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbActiveModal, NgbModalModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 
 // Modules
 import { BfGrowlModule } from './bf-growl/bf-growl.module';
-import { BfLoadingBarModule } from "./bf-loading-bar/bf-loading-bar.module";
+import { BfLoadingBarModule } from './bf-loading-bar/bf-loading-bar.module';
 
 // Services
 import { BfConfirmService } from './bf-confirm/bf-confirm.service';
@@ -25,8 +28,8 @@ import { BfTextareaComponent } from './bf-textarea/bf-textarea.component';
 import { BfRadioComponent } from './bf-radio/bf-radio.component';
 import { BfDatePickerComponent } from './bf-date-picker/bf-date-picker.component';
 import { BfListPaginatorComponent } from './bf-list-paginator/bf-list-paginator.component';
-import {CommonModule} from "@angular/common";
-import {BfUILibTransService} from "./abstract-translate.service";
+import {CommonModule} from '@angular/common';
+import {BfTranslatePipe, BfUILibTransService} from './abstract-translate.service';
 import { BfTimePickerComponent } from './bf-time-picker/bf-time-picker.component';
 import { BfAutocompleteComponent } from './bf-autocomplete/bf-autocomplete.component';
 import { BfMultiSelectorComponent } from './bf-multi-selector/bf-multi-selector.component';
@@ -35,9 +38,15 @@ import { BfStatusBadgeComponent } from './bf-status-badge/bf-status-badge.compon
 import { BfColorPickerComponent } from './bf-color-picker/bf-color-picker.component';
 import { BfSliderComponent } from './bf-slider/bf-slider.component';
 import { BfPagePlaceholderComponent } from './bf-page-placeholder/bf-page-placeholder.component';
+import {BfLoadingSpinnerComponent, BfLoadingSpinnerDirective} from './bf-loading-spinner/bf-loading-spinner.component';
+import { ShowDirective } from './show/show.component';
+import { BfNoDataComponent } from './bf-no-data/bf-no-data.component';
+
 
 @NgModule({
   declarations: [
+    BfTranslatePipe,  // Internal
+
     BfBtnComponent,
     BfListHeaderColComponent,
     BfLabelComponent,
@@ -60,6 +69,10 @@ import { BfPagePlaceholderComponent } from './bf-page-placeholder/bf-page-placeh
     BfColorPickerComponent,
     BfSliderComponent,
     BfPagePlaceholderComponent,
+    BfLoadingSpinnerComponent,
+    BfLoadingSpinnerDirective,
+    ShowDirective,
+    BfNoDataComponent,
   ],
   entryComponents: [BfConfirmComponent],
   imports: [
@@ -69,13 +82,19 @@ import { BfPagePlaceholderComponent } from './bf-page-placeholder/bf-page-placeh
     ReactiveFormsModule,
     NgbPopoverModule,
     NgbTooltipModule,
+    NgbProgressbarModule,
     NgbModalModule,
     BfGrowlModule,
     BfLoadingBarModule,
+    TranslateModule,
     NgbDatepickerModule,
-    NgbModule
+    NgbModule,
   ],
   exports: [
+    BfNoDataComponent,  // <--- New component
+    ShowDirective,
+    BfLoadingSpinnerDirective,  // <--- New component
+    BfLoadingSpinnerComponent,  // <--- New component
     BfPagePlaceholderComponent,  // <--- New component
     BfSliderComponent,  // <--- New component
     BfColorPickerComponent,  // <--- New component
@@ -99,7 +118,6 @@ import { BfPagePlaceholderComponent } from './bf-page-placeholder/bf-page-placeh
     BfLabelComponent,
     BfBtnComponent,
     BfListHeaderColComponent,
-
     BfGrowlModule,
     BfLoadingBarModule,
   ]
@@ -114,11 +132,14 @@ export class BfUiLibModule {
 
   static forRoot(config): ModuleWithProviders {
     // console.log('BfUiLibModule.forRoot()', new Date(), config.trans);
+
+
     return {
       ngModule: BfUiLibModule,
       providers: [
         // { provide: 'BfUILibTransService', ...config.trans },
-        { provide: BfUILibTransService, ...config.trans },  // <-- To provide a class for the service externally
+        { provide: BfUILibTransService, useExisting: config.trans.useExisting },
+        // { provide: MY_SERVICE_TOKEN, useExisting: config.trans.useExisting },
         BfConfirmService,
         NgbActiveModal,
         NgbModule,

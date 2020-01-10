@@ -4,7 +4,7 @@
 <p>
 If the property "bfText" is defined, it generates a button with both text and icon. If not, just an icon button (small version)
 <br/>You can set the color of the button using "bfType". It accepts "primary", "secondary", ... (all defined brand colors)
-<br/>You can also use "bfType" to set a predefined button (color + icon), like "add", "save", 
+<br/>You can also use "bfType" to set a predefined button (color + icon), like "add", "save",
 
 </p>
 <p>There are some predefined types and icons to be used</p>
@@ -12,6 +12,38 @@ If the property "bfText" is defined, it generates a button with both text and ic
 <h5 class="mt-4">Parameters (all optional):</h5>
 <div class="col-12"><pre>{{api}}</pre></div>
 
+<!--<bf-btn (bfClick)="customBtnFunc()"></bf-btn>-->
+<!--<bf-btn (bfClick)="customBtnFunc()" bfText="Test 1" bfIcon=""></bf-btn>-->
+<!--<bf-btn (bfClick)="customBtnFunc()" bfIcon="icon-plus"></bf-btn>-->
+<!--<bf-btn (bfClick)="customBtnFunc()" bfIcon="icon-plus" bfText="Test 2"></bf-btn>-->
+<!--<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>-->
+
+
+<div class="row" *ngIf="true">
+  <div class="col-7">
+    <bf-btn class="block squash"
+            (bfClick)="asyncClick()"
+            [bfAsyncPromise]="blockPr"
+            bfAsyncGroup="me2"
+            bfText="Async Click 1"
+            bfIcon="icon-arrow-right3"
+    ></bf-btn>
+    <bf-btn class="block" (bfClick)="asyncClick()" bfText="Async Click 2"></bf-btn>
+    <bf-btn class="block" (bfClick)="asyncClick()" bfText="Async Click 3"></bf-btn>
+    <bf-btn class="block" (bfClick)="asyncClick()" bfText="Async Click 4 (me)" bfAsyncGroup="me"></bf-btn>
+    <bf-btn class="block" (bfClick)="asyncClick()" bfText="Async Click 5"></bf-btn>
+  </div>
+  <div class="col-5">
+    <bf-btn bfType="save" (bfClick)="asyncClick()" [bfAsyncPromise]="blockPr"></bf-btn>
+    <bf-btn bfType="save" bfText="This is a nice button"></bf-btn> perfectly aligned with text.
+  </div>
+</div>
+
+<!--<bf-btn bfText="Click to async resolve"-->
+<!--        (bfClick)="growl.success('cliiick')">-->
+<!--</bf-btn>-->
+
+<!--<bf-btn bfType="search"></bf-btn>-->
 
 <!--<bf-btn (bfClick)="myFunc($event)"-->
 <!--        bfText="view.common.yes"-->
@@ -20,6 +52,7 @@ If the property "bfText" is defined, it generates a button with both text and ic
 <!--        bfIcon="icon-arrow-left6"-->
 <!--        bfDisabledTip="This button is disabled because X">-->
 <!--</bf-btn>-->
+
 
 <!--Button Customization-->
 <div class="whiteBg">
@@ -30,16 +63,20 @@ If the property "bfText" is defined, it generates a button with both text and ic
         <bf-btn (bfClick)="customBtnFunc()"
                 [class.full-width]="btnConf.hasFullWidth"
                 [class.squash]="btnConf.hasSquash"
-                [bfIconPos]="btnConf.hasIconLeft ? 'left' : 'right'"
-                [bfText]="(btnConf.hasText ? btnConf.btnText : '')"
+                [class.ellipsis]="btnConf.hasEllipsis"
+                [bfIconPos]="btnConf.iconPos"
+                [bfText]="(btnConf.hasText ? btnConf.btnText : null)"
                 [bfType]="(btnConf.hasType ? btnConf.btnType : null)"
                 [bfIcon]="(btnConf.hasIcon ? btnConf.btnIcon : null)"
                 [bfDisabled]="btnConf.isDisabled"
                 [bfTooltip]="(btnConf.hasTooltip ? btnConf.btnTooltip : null)"
                 [bfTooltipPos]="(btnConf.btnTooltipPos || 'top')"
                 [bfTooltipBody]="btnConf.btnTooltipBody"
+                [bfToggle]="btnConf.hasToggle ? btnConf.toggleValue : null"
+                (bfToggleChange)="btnConf.toggleValue = $event"
                 [bfDisabledTip]="btnConf.btnDisabledTip">
         </bf-btn>
+        <span *ngIf="btnConf.hasToggle"> toggleValue = {{ btnConf.toggleValue }} </span>
       </div>
       <div class="padT10">{{res}}</div>
       <div class="padT15">
@@ -58,15 +95,26 @@ If the property "bfText" is defined, it generates a button with both text and ic
 
       <div class="row">
         <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="btnConf.hasType" (ngModelChange)="upBtn()" bfLabel="Has Type"></bf-checkbox> </div>
-        <div class="col-10" *ngIf="btnConf.hasType">
+        <div class="col-5" *ngIf="btnConf.hasType">
           <bf-dropdown [(ngModel)]="btnConf.btnType" (ngModelChange)="upBtn()" [bfList]="btnTypes" bfRender="text" bfSelect="id" [bfRequired]="true"> </bf-dropdown>
+        </div>
+        <div class="col-5 padT5">
+          <bf-checkbox [(ngModel)]="btnConf.hasToggle" (ngModelChange)="upBtn()" bfLabel="Is Toggle"></bf-checkbox>
         </div>
       </div>
 
       <div class="row marT15">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="btnConf.hasIcon" (ngModelChange)="upBtn()" bfLabel="Has Icon"></bf-checkbox> </div>
-        <div class="col-10" *ngIf="btnConf.hasIcon">
-          <bf-dropdown [(ngModel)]="btnConf.btnIcon" (ngModelChange)="upBtn()" [bfList]="btnIcons" bfRender="text" bfSelect="id" [bfRequired]="true"> </bf-dropdown>
+        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="btnConf.hasIcon" (ngModelChange)="upBtn()" bfLabel="Custom Icon"></bf-checkbox> </div>
+        <div class="col-5">
+          <bf-dropdown *ngIf="btnConf.hasIcon" bfLabel="bfIcon" class="full-width"
+                       [(ngModel)]="btnConf.btnIcon" (ngModelChange)="upBtn()"
+                       [bfList]="btnIcons" bfRender="icon" bfSelect="icon" [bfRequired]="false">
+          </bf-dropdown>
+        </div>
+        <div class="col-5">
+          <bf-dropdown bfLabel="Icon Position" [(ngModel)]="btnConf.iconPos" (ngModelChange)="upBtn()" [bfRequired]="true"
+                       [bfList]="[{id:'right'},{id:'left'},{id:'none'}]" bfRender="id" bfSelect="id">
+          </bf-dropdown>
         </div>
       </div>
 
@@ -84,20 +132,20 @@ If the property "bfText" is defined, it generates a button with both text and ic
         </div>
         <div class="col-2" *ngIf="btnConf.hasTooltip"></div>
         <div class="col-5" *ngIf="btnConf.hasTooltip">
-          bfTooltipPos: <bf-dropdown [(ngModel)]="btnConf.btnTooltipPos" (ngModelChange)="upBtn()" [bfList]="btnTooltipPoss" bfRender="text" bfSelect="id"> </bf-dropdown>
+          <bf-dropdown bfLabel="bfTooltipPos" [(ngModel)]="btnConf.btnTooltipPos" (ngModelChange)="upBtn()" [bfList]="btnTooltipPoss" bfRender="text" bfSelect="id"> </bf-dropdown>
         </div>
         <div class="col-5" *ngIf="btnConf.hasTooltip">
-          bfTooltipBody: <bf-dropdown [(ngModel)]="btnConf.btnTooltipBody" (ngModelChange)="upBtn()" [bfList]="btnTooltipBody" bfRender="text" bfSelect="id"> </bf-dropdown>
+          <bf-dropdown bfLabel="bfTooltipBody" [(ngModel)]="btnConf.btnTooltipBody" (ngModelChange)="upBtn()" [bfList]="btnTooltipBody" bfRender="text" bfSelect="id"> </bf-dropdown>
         </div>
       </div>
 
       <div class="row marT15">
         <div class="col-12 padT5">
           <bf-checkbox [(ngModel)]="btnConf.hasFullWidth" (ngModelChange)="upBtn()" bfLabel="Full Width"></bf-checkbox>
+          <bf-checkbox [(ngModel)]="btnConf.hasEllipsis" (ngModelChange)="upBtn()" bfLabel="Ellipsis"></bf-checkbox>
           <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasSquash" (ngModelChange)="upBtn()" bfLabel="Squash"></bf-checkbox>
           <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasAsync1" (ngModelChange)="upBtn()" bfLabel="Async 1"></bf-checkbox>
           <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasAsync2" (ngModelChange)="upBtn()" bfLabel="Async 2"></bf-checkbox>
-          <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasIconLeft" (ngModelChange)="upBtn()" bfLabel="Icon Left"></bf-checkbox>
         </div>
       </div>
 
@@ -106,20 +154,45 @@ If the property "bfText" is defined, it generates a button with both text and ic
   </div>
 </div>
 
+
+
+
 <hr>
+
+<!--Toggle Example-->
+<div class="whiteBg row" *ngIf="true">
+  <div class="col-7">
+    <h5>Toggle</h5>
+    <p>The component keeps an internal flag to be used as a toggle (true/false).
+      The arrow icons will be default according to the value.<br>
+      You just need to bind it:</p>
+
+  </div>
+  <div class="col-5 padT10">
+    <bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>
+    <span class="marL15">Value={{isExp}}</span>
+    <div class="code-box pad15 marT10">
+      <pre>{{toggleExample}}</pre>
+    </div>
+  </div>
+
+</div>
+<hr>
+
+
 
 
 <!--Examples-->
 <h5 class="mt-4">Examples:</h5>
-<div class="row">
+<div class="row" *ngIf="true">
   <div class="col-12 examples-table">
-  
+
     <div class="row">
       <div class="col-3">
         <bf-btn bfType="edit" (bfClick)="(count = count + 'a')"></bf-btn>
         {{count}}
       </div>
-      <div class="col-9"> <pre>{{instance}}</pre> </div>    
+      <div class="col-9"> <pre>{{instance}}</pre> </div>
 
       <!-- <div class="col-4"> Simple instance with no text only icon (small version) </div> -->
     </div>
@@ -182,7 +255,7 @@ If the property "bfText" is defined, it generates a button with both text and ic
 
 
 <!--Asynchronous Handling -->
-<div class="row">
+<div class="row" *ngIf="true">
   <div class="col-12">
     <h5 class="mt-4">Asynchronous Handling</h5>
     <p>In order to handle asynchronous tasks triggered by buttons, there's an option to automatically block all buttons until an async process is resolved.
@@ -211,16 +284,16 @@ If the property "bfText" is defined, it generates a button with both text and ic
     <pre class="pad10">{{ asyncExample2 }}</pre>
   </div>
   <div class="col-6">
-    <bf-btn bfText="Async Click Option 2"
-            [bfAsyncClick]="asyncClickFunc.bind(this, 'myValue2', desc)">
-    </bf-btn>
+    <!--<bf-btn bfText="Async Click Option 2"-->
+    <!--        [bfAsyncClick]="asyncClickFunc.bind(this, 'myValue2', desc)">-->
+    <!--</bf-btn>-->
   </div>
 </div>
 
 
 
 <!--Applicable classes -->
-<div class="row">
+<div class="row" *ngIf="true">
   <div class="col-12">
     <hr>
     <h5 class="mt-4">Applicable classes:</h5>
@@ -246,14 +319,21 @@ If the property "bfText" is defined, it generates a button with both text and ic
 
 
 <!--CSS Styling-->
-<div class="row marT40">
+<div class="row marT40" *ngIf="true">
   <div class="col-12">
     <hr>
     <h4>CSS Styling</h4>
-    <p>The encapsulated styles of the button use a default color. However, we may want to apply different colors externally (depending on the theme)
-      <br/>
-      To provide a color restyiling based on a SCSS theme you can apply the following rules on a css global level :
+    <p>
+      Every name in <b>"$bf-ui-lib-colors"</b> represents a css class that you can apply on the button to color it (primary, secondary, tertiary, quaternary, warning, extra, white, disabled)
     </p>
+    <p>To change the color of the buttons use the SASS variable <b>$default-btn-text-color</b></p>
+    <p>To add extra colors, there is a mixin that can be used inside a selector <b>"custom-btn-color(color-bg, text-color)"</b>:</p>
+  </div>
+  <div class="col-6">
     <pre>{{ cssReset }}</pre>
   </div>
+  <div class="col-6">
+    <bf-btn class="yellow-btn" bfText="This is a custom button" bfIcon="icon-plus"></bf-btn>
+  </div>
 </div>
+

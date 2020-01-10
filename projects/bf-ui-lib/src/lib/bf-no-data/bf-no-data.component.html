@@ -1,0 +1,9 @@
+<div class="no-data-bg" *ngIf="!bfIsPlaceholder">
+  <div>{{bfMessage | getLabel$ | async}}</div>
+</div>
+
+<div class="empty-placeholder" *ngIf="bfIsPlaceholder">
+  <div *ngIf="!!bfIcon" [class]="bfIcon"></div>
+  <div class="empty-title"        *ngIf="!!bfTitle">{{bfTitle | getLabel$ | async}}</div>
+  <div class="empty-description"  *ngIf="!!bfDescription">{{bfDescription | getLabel$ | async}}</div>
+</div>

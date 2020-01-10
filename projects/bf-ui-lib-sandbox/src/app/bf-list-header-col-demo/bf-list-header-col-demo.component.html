@@ -1,6 +1,6 @@
 <h2>{{name}}</h2>
 <hr/>
-<h5>{{desc}}</h5>
+<p>{{desc}}</p>
 
 <h5 class="mt-4">Parameters:</h5>
 <div class="col-12"><pre>{{api}}</pre></div>
@@ -8,33 +8,35 @@
 
 <h5 class="mt-4">Example:</h5>
 
-<div class="col-12 examples-table">
+<div class="col-12 examples-table" *ngIf="true">
   <div class="row">    
-    <div class="col-7 code-box-sm"><pre>{{instance2}}</pre></div>
-    <div class="col-5 code-box-sm"><pre>{{instance3}}</pre></div>
+    <div class="col-12 code-box"><pre>{{instance2}}</pre></div>
   </div>
 </div>
 
-<div class="col-12 mt-4">
+<div class="col-12 marT15">
   <ul class="list-unstyled table-list">
     <li class="list-header">
-      <div class="row">
-        <bf-list-header-col class="col-3" [colTitle]="'Username'"   [fieldName]="'username'"   [orderConf]="orderConf"></bf-list-header-col>
-        <bf-list-header-col class="col-3" [colTitle]="'Email'"      [fieldName]="'email'"      [orderConf]="orderConf"></bf-list-header-col>
-        <bf-list-header-col class="col-3" [colTitle]="'First Name'"></bf-list-header-col>
-        <bf-list-header-col class="col-3" [colTitle]="'Last Name'"></bf-list-header-col>
-      </div>
+      <bf-list-header-col class="col-2" colTitle="view.common.username"   fieldName="username"   [orderConf]="orderConf"></bf-list-header-col>
+      <bf-list-header-col class="col-3" colTitle="view.common.email"      fieldName="email"      [orderConf]="orderConf"></bf-list-header-col>
+      <bf-list-header-col class="col-2" colTitle="First Name"></bf-list-header-col>
+      <bf-list-header-col class="col-2" colTitle="Last Name"></bf-list-header-col>
     </li>
 
-    <li *ngFor="let userItem of usersList" class="list-row">
-      <div class="row">
-        <div class="col-3"><h5>{{userItem.username}}</h5></div>
-        <div class="col-3"><h5>{{userItem.email}}</h5></div>
-        <div class="col-3"><h5>{{userItem.first_name}}</h5></div>
-        <div class="col-3"><h5>{{userItem.last_name}}</h5></div>
+    <li class="list-row" *ngFor="let userItem of usersList">
+      <div class="col-2">{{userItem.username}}</div>
+      <div class="col-3">{{userItem.email}}</div>
+      <div class="col-2">{{userItem.first_name}}</div>
+      <div class="col-2">{{userItem.last_name}}</div>
+      <div class="col-3 text-right">
+        <bf-btn bfType="delete" (bfClick)="userItem.$remove()"></bf-btn>
+        <bf-btn bfType="edit"   (bfClick)="userItem.$save({ username: 'new value' })"></bf-btn>
       </div>
     </li>
   </ul>
+
+
+
 </div>
   
 <div class="col-12 mt-5">.</div>

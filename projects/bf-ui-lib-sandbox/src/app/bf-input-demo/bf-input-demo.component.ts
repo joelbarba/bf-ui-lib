@@ -1,15 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import {BfGrowlService} from "../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service";
-import {IbfInputCtrl} from "../../../../bf-ui-lib/src/lib/bf-input/bf-input.component";
-import {map} from "rxjs/operators";
+import {BfGrowlService} from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service';
+import {IbfInputCtrl} from '../../../../bf-ui-lib/src/lib/bf-input/bf-input.component';
+import {Subject} from 'rxjs';
 
 @Component({
-  selector: 'app-bf-input-demo]',
+  selector: 'app-bf-input-demo',
   templateUrl: './bf-input-demo.component.html',
   styleUrls: ['./bf-input-demo.component.scss']
 })
 export class BfInputDemoComponent implements OnInit {
+
+
+  constructor(
+    public growl: BfGrowlService,
+  ) { }
   public name = BfInputDoc.name;
   public desc = BfInputDoc.desc;
   public api = BfInputDoc.api;
@@ -17,7 +21,14 @@ export class BfInputDemoComponent implements OnInit {
   public val1 = '1';
   public val2 = 'Barba';
 
-  public myModel:string = 'My default value';
+  public myModel = 'My default value';
+  public boxCo = new Array(10); // Box collapsers
+  public myVariable3: any;
+  public myVariable4: any;
+  public myVariable5: any;
+  public user: any;
+  public pass: any;
+  public bfModel: any;
 
 
 
@@ -26,63 +37,28 @@ export class BfInputDemoComponent implements OnInit {
 
 
   public formExampleInput100 = `<form #myForm="ngForm">
-  
+
   <bf-input [bfRequired]="true" ngModel="val1" #firstRef="ngModel" name="first">
   </bf-input>
-  
+
   <bf-input [bfRequired]="true" ngModel="val2" #lastRef="ngModel" name="last">
   </bf-input>
-  
+
   <bf-btn bfText="Save Form" [bfDisabled]="myForm.invalid"></bf-btn>
 
 </form>`;
 
   public flatExample = '<bf-input class="flat" [ngModel]="bfModel"></bf-input>';
-  public inputColExample = `<bf-input [(ngModel)]="myVar" class="input-col-1" bfLabel="view.common.name"></bf-input>  
-<bf-input [(ngModel)]="myVar" class="input-col-2" bfLabel="view.common.name"></bf-input>  
+  public inputColExample = `<bf-input [(ngModel)]="myVar" class="input-col-1" bfLabel="view.common.name"></bf-input>
+<bf-input [(ngModel)]="myVar" class="input-col-2" bfLabel="view.common.name"></bf-input>
 <bf-input [(ngModel)]="myVar" class="input-col-3" bfLabel="view.common.name"></bf-input>`;
 
-  public cssReset = `$input-border: #ccc !default; // <-- this is a bootstrap default
-$optional_input_color : $input-border;
-$required_input_color : $primary_color;
-$invalid_input_color  : $warning_color;
-$valid_input_color    : $primary_color;
-$disabled_input_color : #797979;
-
-.bf-input-form-group {
-    &.is-required .bf-input-inner-icon {
-    color: $required_input_color; // Icon into the input to add info or error alert
-  }
-  .bf-input-inner-icon {
-    &.bf-icon-error { color: $invalid_input_color; }
-    &.bf-icon-valid { color: $valid_input_color; }
-    &.bf-icon-loading { color: $valid_input_color; }
-  }
-  input.form-control { // Placeholder color (https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder)
-    &::-webkit-input-placeholder { color: $optional_input_color; } /* WebKit, Blink, Edge */
-    &:-moz-placeholder           { color: $optional_input_color; opacity:  1; } /* Mozilla Firefox 4 to 18 */
-    &::-moz-placeholder          { color: $optional_input_color; opacity:  1; } /* Mozilla Firefox 19+ */
-    &:-ms-input-placeholder      { color: $optional_input_color; } /* Internet Explorer 10-11 */
-    &::-ms-input-placeholder     { color: $optional_input_color; } /* Microsoft Edge */
-    &::placeholder               { color: $optional_input_color; } /* Most modern browsers support this now. */
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-    border: 1px solid $optional_input_color;
-    &:focus { box-shadow: 0 0 0 2px rgba($optional_input_color, 0.35); }
-  }
-  &.is-disabled input.form-control { color: $disabled_input_color; }
-  &.is-required  input.form-control {
-    border-color: $primary_color;
-    &:focus { box-shadow: 0 0 0 2px rgba($primary_color, 0.20); }
-  }
-  &.is-error {
-    label { color: $warning_color; }
-    input.form-control {
-      border-color: $warning_color;
-      &:focus { box-shadow: 0 0 0 2px rgba($warning_color, 0.20); }
-    }
-    .bf-input-error-text { color: $invalid_input_color; }
-  }
-}`;
+  public cssReset = `$input-optional-color  : $optional-color !default;  // <-- this is a bootstrap default
+$input-focused-color   : $focused-color !default;
+$input-disabled-color  : $disabled-color !default;
+$input-required-color  : $required-color !default;
+$input-invalid-color   : $invalid-color !default;
+$input-valid-color     : $valid-color !default;`;
 
   public instance4 = `<bf-input [(ngModel)]="myModel" bfAutoFocus="true"
           (bfOnKeyDown)="growl.success('Key pressed -> ' + $event.key)">
@@ -93,28 +69,37 @@ $disabled_input_color : #797979;
           (bfOnCtrlEnter)="growl.success('Ctrl + Enter key pressed')">
 </bf-input>`;
 
+  public ctrl: IbfInputCtrl = {};
+  public extCtrl$ = new Subject();
+  public ctrlActions = [
+    `{ action: 'setFocus' } ................. Sets the focus on the input`,
+    `{ action: 'setBlur' } .................. Forces focus lose`,
+    `{ action: 'setDirty' } ................. Turns the input dirty`,
+    `{ action: 'setPristine' } .............. Turns the input pristine`,
+    `{ action: 'addError', label: text } .... Adds an manual error`,
+    `{ action: 'removeError' } .............. Removes the manual error`,
+    `{ action: 'refresh' } .................. Forces internal refresh`,
+  ];
+  public extCtrlExample = `<bf-input [(ngModel)]="val" [extCtrl$]="extCtrl$"></bf-input>
 
+public extCtrl$ = new Subject();
 
-  constructor(
-    private growl: BfGrowlService,
-  ) { }
-  ngOnInit() {
-    this.upComp();
-    this.upComp2();
-  }
+<bf-btn bfText="setFocus"    (bfClick)="extCtrl$.next({ action: 'setFocus' })"></bf-btn>
+<bf-btn bfText="setDirty"    (bfClick)="extCtrl$.next({ action: 'setDirty' })"></bf-btn>
+<bf-btn bfText="setPristine" (bfClick)="extCtrl$.next({ action: 'setPristine' })"></bf-btn>
+<bf-btn bfText="addError"    (bfClick)="extCtrl$.next({ action: 'addError', label: 'Oh oh!' })"></bf-btn>
+<bf-btn bfText="removeError" (bfClick)="extCtrl$.next({ action: 'removeError' })"></bf-btn>
+<bf-btn bfText="refresh"     (bfClick)="extCtrl$.next({ action: 'refresh' })"></bf-btn>`;
+
+  public extCtrlExample2 = `public ctrl: IbfInputCtrl = {};
+this.ctrl.setFocus();
+
+<bf-input [(ngModel)]="val" (bfOnLoaded)="ctrl = $event"></bf-input>`;
 
 
   public linkCustomInput = true;
-  public resetInput = () => {
-    this.linkCustomInput = false;
-    setTimeout(() => { this.linkCustomInput = true; });
-  };
 
   public clickMsg;
-  public addonClick = (msg = '') => {
-    this.clickMsg += ' ' + msg;
-    setTimeout(() => { this.clickMsg = ''; }, 1000);
-  };
 
   public isAutofilled = '';
 
@@ -158,6 +143,58 @@ $disabled_input_color : #797979;
     hasKeyCtrlEnter: false,
     hasFlat: false,
   };
+
+
+
+
+
+
+
+
+
+
+
+  public valCompCode = '';
+  public valEx: any = {
+    isRequired: false, minLen: 0,
+    isMaxLen: false, maxLen: 5,
+    hasPattern: false, pattern: '[A-Za-z]{3,8}',
+    valType: null, valTypes: [
+      { id: 'integer',  text: 'integer',  },
+      { id: 'number',   text: 'number',   },
+      { id: 'decimal',  text: 'decimal',  },
+      { id: 'email',    text: 'email',    },
+    ],
+    hasBfValidator: false, bfValMatchVal: '666',
+    hasErrOnPristine: false,
+    hasIcon: false,        hasInvalidIcon: false,             hasValidIcon: false,
+    bfIcon: 'icon-search', bfInvalidIcon: 'icon-thumbs-down', bfValidIcon: 'icon-checkmark4',
+    hasErrorText: false, bfErrorText: 'view.common.custom_error',
+    errorPos: '', errorPosOpts : [
+      { id: 'top-right',    text: 'top-right',  },
+      { id: 'bottom-left',  text: 'bottom-left',   },
+      { id: 'bottom-right', text: 'bottom-right',  },
+    ],
+    hasOnLoad: false, hasBeforeChange: false,
+  };
+  public isInputReady = false;
+  public inputCtrl: IbfInputCtrl = {};
+  ngOnInit() {
+    this.upComp();
+    this.upComp2();
+    // this.boxCo[0] = true;
+    // this.boxCo[1] = true;
+    // this.boxCo[2] = true;
+    // this.boxCo[3] = true;
+  }
+  public resetInput = () => {
+    this.linkCustomInput = false;
+    setTimeout(() => { this.linkCustomInput = true; });
+  }
+  public addonClick = (msg = '') => {
+    this.clickMsg += ' ' + msg;
+    setTimeout(() => { this.clickMsg = ''; }, 1000);
+  }
   public upComp = () => {
     this.customCompCode = `<bf-input `;
 
@@ -206,54 +243,18 @@ $disabled_input_color : #797979;
     if (this.compConf.hasKeyCtrlEnter) { this.customCompCode += this.bsStr + `(bfOnCtrlEnter)="onClickFn($event)"`; }
 
     this.customCompCode += (`>` + this.brStr + `</bf-input>`);
-  };
-
-
-
-
-
-
-
-
-
-
-
-  public valCompCode = '';
-  public valEx: any = {
-    isRequired: false, minLen: 0,
-    isMaxLen: false, maxLen: 5,
-    hasPattern: false, pattern: '[A-Za-z]{3,8}',
-    valType: null, valTypes: [
-      { id: 'integer',  text: 'integer',  },
-      { id: 'number',   text: 'number',   },
-      { id: 'decimal',  text: 'decimal',  },
-      { id: 'email',    text: 'email',    },
-    ],
-    hasBfValidator: false, bfValMatchVal: '666',
-    hasErrOnPristine: false,
-    hasIcon: false,        hasInvalidIcon: false,             hasValidIcon: false,
-    bfIcon: 'icon-search', bfInvalidIcon: 'icon-thumbs-down', bfValidIcon: 'icon-checkmark4',
-    hasErrorText: false, bfErrorText: 'view.common.custom_error',
-    errorPos: '', errorPosOpts : [
-      { id: 'top-right',    text: 'top-right',  },
-      { id: 'bottom-left',  text: 'bottom-left',   },
-      { id: 'bottom-right', text: 'bottom-right',  },
-    ],
-    hasOnLoad: false, hasBeforeChange: false,
-  };
-  public isInputReady = false;
-  public inputCtrl: IbfInputCtrl = {};
+  }
   public inputInit = (inputCtrl) => {
     this.inputCtrl = inputCtrl;
     // this.inputCtrl.inputCtrl$.subscribe(val => console.log('inputCtrl$ ----> ', val));
     setTimeout(() => this.isInputReady = true);
-  };
+  }
   public validIfFn = (value) => {
     return (value === this.valEx.bfValMatchVal) ? null : { label : 'this is wrong' };
-  };
+  }
   public catchValue = (obj) => {
     // console.log(obj);
-  };
+  }
 
   public upComp2 = () => {
     this.valCompCode = `<bf-input #bfInputRef="ngModel"`;
@@ -286,9 +287,11 @@ $disabled_input_color : #797979;
       this.valCompCode += `bfInput.addError({ label: 'manual error here' });\n`;
       this.valCompCode += `bfInput.removeError();\n`;
     }
-  };
+  }
 
-
+  public validIfEqual = (value) => {
+    return (value === '666' || value === '') ? null : { label : 'views.common.invalidddd', value: 'xxx' };
+  }
 
 }
 
@@ -297,7 +300,7 @@ $disabled_input_color : #797979;
 export const BfInputDoc = {
   name    : `bf-input`,
   uiType  : 'component',
-  desc    : `Generates a button.`,
+  desc    : `Generates an text input field.`,
   api     : `[(ngModel)]       : The ngModel directive is linked to the inner <input>, so that can be used as a form element with ngForm (status is propagated).
 [bfLabel]         : Label of the input (automatically translated). If not provided, no label is displayed.
 [bfRequired]      : Whether the input is required or not
@@ -317,13 +320,13 @@ export const BfInputDoc = {
 [bfMaxlength]       : Max number of chars. Built in validator "maxlength". Null means no max. It blocks input if limit.
 [bfPattern]         : Regex validator. Built in validator "pattern". Null means no validation.
 [bfValidType]       : Predefined validator patterns. It overrides bfPattern. Values = [integer, number, decimal, email]
-[bfValidator]       : Callback function called every time the internal ngModel validates its value. Parameter = current value of the model. 
+[bfValidator]       : Callback function called every time the internal ngModel validates its value. Parameter = current value of the model.
                       It should return null (valid) or error object (invalid).
 [bfErrorOnPristine] : If true, errors will be shown in pristine state too (by default pristine shows as valid always).
 [bfInvalidIcon]     : Icon to show when the value is dirty and invalid (by default icon-warning22)
 [bfValidIcon]       : Icon to show when the value is dirty and valid (by default none). ()
 [bfErrorText]       : Custom error text (label) to display when invalid value
-[bfErrorPos]        : Custom position where to display the error text. Values = ['top-right', 'bottom-left', 'bottom-right'].
+[bfErrorPos]        : Custom position where to display the error text. Values = ['top-right', 'bottom-left', 'bottom-right', 'none']. None will hide the error text.
 
 (bfOnLoaded)        : Emitter to catch the moment when the component is ready (ngAfterViewInit)
 (bfBeforeChange)    : Emitter to catch the next value before it is set. It returns both (currentValue, nextValue)

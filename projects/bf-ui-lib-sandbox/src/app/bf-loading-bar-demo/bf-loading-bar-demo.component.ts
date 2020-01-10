@@ -1,55 +1,41 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  BfLoadingBarService,
-  ILoadingOptions
-} from "../../../../bf-ui-lib/src/lib/bf-loading-bar/bf-loading-bar.service";
-import {BfDefer} from "../../../../bf-ui-lib/src/lib/bf-defer/bf-defer";
-import {BfGrowlService} from "../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service";
+import { BfLoadingBarService, ILoadingOptions } from '../../../../bf-ui-lib/src/lib/bf-loading-bar/bf-loading-bar.service';
+import {BfDefer} from '../../../../bf-ui-lib/src/lib/bf-defer/bf-defer';
+import {BfGrowlService} from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service';
 
 @Component({
-  selector: 'app-bf-loading-bar-demo]',
+  selector: 'app-bf-loading-bar-demo',
   templateUrl: './bf-loading-bar-demo.component.html',
   styleUrls: ['./bf-loading-bar-demo.component.scss']
 })
 export class BfLoadingBarDemoComponent implements OnInit {
+
+
+  constructor(
+    public loadingBar: BfLoadingBarService,
+    private growl: BfGrowlService,
+  ) {
+
+
+  }
   public name = BfLoadingBarDoc.name;
   public desc = BfLoadingBarDoc.desc;
   public api = BfLoadingBarDoc.api;
   public instance = BfLoadingBarDoc.instance;
 
-  public cssReset = `$bar-bg: #d4d4d4;
-$bar-color: #004A64;
-$locker-bg: rgba(white, 0.8);
+  public cssReset = `$locker-bg: rgba($white, 0.8) !default;   // Background color when blocking
 
-.bf-loading-bar {
-  &.bar-bg { background: $bar-bg;  }
-  &.bar-1, &.bar-2 {
-    background: linear-gradient(to left, transparent 0%, $bar-color 15%, $bar-color 85%, transparent 100%);
-  }
-}
-.bf-loading-bg-blocker { background: $locker-bg; }
+$bar-bg: darken($white, 83%) !default;    // Header loading bar
+$bar-color: $quaternary_color !default;
 
-// Circular spinner running in the middle of the screen
-$spinner-color: rgba(#00B6F1, 0.7);
-.c-spinner { border: 7px solid transparent; }
-.c-spinner-inner { border: 5px solid $spinner-color; }
+$spinner-color: rgba($primary_color, 0.7) !default; // Round spinner
+$spinner-size: 60 !default;
+$menu-size: 35 !default;
 
-// Bf Spinner
-.bf-spinner-box {
-  &.box1 { background: $primary_color; }
-  &.box2 { background: $secondary_color; }
-  &.box3 { background: $tertiary_color; }
-  &.box4 { background: $quaternary_color; }
-}
+$ani-time: 8 !default; // Animation time for BF loading spinner`;
 
-// Decenter the spinner to match the same wrong position of the old spinner
-.bf-spinner {
-  left: calc(50% - 32px);
-  top: calc(50% - 11px);
-}`;
+  public example1 = `constructor(public loadingBar: BfLoadingBarService) { ... }
 
-  public example1 = `constructor(public loadingBar: BfLoadingBarService) { ... }  
-  
 this.loadingBar.config({
   blockScreen : true,
   delayTime   : 1000,
@@ -88,14 +74,8 @@ this.loadingBar.run(myPromise, { blockScreen: false }).then(() => {
   public resTimePromise = 5;
   public testLog2 = '';
 
-
-  constructor(
-    public loadingBar: BfLoadingBarService,
-    private growl: BfGrowlService,
-  ) {
-
-
-  }
+  public promStack = [];
+  public promId = 1;
 
   ngOnInit() {
     // this.simpleRun();
@@ -129,12 +109,12 @@ this.loadingBar.run(myPromise, { blockScreen: false }).then(() => {
       this.clearAll();
     }, this.autoStopTime * 1000);
     this.renderLog();
-  };
+  }
 
   public simpleStop = () => {
     this.loadingBar.stop();
     this.clearAll();
-  };
+  }
 
   public renderLog = () => {
     let statusName = '-';
@@ -142,16 +122,13 @@ this.loadingBar.run(myPromise, { blockScreen: false }).then(() => {
     if (this.loadingBar.status === 1) { statusName = 'Running'; }
     if (this.loadingBar.status === 2) { statusName = 'Displayed'; }
     this.testLog = `${this.elapsedTime} seg --> Status = ${this.loadingBar.status} (${statusName})`;
-  };
+  }
 
   public clearAll = () => {
     clearInterval(this.cancelInt);
     clearTimeout(this.cancelRes);
     this.renderLog();
-  };
-
-  public promStack = [];
-  public promId = 1;
+  }
   public pushPromise = (resTime) => {
     const def = new BfDefer();
     const id = this.promId++;
@@ -181,7 +158,7 @@ export const BfLoadingBarDoc = {
   uiType  : 'module',
   desc    : `Global loading animation to block the page while something is going on`,
   api     : `
-status : ILoadingStatus                   --> ILoadingStatus { Off = 0, Running = 1, Displayed = 2 }  
+status : ILoadingStatus                   --> ILoadingStatus { Off = 0, Running = 1, Displayed = 2 }
 status$: BehaviorSubject<ILoadingStatus>  --> Observable that emits every time the status changes.
 options: Partial<ILoadingOptions>         --> Configurable options to display the loading bar:
                    - blockScreen : boolean --> Whether the screen is blocked while the loading is running
@@ -195,6 +172,6 @@ options: Partial<ILoadingOptions>         --> Configurable options to display th
 .run(waitingPromise?, options)  --> Function to set the loading bar configuration (default params)
 .stop()                         --> Finishes the running loading. If any promise waiting in the queue, clears them up
   `,
-  instance: `<bf-loading-bar></bf-loading-bar>`, 
+  instance: `<bf-loading-bar></bf-loading-bar>`,
   demoComp: BfLoadingBarDemoComponent
 };

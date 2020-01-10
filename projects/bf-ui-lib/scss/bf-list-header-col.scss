@@ -1,0 +1,10 @@
+bf-list-header-col {
+  .list-header-col-title {
+    &.col-with-order { cursor: pointer; }
+    display: flex;
+    align-items: center;
+
+    // Space to the ordering arrows
+    .icon-sort, .icon-arrow-down7, .icon-arrow-up7 { margin-left: 5px; }
+  }
+}

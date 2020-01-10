@@ -1,25 +1,35 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
-import {AbstractTranslateService, BfUILibTransService} from '../abstract-translate.service';
-import { NgbModal, NgbActiveModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, Input} from '@angular/core';
+import {BfUILibTransService} from '../abstract-translate.service';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import {of} from 'rxjs';
 
 @Component({
   selector: 'bf-confirm',
   templateUrl: './bf-confirm.component.html',
-  styleUrls: ['./bf-confirm.component.scss']
+  styleUrls: []
 })
 export class BfConfirmComponent implements OnInit {
   @Input() options;
-  public conf: {
-    title            : string   // Title on the modal
-    text             : string   // Description text of the confirmation
-    htmlContent      : string   // Description html content (to customize how to display the message better)
-    showYes          : boolean  // Whether to display the "Yes" button
-    showNo           : boolean  // Whether to display the "No" button
-    showCancel       : boolean  // Whether to display the "Cancel" button
-    yesButtonText    : string   // Text for the "Yes" button
-    noButtonText     : string   // Text for the "No" button
-    cancelButtonText : string   // Text for the "Cancel" button
+  public conf = {
+    title           : 'view.modal.confirm.title', // Title on the modal
+    text            : '',                         // Description text of the confirmation
+    htmlContent     : '',                         // Description html content (to customize how to display the message better)
+    unsafeHtml      : '',                         // Same as "htmlContent" but bypassing the sanitaze filter
+    showYes         : true,                       // Whether to display the "Yes" button
+    showNo          : false,                      // Whether to display the "No" button
+    showCancel      : true,                       // Whether to display the "Cancel" button
+    yesButtonText   : 'view.common.yes',      // Text for the "Yes" button
+    noButtonText    : 'view.common.no',       // Text for the "No" button
+    cancelButtonText: 'view.common.cancel',   // Text for the "Cancel" button
+  };
+
+  public trans = {
+    title$: of(''),
+    text$: of(''),
+    yesButtonText$: of(''),
+    noButtonText$: of(''),
+    cancelButtonText$: of(''),
   };
 
   public customHtmlContent: SafeHtml; // Sanitized html content
@@ -32,33 +42,25 @@ export class BfConfirmComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const defaultOptions = {
-      title : 'view.modal.confirm.title',
-      text  : '',
-      htmlContent : '',
-      showYes     : true,
-      showNo      : false,
-      showCancel  : true,
-      yesButtonText   : 'view.common.yes',
-      noButtonText    : 'view.common.no',
-      cancelButtonText: 'view.common.cancel',
-    };
-    this.conf = { ...defaultOptions, ...this.options };
+    this.conf = { ...this.conf, ...this.options };
 
     if (!this.conf.text && !this.conf.htmlContent) {
       this.conf.text = 'view.modal.confirm.text';
     }
 
-    if (!!this.translate.doTranslate) {
-      this.conf.title = this.translate.doTranslate(this.conf.title);
-      this.conf.text = this.translate.doTranslate(this.conf.text);
-      this.conf.yesButtonText = this.translate.doTranslate(this.conf.yesButtonText);
-      this.conf.noButtonText = this.translate.doTranslate(this.conf.noButtonText);
-      this.conf.cancelButtonText = this.translate.doTranslate(this.conf.cancelButtonText);
+    if (!!this.translate) {
+      this.trans.title$ = this.translate.getLabel$(this.conf.title);
+      this.trans.text$ = this.translate.getLabel$(this.conf.text);
+      this.trans.yesButtonText$ = this.translate.getLabel$(this.conf.yesButtonText);
+      this.trans.noButtonText$ = this.translate.getLabel$(this.conf.noButtonText);
+      this.trans.cancelButtonText$ = this.translate.getLabel$(this.conf.cancelButtonText);
     }
 
+    if (!!this.conf.unsafeHtml) {
+      this.customHtmlContent = this.domSanitizer.bypassSecurityTrustHtml(this.conf.unsafeHtml);
+    }
     if (!!this.conf.htmlContent) {
-      this.customHtmlContent = this.domSanitizer.bypassSecurityTrustHtml(this.conf.htmlContent);
+      this.customHtmlContent = this.conf.htmlContent;
     }
   }
 

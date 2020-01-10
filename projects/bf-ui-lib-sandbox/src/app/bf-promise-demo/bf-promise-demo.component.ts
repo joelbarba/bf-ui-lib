@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {BfPromise} from "../../../../bf-ui-lib/src/lib/bf-promise/bf-promise";
+import {BfPromise} from '../../../../bf-ui-lib/src/lib/bf-promise/bf-promise';
 
 @Component({
-  selector: 'app-bf-promise-demo]',
+  selector: 'app-bf-promise-demo',
   templateUrl: './bf-promise-demo.component.html',
   styleUrls: ['./bf-promise-demo.component.scss']
 })
@@ -12,8 +12,8 @@ export class BfPromiseDemoComponent implements OnInit {
   public api = BfPromiseDoc.api;
   public instance = BfPromiseDoc.instance;
 
-  public example1 = `import { BfPromise } from 'bf-ui-lib';  
-  
+  public example1 = `import { BfPromise } from 'bf-ui-lib';
+
 const bfPromise = new BfPromise((resolve, reject, cancel) => {
   setTimeout(() => { cancel(1);  }, 2000);
   setTimeout(() => { resolve(2); }, 3000);
@@ -79,7 +79,7 @@ allResolved(stack: Array<BfPromise>): BfPromise ---> (NOT IMPLEMENTED YET) Retur
     }, this.rejectTime * 1000);
 
     this.renderLog();
-  };
+  }
   renderLog = () => {
     if (!this.myPromise) { this.testLog = 'No Promise'; return false; }
     let statusName = '-';
@@ -88,7 +88,7 @@ allResolved(stack: Array<BfPromise>): BfPromise ---> (NOT IMPLEMENTED YET) Retur
     if (this.myPromise.status === 2) { statusName = 'Rejected'; }
     if (this.myPromise.status === 3) { statusName = 'Cancelled'; }
     this.testLog = `${this.elapsedTime} seg --> Status = ${this.myPromise.status} (${statusName})`;
-  };
+  }
   testCancel = () => {
     this.myPromise.cancel();
     clearInterval(this.cancelInt);

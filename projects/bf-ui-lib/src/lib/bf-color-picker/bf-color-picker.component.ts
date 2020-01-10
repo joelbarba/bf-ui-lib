@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'bf-color-picker',
   templateUrl: './bf-color-picker.component.html',
-  styleUrls: ['./bf-color-picker.component.scss']
+  styleUrls: []
 })
 export class BfColorPickerComponent implements OnInit {
 

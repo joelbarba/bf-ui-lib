@@ -1,6 +1,8 @@
 import {BehaviorSubject, merge, Observable, Subject} from 'rxjs';
 import {debounceTime, map, scan} from 'rxjs/operators';
-
+import Debug from 'debug';
+import {BfPrototypes} from '../bf-prototypes/bf-prototypes';
+const debugList = Debug('bfUiLib:bfListHandler');
 
 export interface BfListHandlerConfig {
   listName      ?: string;
@@ -9,6 +11,7 @@ export interface BfListHandlerConfig {
   orderReverse  ?: boolean;
   rowsPerPage   ?: number;
   totalPages    ?: number;
+  extMethods    ?: boolean;
 }
 
 
@@ -30,6 +33,7 @@ export class BfListHandler {
   public filterText = '';           // Current filter value
   // --------------------------
 
+  public extMethods = false;        // Whether to extend the items with handling methods ($remove, $save)
   public filterFields: Array<string> = [];  // Name of the field where to apply the filter (filterText)
   public orderConf = {
     fields: [],       // Array with all the fields the list is ordered by
@@ -40,6 +44,7 @@ export class BfListHandler {
 
 
   private contentSubs;  // Content loader subscription
+  private stateSubs;    // State loader subscription
 
   constructor(customInit: Partial<BfListHandlerConfig> = {}) {
     if (customInit.hasOwnProperty('listName'))     { this.listName     = customInit.listName; }
@@ -48,6 +53,7 @@ export class BfListHandler {
     if (customInit.hasOwnProperty('orderReverse')) { this.orderConf.reverse = customInit.orderReverse; }
     if (customInit.hasOwnProperty('rowsPerPage'))  { this.rowsPerPage  = customInit.rowsPerPage; }
     if (customInit.hasOwnProperty('totalPages'))   { this.totalPages   = customInit.totalPages; }
+    if (customInit.hasOwnProperty('extMethods'))   { this.extMethods   = customInit.extMethods; }
 
     this.loadedList = [];
     this.renderedList = [];
@@ -61,7 +67,7 @@ export class BfListHandler {
   // ------------------------- REDUCER -----------------------------
   // Apply an action to the current state to generate the next state
   private dispatch = (change: { action?: string, payload?: any } = {}) => {
-    console.log('Reducer [', this.listName, ']----> ', change.action, change.payload);
+    debugList('Reducer [', this.listName, ']----> ', change.action, change.payload);
 
     switch (change.action) {
       case 'LOAD' :
@@ -128,7 +134,7 @@ export class BfListHandler {
     this.totalItems = this.loadedList.length;
     this.renderedItems = this.renderedList.length;
 
-    // console.log('dispatching: ', change.action, this.getState());
+    // debugList('dispatching: ', change.action, this.getState());
     this.render$.next(this.getState());
   };
 
@@ -156,10 +162,21 @@ export class BfListHandler {
   public load = (content) => this.dispatch({ action: 'LOAD', payload: content });
 
   // Set an observable as the source of input data for the list
-  public setLoader = (load$) => {
+  public subscribeTo = (load$) => {
     if (!!this.contentSubs) { this.contentSubs.unsubscribe(); }
     this.loadingStatus = 1; // loading
-    this.contentSubs = load$.subscribe(this.load);
+    this.contentSubs = load$.subscribe(list => {
+      this.load(JSON.parse(JSON.stringify(list || [])));
+    });
+  };
+
+  // Set an observable as the source of input state (state: { status, list })
+  public setState = (state$) => {
+    if (!!this.stateSubs) { this.stateSubs.unsubscribe(); }
+    this.stateSubs = state$.subscribe(state => {
+      this.loadingStatus = state.status;
+      if (state.status === 2) { this.load(state.list); }
+    });
   };
 
   // Shortcuts to dispatch action
@@ -176,11 +193,15 @@ export class BfListHandler {
 
   // Extend the list item with manipulation methods: $save(), $remove()
   private extendItem = (item: any = {}) => {
-    item.$remove = () => this.dispatch({ action: 'REMOVE', payload: item });
-    item.$save = (nextItem = {}) => {
-      Object.assign(item, nextItem);
-      this.dispatch({ action: 'REFRESH' });
-    };
+    if (this.extMethods) {
+      item.$remove = () => {
+        this.dispatch({ action: 'REMOVE', payload: item });
+      };
+      item.$save = (nextItem = {}) => {
+        Object.assign(item, nextItem);
+        this.dispatch({ action: 'REFRESH' });
+      };
+    }
     return item;
   };
 
@@ -223,6 +244,10 @@ export class BfListHandler {
           valA = Number(valA);
           valB = Number(valB);
         }
+
+        // Turn string order fields lowercase to make the search not case sensitive
+        if (typeof valA === 'string') { valA = valA.toLowerCase(); }
+        if (typeof valB === 'string') { valB = valB.toLowerCase(); }
 
         if (valA !== valB) { // If not equal, return which goes first
           return (valA > valB ? reVal : -reVal);

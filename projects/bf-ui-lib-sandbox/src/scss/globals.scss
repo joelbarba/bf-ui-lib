@@ -2,11 +2,13 @@
 body {
   background: #ebeff2;
 
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  //font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   color: #525254;
   font-size: 14px;
   //font-size: 14px;
   //line-height: 1.42857;
+  line-height: 1.5; // Bootstrap default
 }
 
 .code-box, .code-box-sm {
@@ -50,56 +52,6 @@ body {
 
 
 
-// --- Imported from the app to mock it here ----
-
-ul.table-list {
-  background-color: white;
-  box-shadow: 0 1px 2px rgba(34, 36, 38, 0.15);
-  margin-bottom: 0;
-
-  flex: 0 0 100%;
-  max-width: 100%;
-  li.list-header, li.list-row  {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  li.list-header {
-    background: $primary_color;
-    color: $white;
-    border-top-right-radius: 3px;
-    border-top-left-radius: 3px;
-    width: 100%;
-    padding: 10px 15px;
-    word-break: break-word;
-    h4 {
-      color: $white;
-      font-size: 16px;
-      letter-spacing: 1px;
-      margin-bottom: 0;
-      cursor: pointer;
-    }
-  }
-  li.list-row {
-    width: 100%;
-    padding: 5px 15px;
-    word-break: break-word;
-    &:nth-child(even) {
-      background: rgba($primary_color, 0.08);
-    }
-    &:nth-child(odd) {
-      background: $white;
-    }
-    // border-top: 1px solid $white;
-
-    h5 {
-      font-size: 16px;
-      letter-spacing: 1px;
-      margin-top: 7.5px;
-      margin-bottom: 0;
-    }
-  }
-}
 
 .whiteBg {
   padding: 25px;
@@ -118,3 +70,23 @@ ul.table-list {
   margin-top: -20px;
 }
 
+// Almost hidden button to expand/collapse whiteBgs
+.collapse-btn {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: rgba(0, 0, 0, 0.04);
+  right: 0;
+  display: inline-block;
+  margin-top: -20px;
+  margin-right: 20px;
+  z-index: 999;
+}
+
+
+// Add spacing when 2+ components in a row
+bf-btn:not(.block) + bf-btn:not(.block) { margin-left: 5px; }
+bf-btn.block + bf-btn.block { margin-top: 5px; }
+
+bf-checkbox:not(.block) + bf-checkbox:not(.block) { margin-left: 15px; }
+bf-radio:not(.block) + bf-radio:not(.block) { margin-left: 15px; }

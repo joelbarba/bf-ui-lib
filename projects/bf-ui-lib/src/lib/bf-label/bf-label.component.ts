@@ -1,48 +1,34 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
-import { AbstractTranslateService, BfUILibTransService} from '../abstract-translate.service';
-import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
+import {Component, Input, OnChanges, OnInit, ViewEncapsulation} from '@angular/core';
+import {BfUILibTransService} from '../abstract-translate.service';
+import {Observable, of} from 'rxjs';
 
 @Component({
   selector: 'bf-label',
   templateUrl: './bf-label.component.html',
-  styleUrls: ['./bf-label.component.scss']
+  styleUrls: [],
+  encapsulation: ViewEncapsulation.None,
 })
-export class BfLabelComponent implements OnInit {
-  @Input() bfText       : string = '';
-  @Input() bfRequired   : boolean = false;
-  @Input() bfValue      : string = '';
-  @Input() bfTooltip    : string = '';
-  @Input() bfTooltipPos : string = 'top';
-  @Input() bfTooltipBody : boolean = true;
+export class BfLabelComponent implements OnInit, OnChanges {
+  @Input() bfText = '';
+  @Input() bfRequired = false;
+  @Input() bfValue = '';
+  @Input() bfTooltip = '';
+  @Input() bfTooltipPos = 'top';
+  @Input() bfTooltipBody = true;
 
-  public bfTextTranslated: string;
-  public bfTooltipTranslated: string;
+  public bfTextTrans$: Observable<string> = of('');        // Translated text for the label
+  public bfValueTrans$: Observable<string> = of('');       // Translated text for the value
+  public bfTooltipTrans$: Observable<string> = of('');     // Translated text for the tooltip of the label
 
-  constructor(
-    // @Inject('BfUILibTransService') private translate: AbstractTranslateService,
-    private translate: BfUILibTransService,
-    private config: NgbPopoverConfig) {
+  constructor(private translate: BfUILibTransService) {
   }
 
-  ngOnInit() {
-    // console.log(this.config);
-    // this.config.openDelay = 2000;
-    // this.config.closeDelay = 2000;
-  }
+  ngOnInit() {}
 
-  ngOnChanges() { // Translate bfText whenever it changes
-    if (!!this.translate.doTranslate) {
-      this.bfTextTranslated = this.translate.doTranslate(this.bfText);
-      this.bfTooltipTranslated = this.translate.doTranslate(this.bfTooltip);
-    } else {
-      this.bfTextTranslated = this.bfText;
-      this.bfTooltipTranslated = this.bfTooltip;
-    }
-
-    // console.log('this.bfTooltipPos', this.bfTooltipPos);
-    // this.config.placement = this.bfTooltipPos;
-    // this.config.triggers = 'hover';
-    // this.config.container = 'body';
+  ngOnChanges(change) {
+    if (change.hasOwnProperty('bfText'))    { this.bfTextTrans$    = this.translate.getLabel$(this.bfText); }
+    if (change.hasOwnProperty('bfTooltip')) { this.bfTooltipTrans$ = this.translate.getLabel$(this.bfTooltip); }
+    if (change.hasOwnProperty('bfValue'))   { this.bfValueTrans$   = this.translate.getLabel$(this.bfValue); }
   }
 
 }

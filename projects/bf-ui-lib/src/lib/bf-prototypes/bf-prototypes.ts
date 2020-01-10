@@ -1,8 +1,8 @@
-import BfArray from "./array.prototypes";
-import BfObject from "./object.prototype";
-import BfNumber from "./number.prototype";
-import BfString from "./string.prototype";
-import BfDate from "./date.prototype";
+import BfArray from './array.prototypes';
+import BfObject from './object.prototype';
+import BfNumber from './number.prototype';
+import BfString from './string.prototype';
+import BfDate from './date.prototype';
 
 
 const BfPrototypes = {
@@ -10,7 +10,7 @@ const BfPrototypes = {
     // console.log('Extending bf-ui-lib prototypes');
 
     // Extend Array prototype
-    for (let proFnName in BfArray) {
+    for (const proFnName in BfArray) {
       if (BfArray.hasOwnProperty(proFnName) && isFnInList(proFnName, 'Array')) {
         // console.log(`Extending Array prototype with --> .${proFnName}()`);
         Array.prototype[proFnName] = BfArray[proFnName];
@@ -18,7 +18,7 @@ const BfPrototypes = {
     }
 
     // Extend Object prototype
-    for (let proFnName in BfObject) {
+    for (const proFnName in BfObject) {
       if (BfObject.hasOwnProperty(proFnName) && isFnInList(proFnName, 'Object')) {
         // console.log(`Extending Object prototype with --> .${proFnName}()`);
         Object.defineProperty(Object.prototype, proFnName, {
@@ -29,7 +29,7 @@ const BfPrototypes = {
     }
 
     // Extend Number prototype
-    for (let proFnName in BfNumber) {
+    for (const proFnName in BfNumber) {
       if (BfNumber.hasOwnProperty(proFnName) && isFnInList(proFnName, 'Number')) {
         // console.log(`Extending Number prototype with --> .${proFnName}()`);
         Number.prototype[proFnName] = BfNumber[proFnName];
@@ -37,7 +37,7 @@ const BfPrototypes = {
     }
 
     // Extend String prototype
-    for (let proFnName in BfString) {
+    for (const proFnName in BfString) {
       if (BfString.hasOwnProperty(proFnName) && isFnInList(proFnName, 'String')) {
         // console.log(`Extending String prototype with --> .${proFnName}()`);
         String.prototype[proFnName] = BfString[proFnName];
@@ -45,7 +45,7 @@ const BfPrototypes = {
     }
 
     // Extend Date prototype
-    for (let proFnName in BfDate) {
+    for (const proFnName in BfDate) {
       if (BfDate.hasOwnProperty(proFnName) && isFnInList(proFnName, 'Date')) {
         // console.log(`Extending Date prototype with --> .${proFnName}()`);
         Date.prototype[proFnName] = BfDate[proFnName];

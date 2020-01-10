@@ -1,10 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, forwardRef } from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, forwardRef, OnChanges} from '@angular/core';
 import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
+import { Observable, of } from 'rxjs';
+import {BfUILibTransService} from '../abstract-translate.service';
 
 @Component({
   selector: 'bf-checkbox',
   templateUrl: './bf-checkbox.component.html',
-  styleUrls: ['./bf-checkbox.component.scss'],
+  styleUrls: [],
   // encapsulation: ViewEncapsulation.None,
   providers: [
     {
@@ -14,18 +16,24 @@ import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VA
   ]
 })
 // export class BfCheckboxComponent implements OnInit {
-export class BfCheckboxComponent implements ControlValueAccessor, OnInit {
+export class BfCheckboxComponent implements ControlValueAccessor, OnInit, OnChanges {
   // @Input() bfModel: boolean = false;
   // @Output() bfModelChange = new EventEmitter<boolean>();
-  public bfModel: boolean = false;
-  @Input() bfLabel: string = '';
-  @Input() bfDisabled: boolean = false;
+  public bfModel = false;
+  @Input() bfLabel = '';
+  @Input() bfDisabled = false;
+  @Input() bfTooltip = '';
+  @Input() bfTooltipPos = 'top';
+  @Input() bfTooltipBody = true;
 
-  constructor() { }
+  public bfLabelText$ = of('');     // Translated text for the label
+  public bfTooltipTrans$ = of('');  // Translated text for the tooltip
+
+  constructor(private translate: BfUILibTransService) { }
 
   // ------- ControlValueAccessor -----
   writeValue(value: any) {
-    if (value !== undefined) { this.bfModel = value; }
+    this.bfModel = !!value;
   }
   public propagateModelUp = (_: any) => {}; // This is just to avoid type error (it's overwritten on register)
   registerOnChange(fn) { this.propagateModelUp = fn; }
@@ -33,6 +41,11 @@ export class BfCheckboxComponent implements ControlValueAccessor, OnInit {
 
 
   ngOnInit() {}
+
+  ngOnChanges(change) {
+    if (change.hasOwnProperty('bfLabel'))   { this.bfLabelText$ = this.translate.getLabel$(this.bfLabel);  }
+    if (change.hasOwnProperty('bfTooltip')) { this.bfTooltipTrans$ = this.translate.getLabel$(this.bfTooltip); }
+  }
 
   onChange(value) {
     this.bfModel = value;

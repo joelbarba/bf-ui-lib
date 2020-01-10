@@ -1,0 +1,213 @@
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+<p>
+  This can be used as a <b>component</b>, <b>directive</b>, or <b>css</b> class.
+  <br>As a component, it generates a simple template with a spinner running.
+  As a directive it overlays a spinner on an existing element.
+  As a css class, it directly adds a small spinner on the current element.
+</p>
+<ul>
+  <li>{{instance}}</li>
+  <li>{{directiveInstance}}</li>
+  <li>{{cssInstance}}</li>
+</ul>
+<!--<span class="bf-loading-spinner"></span>-->
+
+<h5 class="mt-4">Parameters:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+
+
+
+<!--Component usage-->
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-5 marB15">
+      <h5 class="marB25">Component usage:</h5>
+      <div style="width: 400px; height: 150px; border: 1px dashed grey;">
+        <bf-loading-spinner
+                [class.xs]="compConf.size === 'xs'"
+                [class.sm]="compConf.size === 'sm'"
+                [class.md]="compConf.size === 'md'"
+                [class.lg]="compConf.size === 'lg'"
+                [class.xl]="compConf.size === 'xl'"
+                [class.center]="compConf.isCenter && compConf.centerPos === 'center'"
+                [class.center-top]="compConf.isCenter && compConf.centerPos === 'center-top'"
+                [class.center-left]="compConf.isCenter && compConf.centerPos === 'center-left'"
+                [class.center-right]="compConf.isCenter && compConf.centerPos === 'center-right'"
+                [class.center-bottom]="compConf.isCenter && compConf.centerPos === 'center-bottom'"
+            ></bf-loading-spinner>
+      </div>
+
+    </div>
+
+    <div class="col-7">
+
+      <div class="row marT15">
+        <div class="col-12">
+          <bf-label bfText="Size" class="marR30"></bf-label>
+          <bf-radio [(ngModel)]="compConf.size" bfLabel="XS" bfValue="xs" (ngModelChange)="upComp()"></bf-radio>
+          <bf-radio [(ngModel)]="compConf.size" bfLabel="SM" bfValue="sm" (ngModelChange)="upComp()"></bf-radio>
+          <bf-radio [(ngModel)]="compConf.size" bfLabel="MD" bfValue="md" (ngModelChange)="upComp()"></bf-radio>
+          <bf-radio [(ngModel)]="compConf.size" bfLabel="LG" bfValue="lg" (ngModelChange)="upComp()"></bf-radio>
+          <bf-radio [(ngModel)]="compConf.size" bfLabel="XL" bfValue="xl" (ngModelChange)="upComp()"></bf-radio>
+        </div>
+      </div>
+
+      <div class="row marT15">
+        <div class="col-2"> <bf-checkbox [(ngModel)]="compConf.isCenter" (ngModelChange)="upComp()" bfLabel="Is Centered"></bf-checkbox> </div>
+        <div class="col-10" [hidden]="!compConf.isCenter">
+          <bf-radio bfRadioGroup="center" [(ngModel)]="compConf.centerPos" bfLabel="Center" bfValue="center" (ngModelChange)="upComp()"></bf-radio>
+          <bf-radio bfRadioGroup="center" [(ngModel)]="compConf.centerPos" bfLabel="Top" bfValue="center-top" (ngModelChange)="upComp()"></bf-radio>
+          <bf-radio bfRadioGroup="center" [(ngModel)]="compConf.centerPos" bfLabel="Left" bfValue="center-left" (ngModelChange)="upComp()"></bf-radio>
+          <bf-radio bfRadioGroup="center" [(ngModel)]="compConf.centerPos" bfLabel="Right" bfValue="center-right" (ngModelChange)="upComp()"></bf-radio>
+          <bf-radio bfRadioGroup="center" [(ngModel)]="compConf.centerPos" bfLabel="Bottom" bfValue="center-bottom" (ngModelChange)="upComp()"></bf-radio>
+        </div>
+      </div>
+
+      <div class="marT25">
+        <div class="code-box pad15">
+          <pre>{{customCompCode}}</pre>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!--Directive usage-->
+<div class="whiteBg row">
+  <h5 class="col-12 marB15">Overlay example (directive)</h5>
+
+  <div class="col-4" *ngIf="compConf.triggerType === 'promise'">
+    <div [bfLoadingSpinner]="promiseDef?.promise"
+         class="pad15" style="min-height: 80px; width: 100%; border: 1px dashed grey;">
+      <h6 class="marB15">Promise loading</h6>
+      <bf-label class="value-list-3" bfText="Email"       bfValue="joel.barba@blueface.com"></bf-label>
+      <bf-label class="value-list-3" bfText="Number"      bfValue="+353 089 422 6474"></bf-label>
+      <bf-label class="value-list-3" bfText="Description" bfValue="He is a very nice guy"></bf-label>
+    </div>
+  </div>
+
+  <div class="col-4" *ngIf="compConf.triggerType === 'boolean'">
+    <div [bfLoadingSpinner]="loadOn"
+         class="pad15" style="min-height: 80px; width: 100%; border: 1px dashed grey;">
+      <h6 class="marB15">Boolean loading</h6>
+      <bf-label class="value-list-3" bfText="Email"       bfValue="joel.barba@blueface.com"></bf-label>
+      <bf-label class="value-list-3" bfText="Number"      bfValue="+353 089 422 6474"></bf-label>
+      <bf-label class="value-list-3" bfText="Description" bfValue="He is a very nice guy"></bf-label>
+    </div>
+  </div>
+
+  <div class="col-4" *ngIf="compConf.triggerType === 'observable'">
+    <div [bfLoadingSpinner]="loadObs"
+         class="pad15" style="min-height: 80px; width: 100%; border: 1px dashed grey;">
+      <h6 class="marB15">Observable loading</h6>
+      <bf-label class="value-list-3" bfText="Email"       bfValue="joel.barba@blueface.com"></bf-label>
+      <bf-label class="value-list-3" bfText="Number"      bfValue="+353 089 422 6474"></bf-label>
+      <bf-label class="value-list-3" bfText="Description" bfValue="He is a very nice guy"></bf-label>
+    </div>
+  </div>
+
+
+  <div class="col-4">
+    <div class="marB20">
+      <bf-label bfText="Use it as a" class="marR30"></bf-label>
+      <bf-radio [(ngModel)]="compConf.triggerType" bfLabel="Promise"    bfValue="promise"     (ngModelChange)="upComp2()"></bf-radio>
+      <bf-radio [(ngModel)]="compConf.triggerType" bfLabel="Boolean"    bfValue="boolean"     (ngModelChange)="upComp2()"></bf-radio>
+      <bf-radio [(ngModel)]="compConf.triggerType" bfLabel="Observable" bfValue="observable"  (ngModelChange)="upComp2()"></bf-radio>
+    </div>
+
+    <div [show]="compConf.triggerType === 'promise'">
+      <bf-btn class="block" bfText="Run promise" (bfClick)="generatePromise()" bfType="save"></bf-btn>
+      <div class="marT10">
+        <bf-btn bfText="Resolve"  bfType="save"   (bfClick)="promiseDef.resolve()"></bf-btn>
+        <bf-btn bfText="Reject"   bfType="save"   (bfClick)="promiseDef.reject()"></bf-btn>
+      </div>
+    </div>
+
+    <div class="marT20" [show]="compConf.triggerType === 'boolean'">
+      <bf-switch [(ngModel)]="loadOn"></bf-switch>
+    </div>
+
+    <div [show]="compConf.triggerType === 'observable'">
+      <bf-btn bfText="New Observable" (bfClick)="loadObs = generateObs()" bfType="save"></bf-btn>
+      <bf-btn bfText="Complete" (bfClick)="loadObs.complete()" bfType="save"></bf-btn>
+      <div class="marT10">
+        <bf-btn bfText=".next(true)"  (bfClick)="loadObs.next(true)" bfType="save"></bf-btn>
+        <bf-btn bfText=".next(false)" (bfClick)="loadObs.next(false)" bfType="save"></bf-btn>
+        <bf-btn bfText="Error"    (bfClick)="loadObs.error('none')" bfType="save"></bf-btn>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="col-4">
+    <div class="code-box pad15">
+      <pre>{{overlayExample}}</pre>
+    </div>
+  </div>
+</div>
+
+
+<!--Applicable classes -->
+<div class="row">
+  <div class="col-12">
+    <hr>
+    <h5 class="mt-4">Applicable classes:</h5>
+    <p>It is possible to change the size of the spinner with the classes:</p>
+    <ul>
+      <li>{{sizeCss.sm}}</li>
+      <li>{{sizeCss.md}}</li>
+      <li>{{sizeCss.lg}}</li>
+      <li>{{sizeCss.xl}}</li>
+    </ul>
+  </div>
+
+  <div class="col-12">
+    <p>By default the spinner is an inline element. You can turn it centered to it's container applying the "<b>center"</b> class.
+      By doing that though, the spinner becomes a block element.
+      <br>It is also possible to center the spinner to one side only
+    </p>
+    <ul>
+      <li>{{centerCss.top}}</li>
+      <li>{{centerCss.right}}</li>
+      <li>{{centerCss.left}}</li>
+      <li>{{centerCss.bottom}}</li>
+    </ul>
+  </div>
+
+</div>
+
+
+<h5 class="mt-4">Examples:</h5>
+<div class="col-12 examples-table">
+
+  <div class="row">
+    <div class="col-5" style="flex-flow: row; align-items: flex-end; justify-content: space-evenly">
+      <bf-loading-spinner class=""></bf-loading-spinner>
+      <bf-loading-spinner class="sm"></bf-loading-spinner>
+      <bf-loading-spinner class="md"></bf-loading-spinner>
+      <bf-loading-spinner class="lg"></bf-loading-spinner>
+      <bf-loading-spinner class="xl"></bf-loading-spinner>
+    </div>
+    <div class="col-7"> <pre>{{instance}}</pre> </div>
+  </div>
+
+  <div class="row">
+    <div class="col-5">
+      <span class="bf-loading-spinner"></span>
+    </div>
+    <div class="col-7"> <pre>{{cssInstance}}</pre> </div>
+  </div>
+
+</div>
+
+<!--CSS Styling-->
+<div class="col-12 marT40">
+  <h3>CSS Styling</h3>
+  <p>The following SASS variables can be overridden to provide customized coloring:</p>
+  <pre class="padL30">{{ cssReset }}</pre>
+</div>

@@ -1,4 +1,4 @@
-import {IBfDeferStatus} from "../bf-promise/bf-promise";
+import {IBfDeferStatus} from '../bf-promise/bf-promise';
 
 
 export class BfDefer {

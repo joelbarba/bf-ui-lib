@@ -1,0 +1,30 @@
+$no-data-bg: darken($primary_color, 20%) !default;
+$no-data-color: $white !default;
+$placeholder-color: $primary_color !default;
+
+bf-no-data {
+  .no-data-bg {
+    width: 100%;
+    padding: 15px;
+    text-align: center;
+    background: $no-data-bg;
+    color: $no-data-color;
+    border: 1px solid transparent;
+    border-radius: 4px;
+  }
+  .empty-placeholder {
+    width: 100%;
+    padding: 15px;
+    color: $placeholder-color;
+
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    div[class*="icon-"] { font-size: 30vh; }
+    .empty-title        { font-size: 25px; margin-top: 1.5rem; }
+    .empty-description  { font-size: 16px; margin-top: .5rem; }
+  }
+}

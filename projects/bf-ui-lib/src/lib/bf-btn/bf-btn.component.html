@@ -4,26 +4,26 @@
      [ngbTooltip]="bfDisabledTipTrans$ | async"
      [placement]="bfTooltipPos">
 
-  <button type="submit"
-          class="bf-btn"
-          [ngClass]="btnClass"
+  <button class="bf-btn"
           (click)="btnClick($event)"
-          [disabled]="bfDisabled || libService.isBtnLoading"
+          [ngClass]="btnClass"
+          [class.small-btn]="!textLabel"
+          [disabled]="bfDisabled || isLoading"
           [ngbTooltip]="bfTooltipTrans$ | async"
           [placement]="bfTooltipPos"
           [container]="(bfTooltipBody ? 'body' : '')">
 
-    <div *ngIf="bfIconPos === 'left'" class="btn-icon-section left" [class.small-btn]="!bfText">
-      <span [class]="bfIcon" [hidden]="libService.isBtnLoading"></span>
-      <div class="loading-spinner" [hidden]="!libService.isBtnLoading"></div>
-    </div>
+    <span *ngIf="!!btnIcon && bfIconPos === 'left'" class="btn-icon-section left">
+      <span [class]="isLoading ? 'loading-spinner' : btnIcon"></span>
+    </span>
 
-    <div [hidden]="!bfText" class="btn-text-section">{{ bfTextTrans$ | async }}</div>
+    <span [hidden]="!textLabel" class="btn-text-section">
+      {{ bfTextTrans$ | async }}
+    </span>
 
-    <div *ngIf="bfIconPos === 'right'" class="btn-icon-section right" [class.small-btn]="!bfText">
-      <span [class]="bfIcon" [hidden]="libService.isBtnLoading"></span>
-      <div class="loading-spinner" [hidden]="!libService.isBtnLoading"></div>
-    </div>
+    <span *ngIf="!!btnIcon && bfIconPos === 'right'" class="btn-icon-section right">
+      <span [class]="isLoading ? 'loading-spinner' : btnIcon"></span>
+    </span>
 
   </button>
 </div>

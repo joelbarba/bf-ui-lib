@@ -1,0 +1,53 @@
+$list-header-color: $white;
+$list-header-bg: $primary_color;
+$list-pijama-bg: $primary_color;
+
+ul.table-list {
+  background-color: $white;
+  box-shadow: 0 1px 2px rgba(34, 36, 38, 0.15);
+  margin-bottom: 0;
+
+  flex: 0 0 100%;
+  max-width: 100%;
+  li.list-header, li.list-row  {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  li.list-header {
+    width: 100%;
+    padding: 7px 15px 8px;  // 7.5px -> pull half pixel up
+    word-break: break-word;
+    background: $list-header-bg;
+    color: $list-header-color;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    min-height: 48px; // To make it look like the old portal
+
+    .list-header-col-title {
+      font-size: 15px;
+      letter-spacing: 1px;
+      line-height: 1;
+      font-weight: 500;
+    }
+  }
+  li.list-row {
+    width: 100%;
+    padding: 7.5px 15px;
+    word-break: break-word;
+    &:nth-child(even) { background: rgba($list-pijama-bg, 0.08); }
+    &:nth-child(odd) { background: $white; }
+
+    [class*="col-"] {
+      display: flex;
+      align-items: center;
+      &.text-right { justify-content: flex-end; } // emulate text-align classes
+
+      font-size: 14px;
+      font-weight: normal;
+      line-height: 1;
+      //letter-spacing: 1px;
+    }
+  }
+}

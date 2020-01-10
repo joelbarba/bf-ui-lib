@@ -29,12 +29,17 @@ is unique, and when a radio is selected the rest are automatically unselected.<b
       <h5 class="marB0">BfRadio Customization:</h5>
       <div class="d-flex justify-content-between">
         <bf-radio class="padT25"
+                  [class.block]="compConf.isClassBlock"
+                  [style.background]="compConf.isClassBlock ? 'lightgray' : 'white'"
                   [(ngModel)]="myVariable"
                   [bfValue]="compConf.value"
                   [bfLabel]="compConf.labelText"
                   [bfRadioGroup]="compConf.hasGroup?compConf.groupValue:''"
                   [bfDisabled]="compConf.isDisabled"
                   [bfRequired]="compConf.isRequired"
+                  [bfTooltip]="(compConf.hasTooltip ? compConf.tooltipText : null)"
+                  [bfTooltipPos]="(compConf.tooltipPos || 'top')"
+                  [bfTooltipBody]="compConf.tooltipBody"
         ></bf-radio>
         <div class="d-print-inline-flex">
           <bf-input [(ngModel)]="myVariable" bfLabel="myVariable"></bf-input>
@@ -74,6 +79,34 @@ is unique, and when a radio is selected the rest are automatically unselected.<b
       <div class="row marT15">
         <div class="col-3"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>
         <div class="col-3"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>
+      </div>
+
+      <!--Tooltip-->
+      <div class="row marT10">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox> </div>
+        <div class="col-9" *ngIf="compConf.hasTooltip">
+          <bf-input [(ngModel)]="compConf.tooltipText" (ngModelChange)="upComp()"></bf-input>
+        </div>
+        <div class="col-5" *ngIf="compConf.hasTooltip">
+          <bf-dropdown bfLabel="bfTooltipPos"
+                       [(ngModel)]="compConf.tooltipPos" (ngModelChange)="upComp()"
+                       [bfList]="[{ id: 'top', text: 'top' }, { id: 'right', text: 'right' }, { id: 'bottom', text: 'bottom' }, { id: 'left', text: 'left' }]"
+                       bfRender="text" bfSelect="id">
+          </bf-dropdown>
+        </div>
+        <div class="col-4" *ngIf="compConf.hasTooltip">
+          <bf-dropdown bfLabel="bfTooltipBody"
+                       [(ngModel)]="compConf.tooltipBody" (ngModelChange)="upComp()"
+                       [bfList]="[{ id: 'true', text: 'true' }, { id: 'false', text: 'false' }]"
+                       bfRender="text" bfSelect="id">
+          </bf-dropdown>
+        </div>
+      </div>
+
+      <!--Classes-->
+      <div class="row padT10">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isClassBlock" (ngModelChange)="upComp()" bfLabel="block"></bf-checkbox> </div>
+        <!--<div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasColon" (ngModelChange)="upComp()" bfLabel="colon"></bf-checkbox> </div>-->
       </div>
 
     </div>
@@ -123,16 +156,36 @@ is unique, and when a radio is selected the rest are automatically unselected.<b
 </div>
 
 
+<!--Applicable classes -->
+<div class="row">
+  <div class="col-12">
+    <hr>
+    <h5 class="mt-4">Applicable classes:</h5>
+    <p>By default radios are inline elements (displayed one next to another). You can easily turn then to block
+      elements by applying class "<b>block</b>":
+    </p>
+  </div>
+  <div class="col-6">
+    <pre class="marT10">{{ blockExample }}</pre>
+  </div>
+  <div class="col-6">
+    <bf-radio bfLabel="Inline radio 1"></bf-radio>
+    <bf-radio bfLabel="Inline radio 2"></bf-radio>
+    <bf-radio bfLabel="Inline radio 3"></bf-radio>
+    <hr>
+    <bf-radio class="block" bfLabel="Block radio 4"></bf-radio>
+    <bf-radio class="block" bfLabel="Block radio 5"></bf-radio>
+    <bf-radio class="block" bfLabel="Block radio 6"></bf-radio>
+  </div>
+</div>
+
+
 <!--CSS Styling-->
 <div class="row marT40">
   <div class="col-12">
     <h3>CSS Styling</h3>
-    <p>The encapsulated styles of the bf-radio use a default color.
-       However, we may want to apply different colors externally (depending on the theme)
-      <br/>
-      To provide a color restyling based on a SCSS theme you can apply the following rules on a css global level :
-    </p>
-    <pre>{{ cssReset }}</pre>
+    <p>The following SASS variables can be overridden to provide customized coloring:</p>
+    <pre class="padL30">{{ cssReset }}</pre>
   </div>
 </div>
 

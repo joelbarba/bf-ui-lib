@@ -5,17 +5,15 @@ import {
   Output,
   forwardRef,
   OnChanges,
-  Inject,
   ViewChild,
   ElementRef,
-  Pipe, PipeTransform, OnDestroy, EventEmitter, AfterViewInit
+  OnDestroy, EventEmitter, AfterViewInit
 } from '@angular/core';
-import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
+import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import BfObject from '../bf-prototypes/object.prototype';
 import BfArray from '../bf-prototypes/array.prototypes';
 import {Observable, of} from 'rxjs';
-import {AbstractTranslateService, BfUILibTransService} from '../abstract-translate.service';
-import {IbfInputCtrl} from "../bf-input/bf-input.component";
+import { BfUILibTransService} from '../abstract-translate.service';
 
 
 /****
@@ -154,7 +152,7 @@ import {IbfInputCtrl} from "../bf-input/bf-input.component";
 @Component({
   selector: 'bf-dropdown',
   templateUrl: './bf-dropdown.component.html',
-  styleUrls: ['./bf-dropdown.component.scss'],
+  styleUrls: [],
     providers: [
     {
       provide: NG_VALUE_ACCESSOR, multi: true,
@@ -173,6 +171,8 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfRequired: unknown = false; // Whether the model is required (can't be empty)
   @Input() bfDisabled: unknown = false; // Whether the dropdown is disabled
   @Input() bfDisabledTip = '';    // If dropdown disabled, tooltip to display on hover (label)
+  @Input() bfRenderImg = 'img';   // Field of the object that contains the url of the image to display
+  @Input() bfRenderIco = 'icon';  // Field of the object that contains the css class of the icon (icomoon) to display
 
   @Input() bfLabel = '';          // Label to display above the dropdown
   @Input() bfTooltip = '';        // Add a badge next to the label with the tooltip to give more info
@@ -185,7 +185,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   @Input() bfErrorOnPristine = false; // If true, errors will be shown in initial state too (by default pristine shows as valid always)
 
-  @Input() extCtrl$: Observable<any>;
+  @Input() extCtrl$: Observable<any>; // To trigger actions manually from an external observable (subject)
 
   @Output() bfOnLoaded = new EventEmitter<any>();     // Emitter to catch the moment when the component is ready (ngAfterViewInit)
   @Output() bfBeforeChange = new EventEmitter<any>(); // Emitter to catch the next value before it is set
@@ -211,7 +211,9 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     $index: 0,
     $label: 'view.common.empty',
     $renderedText: 'Empty',
-    $isMatch: true
+    $isMatch: true,
+    $img: null,
+    $icon: null,
   };
 
   public bfLabelTrans$: Observable<string> = of('');         // Translated text for the label
@@ -325,6 +327,8 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
       $item.$label = itemLabel;
       $item.$index = ind + 1;  // Internal unique index
       $item.$isMatch = true;   // filter none by default
+      $item.$img = $item[this.bfRenderImg] || null;
+      $item.$icon = $item[this.bfRenderIco] || null;
     });
 
     this.toggleEmptyOption(); // Set Empty option
@@ -504,6 +508,8 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
           delete oriItem.$label;
           delete oriItem.$renderedText;
           delete oriItem.$isMatch;
+          delete oriItem.$img;
+          delete oriItem.$icon;
 
 
           // Stringify comparison is quite bad. TODO: Add a better object compare here
@@ -563,6 +569,8 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
         delete extModel.$label;
         delete extModel.$renderedText;
         delete extModel.$isMatch;
+        delete extModel.$img;
+        delete extModel.$icon;
         modelUp = this.bfList.find(item => JSON.stringify(item) === JSON.stringify(extModel));
 
       } else {

@@ -1,7 +1,9 @@
 {
   "extends": "../../tslint.json",
-  "no-trailing-whitespace": true,
   "rules": {
+    "no-trailing-whitespace": true,
+    "typedef-whitespace": [false],
+    "semicolon": [true, "always", "ignore-bound-class-methods"],
     "directive-selector": [
       true,
       "attribute",
@@ -13,6 +15,16 @@
       "element",
       "bf",
       "kebab-case"
-    ]
+    ],
+    "max-line-length": [
+      true,
+      {
+        "limit": 300,
+        "ignore-pattern": "^import |^export {(.*?)}",
+        "check-strings": true,
+        "check-regex": true
+      }
+    ],
+    "radix": false
   }
 }

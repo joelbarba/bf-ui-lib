@@ -5,7 +5,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-bf-switch-demo]',
+  selector: 'app-bf-switch-demo',
   templateUrl: './bf-switch-demo.component.html',
   styleUrls: ['./bf-switch-demo.component.scss']
 })
@@ -17,7 +17,7 @@ export class BfSwitchDemoComponent implements OnInit {
   public myValue = true;
   public myVal = false;
 
-  public instance2 = 
+  public instance2 =
 `<bf-switch [(ngModel)]="myVal" [bfDisabled]="true"></bf-switch>`;
 
   public instance3 =
@@ -26,28 +26,20 @@ export class BfSwitchDemoComponent implements OnInit {
   public instance4 =
 `<bf-switch [(ngModel)]="myVal" bfLabel="view.common.name"></bf-switch>`;
 
-  public cssReset = `div.bf-switch {
+  public cssReset = `$switch-bar-bg: #fff !default;
+$switch-bar-color: #ccc !default;
+$switch-lever-bg: #f3f3f3 !default;
+$switch-color-on: $valid-color !default;
+$switch-color-off: $switch-lever-bg !default;`;
 
-  .switch-bar {  // Background bar
-    background: white;
-    border-color: #ccc;
-  }
-
+  public cssReset2 = `bf-switch .bf-switch {
   .switch-value {  // Text color (ON/OFF)
     .bf-switch-off-text { color: red; }
     .bf-switch-on-text  { color: green; }
   }
-
-  .switch-lever {  // Switch color
-    color: white;
-    background: #f3f3f3;
-    &.is-on  { background: $primary_color; }
-    &.is-off { background: red; }
-  }
-
-  &.is-disabled {
-    .switch-bar   { background: #d4d4d4; }
-    .switch-lever { background: #f3f3f3; }
+  .switch-lever { // Lever color
+    &.is-on  { background: yellow; }
+    &.is-off { background: purple; }
   }
 }`;
 
@@ -67,10 +59,10 @@ export class BfSwitchDemoComponent implements OnInit {
   ];
   public swCode = ``;
   public swConf = {
-    hasLabel: false, labelText: 'Feature Enabled', labelPosLeft: false,
-    hasTooltip: false, btnTooltip: 'Hello World', btnTooltipPos: null, btnTooltipBody: false,
+    hasLabel: false, labelText: 'view.common.field_name2', labelPosLeft: false,
+    hasTooltip: false, btnTooltip: 'view.tooltip.message', btnTooltipPos: null, btnTooltipBody: false,
     isDisabled: false,
-    hasOnText: false, hasOffText: false, onText: 'Yes', offText: 'No'
+    hasOnText: false, hasOffText: false, onText: 'view.common.yes', offText: 'view.common.no'
   };
 
   public updateCustomSw = () => {
@@ -84,16 +76,9 @@ export class BfSwitchDemoComponent implements OnInit {
       }
     }
 
-    if (this.swConf.hasOnText) {
-      this.swCode += this.bsStr + ` bfOnText="${this.swConf.onText}"`;
-    }
-    if (this.swConf.hasOffText) {
-      this.swCode += this.bsStr + ` bfOffText="${this.swConf.offText}"`;
-    }
-
-    if (this.swConf.isDisabled) {
-      this.swCode += this.bsStr + `[bfDisabled]="true"`;
-    }
+    if (this.swConf.hasOnText)  { this.swCode += this.bsStr + ` bfOnText="${this.swConf.onText}"`; }
+    if (this.swConf.hasOffText) { this.swCode += this.bsStr + ` bfOffText="${this.swConf.offText}"`; }
+    if (this.swConf.isDisabled) { this.swCode += this.bsStr + `[bfDisabled]="true"`; }
 
     if (this.swConf.hasTooltip) {
       this.swCode += this.bsStr + ` bfTooltip="${this.swConf.btnTooltip}"`;
@@ -106,8 +91,8 @@ export class BfSwitchDemoComponent implements OnInit {
 
     }
 
-    this.swCode += (`>` + this.brStr + `</bf-btn>`);
-  };
+    this.swCode += (`>` + this.brStr + `</bf-switch>`);
+  }
 
 
   constructor() { }

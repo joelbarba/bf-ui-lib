@@ -3,19 +3,18 @@ import { Component, OnInit, Input } from '@angular/core';
 @Component({
   selector: 'bf-list-placeholder',
   templateUrl: './bf-list-placeholder.component.html',
-  styleUrls: ['./bf-list-placeholder.component.scss']
+  styleUrls: []
 })
 export class BfListPlaceholderComponent implements OnInit {
-  @Input() bfType: string = 'list';
+  @Input() bfType = 'list';
   @Input() bfColumns = [];
-  @Input() bfRows : number = 8;
+  @Input() bfRows = 8;
 
   public fakeRows = [];
 
   constructor() { }
 
   ngOnInit() {
-    
     // Get an array with the sizes of the cols form the input bfColumns
     // Calculate the grid left to set the last button column (lastSize)
     let colSizes = []; let lastSize = 12;
@@ -28,16 +27,16 @@ export class BfListPlaceholderComponent implements OnInit {
 
 
     this.fakeRows = [];
-    for (let id = 0; id < this.bfRows; id++) { 
-      let newRow = { id, fakeCols: [] };
+    for (let id = 0; id < this.bfRows; id++) {
+      const newRow = { id, fakeCols: [] };
       for (let ind = 0; ind < colSizes.length; ind++) {
-        let randWidth = Math.floor((Math.random() * 5) + 5);
-        newRow.fakeCols.push({ ind, colClass: 'col-' + colSizes[ind] + ' line-' + randWidth }); 
+        const randWidth = Math.floor((Math.random() * 5) + 5);
+        newRow.fakeCols.push({ ind, colClass: 'col-' + colSizes[ind] + ' line-' + randWidth });
       }
       // Right button
       if (lastSize > 0) { newRow.fakeCols.push({ colClass: 'col-' + lastSize + ' fake-button-template' }); }
 
-      this.fakeRows.push(newRow); 
+      this.fakeRows.push(newRow);
     }
   }
 

@@ -14,6 +14,14 @@ export class IndexPageComponent implements OnInit {
     }
   }),
 })`;
+
+  public stylesExample = `@import "scss/variables.scss";
+@import 'bf-ui-lib/scss/index';
+
+@import "~bootstrap/scss/bootstrap.scss";
+@import "~bf-icomoon/css/icomoon.css";
+...  `;
+
   constructor(private reg: LibRegisterService) { }
   ngOnInit() { }
 

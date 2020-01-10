@@ -3,7 +3,9 @@
 <h2>{{name}}</h2>
 <hr/>
 <h5>{{desc}}</h5>
-<p>This is a nice thing...</p>
+<p>This component is for display the status of a object, It must be a number or a boolean.</p>
+<p>The defaul labels are:</p>
+<p>   0:  Active<br/>   1:  Inactive<br/>   2:  Pending</p>
 
 <h5 class="mt-4">Parameters:</h5>
 <div class="col-12"><pre>{{api}}</pre></div>
@@ -15,17 +17,13 @@
     <div class="col-5 marB15">
       <h5 class="marB25">bf-status-badge Customization:</h5>
       <div>
-        <!--<bf-dropdown class="full-width" name="dasda"-->
-        <!--             [(ngModel)]="selObj10"-->
-        <!--             [bfList]="myList"-->
-        <!--             [bfRequired]="compConf.isRequired"-->
-        <!--             [bfDisabled]="compConf.isDisabled"-->
-        <!--             [bfLabel]="(compConf.hasLabel ? compConf.labelText : '')"-->
-        <!--             [bfSelect]="(compConf.hasSelect && !!compConf.selectField) ? compConf.selectField : null"-->
-        <!--             [bfRender]="(compConf.hasRender ? compConf.renderExp : '')">-->
-        <!--</bf-dropdown>-->
+        <bf-status-badge [bfStatus]="compConf.status"
+                         [bfLabel]="(compConf.hasLabel? compConf.labelText : '')"
+                         [bfColor]="(compConf.hasColor? compConf.colorCode : '')"
+                         [bfCircle]="compConf.isCircle">
+        </bf-status-badge>
       </div>
-      <div>
+      <div class="padT15">
         <div class="code-box pad15">
           <pre>{{customCompCode}}</pre>
         </div>
@@ -35,35 +33,67 @@
     <div class="col-7">
 
       <div class="row marT15">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>
+        <div class="col-12">
+          <bf-dropdown [(ngModel)]="compConf.status"
+                       (ngModelChange)="upComp()"
+                       [bfList]="statusList"
+                       bfLabel="Status"
+                       bfSelect="id"
+                       bfRender="$$$ $item.id +' - '+ $item.name">
+          </bf-dropdown>
+        </div>
       </div>
-
       <div class="row marT15">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>
+        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasLabel" (ngModelChange)="upComp()" bfLabel="Add Label"></bf-checkbox> </div>
+        <div class="col-5" *ngIf="compConf.hasLabel"><bf-radio [(ngModel)]="compConf.isSingleLabel" bfLabel="Single" [bfValue]="true" (ngModelChange)="upComp(); setList()"></bf-radio></div>
+        <div class="col-5" *ngIf="compConf.hasLabel"><bf-radio [(ngModel)]="compConf.isSingleLabel" bfLabel="Multiple" [bfValue]="false" (ngModelChange)="setList()"></bf-radio></div>
+        <div class="col-10"> <bf-input [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasLabel || !compConf.isSingleLabel"></bf-input></div>
       </div>
-
       <div class="row marT15">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasLabel" (ngModelChange)="upComp()" bfLabel="Has Label"></bf-checkbox> </div>
-        <div class="col-10" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasLabel"></bf-input> </div>
+        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasColor" (ngModelChange)="upComp(); setColor()" bfLabel="Add Color"></bf-checkbox> </div>
+        <div class="col-10" *ngIf="compConf.hasColor"><input [(ngModel)]="compConf.colorCode" type="color" (ngModelChange)="upComp()" [disabled]="!compConf.hasColor"/></div>
       </div>
-
-      <div class="row marT10">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox> </div>
-        <div class="col-10" *ngIf="compConf.hasTooltip">
-          <bf-input [(ngModel)]="compConf.tooltipText" (ngModelChange)="upComp()"></bf-input>
-        </div>
-        <div class="col-2" *ngIf="compConf.hasTooltip"></div>
-        <div class="col-5" *ngIf="compConf.hasTooltip">
-          bfTooltipPos: <bf-dropdown [(ngModel)]="compConf.tooltipPos" (ngModelChange)="upComp()"
-                                     [bfList]="[{ id: 'top', text: 'top' }, { id: 'right', text: 'right' }, { id: 'bottom', text: 'bottom' }, { id: 'left', text: 'left' }]"
-                                     bfRender="text" bfSelect="id"> </bf-dropdown>
-        </div>
-        <div class="col-5" *ngIf="compConf.hasTooltip">
-          bfTooltipBody: <bf-dropdown [(ngModel)]="compConf.tooltipBody" (ngModelChange)="upComp()" [bfList]="[{ id: 'true', text: 'true' }, { id: 'false', text: 'false' }]" bfRender="text" bfSelect="id"> </bf-dropdown>
-        </div>
+      <div class="row marT15">
+        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.isCircle" (ngModelChange)="upComp()" bfLabel="Is Circle"></bf-checkbox> </div>
       </div>
     </div>
 
+  </div>
+</div>
+
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-5">
+      <h5 class="marB25">bfColorSet Example - Orders</h5>
+      <div>
+        <bf-status-badge [bfStatus]="modConf.status"
+                         [bfLabel]="modConf.labelText"
+                         [bfColorSet]="modConf.orderColorSet">
+        </bf-status-badge>
+      </div>
+      <div class="padT30">
+        <div class="code-box pad15">
+          <pre>{{customModCode}}</pre>
+        </div>
+      </div>
+    </div>
+    <div class="col-7">
+      <div class="row marT15">
+        <div class="col-12">
+          <bf-dropdown [(ngModel)]="modConf.status"
+                       (ngModelChange)="updateModStatus();upMod();"
+                       [bfList]="modConf.defaultList"
+                       [bfRequired]="true"
+                       bfLabel="Status"
+                       bfSelect="id"
+                       bfRender="$$$ $item.id +' - '+ $item.name">
+          </bf-dropdown>
+        </div>
+        <div class="col-12">
+          <pre class="padT20">[bfColorSet] = {{modConf.orderColorSet | json}}</pre>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -76,17 +106,44 @@
 <div class="col-12 examples-table">
   
   <div class="row">
-    <div class="col-5">
-      <bf-status-badge></bf-status-badge>
+    <div class="col-4">
+      <h5 class="bold">Default Color Set</h5>
+      <br/><br/>
+      <bf-status-badge [bfStatus]="0"></bf-status-badge>
+      <bf-status-badge [bfStatus]="1"></bf-status-badge>
+      <bf-status-badge [bfStatus]="2"></bf-status-badge>
     </div>
-    <div class="col-7"> <pre>{{instance}}</pre> </div>
+    <div class="col-8"> <pre>{{instance}}</pre> </div>
   </div>
   
   <div class="row">
-    <div class="col-5">
-      <bf-status-badge></bf-status-badge>
+    <div class="col-4">
+      <bf-status-badge [bfStatus]="1" [bfLabel]="'Custom Label'"></bf-status-badge>
     </div>
-    <div class="col-7"> <pre>{{instance2}}</pre> </div>
+    <div class="col-8"> <pre>{{instance2}}</pre> </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <bf-status-badge [bfStatus]="true" [bfLabel]="['YES', 'NO']"></bf-status-badge>
+      <bf-status-badge [bfStatus]="false" [bfLabel]="['YES', 'NO']"></bf-status-badge>
+    </div>
+    <div class="col-8"> <pre>{{instance3}}</pre> </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <bf-status-badge [bfStatus]="2" bfLabel="Circle Example" [bfCircle]="true">
+      </bf-status-badge>
+    </div>
+    <div class="col-8"> <pre>{{instance4}}</pre> </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <bf-status-badge [bfStatus]="2" [bfColor]="'7f3fc0'"></bf-status-badge>
+    </div>
+    <div class="col-8"> <pre>{{instance5}}</pre> </div>
   </div>
 
 </div>
@@ -98,11 +155,9 @@
   <div class="col-12">
     <hr>
     <h4>CSS Styling</h4>
-    <p>The encapsulated styles of the button use a default color. However, we may want to apply different colors externally (depending on the theme)
-      <br/>
-      To provide a color restyiling based on a SCSS theme you can apply the following rules on a css global level :
-    </p>
-    <pre>{{ cssReset }}</pre>
+    <p>The following SASS variables can be overridden to provide customized coloring:</p>
+    <pre class="padL30">{{ cssReset }}</pre>
+    <p>PS. Also the following classes could updating using the [bfColorSet]</p>
   </div>
 </div>
 

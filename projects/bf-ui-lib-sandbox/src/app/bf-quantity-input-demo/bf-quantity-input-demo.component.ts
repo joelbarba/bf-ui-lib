@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BfQuantityInputDemoComponent implements OnInit {
 
-  public myVar = 15;
+  public myVar: any = 15;
   public lastMod = new Date();
   public name = BfQuantityInputDoc.name;
   public desc = BfQuantityInputDoc.desc;
@@ -89,23 +89,11 @@ export class BfQuantityInputDemoComponent implements OnInit {
     }
   };
 
-  public cssReset = `div.quantity-controller-box {
-    color:$white;
-    &.left{
-      background: $primary_color;
-    }
-    &.right{
-      background: $primary_color;
-    }
-    &.blocked {
-      background: darken($primary_color, 8%);
-    }
-  }
-  div.quantity-controller-center {
-    input {
-      border:2px solid $primary_color;
-    }
-  }`;
+  public cssReset = `$quantity-input-bg: $white !default;
+$quantity-input-border: $valid-color !default;
+$quantity-input-left-btn: $valid-color !default;
+$quantity-input-right-btn: $valid-color !default;
+$quantity-input-blocked-btn: darken($primary_color, 8%) !default;`;
 
   constructor() { }
 

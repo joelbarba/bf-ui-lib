@@ -1,10 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import "scss/variables.scss";
-//@import "~bootstrap/dist/css/bootstrap.css";
+@import '../../bf-ui-lib/scss/index';
+
 @import "~bootstrap/scss/bootstrap.scss";
-@import "scss/bf-ui-lib.scss";
 @import "~bf-icomoon/css/icomoon.css";
 @import "scss/popover.scss";
 @import "scss/globals.scss";
 @import "scss/helpers.scss";
+@import "scss/lists.scss";

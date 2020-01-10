@@ -1,14 +1,16 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { BfGrowlService } from 'projects/bf-ui-lib/src/lib/bf-growl/bf-growl.service';
 
 @Component({
   selector: 'app-bf-btn-demo',
   templateUrl: './bf-btn-demo.component.html',
   styleUrls: ['./bf-btn-demo.component.scss'],
-  // encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class BfBtnDemoComponent implements OnInit {
   public name = BfBtnDoc.name;
   public desc = BfBtnDoc.desc;
+  public blockPr;
   public api = BfBtnDoc.api;
   public instance = BfBtnDoc.instance;
 
@@ -30,7 +32,7 @@ export class BfBtnDemoComponent implements OnInit {
 <bf-btn bfText="Tertiary"   bfType="tertiary"   bfIcon="icon-pencil">       </bf-btn>
 <bf-btn bfText="Quaternary" bfType="quaternary" bfIcon="icon-blocked">      </bf-btn>
 <bf-btn bfText="Warning"    bfType="warning"    bfIcon="icon-cross">        </bf-btn>
-<bf-btn bfText="Extra"      bfType="extra"      bfIcon="icon-arrow-down3">  </bf-btn>`
+<bf-btn bfText="Extra"      bfType="extra"      bfIcon="icon-arrow-down3">  </bf-btn>`;
 
 public instance6 = `<bf-btn bfText="Simple Tooltip" bfTooltip="Hello World"></bf-btn>
 <bf-btn bfText="Better tooltip" bfTooltip="Hey" bfTooltipPos="left" [bfTooltipBody]="true"></bf-btn>`;
@@ -45,64 +47,84 @@ public asyncExample2 = `<bf-btn bfText="Async Click Option 2"
 </bf-btn>`;
 
 
-public cssReset =
-`$bf-colors: (
-  "primary"     : $primary_color,
-  "secondary"   : $secondary_color,  
-  "tertiary"    : $tertiary_color,   
-  "quaternary"  : $quaternary_color, 
-  "warning"     : $warning_color,    
-  "extra"       : $extra_color,      
-  "white"       : $white,
-);          
-
-// Button color reset
-@mixin btn-color-mixin($btn-color) {
-  color: $white;
-  background: $btn-color;
-  .btn-icon-section { background: darken($btn-color, 5%); }
-  .btn-icon-section.small-btn { background: $btn-color; } // If icon btn
-  &:hover:not(:disabled) {
-    background: darken($btn-color, 3%);
-    .btn-icon-section { background: darken($btn-color, 7%); }
-  }
-}
-@each $color, $value in $bf-colors { .#{$color}.bf-btn  { @include btn-color-mixin($value); } }`;
+public cssReset = `@import 'bf-ui-lib/scss/bf-btn';
+bf-btn.yellow-btn { @include custom-btn-color(green, black); }`;
 
 public squashExample = `<bf-btn class="squash" bfType="expand"></bf-btn>`;
 public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"></bf-btn>`;
+
+
+public toggleExample = `<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>`;
 
   public brStr = `
 `;
   public bsStr = `
         `;
+  public count = '';
   public customBtnCode = '<bf-btn (bfClick)="myFunc($event)"></bf-btn>';
   public btnTypes = [
-    { id: 'primary',    text: 'bfType = primary',    },
-    { id: 'secondary',  text: 'bfType = secondary',  },
-    { id: 'tertiary',   text: 'bfType = tertiary',   },
-    { id: 'quaternary', text: 'bfType = quaternary', },
-    { id: 'warning',    text: 'bfType = warning',    },
-    { id: 'extra',      text: 'bfType = extra',      },
-    { id: 'edit',       text: 'bfType = edit',     },
-    { id: 'save',       text: 'bfType = save',     },
-    { id: 'update',     text: 'bfType = update',   },
-    { id: 'add',        text: 'bfType = add',      },
-    { id: 'delete',     text: 'bfType = delete',   },
-    { id: 'cancel',     text: 'bfType = cancel',   },
-    { id: 'expand',     text: 'bfType = expand',   },
-    { id: 'collapse',   text: 'bfType = collapse', },
+    { id: 'search',       text: 'search',       icon: 'icon-search' },
+    { id: 'edit',         text: 'edit',         icon: 'icon-pencil' },
+    { id: 'edit-icon',    text: 'edit-icon',    icon: 'icon-pencil' },
+    { id: 'save',         text: 'save',         icon: 'icon-arrow-right3' },
+    { id: 'update',       text: 'update',       icon: 'icon-arrow-right3' },
+    { id: 'add',          text: 'add',          icon: 'icon-plus' },
+    { id: 'delete',       text: 'delete',       icon: 'icon-cross' },
+    { id: 'delete-icon',  text: 'delete-icon',  icon: 'icon-cross' },
+    { id: 'cancel',       text: 'cancel',       icon: 'icon-blocked' },
+    { id: 'view-icon',    text: 'view-icon',    icon: 'icon-eye' },
+    { id: 'expand',       text: 'expand',       icon: 'icon-arrow-down3' },
+    { id: 'collapse',     text: 'collapse',     icon: 'icon-arrow-up3' },
+    { id: 'primary',      text: 'primary',    },
+    { id: 'secondary',    text: 'secondary',  },
+    { id: 'tertiary',     text: 'tertiary',   },
+    { id: 'quaternary',   text: 'quaternary', },
+    { id: 'warning',      text: 'warning',    },
+    { id: 'extra',        text: 'extra',      },
   ];
   public btnIcons = [
-    { id: 'icon-pencil',        text: 'bfIcon = icon-pencil'        },
-    { id: 'icon-eye',           text: 'bfIcon = icon-eye'           },
-    { id: 'icon-arrow-right3',  text: 'bfIcon = icon-arrow-right3'  },
-    { id: 'icon-arrow-left6',   text: 'bfIcon = icon-arrow-left6'   },
-    { id: 'icon-plus',          text: 'bfIcon = icon-plus'          },
-    { id: 'icon-cross',         text: 'bfIcon = icon-cross'         },
-    { id: 'icon-blocked',       text: 'bfIcon = icon-blocked'       },
-    { id: 'icon-arrow-down3',   text: 'bfIcon = icon-arrow-down3'   },
-    { id: 'icon-arrow-up3',     text: 'bfIcon = icon-arrow-up3'     },
+    { icon: 'icon-pencil'        },
+    { icon: 'icon-eye'           },
+    { icon: 'icon-arrow-right3'  },
+    { icon: 'icon-arrow-left6'   },
+    { icon: 'icon-plus'          },
+    { icon: 'icon-minus'         },
+    { icon: 'icon-cross'         },
+    { icon: 'icon-blocked'       },
+    { icon: 'icon-arrow-down3'   },
+    { icon: 'icon-arrow-up3'     },
+    { icon: 'icon-users4'        },
+    { icon: 'icon-undo2'         },
+    { icon: 'icon-volume-high'   },
+    { icon: 'icon-first2'        },
+    { icon: 'icon-last2'         },
+    { icon: 'icon-download5'     },
+    { icon: 'icon-upload5'       },
+    { icon: 'icon-home'          },
+    { icon: 'icon-office'        },
+    { icon: 'icon-phone2'        },
+    { icon: 'icon-bell2'         },
+    { icon: 'icon-user'          },
+    { icon: 'icon-users'         },
+    { icon: 'icon-lock'          },
+    { icon: 'icon-cog'           },
+    { icon: 'icon-bin'           },
+    { icon: 'icon-shield'        },
+    { icon: 'icon-switch'        },
+    { icon: 'icon-list'          },
+    { icon: 'icon-tree6'         },
+    { icon: 'icon-menu3'         },
+    { icon: 'icon-earth2'        },
+    { icon: 'icon-link'          },
+    { icon: 'icon-star-full'     },
+    { icon: 'icon-thumbs-up'     },
+    { icon: 'icon-notification2' },
+    { icon: 'icon-warning2'      },
+    { icon: 'icon-checkmark'     },
+    { icon: 'icon-square'        },
+    { icon: 'icon-circle2'       },
+    { icon: 'icon-loop3'         },
+    { icon: 'icon-spell-check'   },
   ];
   public btnTooltipPoss = [
     { id: 'top',        text: 'top'    },
@@ -114,30 +136,30 @@ public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"
     { id: 'true',       text: 'true'   },
     { id: 'false',      text: 'false'  },
   ];
-  public btnConf:any = {
+  public btnConf: any = {
     hasText: false, btnText: 'Click Me',
     hasType: false, btnType: 'primary',
     hasIcon: false, btnIcon: 'icon-plus',
     isDisabled: false,
+    iconPos: 'right',
     hasTooltip: false, btnTooltip: 'Hello World', btnTooltipPos: null, btnTooltipBody: false,
-    btnDisabledTip: ''
+    btnDisabledTip: '',
+    hasToggle: false, toggleValue: undefined,
   };
   public res;
-  public asyncClickFunc = (param1, param2) => {
+  public asyncClickFunc(param1, param2) {
     return new Promise((resolve) => {
       setTimeout(resolve, 4000);
     });
-  };
-  public customBtnFunc = () => { this.res = ('Click at ' + new Date()); };
-  public upBtn = () => {
+  }
+  public customBtnFunc() { this.res = ('Click at ' + new Date()); }
+  public upBtn() {
     this.customBtnCode = `<bf-btn `;
 
     let btnClasses = '';
     if (this.btnConf.hasFullWidth) { btnClasses = 'full-width'; }
-    if (this.btnConf.hasSquash) {
-      if (!!btnClasses) { btnClasses += ' '; }
-      btnClasses += 'squash';
-    }
+    if (this.btnConf.hasSquash) { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'squash'; }
+    if (this.btnConf.hasEllipsis) { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'ellipsis'; }
     if (!!btnClasses) {
       this.customBtnCode += `class="${btnClasses}"` + this.bsStr;
     }
@@ -153,12 +175,14 @@ public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"
       }
     }
 
-
-
     if (this.btnConf.hasText) { this.customBtnCode += this.bsStr + ` bfText="${this.btnConf.btnText}"`; }
     if (this.btnConf.hasType) { this.customBtnCode += this.bsStr + ` bfType="${this.btnConf.btnType}"`; }
-    if (this.btnConf.hasIcon) { this.customBtnCode += this.bsStr + ` bfIcon="${this.btnConf.btnIcon}"`; }
-    if (this.btnConf.hasIconLeft) { this.customBtnCode += this.bsStr + ` bfIconPos="left"`; }
+    if (this.btnConf.hasIcon) {
+      if (!!this.btnConf.btnIcon) {
+               this.customBtnCode += this.bsStr + ` bfIcon="${this.btnConf.btnIcon}"`;
+      } else { this.customBtnCode += this.bsStr + ` bfIcon=""`; }
+    }
+    if (this.btnConf.iconPos !== 'right') { this.customBtnCode += this.bsStr + ` bfIconPos="${this.btnConf.iconPos}"`; }
     if (this.btnConf.isDisabled) { this.customBtnCode += this.bsStr + `[bfDisabled]="true"`; }
 
     if (!!this.btnConf.btnDisabledTip) { this.customBtnCode += this.bsStr + ` bfDisabledTip="${this.btnConf.btnDisabledTip}"`; }
@@ -175,15 +199,21 @@ public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"
     }
 
     this.customBtnCode += (`>` + this.brStr + `</bf-btn>`);
-  };
+  }
 
 
-
-  constructor() { }
+  constructor(public growl: BfGrowlService) { }
   ngOnInit() {
     this.upBtn();
   }
-  public count = '';
+
+  public asyncClick() {
+    return this.blockPr = new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 5000);
+    });
+  }
 }
 
 
@@ -192,13 +222,13 @@ public fullWidthExample = `<bf-btn class="full-width" bfText="Full Width Button"
 
 export const BfBtnDoc = {
   name    : `bf-btn`,
-  desc    : `Generates a button.`, 
+  desc    : `Generates a button.`,
   uiType  : 'component',
-  api     : `(bfClick)        : Click event handler
-[bfAsyncPromise] : For async tasks, promise to block all buttons until the task is completed. 
-[bfAsyncClick]   : Click callback function. Instead of using the (bfClick) output, it is also possible to pass a callback function. The return promise is automatically caught.   
+  api     : `(bfClick) : Click event handler
+[bfAsyncPromise] : For async tasks, promise to block all buttons until the task is completed.
+[bfAsyncClick]   : Click callback function. Instead of using the (bfClick) output, it is also possible to pass a callback function. The return promise is automatically caught.
 [bfText]         : Text of the button
-[bfType]         : Class of the button [primary, secondary, tertiary, quaternary, warning, extra] or predefined type [add, save, edit, delete, cancel, expand, collapse]
+[bfType]         : Class of the button [primary, secondary, tertiary, quaternary, warning, extra] or predefined type [search, add, save, edit, delete, cancel, expand, collapse]
 [bfIcon]         : Icon of the button (icomoon class)
 [bfIconPos]      : Position of the icon (left / right)
 [bfDisabled]     : True=Button is disabled, False=Enabled
@@ -206,6 +236,7 @@ export const BfBtnDoc = {
 [bfTooltipPos]   : Position of the tooltip (top by default)
 [bfTooltipBody]  : Whether the tooltip is append to the body (default true) or next the the html element (false). The parent container may affect the visibility of the tooltip
 [bfDisabledTip]  : Tooltip text to be displayed when the button is disabled (useful to give tips about why it's disabled)
+[(bfToggle)]     : Boolean flag to use the button as a toggle. Logic is held internally (also default arrow icons)
 `,
   instance: `<bf-btn bfType="edit" (bfClick)="myFunc($event)"></bf-btn>`,
   demoComp: BfBtnDemoComponent

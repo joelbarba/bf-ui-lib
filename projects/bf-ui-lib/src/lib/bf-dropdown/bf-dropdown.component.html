@@ -22,10 +22,18 @@
 
       <input type="text" class="form-control" #dropdownInput
              [ngModel]="inputText" (ngModelChange)="filterList($event)"
+             [class.has-image]="!!bfModel?.$img"
+             [class.has-icon]="!!bfModel?.$icon"
              [placeholder]="selModelText"
              [disabled]="bfDisabled"
              (focusin)="expandList()"
              (focusout)="collapseList()">
+
+      <img *ngIf="!!bfModel?.$img" class="input-image" [class.fade]="isExpanded" [src]="bfModel?.$img">
+
+      <span *ngIf="bfModel?.$icon && !bfModel?.$img" class="input-icon" [class.fade]="isExpanded"
+            [ngClass]="bfModel?.$icon">
+      </span>
 
       <div class="input-group-append" (click)="!bfDisabled && onInputBtnClick()">
         <button class="btn btn-outline-secondary" [disabled]="bfDisabled ? 'true' : ''">
@@ -39,12 +47,15 @@
            [class.selected]="bfModel === item"
            [hidden]="!item.$isMatch"
            (mousedown)="selectItem(item)">
-        {{item.$renderedText}}
+        <img *ngIf="!!item?.$img"  class="option-row-image" [src]="item?.$img">
+        <span *ngIf="!!item?.$icon" class="option-row-icon" [ngClass]="item?.$icon"></span>
+        <span>{{item.$renderedText}}</span>
 <!--        {{option.$isMatch}} - {{option.$renderedText}}-->
       </div>
     </div>
   </div>
 
   <!--pristine={{ngControl.pristine | json}}-->
+  <!--bfModel={{bfModel | json}}-->
 
 </div>

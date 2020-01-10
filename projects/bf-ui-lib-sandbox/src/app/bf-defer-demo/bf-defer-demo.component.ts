@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {BfDefer} from "../../../../bf-ui-lib/src/lib/bf-defer/bf-defer";
-import {BfPromise} from "../../../../bf-ui-lib/src/lib/bf-promise/bf-promise";
-import {BfGrowlService} from "../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service";
+import {BfDefer} from '../../../../bf-ui-lib/src/lib/bf-defer/bf-defer';
+import {BfPromise} from '../../../../bf-ui-lib/src/lib/bf-promise/bf-promise';
+import {BfGrowlService} from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service';
 
 @Component({
-  selector: 'app-bf-defer-demo]',
+  selector: 'app-bf-defer-demo',
   templateUrl: './bf-defer-demo.component.html',
   styleUrls: ['./bf-defer-demo.component.scss']
 })
@@ -14,15 +14,15 @@ export class BfDeferDemoComponent implements OnInit {
   public api = BfDeferDoc.api;
   public instance = BfDeferDoc.instance;
 
-  public example1 = `import { BfDefer } from 'bf-ui-lib';  
-  
+  public example1 = `import { BfDefer } from 'bf-ui-lib';
+
 const def = new BfDefer();
 console.log(def.status); // <-- This will be 0 (pending)
 setTimeout(() => { def.resolve(true); }, 4000);
 setTimeout(() => { def.reject(false); }, 3000);
 
-def.promise.then( 
-  res => { console.log('Promise resolved', res, def.status); }, 
+def.promise.then(
+  res => { console.log('Promise resolved', res, def.status); },
   res => { console.log('Promise rejected', res, def.status); }
 );
 `;
@@ -68,7 +68,7 @@ def.promise.then(
     this.cancelRes = setTimeout(() => this.myDef.resolve('Timout'), this.resolveTime * 1000);
     this.cancelRej = setTimeout(() => this.myDef.reject('Timout'), this.rejectTime * 1000);
     this.renderLog();
-  };
+  }
   renderLog = () => {
     if (!this.myDef) { this.testLog = '-'; return false; }
     let statusName = '-';
@@ -76,7 +76,7 @@ def.promise.then(
     if (this.myDef.status === 1) { statusName = 'Resolved'; }
     if (this.myDef.status === 2) { statusName = 'Rejected'; }
     this.testLog = `${this.elapsedTime} seg --> Status = ${this.myDef.status} (${statusName})`;
-  };
+  }
   clearAll = () => {
     clearInterval(this.cancelInt);
     clearTimeout(this.cancelRes);
@@ -97,6 +97,6 @@ status: number         --> Status of the promise: pending = 0, resolved = 1, rej
 resolve(): Function    --> Pointer to the native promise's resolve() function
 reject(): Function     --> Pointer to the native promise's reject() function
 `,
-  instance: `<bf-defer></bf-defer>`, 
+  instance: `<bf-defer></bf-defer>`,
   demoComp: BfDeferDemoComponent
 };

@@ -1,13 +1,13 @@
-import {Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, forwardRef, Inject, OnChanges} from '@angular/core';
-import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
-import {Observable, of} from 'rxjs';
-import {AbstractTranslateService, BfUILibTransService} from '../abstract-translate.service';
+import {Component, OnInit, Input, forwardRef, OnChanges} from '@angular/core';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {of} from 'rxjs';
+import {BfUILibTransService} from '../abstract-translate.service';
 
 @Component({
   selector: 'bf-radio',
   templateUrl: './bf-radio.component.html',
-  styleUrls: ['./bf-radio.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: [],
+  // encapsulation: ViewEncapsulation.None,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR, multi: true,
@@ -17,17 +17,19 @@ import {AbstractTranslateService, BfUILibTransService} from '../abstract-transla
 })
 // export class BfCheckboxComponent implements OnInit {
 export class BfRadioComponent implements ControlValueAccessor, OnInit, OnChanges {
-  // @Input() bfModel: boolean = false;
-  // @Output() bfModelChange = new EventEmitter<boolean>();
   public bfModel = false;
   @Input() bfLabel = '';
   @Input() bfValue: string = null;
   @Input() bfRadioGroup = 'radio-group';
   @Input() bfDisabled = false;
   @Input() bfRequired = false;
+  @Input() bfTooltip = '';
+  @Input() bfTooltipPos = 'top';
+  @Input() bfTooltipBody = true;
 
 
-  public bfLabelTrans$: Observable<string> = of('');        // Translated text for the button
+  public bfLabelTrans$ = of('');        // Translated text for the button
+  public bfTooltipTrans$ = of('');  // Translated text for the tooltip
 
   constructor(
     private translate: BfUILibTransService,
@@ -35,7 +37,7 @@ export class BfRadioComponent implements ControlValueAccessor, OnInit, OnChanges
 
   // ------- ControlValueAccessor -----
   writeValue(value: any) {
-    if (value !== undefined) { this.bfModel = value; }
+    this.bfModel = value;
   }
   public propagateModelUp = (_: any) => {}; // This is just to avoid type error (it's overwritten on register)
   registerOnChange(fn) { this.propagateModelUp = fn; }
@@ -51,8 +53,7 @@ export class BfRadioComponent implements ControlValueAccessor, OnInit, OnChanges
   }
 
   ngOnChanges(change) {
-
-    // Generate new observables for the dynamic text
-    if (change.hasOwnProperty('bfLabel')) { this.bfLabelTrans$ = this.translate.getLabel$(this.bfLabel); }
+    if (change.hasOwnProperty('bfLabel'))   { this.bfLabelTrans$ = this.translate.getLabel$(this.bfLabel); }
+    if (change.hasOwnProperty('bfTooltip')) { this.bfTooltipTrans$ = this.translate.getLabel$(this.bfTooltip); }
   }
 }

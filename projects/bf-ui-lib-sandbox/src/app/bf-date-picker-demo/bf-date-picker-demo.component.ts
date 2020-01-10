@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment-timezone';
 
 @Component({
-  selector: 'app-bf-date-picker-demo]',
+  selector: 'app-bf-date-picker-demo',
   templateUrl: './bf-date-picker-demo.component.html',
   styleUrls: ['./bf-date-picker-demo.component.scss']
 })
@@ -15,6 +15,10 @@ export class BfDatePickerDemoComponent implements OnInit {
   public desc = BfDatePickerDoc.desc;
   public api = BfDatePickerDoc.api;
   public instance = BfDatePickerDoc.instance;
+  public model = '';
+  public myVar = '';
+  public instance3 = '';
+
 
   public instance2 = `<bf-date-picker</bf-date-picker>`;
 

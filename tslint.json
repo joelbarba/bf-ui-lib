@@ -4,10 +4,12 @@
     "codelyzer"
   ],
   "rules": {
+    "semicolon": [true, "always", "ignore-bound-class-methods"],
     "no-trailing-whitespace": true,
     "no-string-literal": false,
     "array-type": false,
     "arrow-parens": false,
+    "ban-types": false,
     "deprecation": {
       "severity": "warn"
     },

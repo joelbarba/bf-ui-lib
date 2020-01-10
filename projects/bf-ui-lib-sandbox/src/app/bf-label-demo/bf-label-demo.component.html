@@ -8,13 +8,118 @@ It also makes use of the translation service (if present), to automatically tran
 <div class="col-12"><pre>{{api}}</pre></div>
 
 
-<div class="row">
-  <div class="col-12"><hr></div>
-  <div class="col-12">
-    <p>It generates the following html structure:</p>
-    <pre class="marL30">{{ bfHtmlStructure }}</pre>
+<!--bf-list-paginator Customization-->
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-6 marB15">
+      <h5 class="marB25">Customization:</h5>
+      <div class="padB25">
+        <!--<bf-label class="text-12" bfValue="view.common.field_name"></bf-label>-->
+        <!--<bf-label class="text-14" bfValue="view.common.field_name"></bf-label>-->
+        <!--<bf-label class="text-16" bfValue="view.common.field_name"></bf-label>-->
+        <!--<bf-label class="text-18" bfValue="view.common.field_name"></bf-label>-->
+        <!--<bf-label class="text-24" bfValue="view.common.field_name"></bf-label>-->
+
+        <bf-label [class.no-colon]="compConf.hasNoColon"
+                  [class.colon]="compConf.hasColon"
+                  [class.value-inline]="compConf.hasValueInline"
+                  [class.value-list]="compConf.hasValueList"
+                  [class.no-bold]="compConf.hasNoBold"
+                  [class.value-bold]="compConf.hasValueBold"
+                  [class.value-ellipsis]="compConf.hasEllipsis"
+                  [class.value-light]="compConf.hasValueLight"
+                  [class.value-primary]="compConf.valuePrimary"
+                  [class.value-warning]="compConf.valueWarning"
+                  [ngClass]="(compConf.textSize + ' ' + compConf.valueMar + ' ' + compConf.valueList)"
+                  [bfText]="compConf.hasLabel ? compConf.text : ''"
+                  [bfValue]="compConf.hasValue ? compConf.value: ''"
+                  [bfRequired]="compConf.isRequired"
+                  [bfTooltip]="(compConf.hasTooltip ? compConf.tooltipText : null)"
+                  [bfTooltipPos]="(compConf.tooltipPos || 'top')"
+                  [bfTooltipBody]="compConf.tooltipBody">
+        </bf-label>
+      </div>
+      <div>
+        <div class="code-box pad15">
+          <pre>{{customCompCode}}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+
+      <div class="row marT15">
+        <bf-checkbox class="col-2 padT10" bfLabel="Label text" [(ngModel)]="compConf.hasLabel"></bf-checkbox>
+        <div class="col-10">
+          <bf-input [bfDisabled]="!compConf.hasLabel" [(ngModel)]="compConf.text" (ngModelChange)="upComp()"></bf-input>
+        </div>
+      </div>
+
+      <div class="row">
+        <bf-checkbox class="col-2 padT10" bfLabel="Value" [(ngModel)]="compConf.hasValue"></bf-checkbox>
+        <div class="col-10">
+          <bf-input [bfDisabled]="!compConf.hasValue" [(ngModel)]="compConf.value" (ngModelChange)="upComp()"></bf-input>
+        </div>
+      </div>
+
+      <div class="row marT10">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox> </div>
+        <div class="col-9" *ngIf="compConf.hasTooltip">
+          <bf-input [(ngModel)]="compConf.tooltipText" (ngModelChange)="upComp()"></bf-input>
+        </div>
+
+        <bf-checkbox class="col-3" bfLabel="Required" [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()"></bf-checkbox>
+        <div class="col-5" *ngIf="compConf.hasTooltip">
+          bfTooltipPos: <bf-dropdown [(ngModel)]="compConf.tooltipPos" (ngModelChange)="upComp()"
+                                     [bfList]="[{ id: 'top', text: 'top' }, { id: 'right', text: 'right' }, { id: 'bottom', text: 'bottom' }, { id: 'left', text: 'left' }]"
+                                     bfRender="text" bfSelect="id"> </bf-dropdown>
+        </div>
+        <div class="col-4" *ngIf="compConf.hasTooltip">
+          bfTooltipBody: <bf-dropdown [(ngModel)]="compConf.tooltipBody" (ngModelChange)="upComp()" [bfList]="[{ id: 'true', text: 'true' }, { id: 'false', text: 'false' }]" bfRender="text" bfSelect="id"> </bf-dropdown>
+        </div>
+      </div>
+
+      <div class="row padT10">
+        <div class="col-12"><hr></div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasNoColon" (ngModelChange)="upComp()" bfLabel="no-colon"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasColon" (ngModelChange)="upComp()" bfLabel="colon"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasValueInline" (ngModelChange)="upComp()" bfLabel="value-inline"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasValueList" (ngModelChange)="upComp()" bfLabel="value-list"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasNoBold" (ngModelChange)="upComp()" bfLabel="no-bold"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasValueBold" (ngModelChange)="upComp()" bfLabel="value-bold"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasValueLight" (ngModelChange)="upComp()" bfLabel="value-light"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasEllipsis" (ngModelChange)="upComp()" bfLabel="value-ellipsis"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.valuePrimary" (ngModelChange)="upComp()" bfLabel="value-primary"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.valueWarning" (ngModelChange)="upComp()" bfLabel="value-warning"></bf-checkbox> </div>
+      </div>
+
+      <div class="row marT10">
+        <div class="col-4">
+          <bf-dropdown bfLabel="Text Size" [(ngModel)]="compConf.textSize" (ngModelChange)="upComp()"
+                       [bfList]="textSizes" bfRender="id" bfSelect="id" bfEmptyLabel="default (14px)">
+          </bf-dropdown>
+        </div>
+        <div class="col-4" *ngIf="compConf.hasValueList || compConf.hasValueInline">
+          <bf-dropdown bfLabel="Value Margin" [(ngModel)]="compConf.valueMar" (ngModelChange)="upComp()"
+                       [bfList]="valueMars" bfRender="id" bfSelect="id" bfEmptyLabel="default (5px)">
+          </bf-dropdown>
+        </div>
+        <div class="col-4" *ngIf="compConf.hasValueList">
+          <bf-dropdown bfLabel="Value List" [(ngModel)]="compConf.valueList" (ngModelChange)="upComp()"
+                       [bfList]="valueLists" bfRender="id" bfSelect="id" bfEmptyLabel="default (1)">
+          </bf-dropdown>
+        </div>
+      </div>
+
+    </div>
+
   </div>
 </div>
+
+<hr>
+
+
+
 
 
 <h5 class="mt-4">Examples:</h5>
@@ -53,23 +158,13 @@ It also makes use of the translation service (if present), to automatically tran
 </div>
 
 
-<h5 class="mt-4">Translations:</h5>
-<p>The library uses an internal service <span class="bold">AbstractTranslateService</span> that should be extended later in the project where that library is consumed.
-<br>It uses a synchronous method <span class="bold">doTranslate()</span> to return the translated value:</p>
-<div class="col-12 examples-table">
-  <div class="row">
-    <div class="col-12 code-box"><pre style="font-size: 16px;">{{transAbsService}}</pre></div>
+<div class="row">
+  <div class="col-12"><hr></div>
+  <div class="col-12">
+    <p>It generates the following html structure:</p>
+    <pre class="marL30">{{ bfHtmlStructure }}</pre>
   </div>
 </div>
-<p class="marT15">When the <span class="bold">bf-ui-lib</span> is injected into the consumer project, it has to connect its "Translation" service to the library by extending AbstractTranslateService class</p>
-<div class="col-12 examples-table">
-  <div class="row">
-    <div class="col-5 code-box"><pre style="font-size: 14px;">{{injectLibEx}}</pre></div>
-    <div class="col-7 code-box"><pre style="font-size: 14px;">{{extendTransLib}}</pre></div>
-  </div>
-</div>
-
-
 
 
 <!--CSS Styling-->

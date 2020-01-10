@@ -1,11 +1,11 @@
-<label [class.is-required]="bfRequired">
+<label [class.is-required]="bfRequired" *ngIf="!!bfText">
   <span class="info-badge" *ngIf="!!bfTooltip"
-       [ngbTooltip]="bfTooltipTranslated" [placement]="bfTooltipPos" triggers="hover"
+       [ngbTooltip]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
        [container]="(bfTooltipBody ? 'body' : '')">
     <span class="icon-info"></span>
   </span>
-  <span>{{bfTextTranslated}}</span>
-  <span class="the-colon" [hidden]="!bfTextTranslated">:</span>
-  <span class="asterisk" [hidden]="!bfTextTranslated" *ngIf="bfRequired">*</span>
+  <span>{{bfTextTrans$ | async}}</span>
+  <span class="the-colon" [hidden]="!(bfTextTrans$ | async)">:</span>
+  <span class="asterisk" [hidden]="!(bfTextTrans$ | async)" *ngIf="bfRequired">*</span>
 </label>
-<div class="label-value" *ngIf="!!bfValue">{{bfValue}}</div>
+<div class="label-value" *ngIf="!!bfValue">{{bfValueTrans$ | async}}</div>
