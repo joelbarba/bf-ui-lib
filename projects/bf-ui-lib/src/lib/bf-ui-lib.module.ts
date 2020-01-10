@@ -1,8 +1,6 @@
-import { BrowserModule } from '@angular/platform-browser';
 import {NgModule, ModuleWithProviders, Optional, SkipSelf, InjectionToken} from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // <-- NgModel lives here
-import {NgbPopoverModule, NgbTooltipModule, NgbProgressbarModule} from '@ng-bootstrap/ng-bootstrap';
-import { NgbModule, NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbPopoverModule, NgbTooltipModule, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModule, NgbActiveModal, NgbModalModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 
