@@ -1,40 +1,119 @@
-<div class="bf-date-picker">
-  <bf-input
-    (click)="dp.toggle();"
-    [ngModel]="modelInput"
-    [bfLabel]="bfLabel"
-    [bfIcon]="bfIcon"
-    bfType="text"
-    bfDisabled="true"
-    [bfRequired]="bfRequired">
-  </bf-input>
-  <div [ngClass]="{ 'ngb-datepicker' : dp.isOpen() }">
-    <input
-      [hidden]="true"
-      name="dp"
-      [(ngModel)]="modelDate"
-      (dateSelect)="selectDateForNgModel($event)"
-      ngbDatepicker
-      autoClose="false"
-      [minDate]="datePickerConfig.minDate"
-      [maxDate]="datePickerConfig.maxDate"
-      [footerTemplate]="t"
-      #dp="ngbDatepicker">
+<div class="form-group  bf-date-picker-form-group  error-{{errorPosition}}"
+     [class.is-required]="bfRequired"
+     [class.is-disabled]="bfDisabled"
+     [class.is-error]="status === 'error'"
+     [class.is-pristine]="status === 'pristine'"
+     [class.is-dirty]="status === 'dirty'">
+
+  <bf-label *ngIf="!!bfLabel" [bfText]="bfLabel"
+            [bfRequired]="bfRequired"
+            [bfTooltip]="bfTooltip" [bfTooltipPos]="bfTooltipPos" [bfTooltipBody]="bfTooltipBody">
+  </bf-label>
+
+  <!--Error Message-->
+  <span *ngIf="status === 'error' || true"
+        class="bf-date-picker-error-text"
+        [class.pull-up]="!bfLabel"
+        [class.default]="errorPosition === 'default'"
+        [class.top-right]="errorPosition === 'top-right'"
+        [class.bottom-left]="errorPosition === 'bottom-left'"
+        [class.bottom-right]="errorPosition === 'bottom-right'">
+    {{bfErrorText | getLabel$ | async}}
+  </span>
+
+  <div class="input-group" (click)="dpRef.toggle()">
+
+    <!--Just for displaying options (model is held in the other input)-->
+    <input class="form-control" disabled="disabled" name="dpv"
+           [ngModel]="bfFormattedValue">
+
+    <div class="input-group-append" (click)="clearValue($event, dpRef)">
+      <button class="btn btn-outline-secondary clear-btn">
+        <span class="icon-cross"></span>
+      </button>
+    </div>
+
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary" type="button">
+        <span class="icon-calendar"></span>
+      </button>
+    </div>
   </div>
 
-  <ng-template #t>
-    <ng-content></ng-content>
-    <div *ngIf="haveFooterButtons">
-      <hr/>
-      <div class="footerButtons">
-        <bf-btn bfType="save" bfText="Today" (bfClick)="today(dp)" bfIconPos="none"></bf-btn>
-        <bf-btn bfType="delete" bfText="Cancel" (bfClick)="cancel()" bfIconPos="none"></bf-btn>
-        <bf-btn bfType="save" bfText="Ok" (bfClick)="close(dp)" bfIconPos="none"></bf-btn>
-      </div>
+  <!--Internal input to hold the model-->
+  <input name="dp" class="hidden-input"
+         ngbDatepicker #dpRef="ngbDatepicker"
+         [(ngModel)]="bfModel" (ngModelChange)="onInternalModelChange()"
+         [navigation]="'arrows'"
+         [showWeekNumbers]="true"
+         [dayTemplate]="dayTemplate"
+         [footerTemplate]="bfDatePickerFooter">
+
+  <div>bfModel={{bfModel | json}}</div>
+
+  <!--Modal day in the calendar-->
+  <ng-template #dayTemplate let-date
+               let-currentMonth="currentMonth"
+               let-selected="selected"
+               let-today="today">
+    <div class="bf-date-picker-day"
+         [class.other-month]="date.month !== currentMonth"
+         [class.is-today]="today"
+         [class.is-selected]="selected">
+      {{ date.day }}
     </div>
   </ng-template>
 
-  <br>
-  <pre>Model: {{ modelInput | json }}</pre>
-  <pre>Date: {{ modelDate | json }}</pre>
+
+  <!--Modal footer-->
+  <ng-template #bfDatePickerFooter>
+    <div class="bf-date-picker-modal-footer">
+      <bf-btn class="squash" bfType="primary"   bfText="view.common.today" (bfClick)="setToday()"></bf-btn>
+      <bf-btn class="squash" bfType="warning"   bfText="view.common.clear" (bfClick)="clearValue($event, dpRef)"></bf-btn>
+      <bf-btn class="squash btn-cancel" bfType="secondary" bfText="view.common.close" (bfClick)="dpRef.close()"></bf-btn>
+    </div>
+  </ng-template>
+
+
 </div>
+
+<!--<div class="bf-date-picker">-->
+<!--  <bf-input-->
+<!--    (click)="dp.toggle();"-->
+<!--    [ngModel]="modelInput"-->
+<!--    [bfLabel]="bfLabel"-->
+<!--    [bfIcon]="bfIcon"-->
+<!--    bfType="text"-->
+<!--    bfDisabled="true"-->
+<!--    [bfRequired]="bfRequired">-->
+<!--  </bf-input>-->
+<!--  <div [ngClass]="{ 'ngb-datepicker' : dp.isOpen() }">-->
+<!--    <input-->
+<!--      [hidden]="true"-->
+<!--      name="dp"-->
+<!--      [(ngModel)]="modelDate"-->
+<!--      (dateSelect)="selectDateForNgModel($event)"-->
+<!--      ngbDatepicker-->
+<!--      autoClose="false"-->
+<!--      [minDate]="datePickerConfig.minDate"-->
+<!--      [maxDate]="datePickerConfig.maxDate"-->
+<!--      [footerTemplate]="t"-->
+<!--      #dp="ngbDatepicker">-->
+<!--  </div>-->
+
+<!--  <ng-template #t>-->
+<!--    <ng-content></ng-content>-->
+<!--    <div *ngIf="haveFooterButtons">-->
+<!--      <hr/>-->
+<!--      <div class="footerButtons">-->
+<!--        <bf-btn bfType="save" bfText="Today" (bfClick)="today(dp)" bfIconPos="none"></bf-btn>-->
+<!--        <bf-btn bfType="delete" bfText="Cancel" (bfClick)="cancel()" bfIconPos="none"></bf-btn>-->
+<!--        <bf-btn bfType="save" bfText="Ok" (bfClick)="close(dp)" bfIconPos="none"></bf-btn>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </ng-template>-->
+
+<!--  <br>-->
+<!--  <pre>Model: {{ modelInput | json }}</pre>-->
+<!--  <pre>Date: {{ modelDate | json }}</pre>-->
+<!--</div>-->

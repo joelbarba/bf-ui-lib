@@ -1,5 +1,3 @@
-<!-- bf-date-picker = 'bf-btn' -->
-
 <h2>{{name}}</h2>
 <hr/>
 <h5>{{desc}}</h5>
@@ -12,19 +10,50 @@
 <!--bf-date-picker Customization-->
 <div class="whiteBg">
   <div class="row">
+
+    <!--<div class="col-12">-->
+    <!--  <div class="input-group" style="width: 250px;">-->
+    <!--    <input class="form-control" placeholder="yyyy-mm-dd" name="dp"-->
+    <!--           [(ngModel)]="model" (ngModelChange)="checkNewModel(model)"-->
+    <!--           ngbDatepicker #d="ngbDatepicker">-->
+    <!--    <div class="input-group-append">-->
+    <!--      <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>-->
+    <!--    </div>-->
+    <!--  </div>-->
+    <!--</div>-->
+
+
+
+
     <div class="col-5 marB15">
       <h5 class="marB25">bf-date-picker Customization:</h5>
       <div>
         <bf-date-picker
-          [(ngModel)]="compConf.data.ngModel"
-          (ngModelChange)="compConf.convertToText($event)"
-          [bfLabel]="compConf.hasLabel ? compConf.labelText : null"
-          [bfRequired]="compConf.isRequired"
-          [bfMinDate]="compConf.data.min"
-          [bfMaxDate]="compConf.data.max"
+          [(ngModel)]="myDate"
+          [bfLocale]="compConf.bfLocale"
+          (ngModelChange)="checkNewModel($event)"
+          bfLabel="A Nice Date"
         ></bf-date-picker>
       </div>
+
+      <div class="row">
+        <bf-input class="col-6" [(ngModel)]="myDate" (ngModelChange)="myDate2 = myDate"
+                  bfLabel="myDate"
+                  bfRightBtnIcon="icon-calendar">
+        </bf-input>
+        <bf-input class="col-6" [(ngModel)]="myDate2" bfLabel="Temp value to set"
+                  bfRightBtnText="Set to myDate" (bfRightBtnClick)="myDate = myDate2">
+        </bf-input>
+        <!--<bf-input [(ngModel)]="myDate"-->
+        <!--          bfRequired="true"-->
+        <!--          bfLabel="view.common.name"-->
+        <!--          [bfDisabled]="true"-->
+        <!--          bfRightBtnIcon="icon-calendar">-->
+        <!--</bf-input>-->
+      </div>
+
       <div>
+        myDate={{myDate | json}}
         <div class="code-box pad15">
           <pre>{{customCompCode}}</pre>
         </div>
@@ -32,6 +61,22 @@
     </div>
 
     <div class="col-7">
+
+      <div class="row marT15">
+        <div class="col-12 padT5">
+          <bf-dropdown class="full-width"
+                       [(ngModel)]="compConf.bfLocale"
+                       [bfList]="localesList"
+                       bfLabel="Locale"
+                       bfSelect="code"
+                       bfRender="name">
+          </bf-dropdown>
+        </div>
+      </div>
+
+
+
+
 
       <div class="row marT15">
         <div class="col-12 padT5"> <bf-input bfType="text" [(ngModel)]="compConf.data.ngInputModel" (ngModelChange)="compConf.convertToDate()" bfLabel="Value"></bf-input> </div>
@@ -53,6 +98,8 @@
       <div class="row marT15">
         <div class="col-12 padT5"> <bf-input bfType="text" [(ngModel)]="compConf.data.inputMax" (ngModelChange)="compConf.convertToDate()" bfLabel="Maximum Date"></bf-input> </div>
       </div>
+
+
 
 <!--      <div class="row marT10">-->
 <!--        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox> </div>-->
@@ -82,19 +129,19 @@
 <h5 class="mt-4">Examples:</h5>
 <div class="col-12 examples-table">
 
-  <div class="row">
-    <div class="col-5">
-      <bf-date-picker></bf-date-picker>
-    </div>
-    <div class="col-7"> <pre>{{instance}}</pre> </div>
-  </div>
+  <!--<div class="row">-->
+  <!--  <div class="col-5">-->
+  <!--    <bf-date-picker></bf-date-picker>-->
+  <!--  </div>-->
+  <!--  <div class="col-7"> <pre>{{instance}}</pre> </div>-->
+  <!--</div>-->
 
-  <div class="row">
-    <div class="col-5">
-      <bf-date-picker></bf-date-picker>
-    </div>
-    <div class="col-7"> <pre>{{instance2}}</pre> </div>
-  </div>
+  <!--<div class="row">-->
+  <!--  <div class="col-5">-->
+  <!--    <bf-date-picker></bf-date-picker>-->
+  <!--  </div>-->
+  <!--  <div class="col-7"> <pre>{{instance2}}</pre> </div>-->
+  <!--</div>-->
 
 </div>
 

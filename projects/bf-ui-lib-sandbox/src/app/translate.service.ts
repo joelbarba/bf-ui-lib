@@ -4,6 +4,70 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { TranslateLoader } from '@ngx-translate/core';
 import {map} from 'rxjs/operators';
 
+// Locale configs
+import {registerLocaleData} from '@angular/common';
+import localeZhCN from '@angular/common/locales/zh-Hans';
+import localeZhTW from '@angular/common/locales/zh-Hans-HK';
+import localeDa from '@angular/common/locales/da';
+import localeNl from '@angular/common/locales/nl';
+import localeEnCA from '@angular/common/locales/en-CA';
+import localeEnGB from '@angular/common/locales/en-GB';
+import localeEnIE from '@angular/common/locales/en-IE';
+import localeEnUS from '@angular/common/locales/en-US-POSIX';
+import localeFi from '@angular/common/locales/fi';
+import localeFr from '@angular/common/locales/fr';
+import localeDe from '@angular/common/locales/de';
+import localeEl from '@angular/common/locales/el';
+import localeIt from '@angular/common/locales/it';
+import localeJa from '@angular/common/locales/ja';
+import localeNo from '@angular/common/locales/nb';
+import localePl from '@angular/common/locales/pl';
+import localeSv from '@angular/common/locales/sv';
+import localeEsES from '@angular/common/locales/es';
+import localeEsMx from '@angular/common/locales/es-MX';
+import localePtPT from '@angular/common/locales/pt-PT';
+import localePtBR from '@angular/common/locales/pt';
+import localeIn from '@angular/common/locales/hi';
+import localeAr from '@angular/common/locales/ar';
+import localeRu from '@angular/common/locales/ru';
+import localeMsSG from '@angular/common/locales/ms-SG';
+import localeMsMY from '@angular/common/locales/ms';
+import localeMsID from '@angular/common/locales/id';
+import localeTr from '@angular/common/locales/tr';
+import localeKr from '@angular/common/locales/ko';
+
+registerLocaleData(localeZhCN, 'zh-CN');
+registerLocaleData(localeZhTW, 'zh-TW');
+registerLocaleData(localeDa,   'da');
+registerLocaleData(localeNl,   'nl');
+registerLocaleData(localeEnCA, 'en-CA');
+registerLocaleData(localeEnGB, 'en-GB');
+registerLocaleData(localeEnIE, 'en-IE');
+registerLocaleData(localeEnUS, 'en-US');
+registerLocaleData(localeFi,   'fi');
+registerLocaleData(localeFr,   'fr');
+registerLocaleData(localeDe,   'de');
+registerLocaleData(localeEl,   'el');
+registerLocaleData(localeIt,   'it');
+registerLocaleData(localeJa,   'ja');
+registerLocaleData(localeNo,   'no');
+registerLocaleData(localePl,   'pl');
+registerLocaleData(localeSv,   'sv');
+registerLocaleData(localeEsES, 'es-ES');
+registerLocaleData(localeEsMx, 'es-MX');
+registerLocaleData(localePtPT, 'pt-PT');
+registerLocaleData(localePtBR, 'pt-BR');
+registerLocaleData(localeIn,   'in');
+registerLocaleData(localeAr,   'ar');
+registerLocaleData(localeRu,   'ru');
+registerLocaleData(localeMsSG, 'ms-SG');
+registerLocaleData(localeMsMY, 'ms-MY');
+registerLocaleData(localeMsID, 'ms-ID');
+registerLocaleData(localeTr,   'tr');
+registerLocaleData(localeKr,   'kr');
+
+
+
 @Injectable({ providedIn: 'root' })
 export class BfTranslateService extends BfUILibTransService {
   public transDict = {};
@@ -50,7 +114,10 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.no_data_to_show' : 'No Data',
     'views.test_label': 'p1 = {{p1}} ### Test & test2 & test3 [b] AAA BBB [/b]',
     'view.voicemails.no_voicemails_title': 'No Voicemails yet',
-    'view.voicemails.no_voicemails': 'Please click on the button above to check your Mailbox settings.'
+    'view.voicemails.no_voicemails': 'Please click on the button above to check your Mailbox settings.',
+    'view.common.today': 'Today',
+    'view.common.clear': 'Clear',
+    'view.common.close': 'Close'
   };
   public transDictCAT = {
     'view.common.name'            : 'Nom',
@@ -86,21 +153,26 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.customer_changed_successfully': 'Compte canviat a {{customer_name}}',
     'view.common.no_data_to_show': 'Sense Info',
     'views.test_label': '<script deferred>alert("XSS Attack");</script>',
+    'view.common.today': 'Avui',
+    'view.common.clear': 'Net',
+    'view.common.close': 'Tanca'
   };
 
   public transDict$ = new BehaviorSubject(this.transDict);
   public onLangChange$ = new BehaviorSubject({ lang: '', translations: null });
   public currLang: string;
 
+
+
+
   constructor() {
     super();
-    console.log('SANDBOX: TranslateService constructor');
     this.changeLanguage('en');
   }
 
   public doTranslate = (label ?: string, params?): string => {
     return this.transDict[label] || label;
-  }
+  };
 
   public getLabel$ = (label ?: string, params = {}): Observable<string> => {
     return this.transDict$.pipe(
@@ -112,7 +184,7 @@ export class BfTranslateService extends BfUILibTransService {
         return text;
       })
     );
-  }
+  };
 
 
 
