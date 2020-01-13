@@ -77,6 +77,7 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.username'     : 'User Name',
     'view.common.field_name'   : 'Dragon of the year',
     'view.common.field_name2'  : 'Feature Enabled',
+    'view.common.field_name3'  : 'Start Date',
     'view.common.placeholder'  : 'Placeholder',
     'view.tooltip.message'     : 'This is a very useful tooltip message',
     'view.tooltip.message2'    : 'This is a very useful tooltip message in a popover with two lines',

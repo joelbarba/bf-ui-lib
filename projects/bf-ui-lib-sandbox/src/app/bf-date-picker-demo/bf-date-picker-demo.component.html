@@ -1,7 +1,20 @@
 <h2>{{name}}</h2>
 <hr/>
 <h5>{{desc}}</h5>
-<p>This is a nice thing...</p>
+<p>Generates an input to display a date (day + month + year), and the attached day picker modal to select it from a calendar</p>
+<p>
+  This is a wrapper for the <a href="https://ng-bootstrap.github.io/#/components/datepicker/overview">Angular Bootstrap Datepicker</a>.
+  It adds the input where to display the current value of a date, and the controls to open the calendar and pick a different value.
+  <br>
+  The model uses no "Date" data types, but strings with the default format 'yyyy-mm-dd', which is the standard format that
+  is used for the Blueface API to get and set date fields.
+</p>
+<p>
+  By default the 'shortDate' format is applied to display the date on the input (see <a href="https://angular.io/api/common/DatePipe#pre-defined-format-options">Angular Date Pipe</a> for more formats).
+  If an i18n format is applied, the locale configuration can be provided to change is as needed.
+  <br>
+  It is important that the locales used are defined in the application that consumes the library via <b>registerLocaleData(localeZhCN, 'zh-CN');</b>
+</p>
 
 <h5 class="mt-4">Parameters:</h5>
 <div class="col-12"><pre>{{api}}</pre></div>
@@ -22,38 +35,40 @@
     <!--  </div>-->
     <!--</div>-->
 
-
-
-
     <div class="col-5 marB15">
-      <h5 class="marB25">bf-date-picker Customization:</h5>
-      <div>
-        <bf-date-picker
-          [(ngModel)]="myDate"
+      <h5 class="marB25">Customization:</h5>
+      <div *ngIf="isCompLinked">
+        <bf-date-picker [class.flat]="compConf.hasFlat"
+          [(ngModel)]="myDate" (ngModelChange)="checkNewModel($event)"
+          [bfRequired]="!!compConf.isRequired"
+          [bfDisabled]="!!compConf.isDisabled"
+          [bfHasClearBtn]="!!compConf.hasClearBtn"
+          [bfLabel]="compConf.hasLabel ? compConf.labelText : ''"
+
+          [bfTooltip]="(compConf.hasTooltip ? compConf.inputTooltip : null)"
+          [bfTooltipPos]="(compConf.inputTooltipPos || 'top')"
+          [bfTooltipBody]="compConf.inputTooltipBody"
+          [bfErrorText]="compConf.hasErrorText ? compConf.bfErrorText : ''"
+          [bfErrorPos]="compConf.errorPos"
+
           [bfLocale]="compConf.bfLocale"
-          (ngModelChange)="checkNewModel($event)"
-          bfLabel="A Nice Date"
+          [bfFormat]="compConf.bfFormat"
+          [bfMinDate]="compConf.bfMinDate"
+          [bfMaxDate]="compConf.bfMaxDate"
         ></bf-date-picker>
       </div>
 
       <div class="row">
+        <div class="col-12"><hr></div>
         <bf-input class="col-6" [(ngModel)]="myDate" (ngModelChange)="myDate2 = myDate"
-                  bfLabel="myDate"
-                  bfRightBtnIcon="icon-calendar">
+                  bfLabel="myDate (model value)">
         </bf-input>
-        <bf-input class="col-6" [(ngModel)]="myDate2" bfLabel="Temp value to set"
+        <bf-input class="col-6" [(ngModel)]="myDate2" bfLabel="New value to set"
                   bfRightBtnText="Set to myDate" (bfRightBtnClick)="myDate = myDate2">
         </bf-input>
-        <!--<bf-input [(ngModel)]="myDate"-->
-        <!--          bfRequired="true"-->
-        <!--          bfLabel="view.common.name"-->
-        <!--          [bfDisabled]="true"-->
-        <!--          bfRightBtnIcon="icon-calendar">-->
-        <!--</bf-input>-->
       </div>
 
       <div>
-        myDate={{myDate | json}}
         <div class="code-box pad15">
           <pre>{{customCompCode}}</pre>
         </div>
@@ -62,11 +77,50 @@
 
     <div class="col-7">
 
+      <!--Required, Disabled, Clean btn-->
       <div class="row marT15">
-        <div class="col-12 padT5">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasClearBtn" (ngModelChange)="upComp()" bfLabel="Has Clear Button"></bf-checkbox> </div>
+      </div>
+
+      <!--Label-->
+      <div class="row marT15">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasLabel" (ngModelChange)="upComp()" bfLabel="Has Label"></bf-checkbox> </div>
+        <div class="col-9" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasLabel"></bf-input> </div>
+      </div>
+
+      <!--Tooltip-->
+      <div class="row marT5" *ngIf="compConf.hasLabel">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox> </div>
+        <div class="col-9" *ngIf="compConf.hasTooltip">
+          <bf-input [(ngModel)]="compConf.tooltipText" (ngModelChange)="upComp()"></bf-input>
+        </div>
+        <div class="col-3" *ngIf="compConf.hasTooltip"></div>
+        <div class="col-5" *ngIf="compConf.hasTooltip">
+          <bf-dropdown bfLabel="bfTooltipPos" [(ngModel)]="compConf.tooltipPos" (ngModelChange)="upComp()" [bfList]="tooltipPosList" bfRender="text" bfSelect="id"> </bf-dropdown>
+        </div>
+        <div class="col-4" *ngIf="compConf.hasTooltip">
+          <bf-dropdown bfLabel="bfTooltipBody" [(ngModel)]="compConf.tooltipBody" (ngModelChange)="upComp()" [bfList]="tooltipBodyList" bfRender="text" bfSelect="id"> </bf-dropdown>
+        </div>
+      </div>
+
+      <!-- Custom Format + Locale-->
+      <div class="row marT15">
+        <div class="col-3 padT30"> <bf-checkbox [(ngModel)]="compConf.hasCustomFormat" (ngModelChange)="upComp()" bfLabel="Custom Format"></bf-checkbox> </div>
+        <div class="col-5">
+          <bf-dropdown class="full-width" [bfDisabled]="!compConf.hasCustomFormat"
+                       [(ngModel)]="compConf.bfFormat" (ngModelChange)="upComp()"
+                       [bfList]="formatsList"
+                       bfLabel="Format"
+                       bfSelect="code"
+                       bfRender="name">
+          </bf-dropdown>
+        </div>
+        <div class="col-4">
           <bf-dropdown class="full-width"
                        [(ngModel)]="compConf.bfLocale"
-                       [bfList]="localesList"
+                       [bfList]="localesList" (ngModelChange)="upComp()"
                        bfLabel="Locale"
                        bfSelect="code"
                        bfRender="name">
@@ -74,48 +128,45 @@
         </div>
       </div>
 
-
-
-
-
+      <!--Min / Max-->
       <div class="row marT15">
-        <div class="col-12 padT5"> <bf-input bfType="text" [(ngModel)]="compConf.data.ngInputModel" (ngModelChange)="compConf.convertToDate()" bfLabel="Value"></bf-input> </div>
+        <div class="col-4"></div>
+        <div class="col-4">
+          <bf-date-picker bfLabel="bfMinDate"
+                  [(ngModel)]="compConf.bfMinDate" (ngModelChange)="upComp()"
+                  [bfHasClearBtn]="true"
+                  [bfLocale]="compConf.bfLocale"
+                  [bfFormat]="compConf.bfFormat"
+          ></bf-date-picker>
+        </div>
+        <div class="col-4">
+          <bf-date-picker bfLabel="bfMaxDate"
+                  [(ngModel)]="compConf.bfMaxDate" (ngModelChange)="upComp()"
+                  [bfHasClearBtn]="true"
+                  [bfLocale]="compConf.bfLocale"
+                  [bfFormat]="compConf.bfFormat"
+          ></bf-date-picker>
+        </div>
       </div>
 
+      <!--Custom Error-->
       <div class="row marT15">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>
+        <bf-checkbox class="col-3 marT30" bfLabel="Has Custom Error" [(ngModel)]="compConf.hasErrorText" (ngModelChange)="upComp()"></bf-checkbox>
+        <bf-input class="col-5" bfLabel="bfErrorText" [(ngModel)]="compConf.bfErrorText" [bfDisabled]="!compConf.hasErrorText" (ngModelChange)="upComp()"></bf-input>
+        <bf-dropdown class="col-4" bfLabel="bfErrorPos" [(ngModel)]="compConf.errorPos"
+                     [bfList]="compConf.errorPosOpts" bfRender="text" bfSelect="id"
+                     (ngModelChange)="relink(); upComp()">
+        </bf-dropdown>
       </div>
 
+      <!--Classes-->
       <div class="row marT15">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasLabel" (ngModelChange)="upComp()" bfLabel="Has Label"></bf-checkbox> </div>
-        <div class="col-10" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasLabel"></bf-input> </div>
+        <div class="col-8 padT5">
+          <bf-label bfText="CSS Classes"></bf-label>
+          <bf-checkbox class="marL20" [(ngModel)]="compConf.hasFlat" (ngModelChange)="upComp()" bfLabel="flat"></bf-checkbox>
+        </div>
       </div>
 
-      <div class="row marT15">
-        <div class="col-12 padT5"> <bf-input bfType="text" [(ngModel)]="compConf.data.inputMin" (ngModelChange)="compConf.convertToDate()" bfLabel="Minimum Date"></bf-input> </div>
-      </div>
-
-      <div class="row marT15">
-        <div class="col-12 padT5"> <bf-input bfType="text" [(ngModel)]="compConf.data.inputMax" (ngModelChange)="compConf.convertToDate()" bfLabel="Maximum Date"></bf-input> </div>
-      </div>
-
-
-
-<!--      <div class="row marT10">-->
-<!--        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox> </div>-->
-<!--        <div class="col-10" *ngIf="compConf.hasTooltip">-->
-<!--          <bf-input [(ngModel)]="compConf.tooltipText" (ngModelChange)="upComp()"></bf-input>-->
-<!--        </div>-->
-<!--        <div class="col-2" *ngIf="compConf.hasTooltip"></div>-->
-<!--        <div class="col-5" *ngIf="compConf.hasTooltip">-->
-<!--          bfTooltipPos: <bf-dropdown [(ngModel)]="compConf.tooltipPos" (ngModelChange)="upComp()"-->
-<!--                                     [bfList]="[{ id: 'top', text: 'top' }, { id: 'right', text: 'right' }, { id: 'bottom', text: 'bottom' }, { id: 'left', text: 'left' }]"-->
-<!--                                     bfRender="text" bfSelect="id"> </bf-dropdown>-->
-<!--        </div>-->
-<!--        <div class="col-5" *ngIf="compConf.hasTooltip">-->
-<!--          bfTooltipBody: <bf-dropdown [(ngModel)]="compConf.tooltipBody" (ngModelChange)="upComp()" [bfList]="[{ id: 'true', text: 'true' }, { id: 'false', text: 'false' }]" bfRender="text" bfSelect="id"> </bf-dropdown>-->
-<!--        </div>-->
-<!--      </div>-->
     </div>
 
   </div>
@@ -129,19 +180,27 @@
 <h5 class="mt-4">Examples:</h5>
 <div class="col-12 examples-table">
 
-  <!--<div class="row">-->
-  <!--  <div class="col-5">-->
-  <!--    <bf-date-picker></bf-date-picker>-->
-  <!--  </div>-->
-  <!--  <div class="col-7"> <pre>{{instance}}</pre> </div>-->
-  <!--</div>-->
+  <div class="row">
+    <div class="col-5">
+      <bf-date-picker bfLabel="My Date" [(ngModel)]="myDate3"
+                      [bfLocale]="bfTranslate.currentLocale">
+      </bf-date-picker>
+    </div>
+    <div class="col-7"> <pre>{{instance}}</pre> </div>
+  </div>
 
-  <!--<div class="row">-->
-  <!--  <div class="col-5">-->
-  <!--    <bf-date-picker></bf-date-picker>-->
-  <!--  </div>-->
-  <!--  <div class="col-7"> <pre>{{instance2}}</pre> </div>-->
-  <!--</div>-->
+  <div class="row">
+    <div class="col-5">
+      <bf-date-picker [(ngModel)]="myDate3"
+                      bfLabel="view.common.field_name3"
+                      [bfRequired]="true"
+                      [bfLocale]="bfTranslate.currentLocale"
+                      bfMinDate="2020-01-14"
+                      bfMaxDate="2020-02-09">
+      </bf-date-picker>
+    </div>
+    <div class="col-7"> <pre>{{instance2}}</pre> </div>
+  </div>
 
 </div>
 
@@ -152,9 +211,9 @@
   <div class="col-12">
     <hr>
     <h4>CSS Styling</h4>
-    <p>The encapsulated styles of the button use a default color. However, we may want to apply different colors externally (depending on the theme)
+    <p>The encapsulated styles of the component use a default color set. However, we may want to apply different colors externally (depending on the theme)
       <br/>
-      To provide a color restyiling based on a SCSS theme you can apply the following rules on a css global level :
+      To provide a color restyling based on a SCSS theme you can apply set following SASS variables:
     </p>
     <pre>{{ cssReset }}</pre>
   </div>
