@@ -46,7 +46,7 @@ type TExtCtrl$ =
 })
 export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges, AfterViewInit, OnDestroy {
   private ngControl;
-  public bfModel: string; // Internal to hold the linked ngModel on the wrapper
+  public bfModel: any; // Internal to hold the linked ngModel on the wrapper
 
   @Input() bfLabel = '';          // Text for the label above the input. Translation applied.
   @Input() bfRequired = false;   // It adds the required validator to the ngModel (input), meaning that the required field styles will be applied on the label and input.
@@ -344,7 +344,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   // Internal ngModelChange
   public parseModelChange = (value) => {
     this.bfBeforeChange.emit({ currentValue: this.bfModel, nextValue: value });
-    this.bfModel = value;
+    this.bfModel = this.bfType === 'number' ? Number(value) : value;
     this.propagateModelUp(this.bfModel);
     this.updateStatus();
     // console.log('propagateModelUp (ngModel) -> ', this.bfModel);
