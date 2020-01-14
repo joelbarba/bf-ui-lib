@@ -13,6 +13,7 @@ bf-date-picker {
   .bf-date-picker-form-group {
     margin-bottom: 15px;
     position: relative;
+    text-align: left;
 
     input.form-control {
       height: 34px;
@@ -113,6 +114,12 @@ bf-date-picker {
     visibility: hidden;
     position: absolute;
     bottom: 0;
+  }
+
+
+  &.modal-right ngb-datepicker {
+    right: 0;
+    left: auto !important;
   }
 
   ngb-datepicker.dropdown-menu {

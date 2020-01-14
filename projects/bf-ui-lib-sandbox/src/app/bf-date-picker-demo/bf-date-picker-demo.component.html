@@ -35,10 +35,18 @@
     <!--  </div>-->
     <!--</div>-->
 
+
+    <!--<div class="col-5 text-right">-->
+    <!--  <bf-date-picker [(ngModel)]="myDate"-->
+    <!--                  bfLabel="view.common.field_name3"-->
+    <!--                  [bfLocale]="bfTranslate.currentLocale">-->
+    <!--  </bf-date-picker>-->
+    <!--</div>-->
+
     <div class="col-5 marB15">
       <h5 class="marB25">Customization:</h5>
       <div *ngIf="isCompLinked">
-        <bf-date-picker [class.flat]="compConf.hasFlat"
+        <bf-date-picker [class.flat]="compConf.hasFlat" [class.modal-right]="compConf.hasModalRight"
           [(ngModel)]="myDate" (ngModelChange)="checkNewModel($event)"
           [bfRequired]="!!compConf.isRequired"
           [bfDisabled]="!!compConf.isDisabled"
@@ -163,7 +171,8 @@
       <div class="row marT15">
         <div class="col-8 padT5">
           <bf-label bfText="CSS Classes"></bf-label>
-          <bf-checkbox class="marL20" [(ngModel)]="compConf.hasFlat" (ngModelChange)="upComp()" bfLabel="flat"></bf-checkbox>
+          <bf-checkbox class="marL20" [(ngModel)]="compConf.hasFlat"       (ngModelChange)="upComp()" bfLabel="flat"></bf-checkbox>
+          <bf-checkbox class="marL20" [(ngModel)]="compConf.hasModalRight" (ngModelChange)="upComp()" bfLabel="modal-right" bfTooltip="It makes the modal open aligned to the right instead"></bf-checkbox>
         </div>
       </div>
 
