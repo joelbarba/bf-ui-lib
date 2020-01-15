@@ -53,10 +53,10 @@
           [bfHasClearBtn]="!!compConf.hasClearBtn"
           [bfLabel]="compConf.hasLabel ? compConf.labelText : ''"
 
-          [bfTooltip]="(compConf.hasTooltip ? compConf.inputTooltip : null)"
-          [bfTooltipPos]="(compConf.inputTooltipPos || 'top')"
-          [bfTooltipBody]="compConf.inputTooltipBody"
-          [bfErrorText]="compConf.hasErrorText ? compConf.bfErrorText : ''"
+          [bfTooltip]="(compConf.hasTooltip ? compConf.tooltipText : null)"
+          [bfTooltipPos]="(compConf.tooltipPos || 'top')"
+          [bfTooltipBody]="compConf.tooltipBody"
+          [bfErrorText]="compConf.tooltipText ? compConf.tooltipText : ''"
           [bfErrorPos]="compConf.errorPos"
 
           [bfLocale]="compConf.bfLocale"

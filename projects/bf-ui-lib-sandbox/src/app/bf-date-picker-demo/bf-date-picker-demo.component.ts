@@ -111,7 +111,6 @@ $date-picker-valid-color     : $valid-color !default;`;
       { id: 'bottom-left',  text: 'bottom-left',   },
       { id: 'bottom-right', text: 'bottom-right',  },
     ],
-
     hasCustomFormat: false,
     bfFormat: 'shortDate',
     bfLocale: null,
