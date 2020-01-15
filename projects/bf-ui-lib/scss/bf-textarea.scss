@@ -41,7 +41,7 @@ bf-textarea {
     &.is-error {
       // Error message on the top right
       .bf-textarea-error-text {
-        font-size: 12px;
+        font-size: 11px;
         position: absolute;
         &.pull-up { top: -23px; } // If no label, pull message up above the box
 

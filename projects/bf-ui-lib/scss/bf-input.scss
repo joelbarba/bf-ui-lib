@@ -74,7 +74,7 @@ bf-input {
 
     &.is-error {
       .bf-input-error-text {  // Error message
-        font-size: 12px;
+        font-size: 11px;
         position: absolute;
         &.pull-up { top: -23px; } // If no label, pull message up above the box
 
