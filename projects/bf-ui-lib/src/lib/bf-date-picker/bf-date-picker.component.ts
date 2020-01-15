@@ -51,6 +51,7 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   public errorText = 'view.common.invalid_value';  // Internal error label (from bfErrorText)
   public ngbMinDate: NgbDateStruct = null;
   public ngbMaxDate: NgbDateStruct = null;
+  public isTodayValid = true;         // Whether the min/max validation allows today as a valid option
 
   constructor(
     @Inject(BfUILibTransService) private translate: BfUILibTransService,
@@ -181,9 +182,9 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
       this.errorText = this.bfErrorText || 'view.common.required_field';
     }
 
-    const minVal = this.ngbMinDate ? (this.ngbMinDate.year * 10000) + (this.ngbMinDate.month * 100) + this.ngbMinDate.day : 0;
-    const maxVal = this.ngbMaxDate ? (this.ngbMaxDate.year * 10000) + (this.ngbMaxDate.month * 100) + this.ngbMaxDate.day : 99999999;
-    const modelVal = this.bfModel ? (this.bfModel.year * 10000) + (this.bfModel.month * 100) + this.bfModel.day : null;
+    const minVal = this.getNumDate(this.ngbMinDate, 0);
+    const maxVal = this.getNumDate(this.ngbMaxDate, 99999999);
+    const modelVal = this.getNumDate(this.bfModel);
 
     // Check valid range bfMinDate <= bfMaxDate
     if (this.ngbMinDate && this.ngbMaxDate) {
@@ -205,6 +206,14 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
       this.status = 'error';
       this.errorText = this.bfErrorText || 'view.common.invalid_value';
     }
+
+    const today = new Date();
+    const todayNum = this.getNumDate({ year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() }, 0);
+    this.isTodayValid = (todayNum >= minVal && todayNum <= maxVal);
+  };
+
+  private getNumDate = (date: NgbDateStruct, defaultValue = null): number => {
+    return !!date ? (date.year * 10000) + (date.month * 100) + date.day : defaultValue;
   };
 
 

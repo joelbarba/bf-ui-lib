@@ -72,8 +72,8 @@
   <!--Modal footer-->
   <ng-template #bfDatePickerFooter>
     <div class="bf-date-picker-modal-footer">
-      <bf-btn class="squash" bfType="primary"   bfText="view.common.today" (bfClick)="setToday($event, dpRef)"></bf-btn>
-      <bf-btn class="squash" bfType="warning"   bfText="view.common.clear" (bfClick)="clearValue($event, dpRef)"></bf-btn>
+      <bf-btn class="squash" bfType="primary"   bfText="view.common.today" (bfClick)="setToday($event, dpRef)" [bfDisabled]="!isTodayValid"></bf-btn>
+      <bf-btn class="squash" bfType="warning"   bfText="view.common.clear" (bfClick)="clearValue($event, dpRef)" [bfDisabled]="bfRequired"></bf-btn>
       <bf-btn class="squash btn-cancel" bfType="secondary" bfText="view.common.close" (bfClick)="dpRef.close()"></bf-btn>
     </div>
   </ng-template>
