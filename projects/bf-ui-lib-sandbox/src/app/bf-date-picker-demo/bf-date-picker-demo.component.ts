@@ -14,7 +14,8 @@ export class BfDatePickerDemoComponent implements OnInit {
   public instance3 = '';
 
   public myDate2 = '2015-10-08T08:41:03.868793+00:00';
-  public myDate = '2020-01-19';
+  public myDate = null;
+  // public myDate = '2020-01-19';
   public myDate3;
   public bfTranslate = { currentLocale: 'en-US' };
 
@@ -100,7 +101,7 @@ $date-picker-valid-color     : $valid-color !default;`;
   public customCompCode = null;
   public isCompLinked = true;
   public compConf: any = {
-    isRequired: false,
+    isRequired: true,
     isDisabled: false,
     hasClearBtn: false,
     hasLabel: false, labelText: 'view.common.field_name3',

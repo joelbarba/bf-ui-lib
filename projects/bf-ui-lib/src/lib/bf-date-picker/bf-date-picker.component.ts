@@ -1,6 +1,6 @@
 import {Component, OnInit, Input, forwardRef, OnDestroy, OnChanges, SimpleChanges} from '@angular/core';
 import {ViewChild, ElementRef, Inject} from '@angular/core';
-import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {BfUILibTransService} from '../abstract-translate.service';
 import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import BfString from '../bf-prototypes/string.prototype';
@@ -15,6 +15,10 @@ import {DatePipe} from '@angular/common';
     { provide: NG_VALUE_ACCESSOR, multi: true,
       useExisting: forwardRef(() => BfDatePickerComponent)
     },
+    { // Custom validator
+      provide: NG_VALIDATORS, multi: true,
+      useExisting: forwardRef(() => BfDatePickerComponent),
+    }
   ]
 })
 export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
@@ -80,34 +84,18 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
 
 
   // NG_VALIDATORS provider triggers this validation
-  // Validation to determine the outer formControl state. It propagates upward the state of the internal ngModel
-  // public validate = (extFormCtrl: FormControl) => {
-  //   // extFormCtrl     <-- FormControl of the external ngModel
-  //   // this.inputCtrl  <-- FormControl of the internal ngModel
-  //   // this.ngInputRef <-- This is the reference of the internal <input> tag
-  //   let result = null;  // null means valid
-  //
-  //   // If internal ngModel is invalid, external is invalid too
-  //   if (!!this.inputCtrl && this.inputCtrl.status === 'INVALID') { // status: [VALID, INVALID, PENDING, DISABLED]
-  //     result = this.inputCtrl.errors;
-  //   }
-  //   // console.log('validate', 'Internal FormControl:', this.inputCtrl.status, ' / External FormControl:', extFormCtrl.status, result);
-  //   return result;
-  // };
+  // Validation to determine the outer formControl state. It propagates upward the status of the form element
+  public validate = (extFormCtrl: FormControl) => {
+    if (this.status === 'error') {
+      return { error: this.errorText };
+    } else {
+      return null; // valid
+    }
+  };
 
 
 
-  ngOnInit() {
-    // moment.locale(this.bfLocale || moment.locale());
-    // this.bfIcon = this.bfIcon || 'icon-calendar4';
-    // this.bfFormat = this.bfFormat || 'L';
-    // this.originalModel = this.existTheControlValue() ? moment(this.bfModelControl.value) : null;
-    // this.bfModelControlSubscription = this.bfModelControl.valueChanges.subscribe(() => {
-    //   this.setModelInput();
-    //   this.updateCalendar();
-    //   this.createRangeDatepickerConfig();
-    // });
-  }
+  ngOnInit() { }
 
   ngOnChanges(changes: SimpleChanges) {
     if (!!changes.bfLocale) { this.onInternalModelChange(true); }
@@ -118,9 +106,7 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
     if (changes.hasOwnProperty('bfErrorPos') && this.bfErrorPos) { this.errorPosition = this.bfErrorPos; }
   }
 
-  ngOnDestroy() {
-    // this.bfModelControlSubscription.unsubscribe();
-  }
+  ngOnDestroy() { }
 
 
   // Convert incoming string to ngb  '2020-01-19' --> { day: 19, month: 1, year: 2020 }
@@ -181,8 +167,8 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
     // https://angular.io/api/common/DatePipe
     this.bfFormattedValue = new DatePipe(this.bfLocale || 'en-IE').transform(this.parseModelOut(this.bfModel), this.bfFormat) || '';
 
-    this.propagateModelUp(this.parseModelOut(this.bfModel));
     this.updateStatus();
+    this.propagateModelUp(this.parseModelOut(this.bfModel));
   };
 
 
