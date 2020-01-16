@@ -171,7 +171,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
     // console.log('this.ngInputRef', this.ngInputRef);
 
     // Link the formControl form the <input #ngInputRef="ngModel"> to "this.inputCtrl"
-    if (!!this.ngInputRef['control'] && !this.inputCtrl) {
+    if (!!this.ngInputRef && !!this.ngInputRef['control'] && !this.inputCtrl) {
       this.inputCtrl = this.ngInputRef['control'];
       this.inputCtrl.setValidators(this.customValidator);
       this.inputCtrl.updateValueAndValidity();
@@ -260,7 +260,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   ngAfterViewInit() {
     // console.log('ngAfterViewInit', this.ngControl);
 
-    if (!!this.ngInputRef['control'] && !this.inputCtrl) {
+    if (!!this.ngInputRef && !!this.ngInputRef['control'] && !this.inputCtrl) {
       this.inputCtrl = this.ngInputRef['control'];
     }
 
