@@ -1,9 +1,57 @@
-<h2>
+<h4>
   <a [routerLink]="['/lazy-loading-test']">Link to Lazy Loaded Module test</a>
-</h2>
+</h4>
 
 
-<h3>How to add a component</h3>
+
+
+<h3>How to install the library</h3>
+<p>There are 2 options, pulling the library from the public NPM repository (simple) or reference the local file system</p>
+<p>Install from NPM: <span class="inline-code">npm install bf-ui-lib --save</span></p>
+<p>Install from file reference: <span class="inline-code">npm install ../../../bf-ui-lib/dist/bf-ui-lib/bf-ui-lib-*.*.*.tgz --save</span> </p>
+<p>
+  This library has some dependencies. It works with <a href="https://getbootstrap.com/">Bootstrap</a>
+  and <a href="https://ng-bootstrap.github.io">Angular Bootstrap</a>, so you'll have to install them to get everything working.
+  <br>
+  It also uses the icon library <a href="https://icomoon.io/">icoMoon</a>, which can easily be imported via npm: @blueface_npm/icomoon
+  <br>
+  Remember also that many components of the library make use of the ngModel and it's formControl directive, so you'll need
+  to import the <b>"FormsModule"</b> into your app's module
+</p>
+
+<p>
+  The library also requires a translation service to be injected (<b>BfTranslateService</b>).
+  There is an abstract class (<b>AbstractTranslateService</b>) you can extend to provide the methods for such service.
+</p>
+<div class="col-12 examples-table">
+  <div class="row">
+    <div class="col-8 code-box">
+      <pre style="font-size: 14px;">{{libImport2}}</pre>
+    </div>
+    <div class="col-4 code-box">
+      <pre style="font-size: 14px; justify-content: start;">{{libImport}}</pre>
+    </div>
+  </div>
+</div>
+
+<hr>
+<h4>Color styling</h4>
+<p>
+  The library exposes (without encapsulation) the css styles, so they can be overridden later.
+  <br>A group of SCSS variables can be configured in order to change the colors or styles at convenience. Default values are provided based on the primary colors
+</p>
+<p>Example:</p>
+<div class="col-12 examples-table">
+  <div class="row">
+    <div class="col-12 code-box">
+      <pre style="font-size: 16px;">{{stylesExample}}</pre>
+    </div>
+  </div>
+</div>
+
+
+<hr>
+<h3>How to add a new component</h3>
 
 <p>The easiest way is by running the script <span class="inline-code">sh new_comp.sh</span></p>
 <p>To add a new component to the library (manually), follow the steps:</p>
@@ -62,38 +110,6 @@
 
 
 
-
-
-<h3>How to install the library</h3>
-<p>There are 2 options, pulling the library from the public NPM repository (simple) or reference the local file system</p>
-<p>Install from NPM: <span class="inline-code">npm install bf-ui-lib --save</span></p>
-<p>Install from file reference: <span class="inline-code">npm install ../../../bf-ui-lib/dist/bf-ui-lib/bf-ui-lib-*.*.*.tgz --save</span> </p>
-<p>
-  Then you can import module "BfUiLibModule" to your project module:
-  <br>You may need to config the abstract services that are implemented into the library, such as <span class="bold">TranslateService</span>
-</p>
-<div class="col-12 examples-table">
-  <div class="row">
-    <div class="col-12 code-box">
-      <pre style="font-size: 16px;">{{libImport}}</pre>
-    </div>
-  </div>
-</div>
-
-<hr>
-<h4>Color styling</h4>
-<p>
-  The library exposes (without encapsulation) the css styles, so they can be overridden later.
-  <br>A group of SCSS variables can be configured in order to change the colors or styles at convenience. Default values are provided based on the primary colors
-</p>
-<p>Example:</p>
-<div class="col-12 examples-table">
-  <div class="row">
-    <div class="col-12 code-box">
-      <pre style="font-size: 16px;">{{stylesExample}}</pre>
-    </div>
-  </div>
-</div>
 
 
 
