@@ -2,7 +2,6 @@ import {NgModule, ModuleWithProviders, Optional, SkipSelf, InjectionToken} from 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbPopoverModule, NgbTooltipModule, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModule, NgbActiveModal, NgbModalModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateModule } from '@ngx-translate/core';
 
 // Modules
 import { BfGrowlModule } from './bf-growl/bf-growl.module';
@@ -84,7 +83,6 @@ import { BfNoDataComponent } from './bf-no-data/bf-no-data.component';
     NgbModalModule,
     BfGrowlModule,
     BfLoadingBarModule,
-    TranslateModule,
     NgbDatepickerModule,
     NgbModule,
   ],

@@ -1,6 +1,6 @@
 <div class="bf-progress-bar">
   <!-- text on top of the progress bar-->
-  <span>{{bfLabel}}</span>
+  <span>{{bfLabel | getLabel$ | async }}</span>
 
   <!-- progress bar wrapper -->
 
@@ -13,11 +13,11 @@
   <div *ngIf="!!bfUsedLabel || !!bfLeftLabel" class="progress-sub-label">
     <!-- text on the left that displays the value (used) -->
     <span *ngIf="!!bfUsedLabel"  class="used-label">
-      <span>{{getUsedValue()}} {{bfUsedLabel | translate }}</span>
+      <span>{{getUsedValue()}} {{bfUsedLabel | getLabel$ | async }}</span>
     </span>
     <!-- text on the right that displays the value missing to reach the total (left) -->
     <span *ngIf="!!bfLeftLabel" class="left-label">
-      <span>{{getLeftValue()}} {{bfLeftLabel | translate }}</span>
+      <span>{{getLeftValue()}} {{bfLeftLabel | getLabel$ | async }}</span>
     </span>
   </div>
 </div>
