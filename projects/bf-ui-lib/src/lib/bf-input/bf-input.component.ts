@@ -292,7 +292,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
     // console.log('writeValue -> ', value, this.ngInputRef);
     // if (value === null) {} // First time, when the component is initialized but the outer value not ready yet
 
-    this.bfModel = value ? value : '';
+    this.bfModel = (value || value === 0) ? value : '';
     setTimeout(this.updateStatus);  // Update status (after internal ngModel cycle)
 
     // Set the value to the internal formControl to force the internal validators run
@@ -343,8 +343,11 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
 
   // Internal ngModelChange
   public parseModelChange = (value) => {
+    if (this.bfType === 'number') { // Number type conversion
+      value = value && value !== 0 ? Number(value) : null;
+    }
     this.bfBeforeChange.emit({ currentValue: this.bfModel, nextValue: value });
-    this.bfModel = this.bfType === 'number' ? Number(value) : value;
+    this.bfModel = value;
     this.propagateModelUp(this.bfModel);
     this.updateStatus();
     // console.log('propagateModelUp (ngModel) -> ', this.bfModel);
