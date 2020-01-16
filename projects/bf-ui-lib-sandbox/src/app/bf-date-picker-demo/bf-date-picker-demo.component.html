@@ -67,7 +67,7 @@
             name="demo_datepicker"
             #demoDatePicker="ngModel"
           ></bf-date-picker>
-          Form Invalid = {{datePickerForm.invalid}}
+          Form Invalid = {{datePickerForm.invalid}}, pristine = {{datePickerForm.pristine}}
           <span *ngIf="datePickerForm.invalid"> | Errors = {{demoDatePicker.errors | json }}</span>
         </form>
       </div>
