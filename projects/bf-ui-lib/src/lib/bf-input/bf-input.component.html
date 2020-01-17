@@ -42,7 +42,7 @@
 
     <div class="input-group-prepend" *ngIf="!!bfLeftBtnIcon || !!bfLeftBtnText"
          (click)="bfLeftBtnClick.emit($event)">
-      <button class="btn btn-outline-secondary">
+      <button class="btn btn-outline-secondary" tabIndex="-1">
         <div [class]="bfLeftBtnIcon" [hidden]="!bfLeftBtnIcon"></div>
         <div [hidden]="!bfLeftBtnText">{{bfLeftBtnText}}</div>
       </button>
@@ -53,6 +53,7 @@
            [ngModel]="bfModel" (ngModelChange)="parseModelChange($event)"
            [disabled]="bfDisabled"
            title=""
+           [class.is-numeric]="this.bfType === 'number'"
 
            [required]="bfRequired"
            [minlength]="bfMinlength"
@@ -67,7 +68,7 @@
 
     <div class="input-group-append" *ngIf="!!bfRightBtnIcon || !!bfRightBtnText"
          (click)="bfRightBtnClick.emit($event)">
-      <button class="btn btn-outline-secondary">
+      <button class="btn btn-outline-secondary" tabIndex="-1">
         <div [class]="bfRightBtnIcon" [hidden]="!bfRightBtnIcon"></div>
         <div [hidden]="!bfRightBtnText">{{bfRightBtnText}}</div>
       </button>

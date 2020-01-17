@@ -93,6 +93,10 @@ bf-input {
       // If error text at the bottom, add extra margin
       &.error-bottom { margin-bottom: 30px; }
       @media (max-width: 768px) { &.error-default { margin-bottom: 30px; } } // Small default goes to the bottom too
+
+      // When numeric input with error, hide the arrows on the right
+      input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+      input[type=number] { -moz-appearance:textfield; }
     }
 
 
