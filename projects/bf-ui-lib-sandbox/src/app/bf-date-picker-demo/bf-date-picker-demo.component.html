@@ -46,24 +46,30 @@
     <div class="col-5 marB15">
       <h5 class="marB25">Customization:</h5>
       <div *ngIf="isCompLinked">
-        <bf-date-picker [class.flat]="compConf.hasFlat" [class.modal-right]="compConf.hasModalRight"
-          [(ngModel)]="myDate" (ngModelChange)="checkNewModel($event)"
-          [bfRequired]="!!compConf.isRequired"
-          [bfDisabled]="!!compConf.isDisabled"
-          [bfHasClearBtn]="!!compConf.hasClearBtn"
-          [bfLabel]="compConf.hasLabel ? compConf.labelText : ''"
+        <form #datePickerForm="ngForm">
+          <bf-date-picker [class.flat]="compConf.hasFlat" [class.modal-right]="compConf.hasModalRight"
+            [(ngModel)]="myDate" (ngModelChange)="checkNewModel($event)"
+            [bfRequired]="!!compConf.isRequired"
+            [bfDisabled]="!!compConf.isDisabled"
+            [bfHasClearBtn]="!!compConf.hasClearBtn"
+            [bfLabel]="compConf.hasLabel ? compConf.labelText : ''"
 
-          [bfTooltip]="(compConf.hasTooltip ? compConf.tooltipText : null)"
-          [bfTooltipPos]="(compConf.tooltipPos || 'top')"
-          [bfTooltipBody]="compConf.tooltipBody"
-          [bfErrorText]="compConf.tooltipText ? compConf.tooltipText : ''"
-          [bfErrorPos]="compConf.errorPos"
+            [bfTooltip]="(compConf.hasTooltip ? compConf.tooltipText : null)"
+            [bfTooltipPos]="(compConf.tooltipPos || 'top')"
+            [bfTooltipBody]="compConf.tooltipBody"
+            [bfErrorText]="compConf.tooltipText ? compConf.tooltipText : ''"
+            [bfErrorPos]="compConf.errorPos"
 
-          [bfLocale]="compConf.bfLocale"
-          [bfFormat]="compConf.bfFormat"
-          [bfMinDate]="compConf.bfMinDate"
-          [bfMaxDate]="compConf.bfMaxDate"
-        ></bf-date-picker>
+            [bfLocale]="compConf.bfLocale"
+            [bfFormat]="compConf.bfFormat"
+            [bfMinDate]="compConf.bfMinDate"
+            [bfMaxDate]="compConf.bfMaxDate"
+            name="demo_datepicker"
+            #demoDatePicker="ngModel"
+          ></bf-date-picker>
+          Form Invalid = {{datePickerForm.invalid}}, pristine = {{datePickerForm.pristine}}
+          <span *ngIf="datePickerForm.invalid"> | Errors = {{demoDatePicker.errors | json }}</span>
+        </form>
       </div>
 
       <div class="row">

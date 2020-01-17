@@ -3,7 +3,7 @@
      [class.is-disabled]="bfDisabled"
      [class.is-pristine]="isPristine"
      [class.is-dirty]="!isPristine"
-     [class.is-error]="status === 'error'">
+     [class.is-error]="!isPristine && status === 'error'">
 
   <bf-label *ngIf="!!bfLabel" [bfText]="bfLabel"
             [bfRequired]="bfRequired"
@@ -11,7 +11,7 @@
   </bf-label>
 
   <!--Error Message-->
-  <span *ngIf="status === 'error'"
+  <span *ngIf="!isPristine && status === 'error'"
         class="bf-date-picker-error-text"
         [class.pull-up]="!bfLabel && (errorPosition === 'default' || errorPosition === 'top-right')"
         [class.default]="errorPosition === 'default'"
@@ -72,8 +72,8 @@
   <!--Modal footer-->
   <ng-template #bfDatePickerFooter>
     <div class="bf-date-picker-modal-footer">
-      <bf-btn class="squash" bfType="primary"   bfText="view.common.today" (bfClick)="setToday($event, dpRef)"></bf-btn>
-      <bf-btn class="squash" bfType="warning"   bfText="view.common.clear" (bfClick)="clearValue($event, dpRef)"></bf-btn>
+      <bf-btn class="squash" bfType="primary"   bfText="view.common.today" (bfClick)="setToday($event, dpRef)" [bfDisabled]="!isTodayValid"></bf-btn>
+      <bf-btn class="squash" bfType="warning"   bfText="view.common.clear" (bfClick)="clearValue($event, dpRef)" [bfDisabled]="bfRequired"></bf-btn>
       <bf-btn class="squash btn-cancel" bfType="secondary" bfText="view.common.close" (bfClick)="dpRef.close()"></bf-btn>
     </div>
   </ng-template>

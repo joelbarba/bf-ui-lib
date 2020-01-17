@@ -1,6 +1,6 @@
-import {Component, OnInit, Input, forwardRef, OnDestroy, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, OnInit, Input, forwardRef, OnDestroy, OnChanges, SimpleChanges, AfterViewInit} from '@angular/core';
 import {ViewChild, ElementRef, Inject} from '@angular/core';
-import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {BfUILibTransService} from '../abstract-translate.service';
 import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import BfString from '../bf-prototypes/string.prototype';
@@ -15,9 +15,14 @@ import {DatePipe} from '@angular/common';
     { provide: NG_VALUE_ACCESSOR, multi: true,
       useExisting: forwardRef(() => BfDatePickerComponent)
     },
+    { // Custom validator
+      provide: NG_VALIDATORS, multi: true,
+      useExisting: forwardRef(() => BfDatePickerComponent),
+    }
   ]
 })
 export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
+  private ngControl;  // Reference to the parent model controller
   public bfModel: NgbDateStruct; // Internal to hold the ngModel inside the wrapper
 
   @Input() bfLabel = '';
@@ -37,9 +42,6 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   @Input() bfErrorText: string;       // Error text to display when invalid value
 
 
-  @ViewChild('ngInputRef') ngInputRef: ElementRef;
-  public inputCtrl: FormControl; // <-- ngInputRef.control
-
   public isPristine = true;
   public status = 'valid';            // valid, error
   public errorPosition = 'default';   // where to display the error message (from bfErrorPos)
@@ -47,6 +49,7 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   public errorText = 'view.common.invalid_value';  // Internal error label (from bfErrorText)
   public ngbMinDate: NgbDateStruct = null;
   public ngbMaxDate: NgbDateStruct = null;
+  public isTodayValid = true;         // Whether the min/max validation allows today as a valid option
 
   constructor(
     @Inject(BfUILibTransService) private translate: BfUILibTransService,
@@ -65,49 +68,25 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
     // console.log('writeValue -> ', value);
 
     this.bfModel = this.parseModelIn(value);
-    setTimeout(() => this.onInternalModelChange(true));  // Update status (after internal ngModel cycle)
-
-    // Set the value to the internal formControl to force the internal validators run
-    // so when the external validate() is triggered after this it gets the last value
-    if (!!this.inputCtrl) {
-      this.inputCtrl.setValue(this.bfModel, { // https://angular.io/api/forms/FormControl#setValue
-        emitViewToModelChange: false,
-        // emitModelToViewChange: false,
-        // emitEvent: false,
-      });
-    }
+    setTimeout(() => this.onInternalModelChange(true)); // Update status (after internal ngModel cycle)
   };
 
 
   // NG_VALIDATORS provider triggers this validation
-  // Validation to determine the outer formControl state. It propagates upward the state of the internal ngModel
-  // public validate = (extFormCtrl: FormControl) => {
-  //   // extFormCtrl     <-- FormControl of the external ngModel
-  //   // this.inputCtrl  <-- FormControl of the internal ngModel
-  //   // this.ngInputRef <-- This is the reference of the internal <input> tag
-  //   let result = null;  // null means valid
-  //
-  //   // If internal ngModel is invalid, external is invalid too
-  //   if (!!this.inputCtrl && this.inputCtrl.status === 'INVALID') { // status: [VALID, INVALID, PENDING, DISABLED]
-  //     result = this.inputCtrl.errors;
-  //   }
-  //   // console.log('validate', 'Internal FormControl:', this.inputCtrl.status, ' / External FormControl:', extFormCtrl.status, result);
-  //   return result;
-  // };
+  // Validation to determine the outer formControl state. It propagates upward the status of the form element
+  public validate = (extFormCtrl: FormControl) => {
+    this.ngControl = extFormCtrl; // Save the reference
+
+    if (this.status === 'error') {
+      return { error: this.errorText };
+    } else {
+      return null; // valid
+    }
+  };
 
 
 
-  ngOnInit() {
-    // moment.locale(this.bfLocale || moment.locale());
-    // this.bfIcon = this.bfIcon || 'icon-calendar4';
-    // this.bfFormat = this.bfFormat || 'L';
-    // this.originalModel = this.existTheControlValue() ? moment(this.bfModelControl.value) : null;
-    // this.bfModelControlSubscription = this.bfModelControl.valueChanges.subscribe(() => {
-    //   this.setModelInput();
-    //   this.updateCalendar();
-    //   this.createRangeDatepickerConfig();
-    // });
-  }
+  ngOnInit() { }
 
   ngOnChanges(changes: SimpleChanges) {
     if (!!changes.bfLocale) { this.onInternalModelChange(true); }
@@ -118,9 +97,7 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
     if (changes.hasOwnProperty('bfErrorPos') && this.bfErrorPos) { this.errorPosition = this.bfErrorPos; }
   }
 
-  ngOnDestroy() {
-    // this.bfModelControlSubscription.unsubscribe();
-  }
+  ngOnDestroy() { }
 
 
   // Convert incoming string to ngb  '2020-01-19' --> { day: 19, month: 1, year: 2020 }
@@ -181,8 +158,9 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
     // https://angular.io/api/common/DatePipe
     this.bfFormattedValue = new DatePipe(this.bfLocale || 'en-IE').transform(this.parseModelOut(this.bfModel), this.bfFormat) || '';
 
-    this.propagateModelUp(this.parseModelOut(this.bfModel));
     this.updateStatus();
+    this.propagateModelUp(this.parseModelOut(this.bfModel), );
+    if (!!this.ngControl && this.isPristine) { this.ngControl.markAsPristine(); } // Do not dirty it if pristine
   };
 
 
@@ -195,9 +173,9 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
       this.errorText = this.bfErrorText || 'view.common.required_field';
     }
 
-    const minVal = this.ngbMinDate ? (this.ngbMinDate.year * 10000) + (this.ngbMinDate.month * 100) + this.ngbMinDate.day : 0;
-    const maxVal = this.ngbMaxDate ? (this.ngbMaxDate.year * 10000) + (this.ngbMaxDate.month * 100) + this.ngbMaxDate.day : 99999999;
-    const modelVal = this.bfModel ? (this.bfModel.year * 10000) + (this.bfModel.month * 100) + this.bfModel.day : null;
+    const minVal = this.getNumDate(this.ngbMinDate, 0);
+    const maxVal = this.getNumDate(this.ngbMaxDate, 99999999);
+    const modelVal = this.getNumDate(this.bfModel);
 
     // Check valid range bfMinDate <= bfMaxDate
     if (this.ngbMinDate && this.ngbMaxDate) {
@@ -219,6 +197,14 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
       this.status = 'error';
       this.errorText = this.bfErrorText || 'view.common.invalid_value';
     }
+
+    const today = new Date();
+    const todayNum = this.getNumDate({ year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() }, 0);
+    this.isTodayValid = (todayNum >= minVal && todayNum <= maxVal);
+  };
+
+  private getNumDate = (date: NgbDateStruct, defaultValue = null): number => {
+    return !!date ? (date.year * 10000) + (date.month * 100) + date.day : defaultValue;
   };
 
 
