@@ -66,7 +66,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   @Input() bfLeftBtnText: string;   // Text to show into a button on the left of the input (prepend addon)
   @Input() bfRightBtnText: string;  // Text to show into a button on the left of the input (append addon)
 
-  @Input() bfAutocomplete = false; // If true, once input is clicked previous typed text will be suggested
+  @Input() bfAutocomplete = true; // If true, once input is clicked previous typed text will be suggested
   @Input() bfAutoFocus = false; // If true, once input linked to the view is automatically focused
 
   @Input() bfMinlength = 0;     // Min number of chars. Built in validator (minlength)
