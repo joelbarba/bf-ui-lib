@@ -65,7 +65,7 @@
            (focusout)="isFocus=false"
            [type]="bfType"
            (keydown)="triggerKey($event)"
-           [autocomplete]="bfAutocomplete"/>
+           [autocomplete]="autocomplete"/>
 
     <div class="input-group-append" *ngIf="!!bfRightBtnIcon || !!bfRightBtnText"
          (click)="bfRightBtnClick.emit($event)">

@@ -103,7 +103,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   // bfAsyncValidator  : '&?',     // Function to validate asynchronously, returning a promise. Resolve=valid, reject=invalid
 
 
-
+  public autocomplete = 'on';
   public bfLabelTrans$: Observable<string> = of('');         // Translated text for the label
   public bfTooltipTrans$: Observable<string> = of('');       // Translated text for the tooltip of the label
   public bfPlaceholderTrans$: Observable<string> = of('');   // Translated text for the placeholder of the input
@@ -225,6 +225,9 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
       }, 50);
     }
 
+    if(change.hasOwnProperty('bfAutocomplete')){
+      this.autocomplete = this.bfAutocomplete ? 'on' : 'off';
+    }
 
     // External control via extCtrl$
     if (change.hasOwnProperty('extCtrl$')) {
