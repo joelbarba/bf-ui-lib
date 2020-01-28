@@ -215,9 +215,6 @@ this.ctrl.setFocus();
     if (this.compConf.hasIcon) { this.customCompCode += this.bsStr + `bfIcon="${this.compConf.inputIcon}"`; }
     if (this.compConf.inputType !== 'text') { this.customCompCode += this.bsStr + `bfType="${this.compConf.inputType}"`; }
     if (this.compConf.hasAutoFocus) { this.customCompCode += this.bsStr + `bfAutoFocus="true"`; }
-    if (this.compConf.hasOwnProperty('hasAutocomplete')) {
-      this.customCompCode += this.bsStr + (this.compConf.hasAutocomplete ? `bfAutocomplete="true"` : `bfAutocomplete="false"`);
-    }
     if (this.compConf.isDisabled) { this.customCompCode += this.bsStr + `[bfDisabled]="true"`; }
     if (!!this.compConf.disabledTip) { this.customCompCode += this.bsStr + `bfDisabledTip="${this.compConf.disabledTip}"`; }
 
@@ -264,9 +261,6 @@ this.ctrl.setFocus();
     this.valCompCode = `<bf-input #bfInputRef="ngModel"`;
     this.valCompCode += this.bsStr + `[(ngModel)]="myVariable"`;
     if (this.valEx.isRequired) { this.valCompCode += this.bsStr + `bfRequired="true"`; }
-    if (this.valEx.hasOwnProperty('hasAutocomplete')) {
-      this.valCompCode += this.bsStr + `bfAutocomplete="` + (this.valEx.hasAutocomplete ? `true` : `false`) + `"`;
-    }
     if (this.valEx.minLen > 0) { this.valCompCode += this.bsStr + `bfMinlength="${this.valEx.minLen}"`; }
     if (this.valEx.isMaxLen)   { this.valCompCode += this.bsStr + `bfMaxlength="${this.valEx.maxLen}"`; }
     if (this.valEx.hasPattern) { this.valCompCode += this.bsStr + `bfPattern="${this.valEx.pattern}"`; }
