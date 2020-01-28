@@ -38,7 +38,6 @@
                   [bfTooltipBody]="compConf.inputTooltipBody"
                   [bfDisabledTip]="compConf.disabledTip"
                   [bfAutoFocus]="compConf.hasAutoFocus"
-
                   [bfLeftBtnText]="(compConf.hasLeftBtnText ? compConf.leftBtnText : '')"
                   [bfLeftBtnIcon]="(compConf.hasLeftBtn ? compConf.leftBtnIcon : '')"
                   (bfLeftBtnClick)="compConf.hasBtnListener && growl.success('Left addon button click')"
@@ -77,14 +76,19 @@
         <div class="col-9" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.placeholderText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasPlaceholder"></bf-input> </div>
       </div>
 
-      <!--Required + Type + AutoFocus-->
+      <!--Required + Type + AutoFocus + Autocomplete-->
       <div class="row marT5">
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>
-        <div class="col-6">
+        <div class="col-3">
           <bf-dropdown [(ngModel)]="compConf.inputType" (ngModelChange)="upComp()" [bfList]="inputTypes" bfRender="text" bfSelect="id" [bfRequired]="true"> </bf-dropdown>
           <bf-label bfValue="Input Type" class="value-inline"></bf-label>
         </div>
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasAutoFocus" (ngModelChange)="upComp()" bfLabel="Has AutoFocus"></bf-checkbox> </div>
+        <div class="col-3 padT5">
+          <bf-checkbox [(ngModel)]="compConf.hasAutoFocus" (ngModelChange)="upComp()" bfLabel="Has AutoFocus"></bf-checkbox>
+        </div>
+<!--        <div class="col-3 padT5">-->
+<!--          <bf-checkbox bfLabel="Autocomplete" [(ngModel)]="compConf.hasAutocomplete" (ngModelChange)="upComp()"></bf-checkbox>-->
+<!--        </div>-->
       </div>
 
       <!--Disabled-->

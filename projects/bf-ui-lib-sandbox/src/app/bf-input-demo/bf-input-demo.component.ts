@@ -137,6 +137,7 @@ this.ctrl.setFocus();
     hasRightBtn: false, rightBtnIcon: 'icon-eye', hasRightBtnText: false, rightBtnText: 'view.common.yes',
     hasBtnListener: true,
     hasAutoFocus: false,
+    hasAutocomplete: true,
     hasKeyDown: false,
     hasKeyEsc: false,
     hasKeyEnter: false,
@@ -176,6 +177,7 @@ this.ctrl.setFocus();
       { id: 'bottom-right', text: 'bottom-right',  },
     ],
     hasOnLoad: false, hasBeforeChange: false,
+    hasAutocomplete: false
   };
   public isInputReady = false;
   public inputCtrl: IbfInputCtrl = {};
@@ -213,7 +215,6 @@ this.ctrl.setFocus();
     if (this.compConf.hasIcon) { this.customCompCode += this.bsStr + `bfIcon="${this.compConf.inputIcon}"`; }
     if (this.compConf.inputType !== 'text') { this.customCompCode += this.bsStr + `bfType="${this.compConf.inputType}"`; }
     if (this.compConf.hasAutoFocus) { this.customCompCode += this.bsStr + `bfAutoFocus="true"`; }
-
     if (this.compConf.isDisabled) { this.customCompCode += this.bsStr + `[bfDisabled]="true"`; }
     if (!!this.compConf.disabledTip) { this.customCompCode += this.bsStr + `bfDisabledTip="${this.compConf.disabledTip}"`; }
 
@@ -310,7 +311,8 @@ export const BfInputDoc = {
 [bfPlaceholder]   : Placeholder text (automatically translated)
 [bfIcon]          : Icon to show into the input floating at the right hand side (this is replaced by bfValidIcon and bfInvalidIcon, once the status changes)
 [bfType]          : Type of value to apply to the input (text by default). It can be 'text', 'number', 'password', 'email'
-[bfAutoFocus]     : (true/false) If true, the input will get focused automatically once is initialized (linked to the view).
+[bfAutoFocus]     : (true/false) If true, the input will get focused automatically once is initialized (linked to the view)
+[bfAutocomplete]  : (true/false) Default true, the input focused will prompt the suggestions of the browser to fill the input
 [bfTooltip]       : If label provided, adds a info badge with a tooltip (automatically translated)
 [bfTooltipPos]    : Position of the tooltip (top by default)
 [bfTooltipBody]   : Whether the tooltip is append to the body (default true) or next the the html element (false). The parent contaniner may affect the visibility of the tooltip
