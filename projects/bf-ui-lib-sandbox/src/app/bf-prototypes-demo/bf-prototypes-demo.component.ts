@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { BfArray } from 'projects/bf-ui-lib/src/lib/bf-prototypes/bf-prototypes';
+import { dCopy, BfArray, BfObject} from 'projects/bf-ui-lib/src/lib/bf-prototypes/bf-prototypes';
 import { BfPrototypes } from 'projects/bf-ui-lib/src/lib/bf-prototypes/bf-prototypes';
 
 BfPrototypes.run();
 
+// const list = [{id:'1'}, {id:'2'}, {id:'3'}, {id:'4'}, [1,3,5, [9, 1, 2]], null, 1];
+// const a = list.getById('30');
+// list.removeById('30');
+// console.log(a);
 // BfPrototypes.run(['Array.getById']);
 // BfPrototypes.run(['Array.getByProp']);
 // const list1 = [{id:'1'}, {id:'2'}, {id:'3'}, {id:'4'}];
@@ -13,7 +17,16 @@ BfPrototypes.run();
 // console.log('RES', list.getByProp('id', '3'));
 // console.log('RES', list.getIndexById('3'));
 // console.log('RES', list.removeById('23'), list);
+// const list3 = null;
+// const myObj = { name: 'Tom', age: 20, pass: '3' };
+// let list2 = dCopy(list);
+// console.log(list2);
+// list2 = dCopy(list3);
+// console.log(list2);
+// list2 = dCopy(myObj);
+// console.log(list2);
 // const list2 = list.dCopy();
+
 // list[4][0] = '99999';
 // list[4][3][1] = '99999';
 // console.log(list, list2);

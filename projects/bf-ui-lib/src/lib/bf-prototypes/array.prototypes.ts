@@ -27,7 +27,7 @@ const BfArray: any = {}; // Wrap all functions here
  * @description Returns the first object (if any) in the array that matches by .id. Undefined if not found.
  */
 BfArray.getById = function(id: any) {
-  return this.find(item => item['id'] === id);
+  return this.find(item => !!item && item['id'] === id);
 };
 
 /**
@@ -38,7 +38,7 @@ BfArray.getById = function(id: any) {
  *              Undefined if not found.
  */
 BfArray.getByProp = function(property: string, value: any) {
-  return this.find(item => item[property] === value);
+  return this.find(item => !!item && item[property] === value);
 };
 
 /**
@@ -47,7 +47,7 @@ BfArray.getByProp = function(property: string, value: any) {
  * @description returns the index of the first object (if any) in the array that matches by .id. If not -1
  */
 BfArray.getIndexById = function(id: any): number {
-  return this.findIndex(item => item['id'] === id);
+  return this.findIndex(item => !!item && item['id'] === id);
 };
 
 /**
@@ -55,7 +55,7 @@ BfArray.getIndexById = function(id: any): number {
  * @description Returns the last element of the array, or undefined if it's empty
  */
 BfArray.getLast = function() {
-  if (!!this.length) {
+  if (!!this && !!this.length) {
     return this[this.length - 1];
   } else {
     return undefined;
@@ -69,7 +69,7 @@ BfArray.getLast = function() {
  * @description Gets an object by its ID and returns a selected property of it (if present).
  */
 BfArray.getKeyById = function(keyName: string, id: any) {
-  const obj = this.find(item => item['id'] === id);
+  const obj = this.find(item => !!item && item['id'] === id);
   if (!keyName) { return obj; }
   if (!!obj && obj.hasOwnProperty(keyName)) {
     return obj[keyName];
@@ -86,7 +86,7 @@ BfArray.getKeyById = function(keyName: string, id: any) {
  * @description Gets an object by matching by "property" and returns its selected property (keyName).
  */
 BfArray.getKeyByProp = function(keyName: string, property: string, value: any) {
-  const obj = this.find(item => item[property] === value);
+  const obj = this.find(item => !!item && item[property] === value);
   if (!keyName) { return obj; }
   if (!!obj && obj.hasOwnProperty(keyName)) {
     return obj[keyName];
@@ -101,7 +101,7 @@ BfArray.getKeyByProp = function(keyName: string, property: string, value: any) {
  * @description removes the first object (if any) in the array that matches by .id
  */
 BfArray.removeById = function(id: any) {
-  const index = this.findIndex(item => item['id'] === id);
+  const index = this.findIndex(item => !!item && item['id'] === id);
   if (index >= 0) {
     return this.splice(index, 1);
   } else {
@@ -116,7 +116,7 @@ BfArray.removeById = function(id: any) {
  * @description removes the first object (if any) in the array that matches by property / value
  */
 BfArray.removeByProp = function(property: string, value: any) {
-  const index = this.findIndex(item => item[property] === value);
+  const index = this.findIndex(item => !!item && item[property] === value);
   if (index >= 0) {
     return this.splice(index, 1);
   } else {

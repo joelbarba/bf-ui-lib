@@ -3,6 +3,7 @@ import BfObject from './object.prototype';
 import BfNumber from './number.prototype';
 import BfString from './string.prototype';
 import BfDate from './date.prototype';
+import { dCopy } from './deep-copy';
 
 
 const BfPrototypes = {
@@ -62,4 +63,4 @@ const BfPrototypes = {
     }
   }
 };
-export { BfPrototypes, BfArray, BfObject, BfNumber, BfString, BfDate };
+export { BfPrototypes, BfArray, BfObject, BfNumber, BfString, BfDate, dCopy };

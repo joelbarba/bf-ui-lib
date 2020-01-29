@@ -1,6 +1,22 @@
 // Related functions dCopy on Array & Object
+export { dCopy };
 export { arrayDeepCopy };
 export { objectDeepCopy };
+
+/**
+ * @description Generic deep copy function for any type
+ */
+function dCopy(item) {
+  if (typeof item !== 'object') {
+    return item;
+  } else {
+    if (Array.isArray(item)) {
+      return arrayDeepCopy.call(item);
+    } else {
+      return objectDeepCopy.call(item);
+    }
+  }
+}
 
 /**
  * @description Deep copy (clone) - Makes an exact copy of the array (no references) and returns it
@@ -29,7 +45,6 @@ function arrayDeepCopy() {
  */
 function objectDeepCopy() {
   return JSON.parse(JSON.stringify(this));
-
   // const getCircularReplacer = () => {
   //   const seen = new WeakSet();
   //   return (key, value) => {
