@@ -225,7 +225,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
       }, 50);
     }
 
-    if(change.hasOwnProperty('bfAutocomplete')){
+    if (change.hasOwnProperty('bfAutocomplete')) {
       this.autocomplete = this.bfAutocomplete ? 'on' : 'off';
     }
 
