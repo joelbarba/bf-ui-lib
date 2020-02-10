@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { BfRadioComponent } from './bf-radio.component';
+import { TestingModule } from '../../testing/testing-module';
 
 describe('BfRadioComponent', () => {
   let component: BfRadioComponent;
@@ -8,7 +11,8 @@ describe('BfRadioComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BfRadioComponent ]
+      declarations: [ BfRadioComponent ],
+      imports: [ TestingModule, FormsModule, NgbTooltipModule ],
     })
     .compileComponents();
   }));

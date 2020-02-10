@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BfListHeaderColComponent } from './bf-list-header-col.component';
+import { TestingModule } from '../../testing/testing-module';
 
 describe('BfListHeaderColComponent', () => {
   let component: BfListHeaderColComponent;
@@ -8,7 +9,8 @@ describe('BfListHeaderColComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BfListHeaderColComponent ]
+      declarations: [ BfListHeaderColComponent ],
+      imports: [ TestingModule ],
     })
     .compileComponents();
   }));

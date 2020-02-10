@@ -127,7 +127,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   private ctrlObject; // Hold an object with the input controller and the action methods
 
 
-  @ViewChild('ngInputRef') ngInputRef: ElementRef;
+  @ViewChild('ngInputRef', { static: false }) ngInputRef: ElementRef;
   public inputCtrl: FormControl; // <-- ngInputRef.control
 
   constructor(
