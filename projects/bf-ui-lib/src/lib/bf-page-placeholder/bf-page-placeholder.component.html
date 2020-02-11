@@ -1,3 +1,20 @@
-<p>
-  bf-page-placeholder works!
-</p>
+<div *ngIf="bfType === 'profile'" class="whiteBg placeholder-profile">
+  <div *ngFor="let item of fakeProfile">
+    <div [ngClass]="item.classRow">
+      <div *ngFor="let itemList of item.list" class="placeholder-text" [ngClass]="itemList"></div>
+      <div *ngFor="let itemList of item.dataList" [ngClass]="itemList.colClass">
+        <div *ngFor="let col of itemList.columnList" class="placeholder-text" [ngClass]="col"></div>
+      </div>
+    </div>
+
+    <hr *ngIf="item.row === 'space'"/>
+
+  </div>
+</div>
+<div *ngIf="bfType === 'details'" class="whiteBg">
+  <p>
+    bf-page-placeholder DETAILS
+  </p>
+</div>
+
+

@@ -84,8 +84,10 @@ $disabled_input_color : $disabled-color;
 export const BfPagePlaceholderDoc = {
   name    : `bf-page-placeholder`,
   uiType  : 'component',
-  desc    : `Generates a ....`,
-  api     : `[bfText]: The text... `,
-  instance: `<bf-page-placeholder></bf-page-placeholder>`,
+  desc    : `Generates an animation to display a fake page while loading`,
+  api     : `[bfType]: Type of placeholder depending of the page configuration. It could be 'profile', 'details'. 
+[bfTabs]: It works for bfType: 'details' It's to show the number of tabs
+[bfSections]: It works for bfType: 'profile' It's to display the profile accurate to the page separating by: 'avatar', 'data', 'info'`,
+  instance: `<bf-page-placeholder bfType="profile"></bf-page-placeholder>`,
   demoComp: BfPagePlaceholderDemoComponent
 };
