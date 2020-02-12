@@ -1,6 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { NgbDatepickerModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { BfDatePickerComponent } from './bf-date-picker.component';
+import { TestingModule } from '../../testing/testing-module';
+import { BfLabelComponent } from '../bf-label/bf-label.component';
+import { BfTranslatePipe } from '../abstract-translate.service';
+import { BfBtnComponent } from '../bf-btn/bf-btn.component';
 
 describe('BfDatePickerComponent', () => {
   let component: BfDatePickerComponent;
@@ -8,7 +14,8 @@ describe('BfDatePickerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BfDatePickerComponent ]
+      declarations: [ BfDatePickerComponent, BfTranslatePipe, BfLabelComponent, BfBtnComponent ],
+      imports: [ TestingModule, FormsModule, NgbDatepickerModule, NgbTooltipModule ],
     })
     .compileComponents();
   }));

@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControlDirective, FormsModule } from '@angular/forms';
 
 import { BfQuantityInputComponent } from './bf-quantity-input.component';
+import { TestingModule } from '../../testing/testing-module';
 
 describe('BfQuantityInputComponent', () => {
   let component: BfQuantityInputComponent;
@@ -8,7 +10,8 @@ describe('BfQuantityInputComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BfQuantityInputComponent ]
+      declarations: [ BfQuantityInputComponent, FormControlDirective ],
+      imports: [ TestingModule, FormsModule ],
     })
     .compileComponents();
   }));

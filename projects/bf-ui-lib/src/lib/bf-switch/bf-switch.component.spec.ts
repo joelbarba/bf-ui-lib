@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { BfSwitchComponent } from './bf-switch.component';
+import { TestingModule } from '../../testing/testing-module';
+import { BfLabelComponent } from '../bf-label/bf-label.component';
 
 describe('BfSwitchComponent', () => {
   let component: BfSwitchComponent;
@@ -8,7 +12,8 @@ describe('BfSwitchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BfSwitchComponent ]
+      declarations: [ BfSwitchComponent, BfLabelComponent ],
+      imports: [ TestingModule, FormsModule, NgbTooltipModule ],
     })
     .compileComponents();
   }));
