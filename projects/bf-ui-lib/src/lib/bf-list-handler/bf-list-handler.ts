@@ -1,8 +1,8 @@
-import {BehaviorSubject, merge, Observable, Subject} from 'rxjs';
-import {debounceTime, map, scan} from 'rxjs/operators';
+import {BehaviorSubject, merge, Observable, Subject, timer} from 'rxjs';
+import {debounce, debounceTime, distinctUntilChanged, map, scan} from 'rxjs/operators';
 import Debug from 'debug';
 import {BfPrototypes} from '../bf-prototypes/bf-prototypes';
-const debugList = Debug('bfUiLib:bfListHandler');
+const debugList = Debug('bfUiLib:bfListHandler');  // Turn it on with:   localStorage.debug='bfUiLib:bfListHandler'
 
 export interface BfListHandlerConfig {
   listName      ?: string;
@@ -12,6 +12,8 @@ export interface BfListHandlerConfig {
   rowsPerPage   ?: number;
   totalPages    ?: number;
   extMethods    ?: boolean;
+  filtersConf   ?: { [name: string]: { debounceTime: number; addToUrl: boolean }};
+  backendPagination ?: (queryFilter: any) => void | Promise<{ pageList, totalItems }>;
 }
 
 
@@ -23,7 +25,7 @@ export class BfListHandler {
   public loadedList: Array<any>;    // Array with the full loaded content
   public renderedList: Array<any>;  // Array with the content to render on the list (filtered + ordered + paginated)
   public listName = '';             // Optional list identifier
-  public loadingStatus = 0;         // 0=Empty, 1=Loading, 2=Loaded, 3=Error
+  public loadingStatus = 0;         // 0=Empty, 1=Loading, 2=Loaded, 3=Error, 4=Loading Page
   public totalItems = 0;            // loadedList.length
   public totalFiltered = 0;         // Total number of filtered items (middle step after filter and before pagination)
   public renderedItems = 0;         // renderedList.length
@@ -31,7 +33,11 @@ export class BfListHandler {
   public currentPage = 1;           // Current page of the pagination
   public totalPages = 1;            // Calculation of the total number of pages
   public filterText = '';           // Current filter value
+  public backendPagination;         // Function to provide a backend filtered/paginated list handler
+  public backFilter = { limit: 10, offset: 0, order_by : '' };
+  public filtersConf: any = {};     // Object array with every filter's configuration
   // --------------------------
+  public filters: any = {}; // To keep multiple filter field values
 
   public extMethods = false;        // Whether to extend the items with handling methods ($remove, $save)
   public filterFields: Array<string> = [];  // Name of the field where to apply the filter (filterText)
@@ -45,15 +51,35 @@ export class BfListHandler {
 
   private contentSubs;  // Content loader subscription
   private stateSubs;    // State loader subscription
+  private debouncedFilter$ = new Subject<{filterName, filterValue}>();
 
   constructor(customInit: Partial<BfListHandlerConfig> = {}) {
     if (customInit.hasOwnProperty('listName'))     { this.listName     = customInit.listName; }
-    if (customInit.hasOwnProperty('filterFields')) { this.filterFields = customInit.filterFields; }
-    if (customInit.hasOwnProperty('orderFields'))  { this.orderConf.fields = customInit.orderFields; }
+    if (customInit.hasOwnProperty('orderFields'))  { this.orderConf.fields  = customInit.orderFields; }
     if (customInit.hasOwnProperty('orderReverse')) { this.orderConf.reverse = customInit.orderReverse; }
     if (customInit.hasOwnProperty('rowsPerPage'))  { this.rowsPerPage  = customInit.rowsPerPage; }
     if (customInit.hasOwnProperty('totalPages'))   { this.totalPages   = customInit.totalPages; }
     if (customInit.hasOwnProperty('extMethods'))   { this.extMethods   = customInit.extMethods; }
+    if (customInit.hasOwnProperty('backendPagination')) { this.backendPagination = customInit.backendPagination; }
+    if (customInit.hasOwnProperty('filterFields')) { this.filterFields = customInit.filterFields; }
+    if (customInit.hasOwnProperty('filtersConf')) {
+      this.filtersConf = customInit.filtersConf;
+      Object.keys(this.filtersConf).forEach(filterName => {
+        this.filtersConf[filterName] = { addToUrl: true, debounceTime: 500, ...this.filtersConf[filterName] };
+      });
+    }
+
+    this.backFilter = this.getBackendPagination(this.currentPage, this.orderConf, this.rowsPerPage);
+    this.debouncedFilter$.pipe(debounce((filter) => {
+      if (Object.keys(this.filtersConf).includes(filter.filterName)) {
+        return timer(this.filtersConf[filter.filterName].debounceTime);
+      }
+      return timer(500);
+    }), distinctUntilChanged()).subscribe(filter => {
+      this.filters[filter.filterName] = filter.filterValue;
+      this.dispatch({ action: 'FILTER', payload: '' });
+    });
+
 
     this.loadedList = [];
     this.renderedList = [];
@@ -76,28 +102,27 @@ export class BfListHandler {
         this.loadingStatus = 2;
         break;
 
-      case 'ADD'    : this.loadedList.push(this.extendItem(change.payload)); break;
-      case 'REMOVE' : this.loadedList.splice(this.loadedList.indexOf(change.payload), 1); break;
+      case 'PAGINATE': // New rows per page = refresh pagination
+        this.rowsPerPage = change.payload || this.rowsPerPage;
+        this.currentPage = this.getPage(this.currentPage);
+        break;
 
-      case 'FILTER' : this.filterText = change.payload; break;
-
-      case 'ORDER'  :
-        const orderField = change.payload;
-        if (this.orderConf.fields[0] === orderField) {
-          this.orderConf.reverse = !this.orderConf.reverse; // Revers current order
-
-        } else { // Add selected field to the first field order
-          const fieldPos = this.orderConf.fields.indexOf(orderField);
-          if (fieldPos >= 0) { this.orderConf.fields.splice(fieldPos, 1); }
-          this.orderConf.fields.unshift(orderField);
-          this.orderConf.reverse = false;
+      case 'LOAD PAGE':
+        if (!!this.backendPagination) {
+          this.loadedList = change.payload.pageList;
+          this.totalItems = change.payload.totalItems;
+          this.totalPages = Math.ceil(this.totalItems / this.rowsPerPage) || 1;
+          this.loadingStatus = 2;
         }
         break;
 
-      case 'PAGINATE': this.rowsPerPage = change.payload; break;
-      case 'GOTO':     this.currentPage = change.payload; break;
-      case 'NEXT':     this.currentPage++; break;
-      case 'PREV':     this.currentPage--; break;
+      case 'ADD'     : this.loadedList.push(this.extendItem(change.payload)); break;
+      case 'REMOVE'  : this.loadedList.splice(this.loadedList.indexOf(change.payload), 1); break;
+      case 'FILTER'  : this.filterText = change.payload; break;
+      case 'ORDER'   : this.orderConf = this.getOrderConf(change.payload); break;
+      case 'GOTO'    : this.currentPage = this.getPage(change.payload); break;
+      case 'NEXT'    : this.currentPage = this.getPage(this.currentPage + 1); break;
+      case 'PREV'    : this.currentPage = this.getPage(this.currentPage - 1); break;
       case 'REFRESH' : break;
     }
 
@@ -113,25 +138,24 @@ export class BfListHandler {
       this.renderedList = this.orderList(this.renderedList, this.orderConf.fields, this.orderConf.reverse);
     }
 
-    // Truncate pagination
-    if (this.rowsPerPage > 0) {
-      this.totalPages = Math.ceil(this.renderedList.length / this.rowsPerPage);
+    // Pagination (slice the list to one page)
+    if (!this.backendPagination) {
+      this.setFrontendPagination();
+    } else {
 
-      if (this.currentPage < 1) { this.currentPage = 1; }
-      if (this.currentPage > this.totalPages) { this.currentPage = this.totalPages; }
+      // These actions should force offset reset
+      if (['PAGINATE', 'FILTER'].includes(change.action)) { this.currentPage = 1; }
 
-      this.renderedList = this.renderedList.filter((item, ind) => {
-        const offSet = (this.currentPage - 1) * this.rowsPerPage;
-        const limit = this.currentPage * this.rowsPerPage;
-        return (ind >= offSet && ind < limit);
-      });
-
-      // Generate an array with all pages
-      this.pagesList = Array.from(Array(this.totalPages).keys())
-        .map(ind => ({ id: ind + 1, isLast: (ind === this.totalPages - 1) }));
+      // These actions should trigger a backend page request to load the page
+      if (['PAGINATE', 'FILTER', 'ORDER', 'GOTO', 'NEXT', 'PREV'].includes(change.action)) {
+        this.triggerPagination();
+      }
     }
 
-    this.totalItems = this.loadedList.length;
+    // Generate an array with all pages (for <bf-list-paginator>)
+    this.pagesList = Array.from(Array(this.totalPages).keys())
+      .map(ind => ({ id: ind + 1, isLast: (ind === this.totalPages - 1) }));
+
     this.renderedItems = this.renderedList.length;
 
     // debugList('dispatching: ', change.action, this.getState());
@@ -155,6 +179,92 @@ export class BfListHandler {
       filterText    : this.filterText,
     };
   };
+
+  // Returns an "orderConf" object with the order configuration for the list, adding the passed field
+  public getOrderConf = (orderField: string) => {
+    const orderConf = { ...this.orderConf };
+    if (orderConf.fields[0] === orderField) {
+      orderConf.reverse = !orderConf.reverse; // Revers current order
+
+    } else { // Add selected field to the first field order
+      const fieldPos = orderConf.fields.indexOf(orderField);
+      if (fieldPos >= 0) { orderConf.fields.splice(fieldPos, 1); }
+      orderConf.fields.unshift(orderField);
+      orderConf.reverse = false;
+    }
+    return orderConf;
+  };
+
+  public getPage = (pageNum = this.currentPage) => {
+    if (pageNum < 1) { pageNum = 1; }
+    if (pageNum > this.totalPages) { pageNum = this.totalPages; }
+    return pageNum;
+  };
+
+  // ---------------- Backend side pagination ----------------------
+
+  // Frontend pagination (slice the list based on the pagination state)
+  public setFrontendPagination = () => {
+    this.totalPages = Math.ceil(this.renderedList.length / this.rowsPerPage) || 1;
+    this.totalItems = this.loadedList.length;
+    this.currentPage = this.getPage(); // In case it falls off
+
+    this.renderedList = this.renderedList.filter((item, ind) => {
+      const offSet = (this.currentPage - 1) * this.rowsPerPage;
+      const limit = this.currentPage * this.rowsPerPage;
+      return (ind >= offSet && ind < limit);
+    });
+
+  };
+
+  // Backend pagination (mock the list slicing) with asynchronous page loading
+  public triggerPagination = () => {
+    const nextFilter = this.getBackendPagination(this.currentPage, this.orderConf, this.rowsPerPage);
+    if (this.loadingStatus === 0 || this.isFilterDiff(nextFilter)) {
+      this.loadingStatus = 4;
+      this.backFilter = nextFilter;
+      const resPromise = this.backendPagination(nextFilter);
+      if (!!resPromise) { // If a promise is returned, trigger the page load automatically
+        return resPromise.then(page => {
+          this.loadPage(page);
+          return page;
+        });
+      }
+    } else {
+      console.log('Same filter, do not refresh page', this.backFilter, nextFilter);
+    }
+    return Promise.resolve();
+  };
+
+  // Compares "nextFilter" object with "this.backFilter", prop by prop
+  public isFilterDiff = (nextFilter) => {
+    const keys1 = Object.keys(this.backFilter);
+    const keys2 = Object.keys(nextFilter);
+    if (keys1.length !== keys2.length) { return true; }
+    for (const key of keys1) {
+      if (!keys2.includes(key)) { return true; }
+      if (this.backFilter[key] !== nextFilter[key]) { return true; }
+    }
+    return false;
+  };
+
+  // Returns an object with the parameters to generate a backend side filtered page
+  public getBackendPagination = (pageNum?: number, orderConf?: { fields: Array<string>, reverse: boolean }, rowsPerPage?: number) => {
+    const backFilter = { ...this.backFilter };
+    if (!!rowsPerPage) { backFilter.limit  = rowsPerPage; }
+    if (!!pageNum)     { backFilter.offset = (pageNum - 1) * backFilter.limit; }
+    if (!!orderConf)   { backFilter.order_by = orderConf.fields.map(field => (orderConf.reverse ? '-' : '') + field).join(','); }
+
+    Object.keys(this.filters).forEach(filterName => {
+      if (!!this.filters[filterName]) {
+        backFilter[filterName] = this.filters[filterName];
+      } else {
+        delete backFilter[filterName];
+      }
+    });
+    return backFilter;
+  };
+
 
   // ---------------- Public methods to trigger actions ----------------------
 
@@ -182,12 +292,25 @@ export class BfListHandler {
   // Shortcuts to dispatch action
   public refresh = () => this.dispatch({ action: 'REFRESH' });
   public add = (item: any) => this.dispatch({ action: 'ADD', payload: item });
-  public filter = (filterText = '')    => this.dispatch({ action: 'FILTER',   payload: filterText });
-  public order  = (orderField = '')    => this.dispatch({ action: 'ORDER',    payload: orderField });
-  public paginate = (rowsPerPage = 10) => this.dispatch({ action: 'PAGINATE', payload: rowsPerPage });
-  public goToPage = (numPage = 1)      => this.dispatch({ action: 'GOTO',     payload: numPage });
+  public order  = (orderField = '')    => this.dispatch({ action: 'ORDER',     payload: orderField });
+  public paginate = (payload)          => this.dispatch({ action: 'PAGINATE',  payload });
+  public loadPage = (payload)          => this.dispatch({ action: 'LOAD PAGE', payload });
+  public goToPage = (numPage = 1)      => this.dispatch({ action: 'GOTO',      payload: numPage });
   public nextPage = () => this.dispatch({ action: 'NEXT' });
   public prevPage = () => this.dispatch({ action: 'PREV' });
+
+  public filter = (filterValue: any, filterName?: string) => {
+    if (filterName) { // Filter on an specific field
+      this.debouncedFilter$.next({ filterValue, filterName });
+
+    } else { // Filter filterText on multiple fields (filterFields)
+      if (!!this.backendPagination) {
+        console.warn('Not allowed with backend pagination. Provide a field please');
+        return false;
+      }
+      this.dispatch({ action: 'FILTER', payload: filterValue });
+    }
+  };
 
 
 

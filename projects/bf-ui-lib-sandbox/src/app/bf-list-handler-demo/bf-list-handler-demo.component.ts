@@ -144,24 +144,50 @@ this.myList.render$.subscribe(state => ...);`;
   public myList: BfListHandler;
   public loader$ = new Subject();
 
+  public bpList: BfListHandler;
+  public bpLoader$ = new Subject();
+
   constructor(private growl: BfGrowlService) {
 
     // List configuration
-    const listConfig = {
-      listName      : 'test-list',
-      filterFields  : ['username', 'first_name'],
-      orderFields   : ['id', 'username'],
-      orderReverse  : false,
-      rowsPerPage   : 10,
-      totalPages    : 15,
-    };
-    this.myList  = new BfListHandler({ ...listConfig, listName: 'test-list' });
+    // const listConfig = {
+    //   listName      : 'test-list',
+    //   filterFields  : ['username', 'first_name'],
+    //   orderFields   : ['id', 'username'],
+    //   orderReverse  : false,
+    //   rowsPerPage   : 10,
+    //   totalPages    : 15,
+    // };
+    // this.myList  = new BfListHandler({ ...listConfig, listName: 'test-list' });
+
+    this.bpList  = new BfListHandler({
+      listName          : 'backend-pagination-list',
+      filterFields      : ['username', 'first_name'],
+      orderFields       : ['id', 'username'],
+      orderReverse      : false,
+      rowsPerPage       : 5,
+      filtersConf : {
+        username : { addToUrl: true, debounceTime: 1000 },
+        email    : { addToUrl: true, debounceTime: 1000 },
+      },
+      backendPagination : (queryFilter: any) => {
+        return this.mockBEFilter(queryFilter).then((data: any) => {
+          // this.bpList.loadPage({ pageList: data.users, totalItems: data.count });
+          return { pageList: data.users, totalItems: data.count };
+        });
+      },
+    });
   }
 
   ngOnInit() {
-    this.myList.subscribeTo(this.loader$);
+    this.bpList.triggerPagination().then(data => {
+      console.log('FIRST PAGE LOADED', data);
+    });
+
+    // this.myList.subscribeTo(this.loader$);
+
     // this.loader$.next(this.getRandomData());
-    this.loader$.next(this.listData);
+    // this.loader$.next(this.listData);
     // this.myList.load(this.getRandomData());
   }
 
@@ -197,9 +223,39 @@ this.myList.render$.subscribe(state => ...);`;
   public getRandomData = () => {
     this.genList = this.listData.filter(item => !!Math.trunc(Math.random() * 5));
     return this.genList;
-  }
+  };
 
+  // Mock a backend side paginated list request
+  public mockBEFilter = (backFilter) => {
+    console.log('--------- Mocking webAPI request with --------->', backFilter);
+    return new Promise(resolve => {
+      const orderFields = backFilter.order_by.replace(/-/gi, '').split(',');
+      const usersQuery = this.listData.dCopy()
+        .filter(item => {
+          if (backFilter.username && item.username.toLowerCase().indexOf(backFilter.username.toLowerCase()) < 0) { return false; }
+          if (backFilter.email && item.email.toLowerCase().indexOf(backFilter.email.toLowerCase()) < 0) { return false; }
+          return true;
+        })
+        .sort((itemA, itemB) => {
+          const reVal = backFilter.order_by.charAt(0) === '-' ? -1 : 1;
+          for (const field of orderFields) {
+            let valA = itemA[field];
+            let valB = itemB[field];
+            if (!isNaN(valA) && !isNaN(valB)) { valA = Number(valA); valB = Number(valB); }
+            if (typeof valA === 'string') { valA = valA.toLowerCase(); }
+            if (typeof valB === 'string') { valB = valB.toLowerCase(); }
+            if (valA !== valB) { return (valA > valB ? reVal : -reVal); }
+          }
+          return reVal;
+      });
 
+      const users = usersQuery.dCopy().splice(backFilter.offset, backFilter.limit);
+
+      setTimeout(() => {
+        resolve({ count: usersQuery.length, users });
+      }, 1000);
+    });
+  };
 }
 
 

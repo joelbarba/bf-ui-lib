@@ -12,6 +12,80 @@
   that returns the list to display on the view (renderedList) so we can easily use | async.
 </p>
 
+<div class="row marT40">
+  <!--<bf-input class="col-4" bfLabel="Filter any" bfIcon="icon-search"-->
+  <!--          [(ngModel)]="bpList.filterText" (ngModelChange)="bpList.filter($event)">-->
+  <!--</bf-input>-->
+  <bf-input class="col-4" bfLabel="Filter username" bfIcon="icon-search"
+            [(ngModel)]="bpList.filters.username" (ngModelChange)="bpList.filter($event, 'username')">
+  </bf-input>
+  <bf-input class="col-4" bfLabel="Filter email" bfIcon="icon-search"
+            [(ngModel)]="bpList.filters.email" (ngModelChange)="bpList.filter($event, 'email')">
+  </bf-input>
+  <div class="col-12">
+    <bf-btn bfText=".prevPage()" (bfClick)="bpList.prevPage()"
+            bfIcon="icon-arrow-left6" bfIconPos="left">
+    </bf-btn>
+    <bf-btn bfText=".nextPage()" (bfClick)="bpList.nextPage()"></bf-btn>
+    <bf-btn bfText=".goToPage(2)" (bfClick)="bpList.goToPage(2)"></bf-btn>
+    <bf-btn bfText=".paginate(20)" (bfClick)="bpList.paginate(20)"></bf-btn>
+    <bf-btn bfText="orderConf.setField('username')" (bfClick)="bpList.orderConf.setField('username')"></bf-btn>
+    <bf-btn bfText=".load(data)" (bfClick)="bpList.load(getRandomData())"></bf-btn>
+    <bf-btn bfText=".loader$.next(data)" (bfClick)="asyncLoad()"></bf-btn>
+    <bf-btn bfType="add" bfText=".add({...})" (bfClick)="addItem()"></bf-btn>
+  </div>
+  <div class="col-12 padT10">
+    rowsPerPage={{bpList.rowsPerPage}}
+    , totalItems={{bpList.totalItems}}
+    , totalFiltered={{bpList.totalFiltered}}
+    , renderedItems={{bpList.renderedItems}}
+    , currentPage={{bpList.currentPage}}
+    , totalPages={{bpList.totalPages}}
+    , loadingStatus={{bpList.loadingStatus}}
+    , backFilter={{bpList.backFilter | json}}
+  </div>
+</div>
+<div class="row whiteBg">
+  <bf-list-paginator class="col-12"
+                     [bfCtrl]="bpList"
+                     bfShowSelector="true">
+  </bf-list-paginator>
+</div>
+<div class="row">
+  <div class="col-12" [bfLoadingSpinner]="bpList.loadingStatus === 4">
+    <ul class="list-unstyled table-list">
+      <li class="list-header">
+        <bf-list-header-col class="col-1" colTitle="Id"         fieldName="id"        [orderConf]="bpList.orderConf"></bf-list-header-col>
+        <bf-list-header-col class="col-2" colTitle="Username"   fieldName="username"  [orderConf]="bpList.orderConf"></bf-list-header-col>
+        <bf-list-header-col class="col-4" colTitle="Email"></bf-list-header-col>
+        <bf-list-header-col class="col-4" colTitle="Full Name"></bf-list-header-col>
+      </li>
+
+      <bf-list-placeholder [hidden]="bpList.loadingStatus > 1" [bfColumns]="[1, 2, 4, 4, 1]"></bf-list-placeholder>
+      <li class="list-row" [hidden]="bpList.loadingStatus <= 1"
+          *ngFor="let item of bpList.renderList$ | async">
+        <div class="col-1"><h5>{{item.id}}</h5></div>
+        <div class="col-2"><h5>{{item.username}}</h5></div>
+        <div class="col-4"><h5>{{item.email}}</h5></div>
+        <div class="col-4"><h5>{{item.first_name + ' ' + item.last_name}}</h5></div>
+        <div class="col-1 text-right">
+          <bf-btn bfText="" bfType="delete" (bfClick)="deleteItem(item)"></bf-btn>
+          <bf-btn bfText="" bfType="edit"   (bfClick)="editItem(item)"></bf-btn>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
 <hr>
 <h5 class="mt-4">Methods / Members:</h5>
 <!--<pre>{{api}}</pre>-->
@@ -74,7 +148,7 @@
 <hr>
 <h5 class="marB20">Full Example:</h5>
 
-<div *ngIf="true">
+<div *ngIf="false">
   <div class="row whiteBg padB15">
     <bf-input class="col-4"
               bfLabel="Filter (any)"
