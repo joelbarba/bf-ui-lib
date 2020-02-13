@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbActiveModal, NgbModalModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { BfConfirmComponent } from './bf-confirm.component';
+import { BfBtnComponent } from '../bf-btn/bf-btn.component';
+import { TestingModule } from '../../testing/testing-module';
 
 describe('BfConfirmComponent', () => {
   let component: BfConfirmComponent;
@@ -8,7 +11,9 @@ describe('BfConfirmComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BfConfirmComponent ]
+      declarations: [ BfConfirmComponent, BfBtnComponent ],
+      imports: [ TestingModule, NgbModalModule, NgbTooltipModule ],
+      providers: [ NgbActiveModal ],
     })
     .compileComponents();
   }));

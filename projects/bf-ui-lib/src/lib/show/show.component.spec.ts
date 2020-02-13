@@ -2,7 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ShowDirective } from './show.component';
 
-describe('ShowComponent', () => {
+// FIXME this is using the component boilerplate for a directive
+xdescribe('ShowComponent', () => {
   let component: ShowDirective;
   let fixture: ComponentFixture<ShowDirective>;
 

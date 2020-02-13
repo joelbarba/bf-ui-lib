@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { BfTextareaComponent } from './bf-textarea.component';
+import { TestingModule } from '../../testing/testing-module';
 
 describe('BfTextareaComponent', () => {
   let component: BfTextareaComponent;
@@ -8,7 +11,8 @@ describe('BfTextareaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BfTextareaComponent ]
+      declarations: [ BfTextareaComponent ],
+      imports: [ TestingModule, FormsModule, NgbTooltipModule ],
     })
     .compileComponents();
   }));

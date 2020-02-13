@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { BfInputComponent } from './bf-input.component';
+import { TestingModule } from '../../testing/testing-module';
 
 describe('BfInputComponent', () => {
   let component: BfInputComponent;
@@ -8,7 +11,8 @@ describe('BfInputComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BfInputComponent ]
+      declarations: [ BfInputComponent ],
+      imports: [ TestingModule, FormsModule, NgbTooltipModule ],
     })
     .compileComponents();
   }));

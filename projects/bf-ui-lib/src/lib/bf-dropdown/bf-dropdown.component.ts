@@ -222,7 +222,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   public langSubs;  // Subscription to language changes
   public ctrlSubs;  // Subscription to external control observable
 
-  @ViewChild('dropdownInput') elInput: ElementRef<HTMLInputElement>;
+  @ViewChild('dropdownInput', { static: false }) elInput: ElementRef<HTMLInputElement>;
 
   constructor(
     private translate: BfUILibTransService,

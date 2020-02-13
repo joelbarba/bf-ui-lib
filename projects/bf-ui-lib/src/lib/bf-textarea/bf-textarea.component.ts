@@ -62,7 +62,7 @@ export class BfTextareaComponent implements ControlValueAccessor, OnInit, OnChan
   public errorPosition = 'default';
   public isFocus = false; // Whether the focus is on the input
 
-  @ViewChild('ngInputRef') ngInputRef: ElementRef;
+  @ViewChild('ngInputRef', { static: false }) ngInputRef: ElementRef;
   public inputCtrl: FormControl; // <-- ngInputRef.control
 
   constructor(private translate: BfUILibTransService) {

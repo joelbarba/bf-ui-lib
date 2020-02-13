@@ -121,23 +121,6 @@
             "browserTarget": "bf-ui-lib-sandbox:build"
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/bf-ui-lib-sandbox/src/test.ts",
-            "polyfills": "projects/bf-ui-lib-sandbox/src/polyfills.ts",
-            "tsConfig": "projects/bf-ui-lib-sandbox/tsconfig.spec.json",
-            "karmaConfig": "projects/bf-ui-lib-sandbox/karma.conf.js",
-            "styles": [
-              "projects/bf-ui-lib-sandbox/src/styles.scss"
-            ],
-            "scripts": [],
-            "assets": [
-              "projects/bf-ui-lib-sandbox/src/favicon.ico",
-              "projects/bf-ui-lib-sandbox/src/assets"
-            ]
-          }
-        },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
