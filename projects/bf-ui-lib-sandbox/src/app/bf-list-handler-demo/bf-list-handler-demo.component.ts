@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {BfGrowlService} from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service';
 import {BfListHandler} from '../../../../bf-ui-lib/src/lib/bf-list-handler/bf-list-handler';
 import {BehaviorSubject, Subject} from 'rxjs';
+import { Location } from '@angular/common';
+import {ActivatedRoute, Router} from "@angular/router";
+import {filter} from "rxjs/operators";
 
 @Component({
   selector: 'app-bf-list-handler-demo',
   templateUrl: './bf-list-handler-demo.component.html',
   styleUrls: ['./bf-list-handler-demo.component.scss']
 })
-export class BfListHandlerDemoComponent implements OnInit {
+export class BfListHandlerDemoComponent implements OnInit, OnDestroy {
   public name = BfListHandlerDoc.name;
   public desc = BfListHandlerDoc.desc;
   public api = BfListHandlerDoc.api;
@@ -147,7 +150,12 @@ this.myList.render$.subscribe(state => ...);`;
   public bpList: BfListHandler;
   public bpLoader$ = new Subject();
 
-  constructor(private growl: BfGrowlService) {
+  constructor(
+    private growl: BfGrowlService,
+    private location: Location,
+    private route: ActivatedRoute,
+    private router: Router,
+  ) {
 
     // List configuration
     // const listConfig = {
@@ -161,34 +169,82 @@ this.myList.render$.subscribe(state => ...);`;
     // this.myList  = new BfListHandler({ ...listConfig, listName: 'test-list' });
 
     this.bpList  = new BfListHandler({
-      listName          : 'backend-pagination-list',
-      filterFields      : ['username', 'first_name'],
-      orderFields       : ['id', 'username'],
-      orderReverse      : false,
-      rowsPerPage       : 5,
-      filtersConf : {
-        username : { addToUrl: true, debounceTime: 1000 },
-        email    : { addToUrl: true, debounceTime: 1000 },
-      },
-      backendPagination : (queryFilter: any) => {
-        return this.mockBEFilter(queryFilter).then((data: any) => {
+      listName      : 'backend-pagination-list',
+      filterFields  : ['username', 'first_name'],
+      orderFields   : ['id', 'username'],
+      orderReverse  : false,
+      rowsPerPage   : 5,
+      backendPagination : (slimFilter: any, fullFilter: any) => {
+
+        // Remove filters without value
+        // Object.keys(fullFilter).forEach(filterName => {
+        //   if (!fullFilter[filterName]) { delete fullFilter[filterName]; }
+        // });
+
+        return this.mockBEFilter(slimFilter).then((data: any) => {
           // this.bpList.loadPage({ pageList: data.users, totalItems: data.count });
           return { pageList: data.users, totalItems: data.count };
         });
       },
     });
+    // this.route.snapshot.queryParams
+
+
+    this.bpList.onFiltersChange.subscribe((filters: any) => {
+      // console.log('setting url', filters);
+
+      // Replace the empty values by null, to stripe them out the url
+      Object.keys(filters).forEach(n => {
+        if (filters[n] === '' || filters[n] === undefined) { filters[n] = null; }
+      });
+
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: filters,
+        replaceUrl: true,
+        queryParamsHandling: 'merge',
+      });
+    });
   }
 
   ngOnInit() {
+
+
     this.bpList.triggerPagination().then(data => {
-      console.log('FIRST PAGE LOADED', data);
+      // console.log('FIRST PAGE LOADED', data);
     });
+
+    setTimeout(() => { this.bpList.filter('jo', 'username'); }, 5000);
+    setTimeout(() => { this.bpList.filter('joe', 'username'); }, 8000);
+    setTimeout(() => { this.bpList.filter('joel', 'username'); }, 10000);
+
+    // setTimeout(() => {
+    //   // const fullPath = this.location.path();
+    //   // const path = fullPath.split('?')[0];
+    //   // const paramsStr = fullPath.split('?')[1] || '';
+    //   // console.log('PATH', path, paramsStr);
+    //   //
+    //   // const params = this.route.snapshot.queryParams;
+    //   // console.log('PARAMS', params);
+    //   // console.log('ROUTE', this.route);
+    //
+    //   // this.location.replaceState(path, 'a=10&b=444&c=Joel@ there.com&a=11');
+    //   // this.location.replaceState('/bf-btn');
+    // }, 2000);
+
+
+
+
 
     // this.myList.subscribeTo(this.loader$);
 
     // this.loader$.next(this.getRandomData());
     // this.loader$.next(this.listData);
     // this.myList.load(this.getRandomData());
+  }
+
+  ngOnDestroy() {
+    this.bpList.destroy();
   }
 
   asyncLoad() {
@@ -225,11 +281,23 @@ this.myList.render$.subscribe(state => ...);`;
     return this.genList;
   };
 
+  clearFilters() {
+    this.bpList.filters.username = null;
+    this.bpList.filters.email = null;
+    this.bpList.goToPage(1);
+  }
+
   // Mock a backend side paginated list request
   public mockBEFilter = (backFilter) => {
     console.log('--------- Mocking webAPI request with --------->', backFilter);
     return new Promise(resolve => {
-      const orderFields = backFilter.order_by.replace(/-/gi, '').split(',');
+      let orderReverse = 1;
+      let orderFields = [];
+      if (!!backFilter.order_by) {
+        orderFields = backFilter.order_by.replace(/-/gi, '').split(',');
+        orderReverse = backFilter.order_by.charAt(0) === '-' ? -1 : 1;
+      }
+
       const usersQuery = this.listData.dCopy()
         .filter(item => {
           if (backFilter.username && item.username.toLowerCase().indexOf(backFilter.username.toLowerCase()) < 0) { return false; }
@@ -237,7 +305,7 @@ this.myList.render$.subscribe(state => ...);`;
           return true;
         })
         .sort((itemA, itemB) => {
-          const reVal = backFilter.order_by.charAt(0) === '-' ? -1 : 1;
+          const reVal = orderReverse;
           for (const field of orderFields) {
             let valA = itemA[field];
             let valB = itemB[field];

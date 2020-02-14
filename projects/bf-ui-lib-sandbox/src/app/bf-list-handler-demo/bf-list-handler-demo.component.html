@@ -16,12 +16,17 @@
   <!--<bf-input class="col-4" bfLabel="Filter any" bfIcon="icon-search"-->
   <!--          [(ngModel)]="bpList.filterText" (ngModelChange)="bpList.filter($event)">-->
   <!--</bf-input>-->
-  <bf-input class="col-4" bfLabel="Filter username" bfIcon="icon-search"
-            [(ngModel)]="bpList.filters.username" (ngModelChange)="bpList.filter($event, 'username')">
+  <bf-input class="col-3" bfLabel="Filter username" bfIcon="icon-search"
+            [(ngModel)]="bpList.filters.username" (ngModelChange)="bpList.filter($event, 'username', 1000)">
   </bf-input>
-  <bf-input class="col-4" bfLabel="Filter email" bfIcon="icon-search"
+  <bf-input class="col-3" bfLabel="Filter email" bfIcon="icon-search"
             [(ngModel)]="bpList.filters.email" (ngModelChange)="bpList.filter($event, 'email')">
   </bf-input>
+
+
+  <bf-btn class="col-1" bfText="Clear Filters" (bfClick)="clearFilters()" bfType="save"></bf-btn>
+
+
   <div class="col-12">
     <bf-btn bfText=".prevPage()" (bfClick)="bpList.prevPage()"
             bfIcon="icon-arrow-left6" bfIconPos="left">
