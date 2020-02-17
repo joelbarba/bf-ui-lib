@@ -3,8 +3,8 @@ import {BfGrowlService} from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.se
 import {BfListHandler} from '../../../../bf-ui-lib/src/lib/bf-list-handler/bf-list-handler';
 import {BehaviorSubject, Subject} from 'rxjs';
 import { Location } from '@angular/common';
-import {ActivatedRoute, Router} from "@angular/router";
-import {filter} from "rxjs/operators";
+import {ActivatedRoute, Router} from '@angular/router';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-bf-list-handler-demo',
