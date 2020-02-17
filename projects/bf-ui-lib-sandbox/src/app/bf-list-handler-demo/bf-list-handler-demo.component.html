@@ -13,6 +13,7 @@
 </p>
 
 <div class="row marT40">
+  <div class="col-12">filters={{bpList.filters | json }}</div>
   <!--<bf-input class="col-4" bfLabel="Filter any" bfIcon="icon-search"-->
   <!--          [(ngModel)]="bpList.filterText" (ngModelChange)="bpList.filter($event)">-->
   <!--</bf-input>-->
@@ -47,7 +48,6 @@
     , currentPage={{bpList.currentPage}}
     , totalPages={{bpList.totalPages}}
     , loadingStatus={{bpList.loadingStatus}}
-    , backFilter={{bpList.backFilter | json}}
   </div>
 </div>
 <div class="row whiteBg">

@@ -34,11 +34,10 @@ export class BfListHandler {
   public totalPages = 1;            // Calculation of the total number of pages
   public filterText = '';           // Current filter value
   public backendPagination;         // Function to provide a backend filtered/paginated list handler
-  public backFilter = { limit: 10, offset: 0, order_by : '' };
-  public filters: any = {}; // To keep multiple filter field values
+  public filters: any = {};         // Set of values applied to filter the list. Backend included here (limit, offset, order_by)
   // --------------------------
-  public extMethods = false;        // Whether to extend the items with handling methods ($remove, $save)
   public filterFields: Array<string> = [];  // Name of the field where to apply the filter (filterText)
+  public extMethods = false;        // Whether to extend the items with handling methods ($remove, $save)
   public orderConf = {
     fields: [],       // Array with all the fields the list is ordered by
     reverse: false,   // Whether the list is ordered asc (false) or desc (true)
@@ -50,6 +49,7 @@ export class BfListHandler {
   private stateSubs;    // State loader subscription
   private debounceSub;  // Debounced filter subscription
   private debouncedFilter$ = new Subject<{filterName: string, filterValue, debounceMs?: number}>();
+  private lastFilters: any = {};  // Snapshot of the last "this.filters" applied to the list
 
   constructor(customInit: Partial<BfListHandlerConfig> = {}, qParams: any = {}) {
     if (customInit.hasOwnProperty('listName'))     { this.listName          = customInit.listName; }
@@ -72,7 +72,7 @@ export class BfListHandler {
     }
     Object.keys(qParams).forEach(n => this.filters[n] = qParams[n]);
 
-    this.backFilter = this.getFilters();  // Initial backend filters
+    this.filters = this.getFilters();  // Initial backend filters
 
     // Debounced filters subscription
     this.debounceSub = this.debouncedFilter$.pipe(debounce((filter) => {
@@ -157,7 +157,8 @@ export class BfListHandler {
     } else {
 
       // These actions should force offset reset (if needs be)
-      if (['PAGINATE', 'FILTER'].includes(change.action) && this.isFilterDiff(this.getFilters())) {
+      const nextFilters = this.getFilters();
+      if (['PAGINATE', 'FILTER'].includes(change.action) && this.isFilterDiff(this.lastFilters, nextFilters)) {
         this.currentPage = 1;
       }
 
@@ -256,16 +257,16 @@ export class BfListHandler {
 
   // Backend pagination (mock the list slicing) with asynchronous page loading
   public triggerPagination = () => {
-    const nextFilter = this.getFilters();
-    if (this.loadingStatus === 0 || this.isFilterDiff(nextFilter)) {
+    this.filters = this.getFilters();
+    if (this.loadingStatus === 0 || this.isFilterDiff(this.lastFilters, this.filters)) {
       this.loadingStatus = 4;
-      this.backFilter = nextFilter;
+      this.lastFilters = dCopy(this.filters); // Keep a copy
 
-      const slimFilter = { ...this.backFilter };
+      const slimFilter = dCopy(this.filters);
       Object.keys(slimFilter).forEach(n => { if (!slimFilter[n]) { delete slimFilter[n]; } });
 
-      this.onFiltersChange$.next(dCopy(this.backFilter));
-      const resPromise = this.backendPagination(dCopy(slimFilter), dCopy(nextFilter));
+      this.onFiltersChange$.next(dCopy(this.filters));
+      const resPromise = this.backendPagination(dCopy(slimFilter), dCopy(this.filters));
 
       if (!!resPromise) { // If a promise is returned, trigger the page load automatically
         return resPromise.then(page => {
@@ -274,19 +275,19 @@ export class BfListHandler {
         });
       }
     } else {
-      console.log('Same filter, do not refresh page', this.backFilter, nextFilter);
+      console.log('Same filter, do not refresh page', this.lastFilters, this.filters);
     }
     return Promise.resolve();
   };
 
-  // Compares "nextFilter" object with "this.backFilter", prop by prop
-  public isFilterDiff = (nextFilter) => {
-    const keys1 = Object.keys(this.backFilter).filter(n => !['', null, undefined].includes(this.backFilter[n]));
-    const keys2 = Object.keys(nextFilter     ).filter(n => !['', null, undefined].includes(nextFilter[n]));
+  // Compares 2 filters objects prop by prop (ignoring empty values)
+  public isFilterDiff = (filters1, filters2) => {
+    const keys1 = Object.keys(filters1).filter(n => !['', null, undefined].includes(filters1[n]));
+    const keys2 = Object.keys(filters2).filter(n => !['', null, undefined].includes(filters2[n]));
     if (keys1.length !== keys2.length) { return true; }
     for (const key of keys1) {
       if (!keys2.includes(key)) { return true; }
-      if (this.backFilter[key] !== nextFilter[key]) { return true; }
+      if (filters1[key] !== filters2[key]) { return true; }
     }
     return false;
   };
