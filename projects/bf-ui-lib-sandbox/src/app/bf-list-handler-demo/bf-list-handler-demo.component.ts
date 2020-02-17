@@ -176,22 +176,18 @@ this.myList.render$.subscribe(state => ...);`;
       rowsPerPage   : 5,
       backendPagination : (slimFilter: any, fullFilter: any) => {
 
-        // Remove filters without value
-        // Object.keys(fullFilter).forEach(filterName => {
-        //   if (!fullFilter[filterName]) { delete fullFilter[filterName]; }
+        // this.mockBEFilter(slimFilter).then((data: any) => {
+        //   this.bpList.loadPage({ pageList: data.users, totalItems: data.count });
         // });
 
         return this.mockBEFilter(slimFilter).then((data: any) => {
-          // this.bpList.loadPage({ pageList: data.users, totalItems: data.count });
           return { pageList: data.users, totalItems: data.count };
         });
       },
-    });
-    // this.route.snapshot.queryParams
+    }, this.route.snapshot.queryParams);
 
 
-    this.bpList.onFiltersChange.subscribe((filters: any) => {
-      // console.log('setting url', filters);
+    this.bpList.onFiltersChange$.subscribe((filters: any) => {
 
       // Replace the empty values by null, to stripe them out the url
       Object.keys(filters).forEach(n => {
@@ -213,28 +209,6 @@ this.myList.render$.subscribe(state => ...);`;
     this.bpList.triggerPagination().then(data => {
       // console.log('FIRST PAGE LOADED', data);
     });
-
-    setTimeout(() => { this.bpList.filter('jo', 'username'); }, 5000);
-    setTimeout(() => { this.bpList.filter('joe', 'username'); }, 8000);
-    setTimeout(() => { this.bpList.filter('joel', 'username'); }, 10000);
-
-    // setTimeout(() => {
-    //   // const fullPath = this.location.path();
-    //   // const path = fullPath.split('?')[0];
-    //   // const paramsStr = fullPath.split('?')[1] || '';
-    //   // console.log('PATH', path, paramsStr);
-    //   //
-    //   // const params = this.route.snapshot.queryParams;
-    //   // console.log('PARAMS', params);
-    //   // console.log('ROUTE', this.route);
-    //
-    //   // this.location.replaceState(path, 'a=10&b=444&c=Joel@ there.com&a=11');
-    //   // this.location.replaceState('/bf-btn');
-    // }, 2000);
-
-
-
-
 
     // this.myList.subscribeTo(this.loader$);
 

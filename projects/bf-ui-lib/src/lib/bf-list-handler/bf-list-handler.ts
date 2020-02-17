@@ -19,6 +19,7 @@ export interface BfListHandlerConfig {
 export class BfListHandler {
   public render$: BehaviorSubject<any>; // Observable to listen to rendering changes
   public renderList$: Observable<any>;  // Observable to listen to rendering changes, mapping only renderedList as output
+  public onFiltersChange$ = new Subject(); // Whenever the filters change
 
   // ---- STATE ---------------
   public loadedList: Array<any>;    // Array with the full loaded content
@@ -34,10 +35,8 @@ export class BfListHandler {
   public filterText = '';           // Current filter value
   public backendPagination;         // Function to provide a backend filtered/paginated list handler
   public backFilter = { limit: 10, offset: 0, order_by : '' };
-  // --------------------------
   public filters: any = {}; // To keep multiple filter field values
-  public onFiltersChange = new Subject(); // Whenever the filters change
-
+  // --------------------------
   public extMethods = false;        // Whether to extend the items with handling methods ($remove, $save)
   public filterFields: Array<string> = [];  // Name of the field where to apply the filter (filterText)
   public orderConf = {
@@ -46,7 +45,6 @@ export class BfListHandler {
     setField: (orderField) => this.order(orderField) // Function to add a new field to the order sequence
   };
   public pagesList = [{id: 1, isLast: false}];   // List of page numbers (to loop)
-
 
   private contentSubs;  // Content loader subscription
   private stateSubs;    // State loader subscription
@@ -81,7 +79,6 @@ export class BfListHandler {
       if (!!filter.debounceMs || filter.debounceMs === 0) { return timer(filter.debounceMs); }
       return timer(500);
     }), distinctUntilChanged()).subscribe(filter => {
-      console.warn('DEBOUNCING', new Date(), filter);
       this.filters[filter.filterName] = filter.filterValue;
       this.dispatch({ action: 'FILTER', payload: '' });
     });
@@ -267,7 +264,7 @@ export class BfListHandler {
       const slimFilter = { ...this.backFilter };
       Object.keys(slimFilter).forEach(n => { if (!slimFilter[n]) { delete slimFilter[n]; } });
 
-      this.onFiltersChange.next(dCopy(this.backFilter));
+      this.onFiltersChange$.next(dCopy(this.backFilter));
       const resPromise = this.backendPagination(dCopy(slimFilter), dCopy(nextFilter));
 
       if (!!resPromise) { // If a promise is returned, trigger the page load automatically
@@ -304,18 +301,7 @@ export class BfListHandler {
   public subscribeTo = (load$) => {
     if (!!this.contentSubs) { this.contentSubs.unsubscribe(); }
     this.loadingStatus = 1; // loading
-    this.contentSubs = load$.subscribe(list => {
-      this.load(JSON.parse(JSON.stringify(list || [])));
-    });
-  };
-
-  // Set an observable as the source of input state (state: { status, list })
-  public setState = (state$) => {
-    if (!!this.stateSubs) { this.stateSubs.unsubscribe(); }
-    this.stateSubs = state$.subscribe(state => {
-      this.loadingStatus = state.status;
-      if (state.status === 2) { this.load(state.list); }
-    });
+    this.contentSubs = load$.subscribe(list => this.load(dCopy(list || [])));
   };
 
   // Shortcuts to dispatch action
