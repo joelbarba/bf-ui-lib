@@ -12,7 +12,7 @@ export interface BfListHandlerConfig {
   rowsPerPage   ?: number;
   totalPages    ?: number;
   extMethods    ?: boolean;
-  backendPagination ?: (fullFilter: any, slimFilter?: any) => void | Promise<{ pageList, totalItems }>;
+  backendPagination ?: (fullFilter: any, slimFilter?: any) => void | Promise<{ list, count }>;
 }
 
 
@@ -110,23 +110,23 @@ export class BfListHandler {
 
     switch (change.action) {
       case 'LOAD' :
-        this.loadedList = change.payload;
+        if (!this.backendPagination) { // Load full list
+          this.loadedList = change.payload.list;
+          this.totalItems = this.loadedList.length;
+
+        } else { // Load page (backend pagination)
+          this.loadedList = change.payload.list;
+          this.totalItems = change.payload.count;
+          this.totalPages = Math.ceil(this.totalItems / this.rowsPerPage) || 1;
+          this.currentPage = this.getPage(this.currentPage);
+        }
         this.loadedList.forEach(this.extendItem);
         this.loadingStatus = 2;
         break;
 
-      case 'PAGINATE': // New rows per page = refresh pagination
+      case 'ROWS': // New rows per page = refresh pagination
         this.rowsPerPage = change.payload || this.rowsPerPage;
         this.currentPage = this.getPage(this.currentPage);
-        break;
-
-      case 'LOAD PAGE':
-        if (!!this.backendPagination) {
-          this.loadedList = change.payload.pageList;
-          this.totalItems = change.payload.totalItems;
-          this.totalPages = Math.ceil(this.totalItems / this.rowsPerPage) || 1;
-          this.loadingStatus = 2;
-        }
         break;
 
       case 'ADD'     : this.loadedList.push(this.extendItem(change.payload)); break;
@@ -151,24 +151,29 @@ export class BfListHandler {
       this.renderedList = this.orderList(this.renderedList, this.orderConf.fields, this.orderConf.reverse);
     }
 
-    // Pagination (slice the list to one page)
-    if (!this.backendPagination) {
-      this.setFrontendPagination();
-    } else {
+    // Pagination
+    if (!this.backendPagination) { // Frontend (slice based on the state)
+        this.totalPages = Math.ceil(this.renderedList.length / this.rowsPerPage) || 1;
+        this.currentPage = this.getPage(); // In case it falls off
 
-      // These actions should force offset reset (if needs be)
-      const nextFilters = this.getFilters();
-      if (['PAGINATE', 'FILTER'].includes(change.action) && this.isFilterDiff(this.lastFilters, nextFilters)) {
-        this.currentPage = 1;
+        this.renderedList = this.renderedList.filter((item, ind) => {
+          const offSet = (this.currentPage - 1) * this.rowsPerPage;
+          const limit = this.currentPage * this.rowsPerPage;
+          return (ind >= offSet && ind < limit);
+        });
+
+    } else { // Backend (trigger on page change)
+      if (['ROWS', 'FILTER'].includes(change.action) && this.isFilterDiff(this.lastFilters, this.getFilters())) {
+        this.currentPage = 1; // These actions should force offset reset
       }
 
       // These actions should trigger a backend page request to load the page
-      if (['PAGINATE', 'FILTER', 'ORDER', 'GOTO', 'NEXT', 'PREV', 'REFRESH'].includes(change.action)) {
+      if (['ROWS', 'FILTER', 'ORDER', 'GOTO', 'NEXT', 'PREV', 'REFRESH'].includes(change.action)) {
         this.triggerPagination();
       }
     }
 
-    // Generate an array with all pages (for <bf-list-paginator>)
+    // Generate an array with all pages (ready for <bf-list-paginator>)
     this.pagesList = Array.from(Array(this.totalPages).keys())
       .map(ind => ({ id: ind + 1, isLast: (ind === this.totalPages - 1) }));
 
@@ -217,14 +222,9 @@ export class BfListHandler {
     return pageNum;
   };
 
-
   // Returns an object with all filters applied on the list
   public getFilters = () => {
-    const listFilter: any = {};
-
-    Object.keys(this.filters).forEach(filterName => {
-      listFilter[filterName] = this.filters[filterName];
-    });
+    const listFilter = { ...this.filters };
 
     if (!!this.backendPagination) {
       listFilter.limit  = this.rowsPerPage;
@@ -241,20 +241,6 @@ export class BfListHandler {
 
   // ---------------- Backend side pagination ----------------------
 
-  // Frontend pagination (slice the list based on the pagination state)
-  public setFrontendPagination = () => {
-    this.totalPages = Math.ceil(this.renderedList.length / this.rowsPerPage) || 1;
-    this.totalItems = this.loadedList.length;
-    this.currentPage = this.getPage(); // In case it falls off
-
-    this.renderedList = this.renderedList.filter((item, ind) => {
-      const offSet = (this.currentPage - 1) * this.rowsPerPage;
-      const limit = this.currentPage * this.rowsPerPage;
-      return (ind >= offSet && ind < limit);
-    });
-
-  };
-
   // Backend pagination (mock the list slicing) with asynchronous page loading
   public triggerPagination = () => {
     this.filters = this.getFilters();
@@ -270,13 +256,11 @@ export class BfListHandler {
 
       if (!!resPromise) { // If a promise is returned, trigger the page load automatically
         return resPromise.then(page => {
-          this.loadPage(page);
+          this.load(page.list, page.count);
           return page;
         });
       }
-    } else {
-      console.log('Same filter, do not refresh page', this.lastFilters, this.filters);
-    }
+    } else { console.log('Same filter, do not refresh page', this.lastFilters, this.filters); }
     return Promise.resolve();
   };
 
@@ -296,7 +280,9 @@ export class BfListHandler {
   // ---------------- Public methods to trigger actions ----------------------
 
   // Load a list of data
-  public load = (content) => this.dispatch({ action: 'LOAD', payload: content });
+  public load = (list, count?) => {
+    this.dispatch({ action: 'LOAD', payload: { list, count } });
+  };
 
   // Set an observable as the source of input data for the list
   public subscribeTo = (load$) => {
@@ -306,15 +292,14 @@ export class BfListHandler {
   };
 
   // Shortcuts to dispatch action
-  public refresh = () => this.dispatch({ action: 'REFRESH' });
-  public add = (item: any) => this.dispatch({ action: 'ADD', payload: item });
-  public order  = (orderField = '')    => this.dispatch({ action: 'ORDER',     payload: orderField });
-  public loadPage = (payload)          => this.dispatch({ action: 'LOAD PAGE', payload });
-  public goToPage = (numPage = 1)      => this.dispatch({ action: 'GOTO',      payload: numPage });
+  public refresh  = () => this.dispatch({ action: 'REFRESH' });
+  public add      = (item: any) => this.dispatch({ action: 'ADD', payload: item });
+  public order    = (orderField = '') => this.dispatch({ action: 'ORDER', payload: orderField });
+  public goToPage = (numPage = 1) => this.dispatch({ action: 'GOTO', payload: numPage });
   public nextPage = () => this.dispatch({ action: 'NEXT' });
   public prevPage = () => this.dispatch({ action: 'PREV' });
-  public paginate = (payload)          => {
-    if (this.rowsPerPage !== payload) { this.dispatch({ action: 'PAGINATE',  payload }); }
+  public paginate = (rowsPerPage) => {
+    if (this.rowsPerPage !== rowsPerPage) { this.dispatch({ action: 'ROWS',  payload: rowsPerPage }); }
   };
 
   public filter = (filterValue: any, filterName?: string, debounceMs = 500) => {
