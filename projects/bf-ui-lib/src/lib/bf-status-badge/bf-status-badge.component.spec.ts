@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BfStatusBadgeComponent } from './bf-status-badge.component';
+import { TestingModule } from '../../testing/testing-module';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 describe('BfStatusBadgeComponent', () => {
   let component: BfStatusBadgeComponent;
@@ -8,7 +10,8 @@ describe('BfStatusBadgeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BfStatusBadgeComponent ]
+      declarations: [ BfStatusBadgeComponent ],
+      imports: [ TestingModule, NgbTooltipModule ],
     })
     .compileComponents();
   }));

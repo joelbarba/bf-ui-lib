@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { BfCheckboxComponent } from './bf-checkbox.component';
+import { TestingModule } from '../../testing/testing-module';
 
 describe('BfCheckboxComponent', () => {
   let component: BfCheckboxComponent;
@@ -8,7 +11,8 @@ describe('BfCheckboxComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BfCheckboxComponent ]
+      declarations: [ BfCheckboxComponent ],
+      imports: [ TestingModule, FormsModule, NgbTooltipModule ],
     })
     .compileComponents();
   }));
