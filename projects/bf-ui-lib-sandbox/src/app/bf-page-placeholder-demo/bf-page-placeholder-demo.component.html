@@ -12,26 +12,77 @@
 <h5 class="mt-4">Examples:</h5>
 <div class="row">
   <div class="col-4">
-    <div class="row">
-      <div class="col-12">
-        <div class="code-box pad5">
-          <pre>{{instance}}</pre>
+    <div class="whiteBg">
+      <h5 class="marB25">bf-page-placeholder bfType="profile"</h5>
+      <div class="code-box"><pre>{{instance}}</pre></div>
+      <div class="row marT20">
+
+        <div class="col-12 marB20"><bf-radio [(ngModel)]="profileExample.isSection" bfLabel="No Section" [bfValue]="false" (ngModelChange)="addSection()"></bf-radio></div>
+        <div class="col-12 marB20"><bf-radio [(ngModel)]="profileExample.isSection" bfLabel="Section active" [bfValue]="true" (ngModelChange)="addSection()"></bf-radio></div>
+
+        <div class="col-12 marB10" *ngIf="profileExample.isSection">
+          <bf-checkbox [(ngModel)]="profileExample.hasAvatar" (ngModelChange)="upIns()" bfLabel="Avatar"></bf-checkbox>
+        </div>
+        <div class="col-12 marB10" *ngIf="profileExample.isSection">
+          <bf-checkbox [(ngModel)]="profileExample.hasData" (ngModelChange)="upIns()" bfLabel="Data"></bf-checkbox>
+        </div>
+        <div class="col-12 marB10" *ngIf="profileExample.isSection">
+          <bf-checkbox [(ngModel)]="profileExample.hasInfo" (ngModelChange)="upIns()" bfLabel="Info"></bf-checkbox>
+        </div>
+        <div class="col-12 marB10" *ngIf="profileExample.isSection">
+          <bf-checkbox [(ngModel)]="profileExample.hasInfoCenter" (ngModelChange)="upIns()" bfLabel="Info Center"></bf-checkbox>
         </div>
       </div>
-      <div class="col-12">
-        <bf-page-placeholder bfType="profile"></bf-page-placeholder>
+    </div>
+
+    <bf-page-placeholder bfType="profile" [bfSections]="profileExample.sectionList"></bf-page-placeholder>
+  </div>
+  <div class="col-8">
+    <div class="whiteBg">
+      <div class="row">
+        <div class="col-12 marB15">
+          <h5 class="marB25">bf-page-placeholder bfType="details"</h5>
+        </div>
+        <div class="col-12 marB30"><div class="code-box pad5"><pre>{{instance2}}</pre></div></div>
+        <div class="col-12 marB30"><div class="code-box pad5"><pre>{{instance3}}</pre></div></div>
+      </div>
+    </div>
+
+    <bf-page-placeholder bfType="details"></bf-page-placeholder>
+  </div>
+</div>
+<div class="row">
+  <div class="col-4">
+    <div class="whiteBg">
+      <div class="row">
+        <div class="col-12 marB15">
+          <h5 class="marB25">bf-page-placeholder bfType="details" [bfTabs]="true"</h5>
+        </div>
+        <div class="col-12 marB30"><div class="code-box pad5"><pre>{{instance4}}</pre></div></div>
       </div>
     </div>
   </div>
   <div class="col-8">
-    <div class="row">
-      <div class="col-12">
-        <div class="code-box pad5">
-          <pre>{{instance2}}</pre>
+    <div class="whiteBg" style="padding: 0px;">
+      <ul class="nav nav-tabs marB20">
+        <li class="nav-item" style="width: 25%; text-align: center; background: #00B6F1;">
+          <h5 class="nav-link">Devices</h5>
+        </li>
+        <li class="nav-item" style="width: 25%; text-align: center; background: #00B6F1;">
+          <h5 class="nav-link">User</h5>
+        </li>
+        <li class="nav-item" style="width: 25%; text-align: center; background: #00B6F1;">
+          <h5 class="nav-link">Quotes</h5>
+        </li>
+        <li class="nav-item" style="width: 25%; text-align: center; background: #00B6F1;">
+          <h5 class="nav-link">Customer</h5>
+        </li>
+      </ul>
+
+      <div class="row" style="padding: 0 25px;">
+        <div class="col-12">
+          <bf-page-placeholder bfType="details" [bfTabs]="true"></bf-page-placeholder>
         </div>
-      </div>
-      <div class="col-12">
-        <bf-page-placeholder bfType="details"></bf-page-placeholder>
       </div>
     </div>
   </div>

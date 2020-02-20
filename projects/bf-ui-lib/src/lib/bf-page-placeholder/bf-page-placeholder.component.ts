@@ -1,32 +1,60 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 
 @Component({
   selector: 'bf-page-placeholder',
   templateUrl: './bf-page-placeholder.component.html',
   styleUrls: []
 })
-export class BfPagePlaceholderComponent implements OnInit {
+export class BfPagePlaceholderComponent implements OnInit, OnChanges {
   @Input() bfType: 'details' | 'profile' = 'details';
-  @Input() bfTabs: number;
+  @Input() bfTabs = false;
   @Input() bfSections: Array<'avatar' | 'data' | 'info' | 'info-center'>;
 
   public structureProfile = ['avatar', 'data', 'info'];
   public fakeProfile = [];
+  public fakeDetails = {
+    title: true,
+    description: true,
+    columns: []
+  };
 
   constructor() { }
 
   ngOnInit() {
     if (this.bfType === 'profile') {
-      this.structureProfile = (!!this.bfSections && this.bfSections.length > 0) ? this.bfSections : this.structureProfile;
-      this.fakeProfile = [];
-      for (let det = 0; det < this.structureProfile.length; det++) {
-        this.fakeProfile.push(this.profileBuild(this.structureProfile[det]));
-        if (det + 1 !== this.structureProfile.length ) {
-          this.fakeProfile.push({ row: 'space' });
-        }
-      }
+      this.bfProfile();
     }
     if (this.bfType === 'details') {
+      this.bfDetails();
+    }
+  }
+
+  ngOnChanges(changes) {
+    if (this.bfType === 'profile') {
+      this.bfProfile();
+    }
+    if (this.bfType === 'details') {
+      this.bfDetails();
+    }
+  }
+
+  bfProfile() {
+    this.structureProfile = (!!this.bfSections && this.bfSections.length > 0) ? this.bfSections : this.structureProfile;
+    this.fakeProfile = [];
+    for (let det = 0; det < this.structureProfile.length; det++) {
+      this.fakeProfile.push(this.profileBuild(this.structureProfile[det]));
+      if (det + 1 !== this.structureProfile.length ) {
+        this.fakeProfile.push({ row: 'space' });
+      }
+    }
+  }
+
+  bfDetails() {
+    const columns = 2;
+    const rows = 6;
+    this.fakeDetails.columns = [];
+    for (let col = 0; col < columns; col++) {
+      this.fakeDetails.columns.push(this.columnBuild(columns, rows));
     }
   }
 
@@ -49,14 +77,14 @@ export class BfPagePlaceholderComponent implements OnInit {
       ];
     } else if (type === 'info' || type === 'info-center') {
       obj.classRow = (type === 'info-center') ? 'placeholder-profile_info-center' : 'placeholder-profile_info';
-      obj.list = [
-        'info-title marB10',
-        'info-text1 marB10',
-        'info-text2'
-      ];
+      obj.list = [];
+      for (let index = 0; index < 4; index++) {
+        const num = Math.round((Math.random() * 3) + 1);
+        obj.list.push(`info-text${num} marB10`);
+      }
     } else if (type === 'data') {
       obj.classRow = 'placeholder-profile_data';
-      const columns = Math.floor((Math.random() * 2) + 1);
+      const columns = Math.round((Math.random() * 2) + 1);
       const dataList = [];
       for (let col = 0; col < columns; col++) {
         dataList.push({
@@ -69,6 +97,28 @@ export class BfPagePlaceholderComponent implements OnInit {
       }
       obj.dataList = dataList;
     }
+    return obj;
+  }
+
+  columnBuild(columns: number, rows: number = 6) {
+    const obj = {
+      subtitle: true,
+      col: '',
+      colList: []
+    };
+    const input = Math.round(Math.random() * rows );
+
+    for (let field = 0; field < rows; field++) {
+      const label = Math.round((Math.random() * 3) + 1);
+      obj.colList.push(
+        {
+          label: `details_label_${label}`,
+          input: (input === field) ? 'details_input_2' : 'details_input_1'
+        }
+      );
+    }
+
+    obj.col = `col-${12 / columns}`;
     return obj;
   }
 }

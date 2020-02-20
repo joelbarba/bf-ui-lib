@@ -11,10 +11,24 @@
 
   </div>
 </div>
-<div *ngIf="bfType === 'details'" class="whiteBg">
-  <p>
-    bf-page-placeholder DETAILS
-  </p>
+<div *ngIf="bfType === 'details'" class="placeholder-details" [ngClass]="{'whiteBg': !bfTabs}">
+  <div *ngIf="fakeDetails.title">
+    <h3 class="placeholder-text details_title"></h3>
+    <hr/>
+  </div>
+  <h5 *ngIf="fakeDetails.description" class="placeholder-text details_description"></h5>
+  <div class="row">
+    <div *ngFor="let column of fakeDetails.columns" [ngClass]="column.col">
+      <div *ngIf="column.subtitle">
+        <h4 class="placeholder-text details_subtitle"></h4>
+        <hr/>
+      </div>
+      <div *ngFor="let item  of column.colList">
+        <h5 class="placeholder-text" [ngClass]="item.label"></h5>
+        <h5 class="placeholder-text" [ngClass]="item.input"></h5>
+      </div>
+    </div>
+  </div>
 </div>
 
 

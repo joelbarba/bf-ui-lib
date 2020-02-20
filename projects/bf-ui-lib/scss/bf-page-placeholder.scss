@@ -47,12 +47,30 @@ bf-page-placeholder {
       }
     }
     &_info-center {
+      display: flex;
+      flex-direction: column;
       .placeholder-text {
         align-self: center;
       }
     }
-    .info-title { width: 25%; }
-    .info-text1 { width: 10%; }
-    .info-text2 { width: 40%; }
+    .info-text1 { width: 20%; }
+    .info-text2 { width: 30%; }
+    .info-text3 { width: 50%; }
+    .info-text4 { width: 70%; }
+  }
+  .placeholder-details {
+    .placeholder-text {
+      &.details_title { width: 50%; height: 45px; }
+      &.details_description { width: 65%; margin-bottom: 30px; }
+      &.details_subtitle { width: 60%; height: 35px; }
+
+      &.details_label_1 { width: 30%; }
+      &.details_label_2 { width: 40%; }
+      &.details_label_3 { width: 50%; }
+      &.details_label_4 { width: 60%; }
+
+      &.details_input_1 { width: 95%; height: 25px; margin-bottom: 25px; }
+      &.details_input_2 { width: 20%; height: 25px; margin-bottom: 25px; }
+    }
   }
 }
