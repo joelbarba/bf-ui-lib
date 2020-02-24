@@ -1,6 +1,6 @@
 bf-page-placeholder {
   .placeholder-text {
-    background: #f6f7f8;
+    background: $page-placeholder-color;
     background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
     background-size: 800px 104px;
     height: 20px;

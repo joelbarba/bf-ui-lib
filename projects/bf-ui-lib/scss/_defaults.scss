@@ -16,6 +16,7 @@ $focused-color  : darken($primary_color, 20%) !default;
 $required-color : $primary_color !default;
 $valid-color    : $primary_color !default;
 $invalid-color  : $warning_color !default;
+$page-placeholder-color : #f6f7f8 !default;
 
 $bf-ui-lib-colors: (
   'primary'     : $primary_color,
