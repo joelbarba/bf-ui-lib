@@ -40,6 +40,7 @@ import {BfListHandlerDemoComponent} from './bf-list-handler-demo/bf-list-handler
 import { BfLoadingSpinnerDemoComponent } from './bf-loading-spinner-demo/bf-loading-spinner-demo.component';
 import { ShowDemoComponent } from './show-demo/show-demo.component';
 import { BfNoDataDemoComponent } from './bf-no-data-demo/bf-no-data-demo.component';
+import {BfListHandlerTestComponent} from './bf-list-handler-demo/tests/bf-list-handler-test.component';
 
 
 @NgModule({
@@ -79,6 +80,7 @@ import { BfNoDataDemoComponent } from './bf-no-data-demo/bf-no-data-demo.compone
     BfLoadingSpinnerDemoComponent,
     ShowDemoComponent,
     BfNoDataDemoComponent,
+    BfListHandlerTestComponent,
   ],
   imports: [
     BrowserModule,

@@ -170,7 +170,7 @@ this.myList.render$.subscribe(state => ...);`;
 
     this.bpList  = new BfListHandler({
       listName      : 'backend-pagination-list',
-      filterFields  : ['username', 'first_name'],
+      filterFields  : ['username', 'email'],
       orderFields   : ['id', 'username'],
       orderReverse  : false,
       rowsPerPage   : 5,

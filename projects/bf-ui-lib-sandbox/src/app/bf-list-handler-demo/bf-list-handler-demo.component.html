@@ -69,10 +69,10 @@
       <bf-list-placeholder [hidden]="bpList.loadingStatus > 1" [bfColumns]="[1, 2, 4, 4, 1]"></bf-list-placeholder>
       <li class="list-row" [hidden]="bpList.loadingStatus <= 1"
           *ngFor="let item of bpList.renderList$ | async">
-        <div class="col-1"><h5>{{item.id}}</h5></div>
-        <div class="col-2"><h5>{{item.username}}</h5></div>
-        <div class="col-4"><h5>{{item.email}}</h5></div>
-        <div class="col-4"><h5>{{item.first_name + ' ' + item.last_name}}</h5></div>
+        <div class="col-1">{{item.id}}</div>
+        <div class="col-2">{{item.username}}</div>
+        <div class="col-4">{{item.email}}</div>
+        <div class="col-4">{{item.first_name + ' ' + item.last_name}}</div>
         <div class="col-1 text-right">
           <bf-btn bfText="" bfType="delete" (bfClick)="deleteItem(item)"></bf-btn>
           <bf-btn bfText="" bfType="edit"   (bfClick)="editItem(item)"></bf-btn>

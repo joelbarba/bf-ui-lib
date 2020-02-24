@@ -10,9 +10,9 @@ exports.config = {
     './src/**/*.e2e-spec.ts'
   ],
   capabilities: {
-    'browserName': 'chrome',
-    'chromeOptions': {
-      args: ['--disable-gpu', 'lang=en-IE']
+    browserName: 'chrome',
+    chromeOptions: {
+      args: ['--disable-gpu', 'lang=en-IE']//, '--headless']
     }
   },
   directConnect: true,

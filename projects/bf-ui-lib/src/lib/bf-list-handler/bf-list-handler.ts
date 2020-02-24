@@ -1,5 +1,5 @@
 import {BehaviorSubject, merge, Observable, Subject, timer} from 'rxjs';
-import {debounce, debounceTime, distinctUntilChanged, map, scan} from 'rxjs/operators';
+import {debounce, debounceTime, distinctUntilChanged, map, pluck, scan} from 'rxjs/operators';
 import Debug from 'debug';
 import {dCopy} from '../bf-prototypes/bf-prototypes';
 const debugList = Debug('bfUiLib:bfListHandler');  // Turn it on with:   localStorage.debug='bfUiLib:bfListHandler'
@@ -19,7 +19,7 @@ export interface BfListHandlerConfig {
 export class BfListHandler {
   public render$: BehaviorSubject<any>; // Observable to listen to rendering changes
   public renderList$: Observable<any>;  // Observable to listen to rendering changes, mapping only renderedList as output
-  public onFiltersChange$ = new Subject(); // Whenever the filters change
+  public onFiltersChange$: Observable<any>; // Whenever the filters change
 
   // ---- STATE ---------------
   public loadedList: Array<any>;    // Array with the full loaded content
@@ -80,7 +80,7 @@ export class BfListHandler {
       return timer(500);
     }), distinctUntilChanged()).subscribe(filter => {
       this.filters[filter.filterName] = filter.filterValue;
-      this.dispatch({ action: 'FILTER', payload: '' });
+      this.dispatch({ action: 'FILTER', payload: this.filterText });
     });
 
 
@@ -92,6 +92,7 @@ export class BfListHandler {
     this.loadingStatus = 0; // Empty
     this.render$ = new BehaviorSubject(this.getState());
     this.renderList$ = this.render$.pipe(map(state => state.renderedList ));
+    this.onFiltersChange$ = this.render$.pipe(map(_ => dCopy(this.filters)), distinctUntilChanged());
   }
 
 
@@ -251,7 +252,6 @@ export class BfListHandler {
       const slimFilter = dCopy(this.filters);
       Object.keys(slimFilter).forEach(n => { if (!slimFilter[n]) { delete slimFilter[n]; } });
 
-      this.onFiltersChange$.next(dCopy(this.filters));
       const resPromise = this.backendPagination(dCopy(slimFilter), dCopy(this.filters));
 
       if (!!resPromise) { // If a promise is returned, trigger the page load automatically
@@ -302,7 +302,7 @@ export class BfListHandler {
     if (this.rowsPerPage !== rowsPerPage) { this.dispatch({ action: 'ROWS',  payload: rowsPerPage }); }
   };
 
-  public filter = (filterValue: any, filterName?: string, debounceMs = 500) => {
+  public filter = (filterValue: any, filterName?: string, debounceMs = (!!this.backendPagination ? 500 : 0)) => {
     if (filterName) { // Filter on an specific field
       this.debouncedFilter$.next({ filterValue, filterName, debounceMs });
 
@@ -333,20 +333,37 @@ export class BfListHandler {
 
   // Default function to filter the list (on render). If "filterList" is extended later, this can be used to refer to the default
   public defaultFilterList = (list: Array<any>, filterText: string = '', filterFields: Array<string>): Array<any> => {
-    if (!filterText) {
-      return list;
+    const filters: any = {};  // Filters with value (backend pag. excluded)
+    for (const n of Object.keys(this.filters)) {
+      if (!!this.filters[n] && !(['limit', 'order_by', 'offset'].includes(n) && !!this.backendPagination)) {
+        filters[n] = (this.filters[n] + '').toLowerCase();
+      }
+    }
+    const isFilters = Object.keys(filters).length > 0;
+
+    if (!filterText && !isFilters) {
+      return list; // If no filters, return it all
 
     } else {
       const matchPattern = filterText.toLowerCase();
       return list.filter((item) => {
-        let isMatch = false;
-        for (const field of filterFields) {
-          if (item.hasOwnProperty(field)) {
-            const fieldStr = JSON.stringify(item[field]); // In case the field is not a string, parse it
-            isMatch = isMatch || fieldStr.toLowerCase().indexOf(matchPattern) >= 0;
+        let isMatch1 = true; // If filterText matches any of the fields of the item
+        if (!!matchPattern) {
+          isMatch1 = false;
+          for (const n of filterFields) {
+            isMatch1 = isMatch1 || JSON.stringify(item[n]).toLowerCase().indexOf(matchPattern) >= 0;
           }
         }
-        return isMatch;
+
+        let isMatch2 = true; // Specific field filter (filters[n] === item[n])
+        if (isFilters) {
+          for (const n of Object.keys(item)) {
+            if (!!filters[n]) {
+              isMatch2 = isMatch2 && JSON.stringify(item[n]).toLowerCase().indexOf(filters[n]) >= 0;
+            }
+          }
+        }
+        return isMatch1 && isMatch2;
       });
     }
   };
