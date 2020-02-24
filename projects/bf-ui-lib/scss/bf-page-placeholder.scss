@@ -11,9 +11,6 @@ bf-page-placeholder {
     animation-iteration-count: infinite;
     animation-timing-function: linear;
 
-    -webkit-animation-name: placeHolderShimmer;
-    -moz-animation-name: placeHolderShimmer;
-    -o-animation-name: placeHolderShimmer;
     animation-name: placeHolderShimmer;
 
     @keyframes placeHolderShimmer {
