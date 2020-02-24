@@ -37,6 +37,7 @@ export class BfListHandlerTestComponent implements OnInit, OnDestroy {
   ];
 
   public testList1: BfListHandler;
+  public testList2: BfListHandler;
   public loader$ = new Subject();
 
 
@@ -49,6 +50,25 @@ export class BfListHandlerTestComponent implements OnInit, OnDestroy {
       orderFields   : ['id', 'username'],
       orderReverse  : false,
       rowsPerPage   : 5,
+    });
+
+    // Backend paginated list
+    this.testList2 = new BfListHandler({
+      listName      : 'test-list-2',
+      filterFields  : ['username', 'email'],
+      orderFields   : ['id', 'username'],
+      orderReverse  : false,
+      rowsPerPage   : 5,
+      backendPagination : (slimFilter: any, fullFilter: any) => {
+
+        // this.mockBEFilter(slimFilter).then((data: any) => {
+        //   this.bpList.load(data.users, data.count);
+        // });
+
+        return this.mockBEFilter(slimFilter).then((data: any) => {
+          return { list: data.users, count: data.count };
+        });
+      },
     });
 
     // this.testList1.filterList = (list: Array<any>, filterText: string = '', filterFields: Array<string>): Array<any> => {
