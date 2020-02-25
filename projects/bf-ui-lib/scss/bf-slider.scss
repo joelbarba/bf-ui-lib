@@ -1,0 +1,16 @@
+$slider_bg: $white !default;
+$slider_color_primary: $primary_color !default;
+
+bf-slider {
+  ng5-slider {
+    &.ng5-slider {
+      .ng5-slider-pointer {
+        background-color: $slider_color_primary;
+        outline: 0 none;
+        &.ng5-slider-active:after {
+          background-color: $slider_bg;
+        }
+      }
+    }
+  }
+}

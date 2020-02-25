@@ -45,6 +45,14 @@ $disabled_input_color : $disabled-color;
     hasLabel: false,   labelText: 'My Description',
     hasTooltip: false, tooltipText: 'Hello World', tooltipPos: null, tooltipBody: false,
   };
+  public valueSlider = 50;
+  public valueSlider2;
+
+  public sliderOptions: any = {
+    start: 10,
+    end: 150
+  };
+
   public upComp = () => {
     this.customCompCode = `<bf-slider `;
 
@@ -84,8 +92,20 @@ $disabled_input_color : $disabled-color;
 export const BfSliderDoc = {
   name    : `bf-slider`,
   uiType  : 'component',
-  desc    : `Generates a ....`,
-  api     : `[bfText]: The text... `,
+  desc    : `Generates a slider component`,
+  api     : `[(ngModel)]    : The ngModel directive is linked as value on the Slider
+[bfHighValue]  : highest Value which will display 2 sliders points
+[bfOptions]    : The Config options for the Slider: 
+                 {
+                  start : Initial range
+                  end   : Final range
+                 }
+[bfDisabled]   : Whether the slider is disabled or not
+             
+[bfLabel]      : Label of the input (automatically translated). If not provided, no label is displayed.
+[bfTooltips]   : If label provided, adds a info badge with a tooltip (automatically translated)
+[bfTooltipPos] : Position of the tooltip (top by default)
+[bfRequired]   : Whether the value is required. If not, and "Empty" option will be added a the top of the list`,
   instance: `<bf-slider></bf-slider>`,
   demoComp: BfSliderDemoComponent
 };

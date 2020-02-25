@@ -38,6 +38,7 @@ import { BfPagePlaceholderComponent } from './bf-page-placeholder/bf-page-placeh
 import {BfLoadingSpinnerComponent, BfLoadingSpinnerDirective} from './bf-loading-spinner/bf-loading-spinner.component';
 import { ShowDirective } from './show/show.component';
 import { BfNoDataComponent } from './bf-no-data/bf-no-data.component';
+import { Ng5SliderModule } from 'ng5-slider';
 
 
 @NgModule({
@@ -85,6 +86,7 @@ import { BfNoDataComponent } from './bf-no-data/bf-no-data.component';
     BfLoadingBarModule,
     NgbDatepickerModule,
     NgbModule,
+    Ng5SliderModule,
   ],
   exports: [
     BfNoDataComponent,  // <--- New component
