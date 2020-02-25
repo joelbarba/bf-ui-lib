@@ -1,7 +1,7 @@
-import {BehaviorSubject, merge, Observable, Subject, timer} from 'rxjs';
-import {debounce, debounceTime, distinctUntilChanged, map, pluck, scan} from 'rxjs/operators';
+import {BehaviorSubject, Observable, Subject, timer} from 'rxjs';
+import {debounce, distinctUntilChanged, map} from 'rxjs/operators';
+import {dCopy} from '../bf-prototypes/deep-copy';
 import Debug from 'debug';
-import {dCopy} from '../bf-prototypes/bf-prototypes';
 const debugList = Debug('bfUiLib:bfListHandler');  // Turn it on with:   localStorage.debug='bfUiLib:bfListHandler'
 
 export interface BfListHandlerConfig {
@@ -12,6 +12,7 @@ export interface BfListHandlerConfig {
   rowsPerPage   ?: number;
   totalPages    ?: number;
   extMethods    ?: boolean;
+  dataInput$    ?: Observable<any> | Subject<any> | BehaviorSubject<any>;
   backendPagination ?: (fullFilter: any, slimFilter?: any) => void | Promise<{ list, count }>;
 }
 
@@ -52,14 +53,14 @@ export class BfListHandler {
   private lastFilters: any = {};  // Snapshot of the last "this.filters" applied to the list
 
   constructor(customInit: Partial<BfListHandlerConfig> = {}, qParams: any = {}) {
-    if (customInit.hasOwnProperty('listName'))     { this.listName          = customInit.listName; }
-    if (customInit.hasOwnProperty('orderFields'))  { this.orderConf.fields  = customInit.orderFields; }
-    if (customInit.hasOwnProperty('orderReverse')) { this.orderConf.reverse = customInit.orderReverse; }
-    if (customInit.hasOwnProperty('rowsPerPage'))  { this.rowsPerPage       = customInit.rowsPerPage; }
-    if (customInit.hasOwnProperty('totalPages'))   { this.totalPages        = customInit.totalPages; }
-    if (customInit.hasOwnProperty('extMethods'))   { this.extMethods        = customInit.extMethods; }
+    if (customInit.hasOwnProperty('listName'))          { this.listName          = customInit.listName; }
+    if (customInit.hasOwnProperty('orderFields'))       { this.orderConf.fields  = customInit.orderFields; }
+    if (customInit.hasOwnProperty('orderReverse'))      { this.orderConf.reverse = customInit.orderReverse; }
+    if (customInit.hasOwnProperty('rowsPerPage'))       { this.rowsPerPage       = customInit.rowsPerPage; }
+    if (customInit.hasOwnProperty('totalPages'))        { this.totalPages        = customInit.totalPages; }
+    if (customInit.hasOwnProperty('extMethods'))        { this.extMethods        = customInit.extMethods; }
     if (customInit.hasOwnProperty('backendPagination')) { this.backendPagination = customInit.backendPagination; }
-    if (customInit.hasOwnProperty('filterFields')) { this.filterFields = customInit.filterFields; }
+    if (customInit.hasOwnProperty('filterFields'))      { this.filterFields      = customInit.filterFields; }
 
     // Setting initial values from parsed url route (2nd param, overriding the defaults)
     if (qParams.hasOwnProperty('limit')) { this.rowsPerPage = parseInt(qParams.limit) || 0; }
@@ -72,7 +73,7 @@ export class BfListHandler {
     }
     Object.keys(qParams).forEach(n => this.filters[n] = qParams[n]);
 
-    this.filters = this.getFilters();  // Initial backend filters
+    this.filters = this.getFilters();  // Initial filters
 
     // Debounced filters subscription
     this.debounceSub = this.debouncedFilter$.pipe(debounce((filter) => {
@@ -83,16 +84,19 @@ export class BfListHandler {
       this.dispatch({ action: 'FILTER', payload: this.filterText });
     });
 
-
-
-
     this.loadedList = [];
     this.renderedList = [];
 
     this.loadingStatus = 0; // Empty
     this.render$ = new BehaviorSubject(this.getState());
     this.renderList$ = this.render$.pipe(map(state => state.renderedList ));
-    this.onFiltersChange$ = this.render$.pipe(map(_ => dCopy(this.filters)), distinctUntilChanged());
+    this.onFiltersChange$ = this.render$.pipe(
+      map(_ => ({ filters: dCopy(this.filters), filterText: this.filterText })),
+      distinctUntilChanged((prev, next) => !this.isFilterDiff(prev.filters, next.filters) && prev.filterText === next.filterText)
+    );
+
+    // Automatically subscribe to an input source of data
+    if (customInit.hasOwnProperty('dataInput$')) { this.subscribeTo(customInit.dataInput$); }
   }
 
 
@@ -103,7 +107,7 @@ export class BfListHandler {
     if (!!this.debounceSub) { this.debounceSub.unsubscribe(); }
   };
 
-
+  // @Todo: Turn it into a real reducer without state mutation
   // ------------------------- REDUCER -----------------------------
   // Apply an action to the current state to generate the next state
   private dispatch = (change: { action?: string, payload?: any } = {}) => {
@@ -260,7 +264,9 @@ export class BfListHandler {
           return page;
         });
       }
-    } else { console.log('Same filter, do not refresh page', this.lastFilters, this.filters); }
+    } else {
+      debugList('[', this.listName, ']----> ', 'Same filter, do not refresh page', this.lastFilters, this.filters);
+    }
     return Promise.resolve();
   };
 
@@ -288,7 +294,9 @@ export class BfListHandler {
   public subscribeTo = (load$) => {
     if (!!this.contentSubs) { this.contentSubs.unsubscribe(); }
     this.loadingStatus = 1; // loading
-    this.contentSubs = load$.subscribe(list => this.load(dCopy(list || [])));
+    this.contentSubs = load$.subscribe(list => {
+      this.load(dCopy(list || []));
+    });
   };
 
   // Shortcuts to dispatch action
@@ -332,7 +340,7 @@ export class BfListHandler {
   };
 
   // Default function to filter the list (on render). If "filterList" is extended later, this can be used to refer to the default
-  public defaultFilterList = (list: Array<any>, filterText: string = '', filterFields: Array<string>): Array<any> => {
+  private defaultFilterList = (list: Array<any>, filterText: string = '', filterFields: Array<string>): Array<any> => {
     const filters: any = {};  // Filters with value (backend pag. excluded)
     for (const n of Object.keys(this.filters)) {
       if (!!this.filters[n] && !(['limit', 'order_by', 'offset'].includes(n) && !!this.backendPagination)) {
@@ -368,13 +376,8 @@ export class BfListHandler {
     }
   };
 
-  // Function to filter the list. ---> Extend this function if you need a custom filter
-  public filterList = (list: Array<any>, filterText: string = '', filterFields: Array<string>): Array<any> => {
-    return this.defaultFilterList(list, filterText, filterFields);
-  };
-
-  // Function to order the list (default order on render)
-  public orderList = (list: Array<any>, orderFields: Array<string>, orderReverse: boolean): Array<any> => {
+  // Default function to order the list
+  private defaultOrderList = (list: Array<any>, orderFields: Array<string>, orderReverse: boolean): Array<any> => {
     return list.sort((itemA, itemB) => {
       const reVal = !!orderReverse ? -1 : 1;
 
@@ -398,6 +401,17 @@ export class BfListHandler {
       }
       return reVal;
     });
+  };
+
+
+  // Function to filter the list. ---> Extend this function if you need a custom filter
+  public filterList = (list: Array<any>, filterText: string = '', filterFields: Array<string>): Array<any> => {
+    return this.defaultFilterList(list, filterText, filterFields);
+  };
+
+  // Function to order the list. ---> Extend this function if you need a custom order
+  public orderList = (list: Array<any>, orderFields: Array<string>, orderReverse: boolean): Array<any> => {
+    return this.defaultOrderList(list, orderFields, orderReverse);
   };
 
 }

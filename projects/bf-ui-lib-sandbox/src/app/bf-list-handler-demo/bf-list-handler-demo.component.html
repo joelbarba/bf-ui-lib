@@ -1,159 +1,27 @@
-<h2>{{name}}</h2>
+<div class="row">
+  <h2 class="col-8">{{name}}</h2>
+  <h5 class="col-4 text-right"><a href="/list-test">e2e test page</a></h5>
+</div>
 <hr/>
 <h5>{{desc}}</h5>
 <p>
   This class generates an object that encapsulates the default behaviour we usually need to render a list in the UI.
 </p>
 <p>
-  The object generated with BfListHandler is a “mini reducer” that handles the state for the list and all its configuration.
-  <br>It provides an observable <b>render$</b> which we can subscribed to and react to any change on the state.
-  This returns the whole configuration object though.
-  <br>If you need to subscribe only to the list array to render, there is another observable <b>renderList$</b>,
-  that returns the list to display on the view (renderedList) so we can easily use | async.
+  It provides an observable <b>renderList$</b> that can subscribed to fetch the rendered data of the list.
+  It is also possible to subscribe to any state change with <b>render$</b>.
+  <br>It also provides a set of methods to manage how the list is presented (order, filter, pagination, ...).
+  This class is fully integrated with <a href="/bf-list-header-col">bf-list-header-col</a> and <a href="/bf-list-paginator">bf-list-paginator</a>
 </p>
-
-<div class="row marT40">
-  <div class="col-12">filters={{bpList.filters | json }}</div>
-  <!--<bf-input class="col-4" bfLabel="Filter any" bfIcon="icon-search"-->
-  <!--          [(ngModel)]="bpList.filterText" (ngModelChange)="bpList.filter($event)">-->
-  <!--</bf-input>-->
-  <bf-input class="col-3" bfLabel="Filter username" bfIcon="icon-search"
-            [(ngModel)]="bpList.filters.username" (ngModelChange)="bpList.filter($event, 'username', 1000)">
-  </bf-input>
-  <bf-input class="col-3" bfLabel="Filter email" bfIcon="icon-search"
-            [(ngModel)]="bpList.filters.email" (ngModelChange)="bpList.filter($event, 'email')">
-  </bf-input>
-
-
-  <bf-btn class="col-1 padT20" bfText="Clear Filters" (bfClick)="clearFilters()" bfType="save"></bf-btn>
-
-
-  <div class="col-12">
-    <bf-btn bfText=".prevPage()" (bfClick)="bpList.prevPage()"
-            bfIcon="icon-arrow-left6" bfIconPos="left">
-    </bf-btn>
-    <bf-btn bfText=".nextPage()" (bfClick)="bpList.nextPage()"></bf-btn>
-    <bf-btn bfText=".goToPage(2)" (bfClick)="bpList.goToPage(2)"></bf-btn>
-    <bf-btn bfText=".paginate(20)" (bfClick)="bpList.paginate(20)"></bf-btn>
-    <bf-btn bfText="orderConf.setField('username')" (bfClick)="bpList.orderConf.setField('username')"></bf-btn>
-    <bf-btn bfText=".load(data)" (bfClick)="bpList.load(getRandomData())"></bf-btn>
-    <bf-btn bfText=".loader$.next(data)" (bfClick)="asyncLoad()"></bf-btn>
-    <bf-btn bfType="add" bfText=".add({...})" (bfClick)="addItem()"></bf-btn>
-  </div>
-  <div class="col-12 padT10">
-    rowsPerPage={{bpList.rowsPerPage}}
-    , totalItems={{bpList.totalItems}}
-    , totalFiltered={{bpList.totalFiltered}}
-    , renderedItems={{bpList.renderedItems}}
-    , currentPage={{bpList.currentPage}}
-    , totalPages={{bpList.totalPages}}
-    , loadingStatus={{bpList.loadingStatus}}
-  </div>
-</div>
-<div class="row whiteBg">
-  <bf-list-paginator class="col-12"
-                     [bfCtrl]="bpList"
-                     bfShowSelector="true">
-  </bf-list-paginator>
-</div>
-<div class="row">
-  <div class="col-12" [bfLoadingSpinner]="bpList.loadingStatus === 4">
-    <ul class="list-unstyled table-list">
-      <li class="list-header">
-        <bf-list-header-col class="col-1" colTitle="Id"         fieldName="id"        [orderConf]="bpList.orderConf"></bf-list-header-col>
-        <bf-list-header-col class="col-2" colTitle="Username"   fieldName="username"  [orderConf]="bpList.orderConf"></bf-list-header-col>
-        <bf-list-header-col class="col-4" colTitle="Email"></bf-list-header-col>
-        <bf-list-header-col class="col-4" colTitle="Full Name"></bf-list-header-col>
-      </li>
-
-      <bf-list-placeholder [hidden]="bpList.loadingStatus > 1" [bfColumns]="[1, 2, 4, 4, 1]"></bf-list-placeholder>
-      <li class="list-row" [hidden]="bpList.loadingStatus <= 1"
-          *ngFor="let item of bpList.renderList$ | async">
-        <div class="col-1">{{item.id}}</div>
-        <div class="col-2">{{item.username}}</div>
-        <div class="col-4">{{item.email}}</div>
-        <div class="col-4">{{item.first_name + ' ' + item.last_name}}</div>
-        <div class="col-1 text-right">
-          <bf-btn bfText="" bfType="delete" (bfClick)="deleteItem(item)"></bf-btn>
-          <bf-btn bfText="" bfType="edit"   (bfClick)="editItem(item)"></bf-btn>
-        </div>
-      </li>
-    </ul>
-  </div>
-</div>
-
-
-
-
-
-
-
-
-
 
 <hr>
 <h5 class="mt-4">Methods / Members:</h5>
-<!--<pre>{{api}}</pre>-->
-
-<hr>
-<div class="row marT40">
-  <div class="col-12">
-    <p>
-      There are 4 basic types of actions that trigger a change on a rendering of the list:
-    </p>
-    <ul>
-      <li>content → Should the source of the list changes (data).</li>
-      <li>filter → If a filter is applied to the content, to produce only the matches in the rendered list</li>
-      <li>order → If the rendered list should be ordered differently</li>
-      <li>paginate → In case a pagination should be applied, the rendered list is just the current page to show</li>
-    </ul>
-    <p>
-      Based on these, the class provides a dispatcher with different actions to apply, and then recalculate the state
-      to output the new rendered list. Shortcut methods are available to trigger all those actions.
-      <br>
-      To render the list the actions are applied in the same order: Full content → filter → order → paginate.
-    </p>
-  </div>
-  <!--<div class="col-5">-->
-  <!--  <img style="max-width: 500px;" src="assets/listHandler.png">-->
-  <!--</div>-->
-</div>
-
-<hr>
-
-<div class="row marT40">
-
-  <div class="col-6">
-    <h5 class="marB20">Setup</h5>
-    <p>When an instance is generated some basic parameters can be set directly</p>
-    <div class="code-box padV10 padH15">
-      <pre style="font-size: 16px;">{{example1}}</pre>
-    </div>
-  </div>
-
-  <div class="col-6">
-    <h5 class="marB20">Loading</h5>
-    <p> There are 2 ways to load the content to the list: </p>
-    <ul>
-      <li> <b>load</b>(data) → You can manually load an array passing it as a parameter </li>
-      <li> <b>setLoader</b>(loader$) → You pass an observable that emits the content of the list as its output </li>
-    </ul>
-    <div class="code-box padV10 padH15">
-      <pre style="font-size: 16px;">{{example2}}</pre>
-    </div>
-  </div>
-
-</div>
-
-
-
-
+<pre>{{api}}</pre>
 
 
 <hr>
-<h5 class="marB20">Full Example:</h5>
-
-<div *ngIf="false">
+<h5 class="marB20">Example:</h5>
+<div *ngIf="true">
   <div class="row whiteBg padB15">
     <bf-input class="col-4"
               bfLabel="Filter (any)"
@@ -161,13 +29,17 @@
               [(ngModel)]="myList.filterText"
               (ngModelChange)="myList.filter($event)">
     </bf-input>
-    <div class="col-8 marT20 text-right">
-    </div>
+    <bf-input class="col-3 filter-username" bfLabel="Filter username" bfIcon="icon-search"
+              [(ngModel)]="myList.filters.username" (ngModelChange)="myList.filter($event, 'username')">
+    </bf-input>
+    <bf-input class="col-3 filter-email" bfLabel="Filter email" bfIcon="icon-search"
+              [(ngModel)]="myList.filters.email" (ngModelChange)="myList.filter($event, 'email')">
+    </bf-input>
     <div class="col-12">
       <bf-btn bfText=".prevPage()" (bfClick)="myList.prevPage()"
               bfIcon="icon-arrow-left6" bfIconPos="left">
       </bf-btn>
-      <bf-btn bfText=".nextPage()" (bfClick)="myList.nextPage()"></bf-btn>
+      <bf-btn bfText=".nextPage()" bfType="save" (bfClick)="myList.nextPage()"></bf-btn>
       <bf-btn bfText=".goToPage(2)" (bfClick)="myList.goToPage(2)"></bf-btn>
       <bf-btn bfText=".paginate(20)" (bfClick)="myList.paginate(20)"></bf-btn>
       <bf-btn bfText="orderConf.setField('username')" (bfClick)="myList.orderConf.setField('username')"></bf-btn>
@@ -204,10 +76,10 @@
         <bf-list-placeholder [hidden]="myList.loadingStatus > 1" [bfColumns]="[1, 2, 4, 4, 1]"></bf-list-placeholder>
         <li class="list-row" [hidden]="myList.loadingStatus <= 1"
             *ngFor="let item of myList.renderList$ | async">
-          <div class="col-1"><h5>{{item.id}}</h5></div>
-          <div class="col-2"><h5>{{item.username}}</h5></div>
-          <div class="col-4"><h5>{{item.email}}</h5></div>
-          <div class="col-4"><h5>{{item.first_name + ' ' + item.last_name}}</h5></div>
+          <div class="col-1">{{item.id}}</div>
+          <div class="col-2">{{item.username}}</div>
+          <div class="col-4">{{item.email}}</div>
+          <div class="col-4">{{item.first_name + ' ' + item.last_name}}</div>
           <div class="col-1 text-right">
             <bf-btn bfText="" bfType="delete" (bfClick)="deleteItem(item)"></bf-btn>
             <bf-btn bfText="" bfType="edit"   (bfClick)="editItem(item)"></bf-btn>
@@ -217,22 +89,114 @@
     </div>
   </div>
 
+  <div class="row marT30">
+    <div class="col-12">
+      <div class="examples-table">
+        <div class="code-box">
+          <pre style="font-size: 13px;">{{codeExample}}</pre>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="examples-table">
+        <div class="code-box padV10 padH15">
+          <pre style="font-size: 13px;">{{viewExample}}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+
 
 <hr>
-<div class="row">
-  <div class="col-7">
-    <div class="examples-table">
-      <div class="code-box padV10 padH15">
-        <pre style="font-size: 12px;">{{viewExample}}</pre>
+<h5 class="marB20">Example (backend pagination):</h5>
+<div *ngIf="true">
+  <div class="row marT40">
+    <div class="col-8">
+      <div class="row">
+        <!--<bf-input class="col-4" bfLabel="Filter any" bfIcon="icon-search"-->
+        <!--          [(ngModel)]="bpList.filterText" (ngModelChange)="bpList.filter($event)">-->
+        <!--</bf-input>-->
+        <bf-input class="col-4" bfLabel="Filter username" bfIcon="icon-search"
+                  [(ngModel)]="bpList.filters.username" (ngModelChange)="bpList.filter($event, 'username', 1000)">
+        </bf-input>
+        <bf-input class="col-4" bfLabel="Filter email" bfIcon="icon-search"
+                  [(ngModel)]="bpList.filters.email" (ngModelChange)="bpList.filter($event, 'email')">
+        </bf-input>
+        <bf-btn class="col-4 padT20" bfText="Clear Filters" (bfClick)="clearFilters()" bfType="save"></bf-btn>
+        <div class="col-12">
+          <bf-btn bfText=".prevPage()" (bfClick)="bpList.prevPage()"
+                  bfIcon="icon-arrow-left6" bfIconPos="left">
+          </bf-btn>
+          <bf-btn bfText=".nextPage()" bfType="save" (bfClick)="bpList.nextPage()"></bf-btn>
+          <bf-btn bfText=".triggerPagination()" (bfClick)="bpList.triggerPagination()"></bf-btn>
+          <bf-btn bfText=".load(data)" (bfClick)="asyncLoad(true)"></bf-btn>
+          <!--<bf-btn bfType="add" bfText=".add({...})" (bfClick)="addItem()"></bf-btn>-->
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="row">
+        <div class="col-6"><pre>filters={{bpList.filters | json }}</pre></div>
+        <div class="col-6"><pre>
+          rowsPerPage={{bpList.rowsPerPage}}
+          totalItems={{bpList.totalItems}}
+          totalFiltered={{bpList.totalFiltered}}
+          renderedItems={{bpList.renderedItems}}
+          currentPage={{bpList.currentPage}}
+          totalPages={{bpList.totalPages}}
+          loadingStatus={{bpList.loadingStatus}}
+        </pre>
+        </div>
       </div>
     </div>
   </div>
+  <div class="row whiteBg">
+    <bf-list-paginator class="col-12"
+                       [bfCtrl]="bpList"
+                       bfShowSelector="true">
+    </bf-list-paginator>
+  </div>
+  <div class="row">
+    <div class="col-12" [bfLoadingSpinner]="bpList.loadingStatus === 4">
+      <ul class="list-unstyled table-list">
+        <li class="list-header">
+          <bf-list-header-col class="col-1" colTitle="Id"         fieldName="id"        [orderConf]="bpList.orderConf"></bf-list-header-col>
+          <bf-list-header-col class="col-2" colTitle="Username"   fieldName="username"  [orderConf]="bpList.orderConf"></bf-list-header-col>
+          <bf-list-header-col class="col-4" colTitle="Email"></bf-list-header-col>
+          <bf-list-header-col class="col-4" colTitle="Full Name"></bf-list-header-col>
+        </li>
 
-  <div class="col-5">
-    <div class="examples-table">
-      <div class="code-box padV10 padH15">
-        <pre style="font-size: 12px;">{{codeExample}}</pre>
+        <bf-list-placeholder [hidden]="bpList.loadingStatus > 1" [bfColumns]="[1, 2, 4, 4, 1]"></bf-list-placeholder>
+        <li class="list-row" [hidden]="bpList.loadingStatus <= 1"
+            *ngFor="let item of bpList.renderList$ | async">
+          <div class="col-1">{{item.id}}</div>
+          <div class="col-2">{{item.username}}</div>
+          <div class="col-4">{{item.email}}</div>
+          <div class="col-4">{{item.first_name + ' ' + item.last_name}}</div>
+          <div class="col-1 text-right">
+            <bf-btn bfText="" bfType="delete" (bfClick)="deleteItem(item)"></bf-btn>
+            <bf-btn bfText="" bfType="edit"   (bfClick)="editItem(item)"></bf-btn>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row marT30">
+    <div class="col-12">
+      <div class="examples-table">
+        <div class="code-box padV10 padH15">
+          <pre style="font-size: 13px;">{{codeExampleBe}}</pre>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="examples-table">
+        <div class="code-box padV10 padH15">
+          <pre style="font-size: 13px;">{{viewExampleBe}}</pre>
+        </div>
       </div>
     </div>
   </div>
@@ -243,28 +207,86 @@
 
 
 
+<!--<hr>-->
+<!--<div class="row marT40">-->
+<!--  <div class="col-12">-->
+<!--    <p>-->
+<!--      There are 4 basic types of actions that trigger a change on a rendering of the list:-->
+<!--    </p>-->
+<!--    <ul>-->
+<!--      <li>content → Should the source of the list changes (data).</li>-->
+<!--      <li>filter → If a filter is applied to the content, to produce only the matches in the rendered list</li>-->
+<!--      <li>order → If the rendered list should be ordered differently</li>-->
+<!--      <li>paginate → In case a pagination should be applied, the rendered list is just the current page to show</li>-->
+<!--    </ul>-->
+<!--    <p>-->
+<!--      Based on these, the class provides a dispatcher with different actions to apply, and then recalculate the state-->
+<!--      to output the new rendered list. Shortcut methods are available to trigger all those actions.-->
+<!--      <br>-->
+<!--      To render the list the actions are applied in the same order: Full content → filter → order → paginate.-->
+<!--    </p>-->
+<!--  </div>-->
+<!--  <div class="col-5">-->
+<!--    <img style="max-width: 500px;" src="assets/listHandler.png">-->
+<!--  </div>-->
+<!--</div>-->
+
+<hr>
+<div class="row marT40">
+  <div class="col-6">
+    <h5 class="marB20">Creating a New Instance</h5>
+    <p>When a new instance, the following parameters can be used to set up the list.</p>
+    <p>A second object can also be provided to initialize filters for the list. Backend filters will
+    also be considered in this object (limit, offset, order_by) to trigger the initial page load</p>
+    <div class="code-box padV10 padH15">
+      <pre style="font-size: 16px;">{{example1}}</pre>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <h5 class="marB20">Loading Data</h5>
+    <p>There are 2 ways to load the content to the list: </p>
+    <ul>
+      <li> <b>load</b>(data) → You can manually load an array passing it as a parameter </li>
+      <li> <b>subscribeTo</b>(loader$) → Passing an observable that emits the content (internal subscription)</li>
+    </ul>
+    <div class="code-box padV10 padH15">
+      <pre style="font-size: 16px;">{{example2}}</pre>
+    </div>
+    <p class="marT30">In case of fetching the data through an observable (subscribeTo),
+      if the source is know at the moment of generating the list, it can be passed
+      as an initial parameter to <b>dataInput$</b>
+    </p>
+  </div>
+
+</div>
 
 
 
 
 <hr>
 <h5 class="marB20">Filtering</h5>
-<p>By default the list comes with a free filter text <b>.filterText</b> which can be set externally. Changing it however does not
-  trigger any filter.
-  <br>To set a filter and apply it you can call <b>.filter(value)</b>, so the filtering is applied and render$
-  emits a new list based on the new criteria.
-</p>
-By default, the filtering function goes through all the items in the list, and selects the fields to filter by (.filterField[] array).
-Then it tries to match the <b>.filterText</b> (not case sensitive) to all of them, and if any match, it selects the item to be rendered.
 <p>
-  If a different filter needs to be applied, you can extend the function <b>.filterList()</b> to be used instead, providing a custom matching condition
+  There are 2 types of filter that are implemented by default: <b>filterText</b> string + <b>filters</b> object
+</p>
+<ul>
+  <li><b>filterText</b> is applied to a group of fields (<b>filterFields[]</b>) of every item on the list, as a generic search match.</li>
+  <li><b>filters</b> object applies a match individually to every given field of every item. Backend filters are included here.</li>
+</ul>
+<p>By default the filtering is performed with a none case sensitive match of the pattern.
+  <br>
+  If a different filter needs to be applied, the method <b>.filterList()</b> can be extended to be used instead, providing a custom matching condition
   It should return the filtered list.
+</p>
+<p class="marT15">
+  The state produces a parameter <b>totalFiltered</b> to know the total number of filtered items before pagination is applied.
+  <br>It is also possible to apply a debounce to the trigger, using the 3rd parameter of .filter(matchValue, filterName, millisecondsDebounce)
 </p>
 <div class="code-box padV10 padH15">
   <pre style="font-size: 16px;">{{example3}}</pre>
 </div>
-<p class="marT15">The state produces a parameter <b>totalFiltered</b> to know the total number of filtered items before pagination is applied.
-</p>
+
+
 
 
 <hr>
@@ -281,6 +303,9 @@ Then it tries to match the <b>.filterText</b> (not case sensitive) to all of the
   To change the order fields dynamically use method <b>.orderConf.setField('xxx')</b>. This will add the given field to the
   first position in .orderField.fields[], swapping it if it's already there.
 </p>
+<p>By default the order is performed comparing strings or numerically if type detected.
+  <br>If a different sorting needs to be applied, the method <b>.orderList()</b> can be extended to be used instead.
+</p>
 <p>
   The <b>orderConf</b> object is meant to be used along side component <b><{{'bf-list-header-col'}}></b>, so no extra configuration is needed.
   Just inject the object into <b>[orderConf]</b> parameter and it will handle everything.
@@ -289,17 +314,18 @@ Then it tries to match the <b>.filterText</b> (not case sensitive) to all of the
   <pre style="font-size: 16px;">{{example4}}</pre>
 </div>
 
+
+
+
 <hr>
-<h5 class="marB20">Pagination</h5>
+<h5 class="marB20">Pagination (frontend)</h5>
 <p>
-  You can set the default values for pagination on creation using parameters <b>rowsPerPage</b> and <b>totalPages</b>.
+  You can set the default values for pagination using the constructor parameters <b>rowsPerPage</b> and <b>totalPages</b>.
   They can also be changed later. To apply no pagination, set rowsPerPage = 0.
 </p>
 <p>
-  Every time the list is rendered, the filtered and ordered list will be offset into a page based on the parameters
-  currentPage and rowsPerPage.
-  <br>
-  To control the pagination there are multiple shortcuts that can be applied:
+  Every time the list is rendered, the filtered and ordered list will be offset into a page based on the parameters currentPage and rowsPerPage.
+  <br>To control the pagination there are multiple shortcuts that can be applied:
 </p>
 <ul>
   <li><b>paginate</b>(rowsPerPage) → This changes the configuration of the pagination, applying a different number of rows per page</li>
@@ -314,26 +340,61 @@ Then it tries to match the <b>.filterText</b> (not case sensitive) to all of the
   <pre style="font-size: 16px;">{{example5}}</pre>
 </div>
 
-
-
 <hr>
-<h5 class="marB20">Content Management</h5>
+<h5 class="marB20">Pagination (backend)</h5>
 <p>
-When the data is loaded into the list, a reference is held to the original array, so any modification on the objects
-is going to be reflected on the original data.
-To ease this task, every time the data is loaded some management methods are extended on the items of the list too,
-as shortcuts for list manipulation purposes.
+  To set up a list with backend side pagination, just provide a callback function when the list is generated in <b>backendPagination</b>: () => {{'{}'}}
+  <br>In this case, the class provides the mechanisms to mock a full list and trigger the page reloads on demand.
+  Note that some of the features cannot be used in this case, since the full list is unknown.
 </p>
 <p>
-  Every item is extended a <b>$save({{'{...}'}})</b> and <b>$remove()</b> function. Those functions will also trigger the list rendering, so
-  there's no need to do it manually after.
-  <br>
-  There is also a global function <b>.add({{'{...}'}})</b> to insert new items into the list.
+  subscribeTo() cannot be used in this case, since the data needs to be injected page by page.
+  A manual load of the page can be done using <b>.load(data, count)</b> method, providing the data of the page and the total count of the full list.
+  <br>The loading of the page will be automatically handled using the <b>backendPagination()</b> trigger.
+  It is automatically called on the first load, and also every time the filters, current page, or the rows per page change. If needs be, it can also be triggered manually.
+  <br>, the  is called. It is expected that backend request is triggered within backendPagination() function,
+  to asynchronously load the next page to display. Two parameters are provided on that function:
+<ul>
+  <li><b>slimFilter</b> → Object with only those filters that have value (ready to be send to the request)</li>
+  <li><b>fullFilter</b> → Object with all filters, empty ones included</li>
+</ul>
+<p>These filters also include the standard fields <b>limit</b> <b>offset</b> and <b>order_by</b>, to be send along with the request
+  <br>When backend pagination, the filterText option cannot be used in this case.
+  Also, the .filter(value, name) methods come with a 1sec debounce by default.
+</p>
+<p>
+  The function can optionally return a promise, that resolves to an object with {{'{ list, count }'}}, so the new page content will be automatically load.
+  <br>It is also possible to do it manually using <b>.load(list, count)</b> method.
+</p>
+<p>
+  If the values of the list have not changed, resulting in a request that will be exactly the same as the previous,
+  the backendPagination() function is not triggered, to avoid unnecessary requests.
 </p>
 
 <div class="code-box padV10 padH15">
-  <pre style="font-size: 16px;">{{example6}}</pre>
+  <pre style="font-size: 16px;">{{codeExampleBe}}</pre>
 </div>
+
+
+
+<!--<hr>-->
+<!--<h5 class="marB20">Content Management</h5>-->
+<!--<p>-->
+<!--When the data is loaded into the list, a reference is held to the original array, so any modification on the objects-->
+<!--is going to be reflected on the original data.-->
+<!--To ease this task, every time the data is loaded some management methods are extended on the items of the list too,-->
+<!--as shortcuts for list manipulation purposes.-->
+<!--</p>-->
+<!--<p>-->
+<!--  Every item is extended a <b>$save({{'{...}'}})</b> and <b>$remove()</b> function. Those functions will also trigger the list rendering, so-->
+<!--  there's no need to do it manually after.-->
+<!--  <br>-->
+<!--  There is also a global function <b>.add({{'{...}'}})</b> to insert new items into the list.-->
+<!--</p>-->
+
+<!--<div class="code-box padV10 padH15">-->
+<!--  <pre style="font-size: 16px;">{{example6}}</pre>-->
+<!--</div>-->
 
 
 

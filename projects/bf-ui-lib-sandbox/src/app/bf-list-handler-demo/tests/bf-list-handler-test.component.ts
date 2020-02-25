@@ -50,6 +50,7 @@ export class BfListHandlerTestComponent implements OnInit, OnDestroy {
       orderFields   : ['id', 'username'],
       orderReverse  : false,
       rowsPerPage   : 5,
+      dataInput$    : this.loader$
     });
 
     // Backend paginated list

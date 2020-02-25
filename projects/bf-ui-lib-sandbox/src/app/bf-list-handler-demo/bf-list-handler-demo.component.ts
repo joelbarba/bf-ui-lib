@@ -48,25 +48,35 @@ export class BfListHandlerDemoComponent implements OnInit, OnDestroy {
   public example1 = `import { BfListHandler} from 'bf-ui-lib';
 
 this.myList = new BfListHandler({
-  listName      : 'test-list',
-  filterFields  : ['username', 'first_name'],
+  listName      : 'test-list-1',
+  filterFields  : ['username', 'email'],
   orderFields   : ['id', 'username'],
   orderReverse  : false,
-  rowsPerPage   : 10,
-  totalPages    : 15,
-});`;
-  public example2 = `this.myList.load(data); // <-- Sync load
+  dataInput$    : this.loader$
+}, qParams);`;
 
-// Async loading
-const loader$ = new Subject();
-this.myList.setLoader(this.loader$);
-setTimeout(() => { this.loader$.next(data); }, 1000);
 
-this.myList.render$.subscribe(state => ...);`;
-  public example3 = `this.myList.filterList = (list: Array<any>, filterText: string = '', filterFields: Array<string>): Array<any> => {
+  public example2 = `this.myList.load(data);   // <-- Sync load
+
+or 
+
+this.myList.subscribeTo(this.loader$);  // <-- Async loading`;
+
+  public example3 = `<bf-input bfLabel="Search"   [(ngModel)]="myList.filterText"       (ngModelChange)="myList.filter($event)"></bf-input>
+<bf-input bfLabel="Username" [(ngModel)]="myList.filters.username" (ngModelChange)="myList.filter($event, 'username')"></bf-input>
+<bf-input bfLabel="Email"    [(ngModel)]="myList.filters.email"    (ngModelChange)="myList.filter($event, 'email', 1500)"></bf-input>
+
+this.myList.filterList = (list: Array<any>, filterText: string = '', filterFields: Array<string>): Array<any> => {
   return this.defaultFilterList(list, filterText, filterFields);
 };`;
-  public example4 = `<bf-list-header-col colTitle="Username" fieldName="username" [orderConf]="myList.orderConf"></bf-list-header-col>`;
+
+  public example4 = `<bf-list-header-col colTitle="Email"></bf-list-header-col>
+<bf-list-header-col colTitle="Username" fieldName="username" [orderConf]="myList.orderConf"></bf-list-header-col>
+
+this.myList.orderList = (list: Array<any>, orderFields: Array<string>, orderReverse: boolean): Array<any> => {
+  return this.defaultOrderList(list, orderFields, orderReverse);
+};`;
+
   public example5 = `<bf-list-paginator class="col-12" [bfCtrl]="myList" bfShowSelector="true"></bf-list-paginator>`;
   public example6 = `<bf-btn bfType="add" bfText="view.common.add" (bfClick)="myList.add({...})"></bf-btn>
 <li *ngFor="let item of myList.renderList$ | async">
@@ -78,21 +88,11 @@ this.myList.render$.subscribe(state => ...);`;
 </li>`;
 
   public viewExample = `<div class="row whiteBg padB15">
-  <bf-input class="col-4"
-            bfLabel="Filter (any)"
-            bfIcon="icon-search"
-            [(ngModel)]="myList.filterText"
-            (ngModelChange)="myList.filter($event)">
-  </bf-input>
-  <div class="col-8 marT20 text-right">
-    <bf-btn bfType="add" bfText="view.common.add" (bfClick)="myList.add({...})"></bf-btn>
-  </div>
+  <bf-input class="col-4" bfIcon="icon-search" [(ngModel)]="myList.filterText" (ngModelChange)="myList.filter($event)"></bf-input>
 </div>
-
 <div class="row whiteBg">
   <bf-list-paginator class="col-12" [bfCtrl]="myList" bfShowSelector="true"></bf-list-paginator>
 </div>
-
 <div class="row">
   <div class="col-12">
     <ul class="list-unstyled table-list">
@@ -104,12 +104,11 @@ this.myList.render$.subscribe(state => ...);`;
       </li>
 
       <bf-list-placeholder [hidden]="myList.loadingStatus > 1" [bfColumns]="[1, 2, 4, 4, 1]"></bf-list-placeholder>
-      <li class="list-row" [hidden]="myList.loadingStatus <= 1"
-          *ngFor="let item of myList.renderList$ | async">
-        <div class="col-1"><h5>{{item.id}}</h5></div>
-        <div class="col-2"><h5>{{item.username}}</h5></div>
-        <div class="col-4"><h5>{{item.email}}</h5></div>
-        <div class="col-4"><h5>{{item.first_name + ' ' + item.last_name}}</h5></div>
+      <li class="list-row" [hidden]="myList.loadingStatus <= 1" *ngFor="let item of myList.renderList$ | async">
+        <div class="col-1">{{item.id}}</div>
+        <div class="col-2">{{item.username}}</div>
+        <div class="col-4">{{item.email}}</div>
+        <div class="col-4">{{item.first_name + ' ' + item.last_name}}</div>
         <div class="col-1 text-right">
           <bf-btn bfType="delete" (bfClick)="item.$remove()"></bf-btn>
           <bf-btn bfType="edit"   (bfClick)="item.$save({ username: 'new value' })"></bf-btn>
@@ -120,28 +119,68 @@ this.myList.render$.subscribe(state => ...);`;
 </div>`;
 
   public codeExample = `
-  public myList: BfListHandler;
-  public loader$ = new Subject();
+  public myList: BfListHandler;  
   
   constructor() {
-    const listConfig = {
+    this.myList = new BfListHandler({
+      dataInput$    : this.loader$,
       listName      : 'test-list',
       filterFields  : ['username', 'first_name'],
       orderFields   : ['id', 'username'],
       orderReverse  : false,
-      rowsPerPage   : 10,
-      totalPages    : 15,
-    };
-    this.myList  = new BfListHandler({ ...listConfig, listName: 'test-list' });
-  }
-
-  ngOnInit() {
-    this.myList.setLoader(this.loader$);
-    // this.myList.load(data); // Async load
-    
-    this.myList.setLoader(this.loader$);
-    setTimeout(() => { this.loader$.next(data); }, 1000);
+    }, this.route.snapshot.queryParams);
   }`;
+
+
+  public viewExampleBe = `
+<div class="row">
+  <bf-input class="col-4" bfLabel="Username" bfIcon="icon-search"
+            [(ngModel)]="bpList.filters.username" (ngModelChange)="bpList.filter($event, 'username', 1000)">
+  </bf-input>
+  <bf-input class="col-4" bfLabel="Filter email" bfIcon="icon-search"
+            [(ngModel)]="bpList.filters.email" (ngModelChange)="bpList.filter($event, 'email')">
+  </bf-input>
+</div>
+<div class="row whiteBg">
+  <bf-list-paginator class="col-12" [bfCtrl]="bpList" bfShowSelector="true"></bf-list-paginator>
+</div>
+<div class="row">
+  <div class="col-12" [bfLoadingSpinner]="bpList.loadingStatus === 4">
+    <ul class="list-unstyled table-list">
+      <li class="list-header">
+        <bf-list-header-col class="col-1" colTitle="Id"         fieldName="id"        [orderConf]="bpList.orderConf"></bf-list-header-col>
+        <bf-list-header-col class="col-2" colTitle="Username"   fieldName="username"  [orderConf]="bpList.orderConf"></bf-list-header-col>
+        <bf-list-header-col class="col-4" colTitle="Email"></bf-list-header-col>
+        <bf-list-header-col class="col-4" colTitle="Full Name"></bf-list-header-col>
+      </li>
+      <bf-list-placeholder [hidden]="bpList.loadingStatus > 1" [bfColumns]="[1, 2, 4, 4, 1]"></bf-list-placeholder>
+      <li class="list-row" [hidden]="bpList.loadingStatus <= 1" *ngFor="let item of bpList.renderList$ | async">
+        <div class="col-1">{{item.id}}</div>
+        <div class="col-2">{{item.username}}</div>
+        <div class="col-4">{{item.email}}</div>
+        <div class="col-4">{{item.first_name + ' ' + item.last_name}}</div>
+      </li>
+    </ul>
+  </div>
+</div>`;
+
+  public codeExampleBe = `this.bpList  = new BfListHandler({
+  listName      : 'backend-pagination-list',
+  filterFields  : ['username', 'email'],
+  orderFields   : ['id', 'username'],
+  orderReverse  : false,
+  rowsPerPage   : 5,
+  backendPagination : (slimFilter: any, fullFilter: any) => {
+
+    // this.mockBEFilter(slimFilter).then((data: any) => {
+    //   this.bpList.load(data.users, data.count);
+    // });
+
+    return this.mockBEFilter(slimFilter).then((data: any) => {
+      return { list: data.users, count: data.count };
+    });
+  },
+}, this.route.snapshot.queryParams);`;
 
 
   public myList: BfListHandler;
@@ -157,16 +196,14 @@ this.myList.render$.subscribe(state => ...);`;
     private router: Router,
   ) {
 
-    // List configuration
-    // const listConfig = {
-    //   listName      : 'test-list',
-    //   filterFields  : ['username', 'first_name'],
-    //   orderFields   : ['id', 'username'],
-    //   orderReverse  : false,
-    //   rowsPerPage   : 10,
-    //   totalPages    : 15,
-    // };
-    // this.myList  = new BfListHandler({ ...listConfig, listName: 'test-list' });
+    this.myList  = new BfListHandler({
+      dataInput$    : this.loader$,
+      listName      : 'test-list',
+      filterFields  : ['username', 'first_name'],
+      orderFields   : ['id', 'username'],
+      orderReverse  : false,
+      rowsPerPage   : 5,
+    });
 
     this.bpList  = new BfListHandler({
       listName      : 'backend-pagination-list',
@@ -187,7 +224,8 @@ this.myList.render$.subscribe(state => ...);`;
     }, this.route.snapshot.queryParams);
 
 
-    this.bpList.onFiltersChange$.subscribe((filters: any) => {
+    this.bpList.onFiltersChange$.subscribe((filterObj: any) => {
+      const { filters, filterText } = filterObj;
 
       // Replace the empty values by null, to stripe them out the url
       Object.keys(filters).forEach(n => {
@@ -204,16 +242,14 @@ this.myList.render$.subscribe(state => ...);`;
   }
 
   ngOnInit() {
-
-
     this.bpList.triggerPagination().then(data => {
-      // console.log('FIRST PAGE LOADED', data);
+      console.log('FIRST PAGE LOADED', data);
     });
 
     // this.myList.subscribeTo(this.loader$);
 
     // this.loader$.next(this.getRandomData());
-    // this.loader$.next(this.listData);
+    this.loader$.next(this.listData);
     // this.myList.load(this.getRandomData());
   }
 
@@ -221,12 +257,20 @@ this.myList.render$.subscribe(state => ...);`;
     this.bpList.destroy();
   }
 
-  asyncLoad() {
-    // this.myList.setLoader(this.loader$);
-    this.myList.loadingStatus = 1;
-    setTimeout(() => {
-      this.loader$.next(this.getRandomData());
-    }, 4000);
+  asyncLoad(backend = false) {
+    if (!backend) {
+      this.myList.loadingStatus = 1;
+      setTimeout(() => {
+        this.loader$.next(this.getRandomData());
+      }, 4000);
+
+    } else {
+      this.bpList.loadingStatus = 4;
+      setTimeout(() => {
+        const data = this.getRandomData();
+        this.bpList.load(data.slice(0, this.bpList.rowsPerPage), Math.trunc(Math.random() * 50));
+      }, 4000);
+    }
   }
 
   addItem() {
@@ -305,23 +349,27 @@ export const BfListHandlerDoc = {
   name    : `bfListHandler`,
   uiType  : 'class',
   desc    : `(Class) Factory to generate list handlers`,
-  api     : `renderList$   → Observable to subscribe that generates the rendered list (ready to be used in ngFor with async)
-render$       → Observable to subscribe to any state changes. It outputs the state, which contains all fiedls here below
+  api     : `renderList$      → Emits the rendered list to be displayed
+render$          → Emits the whole state object
+onFiltersChange$ → Emits when any filter on the list changes
 
-loadedList    : Array<T> → Original content held on the list (no filters applied)
-renderedList  : Array<T> → Rendering content (order + filter + pagination applied). It's a subset of loadedList.
-listName      : string   → Optional list identifier
-loadingStatus : number   → 0=Empty, 1=Loading, 2=Loaded, 3=Error
-totalItems    : number   → loadedList.length
-totalFiltered : number   → Total number of filtered items (middle step after filter and before pagination)
-renderedItems : number   → renderedList.length
-rowsPerPage   : number   → Current number of rows per page (pagination)
-currentPage   : number   → Current page (pagination)
-totalPages    : number   → Current total of pages (pagination)
-filterText    : string   → Current filtered match (the pattern to match with the content)
-extMethods    : boolean  → Current filtered match (the pattern to match with the content)
+.load(data: Array<T>)                        → To load a new content passing a new array of objects.
+.subscribeTo(loader$: Observable<Array<T>>)  → Subscribes to a source (array to load on the list).
 
+loadedList    : Array<T> → Full loaded list (or current page when backend pagination).
+renderedList  : Array<T> → Rendered content (loadedList with order + filter + pagination applied).
+listName      : string   → Optional list identifier.
+loadingStatus : number   → 0=Empty, 1=Loading, 2=Loaded, 3=Error, 4=Page loading.
+totalItems    : number   → Length of the full list (loadedList.length).
+totalFiltered : number   → Length of the list after filters applied (before pagination).
+renderedItems : number   → Length of the rendered list (renderedList.length).
+rowsPerPage   : number   → Current number of rows per page (pagination).
+currentPage   : number   → Current page (pagination).
+totalPages    : number   → Current total of pages (pagination).
+filterText    : string   → Multiple field filter match.
 filterFields  : Array<string> → Array of the fields that will be match with the "filterText" during the filter process.
+filters       : Array<{name, value}> → Set of filters to apply per field.
+
 orderConf { → Object to manage order (ready to be link to <bf-list-header-col [bfCtrl]="orderConf">)
   fields: Array<string>   → Array of the fields to order the list (order by).
   reverse: boolean        → Whether the list is ordered asc (false) or desc (true)
@@ -329,23 +377,14 @@ orderConf { → Object to manage order (ready to be link to <bf-list-header-col 
                             it swaps it to the first position (first field to order by)
 }
 
-.load(data: Array<T>)                                       → To load a new content passing a new array of objects.
-.subscribeTo(loader$: Observable<Array<T>>)                 → Subscribes to a source (array to load on the list). 
-.setLoader(loader$: Observable<{ status, list: Array<T> }>) → Same as .subscribeTo() but with status.
-                                                              Subscribes to the loader$ observable to load the content every time it emits.
-                                                              Setting the loader turns the loadingStatus to 1 (loading). When the content
-                                                              is loaded (loader$.next()) it turns it to 2 (loaded).
-
 // Action dispatchers - All this methods will trigger a list render after the state changes
-.filter(filterText)     → To update filterText with a new match
-.order(orderField)      → Select what field we order the list by. Choosing the same twice reverts.
-.paginate(rowsPerPage)  → To change the number of rows per page
-.nextPage()             → Jump pagination to the next page
-.prevPage()             → Jump pagination to the previous page
-.goToPage(page: number) → Jump pagination to the previous page
-.refresh()              → It doesn't change anything, just forces a rerender of the list
-.add(item: T)           → It adds an item to the content list, and renders again
-`,
+.filter(value, name, debounce) → To change the filters. If no filter name, filterText is considered.
+.order(orderField)             → Select what field we order the list by. Choosing the same twice reverts.
+.paginate(rowsPerPage)         → To change the number of rows per page
+.nextPage()                    → Jump pagination to the next page
+.prevPage()                    → Jump pagination to the previous page
+.goToPage(page: number)        → Jump pagination to the previous page
+.refresh()                     → It doesn't change anything, just forces a rerender of the list`,
   instance: ``,
   demoComp: BfListHandlerDemoComponent
 };
