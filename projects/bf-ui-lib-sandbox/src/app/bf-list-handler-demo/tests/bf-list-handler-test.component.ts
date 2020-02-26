@@ -81,11 +81,13 @@ export class BfListHandlerTestComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.testList1.subscribeTo(this.loader$);
+    this.testList2.fetchPage();
     this.loader$.next(this.listData);
   }
 
   ngOnDestroy() {
     this.testList1.destroy();
+    this.testList2.destroy();
   }
 
   loadMoreData() {
@@ -120,6 +122,7 @@ export class BfListHandlerTestComponent implements OnInit, OnDestroy {
         .filter(item => {
           if (backFilter.username && item.username.toLowerCase().indexOf(backFilter.username.toLowerCase()) < 0) { return false; }
           if (backFilter.email && item.email.toLowerCase().indexOf(backFilter.email.toLowerCase()) < 0) { return false; }
+          if (backFilter.first_name && item.first_name.toLowerCase().indexOf(backFilter.first_name.toLowerCase()) < 0) { return false; }
           return true;
         })
         .sort((itemA, itemB) => {

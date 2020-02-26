@@ -269,32 +269,32 @@ describe('Test List backend side paginated', () => {
     expect(paginator.length).toEqual(5);  // There should be 5 pages
     expect(await page.getCurrPageNum()).toEqual('1'); // Should start by page 1
     expect(await page.getListArr()).toEqual(fullList.slice(0, 5));  // Should display first page with 5 items
-    expect(await page.getLimitBeF()).toEqual(['5', '0', 'id,username']); // Backend filter parameters
+    expect(await page.getLimitBeF()).toEqual(['5', '0', 'id']); // Backend filter parameters
 
 
     await nextBtn.click();
     await browser.sleep(beTime);
     expect(await page.getCurrPageNum()).toEqual('2');
     expect(await page.getListArr()).toEqual(fullList.slice(5, 10));
-    expect(await page.getLimitBeF()).toEqual(['5', '5', 'id,username']);
+    expect(await page.getLimitBeF()).toEqual(['5', '5', 'id']);
 
     await nextBtn.click();
     await browser.sleep(beTime);
     expect(await page.getCurrPageNum()).toEqual('3');
     expect(await page.getListArr()).toEqual(fullList.slice(10, 15));
-    expect(await page.getLimitBeF()).toEqual(['5', '10', 'id,username']);
+    expect(await page.getLimitBeF()).toEqual(['5', '10', 'id']);
 
     await nextBtn.click();
     await browser.sleep(beTime);
     expect(await page.getCurrPageNum()).toEqual('4');
     expect(await page.getListArr()).toEqual(fullList.slice(15, 20));
-    expect(await page.getLimitBeF()).toEqual(['5', '15', 'id,username']);
+    expect(await page.getLimitBeF()).toEqual(['5', '15', 'id']);
 
     await nextBtn.click();
     await browser.sleep(beTime);
     expect(await page.getCurrPageNum()).toEqual('5');
     expect(await page.getListArr()).toEqual(fullList.slice(20, 24));
-    expect(await page.getLimitBeF()).toEqual(['5', '20', 'id,username']);
+    expect(await page.getLimitBeF()).toEqual(['5', '20', 'id']);
   });
 
   it('Should reload and keep the page on order by', async () => {
@@ -315,7 +315,7 @@ describe('Test List backend side paginated', () => {
       { col1:  '4', col2: 'CAraxes',      col3: 'caraxes@targaryen.com',      col4: 'Caraxes Targaryen' },
       { col1: '13', col2: 'Dreamfyre',    col3: 'dreamfyre@blackfire.com',    col4: 'Dreamfyre Targaryen' },
     ]);
-    expect(await page.getLimitBeF()).toEqual(['5', '0', 'username,id']);
+    expect(await page.getLimitBeF()).toEqual(['5', '0', 'username']);
 
     await header2.click();
     await browser.sleep(beTime);
@@ -326,7 +326,7 @@ describe('Test List backend side paginated', () => {
       { col1: '18', col2: 'tyraxes',      col3: 'tyraxes@targaryen.com',      col4: 'Tyraxes Targaryen' },
       { col1:  '8', col2: 'tessarion',    col3: 'tessarion@targaryen.com',    col4: 'Tessarion Targaryen' },
     ]);
-    expect(await page.getLimitBeF()).toEqual(['5', '0', '-username,-id']);
+    expect(await page.getLimitBeF()).toEqual(['5', '0', '-username']);
 
     await nextBtn.click();
     await nextBtn.click();
@@ -338,11 +338,11 @@ describe('Test List backend side paginated', () => {
       { col1: '21', col2: 'morghul',      col3: 'morghul@targaryen.com',      col4: 'Morghul Targaryen' },
       { col1: '19', col2: 'moondancer',   col3: 'moondancer@targaryen.com',   col4: 'Moondancer Targaryen' },
     ]);
-    expect(await page.getLimitBeF()).toEqual(['5', '10', '-username,-id']);
+    expect(await page.getLimitBeF()).toEqual(['5', '10', '-username']);
     await header1.click();
     await browser.sleep(beTime);
     expect(await page.getListArr()).toEqual(fullList.slice(10, 15));
-    expect(await page.getLimitBeF()).toEqual(['5', '10', 'id,username']);
+    expect(await page.getLimitBeF()).toEqual(['5', '10', 'id']);
   });
 
   it('Should paginate different items per page', async () => {
@@ -358,12 +358,12 @@ describe('Test List backend side paginated', () => {
     paginator = await page.getPaginator();
     expect(paginator.length).toEqual(3);
     expect(await page.getListArr()).toEqual(fullList.slice(0, 10));
-    expect(await page.getLimitBeF()).toEqual(['10', '0', 'id,username']);
+    expect(await page.getLimitBeF()).toEqual(['10', '0', 'id']);
 
     await nextBtn.click(); // Page 2 of 10 items per page
     await browser.sleep(beTime);
     expect(await page.getListArr()).toEqual(fullList.slice(10, 20));
-    expect(await page.getLimitBeF()).toEqual(['10', '10', 'id,username']);
+    expect(await page.getLimitBeF()).toEqual(['10', '10', 'id']);
 
     await page.selectIPP(2);  // 15 items per page (should return to page 1)
     await browser.sleep(beTime);
@@ -371,14 +371,14 @@ describe('Test List backend side paginated', () => {
     expect(paginator.length).toEqual(2);
     expect(await page.getCurrPageNum()).toEqual('1'); // Should start by page 1
     expect(await page.getListArr()).toEqual(fullList.slice(0, 15));
-    expect(await page.getLimitBeF()).toEqual(['15', '0', 'id,username']);
+    expect(await page.getLimitBeF()).toEqual(['15', '0', 'id']);
 
     await page.selectIPP(4);  // 30 items per page
     await browser.sleep(beTime);
     paginator = await page.getPaginator();
     expect(paginator.length).toEqual(1);
     expect(await page.getListArr()).toEqual(fullList.slice(0, 24));
-    expect(await page.getLimitBeF()).toEqual(['30', '0', 'id,username']);
+    expect(await page.getLimitBeF()).toEqual(['30', '0', 'id']);
   });
 
   it('Should filter specific fields triggering a backend page request', async () => {
@@ -415,7 +415,7 @@ describe('Test List backend side paginated', () => {
     ]);
 
     await filterName.sendKeys('Silverwing');
-    await browser.sleep(beTime + 500);
+    await browser.sleep(beTime + 2500);
     expect(await page.getListArr()).toEqual([
       { col1:  '5', col2: 'silverwing',   col3: 'silverwing@blackfire.com',   col4: 'Silverwing Targaryen' },
     ]);

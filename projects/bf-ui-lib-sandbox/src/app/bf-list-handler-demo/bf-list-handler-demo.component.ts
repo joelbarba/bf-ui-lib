@@ -254,6 +254,7 @@ this.myList.orderList = (list: Array<any>, orderFields: Array<string>, orderReve
   }
 
   ngOnDestroy() {
+    this.myList.destroy();
     this.bpList.destroy();
   }
 
@@ -320,6 +321,7 @@ this.myList.orderList = (list: Array<any>, orderFields: Array<string>, orderReve
         .filter(item => {
           if (backFilter.username && item.username.toLowerCase().indexOf(backFilter.username.toLowerCase()) < 0) { return false; }
           if (backFilter.email && item.email.toLowerCase().indexOf(backFilter.email.toLowerCase()) < 0) { return false; }
+          if (backFilter.first_name && item.first_name.toLowerCase().indexOf(backFilter.first_name.toLowerCase()) < 0) { return false; }
           return true;
         })
         .sort((itemA, itemB) => {
