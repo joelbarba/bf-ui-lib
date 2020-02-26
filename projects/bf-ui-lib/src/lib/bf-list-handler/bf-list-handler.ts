@@ -1,4 +1,4 @@
-import {BehaviorSubject, Observable, Subject, timer} from 'rxjs';
+import {BehaviorSubject, Observable, Subject, Subscription, timer} from 'rxjs';
 import {debounce, distinctUntilChanged, map} from 'rxjs/operators';
 import {dCopy} from '../bf-prototypes/deep-copy';
 import Debug from 'debug';
@@ -12,8 +12,9 @@ export interface BfListHandlerConfig {
   rowsPerPage   ?: number;
   totalPages    ?: number;
   extMethods    ?: boolean;
+  smartTrigger  ?: boolean;
   dataInput$    ?: Observable<any> | Subject<any> | BehaviorSubject<any>;
-  backendPagination ?: (fullFilter: any, slimFilter?: any) => void | Promise<{ list, count }>;
+  backendPagination ?: (fullFilter: any, slimFilter?: any, isDiff?: boolean) => void | Promise<void | { list, count }>;
 }
 
 
@@ -33,6 +34,8 @@ export class BfListHandler {
   public rowsPerPage = 10;          // Max number of rows per page of the pagination
   public currentPage = 1;           // Current page of the pagination
   public totalPages = 1;            // Calculation of the total number of pages
+  public isEmpty = false;           // True when the full list is loaded and empty (show noData placeholder)
+  public noMatch = false;           // True when the filtered list has no matches, but the list is not empty
   public filterText = '';           // Current filter value
   public backendPagination;         // Function to provide a backend filtered/paginated list handler
   public filters: any = {};         // Set of values applied to filter the list. Backend included here (limit, offset, order_by)
@@ -45,20 +48,24 @@ export class BfListHandler {
     setField: (orderField) => this.order(orderField) // Function to add a new field to the order sequence
   };
   public pagesList = [{id: 1, isLast: false}];   // List of page numbers (to loop)
-
-  private contentSubs;  // Content loader subscription
-  private stateSubs;    // State loader subscription
-  private debounceSub;  // Debounced filter subscription
+  public lastFilters: any = {};  // Snapshot of the last "this.filters" applied to the list
+  public customDefault;  // Default customInit value (set in constructor)
+  public subs: {[ key: string]: Subscription } = {  // Subscriptions to hold
+    contentSub  : null,   // Content loader
+    debounceSub : null,   // Debounced filter
+  };
   private debouncedFilter$ = new Subject<{filterName: string, filterValue, debounceMs?: number}>();
-  private lastFilters: any = {};  // Snapshot of the last "this.filters" applied to the list
+  private smartTrigger = true;  // For backend pagination: Avoid triggering page load again if filter hasn't changed
 
   constructor(customInit: Partial<BfListHandlerConfig> = {}, qParams: any = {}) {
+    this.customDefault = dCopy(customInit);
     if (customInit.hasOwnProperty('listName'))          { this.listName          = customInit.listName; }
     if (customInit.hasOwnProperty('orderFields'))       { this.orderConf.fields  = customInit.orderFields; }
     if (customInit.hasOwnProperty('orderReverse'))      { this.orderConf.reverse = customInit.orderReverse; }
     if (customInit.hasOwnProperty('rowsPerPage'))       { this.rowsPerPage       = customInit.rowsPerPage; }
     if (customInit.hasOwnProperty('totalPages'))        { this.totalPages        = customInit.totalPages; }
     if (customInit.hasOwnProperty('extMethods'))        { this.extMethods        = customInit.extMethods; }
+    if (customInit.hasOwnProperty('smartTrigger'))      { this.smartTrigger      = customInit.smartTrigger; }
     if (customInit.hasOwnProperty('backendPagination')) { this.backendPagination = customInit.backendPagination; }
     if (customInit.hasOwnProperty('filterFields'))      { this.filterFields      = customInit.filterFields; }
 
@@ -75,11 +82,11 @@ export class BfListHandler {
 
     this.filters = this.getFilters();  // Initial filters
 
-    // Debounced filters subscription
-    this.debounceSub = this.debouncedFilter$.pipe(debounce((filter) => {
-      if (!!filter.debounceMs || filter.debounceMs === 0) { return timer(filter.debounceMs); }
-      return timer(500);
-    }), distinctUntilChanged()).subscribe(filter => {
+    // Init debounced filters subscription
+    this.subs.debounceSub = this.debouncedFilter$.pipe(
+      debounce((filter) => timer((!!filter.debounceMs || filter.debounceMs === 0) ? filter.debounceMs : 500)),
+      distinctUntilChanged()
+    ).subscribe(filter => {
       this.filters[filter.filterName] = filter.filterValue;
       this.dispatch({ action: 'FILTER', payload: this.filterText });
     });
@@ -92,7 +99,10 @@ export class BfListHandler {
     this.renderList$ = this.render$.pipe(map(state => state.renderedList ));
     this.onFiltersChange$ = this.render$.pipe(
       map(_ => ({ filters: dCopy(this.filters), filterText: this.filterText })),
-      distinctUntilChanged((prev, next) => !this.isFilterDiff(prev.filters, next.filters) && prev.filterText === next.filterText)
+      distinctUntilChanged((prev, next) => {
+        return !this.isFilterDiff(prev.filters, next.filters) && prev.filterText === next.filterText;
+      }),
+      map(filterObj => dCopy(filterObj)),
     );
 
     // Automatically subscribe to an input source of data
@@ -102,9 +112,11 @@ export class BfListHandler {
 
   // This should be called when the list is no longer used, to avoid memory leaks
   public destroy = () => {
-    if (!!this.stateSubs)   { this.stateSubs.unsubscribe(); }
-    if (!!this.contentSubs) { this.contentSubs.unsubscribe(); }
-    if (!!this.debounceSub) { this.debounceSub.unsubscribe(); }
+    Object.keys(this.subs).forEach(sub => {
+      if (!!this.subs[sub] && !!this.subs[sub].unsubscribe) {
+        this.subs[sub].unsubscribe();
+      }
+    });
   };
 
   // @Todo: Turn it into a real reducer without state mutation
@@ -168,13 +180,15 @@ export class BfListHandler {
         });
 
     } else { // Backend (trigger on page change)
-      if (['ROWS', 'FILTER'].includes(change.action) && this.isFilterDiff(this.lastFilters, this.getFilters())) {
-        this.currentPage = 1; // These actions should force offset reset
-      }
+      if (this.loadingStatus > 0) {
+        if (['ROWS', 'FILTER'].includes(change.action) && this.isFilterDiff(this.lastFilters, this.getFilters())) {
+           this.currentPage = 1; // These actions should force offset reset
+        }
 
-      // These actions should trigger a backend page request to load the page
-      if (['ROWS', 'FILTER', 'ORDER', 'GOTO', 'NEXT', 'PREV', 'REFRESH'].includes(change.action)) {
-        this.triggerPagination();
+        // These actions should trigger a backend page request to load the page
+        if (['ROWS', 'FILTER', 'ORDER', 'GOTO', 'NEXT', 'PREV', 'REFRESH'].includes(change.action)) {
+          this.fetchPage();
+        }
       }
     }
 
@@ -183,6 +197,16 @@ export class BfListHandler {
       .map(ind => ({ id: ind + 1, isLast: (ind === this.totalPages - 1) }));
 
     this.renderedItems = this.renderedList.length;
+
+    // Empty flags
+    if (!this.backendPagination) {
+      this.isEmpty = this.loadingStatus === 2 && this.totalItems === 0; // Full list empty
+      this.noMatch = this.loadingStatus === 2 && this.totalItems > 0 && this.totalFiltered === 0; // No filter matches
+    } else {
+      const hasFilters = !!Object.keys(this.lastFilters).filter(n => !!this.lastFilters[n] && n !== 'limit' && n !== 'offset' && n !== 'order_by').length;
+      this.isEmpty = this.loadingStatus === 2 && this.renderedItems === 0 && !hasFilters && this.totalItems === 0; // Full list empty
+      this.noMatch = this.loadingStatus === 2 && this.renderedItems === 0 &&  hasFilters && this.totalItems === 0; // Filtered list empty
+    }
 
     // debugList('dispatching: ', change.action, this.getState());
     this.render$.next(this.getState());
@@ -203,6 +227,8 @@ export class BfListHandler {
       totalPages    : this.totalPages,
       filterFields  : this.filterFields,
       filterText    : this.filterText,
+      isEmpty       : this.isEmpty,
+      noMatch       : this.noMatch,
     };
   };
 
@@ -236,7 +262,8 @@ export class BfListHandler {
       listFilter.offset = (this.currentPage - 1) * listFilter.limit;
       listFilter.order_by = '';
       if (this.orderConf.fields.length) {
-        listFilter.order_by = this.orderConf.fields.map(field => (this.orderConf.reverse ? '-' : '') + field).join(',');
+        listFilter.order_by = (this.orderConf.reverse ? '-' : '') + this.orderConf.fields[0]; // Backend supports only 1st field
+        // listFilter.order_by = this.orderConf.fields.map(field => (this.orderConf.reverse ? '-' : '') + field).join(',');
       }
     }
 
@@ -246,17 +273,18 @@ export class BfListHandler {
 
   // ---------------- Backend side pagination ----------------------
 
-  // Backend pagination (mock the list slicing) with asynchronous page loading
-  public triggerPagination = () => {
+  // Backend pagination: Call this every time a different page needs to be requested and loaded
+  public fetchPage = () => {
     this.filters = this.getFilters();
-    if (this.loadingStatus === 0 || this.isFilterDiff(this.lastFilters, this.filters)) {
+    const isFilterDiff = this.isFilterDiff(this.lastFilters, this.filters);
+    if (this.loadingStatus === 0 || !this.smartTrigger || isFilterDiff) {
       this.loadingStatus = 4;
-      this.lastFilters = dCopy(this.filters); // Keep a copy
+      this.lastFilters = dCopy(this.filters); // Keep a copy to remember
 
       const slimFilter = dCopy(this.filters);
       Object.keys(slimFilter).forEach(n => { if (!slimFilter[n]) { delete slimFilter[n]; } });
 
-      const resPromise = this.backendPagination(dCopy(slimFilter), dCopy(this.filters));
+      const resPromise = this.backendPagination(dCopy(slimFilter), dCopy(this.filters), isFilterDiff);
 
       if (!!resPromise) { // If a promise is returned, trigger the page load automatically
         return resPromise.then(page => {
@@ -292,9 +320,9 @@ export class BfListHandler {
 
   // Set an observable as the source of input data for the list
   public subscribeTo = (load$) => {
-    if (!!this.contentSubs) { this.contentSubs.unsubscribe(); }
+    if (!!this.subs.contentSub) { this.subs.contentSub.unsubscribe(); }
     this.loadingStatus = 1; // loading
-    this.contentSubs = load$.subscribe(list => {
+    this.subs.contentSub = load$.subscribe(list => {
       this.load(dCopy(list || []));
     });
   };
@@ -323,6 +351,21 @@ export class BfListHandler {
     }
   };
 
+  // Resets all filters + order + pagination
+  public reset = () => {
+    Object.keys(this.filters).forEach(n => this.filters[n] = null);
+    this.filterText = '';
+    this.orderConf.fields  = [ ...this.customDefault.orderFields ];
+    this.orderConf.reverse = this.customDefault.orderReverse;
+    this.rowsPerPage = this.customDefault.rowsPerPage;
+    this.goToPage(1);
+  };
+
+  public resetFilters = () => {
+    this.filterText = '';
+    Object.keys(this.filters).forEach(n => this.filters[n] = null);
+    this.dispatch({ action: 'FILTER', payload: '' });
+  };
 
 
   // Extend the list item with manipulation methods: $save(), $remove()
@@ -341,6 +384,8 @@ export class BfListHandler {
 
   // Default function to filter the list (on render). If "filterList" is extended later, this can be used to refer to the default
   private defaultFilterList = (list: Array<any>, filterText: string = '', filterFields: Array<string>): Array<any> => {
+    if (!!this.backendPagination) { return list; } // No frontend filtering when backend pagination
+
     const filters: any = {};  // Filters with value (backend pag. excluded)
     for (const n of Object.keys(this.filters)) {
       if (!!this.filters[n] && !(['limit', 'order_by', 'offset'].includes(n) && !!this.backendPagination)) {

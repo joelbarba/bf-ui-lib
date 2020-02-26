@@ -130,7 +130,7 @@
                   bfIcon="icon-arrow-left6" bfIconPos="left">
           </bf-btn>
           <bf-btn bfText=".nextPage()" bfType="save" (bfClick)="bpList.nextPage()"></bf-btn>
-          <bf-btn bfText=".triggerPagination()" (bfClick)="bpList.triggerPagination()"></bf-btn>
+          <bf-btn bfText=".fetchPage()" (bfClick)="bpList.fetchPage()"></bf-btn>
           <bf-btn bfText=".load(data)" (bfClick)="asyncLoad(true)"></bf-btn>
           <!--<bf-btn bfType="add" bfText=".add({...})" (bfClick)="addItem()"></bf-btn>-->
         </div>
@@ -270,8 +270,8 @@
   There are 2 types of filter that are implemented by default: <b>filterText</b> string + <b>filters</b> object
 </p>
 <ul>
-  <li><b>filterText</b> is applied to a group of fields (<b>filterFields[]</b>) of every item on the list, as a generic search match.</li>
-  <li><b>filters</b> object applies a match individually to every given field of every item. Backend filters are included here.</li>
+  <li><b>filterText</b> → is applied to a group of fields (<b>filterFields[]</b>) of every item on the list, as a generic search match.</li>
+  <li><b>filters</b> → object applies a match individually to every given field of every item. Backend filters are included here.</li>
 </ul>
 <p>By default the filtering is performed with a none case sensitive match of the pattern.
   <br>
@@ -281,7 +281,12 @@
 <p class="marT15">
   The state produces a parameter <b>totalFiltered</b> to know the total number of filtered items before pagination is applied.
   <br>It is also possible to apply a debounce to the trigger, using the 3rd parameter of .filter(matchValue, filterName, millisecondsDebounce)
+  <br>There are 2 methods to help clear the filters:
 </p>
+<ul>
+  <li><b>resetFilters()</b> → Removes all filters + filterText values (setting them to null)
+  <li><b>reset()</b> → Removes all filters + resets the order and pagination to the initial parameters
+</ul>
 <div class="code-box padV10 padH15">
   <pre style="font-size: 16px;">{{example3}}</pre>
 </div>

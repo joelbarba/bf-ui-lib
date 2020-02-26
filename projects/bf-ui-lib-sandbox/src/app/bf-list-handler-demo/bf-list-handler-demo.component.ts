@@ -242,7 +242,7 @@ this.myList.orderList = (list: Array<any>, orderFields: Array<string>, orderReve
   }
 
   ngOnInit() {
-    this.bpList.triggerPagination().then(data => {
+    this.bpList.fetchPage().then(data => {
       console.log('FIRST PAGE LOADED', data);
     });
 
