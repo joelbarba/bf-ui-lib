@@ -2,8 +2,12 @@ $slider_bg: $white !default;
 $slider_color_primary: $primary_color !default;
 
 bf-slider {
+  .slider-label-left {
+
+  }
   ng5-slider {
     &.ng5-slider {
+      margin-bottom: 25px;
       .ng5-slider-pointer {
         background-color: $slider_color_primary;
         outline: 0 none;

@@ -1,12 +1,18 @@
-<div class="form-group">
-  <bf-label *ngIf="!!bfLabel"
-            [bfText]="bfLabel"
+<div *ngIf="!!bfLabel" [class.slider-label-left]="bfLabelPos === 'left'">
+  <bf-label [bfText]="bfLabel"
             [bfTooltip]="bfTooltip"
             [bfTooltipPos]="bfTooltipPos"
             [bfRequired]="bfRequired">
   </bf-label>
-  <ng5-slider [(value)]="bfModel" [options]="sliderOptions"></ng5-slider>
 </div>
-<!--<p>bf-slider works!</p>-->
-<!--<p>Value: <input type="number" [(ngModel)]="bfModel"></p>-->
+<ng5-slider [(value)]="bfModel"
+            [options]="sliderOptions"
+            (valueChange)="onChange()">
+</ng5-slider>
+<!--<ng5-slider *ngIf="!!bfHighValue"
+            [(value)]="bfModel"
+            [(highValue)]="bfHighValue"
+            [options]="sliderOptions"
+            (valueChange)="onChange()">
+</ng5-slider>-->
 
