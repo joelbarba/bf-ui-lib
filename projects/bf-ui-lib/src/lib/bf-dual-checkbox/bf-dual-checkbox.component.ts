@@ -14,7 +14,7 @@ import {of} from 'rxjs';
     }
   ]
 })
-//
+
 export class BfDualCheckboxComponent implements ControlValueAccessor, OnInit, OnChanges {
   public checkboxes = {
     yes: true,
