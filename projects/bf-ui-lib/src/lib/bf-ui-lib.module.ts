@@ -16,6 +16,7 @@ import { BfListHeaderColComponent } from './bf-list-header-col/bf-list-header-co
 import { BfLabelComponent } from './bf-label/bf-label.component';
 import { BfListPlaceholderComponent } from './bf-list-placeholder/bf-list-placeholder.component';
 import { BfCheckboxComponent } from './bf-checkbox/bf-checkbox.component';
+import { BfDualCheckboxComponent } from './bf-dual-checkbox/bf-dual-checkbox.component';
 import { BfInputComponent } from './bf-input/bf-input.component';
 import { BfDropdownComponent } from './bf-dropdown/bf-dropdown.component';
 import { BfSwitchComponent } from './bf-switch/bf-switch.component';
@@ -49,6 +50,7 @@ import { BfNoDataComponent } from './bf-no-data/bf-no-data.component';
     BfLabelComponent,
     BfListPlaceholderComponent,
     BfCheckboxComponent,
+    BfDualCheckboxComponent,
     BfInputComponent,
     BfDropdownComponent,
     BfSwitchComponent,
@@ -110,6 +112,7 @@ import { BfNoDataComponent } from './bf-no-data/bf-no-data.component';
     BfDropdownComponent,
     BfInputComponent,
     BfCheckboxComponent,
+    BfDualCheckboxComponent,
     BfListPlaceholderComponent,
     BfLabelComponent,
     BfBtnComponent,

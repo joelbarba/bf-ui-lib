@@ -1,0 +1,76 @@
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+
+<h5 class="mt-4">Parameters:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+<!--Customization-->
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-6 marB15">
+      <h5 class="marB25">Customized Dual Checkbox:</h5>
+      <div class="padB25">
+        <bf-dual-checkbox
+          [className]="compConf.isClassBlock"
+          [bfLabel]="compConf.bfLabel"
+          [(ngModel)]="defaultValue"
+          [bfDisabled]="compConf.isDisabled">
+        </bf-dual-checkbox>
+      </div>
+      <div>
+        <div class="code-box pad15">
+          <pre>{{customCompCode}}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+
+      <div class="row marT15 marL20">
+        <div class="col-4">
+        <bf-checkbox  bfLabel="Disabled" [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()"></bf-checkbox>
+        <!--Classes-->
+        <bf-checkbox [(ngModel)]="compConf.isClassBlock" (ngModelChange)="upComp()" bfLabel="Block"></bf-checkbox>
+        </div>
+        <div class="col-6">
+          <bf-input bfLabel="bfLabel" [(ngModel)]="compConf.bfLabel" (ngModelChange)="upComp()"></bf-input>
+          <bf-input bfLabel="ngModel" [(ngModel)]="compConf.ngModel" (ngModelChange)="upComp()"></bf-input>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<hr>
+
+<div class="whiteBg">
+  <h5 class="marB25">Values returned:</h5>
+  <div class="row">
+    <bf-dual-checkbox
+      class="col-2"
+      [bfLabel]="label"
+      [(ngModel)]="value">
+    </bf-dual-checkbox>
+    <div class="col-3">
+      <label>ngModel returned value:</label>
+      <br />
+      <label><strong>{{returnedValues()}}</strong></label>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12"><hr></div>
+  <div class="col-7">
+    <p>The bf-dual-checkbox html structure:</p>
+    <pre>{{ dualCheckboxHtmlStructure }}</pre>
+  </div>
+  <div class="col-5">
+    <p>The bf-checkbox html structure:</p>
+    <pre>{{ checkboxHtmlStructure }}</pre>
+  </div>
+</div>
+<p>The idea behind dual check box is to implement existing bf checkbox component and combine it to work as yes/no dual checkbox. Both options can never be unselected, at least one or both need to be checked.</p>

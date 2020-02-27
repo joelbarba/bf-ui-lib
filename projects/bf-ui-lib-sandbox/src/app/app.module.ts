@@ -40,6 +40,7 @@ import {BfListHandlerDemoComponent} from './bf-list-handler-demo/bf-list-handler
 import { BfLoadingSpinnerDemoComponent } from './bf-loading-spinner-demo/bf-loading-spinner-demo.component';
 import { ShowDemoComponent } from './show-demo/show-demo.component';
 import { BfNoDataDemoComponent } from './bf-no-data-demo/bf-no-data-demo.component';
+import { BfDualCheckboxDemoComponent } from './bf-dual-checkbox-demo/bf-dual-checkbox-demo.component';
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import { BfNoDataDemoComponent } from './bf-no-data-demo/bf-no-data-demo.compone
     BfLabelDemoComponent,
     BfListPlaceholderDemoComponent,
     BfCheckboxDemoComponent,
+    BfDualCheckboxDemoComponent,
     BfInputDemoComponent,
     BfDropdownDemoComponent,
     BfSwitchDemoComponent,
