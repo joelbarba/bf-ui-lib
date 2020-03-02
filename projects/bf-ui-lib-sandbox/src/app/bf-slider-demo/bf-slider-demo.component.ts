@@ -18,16 +18,9 @@ export class BfSliderDemoComponent implements OnInit {
 
 
 
-  public cssReset = `$optional_input_color : $optional-color;
-$focused_input_color  : $focused-color;
-$required_input_color : $primary_color;
-$invalid_input_color  : $invalid-color;
-$valid_input_color    : $primary_color;
-$disabled_input_color : $disabled-color;
-
-.bf-slider-form-group {
-  ...
-}`;
+  public cssReset = `$slider_bg           : $white !default;
+$slider_color_default: #d8e0f3;
+$slider_color_primary: $primary_color !default;`;
 
   public slider1 = 50;
   public slider1Options = { start: 10, end: 20, step: 2, showTicks: true, showTicksValues: true };
@@ -170,22 +163,27 @@ export const BfSliderDoc = {
   name    : `bf-slider`,
   uiType  : 'component',
   desc    : `Generates a slider component`,
-  api     : `[(ngModel)]    : The ngModel directive is linked as value on the Slider
-[bfHighValue]  : Second value which will display a Range
-[bfOptions]    : The Config options for the Slider: 
-                 {
-                  start     : Initial range
-                  end       : Final range
-                  step      : (Optional) Step between each value
-                  showTicks : (Optional) Set to true to display a tick for each step on the slider
-                 }
-[bfDisabled]   : Whether the slider is disabled or not
+  api     : `[(ngModel)]         : The ngModel directive is linked as value on the Slider
+[bfHighValue]        : Second value which will display a Range
+[bfOptions]          : The Config options for the Slider: 
+                       {
+                         start        : Initial range
+                         end          : Final range
+                         step         : (Optional) Step between each value
+                         showTicks    : (Optional) Set to true to display a tick for each step on the slider
+                         showTicksValues: (Optional) Set true to display the value for each tick
+                         tickStep     : (Optional) Number - Set the steps to be ticked
+                         tickArray    : (Optional) Array - Set specific steps to be ticked
+                         tickValueStep: (Optional) Number - Set the steps to show the value
+                       }
+[bfTranslate]        : [method] = (value: number, label LabelType: LabelType): string => return (The label to be shown as a label on the range)
+[bfShowOuterSection] : Only for range slider. Set to true to visualize in different colour the areas on the left/right of selection bar between the handles
+[bfDisabled]         : Whether the slider is disabled or not
              
-[bfLabel]      : Label of the input (automatically translated). If not provided, no label is displayed.
-[bfLabelPos]   : Position of the label (top | left). By default = top.
-[bfTooltips]   : If label provided, adds a info badge with a tooltip (automatically translated)
-[bfTooltipPos] : Position of the tooltip (top by default)
-[bfRequired]   : Whether the value is required. If not, and "Empty" option will be added a the top of the list`,
+[bfLabel]            : Label of the input (automatically translated). If not provided, no label is displayed.
+[bfTooltips]         : If label provided, adds a info badge with a tooltip (automatically translated)
+[bfTooltipPos]       : Position of the tooltip (top by default)
+[bfRequired]         : Whether the value is required. If not, and "Empty" option will be added a the top of the list`,
   instance: `<bf-slider [(ngModel)]="value" 
            bfLabel="Test 1" 
            [bfOptions]="valueOptions">

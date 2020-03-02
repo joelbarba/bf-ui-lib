@@ -52,7 +52,6 @@ export class BfSliderComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() bfLabel: string;
   @Input() bfTooltip: string;
   @Input() bfTooltipPos = 'top';
-  @Input() bfLabelPos: 'top' | 'left' = 'top';
   @Input() bfTranslate: any;
   @Input() bfShowOuterSection = false;
 
@@ -71,13 +70,11 @@ export class BfSliderComponent implements ControlValueAccessor, OnInit, OnChange
   constructor() { }
 
   ngOnInit() {
-    console.log('Slider Component');
     this.isHighValue = this.highValue !== null;
     this.optionsRebuild();
   }
 
   ngOnChanges(changes): void {
-    console.log('Slider Component ON Change', changes);
     if (changes.bfDisabled) { this.bfDisabled = changes.bfDisabled.currentValue; this.optionsRebuild(); }
     if (changes.bfTranslate) { this.bfTranslate = changes.bfTranslate.currentValue; this.optionsRebuild(); }
     if (changes.bfShowOuterSection && this.isHighValue) { this.bfShowOuterSection = changes.bfShowOuterSection.currentValue; this.optionsRebuild(); }

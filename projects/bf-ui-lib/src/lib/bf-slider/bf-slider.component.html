@@ -11,6 +11,7 @@
             (valueChange)="onChange()">
 </ng5-slider>
 <ng5-slider *ngIf="isHighValue"
+            [class.showOuterSelection]="bfShowOuterSection"
             [(value)]="bfModel"
             [(highValue)]="highValue"
             [options]="sliderOptions"
