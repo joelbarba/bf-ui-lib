@@ -1,5 +1,7 @@
 $slider_bg: $white !default;
-$slider_color_primary: $primary_color !default;
+$slider_color_primary: $secondary_color !default;
+// test color of the Slider
+//$slider_color_primary: $primary_color !default;
 
 bf-slider {
   .slider-label-left {
@@ -14,6 +16,9 @@ bf-slider {
         &.ng5-slider-active:after {
           background-color: $slider_bg;
         }
+      }
+      .ng5-slider-selection, .ng5-slider-tick.ng5-slider-selected {
+        background: $slider_color_primary;
       }
     }
   }

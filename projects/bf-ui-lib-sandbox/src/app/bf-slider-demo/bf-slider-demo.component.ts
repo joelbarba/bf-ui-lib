@@ -3,6 +3,7 @@
 
 
 import { Component, OnInit } from '@angular/core';
+import {LabelType} from 'ng5-slider';
 
 @Component({
   selector: 'app-bf-slider-demo',
@@ -15,8 +16,6 @@ export class BfSliderDemoComponent implements OnInit {
   public api = BfSliderDoc.api;
   public instance = BfSliderDoc.instance;
 
-  public instance2 =
-`<bf-slider</bf-slider>`;
 
 
   public cssReset = `$optional_input_color : $optional-color;
@@ -30,13 +29,79 @@ $disabled_input_color : $disabled-color;
   ...
 }`;
 
+  public slider1 = 50;
+  public slider1Options = { start: 10, end: 20, step: 2, showTicks: true, showTicksValues: true };
+  public instance1Obj = `valueOptions = {
+  start: 10, 
+  end: 20, 
+  step: 2, 
+  showTicks: true,
+  showTicksValues: true
+}`;
+
+  public slider2;
+  public slider2High = 70;
+  public slider2Options = { start: 20, end: 120, showTicks: true, showTicksValues: true, tickStep: 10, tickValueStep: 20 };
+  public instance2Obj = `valueOptions = { 
+  start: 10, 
+  end: 150, 
+  showTicks: true
+  showTicksValues: true, 
+  tickStep: 5, 
+  tickValueStep: 10 
+}`;
+  public instance2 = `<bf-slider [(ngModel)]="value"
+           [(bfHighValue)]="valueHigh"
+           [bfOptions]="valueOptions">
+</bf-slider>`;
+
+  public slider3 = 15;
+  public slider3Options = { start: 0, end: 100, showTicks: true, tickArray: [5, 10, 15, 25, 40, 65, 100], showTicksValues: true };
+  public instance3Obj = `valueOptions = { 
+  start: 10, 
+  end: 100, 
+  showTicks: true
+  tickArray: [5,10,15,25,40,65,100],
+  showTicksValues: true 
+}`;
+  public instance3 = `<bf-slider [(ngModel)]="value"
+           [bfOptions]="valueOptions">
+</bf-slider>`;
+
+  public slider4 = 15;
+  public slider4Options = {start: 0, end: 100};
+  public instance4Obj = `translateFunc = (value: number)=>{
+  return value + ' $';
+}`;
+  public instance4 = `<bf-slider [(ngModel)]="value"
+           [bfOptions]="valueOptions"
+           [bfTranslate]="translateFunc">
+</bf-slider>`;
+
+  public slider5 = 80;
+  public slider5High = 180;
+  public slider5Options = { start: 60, end: 300, showTicks: true, tickArray: [60, 120, 180, 240, 300], showTicksValues: true };
+  public instance5Obj = `translateFunc(value: number, label: LabelType) {
+  switch (label) {
+    case LabelType.Low:
+      return 'From:'+value;
+    case LabelType.High:
+      return 'To:'+value;
+    default:
+      return value;
+  }
+}`;
+  public instance5 = `<bf-slider [(ngModel)]="value"
+           [(bfHighValue)]="valueHigh"
+           [bfOptions]="valueOptions"
+           [bfTranslate]="translateFunc">
+</bf-slider>`;
 
 
   public valueSlider = 50;
-  public valueSlider2;
-
+  public valueSliderHigh = 100;
   public sliderOptions: any = {
-    start: 10,
+    start: 0,
     end: 150
   };
 
@@ -47,6 +112,7 @@ $disabled_input_color : $disabled-color;
   public customCompCode = `<bf-slider [(ngModel)]="selObj" [bfList]="myList"></bf-slider>`;
   public compConf: any = {
     addSecondValue: false,
+    showOuterSection: false,
     isRequired: false,
     isDisabled: false,
     rows: null,
@@ -58,8 +124,11 @@ $disabled_input_color : $disabled-color;
     this.customCompCode = `<bf-slider `;
 
     this.customCompCode += `[(ngModel)]="myVal"`;
-    // this.customCompCode += `(ngModelChange)="doSomething($event)"`;
+    if (this.compConf.addSecondValue) { this.customCompCode += this.bsStr + `[(bfHighValue)]="mySecondVal"`; }
 
+    this.customCompCode += this.bsStr + `[bfOptions]="sliderOptions"`;
+
+    if (this.compConf.showOuterSection) { this.customCompCode += this.bsStr + `[bfShowOuterSection]="true"`; }
     if (this.compConf.isRequired) { this.customCompCode += this.bsStr + `[bfRequired]="true"`; }
     if (this.compConf.isDisabled) { this.customCompCode += this.bsStr + `[bfDisabled]="true"`; }
 
@@ -71,9 +140,22 @@ $disabled_input_color : $disabled-color;
     }
 
     this.customCompCode += (`>` + this.brStr + `</bf-slider>`);
-  }
 
+  };
 
+  public newTranslate = (value: number): string => `${value} $`;
+
+  public translate2 = (value: number, label: LabelType) => {
+    const labelValue = `${Math.trunc(value / 60)}:${value % 60 > 10 ? value % 60 : '0' + value % 60}`;
+    switch (label) {
+      case LabelType.Low:
+        return `From: ${labelValue}`;
+      case LabelType.High:
+        return `To: ${labelValue}`;
+      default:
+        return labelValue;
+    }
+  };
 
 
 
@@ -89,11 +171,13 @@ export const BfSliderDoc = {
   uiType  : 'component',
   desc    : `Generates a slider component`,
   api     : `[(ngModel)]    : The ngModel directive is linked as value on the Slider
-[bfHighValue]  : highest Value which will display 2 sliders points
+[bfHighValue]  : Second value which will display a Range
 [bfOptions]    : The Config options for the Slider: 
                  {
-                  start : Initial range
-                  end   : Final range
+                  start     : Initial range
+                  end       : Final range
+                  step      : (Optional) Step between each value
+                  showTicks : (Optional) Set to true to display a tick for each step on the slider
                  }
 [bfDisabled]   : Whether the slider is disabled or not
              
@@ -102,6 +186,9 @@ export const BfSliderDoc = {
 [bfTooltips]   : If label provided, adds a info badge with a tooltip (automatically translated)
 [bfTooltipPos] : Position of the tooltip (top by default)
 [bfRequired]   : Whether the value is required. If not, and "Empty" option will be added a the top of the list`,
-  instance: `<bf-slider></bf-slider>`,
+  instance: `<bf-slider [(ngModel)]="value" 
+           bfLabel="Test 1" 
+           [bfOptions]="valueOptions">
+</bf-slider>`,
   demoComp: BfSliderDemoComponent
 };

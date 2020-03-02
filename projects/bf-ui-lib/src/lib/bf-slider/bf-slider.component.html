@@ -5,14 +5,16 @@
             [bfRequired]="bfRequired">
   </bf-label>
 </div>
-<ng5-slider [(value)]="bfModel"
+<ng5-slider *ngIf="!isHighValue"
+            [(value)]="bfModel"
             [options]="sliderOptions"
             (valueChange)="onChange()">
 </ng5-slider>
-<!--<ng5-slider *ngIf="!!bfHighValue"
+<ng5-slider *ngIf="isHighValue"
             [(value)]="bfModel"
-            [(highValue)]="bfHighValue"
+            [(highValue)]="highValue"
             [options]="sliderOptions"
-            (valueChange)="onChange()">
-</ng5-slider>-->
+            (valueChange)="onChange()"
+            (highValueChange)="onChange()">
+</ng5-slider>
 
