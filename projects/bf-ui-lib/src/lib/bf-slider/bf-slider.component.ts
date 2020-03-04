@@ -46,7 +46,6 @@ export class BfSliderComponent implements ControlValueAccessor, OnInit, OnChange
 
   @Input() bfOptions: BfSliderOption;
 
-  @Input() bfRequired = false;
   @Input() bfDisabled = false;
 
   @Input() bfLabel: string;

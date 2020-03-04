@@ -21,7 +21,6 @@
                    [bfLabel]="compConf.hasLabel? compConf.labelText : ''"
                    [bfTooltip]="compConf.hasTooltip? compConf.tooltipText : ''"
                    [bfTooltipPos]="compConf.tooltipPos || 'top'"
-                   [bfRequired]="compConf.isRequired"
                    [bfDisabled]="compConf.isDisabled">
         </bf-slider>
       </div>
@@ -33,7 +32,6 @@
                    [bfLabel]="compConf.hasLabel? compConf.labelText : ''"
                    [bfTooltip]="compConf.hasTooltip? compConf.tooltipText : ''"
                    [bfTooltipPos]="compConf.tooltipPos || 'top'"
-                   [bfRequired]="compConf.isRequired"
                    [bfDisabled]="compConf.isDisabled">
         </bf-slider>
       </div>
@@ -64,9 +62,9 @@
       </div>
 
       <div class="row marT15">
-        <div class="col-4 padT5"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>
-        <div class="col-4 padT5"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>
-        <div class="col-4 padT5"> <bf-checkbox [(ngModel)]="compConf.showOuterSection" [bfDisabled]="!compConf.addSecondValue" (ngModelChange)="upComp()" bfLabel="Show outer section"></bf-checkbox> </div>
+<!--        <div class="col-4 padT5"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>-->
+        <div class="col-6 padT5"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>
+        <div class="col-6 padT5"> <bf-checkbox [(ngModel)]="compConf.showOuterSection" [bfDisabled]="!compConf.addSecondValue" (ngModelChange)="upComp()" bfLabel="Show outer section"></bf-checkbox> </div>
       </div>
 
       <div class="row marT15">

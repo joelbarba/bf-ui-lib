@@ -182,8 +182,7 @@ export const BfSliderDoc = {
              
 [bfLabel]            : Label of the input (automatically translated). If not provided, no label is displayed.
 [bfTooltips]         : If label provided, adds a info badge with a tooltip (automatically translated)
-[bfTooltipPos]       : Position of the tooltip (top by default)
-[bfRequired]         : Whether the value is required. If not, and "Empty" option will be added a the top of the list`,
+[bfTooltipPos]       : Position of the tooltip (top by default)`,
   instance: `<bf-slider [(ngModel)]="value" 
            bfLabel="Test 1" 
            [bfOptions]="valueOptions">
