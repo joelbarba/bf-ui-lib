@@ -7,7 +7,7 @@ import { TestingModule } from '../../testing/testing-module';
 import {BfCheckboxComponent} from '../bf-checkbox/bf-checkbox.component';
 import {BfLabelComponent} from '../bf-label/bf-label.component';
 
-fdescribe('BfDualCheckboxComponent', () => {
+describe('BfDualCheckboxComponent', () => {
   let component: BfDualCheckboxComponent;
   let fixture: ComponentFixture<BfDualCheckboxComponent>;
   let propagateModelSpy;
