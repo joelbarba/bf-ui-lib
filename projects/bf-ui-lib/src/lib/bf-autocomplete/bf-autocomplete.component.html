@@ -1,3 +1,57 @@
-<p>
-  bf-autocomplete works!
-</p>
+<div class="form-group bf-autocomplete-form-group" #autocomplete
+     (keydown)="triggerKey($event)"
+     [class.is-required]="bfRequired"
+     [class.is-disabled]="bfDisabled"
+     [class.is-focus]="isFocus || isExpanded"
+     [class.is-error]="isInvalid && !ngControl.pristine">
+
+  <bf-label *ngIf="!!bfLabel"
+            [bfText]="bfLabel"
+            [bfRequired]="bfRequired"
+            [bfTooltip]="bfTooltip"
+            [bfTooltipPos]="bfTooltipPos"
+            [bfTooltipBody]="bfTooltipBody">
+  </bf-label>
+
+  <div class="bf-autocomplete"
+       [class.is-expanded]="isExpanded">
+    <div class="input-group" #autocompleteInputGroup
+         [disableTooltip]="!bfDisabled || !bfDisabledTip"
+         [ngbTooltip]="bfDisabledTipTrans$ | async">
+
+      <input type="text" class="form-control" #autocompleteInput
+             [(ngModel)]="textInput" (ngModelChange)="typing(textInput)"
+             [placeholder]="bfPlaceholder"
+             [disabled]="bfDisabled"
+             (focusin)="expand()">
+
+
+      <div class="input-group-append">
+        <button [hidden]="textInput.length > 0 && isExpanded"
+                class="btn btn-outline-secondary"
+                [disabled]="bfDisabled"
+                (click)="!bfDisabled && toggle()"
+        >
+          <span class="icon-search"></span>
+        </button>
+        <button [hidden]="textInput.length === 0 || !isExpanded"
+                class="btn btn-outline-secondary"
+                (click)="reset()">
+          <span class="icon-cross3"></span>
+        </button>
+      </div>
+
+    </div>
+
+    <div class="list-container">
+      <div *ngFor="let item of list" class="option-row"
+           [class.selected]="bfModel === item"
+           (mousedown)="select(item)">
+        <span>{{item}}</span>
+      </div>
+      <div *ngIf="!!list && !list.length" class="option-row">
+        No result
+      </div>
+    </div>
+  </div>
+</div>

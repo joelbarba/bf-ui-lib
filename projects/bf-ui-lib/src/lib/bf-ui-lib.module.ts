@@ -97,7 +97,7 @@ import { BfNoDataComponent } from './bf-no-data/bf-no-data.component';
     BfStatusBadgeComponent,  // <--- New component
     BfProgressBarComponent,  // <--- New component
     BfMultiSelectorComponent,  // <--- New component
-    BfAutocompleteComponent,  // <--- New component
+    BfAutocompleteComponent,
     BfTimePickerComponent,  // <--- New component
     FormsModule,
     BfListPaginatorComponent,
