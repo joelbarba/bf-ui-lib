@@ -5,6 +5,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { BfDualCheckboxComponent } from './bf-dual-checkbox.component';
 import { TestingModule } from '../../testing/testing-module';
 import {BfCheckboxComponent} from '../bf-checkbox/bf-checkbox.component';
+import {BfLabelComponent} from '../bf-label/bf-label.component';
 
 fdescribe('BfDualCheckboxComponent', () => {
   let component: BfDualCheckboxComponent;
@@ -13,7 +14,7 @@ fdescribe('BfDualCheckboxComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BfDualCheckboxComponent, BfCheckboxComponent ],
+      declarations: [ BfDualCheckboxComponent, BfCheckboxComponent, BfLabelComponent ],
       imports: [ TestingModule, FormsModule, NgbTooltipModule ],
     })
       .compileComponents();

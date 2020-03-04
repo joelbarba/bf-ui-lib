@@ -1,16 +1,14 @@
 <div class="dual-checkbox">
-  <label>{{bfLabelText$ | async}}</label>
+  <bf-label [bfText]="bfLabel"></bf-label>
   <div>
     <bf-checkbox
-      [class.block]="className"
-      bfLabel="view.common.yes"
+      [bfLabel]="bfLabelOptionOne"
       [(ngModel)]="checkboxes.yes"
       (ngModelChange)="onChange('yes')"
       [bfDisabled]="bfDisabled"
     ></bf-checkbox>
     <bf-checkbox
-      [class.block]="className"
-      bfLabel="view.common.no"
+      [bfLabel]="bfLabelOptionTwo"
       [(ngModel)]="checkboxes.no"
       (ngModelChange)="onChange('no')"
       [bfDisabled]="bfDisabled"

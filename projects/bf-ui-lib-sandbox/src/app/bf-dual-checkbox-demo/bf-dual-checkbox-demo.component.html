@@ -12,9 +12,11 @@
       <h5 class="marB25">Customized Dual Checkbox:</h5>
       <div class="padB25">
         <bf-dual-checkbox
-          [className]="compConf.isClassBlock"
+          [ngClass]="{'block' : !!compConf.isClassBlock}"
           [bfLabel]="compConf.bfLabel"
-          [(ngModel)]="defaultValue"
+          [bfLabelOptionOne]="compConf.labelOne"
+          [bfLabelOptionTwo]="compConf.labelTwo"
+          [(ngModel)]="compConf.ngModelValue"
           [bfDisabled]="compConf.isDisabled">
         </bf-dual-checkbox>
       </div>
@@ -24,23 +26,22 @@
         </div>
       </div>
     </div>
-
     <div class="col-6">
-
       <div class="row marT15 marL20">
         <div class="col-4">
-        <bf-checkbox  bfLabel="Disabled" [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()"></bf-checkbox>
-        <!--Classes-->
-        <bf-checkbox [(ngModel)]="compConf.isClassBlock" (ngModelChange)="upComp()" bfLabel="Block"></bf-checkbox>
+        <!--Disabled-->
+        <bf-checkbox  class="block" bfLabel="Disabled" [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()"></bf-checkbox>
+        <!--Block class-->
+        <bf-checkbox class="block" bfLabel="Display as Block" [(ngModel)]="compConf.isClassBlock" (ngModelChange)="upComp()"></bf-checkbox>
         </div>
+        <!--Labels-->
         <div class="col-6">
           <bf-input bfLabel="bfLabel" [(ngModel)]="compConf.bfLabel" (ngModelChange)="upComp()"></bf-input>
-          <bf-input bfLabel="ngModel" [(ngModel)]="compConf.ngModel" (ngModelChange)="upComp()"></bf-input>
+          <bf-input bfLabel="bfLabelOptionOne" [(ngModel)]="compConf.labelOne" (ngModelChange)="upComp()"></bf-input>
+          <bf-input bfLabel="bfLabelOptionTwo" [(ngModel)]="compConf.labelTwo" (ngModelChange)="upComp()"></bf-input>
         </div>
       </div>
-
     </div>
-
   </div>
 </div>
 
@@ -52,8 +53,10 @@
     <bf-dual-checkbox
       class="col-2"
       [bfLabel]="label"
+
       [(ngModel)]="value">
     </bf-dual-checkbox>
+    {{value | json}}
     <div class="col-3">
       <label>ngModel returned value:</label>
       <br />
@@ -64,6 +67,7 @@
 
 <div class="row">
   <div class="col-12"><hr></div>
+  <h5 class="col-12 marB25">Html structure:</h5>
   <div class="col-7">
     <p>The bf-dual-checkbox html structure:</p>
     <pre>{{ dualCheckboxHtmlStructure }}</pre>
@@ -73,4 +77,22 @@
     <pre>{{ checkboxHtmlStructure }}</pre>
   </div>
 </div>
-<p>The idea behind dual check box is to implement existing bf checkbox component and combine it to work as yes/no dual checkbox. Both options can never be unselected, at least one or both need to be checked.</p>
+<p>The idea behind dual check box is to implement existing bf checkbox component and combine it to work as undefined/true/false dual checkbox. Both options can never be unselected, at least one or both need to be checked.</p>
+
+<!--Applicable classes -->
+<div class="row">
+  <div class="col-12">
+    <hr>
+    <h5 class="mt-4">Applicable classes:</h5>
+    <p>By default checkboxes are inline elements (displayed one next to another). You can easily turn then to block
+      elements by applying class "<span class="bold">block</span>":
+    </p>
+  </div>
+  <div class="col-6">
+    <pre class="marT10">{{ blockExample }}</pre>
+  </div>
+  <div class="col-3 d-flex">
+    <bf-dual-checkbox class="flex-grow-1" bfLabel="Inline Dual Checkbox"></bf-dual-checkbox>
+    <bf-dual-checkbox class="block" bfLabel="Block Dual Checkbox"></bf-dual-checkbox>
+  </div>
+</div>

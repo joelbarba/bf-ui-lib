@@ -1,7 +1,5 @@
 import {Component, OnInit, Input, forwardRef, OnChanges} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, } from '@angular/forms';
-import {BfUILibTransService} from '../abstract-translate.service';
-import {of} from 'rxjs';
 
 @Component({
   selector: 'bf-dual-checkbox',
@@ -21,26 +19,26 @@ export class BfDualCheckboxComponent implements ControlValueAccessor, OnInit, On
     no: true
   };
   @Input() bfLabel = '';
+  @Input() bfLabelOptionOne = 'view.common.yes';
+  @Input() bfLabelOptionTwo = 'view.common.no';
   @Input() bfDisabled = false;
-  @Input() className = false;
 
-  public bfLabelText$ = of('');     // Translated text for the label
-
-  constructor(private translate: BfUILibTransService) { }
+  constructor() { }
 
   ngOnInit() {}
 
-  ngOnChanges(change) {
-    if (change.hasOwnProperty('bfLabel'))   { this.bfLabelText$ = this.translate.getLabel$(this.bfLabel);  }
-  }
+  ngOnChanges() {}
 
   // ------- ControlValueAccessor -----
-  writeValue() {
-    this.checkboxes = {
-      yes: true,
-      no: true,
-    };
+  writeValue(value: any) {
+    if (!!value) {
+      this.checkboxes = { yes: true, no: false };
+    }
+    if (value === false) {
+      this.checkboxes = { yes: false, no: true };
+    }
   }
+
   public propagateModelUp = (value: boolean) => {}; // This is just to avoid type error (it's overwritten on register)
   registerOnChange(fn) { this.propagateModelUp = fn; }
   registerOnTouched(fn) { }

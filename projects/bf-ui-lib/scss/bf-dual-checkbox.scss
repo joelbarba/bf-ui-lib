@@ -1,0 +1,7 @@
+bf-dual-checkbox {
+  &.block bf-checkbox { display: block; }
+
+  &.block bf-checkbox:not(.block) + bf-checkbox:not(.block) {
+    margin-left: 0;
+  }
+}
