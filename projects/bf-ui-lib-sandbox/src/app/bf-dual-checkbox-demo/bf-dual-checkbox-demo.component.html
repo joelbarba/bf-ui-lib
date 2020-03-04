@@ -20,6 +20,14 @@
           [bfDisabled]="compConf.isDisabled">
         </bf-dual-checkbox>
       </div>
+      <div class="padB25">
+        <span class="padH15">
+          ngModel = {{compConf.ngModelValue | json}} <span *ngIf="compConf.ngModelValue === undefined">undefined</span>
+        </span>
+        <bf-btn bfType="save" bfText="Turn it true"      (bfClick)="compConf.ngModelValue = true"></bf-btn>
+        <bf-btn bfType="save" bfText="Turn it false"     (bfClick)="compConf.ngModelValue = false"></bf-btn>
+        <bf-btn bfType="save" bfText="Turn it undefined" (bfClick)="compConf.ngModelValue = undefined"></bf-btn>
+      </div>
       <div>
         <div class="code-box pad15">
           <pre>{{customCompCode}}</pre>
