@@ -44,8 +44,9 @@ export class BfDualCheckboxComponent implements ControlValueAccessor, OnInit, On
   registerOnTouched(fn) { }
 
   onChange(field: 'yes' | 'no') {
-      if (this.checkboxes.yes === false && this.checkboxes.no === false) {
-        this.checkboxes = field === 'yes' ? {yes: this.checkboxes.yes, no: !this.checkboxes.no} : {yes: !this.checkboxes.yes, no: this.checkboxes.no};
+      if (!this.checkboxes.yes && !this.checkboxes.no) {
+        if (field === 'yes') { this.checkboxes.no = true; }
+        if (field === 'no') { this.checkboxes.yes = true; }
       }
       this.propagateModelUp(this.checkboxes.yes === this.checkboxes.no ? undefined : this.checkboxes.yes);
   }
