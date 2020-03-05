@@ -37,6 +37,9 @@ export class BfDualCheckboxComponent implements ControlValueAccessor, OnInit, On
     if (value === false) {
       this.checkboxes = { yes: false, no: true };
     }
+    if (value === undefined) {
+      this.checkboxes = { yes: true, no: true };
+    }
   }
 
   public propagateModelUp = (value: boolean) => {}; // This is just to avoid type error (it's overwritten on register)
