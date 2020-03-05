@@ -3,7 +3,7 @@
      [class.is-required]="bfRequired"
      [class.is-disabled]="bfDisabled"
      [class.is-focus]="isFocus || isExpanded"
-     [class.is-error]="isInvalid && !ngControl.pristine">
+     [class.is-error]="isInvalid && (!ngControl.pristine || bfErrorOnPristine)">
 
   <bf-label *ngIf="!!bfLabel"
             [bfText]="bfLabel"
@@ -20,21 +20,23 @@
          [ngbTooltip]="bfDisabledTipTrans$ | async">
 
       <input type="text" class="form-control" #autocompleteInput
-             [(ngModel)]="textInput" (ngModelChange)="typing(textInput)"
-             [placeholder]="bfPlaceholder"
+             [(ngModel)]="ngModel" (ngModelChange)="typing(ngModel)"
+             [placeholder]="bfPlaceholderTrans$ | async"
              [disabled]="bfDisabled"
-             (focusin)="expand()">
+             (focusin)="expand()"
+             (blur)="updateModel(ngModel)"
+             autocomplete="nofill">
 
 
       <div class="input-group-append">
-        <button [hidden]="textInput.length > 0 && isExpanded"
+        <button [hidden]="(!!ngModel && ngModel.length > 0) && isExpanded"
                 class="btn btn-outline-secondary"
                 [disabled]="bfDisabled"
                 (click)="!bfDisabled && toggle()"
         >
           <span class="icon-search"></span>
         </button>
-        <button [hidden]="textInput.length === 0 || !isExpanded"
+        <button [hidden]="(!ngModel || ngModel.length === 0) || !isExpanded"
                 class="btn btn-outline-secondary"
                 (click)="reset()">
           <span class="icon-cross3"></span>
@@ -43,14 +45,14 @@
 
     </div>
 
-    <div class="list-container">
-      <div *ngFor="let item of list" class="option-row"
-           [class.selected]="bfModel === item"
+    <div class="list-container" #listContainer>
+      <div *ngFor="let item of list" class="option-row {{item}}"
+           [class.selected]="ngModel === item"
            (mousedown)="select(item)">
         <span>{{item}}</span>
       </div>
       <div *ngIf="!!list && !list.length" class="option-row">
-        No result
+        {{bfEmptyTextTrans$ | async}}
       </div>
     </div>
   </div>

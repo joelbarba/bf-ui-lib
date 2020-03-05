@@ -116,20 +116,21 @@
 <div class="col-12 examples-table">
 
   <div class="row">
-    <div class="col-4">
+    <div class="col-3">
       <bf-autocomplete [(ngModel)]="selectedEmail"
                        (ngModelChange)="onSelectEmail(selectedEmail)"
                        [bfList]="emailList"
                        bfValidType="email"
-                       bfLabel="Select/type a contact email"
-                       bfPlaceholder="Select/type a contact email"
+                       bfLabel="Select/Type email"
+                       bfPlaceholder="Select/Type email"
       ></bf-autocomplete>
-    </div>
-    <div class="col-4">
-      ngModel: {{unmapUser(selectedEmail) | json}}
+      <span>ngModel: <bf-input [(ngModel)]="selectedEmail"></bf-input></span>
     </div>
     <div class="col-4">
       <pre>{{instance}}</pre>
+    </div>
+    <div class="col-5 code-box">
+      <pre>{{mapUnmapExample}}</pre>
     </div>
   </div>
 

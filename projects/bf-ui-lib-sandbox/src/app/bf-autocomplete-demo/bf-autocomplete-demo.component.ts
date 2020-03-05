@@ -86,6 +86,20 @@ export class BfAutocompleteDemoComponent implements OnInit {
     { id: 24, username: 'sheepstealer', email: 'sheepstealer@targaryen.com', first_name: 'Sheepstealer', last_name: 'Targaryen', icon: 'icon-link',          img: 'assets/language-flags/de.png' },
   ];
 
+  mapUnmapExample;
+  mapUnmapExampleUpdate(item?) { return `How to get the original object from the ngModel?
+
+  mapUserList() {
+    this.emailList = this.userList
+    .map(item => (\`${item.username} <${item.email}>\`));
+  }
+
+  unmapUser(value) {
+    const user = this.userList
+    .find(item => value === \`${item.username} <${item.email}>\`);
+    return !!user ? user : value;
+  }`; }
+
   upComp() {
     const brStr = `\n`;
     const bsStr = `\n             `;
@@ -118,15 +132,12 @@ export class BfAutocompleteDemoComponent implements OnInit {
 
   mapUserList() {
     this.emailList = this.userList.map(item => (`${item.username} <${item.email}>`));
+    this.mapUnmapExample = this.mapUnmapExampleUpdate({ username: '${item.username}', email: '${item.email}'});
   }
 
-  unmapUser(value) {
+  unmapUser(value?) {
     const user = this.userList.find(item => value === `${item.username} <${item.email}>`);
-    if (user) {
-      return user;
-    } else {
-      return value;
-    }
+    return !!user ? user : value;
   }
 
   onSelectEmail(value) {
@@ -158,10 +169,12 @@ $disabled_input_color : $disabled-color;
   ...
 }`,
   instance: `<bf-autocomplete
-    [(ngModel)]="selectedEmail"
-    [bfList]="emailList"
-    bfLabel="Select/type a contact"
-    bfPlaceholder="Select/type a contact"
+ [(ngModel)]="selectedEmail"
+ (ngModelChange)="onSelectEmail(selectedEmail)"
+ [bfList]="emailList"
+ bfValidType="email"
+ bfLabel="Select/Type email"
+ bfPlaceholder="Select/Type email"
 ></bf-autocomplete>`,
   demoComp: BfAutocompleteDemoComponent
 };
