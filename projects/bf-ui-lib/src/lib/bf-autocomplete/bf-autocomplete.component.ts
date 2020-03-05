@@ -153,8 +153,6 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
     // console.log('writeValue -> ', value);
     const wasPristine = (!!this.ngControl && this.ngControl.pristine);
 
-    // this.matchSelection(value);
-
     // External changes shan't turn pristine state (only internals). Set it back if so
     if (wasPristine) { this.ngControl.markAsPristine(); }
   }
@@ -174,7 +172,7 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
       if (!!this.ngModel) {
         if (!!this.bfPattern) {
           if (!new RegExp(this.bfPattern).test(this.ngModel)) {
-            return { value: 'Expected value type: ' + this.bfValidType }; // Mistype value
+            return { value: 'Expected value type: ' + (this.bfValidType ? this.bfValidType : this.bfPattern) }; // Mistype value
           }
         }
       } else {
@@ -199,9 +197,7 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   // On input focus out -> Collapse the select list
   collapse() {
     this.isFocus = false;
-    setTimeout(() => {
-      this.isExpanded = false;
-    }, 100);
+    this.isExpanded = false;
   }
 
   // React on key events (on the input)
