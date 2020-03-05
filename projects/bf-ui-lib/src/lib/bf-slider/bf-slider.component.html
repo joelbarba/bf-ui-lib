@@ -4,17 +4,8 @@
             [bfTooltipPos]="bfTooltipPos">
   </bf-label>
 </div>
-<ng5-slider *ngIf="!isHighValue"
-            [(value)]="bfModel"
+<ng5-slider [(value)]="bfModel"
             [options]="sliderOptions"
             (valueChange)="onChange()">
-</ng5-slider>
-<ng5-slider *ngIf="isHighValue"
-            [class.showOuterSelection]="bfShowOuterSection"
-            [(value)]="bfModel"
-            [(highValue)]="highValue"
-            [options]="sliderOptions"
-            (valueChange)="onChange()"
-            (highValueChange)="onChange()">
 </ng5-slider>
 

@@ -19,7 +19,7 @@ export class BfSliderDemoComponent implements OnInit {
 
 
   public cssReset = `$slider_bg           : $white !default;
-$slider_color_default: #d8e0f3;
+$slider_color_default: $slider_grey !default;
 $slider_color_primary: $primary_color !default;`;
 
   public slider1 = 50;
@@ -33,7 +33,6 @@ $slider_color_primary: $primary_color !default;`;
 }`;
 
   public slider2;
-  public slider2High = 70;
   public slider2Options = { start: 20, end: 120, showTicks: true, showTicksValues: true, tickStep: 10, tickValueStep: 20 };
   public instance2Obj = `valueOptions = { 
   start: 10, 
@@ -68,10 +67,10 @@ $slider_color_primary: $primary_color !default;`;
 }`;
   public instance4 = `<bf-slider [(ngModel)]="value"
            [bfOptions]="valueOptions"
-           [bfTranslate]="translateFunc">
+           [bfCustomSliderLabel]="translateFunc">
 </bf-slider>`;
 
-  public slider5 = 80;
+  /*public slider5 = 80;
   public slider5High = 180;
   public slider5Options = { start: 60, end: 300, showTicks: true, tickArray: [60, 120, 180, 240, 300], showTicksValues: true };
   public instance5Obj = `translateFunc(value: number, label: LabelType) {
@@ -88,11 +87,11 @@ $slider_color_primary: $primary_color !default;`;
            [(bfHighValue)]="valueHigh"
            [bfOptions]="valueOptions"
            [bfTranslate]="translateFunc">
-</bf-slider>`;
+</bf-slider>`;*/
 
 
   public valueSlider = 50;
-  public valueSliderHigh = 100;
+  // public valueSliderHigh = 100;
   public sliderOptions: any = {
     start: 0,
     end: 150
@@ -104,8 +103,8 @@ $slider_color_primary: $primary_color !default;`;
   public bsStr = `\n           `;
   public customCompCode = `<bf-slider [(ngModel)]="selObj" [bfList]="myList"></bf-slider>`;
   public compConf: any = {
-    addSecondValue: false,
-    showOuterSection: false,
+    // addSecondValue: false,
+    // showOuterSection: false,
     isRequired: false,
     isDisabled: false,
     rows: null,
@@ -117,11 +116,11 @@ $slider_color_primary: $primary_color !default;`;
     this.customCompCode = `<bf-slider `;
 
     this.customCompCode += `[(ngModel)]="myVal"`;
-    if (this.compConf.addSecondValue) { this.customCompCode += this.bsStr + `[(bfHighValue)]="mySecondVal"`; }
+    // if (this.compConf.addSecondValue) { this.customCompCode += this.bsStr + `[(bfHighValue)]="mySecondVal"`; }
 
     this.customCompCode += this.bsStr + `[bfOptions]="sliderOptions"`;
 
-    if (this.compConf.showOuterSection) { this.customCompCode += this.bsStr + `[bfShowOuterSection]="true"`; }
+    // if (this.compConf.showOuterSection) { this.customCompCode += this.bsStr + `[bfShowOuterSection]="true"`; }
     if (this.compConf.isRequired) { this.customCompCode += this.bsStr + `[bfRequired]="true"`; }
     if (this.compConf.isDisabled) { this.customCompCode += this.bsStr + `[bfDisabled]="true"`; }
 
@@ -164,7 +163,6 @@ export const BfSliderDoc = {
   uiType  : 'component',
   desc    : `Generates a slider component`,
   api     : `[(ngModel)]         : The ngModel directive is linked as value on the Slider
-[bfHighValue]        : Second value which will display a Range
 [bfOptions]          : The Config options for the Slider: 
                        {
                          start        : Initial range
@@ -176,8 +174,7 @@ export const BfSliderDoc = {
                          tickArray    : (Optional) Array - Set specific steps to be ticked
                          tickValueStep: (Optional) Number - Set the steps to show the value
                        }
-[bfTranslate]        : [method] = (value: number, label LabelType: LabelType): string => return (The label to be shown as a label on the range)
-[bfShowOuterSection] : Only for range slider. Set to true to visualize in different colour the areas on the left/right of selection bar between the handles
+[bfCustomSliderLabel]: [method] = (value: number, label LabelType: LabelType): string => return (The label to be shown as a label on the range)
 [bfDisabled]         : Whether the slider is disabled or not
              
 [bfLabel]            : Label of the input (automatically translated). If not provided, no label is displayed.

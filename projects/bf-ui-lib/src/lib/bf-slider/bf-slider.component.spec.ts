@@ -49,8 +49,7 @@ describe('BfSliderComponent', () => {
       showTicksValues: true,
       tickStep: 10,
       tickValueStep: 5,
-      ticksArray: null,
-      showOuterSelectionBars: false
+      ticksArray: null
     });
   });
 
@@ -74,18 +73,5 @@ describe('BfSliderComponent', () => {
       bfDisabled: { currentValue: true }
     });
     expect(component.sliderOptions.disabled).toBe(true);
-  });
-
-  it('Should Show outer Selection', () => {
-    component.bfHighValue = 120;
-    component.bfShowOuterSection = true;
-    component.ngOnInit();
-    expect(component.sliderOptions.showOuterSelectionBars).toBe(true);
-  });
-
-  it('Should update bfHighValue', () => {
-    component.highValue = 70;
-    component.onChange();
-    expect(component.bfHighValue).toBe(70);
   });
 });
