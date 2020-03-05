@@ -156,18 +156,24 @@ export const BfAutocompleteDoc = {
   name    : `bf-autocomplete`,
   uiType  : 'component',
   desc    : `Generates a ....`,
-  api     : `[(ngModel)]:
-[bfList]: Array<string> the list of options to display`,
-  cssReset: `$optional_input_color : $optional-color;
-$focused_input_color  : $focused-color;
-$required_input_color : $primary_color;
-$invalid_input_color  : $invalid-color;
-$valid_input_color    : $primary_color;
-$disabled_input_color : $disabled-color;
-
-.bf-autocomplete-form-group {
-  ...
-}`,
+  api     : `[(ngModel)]: Where the selected string of the list is held
+[bfList]: The list of the options (array of string)
+[bfRequired]: Whether the input is required or not
+[bfDisabled]: Disable the input
+[bfDisabledTip]: If autocomplete is disabled, tooltip to display on hover (label)
+[bfLabel]: If present it adds a label above the input
+[bfPlaceholder]: The placeholder of the input field
+[bfTooltip]: Add a badge next to the label with the tooltip to give more info
+[bfTooltipPos]: If tooltip on the label, specific position (top by default)
+[bfTooltipBody]: If tooltip on the label, whether it is appended on the body
+[bfEmptyText]: When no suggestion are matched display a text (default: 'No results found')
+[bfValidType]: Sets a default pattern: 'integer' | 'number' | 'decimal' | 'email'
+[bfPattern]: custom BfPattern
+[bfErrorOnPristine]: If true, validate on pristine`,
+  cssReset: `The scss variables are the same used for the BfDropdown because they must be aligned:
+$dropdown-selection-bg: $quaternary_color !default;
+$dropdown-selection-hover: $primary_color !default;
+$dropdown-valid-color: $valid-color !default;`,
   instance: `<bf-autocomplete
  [(ngModel)]="selectedEmail"
  (ngModelChange)="onSelectEmail(selectedEmail)"

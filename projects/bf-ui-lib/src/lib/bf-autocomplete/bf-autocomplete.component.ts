@@ -8,25 +8,35 @@ import { BfUILibTransService } from '../abstract-translate.service';
  *  ATTRIBUTES
 
  * |--------|---------------------|------------------------------------------------------------------------------------|
- * | =      | *ngModel            | Where the selected object of the list is held                                      |
+ * | =      | *ngModel            | Where the selected string of the list is held                                      |
  * |--------|---------------------|------------------------------------------------------------------------------------|
- * | =      | *bfList             | The list of the options (array of object)                                          |
+ * | =      | *bfList             | The list of the options (array of string)                                          |
  * |--------|---------------------|------------------------------------------------------------------------------------|
  * | @      | bfRequired          | Whether the input is required or not                                               |
  * |--------|---------------------|------------------------------------------------------------------------------------|
  * | =      | bfDisabled          | Disable the input                                                                  |
  * |--------|---------------------|------------------------------------------------------------------------------------|
+ * | =      | bfDisabledTip       | If autocomplete is disabled, tooltip to display on hover (label)                   |
+ * |--------|---------------------|------------------------------------------------------------------------------------|
  * | @      | bfLabel             | If present it adds a label above the input                                         |
  * |--------|---------------------|------------------------------------------------------------------------------------|
  * | @      | bfPlaceholder       | The placeholder of the input field                                                 |
  * |--------|---------------------|------------------------------------------------------------------------------------|
- * | &      | afterInit           | Callback - called when the list is prepared, you receive the prepared list as      |
- * |        |                     | paramater                                                                          |
- * |        |                     |                                                                                    |
- * |        |                     | Params                                                                             |
- * |        |                     | - $itemList                                                                        |
+ * | @      | bfTooltip           | Add a badge next to the label with the tooltip to give more info                   |
  * |--------|---------------------|------------------------------------------------------------------------------------|
-
+ * | @      | bfTooltipPos        | If tooltip on the label, specific position (top by default)                        |
+ * |--------|---------------------|------------------------------------------------------------------------------------|
+ * | @      | bfTooltipBody       | If tooltip on the label, whether it is appended on the body                        |
+ * |--------|---------------------|------------------------------------------------------------------------------------|
+ * | @      | bfEmptyText         | When no suggestion are matched display a text (default: 'No results found')        |
+ * |--------|---------------------|------------------------------------------------------------------------------------|
+ * | @      | bfValidType         | Sets a default pattern: 'integer' | 'number' | 'decimal' | 'email'                 |
+ * |--------|---------------------|------------------------------------------------------------------------------------|
+ * | @      | bfPattern           | Custom BfPattern                                                                   |
+ * |--------|---------------------|------------------------------------------------------------------------------------|
+ * | @      | bfErrorOnPristine   | If true, validate on pristine                                                      |
+ * |--------|---------------------|------------------------------------------------------------------------------------|
+ *
  *****/
 
 @Component({
