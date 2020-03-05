@@ -69,7 +69,7 @@ export class BfDualCheckboxDemoComponent implements OnInit {
 
     if (this.compConf.bfLabel) { this.customCompCode += `[bfLabel]="${this.compConf.bfLabel}"`; }
 
-    if (this.compConf.isDisabled) { this.customCompCode += this.bsStr + `[isDisabled]="true"`; }
+    if (this.compConf.isDisabled) { this.customCompCode += this.bsStr + `[bfDisabled]="true"`; }
 
     if (this.compConf.labelOne) { this.customCompCode += this.bsStr + `[bfLabelOptionOne]="${this.compConf.labelOne}"`; }
 
