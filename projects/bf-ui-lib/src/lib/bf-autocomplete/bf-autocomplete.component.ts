@@ -74,6 +74,7 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   ngControl;  // Reference to the external formControl
 
   list;
+  navigatedItem; // Retain the navigated item
   isInvalid = false;   // If the model holds an invalid option
   isExpanded = false;  // Whether the list is shown (true) or hidden
   isFocus = false;     // Whether the input is focused
@@ -115,7 +116,7 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
     // Generate new observables for the dynamic text
     if (changes.hasOwnProperty('bfDisabledTip'))  { this.bfDisabledTipTrans$ = this.translate.getLabel$(this.bfDisabledTip); }
-    if (changes.hasOwnProperty('bfPlaceholder'))  { this.bfPlaceholderTrans$ = this.translate.getLabel$(this.bfPlaceholder); }
+    if (changes.hasOwnProperty('bfPlaceholder'))  { this.updatePlaceholder(); }
     this.bfEmptyTextTrans$ = this.translate.getLabel$(this.bfEmptyText);
 
 
@@ -150,7 +151,6 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   // ControlValueAccessor --> writes a new value from the form model into the view
   writeValue(value: any) {
-    // console.log('writeValue -> ', value);
     const wasPristine = (!!this.ngControl && this.ngControl.pristine);
 
     // External changes shan't turn pristine state (only internals). Set it back if so
@@ -165,7 +165,6 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   // NG_VALIDATORS provider triggers this validation
   // Validation to determine the outer formControl state. It propagates upward the internal state
   validate(extFormCtrl: FormControl) {
-    // console.log('validate', new Date());
     this.ngControl = extFormCtrl; // Save the reference to the external form Control
 
     if (this.isInvalid) {
@@ -203,7 +202,7 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   // React on key events (on the input)
   triggerKey(event) {
     const visibleList = this.list;
-    const ind = visibleList.indexOf(this.ngModel);
+    const ind = visibleList.indexOf(this.navigatedItem);
     const elementHeight = this.listContainer.nativeElement.children[0].clientHeight;
 
     const scrollToIndex = (index) => {
@@ -215,37 +214,52 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
         ArrowUp: (ind > 0) ? ind - 1 : visibleList.length - 1,
         ArrowDown: (ind >= 0 && ind < visibleList.length - 1) ? ind + 1 : 0
       }[event.key];
-      this.ngModel = visibleList[nextIndex];
+      this.navigatedItem = visibleList[nextIndex];
+      this.updatePlaceholder(this.navigatedItem);
       scrollToIndex(nextIndex);
     };
 
-    const blur = () => {
+    const confirm = () => {
+      if (this.navigatedItem) {
+        this.ngModel = this.navigatedItem;
+      }
+      this.autocompleteInput.nativeElement.blur();
+      this.collapse();
+    };
+
+    const collapse = () => {
+      this.navigatedItem = '';
       this.autocompleteInput.nativeElement.blur();
       this.collapse();
     };
 
     const keyFunctions = {
-      Tab: blur,
-      Escape: blur,
+      Tab: collapse,
+      Escape: collapse,
       ArrowDown: navigate,
       ArrowUp: navigate,
-      Enter: blur
+      Enter: confirm
     };
 
     if (keyFunctions[event.key]) { keyFunctions[event.key](); }
   }
 
-  typing = (value) => {
+  updatePlaceholder(value?: string) {
+    const newPlaceholder = value ? value : this.bfPlaceholder;
+    this.bfPlaceholderTrans$ = this.translate.getLabel$(newPlaceholder);
+  }
+
+  typing(value) {
     this.updateModel(value);
     this.filter();
     this.expand();
-  };
+  }
 
-  select = (value) => {
+  select(value) {
     this.updateModel(value);
     this.collapse();
     this.filter();
-  };
+  }
 
   reset() {
     this.updateModel('');
@@ -289,8 +303,14 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
     return this.setValidity(true);
   }
 
+  isHighlighted(value) {
+    return (!!this.ngModel && this.ngModel === value) || (!!this.navigatedItem && this.navigatedItem === value);
+  }
+
   // Select an item from extList to bfModel, and propagate ngModel up
   updateModel(value) {
+    this.navigatedItem = '';
+    this.updatePlaceholder();
     this.propagateModelUp(value);
   }
 }
