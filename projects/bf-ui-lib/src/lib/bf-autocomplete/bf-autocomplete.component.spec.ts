@@ -5,6 +5,7 @@ import { BfLabelComponent } from '../bf-label/bf-label.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TestingModule } from '../../testing/testing-module';
 import { FormControl, FormsModule } from '@angular/forms';
+import { Patterns } from "../patterns";
 
 describe('BfAutocompleteComponent', () => {
   let component: BfAutocompleteComponent;
@@ -40,26 +41,26 @@ describe('BfAutocompleteComponent', () => {
     it('should set the pattern integer', () => {
       component.bfValidType = 'integer';
       component.setPattern();
-      expect(component.bfPattern).toBe('^[0-9]{1,5}$');
+      expect(component.bfPattern).toBe(Patterns.integer);
     });
 
     it('should set the pattern number', () => {
       component.bfValidType = 'number';
       component.setPattern();
-      expect(component.bfPattern).toBe('^-?[0-9]{1,8}$');
+      expect(component.bfPattern).toBe(Patterns.number);
     });
 
     it('should set the pattern decimal', () => {
       component.bfValidType = 'decimal';
       component.setPattern();
-      expect(component.bfPattern).toBe('^-?[0-9]+(\\.[0-9]+)?$');
+      expect(component.bfPattern).toBe(Patterns.decimal);
     });
 
     it('should set the pattern email', () => {
       component.bfValidType = 'email';
       component.setPattern();
       expect(component.bfPattern)
-        .toBe('^[a-zA-Z0-9.!#$%&\'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$');
+        .toBe(Patterns.email);
     });
   });
 
@@ -130,7 +131,7 @@ describe('BfAutocompleteComponent', () => {
     });
   });
 
-  describe('triggerKey', () => {
+  describe('navigate', () => {
     beforeEach(() => {
       component.list = ['a', 'b', 'c', 'd'];
       component.ngModel = 'c';
@@ -138,14 +139,14 @@ describe('BfAutocompleteComponent', () => {
       component.listContainer = {nativeElement: {children: [{clientHeight: 30}]}};
     });
 
-    it('should scroll the list down', () => {
-      component.triggerKey({key: 'ArrowDown'});
-      expect(component.ngModel).toBe('d');
+    it('should navigate upward', () => {
+      component.navigate(2, component.list, 'ArrowUp');
+      expect(component.navigatedItem).toBe('b');
     });
 
-    it('should scroll the list down', () => {
-      component.triggerKey({key: 'ArrowUp'});
-      expect(component.ngModel).toBe('b');
+    it('should navigate downward', () => {
+      component.navigate(2, component.list, 'ArrowDown');
+      expect(component.navigatedItem).toBe('d');
     });
   });
 

@@ -2,6 +2,7 @@ import { Component, ElementRef, forwardRef, HostListener, Input, OnChanges, OnIn
 import { ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { from, Observable, of } from 'rxjs';
 import { BfUILibTransService } from '../abstract-translate.service';
+import { Patterns } from '../patterns';
 
 
 /****
@@ -56,8 +57,8 @@ import { BfUILibTransService } from '../abstract-translate.service';
 export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, OnChanges {
   @Input() ngModel;
   @Input() bfList: Array<string>;    // List of options (array of strings)
-  @Input() bfRequired: unknown = false; // Whether the model is required (can't be empty)
-  @Input() bfDisabled: unknown = false; // Whether the autocomplete is disabled
+  @Input() bfRequired = false; // Whether the model is required (can't be empty)
+  @Input() bfDisabled = false; // Whether the autocomplete is disabled
   @Input() bfDisabledTip = '';    // If autocomplete is disabled, tooltip to display on hover (label)
   @Input() bfPlaceholder = '';    // Text to display in as placeholder
   @Input() bfLabel = '';          // Label to display above the dropdown
@@ -100,30 +101,17 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   ngOnChanges(changes) {
-    // If values come as strings, convert them
-    if (changes.hasOwnProperty('bfDisabled')) {
-      if (this.bfDisabled === 'false') { this.bfDisabled = false; }
-      if (this.bfDisabled === 'true')  { this.bfDisabled = true; }
-    }
-
-    // If values come as strings, convert them
-    if (changes.hasOwnProperty('bfRequired')) {
-      if (this.bfRequired === 'false') { this.bfRequired = false; }
-      if (this.bfRequired === 'true')  { this.bfRequired = true; }
-    }
-
-    if (changes.hasOwnProperty('bfValidType')) { this.setPattern(); }
-
-    // Generate new observables for the dynamic text
-    if (changes.hasOwnProperty('bfDisabledTip'))  { this.bfDisabledTipTrans$ = this.translate.getLabel$(this.bfDisabledTip); }
-    if (changes.hasOwnProperty('bfPlaceholder'))  { this.updatePlaceholder(); }
-    this.bfEmptyTextTrans$ = this.translate.getLabel$(this.bfEmptyText);
-
-
-    if (changes.hasOwnProperty('bfList')) { this.initList(); }
     if (changes.hasOwnProperty('ngModel')) {
       if (this.checkValidity(changes.ngModel.currentValue)) { this.bfErrorOnPristine = true; }
     }
+    if (changes.hasOwnProperty('bfList')) { this.initList(); }
+    if (changes.hasOwnProperty('bfRequired')) { this.checkValidity(this.ngModel); }
+    if (changes.hasOwnProperty('bfValidType')) { this.setPattern(); }
+    if (changes.hasOwnProperty('bfDisabledTip'))  {
+      this.bfDisabledTipTrans$ = this.translate.getLabel$(this.bfDisabledTip);
+    }
+    if (changes.hasOwnProperty('bfPlaceholder'))  { this.setPlaceholder(); }
+    this.bfEmptyTextTrans$ = this.translate.getLabel$(this.bfEmptyText);
 
     this.filter();
   }
@@ -138,14 +126,130 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   setPattern() {
     if (this.bfValidType) {
-      this.bfPattern = {
-        integer: '^[0-9]{1,5}$',
-        number: '^-?[0-9]{1,8}$',
-        decimal: '^-?[0-9]+(\\.[0-9]+)?$',
-        email: '^[a-zA-Z0-9.!#$%&\'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$'
-      }[this.bfValidType];
+      this.bfPattern = Patterns[this.bfValidType];
     }
   }
+
+  toggle() {
+      this.isExpanded ? this.collapse() : this.expand();
+  }
+
+  // On input focus in -> Expand the select list
+  expand() {
+    this.isExpanded = true;
+    this.focus();
+  }
+
+  // On input focus out -> Collapse the select list
+  collapse() {
+    this.isFocus = false;
+    this.isExpanded = false;
+    this.navigatedItem = null;
+    this.setPlaceholder(this.navigatedItem);
+  }
+
+  navigate(index, list, key) {
+    const nextIndex = {
+      ArrowUp: (index > 0) ? index - 1 : list.length - 1,
+      ArrowDown: (index >= 0 && index < list.length - 1) ? index + 1 : 0
+    }[key];
+    this.navigatedItem = list[nextIndex];
+    this.setPlaceholder(this.navigatedItem);
+
+    this.listContainer.nativeElement.scrollTop = index * this.listContainer.nativeElement.children[0].clientHeight;
+  }
+
+  confirm() {
+    if (this.navigatedItem) { this.ngModel = this.navigatedItem; }
+    this.autocompleteInput.nativeElement.blur();
+    this.collapse();
+  }
+
+  // React on key events (on the input)
+  triggerKey(event) {
+    const visibleList = this.list;
+    const index = visibleList.indexOf(this.navigatedItem);
+
+    const keyFunctions = {
+      Tab: () => { this.collapse(); },
+      Escape: () => { this.collapse(); },
+      ArrowDown: () => { this.navigate(index, visibleList, event.key); },
+      ArrowUp: () => { this.navigate(index, visibleList, event.key); },
+      Enter: () => { this.confirm(); }
+    };
+
+    if (keyFunctions[event.key]) { keyFunctions[event.key](); }
+  }
+
+  setPlaceholder(value?: string) {
+    const newPlaceholder = value ? value : this.bfPlaceholder;
+    this.bfPlaceholderTrans$ = this.translate.getLabel$(newPlaceholder);
+  }
+
+  typing(value) {
+    this.updateModel(value);
+    this.filter();
+    this.expand();
+  }
+
+  select(value) {
+    this.updateModel(value);
+    this.collapse();
+    this.filter();
+  }
+
+  reset() {
+    this.updateModel('');
+    this.filter();
+    this.expand();
+    this.focus();
+  }
+
+  focus() {
+    this.isFocus = true;
+    this.autocompleteInput.nativeElement.focus();
+  }
+
+  isMatch(value : string) : boolean {
+    return value.toLowerCase().includes(this.ngModel ? this.ngModel.trim().toLowerCase() : '');
+  }
+
+  filter() {
+    this.list = this.bfList.filter(item => this.isMatch(item));
+  }
+
+  // Update isInvalid and propagate the state up
+  setValidity(isValid: boolean) {
+    this.isInvalid = !isValid;
+    if (!!this.ngControl) { this.ngControl.updateValueAndValidity(); }
+    return this.isInvalid;
+  }
+
+  checkValidity(value) {
+    const fromList = this.bfList.find(item => item === value);
+    if (fromList) {
+      return this.setValidity(true);
+    }
+    if (!!this.bfRequired) {
+      if (!value) { return this.setValidity(false); }
+    }
+    if (!!this.bfPattern && !!value) {
+      if (!new RegExp(this.bfPattern).test(value)) { return this.setValidity(false); }
+    }
+    return this.setValidity(true);
+  }
+
+  isHighlighted(value) {
+    return (!!this.ngModel && this.ngModel === value) || (!!this.navigatedItem && this.navigatedItem === value);
+  }
+
+  // Select an item from extList to bfModel, and propagate ngModel up
+  updateModel(value) {
+    this.navigatedItem = null;
+    this.setPlaceholder();
+    this.propagateModelUp(value);
+  }
+
 
   // ------- ControlValueAccessor -----
 
@@ -182,135 +286,4 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   // ------------------------------------
-
-  toggle() {
-      this.isExpanded ? this.collapse() : this.expand();
-  }
-
-  // On input focus in -> Expand the select list
-  expand() {
-    this.isExpanded = true;
-    this.focus();
-  }
-
-  // On input focus out -> Collapse the select list
-  collapse() {
-    this.isFocus = false;
-    this.isExpanded = false;
-  }
-
-  // React on key events (on the input)
-  triggerKey(event) {
-    const visibleList = this.list;
-    const ind = visibleList.indexOf(this.navigatedItem);
-    const elementHeight = this.listContainer.nativeElement.children[0].clientHeight;
-
-    const scrollToIndex = (index) => {
-      this.listContainer.nativeElement.scrollTop = index * elementHeight;
-    };
-
-    const navigate = () => {
-      const nextIndex = {
-        ArrowUp: (ind > 0) ? ind - 1 : visibleList.length - 1,
-        ArrowDown: (ind >= 0 && ind < visibleList.length - 1) ? ind + 1 : 0
-      }[event.key];
-      this.navigatedItem = visibleList[nextIndex];
-      this.updatePlaceholder(this.navigatedItem);
-      scrollToIndex(nextIndex);
-    };
-
-    const confirm = () => {
-      if (this.navigatedItem) {
-        this.ngModel = this.navigatedItem;
-      }
-      this.autocompleteInput.nativeElement.blur();
-      this.collapse();
-    };
-
-    const collapse = () => {
-      this.navigatedItem = '';
-      this.autocompleteInput.nativeElement.blur();
-      this.collapse();
-    };
-
-    const keyFunctions = {
-      Tab: collapse,
-      Escape: collapse,
-      ArrowDown: navigate,
-      ArrowUp: navigate,
-      Enter: confirm
-    };
-
-    if (keyFunctions[event.key]) { keyFunctions[event.key](); }
-  }
-
-  updatePlaceholder(value?: string) {
-    const newPlaceholder = value ? value : this.bfPlaceholder;
-    this.bfPlaceholderTrans$ = this.translate.getLabel$(newPlaceholder);
-  }
-
-  typing(value) {
-    this.updateModel(value);
-    this.filter();
-    this.expand();
-  }
-
-  select(value) {
-    this.updateModel(value);
-    this.collapse();
-    this.filter();
-  }
-
-  reset() {
-    this.updateModel('');
-    this.filter();
-    this.expand();
-    this.focus();
-  }
-
-  focus() {
-    this.isFocus = true;
-    this.autocompleteInput.nativeElement.focus();
-  }
-
-  // Given an external object/value, find and select the match on the internal list
-  isMatch(value : string) : boolean {
-    return value.toLowerCase().includes(this.ngModel ? this.ngModel.trim().toLowerCase() : '');
-  }
-
-  filter() {
-    this.list = this.bfList.filter(item => this.isMatch(item));
-  }
-
-  // Update isInvalid and propagate the state up
-  setValidity(isValid: boolean) {
-    this.isInvalid = !isValid;
-    if (!!this.ngControl) { this.ngControl.updateValueAndValidity(); }
-    return this.isInvalid;
-  }
-
-  checkValidity(value) {
-    const fromList = this.bfList.find(item => item === value);
-    if (fromList) {
-      return this.setValidity(true);
-    }
-    if (!!this.bfRequired) {
-      if (!value) { return this.setValidity(false); }
-    }
-    if (!!this.bfPattern && !!value) {
-      if (!new RegExp(this.bfPattern).test(value)) { return this.setValidity(false); }
-    }
-    return this.setValidity(true);
-  }
-
-  isHighlighted(value) {
-    return (!!this.ngModel && this.ngModel === value) || (!!this.navigatedItem && this.navigatedItem === value);
-  }
-
-  // Select an item from extList to bfModel, and propagate ngModel up
-  updateModel(value) {
-    this.navigatedItem = '';
-    this.updatePlaceholder();
-    this.propagateModelUp(value);
-  }
 }

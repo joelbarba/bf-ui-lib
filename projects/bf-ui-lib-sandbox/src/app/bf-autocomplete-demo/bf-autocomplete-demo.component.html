@@ -61,20 +61,9 @@
         </div>
       </div>
 
-      <div class="row marT15">
-        <div class="col-2 padT5">
-          <bf-checkbox [(ngModel)]="compConf.hasPlaceholder" (ngModelChange)="upComp()"
-                       bfLabel="Has Placeholder"></bf-checkbox>
-        </div>
-        <div class="col-10">
-          <bf-input [(ngModel)]="compConf.placeholderText" (ngModelChange)="upComp()"
-                    [bfDisabled]="!compConf.hasPlaceholder"></bf-input>
-        </div>
-      </div>
-
       <div class="row marT10">
         <div class="col-2 padT5">
-          <bf-checkbox [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox>
+          <bf-checkbox [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()" bfLabel="Has Tooltip" [bfDisabled]="!compConf.hasLabel"></bf-checkbox>
         </div>
         <div class="col-10" *ngIf="compConf.hasTooltip">
           <bf-input [(ngModel)]="compConf.tooltipText" (ngModelChange)="upComp()"></bf-input>
@@ -91,6 +80,17 @@
           <bf-dropdown [(ngModel)]="compConf.tooltipBody" (ngModelChange)="upComp()"
                        [bfList]="[{ id: 'true', text: 'true' }, { id: 'false', text: 'false' }]" bfRender="text"
                        bfSelect="id"></bf-dropdown>
+        </div>
+      </div>
+
+      <div class="row marT15">
+        <div class="col-2 padT5">
+          <bf-checkbox [(ngModel)]="compConf.hasPlaceholder" (ngModelChange)="upComp()"
+                       bfLabel="Has Placeholder"></bf-checkbox>
+        </div>
+        <div class="col-10">
+          <bf-input [(ngModel)]="compConf.placeholderText" (ngModelChange)="upComp()"
+                    [bfDisabled]="!compConf.hasPlaceholder"></bf-input>
         </div>
       </div>
 

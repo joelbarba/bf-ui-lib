@@ -6,6 +6,7 @@ import {BfUILibTransService} from '../abstract-translate.service';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of } from 'rxjs';
 import {map} from 'rxjs/operators';
+import { Patterns } from '../patterns';
 
 export interface IbfInputCtrl {
   getControl  ?: { _: FormControl };
@@ -206,18 +207,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
 
 
     // Pre defined ngPatterns
-    if (change.hasOwnProperty('bfValidType'))  {
-      if (this.bfValidType === 'integer') { this.bfPattern = '^[0-9]{1,5}$'; }
-      if (this.bfValidType === 'number')  { this.bfPattern = '^-?[0-9]{1,8}$'; }
-      if (this.bfValidType === 'decimal') { this.bfPattern = '^-?[0-9]+(\\.[0-9]+)?$'; }
-      // if (this.bfValidType === 'email')   { this.bfPattern = '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'; }
-
-      // Email regex from W3C (https://www.w3.org/TR/html5/forms.html#valid-e-mail-address):
-      if (this.bfValidType === 'email')   {
-        // tslint:disable-next-line
-        this.bfPattern = "^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
-      }
-    }
+    if (change.hasOwnProperty('bfValidType'))  { this.setPattern(); }
 
     if (change.hasOwnProperty('bfAutoFocus') && !!this.bfAutoFocus) {
       setTimeout(() => {  // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus
@@ -246,7 +236,6 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
     // Update the model (once ready)
     this.deferRefresh();
   }
-
 
   ngOnInit() {
     // We are using a similar hack than these guys: https://medium.com/@brunn/detecting-autofilled-fields-in-javascript-aed598d25da7
@@ -283,6 +272,12 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
     if (!!this.ctrlSubs) { this.ctrlSubs.unsubscribe(); }
   }
 
+
+  setPattern() {
+    if (this.bfValidType) {
+      this.bfPattern = Patterns[this.bfValidType];
+    }
+  }
 
   // ------- ControlValueAccessor -----
 
