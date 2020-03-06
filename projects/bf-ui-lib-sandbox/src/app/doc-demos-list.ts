@@ -24,6 +24,7 @@ export { BfSwitchDoc } from './bf-switch-demo/bf-switch-demo.component';
 export { BfDropdownDoc } from './bf-dropdown-demo/bf-dropdown-demo.component';
 export { BfInputDoc } from './bf-input-demo/bf-input-demo.component';
 export { BfCheckboxDoc } from './bf-checkbox-demo/bf-checkbox-demo.component';
+export { BfDualCheckboxDoc } from './bf-dual-checkbox-demo/bf-dual-checkbox-demo.component';
 export { BfListPlaceholderDoc } from './bf-list-placeholder-demo/bf-list-placeholder-demo.component';
 export { BfLabelDoc } from './bf-label-demo/bf-label-demo.component';
 export { BfListHeaderColDoc } from './bf-list-header-col-demo/bf-list-header-col-demo.component';
