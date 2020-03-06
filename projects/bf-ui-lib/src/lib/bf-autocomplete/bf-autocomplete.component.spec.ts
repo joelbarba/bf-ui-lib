@@ -29,14 +29,6 @@ describe('BfAutocompleteComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('outsideClick', () => {
-
-  });
-
-  describe('ngOnChanges', () => {
-
-  });
-
   describe('setPattern', () => {
     it('should set the pattern integer', () => {
       component.bfValidType = 'integer';
