@@ -5,7 +5,7 @@ import { BfLabelComponent } from '../bf-label/bf-label.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TestingModule } from '../../testing/testing-module';
 import { FormControl, FormsModule } from '@angular/forms';
-import { Patterns } from "../patterns";
+import { Patterns } from '../patterns';
 
 describe('BfAutocompleteComponent', () => {
   let component: BfAutocompleteComponent;
