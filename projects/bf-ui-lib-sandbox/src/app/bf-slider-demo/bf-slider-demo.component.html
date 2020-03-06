@@ -19,8 +19,8 @@
         <bf-slider [(ngModel)]="valueSlider"
                    [bfOptions]="sliderOptions"
                    [bfLabel]="compConf.hasLabel? compConf.labelText : ''"
-                   [bfTooltip]="compConf.hasTooltip? compConf.tooltipText : ''"
-                   [bfTooltipPos]="compConf.tooltipPos || 'top'"
+                   [bfLabelTooltip]="compConf.hasTooltip? compConf.tooltipText : ''"
+                   [bfLabelTooltipPos]="compConf.tooltipPos || 'top'"
                    [bfDisabled]="compConf.isDisabled">
         </bf-slider>
       </div>
@@ -63,13 +63,13 @@
       </div>
 
       <div class="row marT10">
-        <div class="col-6 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox> </div>
+        <div class="col-6 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip" [bfDisabled]="!compConf.hasLabel" (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox> </div>
         <div class="col-6" *ngIf="compConf.hasTooltip">
           <bf-input [(ngModel)]="compConf.tooltipText" (ngModelChange)="upComp()"></bf-input>
         </div>
         <div class="col-6" *ngIf="compConf.hasTooltip"></div>
         <div class="col-6" *ngIf="compConf.hasTooltip">
-          bfTooltipPos: <bf-dropdown [(ngModel)]="compConf.tooltipPos" (ngModelChange)="upComp()"
+          bfLabelTooltipPos: <bf-dropdown [(ngModel)]="compConf.tooltipPos" (ngModelChange)="upComp()"
                                      [bfList]="[{ id: 'top', text: 'top' }, { id: 'right', text: 'right' }, { id: 'bottom', text: 'bottom' }, { id: 'left', text: 'left' }]"
                                      bfRender="text" bfSelect="id"> </bf-dropdown>
         </div>

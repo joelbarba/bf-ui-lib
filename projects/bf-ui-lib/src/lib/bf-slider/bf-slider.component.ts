@@ -46,8 +46,8 @@ export class BfSliderComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() bfDisabled = false;
 
   @Input() bfLabel: string;
-  @Input() bfTooltip: string;
-  @Input() bfTooltipPos = 'top';
+  @Input() bfLabelTooltip: string;
+  @Input() bfLabelTooltipPos = 'top';
   @Input() bfCustomSliderLabel: any;
   // TODO this must be in the bf-range-slider
   // @Input() bfShowOuterSection = false;

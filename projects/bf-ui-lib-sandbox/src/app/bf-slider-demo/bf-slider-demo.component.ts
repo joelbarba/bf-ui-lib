@@ -127,8 +127,8 @@ $slider_color_primary: $primary_color !default;`;
     if (this.compConf.hasLabel)   { this.customCompCode += this.bsStr + `bfLabel="${this.compConf.labelText}"`; }
 
     if (this.compConf.hasTooltip) {
-      this.customCompCode += this.bsStr + `bfTooltip="${this.compConf.tooltipText}"`;
-      if (!!this.compConf.tooltipPos)  { this.customCompCode += this.bsStr + `bfTooltipPos="${this.compConf.tooltipPos}"`; }
+      this.customCompCode += this.bsStr + `bfLabelTooltip="${this.compConf.tooltipText}"`;
+      if (!!this.compConf.tooltipPos)  { this.customCompCode += this.bsStr + `bfLabelTooltipPos="${this.compConf.tooltipPos}"`; }
     }
 
     this.customCompCode += (`>` + this.brStr + `</bf-slider>`);
@@ -178,8 +178,8 @@ export const BfSliderDoc = {
 [bfDisabled]         : Whether the slider is disabled or not
              
 [bfLabel]            : Label of the input (automatically translated). If not provided, no label is displayed.
-[bfTooltips]         : If label provided, adds a info badge with a tooltip (automatically translated)
-[bfTooltipPos]       : Position of the tooltip (top by default)`,
+[bfLabelTooltips]    : If label provided, adds a info badge with a tooltip (automatically translated)
+[bfLabelTooltipPos]  : Position of the tooltip (top by default)`,
   instance: `<bf-slider [(ngModel)]="value" 
            bfLabel="Test 1" 
            [bfOptions]="valueOptions">
