@@ -1,10 +1,10 @@
 <div *ngIf="!!bfLabel">
   <bf-label [bfText]="bfLabel"
-            [bfTooltip]="bfTooltip"
-            [bfTooltipPos]="bfTooltipPos">
+            [bfTooltip]="bfLabelTooltip"
+            [bfTooltipPos]="bfLabelTooltipPos">
   </bf-label>
 </div>
-<ng5-slider [(value)]="bfModel"
+<ng5-slider [(value)]="ngModel"
             [options]="sliderOptions"
             (valueChange)="onChange()">
 </ng5-slider>

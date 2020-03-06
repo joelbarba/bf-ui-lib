@@ -17,6 +17,7 @@ const routes: Routes = [
   { path: docs.BfMultiSelectorDoc.name,     component: docs.BfMultiSelectorDoc.demoComp    },
   { path: docs.BfSwitchDoc.name,            component: docs.BfSwitchDoc.demoComp           },
   { path: docs.BfCheckboxDoc.name,          component: docs.BfCheckboxDoc.demoComp         },
+  { path: docs.BfDualCheckboxDoc.name,      component: docs.BfDualCheckboxDoc.demoComp     },
   { path: docs.BfRadioDoc.name,             component: docs.BfRadioDoc.demoComp            },
   { path: docs.BfQuantityInputDoc.name,     component: docs.BfQuantityInputDoc.demoComp    },
   { path: docs.BfDatePickerDoc.name,        component: docs.BfDatePickerDoc.demoComp       },

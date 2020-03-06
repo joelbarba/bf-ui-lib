@@ -10,6 +10,7 @@ export const compList = [
   docs.BfMultiSelectorDoc,
   docs.BfSwitchDoc,
   docs.BfCheckboxDoc,
+  docs.BfDualCheckboxDoc,
   docs.BfRadioDoc,
   docs.BfQuantityInputDoc,
   docs.BfDatePickerDoc,

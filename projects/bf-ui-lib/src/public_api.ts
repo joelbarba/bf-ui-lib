@@ -25,6 +25,7 @@ export * from './lib/bf-list-header-col/bf-list-header-col.component';
 export * from './lib/bf-label/bf-label.component';
 export * from './lib/bf-list-placeholder/bf-list-placeholder.component';
 export * from './lib/bf-checkbox/bf-checkbox.component';
+export * from './lib/bf-dual-checkbox/bf-dual-checkbox.component';
 export * from './lib/bf-input/bf-input.component';
 export * from './lib/bf-dropdown/bf-dropdown.component';
 export * from './lib/bf-switch/bf-switch.component';

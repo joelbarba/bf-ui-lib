@@ -26,8 +26,6 @@ interface BfSliderOption {
 })
 export class BfSliderComponent implements ControlValueAccessor, OnInit, OnChanges {
 
-  public bfModel: number;
-
   public sliderOptions: Options = {
     animate: false,
     floor: null,
@@ -41,13 +39,14 @@ export class BfSliderComponent implements ControlValueAccessor, OnInit, OnChange
     ticksArray: null
   };
 
+  @Input() ngModel: number;
   @Input() bfOptions: BfSliderOption;
 
   @Input() bfDisabled = false;
 
   @Input() bfLabel: string;
-  @Input() bfTooltip: string;
-  @Input() bfTooltipPos = 'top';
+  @Input() bfLabelTooltip: string;
+  @Input() bfLabelTooltipPos = 'top';
   @Input() bfCustomSliderLabel: any;
   // TODO this must be in the bf-range-slider
   // @Input() bfShowOuterSection = false;
@@ -70,12 +69,12 @@ export class BfSliderComponent implements ControlValueAccessor, OnInit, OnChange
   }
 
   onChange() {
-    this.propagateModelUp(this.bfModel);
+    this.propagateModelUp(this.ngModel);
   }
 
   // ------- ControlValueAccessor -----
   writeValue(value) {
-    this.bfModel = value || this.bfOptions.start;
+    this.ngModel = value || this.bfOptions.start;
   }
 
   public propagateModelUp = (_: any) => {};

@@ -1,0 +1,17 @@
+<div class="dual-checkbox">
+  <bf-label [bfText]="bfLabel"></bf-label>
+  <div>
+    <bf-checkbox
+      [bfLabel]="bfLabelOptionOne"
+      [(ngModel)]="checkboxes.yes"
+      (ngModelChange)="onChange('yes')"
+      [bfDisabled]="bfDisabled"
+    ></bf-checkbox>
+    <bf-checkbox
+      [bfLabel]="bfLabelOptionTwo"
+      [(ngModel)]="checkboxes.no"
+      (ngModelChange)="onChange('no')"
+      [bfDisabled]="bfDisabled"
+    ></bf-checkbox>
+  </div>
+</div>
