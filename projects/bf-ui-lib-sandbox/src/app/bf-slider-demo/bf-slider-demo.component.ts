@@ -19,7 +19,7 @@ export class BfSliderDemoComponent implements OnInit {
 
 
   public cssReset = `$slider_bg           : $white !default;
-$slider_color_default: $slider_grey !default;
+$slider_color_default: $light !default;
 $slider_color_primary: $primary_color !default;`;
 
   public slider1 = 50;
@@ -35,12 +35,12 @@ $slider_color_primary: $primary_color !default;`;
   public slider2;
   public slider2Options = { start: 20, end: 120, showTicks: true, showTicksValues: true, tickStep: 10, tickValueStep: 20 };
   public instance2Obj = `valueOptions = { 
-  start: 10, 
-  end: 150, 
+  start: 20, 
+  end: 120, 
   showTicks: true
   showTicksValues: true, 
-  tickStep: 5, 
-  tickValueStep: 10 
+  tickStep: 10, 
+  tickValueStep: 20 
 }`;
   public instance2 = `<bf-slider [(ngModel)]="value"
            [(bfHighValue)]="valueHigh"
@@ -50,7 +50,7 @@ $slider_color_primary: $primary_color !default;`;
   public slider3 = 15;
   public slider3Options = { start: 0, end: 100, showTicks: true, tickArray: [5, 10, 15, 25, 40, 65, 100], showTicksValues: true };
   public instance3Obj = `valueOptions = { 
-  start: 10, 
+  start: 0, 
   end: 100, 
   showTicks: true
   tickArray: [5,10,15,25,40,65,100],
