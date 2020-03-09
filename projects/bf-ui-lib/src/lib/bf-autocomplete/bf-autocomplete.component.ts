@@ -66,7 +66,7 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @Input() bfTooltipPos = 'top';  // If tooltip on the label, specific position (top by default)
   @Input() bfTooltipBody = true;  // If tooltip on the label, whether it is appended on the body
   @Input() bfEmptyText = 'directives.bfAutocomplete.no_results_found';
-  @Input() bfValidType: 'integer' | 'number' | 'decimal' | 'email' = null;  // Predefined validator patterns. It overrides bfPattern
+  @Input() bfValidType: keyof typeof Patterns;  // Predefined validator patterns. It overrides bfPattern
   @Input() bfPattern;
   @Input() bfErrorOnPristine;
 
@@ -156,7 +156,7 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
     this.navigatedItem = list[nextIndex];
     this.setPlaceholder(this.navigatedItem);
 
-    this.listContainer.nativeElement.scrollTop = index * this.listContainer.nativeElement.children[0].clientHeight;
+    this.listContainer.nativeElement.scrollTop = nextIndex * this.listContainer.nativeElement.children[0].clientHeight;
   }
 
   confirm() {

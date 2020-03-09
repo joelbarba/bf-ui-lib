@@ -74,7 +74,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   @Input() bfMaxlength = null;  // Max number of chars. Built in validator (maxlength). Null means no max. It blocks input if limit.
   @Input() bfPattern = null;    // Regex validator. Built in validator (pattern). Null means no validation.
 
-  @Input() bfValidType: 'integer' | 'number' | 'decimal' | 'email' = null;  // Predefined validator patterns. It overrides bfPattern
+  @Input() bfValidType: keyof typeof Patterns = null;  // Predefined validator patterns. It overrides bfPattern
   @Input() bfValidator = null;  // Callback custom validator function. It is called every time the internal ngModel validates its value.
                                 // As a parameter, it passes the current value of the model. It should return null (valid) or error object (invalid)
   // @Input() bfValidIf = null; // Not possible to manage this due to ExpressionChangedAfterItHasBeenCheckedError
