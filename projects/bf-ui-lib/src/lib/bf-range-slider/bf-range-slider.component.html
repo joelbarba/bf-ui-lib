@@ -1,1 +1,11 @@
-<p>bf-range-slider works!</p>
+<div *ngIf="!!bfLabel">
+  <bf-label [bfText]="bfLabel"
+            [bfTooltip]="bfLabelTooltip"
+            [bfTooltipPos]="bfLabelTooltipPos">
+  </bf-label>
+</div>
+<ng5-slider [(value)]="minValue"
+            [(highValue)]="highValue"
+            [options]="sliderOptions"
+            (valueChange)="valuesOnChange()">
+</ng5-slider>
