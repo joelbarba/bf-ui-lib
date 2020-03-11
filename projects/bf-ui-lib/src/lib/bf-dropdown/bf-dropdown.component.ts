@@ -182,7 +182,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfEmptyLabel = 'view.common.empty';   // Label for the text of the emptyItem (when not required)
   @Input() bfEmptyValue: any = null;  // By default the empty option sets a "null" value to the ngModel.
                                       // You can add a custom value here to be set when the empty option is selected
-
   @Input() bfErrorOnPristine = false; // If true, errors will be shown in initial state too (by default pristine shows as valid always)
 
   @Input() extCtrl$: Observable<any>; // To trigger actions manually from an external observable (subject)

@@ -101,7 +101,7 @@ import { Ng5SliderModule } from 'ng5-slider';
     BfStatusBadgeComponent,  // <--- New component
     BfProgressBarComponent,  // <--- New component
     BfMultiSelectorComponent,  // <--- New component
-    BfAutocompleteComponent,  // <--- New component
+    BfAutocompleteComponent,
     BfTimePickerComponent,  // <--- New component
     FormsModule,
     BfListPaginatorComponent,

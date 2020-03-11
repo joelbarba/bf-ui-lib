@@ -118,7 +118,8 @@ export class BfTranslateService extends BfUILibTransService {
     'view.voicemails.no_voicemails': 'Please click on the button above to check your Mailbox settings.',
     'view.common.today': 'Today',
     'view.common.clear': 'Clear',
-    'view.common.close': 'Close'
+    'view.common.close': 'Close',
+    'directives.bfAutocomplete.no_results_found': 'No results found'
   };
   public transDictCAT = {
     'view.common.name'            : 'Nom',
