@@ -101,7 +101,7 @@ bf-autocomplete {
           max-height: 72px;
           display: flex;
           align-items: center;
-          cursor: pointer;
+          &:not(.empty-row) { cursor: pointer; }
 
           i {
             padding: 0 10px 0 0;
@@ -112,7 +112,7 @@ bf-autocomplete {
             color: $white;
             background: $dropdown-selection-bg
           }
-          &:hover {
+          &:hover:not(.empty-row) {
             background: $dropdown-selection-hover;
             color: $white;
           }

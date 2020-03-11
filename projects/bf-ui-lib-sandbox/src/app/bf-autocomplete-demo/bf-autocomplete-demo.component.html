@@ -4,6 +4,21 @@
 <p>Input that opens a list of suggestions based on what we type, and we can either select one of the options or type a
   free text.</p>
 
+<!--Joel Test-->
+<div class="row" *ngIf="false">
+  <bf-input class="col-3" [(ngModel)]="myVar" bfLabel="Normal Input"></bf-input>
+  <div class="col-3">
+    <bf-autocomplete [(ngModel)]="myVar"
+                     [bfList]="myTestOptions1"
+                     bfLabel="This is a test">
+    </bf-autocomplete>
+  </div>
+  <bf-input class="col-3" [(ngModel)]="myVar" bfLabel="Normal Input"></bf-input>
+  <div class="col-3">myVar={{myVar}} </div>
+</div>
+
+
+
 <h5 class="mt-4">Parameters:</h5>
 <div class="col-12">
   <pre>{{api}}</pre>

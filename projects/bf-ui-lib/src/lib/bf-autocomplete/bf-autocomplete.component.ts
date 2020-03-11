@@ -121,6 +121,7 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   initList() {
+    this.bfList = this.bfList.filter((v, i) => this.bfList.indexOf(v) === i); // Remove duplicates
     this.list = [ ...this.bfList ];
   }
 

@@ -30,14 +30,13 @@
 
       <div class="input-group-append">
         <button [hidden]="(!!ngModel && ngModel.length > 0) && isExpanded"
-                class="btn btn-outline-secondary"
+                class="btn btn-outline-secondary" tabIndex="-1"
                 [disabled]="bfDisabled"
-                (click)="!bfDisabled && toggle()"
-        >
+                (click)="!bfDisabled && toggle()">
           <span class="icon-search"></span>
         </button>
         <button [hidden]="(!ngModel || ngModel.length === 0) || !isExpanded"
-                class="btn btn-outline-secondary"
+                class="btn btn-outline-secondary" tabIndex="-1"
                 (click)="reset()">
           <span class="icon-cross3"></span>
         </button>
@@ -51,7 +50,7 @@
            (mousedown)="select(item)">
         <span>{{item}}</span>
       </div>
-      <div *ngIf="!!list && !list.length" class="option-row">
+      <div *ngIf="!!list && !list.length" class="option-row empty-row">
         {{bfEmptyTextTrans$ | async}}
       </div>
     </div>

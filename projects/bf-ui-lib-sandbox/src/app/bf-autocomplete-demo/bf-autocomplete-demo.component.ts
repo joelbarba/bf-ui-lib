@@ -16,6 +16,22 @@ export class BfAutocompleteDemoComponent implements OnInit {
   instance = BfAutocompleteDoc.instance;
   cssReset = BfAutocompleteDoc.cssReset;
 
+  myVar = 'hello';
+  myTestOptions1 = [
+    'option first',
+    'second stuff',
+    'the third of my his name',
+    'may the force be with you',
+    'the fifth of my his name',
+    'may the force be with you',
+    'may the force be with you',
+    'may the force be with you',
+    'may the force be with you',
+    'may the force be with you',
+    'the sixth of my his name',
+    'may the force be with you',
+  ];
+
   // bf-autocomplete customization parameters
   stringSelected;
   stringList: Array<string> = [
@@ -155,7 +171,7 @@ export class BfAutocompleteDemoComponent implements OnInit {
 export const BfAutocompleteDoc = {
   name    : `bf-autocomplete`,
   uiType  : 'component',
-  desc    : `Generates a ....`,
+  desc    : `Generates a text input with an autocomplete helping layer`,
   api     : `[(ngModel)]: Where the selected string of the list is held
 [bfList]: The list of the options (array of string)
 [bfRequired]: Whether the input is required or not
