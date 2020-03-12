@@ -25,34 +25,7 @@ export class BfRangeSliderComponent extends BfSliderComponent implements Control
   public minValue: number;
   public highValue: number;
 
-  /*public sliderOptions: Options = {
-    animate: false,
-    floor: null,
-    ceil: null,
-    disabled: false,
-    step: 1,
-    showSelectionBar: false,
-    showSelectionBarEnd: false,
-    showTicks: false,
-    showTicksValues: false,
-    tickStep: null,
-    tickValueStep: 1,
-    ticksArray: null,
-    maxLimit: null,
-    minLimit: null,
-    maxRange: null,
-    minRange: null
-  };*/
-
   @Input() ngModel: BfRangeSliderValues;
-  /*@Input() bfOptions: BfSliderOption;
-
-  @Input() bfDisabled = false;
-
-  @Input() bfLabel: string;
-  @Input() bfLabelTooltip: string;
-  @Input() bfLabelTooltipPos = 'top';
-  @Input() bfCustomSliderLabel: any;*/
   @Input() bfShowOuterSection = false;
 
   constructor() {
@@ -76,6 +49,10 @@ export class BfRangeSliderComponent extends BfSliderComponent implements Control
       this.bfCustomSliderLabel = changes.bfCustomSliderLabel.currentValue;
       this.rangeOptionsRebuild();
     }
+    if  (changes.bfShowOuterSection) {
+      this.bfShowOuterSection = changes.bfShowOuterSection.currentValue;
+      this.rangeOptionsRebuild();
+    }
   }
 
   valuesOnChange() {
@@ -96,15 +73,14 @@ export class BfRangeSliderComponent extends BfSliderComponent implements Control
   // It's necessary to rebuild the Slider Option due a recommendation from the external component
   // more info: https://angular-slider.github.io/ng5-slider/docs/globals.html
   rangeOptionsRebuild() {
+    const newOptions: Options = Object.assign({}, this.sliderOptions);
+    newOptions.showOuterSelectionBars = this.bfShowOuterSection;
+
+    if (this.bfOptions.maxRange) { newOptions.maxRange = this.bfOptions.maxRange; }
+    if (this.bfOptions.minRange) { newOptions.minRange = this.bfOptions.minRange; }
+
+    this.sliderOptions = newOptions;
+
     this.optionsRebuild();
   }
-  /*optionsRebuild() {
-    const newOption: Options = Object.assign({}, this.sliderOptions);
-    newOption.floor = this.bfOptions.start;
-    newOption.ceil = this.bfOptions.end;
-    newOption.disabled = this.bfDisabled;
-    if (!!this.bfCustomSliderLabel) { newOption.translate = this.bfCustomSliderLabel; }
-
-    this.sliderOptions = newOption;
-  }*/
 }

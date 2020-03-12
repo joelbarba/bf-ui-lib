@@ -17,16 +17,26 @@
       <h5 class="marB25">bf-range-slider Customization:</h5>
       <div>
         <bf-range-slider [(ngModel)]="valueSlider"
+                         (ngModelChange)="upSliders()"
                          [bfOptions]="sliderOptions"
                          [bfLabel]="compConf.hasLabel? compConf.labelText : ''"
                          [bfLabelTooltip]="compConf.hasTooltip? compConf.tooltipText : ''"
                          [bfLabelTooltipPos]="compConf.tooltipPos || 'top'"
-                         [bfDisabled]="compConf.isDisabled">
+                         [bfDisabled]="compConf.isDisabled"
+                         [bfShowOuterSection]="compConf.showOuterSection">
         </bf-range-slider>
       </div>
-      <div>
+      <div class="padT20">
         <div class="code-box pad15">
           <pre>{{customCompCode}}</pre>
+        </div>
+      </div>
+      <div class="row pad15">
+        <div class="col-6">
+          <pre>{{sliderModelCode}}</pre>
+        </div>
+        <div class="col-6">
+          <pre>{{sliderOptionsCode}}</pre>
         </div>
       </div>
     </div>
@@ -37,15 +47,16 @@
         <div class="col-12"><h5>Range Slider Option:</h5></div>
 
         <div class="col-6">
-          <bf-input [(ngModel)]="valueSlider.min" bfLabel="Number Value" bfType="number"></bf-input>
+          <bf-input [(ngModel)]="valueSlider.min" bfLabel="Number Value" bfType="number" [bfDisabled]="true"></bf-input>
         </div>
         <div class="col-6">
-          <bf-input [(ngModel)]="valueSlider.max" bfLabel="High Value" bfType="number"></bf-input>
+          <bf-input [(ngModel)]="valueSlider.max" bfLabel="High Value" bfType="number" [bfDisabled]="true"></bf-input>
         </div>
       </div>
 
       <div class="row marT15">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>
+        <div class="col-6"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>
+        <div class="col-6"> <bf-checkbox [(ngModel)]="compConf.showOuterSection" (ngModelChange)="upComp()" bfLabel="Show outer Section"></bf-checkbox> </div>
       </div>
 
       <div class="row marT15">
@@ -78,19 +89,37 @@
 
 <h5 class="mt-4">Examples:</h5>
 <div class="col-12 examples-table">
-  
+
   <div class="row">
     <div class="col-5">
-<!--      <bf-range-slider></bf-range-slider>-->
+      <bf-range-slider [(ngModel)]="slider1" bfLabel="Test 1" [bfOptions]="slider1Options"></bf-range-slider>
     </div>
-    <div class="col-7"> <pre>{{instance}}</pre> </div>
+    <div class="col-5">
+      <pre>{{instance}}</pre>
+    </div>
+    <div class="col-2">
+      <pre style="font-size: 12px;">{{instance1Obj}}</pre>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-5">
+      <bf-range-slider [(ngModel)]="slider2" [bfOptions]="slider2Options"></bf-range-slider>
+    </div>
+    <div class="col-5"> <pre>{{instance2}}</pre> </div>
+    <div class="col-2">
+      <pre style="font-size: 12px;">{{instance2Obj}}</pre>
+    </div>
   </div>
   
   <div class="row">
     <div class="col-5">
-<!--      <bf-range-slider></bf-range-slider>-->
+      <bf-range-slider [(ngModel)]="slider3" [bfOptions]="slider3Options" [bfCustomSliderLabel]="newTranslate"></bf-range-slider>
     </div>
-    <div class="col-7"> <pre>{{instance2}}</pre> </div>
+    <div class="col-5"> <pre>{{instance3}}</pre> </div>
+    <div class="col-2">
+      <pre style="font-size: 12px;">{{instance3Obj}}</pre>
+    </div>
   </div>
 
 </div>
