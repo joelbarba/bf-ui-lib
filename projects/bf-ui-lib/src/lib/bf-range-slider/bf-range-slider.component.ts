@@ -33,14 +33,12 @@ export class BfRangeSliderComponent extends BfSliderComponent implements Control
   }
 
   ngOnInit() {
-    console.log('Range Slider on init', this.ngModel);
     this.minValue = this.ngModel.min;
     this.highValue = this.ngModel.max;
     this.rangeOptionsRebuild();
   }
 
   ngOnChanges(changes): void {
-    console.log('On Change', this.ngModel);
     if (changes.bfDisabled) {
       this.bfDisabled = changes.bfDisabled.currentValue;
       this.rangeOptionsRebuild();
