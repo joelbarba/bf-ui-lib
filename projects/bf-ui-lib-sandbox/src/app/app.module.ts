@@ -41,6 +41,7 @@ import { BfLoadingSpinnerDemoComponent } from './bf-loading-spinner-demo/bf-load
 import { ShowDemoComponent } from './show-demo/show-demo.component';
 import { BfNoDataDemoComponent } from './bf-no-data-demo/bf-no-data-demo.component';
 import { BfDualCheckboxDemoComponent } from './bf-dual-checkbox-demo/bf-dual-checkbox-demo.component';
+import { BfRangeSliderDemoComponent } from './bf-range-slider-demo/bf-range-slider-demo.component';
 
 
 @NgModule({
@@ -81,6 +82,7 @@ import { BfDualCheckboxDemoComponent } from './bf-dual-checkbox-demo/bf-dual-che
     BfLoadingSpinnerDemoComponent,
     ShowDemoComponent,
     BfNoDataDemoComponent,
+    BfRangeSliderDemoComponent,
   ],
   imports: [
     BrowserModule,

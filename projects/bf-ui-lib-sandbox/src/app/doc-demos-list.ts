@@ -20,6 +20,7 @@ export { BfRadioDoc } from './bf-radio-demo/bf-radio-demo.component';
 export { BfTextareaDoc } from './bf-textarea-demo/bf-textarea-demo.component';
 export { BfConfirmDoc } from './bf-confirm-demo/bf-confirm-demo.component';
 export { BfQuantityInputDoc } from './bf-quantity-input-demo/bf-quantity-input-demo.component';
+export { BfRangeSliderDoc } from './bf-range-slider-demo/bf-range-slider-demo.component';
 export { BfSwitchDoc } from './bf-switch-demo/bf-switch-demo.component';
 export { BfDropdownDoc } from './bf-dropdown-demo/bf-dropdown-demo.component';
 export { BfInputDoc } from './bf-input-demo/bf-input-demo.component';
