@@ -1,0 +1,12 @@
+<div *ngIf="!!bfLabel">
+  <bf-label [bfText]="bfLabel"
+            [bfTooltip]="bfLabelTooltip"
+            [bfTooltipPos]="bfLabelTooltipPos">
+  </bf-label>
+</div>
+<ng5-slider [class.showOuterSelection]="bfShowOuterSection"
+            [(value)]="minValue"
+            [(highValue)]="highValue"
+            [options]="sliderOptions"
+            (valueChange)="valuesOnChange()">
+</ng5-slider>

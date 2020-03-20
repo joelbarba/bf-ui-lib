@@ -23,6 +23,7 @@ const routes: Routes = [
   { path: docs.BfDatePickerDoc.name,        component: docs.BfDatePickerDoc.demoComp       },
   { path: docs.BfTimePickerDoc.name,        component: docs.BfTimePickerDoc.demoComp       },
   { path: docs.BfSliderDoc.name,            component: docs.BfSliderDoc.demoComp           },
+  { path: docs.BfRangeSliderDoc.name,       component: docs.BfRangeSliderDoc.demoComp      },
   { path: docs.BfColorPickerDoc.name,       component: docs.BfColorPickerDoc.demoComp      },
   { path: docs.BfStatusBadgeDoc.name,       component: docs.BfStatusBadgeDoc.demoComp      },
   { path: docs.BfProgressBarDoc.name,       component: docs.BfProgressBarDoc.demoComp      },

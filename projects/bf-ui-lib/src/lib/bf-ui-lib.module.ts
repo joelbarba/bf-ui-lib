@@ -41,6 +41,7 @@ import { ShowDirective } from './show/show.component';
 import { BfNoDataComponent } from './bf-no-data/bf-no-data.component';
 import { Ng5SliderModule } from 'ng5-slider';
 import { BfSectionHeaderComponent } from './bf-section-header/bf-section-header.component';
+import { BfRangeSliderComponent } from './bf-range-slider/bf-range-slider.component';
 
 
 @NgModule({
@@ -75,6 +76,7 @@ import { BfSectionHeaderComponent } from './bf-section-header/bf-section-header.
     ShowDirective,
     BfNoDataComponent,
     BfSectionHeaderComponent,
+    BfRangeSliderComponent,
   ],
   entryComponents: [BfConfirmComponent],
   imports: [
@@ -94,6 +96,7 @@ import { BfSectionHeaderComponent } from './bf-section-header/bf-section-header.
   ],
   exports: [
     BfSectionHeaderComponent,  // <--- New component
+    BfRangeSliderComponent,  // <--- New component
     BfNoDataComponent,  // <--- New component
     ShowDirective,
     BfLoadingSpinnerDirective,  // <--- New component
@@ -124,6 +127,7 @@ import { BfSectionHeaderComponent } from './bf-section-header/bf-section-header.
     BfListHeaderColComponent,
     BfGrowlModule,
     BfLoadingBarModule,
+    BfRangeSliderComponent,
   ]
 })
 export class BfUiLibModule {

@@ -48,12 +48,14 @@ $slider_color_primary: $primary_color !default;`;
 </bf-slider>`;
 
   public slider3 = 15;
-  public slider3Options = { start: 0, end: 100, showTicks: true, tickArray: [5, 10, 15, 25, 40, 65, 100], showTicksValues: true };
+  public slider3Options = { start: 0, end: 100, showTicks: true, tickArray: [5, 10, 15, 25, 40, 65, 100], maxLimit: 60, showSelectionBar: true, showTicksValues: true };
   public instance3Obj = `valueOptions = { 
   start: 0, 
   end: 100, 
   showTicks: true
   tickArray: [5,10,15,25,40,65,100],
+  maxLimit: 60,
+  showSelectionBar: true,
   showTicksValues: true 
 }`;
   public instance3 = `<bf-slider [(ngModel)]="value"
@@ -168,11 +170,15 @@ export const BfSliderDoc = {
                          start        : Initial range
                          end          : Final range
                          step         : (Optional) Step between each value
+                         showSelectionBar: (Optional) Set to true to show the selection bar before the slider handle
+                         showSelectionBarEnd: (Optional) Set to true to show the selection bar after the slider handle
                          showTicks    : (Optional) Set to true to display a tick for each step on the slider
                          showTicksValues: (Optional) Set true to display the value for each tick
                          tickStep     : (Optional) Number - Set the steps to be ticked
                          tickArray    : (Optional) Array - Set specific steps to be ticked
                          tickValueStep: (Optional) Number - Set the steps to show the value
+                         maxLimit     : (Optional) Number - max value authorized on the slider
+                         minLimit     : (Optional) Number - min value authorized on the slider
                        }
 [bfCustomSliderLabel]: [method] = (value: number, label LabelType: LabelType): string => return (The label to be shown as a label on the range)
 [bfDisabled]         : Whether the slider is disabled or not

@@ -42,6 +42,7 @@ import { ShowDemoComponent } from './show-demo/show-demo.component';
 import { BfNoDataDemoComponent } from './bf-no-data-demo/bf-no-data-demo.component';
 import { BfDualCheckboxDemoComponent } from './bf-dual-checkbox-demo/bf-dual-checkbox-demo.component';
 import { BfSectionHeaderDemoComponent } from './bf-section-header-demo/bf-section-header-demo.component';
+import { BfRangeSliderDemoComponent } from './bf-range-slider-demo/bf-range-slider-demo.component';
 
 
 @NgModule({
@@ -83,6 +84,7 @@ import { BfSectionHeaderDemoComponent } from './bf-section-header-demo/bf-sectio
     ShowDemoComponent,
     BfNoDataDemoComponent,
     BfSectionHeaderDemoComponent,
+    BfRangeSliderDemoComponent,
   ],
   imports: [
     BrowserModule,

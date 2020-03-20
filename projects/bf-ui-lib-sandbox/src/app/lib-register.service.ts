@@ -16,6 +16,7 @@ export const compList = [
   docs.BfDatePickerDoc,
   docs.BfTimePickerDoc,
   docs.BfSliderDoc,
+  docs.BfRangeSliderDoc,
   docs.BfColorPickerDoc,
   docs.BfStatusBadgeDoc,
   docs.BfProgressBarDoc,

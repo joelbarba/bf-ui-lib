@@ -45,11 +45,15 @@ describe('BfSliderComponent', () => {
       ceil: 150,
       disabled: false,
       step: 2,
+      showSelectionBar: false,
+      showSelectionBarEnd: false,
       showTicks: true,
       showTicksValues: true,
       tickStep: 10,
       tickValueStep: 5,
-      ticksArray: null
+      ticksArray: null,
+      maxLimit: null,
+      minLimit: null
     });
   });
 

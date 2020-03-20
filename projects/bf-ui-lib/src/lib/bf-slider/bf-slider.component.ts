@@ -2,15 +2,25 @@ import {Component, EventEmitter, forwardRef, Input, OnChanges, OnInit, Output} f
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Options} from 'ng5-slider';
 
+interface BfRangeSliderValues {
+  min: number;
+  max: number;
+}
 interface BfSliderOption {
   start: number;
   end: number;
   step?: number;
+  showSelectionBar?: boolean;
+  showSelectionBarEnd?: boolean;
   showTicks?: boolean;
   showTicksValues?: boolean;
   tickStep?: number;
   tickArray?: Array<number>;
   tickValueStep?: number;
+  maxLimit?: number;
+  minLimit?: number;
+  maxRange?: number;
+  minRange?: number;
 }
 
 @Component({
@@ -32,14 +42,18 @@ export class BfSliderComponent implements ControlValueAccessor, OnInit, OnChange
     ceil: null,
     disabled: false,
     step: 1,
+    showSelectionBar: false,
+    showSelectionBarEnd: false,
     showTicks: false,
     showTicksValues: false,
     tickStep: null,
     tickValueStep: 1,
-    ticksArray: null
+    ticksArray: null,
+    maxLimit: null,
+    minLimit: null
   };
 
-  @Input() ngModel: number;
+  @Input() ngModel: number | BfRangeSliderValues;
   @Input() bfOptions: BfSliderOption;
 
   @Input() bfDisabled = false;
@@ -91,11 +105,15 @@ export class BfSliderComponent implements ControlValueAccessor, OnInit, OnChange
     if (!!this.bfCustomSliderLabel) { newOption.translate = this.bfCustomSliderLabel; }
 
     if (this.bfOptions.step) { newOption.step = this.bfOptions.step; }
+    if (this.bfOptions.showSelectionBar) { newOption.showSelectionBar = this.bfOptions.showSelectionBar; }
+    if (this.bfOptions.showSelectionBarEnd) { newOption.showSelectionBarEnd = this.bfOptions.showSelectionBarEnd; }
     if (this.bfOptions.showTicks) { newOption.showTicks = this.bfOptions.showTicks; }
     if (this.bfOptions.showTicksValues) { newOption.showTicksValues = this.bfOptions.showTicks; }
     if (this.bfOptions.tickStep) { newOption.tickStep = this.bfOptions.tickStep; }
     if (this.bfOptions.tickArray) { newOption.ticksArray = this.bfOptions.tickArray; }
     if (this.bfOptions.tickValueStep) { newOption.tickValueStep = this.bfOptions.tickValueStep; }
+    if (this.bfOptions.maxLimit) { newOption.maxLimit = this.bfOptions.maxLimit; }
+    if (this.bfOptions.minLimit) { newOption.minLimit = this.bfOptions.minLimit; }
 
     this.sliderOptions = newOption;
   }
