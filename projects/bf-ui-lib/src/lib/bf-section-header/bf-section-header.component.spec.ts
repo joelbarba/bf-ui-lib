@@ -6,7 +6,7 @@ import { BfUILibTransStubService } from '../../testing/bf-ui-lib-trans-service-s
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 
-fdescribe('BfSectionHeaderComponent', () => {
+describe('BfSectionHeaderComponent', () => {
   let component: BfSectionHeaderComponent;
   let fixture: ComponentFixture<BfSectionHeaderComponent>;
   let translateService: BfUILibTransStubService;

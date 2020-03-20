@@ -48,7 +48,7 @@ export class BfGrowlService {
       newMsg.cancelTimeout = () => {
         newMsg.status = 'stuck';
         newMsg.cancelTimeout = null;
-        window.clearTimeout(timer);
+        clearTimeout(timer);
       };
     }
 
