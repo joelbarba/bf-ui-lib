@@ -45,3 +45,4 @@ export * from './lib/bf-page-placeholder/bf-page-placeholder.component';
 export * from './lib/bf-loading-spinner/bf-loading-spinner.component';
 export * from './lib/show/show.component';
 export * from './lib/bf-no-data/bf-no-data.component';
+export * from './lib/bf-section-header/bf-section-header.component';

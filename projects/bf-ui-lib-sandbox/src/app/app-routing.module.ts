@@ -32,6 +32,7 @@ const routes: Routes = [
   { path: docs.BfListPaginatorDoc.name,     component: docs.BfListPaginatorDoc.demoComp    },
   { path: docs.BfNoDataDoc.name,            component: docs.BfNoDataDoc.demoComp           },
   { path: docs.BfLoadingSpinnerDoc.name,    component: docs.BfLoadingSpinnerDoc.demoComp   },
+  { path: docs.BfSectionHeaderDoc.name,     component: docs.BfSectionHeaderDoc.demoComp    },
   { path: docs.BfGrowlDoc.name,             component: docs.BfGrowlDoc.demoComp            },
   { path: docs.BfLoadingBarDoc.name,        component: docs.BfLoadingBarDoc.demoComp       },
   { path: docs.BfConfirmDoc.name,           component: docs.BfConfirmDoc.demoComp          },
