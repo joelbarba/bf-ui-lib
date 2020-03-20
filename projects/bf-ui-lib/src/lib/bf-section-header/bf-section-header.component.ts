@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { Observable, of } from 'rxjs';
-
 import { BfUILibTransService } from '../../public_api';
 
 @Component({
@@ -10,7 +9,7 @@ import { BfUILibTransService } from '../../public_api';
 export class BfSectionHeaderComponent implements OnInit, OnChanges {
   @Input() bfTitle: string;
   @Input() bfDescription: string = null;
-  
+
   public bfCurrentTitle$: Observable<string> = of('');
   public bfCurrentDescription$: Observable<string> = of('');
 
@@ -25,11 +24,11 @@ export class BfSectionHeaderComponent implements OnInit, OnChanges {
 
   setLabel = () => {
     if (this.bfTitle) {
-      this.bfCurrentTitle$ = this.translate.getLabel$(this.bfTitle); 
+      this.bfCurrentTitle$ = this.translate.getLabel$(this.bfTitle);
     }
 
     if (this.bfDescription) {
-      this.bfCurrentDescription$ = this.translate.getLabel$(this.bfDescription); 
+      this.bfCurrentDescription$ = this.translate.getLabel$(this.bfDescription);
     }
   }
 

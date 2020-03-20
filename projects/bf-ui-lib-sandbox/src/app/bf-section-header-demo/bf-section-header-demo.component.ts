@@ -18,14 +18,6 @@ export class BfSectionHeaderDemoComponent implements OnInit {
 
   public brStr = `\n`;
   public customCompCode = ``;
-  public upComp = () => {
-    this.customCompCode = `<bf-section-header ` + this.brStr;
-
-    if (this.compConf.title) { this.customCompCode += ` [bfTitle]="${this.compConf.title}"` + this.brStr; }
-    if (this.compConf.hasDescription) { this.customCompCode += ` [bfDescription]="${this.compConf.description}"` }
-
-    this.customCompCode += (`>` + this.brStr + `</bf-section-header>`);
-  }
 
   public cssReset = `.section-header .section-header--description {
     color: $primary-color;
@@ -35,6 +27,15 @@ export class BfSectionHeaderDemoComponent implements OnInit {
 
   ngOnInit() {
     this.upComp();
+  }
+
+  public upComp = () => {
+    this.customCompCode = `<bf-section-header ` + this.brStr;
+
+    if (this.compConf.title) { this.customCompCode += ` [bfTitle]="${this.compConf.title}"` + this.brStr; }
+    if (this.compConf.hasDescription) { this.customCompCode += ` [bfDescription]="${this.compConf.description}"`; }
+
+    this.customCompCode += (`>` + this.brStr + `</bf-section-header>`);
   }
 
 }
@@ -47,4 +48,4 @@ export const BfSectionHeaderDoc = {
 [bfDescription]  : Text to display as description (optional).`,
   instance: `<bf-section-header></bf-section-header>`,
   demoComp: BfSectionHeaderDemoComponent
-}
+};
