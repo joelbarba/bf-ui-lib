@@ -1,5 +1,8 @@
 {
-  "extends": "tslint:recommended",
+  "extends": [
+    "tslint:recommended",
+    "tslint-jasmine-rules"
+  ],
   "rulesDirectory": [
     "codelyzer"
   ],
@@ -44,6 +47,7 @@
       "timeEnd",
       "trace"
     ],
+    "no-focused-tests": true,
     "no-empty": false,
     "no-inferrable-types": [
       true,

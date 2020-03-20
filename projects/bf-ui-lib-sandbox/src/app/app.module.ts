@@ -40,6 +40,8 @@ import {BfListHandlerDemoComponent} from './bf-list-handler-demo/bf-list-handler
 import { BfLoadingSpinnerDemoComponent } from './bf-loading-spinner-demo/bf-loading-spinner-demo.component';
 import { ShowDemoComponent } from './show-demo/show-demo.component';
 import { BfNoDataDemoComponent } from './bf-no-data-demo/bf-no-data-demo.component';
+import { BfDualCheckboxDemoComponent } from './bf-dual-checkbox-demo/bf-dual-checkbox-demo.component';
+import { BfRangeSliderDemoComponent } from './bf-range-slider-demo/bf-range-slider-demo.component';
 import {BfListHandlerTestComponent} from './bf-list-handler-demo/tests/bf-list-handler-test.component';
 
 
@@ -54,6 +56,7 @@ import {BfListHandlerTestComponent} from './bf-list-handler-demo/tests/bf-list-h
     BfLabelDemoComponent,
     BfListPlaceholderDemoComponent,
     BfCheckboxDemoComponent,
+    BfDualCheckboxDemoComponent,
     BfInputDemoComponent,
     BfDropdownDemoComponent,
     BfSwitchDemoComponent,
@@ -81,6 +84,7 @@ import {BfListHandlerTestComponent} from './bf-list-handler-demo/tests/bf-list-h
     ShowDemoComponent,
     BfNoDataDemoComponent,
     BfListHandlerTestComponent,
+    BfRangeSliderDemoComponent,
   ],
   imports: [
     BrowserModule,

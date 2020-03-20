@@ -16,6 +16,7 @@ import { BfListHeaderColComponent } from './bf-list-header-col/bf-list-header-co
 import { BfLabelComponent } from './bf-label/bf-label.component';
 import { BfListPlaceholderComponent } from './bf-list-placeholder/bf-list-placeholder.component';
 import { BfCheckboxComponent } from './bf-checkbox/bf-checkbox.component';
+import { BfDualCheckboxComponent } from './bf-dual-checkbox/bf-dual-checkbox.component';
 import { BfInputComponent } from './bf-input/bf-input.component';
 import { BfDropdownComponent } from './bf-dropdown/bf-dropdown.component';
 import { BfSwitchComponent } from './bf-switch/bf-switch.component';
@@ -38,6 +39,8 @@ import { BfPagePlaceholderComponent } from './bf-page-placeholder/bf-page-placeh
 import {BfLoadingSpinnerComponent, BfLoadingSpinnerDirective} from './bf-loading-spinner/bf-loading-spinner.component';
 import { ShowDirective } from './show/show.component';
 import { BfNoDataComponent } from './bf-no-data/bf-no-data.component';
+import { Ng5SliderModule } from 'ng5-slider';
+import { BfRangeSliderComponent } from './bf-range-slider/bf-range-slider.component';
 
 
 @NgModule({
@@ -49,6 +52,7 @@ import { BfNoDataComponent } from './bf-no-data/bf-no-data.component';
     BfLabelComponent,
     BfListPlaceholderComponent,
     BfCheckboxComponent,
+    BfDualCheckboxComponent,
     BfInputComponent,
     BfDropdownComponent,
     BfSwitchComponent,
@@ -70,6 +74,7 @@ import { BfNoDataComponent } from './bf-no-data/bf-no-data.component';
     BfLoadingSpinnerDirective,
     ShowDirective,
     BfNoDataComponent,
+    BfRangeSliderComponent,
   ],
   entryComponents: [BfConfirmComponent],
   imports: [
@@ -85,8 +90,10 @@ import { BfNoDataComponent } from './bf-no-data/bf-no-data.component';
     BfLoadingBarModule,
     NgbDatepickerModule,
     NgbModule,
+    Ng5SliderModule,
   ],
   exports: [
+    BfRangeSliderComponent,  // <--- New component
     BfNoDataComponent,  // <--- New component
     ShowDirective,
     BfLoadingSpinnerDirective,  // <--- New component
@@ -97,7 +104,7 @@ import { BfNoDataComponent } from './bf-no-data/bf-no-data.component';
     BfStatusBadgeComponent,  // <--- New component
     BfProgressBarComponent,  // <--- New component
     BfMultiSelectorComponent,  // <--- New component
-    BfAutocompleteComponent,  // <--- New component
+    BfAutocompleteComponent,
     BfTimePickerComponent,  // <--- New component
     FormsModule,
     BfListPaginatorComponent,
@@ -110,12 +117,14 @@ import { BfNoDataComponent } from './bf-no-data/bf-no-data.component';
     BfDropdownComponent,
     BfInputComponent,
     BfCheckboxComponent,
+    BfDualCheckboxComponent,
     BfListPlaceholderComponent,
     BfLabelComponent,
     BfBtnComponent,
     BfListHeaderColComponent,
     BfGrowlModule,
     BfLoadingBarModule,
+    BfRangeSliderComponent,
   ]
 })
 export class BfUiLibModule {

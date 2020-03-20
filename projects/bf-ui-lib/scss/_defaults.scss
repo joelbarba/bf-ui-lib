@@ -9,6 +9,7 @@ $extra_color      : #F17B3F !default;
 
 $white          : #fff !default;
 $grey           : #929292 !default;
+$light          : #d8e0f3 !default;
 $text-color     : #525254 !default;
 $optional-color : #ccc !default;       // (bootstrap default - $input-border)
 $disabled-color : #a0a0a0 !default;
@@ -16,6 +17,7 @@ $focused-color  : darken($primary_color, 20%) !default;
 $required-color : $primary_color !default;
 $valid-color    : $primary_color !default;
 $invalid-color  : $warning_color !default;
+$page-placeholder-color : #f6f7f8 !default;
 
 $bf-ui-lib-colors: (
   'primary'     : $primary_color,
