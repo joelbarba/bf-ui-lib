@@ -34,6 +34,7 @@ export const compList = [
   docs.BfPromiseDoc,
   docs.BfDeferDoc,
   docs.ShowDoc,
+  docs.BfModalHeaderDoc,
 ];
 
 

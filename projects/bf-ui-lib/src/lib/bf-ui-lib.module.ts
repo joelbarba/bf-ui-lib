@@ -41,7 +41,7 @@ import { ShowDirective } from './show/show.component';
 import { BfNoDataComponent } from './bf-no-data/bf-no-data.component';
 import { Ng5SliderModule } from 'ng5-slider';
 import { BfRangeSliderComponent } from './bf-range-slider/bf-range-slider.component';
-
+import { BfModalHeaderComponent } from './bf-modal-header/bf-modal-header.component';
 
 @NgModule({
   declarations: [
@@ -75,8 +75,11 @@ import { BfRangeSliderComponent } from './bf-range-slider/bf-range-slider.compon
     ShowDirective,
     BfNoDataComponent,
     BfRangeSliderComponent,
+    BfModalHeaderComponent,
   ],
-  entryComponents: [BfConfirmComponent],
+  entryComponents: [
+    BfConfirmComponent
+  ],
   imports: [
     // BrowserModule,
     CommonModule,
@@ -93,6 +96,7 @@ import { BfRangeSliderComponent } from './bf-range-slider/bf-range-slider.compon
     Ng5SliderModule,
   ],
   exports: [
+    BfModalHeaderComponent,  // <--- New component
     BfRangeSliderComponent,  // <--- New component
     BfNoDataComponent,  // <--- New component
     ShowDirective,

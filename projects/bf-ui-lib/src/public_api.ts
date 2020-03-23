@@ -46,3 +46,4 @@ export * from './lib/bf-loading-spinner/bf-loading-spinner.component';
 export * from './lib/show/show.component';
 export * from './lib/bf-no-data/bf-no-data.component';
 export * from './lib/bf-range-slider/bf-range-slider.component';
+export * from './lib/bf-modal-header/bf-modal-header.component';

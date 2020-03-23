@@ -119,7 +119,9 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.today': 'Today',
     'view.common.clear': 'Clear',
     'view.common.close': 'Close',
-    'directives.bfAutocomplete.no_results_found': 'No results found'
+    'directives.bfAutocomplete.no_results_found': 'No results found',
+    'view.common.modal.title': 'Title',
+    'view.common.modal.description': 'Description'
   };
   public transDictCAT = {
     'view.common.name'            : 'Nom',
@@ -157,7 +159,9 @@ export class BfTranslateService extends BfUILibTransService {
     'views.test_label': '<script deferred>alert("XSS Attack");</script>',
     'view.common.today': 'Avui',
     'view.common.clear': 'Net',
-    'view.common.close': 'Tanca'
+    'view.common.close': 'Tanca',
+    'view.common.modal.title': 'Titulo',
+    'view.common.modal.description': 'Descripción'
   };
 
   public transDict$ = new BehaviorSubject(this.transDict);
