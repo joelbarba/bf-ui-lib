@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { BfUILibTransService } from '../../public_api';
+import { BfUILibTransService } from '../abstract-translate.service';
 
 @Component({
   selector: 'bf-section-header',
