@@ -44,6 +44,7 @@ import { BfDualCheckboxDemoComponent } from './bf-dual-checkbox-demo/bf-dual-che
 import { BfRangeSliderDemoComponent } from './bf-range-slider-demo/bf-range-slider-demo.component';
 import { BfModalHeaderDemoComponent } from './bf-modal-header-demo/bf-modal-header-demo.component';
 import { BfModalDemoComponent } from './bf-modal-header-demo/bf-modal-demo/bf-modal-demo.component';
+import {BfListHandlerTestComponent} from './bf-list-handler-demo/tests/bf-list-handler-test.component';
 
 
 @NgModule({
@@ -84,6 +85,7 @@ import { BfModalDemoComponent } from './bf-modal-header-demo/bf-modal-demo/bf-mo
     BfLoadingSpinnerDemoComponent,
     ShowDemoComponent,
     BfNoDataDemoComponent,
+    BfListHandlerTestComponent,
     BfRangeSliderDemoComponent,
     BfModalHeaderDemoComponent,
     BfModalDemoComponent

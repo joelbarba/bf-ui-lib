@@ -23,7 +23,6 @@
         "check-regex": true
       }
     ],
-    "no-use-before-declare": false,
     "radix": false
   }
 }
