@@ -36,9 +36,6 @@ describe('BfModalHeaderComponent', () => {
 
     fixture.detectChanges();
 
-    const titleElement = fixture.debugElement.query(By.css('.modal-title')).nativeElement;
-
-    expect(titleElement.innerText).toBe(title);
     expect(getLabelsSpy).toHaveBeenCalledWith(component.bfTitle);
   });
 
@@ -49,9 +46,6 @@ describe('BfModalHeaderComponent', () => {
 
     fixture.detectChanges();
 
-    const descriptionElement = fixture.debugElement.query(By.css('.modal-description')).nativeElement;
-
-    expect(descriptionElement.innerText).toBe(description);
     expect(getLabelsSpy).toHaveBeenCalledWith(component.bfDescription);
   });
 
@@ -59,17 +53,13 @@ describe('BfModalHeaderComponent', () => {
     component.bfDescription = null;
     const getLabelsSpy = spyOn(translateService, 'getLabel$');
 
-    const descriptionElement = fixture.debugElement.query(By.css('.modal-description'));
-
     expect(getLabelsSpy).not.toHaveBeenCalled();
-    expect(descriptionElement).toBeFalsy();
   });
 
   it('should emit close event', () => {
     const closeSpy = spyOn(component.closeModal, 'emit');
 
-    const closeElement = fixture.debugElement.query(By.css('#modal-close-button')).nativeElement;
-    closeElement.click();
+    component.close();
 
     expect(closeSpy).toHaveBeenCalled();
   });

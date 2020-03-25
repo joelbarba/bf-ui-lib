@@ -1,11 +1,16 @@
-.modal-header{
-    flex-direction: column;
-    .modal-header--title{
-        width: 100%;
-        display: flex;
-    }
-    .modal-header--description{
-        color: $primary-color;
-        font-style: italic;
-    }
+.modal-header {
+  flex-direction: column;
+  padding: 25px !important;
+  .modal-header--title {
+    width: 100%;
+    display: flex;
+  }
+  .modal-header--description {
+    color: $primary-color;
+    font-style: italic;
+  }
+  .modal-header .close {
+    margin-top: -2px;
+  }
 }
+
