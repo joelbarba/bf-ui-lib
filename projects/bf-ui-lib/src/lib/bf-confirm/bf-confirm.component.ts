@@ -4,6 +4,19 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {of} from 'rxjs';
 
+export type IConfirmOptions = Partial<{
+  title           : string;
+  text            : string;
+  htmlContent     : string;
+  unsafeHtml      : string;
+  showYes         : boolean;
+  showNo          : boolean;
+  showCancel      : boolean;
+  yesButtonText   : string;
+  noButtonText    : string;
+  cancelButtonText: string;
+}>;
+
 @Component({
   selector: 'bf-confirm',
   templateUrl: './bf-confirm.component.html',
