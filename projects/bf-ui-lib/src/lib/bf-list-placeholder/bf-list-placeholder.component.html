@@ -1,5 +1,5 @@
 <div *ngIf="bfType === 'list'" class="list-unstyled">
-  <li *ngFor="let fakeRow of fakeRows" class="list-row">
+  <li *ngFor="let fakeRow of fakeRows" class="list-row list-row-placeholder">
     <div *ngFor="let fakeCol of fakeRow.fakeCols"
          class="fake-row-placeholder"
          [ngClass]="fakeCol.colClass">
