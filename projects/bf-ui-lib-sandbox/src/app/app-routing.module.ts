@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { IndexPageComponent } from './index-page/index-page.component';
 import * as docs from './doc-demos-list';
+import {BfListHandlerTestComponent} from './bf-list-handler-demo/tests/bf-list-handler-test.component';
 
 
 const routes: Routes = [
@@ -42,6 +43,7 @@ const routes: Routes = [
   { path: docs.BfPromiseDoc.name,           component: docs.BfPromiseDoc.demoComp          },
   { path: docs.BfDeferDoc.name,             component: docs.BfDeferDoc.demoComp            },
   { path: docs.ShowDoc.name,                component: docs.ShowDoc.demoComp               },
+  { path: 'list-test',                      component: BfListHandlerTestComponent          },
   { path: 'lazy-loading-test',
     loadChildren: () => import('projects/bf-ui-lib-sandbox/src/app/bf-lazy-loaded-module/bf-lazy-loaded.module')
       .then(mod => {
