@@ -54,7 +54,8 @@ export const BfModalHeaderDoc = {
   name    : `bf-modal-header`,
   uiType  : 'component',
   desc    : `Generates a title for a modal.`,
-  api     : `[bfTitle]        : Text to display as label`,
+  api     : `[bfTitle]        : Text to display as title
+[bfDescription]  : Text to display as description (optional).`,
   instance: `<bf-modal-header bfTitle="view.common.username"></bf-modal-header>`,
   demoComp: BfModalHeaderDemoComponent
 };

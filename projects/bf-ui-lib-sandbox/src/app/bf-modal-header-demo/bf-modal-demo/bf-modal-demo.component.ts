@@ -3,7 +3,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-bf-modal-demo',
-  templateUrl: './bf-modal-demo.component.html'
+  templateUrl: './bf-modal-demo.component.html',
+  styleUrls: ['./bf-modal-demo.component.sass']
 })
 export class BfModalDemoComponent implements OnInit {
   @Input() options;

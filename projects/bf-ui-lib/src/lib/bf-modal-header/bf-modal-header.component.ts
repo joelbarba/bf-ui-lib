@@ -1,6 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { BfUILibTransService } from '../abstract-translate.service';
-import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'bf-modal-header',
@@ -13,26 +11,10 @@ export class BfModalHeaderComponent implements OnInit {
   @Output() closeModal = new EventEmitter();
 
   public bfAriaLabel = 'view.common.modal.close.button';
-  public bfCurrentTitle$: Observable<string>;
-  public bfCurrentDescription$: Observable<string>;
-  public bfAriaLabel$: Observable<string>;
 
-  constructor(private translate: BfUILibTransService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.setLabel();
-  }
-
-  setLabel = () => {
-    if (this.bfTitle) {
-      this.bfCurrentTitle$ = this.translate.getLabel$(this.bfTitle);
-    }
-
-    if (this.bfDescription) {
-      this.bfCurrentDescription$ = this.translate.getLabel$(this.bfDescription);
-    }
-
-    this.bfAriaLabel$ = this.translate.getLabel$(this.bfAriaLabel);
   }
 
   close() {

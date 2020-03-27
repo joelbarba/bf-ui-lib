@@ -1,19 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BfModalHeaderComponent } from './bf-modal-header.component';
-import { By } from '@angular/platform-browser';
-import { BfUILibTransService } from '../../public_api';
+import { BfTranslatePipe, BfUILibTransService } from '../abstract-translate.service';
 import { BfUILibTransStubService } from '../../testing/bf-ui-lib-trans-service-stub.service';
-import { of } from 'rxjs/internal/observable/of';
+
 
 describe('BfModalHeaderComponent', () => {
   let component: BfModalHeaderComponent;
   let fixture: ComponentFixture<BfModalHeaderComponent>;
-  let translateService: BfUILibTransStubService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BfModalHeaderComponent ],
+      declarations: [ BfModalHeaderComponent, BfTranslatePipe ],
       providers: [{ provide: BfUILibTransService, useClass: BfUILibTransStubService}]
     })
     .compileComponents();
@@ -22,45 +20,17 @@ describe('BfModalHeaderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BfModalHeaderComponent);
     component = fixture.componentInstance;
-    translateService = TestBed.get(BfUILibTransService);
+    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show the title', () => {
-    const title = 'Title';
-    component.bfTitle = 'view.common.modal.title';
-    const getLabelsSpy = spyOn(translateService, 'getLabel$').and.returnValue(of(title));
-
-    fixture.detectChanges();
-
-    expect(getLabelsSpy).toHaveBeenCalledWith(component.bfTitle);
-  });
-
-  it('should show the description', () => {
-    const description = 'Description';
-    component.bfDescription = 'view.common.modal.description';
-    const getLabelsSpy = spyOn(translateService, 'getLabel$').and.returnValue(of(description));
-
-    fixture.detectChanges();
-
-    expect(getLabelsSpy).toHaveBeenCalledWith(component.bfDescription);
-  });
-
-  it('should not show the description', () => {
-    component.bfDescription = null;
-    const getLabelsSpy = spyOn(translateService, 'getLabel$');
-
-    expect(getLabelsSpy).not.toHaveBeenCalled();
-  });
-
   it('should emit close event', () => {
     const closeSpy = spyOn(component.closeModal, 'emit');
 
     component.close();
-
     expect(closeSpy).toHaveBeenCalled();
   });
 });

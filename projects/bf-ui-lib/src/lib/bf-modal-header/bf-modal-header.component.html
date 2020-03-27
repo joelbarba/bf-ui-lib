@@ -1,13 +1,13 @@
 <div class="modal-header">
   <div class="modal-header--title">
-    <h4 class="modal-title">{{ bfCurrentTitle$ | async }}</h4>
-    <button id="modal-close-button" type="button" class="close" attr.aria-label="{{ bfAriaLabel$ | async }}" (click)="close()">
+    <h4 class="modal-title">{{ bfTitle | getLabel$ | async }}</h4>
+    <button id="modal-close-button" type="button" class="close" attr.aria-label="{{ bfAriaLabel | getLabel$ | async }}" (click)="close()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <h5 class="modal-header--description" *ngIf="bfDescription">
     <span class="spacer5"></span>
     <span class="icon-info spacerR5"></span>
-    <span class="modal-description">{{ bfCurrentDescription$ | async }}</span>
+    <span class="modal-description">{{ bfDescription | getLabel$ | async }}</span>
   </h5>
 </div>
