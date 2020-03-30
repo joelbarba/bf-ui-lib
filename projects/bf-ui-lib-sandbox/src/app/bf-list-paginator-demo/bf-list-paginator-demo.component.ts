@@ -68,6 +68,7 @@ $page_hover_bg: #eeeeee !default;`;
 
     bfShowSelector: false,
     hasFullWidth: false,
+    hasMobile: false,
     hasAlignRight: false,
     hasAlignCenter: false,
 
