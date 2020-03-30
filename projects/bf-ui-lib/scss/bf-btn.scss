@@ -117,7 +117,10 @@ bf-btn {
     width: 100%;
     .disabled-tooltip {
       width: 100%;
-      .bf-btn { width: 100%; }
+      .bf-btn {
+        width: 100%;
+        .btn-icon-section.full-icon { width: 100%; }
+      }
     }
   }
 
