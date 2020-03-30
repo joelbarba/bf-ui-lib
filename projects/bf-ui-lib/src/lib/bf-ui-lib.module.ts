@@ -40,6 +40,7 @@ import {BfLoadingSpinnerComponent, BfLoadingSpinnerDirective} from './bf-loading
 import { ShowDirective } from './show/show.component';
 import { BfNoDataComponent } from './bf-no-data/bf-no-data.component';
 import { Ng5SliderModule } from 'ng5-slider';
+import { BfSectionHeaderComponent } from './bf-section-header/bf-section-header.component';
 import { BfRangeSliderComponent } from './bf-range-slider/bf-range-slider.component';
 
 
@@ -74,6 +75,7 @@ import { BfRangeSliderComponent } from './bf-range-slider/bf-range-slider.compon
     BfLoadingSpinnerDirective,
     ShowDirective,
     BfNoDataComponent,
+    BfSectionHeaderComponent,
     BfRangeSliderComponent,
   ],
   entryComponents: [BfConfirmComponent],
@@ -93,6 +95,7 @@ import { BfRangeSliderComponent } from './bf-range-slider/bf-range-slider.compon
     Ng5SliderModule,
   ],
   exports: [
+    BfSectionHeaderComponent,  // <--- New component
     BfRangeSliderComponent,  // <--- New component
     BfNoDataComponent,  // <--- New component
     ShowDirective,

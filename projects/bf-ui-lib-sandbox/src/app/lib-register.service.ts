@@ -26,6 +26,7 @@ export const compList = [
   docs.BfListPaginatorDoc,
   docs.BfNoDataDoc,
   docs.BfLoadingSpinnerDoc,
+  docs.BfSectionHeaderDoc,
   docs.BfGrowlDoc,
   docs.BfLoadingBarDoc,
   docs.BfConfirmDoc,
@@ -33,7 +34,7 @@ export const compList = [
   docs.BfListHandlerDoc,
   docs.BfPromiseDoc,
   docs.BfDeferDoc,
-  docs.ShowDoc,
+  docs.ShowDoc
 ];
 
 
