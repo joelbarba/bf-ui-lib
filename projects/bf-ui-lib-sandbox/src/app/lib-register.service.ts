@@ -19,6 +19,7 @@ export const compList = [
   docs.BfRangeSliderDoc,
   docs.BfColorPickerDoc,
   docs.BfStatusBadgeDoc,
+  docs.BfModalHeaderDoc,
   docs.BfProgressBarDoc,
   docs.BfListHeaderColDoc,
   docs.BfListPlaceholderDoc,
@@ -34,7 +35,6 @@ export const compList = [
   docs.BfPromiseDoc,
   docs.BfDeferDoc,
   docs.ShowDoc,
-  docs.BfModalHeaderDoc,
 ];
 
 

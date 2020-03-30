@@ -5,9 +5,9 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <h5 class="modal-header--description" *ngIf="bfDescription">
+  <h6 class="modal-header--description" *ngIf="bfDescription">
     <span class="spacer5"></span>
     <span class="icon-info spacerR5"></span>
     <span class="modal-description">{{ bfDescription | getLabel$ | async }}</span>
-  </h5>
+  </h6>
 </div>
