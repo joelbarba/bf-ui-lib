@@ -6,6 +6,7 @@ import { NgbModule, NgbActiveModal, NgbModalModule, NgbDatepickerModule } from '
 // Modules
 import { BfGrowlModule } from './bf-growl/bf-growl.module';
 import { BfLoadingBarModule } from './bf-loading-bar/bf-loading-bar.module';
+import { BfDnDModule } from './bf-dnd/bf-dnd.module';
 
 // Services
 import { BfConfirmService } from './bf-confirm/bf-confirm.service';
@@ -42,6 +43,10 @@ import { BfNoDataComponent } from './bf-no-data/bf-no-data.component';
 import { Ng5SliderModule } from 'ng5-slider';
 import { BfSectionHeaderComponent } from './bf-section-header/bf-section-header.component';
 import { BfRangeSliderComponent } from './bf-range-slider/bf-range-slider.component';
+import { BfDropPlaceholderComponent } from './bf-dnd/bf-drop-placeholder/bf-drop-placeholder.component';
+import {BfDraggableDirective} from './bf-dnd/bf-draggable/bf-draggable.directive';
+import {BfDropContainerDirective} from './bf-dnd/bf-drop-container/bf-drop-container.directive';
+
 
 
 @NgModule({
@@ -77,6 +82,10 @@ import { BfRangeSliderComponent } from './bf-range-slider/bf-range-slider.compon
     BfNoDataComponent,
     BfSectionHeaderComponent,
     BfRangeSliderComponent,
+
+    // BfDraggableDirective,
+    // BfDropContainerDirective,
+    // BfDropPlaceholderComponent,
   ],
   entryComponents: [BfConfirmComponent],
   imports: [
@@ -89,26 +98,30 @@ import { BfRangeSliderComponent } from './bf-range-slider/bf-range-slider.compon
     NgbProgressbarModule,
     NgbModalModule,
     BfGrowlModule,
+    BfDnDModule,
     BfLoadingBarModule,
     NgbDatepickerModule,
     NgbModule,
     Ng5SliderModule,
   ],
   exports: [
-    BfSectionHeaderComponent,  // <--- New component
-    BfRangeSliderComponent,  // <--- New component
-    BfNoDataComponent,  // <--- New component
+    // BfDraggableDirective,
+    // BfDropContainerDirective,
+    // BfDropPlaceholderComponent,
+    BfSectionHeaderComponent,
+    BfRangeSliderComponent,
+    BfNoDataComponent,
     ShowDirective,
-    BfLoadingSpinnerDirective,  // <--- New component
-    BfLoadingSpinnerComponent,  // <--- New component
-    BfPagePlaceholderComponent,  // <--- New component
-    BfSliderComponent,  // <--- New component
-    BfColorPickerComponent,  // <--- New component
-    BfStatusBadgeComponent,  // <--- New component
-    BfProgressBarComponent,  // <--- New component
-    BfMultiSelectorComponent,  // <--- New component
+    BfLoadingSpinnerDirective,
+    BfLoadingSpinnerComponent,
+    BfPagePlaceholderComponent,
+    BfSliderComponent,
+    BfColorPickerComponent,
+    BfStatusBadgeComponent,
+    BfProgressBarComponent,
+    BfMultiSelectorComponent,
     BfAutocompleteComponent,
-    BfTimePickerComponent,  // <--- New component
+    BfTimePickerComponent,
     FormsModule,
     BfListPaginatorComponent,
     BfDatePickerComponent,
@@ -125,9 +138,10 @@ import { BfRangeSliderComponent } from './bf-range-slider/bf-range-slider.compon
     BfLabelComponent,
     BfBtnComponent,
     BfListHeaderColComponent,
+    BfRangeSliderComponent,
     BfGrowlModule,
     BfLoadingBarModule,
-    BfRangeSliderComponent,
+    BfDnDModule,
   ]
 })
 export class BfUiLibModule {

@@ -154,7 +154,7 @@ this.loadingBar.run(myPromise, { blockScreen: false }).then(() => {
 
 
 export const BfLoadingBarDoc = {
-  name    : `bfLoadingBar`,
+  name    : `BfLoadingBar`,
   uiType  : 'module',
   desc    : `Global loading animation to block the page while something is going on`,
   api     : `

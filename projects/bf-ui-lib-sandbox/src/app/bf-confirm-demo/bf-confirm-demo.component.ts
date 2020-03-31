@@ -114,7 +114,7 @@ this.confirm.open().then(
 
 
 export const BfConfirmDoc = {
-  name    : `bfConfirm`,
+  name    : `BfConfirm`,
   uiType  : 'service',
   desc    : `Service to trigger a confirmation modal`,
   api     : `

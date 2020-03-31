@@ -89,7 +89,7 @@ def.promise.then(
 
 
 export const BfDeferDoc = {
-  name    : `bfDefer`,
+  name    : `BfDefer`,
   uiType  : 'class',
   desc    : `(Class) Native Promise wrapper`,
   api     : `promise: Promise<any>  --> The native promise

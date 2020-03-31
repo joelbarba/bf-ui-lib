@@ -15,6 +15,11 @@ export * from './lib/bf-loading-bar/bf-loading-bar.module';
 export * from './lib/bf-loading-bar/bf-loading-bar.service';
 export * from './lib/bf-loading-bar/bf-loading-bar.component';
 
+export * from './lib/bf-dnd/bf-dnd.module';
+export * from './lib/bf-dnd/bf-draggable/bf-draggable.directive';
+export * from './lib/bf-dnd/bf-drop-container/bf-drop-container.directive';
+export * from './lib/bf-dnd/bf-drop-placeholder/bf-drop-placeholder.component';
+
 export * from './lib/bf-confirm/bf-confirm.service';
 export * from './lib/bf-promise/bf-promise';
 export * from './lib/bf-defer/bf-defer';
@@ -47,3 +52,4 @@ export * from './lib/show/show.component';
 export * from './lib/bf-no-data/bf-no-data.component';
 export * from './lib/bf-section-header/bf-section-header.component';
 export * from './lib/bf-range-slider/bf-range-slider.component';
+

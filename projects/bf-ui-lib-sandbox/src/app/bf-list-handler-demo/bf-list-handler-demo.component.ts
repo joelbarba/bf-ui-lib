@@ -348,7 +348,7 @@ this.myList.orderList = (list: Array<any>, orderFields: Array<string>, orderReve
 
 
 export const BfListHandlerDoc = {
-  name    : `bfListHandler`,
+  name    : `BfListHandler`,
   uiType  : 'class',
   desc    : `(Class) Factory to generate list handlers`,
   api     : `renderList$      → Emits the rendered list to be displayed
