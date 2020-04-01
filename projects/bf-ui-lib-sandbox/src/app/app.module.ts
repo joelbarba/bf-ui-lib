@@ -41,6 +41,7 @@ import { BfLoadingSpinnerDemoComponent } from './bf-loading-spinner-demo/bf-load
 import { ShowDemoComponent } from './show-demo/show-demo.component';
 import { BfNoDataDemoComponent } from './bf-no-data-demo/bf-no-data-demo.component';
 import { BfDualCheckboxDemoComponent } from './bf-dual-checkbox-demo/bf-dual-checkbox-demo.component';
+import { BfSectionHeaderDemoComponent } from './bf-section-header-demo/bf-section-header-demo.component';
 import { BfRangeSliderDemoComponent } from './bf-range-slider-demo/bf-range-slider-demo.component';
 import { BfModalHeaderDemoComponent } from './bf-modal-header-demo/bf-modal-header-demo.component';
 import { BfModalDemoComponent } from './bf-modal-header-demo/bf-modal-demo/bf-modal-demo.component';
@@ -85,6 +86,7 @@ import {BfListHandlerTestComponent} from './bf-list-handler-demo/tests/bf-list-h
     BfLoadingSpinnerDemoComponent,
     ShowDemoComponent,
     BfNoDataDemoComponent,
+    BfSectionHeaderDemoComponent,
     BfListHandlerTestComponent,
     BfRangeSliderDemoComponent,
     BfModalHeaderDemoComponent,

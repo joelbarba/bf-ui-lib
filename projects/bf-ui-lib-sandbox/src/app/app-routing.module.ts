@@ -35,6 +35,7 @@ const routes: Routes = [
   { path: docs.BfNoDataDoc.name,            component: docs.BfNoDataDoc.demoComp           },
   { path: docs.BfModalHeaderDoc.name,       component: docs.BfModalHeaderDoc.demoComp      },
   { path: docs.BfLoadingSpinnerDoc.name,    component: docs.BfLoadingSpinnerDoc.demoComp   },
+  { path: docs.BfSectionHeaderDoc.name,     component: docs.BfSectionHeaderDoc.demoComp    },
   { path: docs.BfGrowlDoc.name,             component: docs.BfGrowlDoc.demoComp            },
   { path: docs.BfLoadingBarDoc.name,        component: docs.BfLoadingBarDoc.demoComp       },
   { path: docs.BfConfirmDoc.name,           component: docs.BfConfirmDoc.demoComp          },

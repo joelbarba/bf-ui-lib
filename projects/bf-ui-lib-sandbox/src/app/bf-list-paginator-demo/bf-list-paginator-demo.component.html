@@ -21,6 +21,7 @@
       <div class="padB25">
         <bf-list-paginator
                 [class.full-width]="compConf.hasFullWidth"
+                [class.mobile]="compConf.hasMobile"
                 [class.align-right]="compConf.hasAlignRight"
                 [class.align-center]="compConf.hasAlignCenter"
                 [bfCtrl]="compConf.myList"
@@ -70,9 +71,10 @@
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasPageChange" (ngModelChange)="upComp()" bfLabel="bfPageChange"></bf-checkbox> </div>
       </div>
       <div class="row">
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasFullWidth" (ngModelChange)="upComp()" bfLabel="full-width"></bf-checkbox> </div>
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasAlignRight" (ngModelChange)="upComp()" bfLabel="align-right"></bf-checkbox> </div>
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasAlignCenter" (ngModelChange)="upComp()" bfLabel="align-center"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasFullWidth" (ngModelChange)="upComp()" bfLabel=".full-width"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasMobile" (ngModelChange)="upComp()" bfLabel=".mobile"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasAlignRight" (ngModelChange)="upComp()" bfLabel=".align-right"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasAlignCenter" (ngModelChange)="upComp()" bfLabel=".align-center"></bf-checkbox> </div>
       </div>
     </div>
 

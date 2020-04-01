@@ -71,6 +71,23 @@ bf-list-paginator {
     }
   }
 
+  // Mobile style: Full with + 2 lines (buttons + selector)
+  &.mobile .bf-list-paginator {
+    width: 100%;
+    flex-wrap: wrap;
+    .page-buttons {
+      width: 100%;
+      display: flex;
+      .page-btn { flex: 1; }
+    }
+    .page-num-selector {
+      flex: 1 0 100%;
+      margin-top: 10px;
+      padding-left: 0;
+      bf-dropdown .bf-dropdown-form-group { width: 100%; }
+    }
+  }
+
   &.align-right .bf-list-paginator { justify-content: flex-end; }
   &.align-center .bf-list-paginator { justify-content: center; }
 }

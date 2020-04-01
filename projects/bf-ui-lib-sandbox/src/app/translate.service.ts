@@ -122,7 +122,9 @@ export class BfTranslateService extends BfUILibTransService {
     'directives.bfAutocomplete.no_results_found': 'No results found',
     'view.common.modal.title': 'Title',
     'view.common.modal.description': 'Description',
-    'view.common.modal.close.button': 'Close'
+    'view.common.modal.close.button': 'Close',
+    'view.common.title': 'Title',
+    'view.common.description': 'Description'
   };
   public transDictCAT = {
     'view.common.name'            : 'Nom',
@@ -163,7 +165,9 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.close': 'Tanca',
     'view.common.modal.title': 'Titulo',
     'view.common.modal.description': 'Descripción',
-    'view.common.modal.close.button': 'Cerrar'
+    'view.common.modal.close.button': 'Cerrar',
+    'view.common.title': 'Titulo',
+    'view.common.description': 'Descripción'
   };
 
   public transDict$ = new BehaviorSubject(this.transDict);

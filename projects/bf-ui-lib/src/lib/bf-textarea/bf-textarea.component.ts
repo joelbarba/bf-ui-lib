@@ -136,7 +136,7 @@ export class BfTextareaComponent implements ControlValueAccessor, OnInit, OnChan
   ngOnChanges(change) { // Translate bfText whenever it changes
 
     // Link the formControl form the <input #ngInputRef="ngModel"> to "this.inputCtrl"
-    if (!!this.ngInputRef['control'] && !this.inputCtrl) {
+    if (!!this.ngInputRef && !!this.ngInputRef['control'] && !this.inputCtrl) {
       this.inputCtrl = this.ngInputRef['control'];
       this.inputCtrl.setValidators(this.customValidator);
       this.inputCtrl.updateValueAndValidity();
