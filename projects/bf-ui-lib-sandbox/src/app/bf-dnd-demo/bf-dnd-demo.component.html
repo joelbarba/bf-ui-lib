@@ -7,10 +7,23 @@
 <div class="col-12"><pre>{{api}}</pre></div>
 
 
+<div class="board">
+  <!--<div class="elem" [bfDraggable]="obj1" bfDragMode="copy">Drag Me 1</div>-->
+  <!--<div class="elem" [bfDraggable]="obj2" bfDragMode="copy">Drag Me 2</div>-->
+  <div *ngFor="let item of list1">
+    <div class="elem" [bfDraggable]="item" bfDragMode="copy">{{item.name}}</div>
+  </div>
 
 
+  <div class="cont1" bfDropContainer>Drop here</div>
 
 
+  <!--<div class="elem1" draggable="true" (dragstart)="growl.success('Start')">Move Me</div>-->
+  <!--<div class="cont1" (dragover)="onDragOver($event)" (drop)="growl.success('Drop')">Drop here</div>-->
+</div>
+
+
+<bf-btn bfText="Click me" (bfClick)="growl.success('CLICKED')"></bf-btn>
 
 
 

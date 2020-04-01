@@ -1,11 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ComponentFactoryResolver,
+  Injector,
+  OnInit, TemplateRef,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
+import {BfGrowlService} from "../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service";
+import {BfBtnComponent} from "../../../../bf-ui-lib/src/lib/bf-btn/bf-btn.component";
+import {BfNoDataComponent} from "../../../../bf-ui-lib/src/lib/bf-no-data/bf-no-data.component";
+import {BfDnDService} from "../../../../bf-ui-lib/src/lib/bf-dnd/bf-dnd.service";
 
 @Component({
   selector: 'app-bf-drop-placeholder-demo',
   templateUrl: './bf-dnd-demo.component.html',
   styleUrls: ['./bf-dnd-demo.component.scss']
 })
-export class BfDndDemoComponent implements OnInit {
+export class BfDndDemoComponent implements OnInit, AfterViewInit {
   public name = BfDndDemoDoc.name;
   public desc = BfDndDemoDoc.desc;
   public api = BfDndDemoDoc.api;
@@ -15,16 +27,16 @@ export class BfDndDemoComponent implements OnInit {
 `<bf-drop-placeholder</bf-drop-placeholder>`;
 
 
-  public cssReset = `$optional_input_color : $optional-color;
-$focused_input_color  : $focused-color;
-$required_input_color : $primary_color;
-$invalid_input_color  : $invalid-color;
-$valid_input_color    : $primary_color;
-$disabled_input_color : $disabled-color;
+  public cssReset = ``;
 
-.bf-drop-placeholder-form-group {
-  ...
-}`;
+  public obj1 = { name: 'Orange' };
+  public obj2 = { name: 'Banana' };
+  public list1 = [
+    { name: 'Orange' },
+    { name: 'Banana' },
+  ];
+  public list2 = [];
+
 
 
 
@@ -66,13 +78,39 @@ $disabled_input_color : $disabled-color;
     this.customCompCode += (`>` + this.brStr + `</bf-drop-placeholder>`);
   };
 
+  constructor(
+    public growl: BfGrowlService,
+    private injector: Injector,
+    private r: ComponentFactoryResolver,
+    public bfDnD: BfDnDService,
+  ) {
+    // const factory = this.r.resolveComponentFactory(BfNoDataComponent);
+    // const compRef = factory.create(injector);
+    // const view = compRef.hostView;
+    // // this.vc2.createComponent(factory);
+  }
+
+  ngOnInit() {
+
+    this.bfDnD.dragEndOk$.subscribe(params => {
+      console.log('booom ', params);
+    });
+  }
 
 
+  onDragOver(event) {
+    // event.stopPropagation();
+    event.preventDefault();
+  }
 
+  ngAfterViewInit() {
 
-  constructor() { }
-
-  ngOnInit() { }
+    // const view1 = this.myTemplate.createEmbeddedView(null);
+    // const view2 = this.myTemplate.createEmbeddedView(null);
+    // this.vc1.insert(view1);
+    // this.vc2.insert(view2);
+    // this.vc2.createEmbeddedView(this.myTemplate);
+  }
 
 }
 

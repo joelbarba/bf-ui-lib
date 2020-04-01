@@ -83,6 +83,14 @@ body {
   z-index: 999;
 }
 
+.bf-drag-ghost {
+  .elem {
+    background: #7c1fda !important;
+    opacity: 0.8;
+    transform: rotate(8deg);
+  }
+}
+
 
 // Add spacing when 2+ components in a row
 bf-btn:not(.block) + bf-btn:not(.block) { margin-left: 5px; }

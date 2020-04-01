@@ -45,6 +45,7 @@ import { BfSectionHeaderDemoComponent } from './bf-section-header-demo/bf-sectio
 import { BfRangeSliderDemoComponent } from './bf-range-slider-demo/bf-range-slider-demo.component';
 import {BfListHandlerTestComponent} from './bf-list-handler-demo/tests/bf-list-handler-test.component';
 import { BfDndDemoComponent } from './bf-dnd-demo/bf-dnd-demo.component';
+import {BfNoDataComponent} from "../../../bf-ui-lib/src/lib/bf-no-data/bf-no-data.component";
 
 
 @NgModule({
@@ -90,6 +91,7 @@ import { BfDndDemoComponent } from './bf-dnd-demo/bf-dnd-demo.component';
     BfRangeSliderDemoComponent,
     BfDndDemoComponent,
   ],
+  entryComponents: [BfNoDataComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
