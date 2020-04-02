@@ -20,6 +20,7 @@ export class BfDnDService {
   public activePlaceholder = null;     // Reference to the active (closest) placeholder in placeholders[]
   public activeContainer = null;       // Reference to the active (dragging over) container in containers[]
 
+  public touchDragOver$ = new Subject();   // This is for containers to know when dragging over (when touchmove)
 
   // Internals
   private isDropping = false;           // To know whether the drop occurs into a valid container (true) or not (false)
@@ -30,6 +31,21 @@ export class BfDnDService {
     this.dragStart$ = this.change$.pipe(filter((ev: any) => ev.eventName === 'onDragStart'), map(ev => ev.params));
     this.dragEndOk$ = this.change$.pipe(filter((ev: any) => ev.eventName === 'onDragEndOk'), map(ev => ev.params));
     this.dragEndKo$ = this.change$.pipe(filter((ev: any) => ev.eventName === 'onDragEndKo'), map(ev => ev.params));
+
+
+    // Detect when dragging over for touch screens (there's no event on the element, it has to be positional)
+    document.addEventListener('touchmove', (event) => {
+      if (this.isDragging) {
+        const ghost = event.touches[0];
+        for (const cont of this.containers) {
+          const contRect = cont.element.getBoundingClientRect();
+          if (ghost.pageX >= contRect.left && ghost.pageX <= contRect.right && ghost.pageY >= contRect.top && ghost.pageY <= contRect.bottom) {
+            this.touchDragOver$.next(cont);
+          }
+        }
+      }
+    });
+
 
     this.change$.subscribe((ev: any) => {
       console.log('bfDnD - ', ev.eventName);
@@ -61,9 +77,9 @@ export class BfDnDService {
 
     if (this.isDropping) { // That means the drop was into a container
       this.change$.next({ eventName: 'onDragEndOk', params: {
-          bfDraggable           : this.bfDraggable,
-          currentDropContainer  : this.currentDropContainer,
-          activePlaceholder     : this.activePlaceholder
+          bfDraggable        : this.bfDraggable,
+          bfDropContainer    : this.currentDropContainer,
+          activePlaceholder  : this.activePlaceholder
       }});
 
     } else {
