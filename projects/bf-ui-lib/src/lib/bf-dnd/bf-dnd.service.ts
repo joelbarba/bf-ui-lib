@@ -4,9 +4,10 @@ import {filter, map} from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class BfDnDService {
-  public isDragging = false;       // Whether there is a dragging operation ongoing
-  public bfDraggable = null;       // Model attach to the dragging element
-  public bfDragMode = null;        // Current dragging mode (copy / move)
+  public isDragging = false;          // Whether there is a dragging operation ongoing
+  public bfDraggable = null;          // Model attach to the dragging element
+  public bfDragMode = null;           // Current dragging mode (copy / move)
+  public bfNestedContainers = false;  // If true, only the last nested container turns active on dragover
 
   // // Callback functions
   public change$ = new Subject();   // Event source (all triggers go through this guy)

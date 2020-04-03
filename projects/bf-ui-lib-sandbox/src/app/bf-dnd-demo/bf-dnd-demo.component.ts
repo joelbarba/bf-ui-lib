@@ -2,20 +2,23 @@ import {
   AfterViewInit,
   Component,
   ComponentFactoryResolver,
-  Injector,
+  Injector, OnDestroy,
   OnInit, TemplateRef,
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
 import {BfGrowlService} from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service';
 import {BfDnDService} from '../../../../bf-ui-lib/src/lib/bf-dnd/bf-dnd.service';
+import {SubSink} from 'subsink';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-bf-drop-placeholder-demo',
   templateUrl: './bf-dnd-demo.component.html',
   styleUrls: ['./bf-dnd-demo.component.scss']
 })
-export class BfDndDemoComponent implements OnInit, AfterViewInit {
+export class BfDndDemoComponent implements OnInit, AfterViewInit, OnDestroy {
+  private subs = new SubSink();
   public name = BfDndDemoDoc.name;
   public desc = BfDndDemoDoc.desc;
   public api = BfDndDemoDoc.api;
@@ -29,11 +32,15 @@ export class BfDndDemoComponent implements OnInit, AfterViewInit {
   public list2 = [];
   public container1 = { id: '1', list: [] };
   public container2 = { id: '2', list: [] };
+  public container3 = { id: '3', list: [] };
+  public container4 = { id: '4', list: [] };
+  public isNestOp = false;
 
 
 
 
   constructor(
+    public router: Router,
     public growl: BfGrowlService,
     private injector: Injector,
     private r: ComponentFactoryResolver,
@@ -48,17 +55,12 @@ export class BfDndDemoComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
-    this.bfDnD.dragEndOk$.subscribe(params => {
-      console.log('dropping ', params);
-      if (params.bfDropContainer.id === this.container1.id) {
-        this.growl.success('Dropping into container 1 - ' + params.bfDraggable.name);
-      }
-      if (params.bfDropContainer.id === this.container2.id) {
-        this.growl.success('Dropping into container 2 - ' + params.bfDraggable.name);
-      }
+    this.subs.add(this.bfDnD.dragEndOk$.subscribe(params => {
+      console.log('dropping ', params, this.bfDnD.activeContainer);
+      this.growl.success('Dropping into container ' + params.bfDropContainer.id + ' - Item: ' + params.bfDraggable.name);
       // this.list2.push(params.bfDraggable);
       // this.list1.removeByProp('name', params.bfDraggable.name);
-    });
+    }));
     //
     // this.bfDnD.dragEndKo$.subscribe(params => {
     //   this.growl.error('Ups, that fell out');
@@ -70,6 +72,11 @@ export class BfDndDemoComponent implements OnInit, AfterViewInit {
     this.list1.push(item);
     this.list2.removeByProp('name', item.name);
   }
+
+  changeNestedOp = (val) => {
+    this.bfDnD.bfNestedContainers = !!val;
+    this.growl.success('BfDnD Nested detection ' + (val ? 'On' : 'Off'));
+  };
 
 
   onDragOver(event) {
@@ -85,7 +92,7 @@ export class BfDndDemoComponent implements OnInit, AfterViewInit {
     // this.vc2.insert(view2);
     // this.vc2.createEmbeddedView(this.myTemplate);
   }
-
+  ngOnDestroy() { this.subs.unsubscribe(); }
 }
 
 

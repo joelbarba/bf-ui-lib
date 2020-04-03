@@ -28,7 +28,7 @@ export class BfDropContainerDirective implements OnChanges {
     public bfDnD: BfDnDService,
     public growl: BfGrowlService
   ) {
-    const contId = this.id || 'bf-drop-container-' + this.bfDnD.containers.length;
+    const contId = this.id || ('bf-drop-container-' + this.bfDnD.containers.length);
     this.container = {
       id          : contId,
       element     : this.el.nativeElement,
@@ -56,7 +56,7 @@ export class BfDropContainerDirective implements OnChanges {
 
 
   @HostListener('dragover', ['$event']) dragover(event: any) {
-    console.log('dragover');
+    console.log('dragover', this.container.id);
     this.isDraggingOver = true;
     this.container.dragStatus = 1; // over
     this.bfDnD.activeContainer = this.container;
@@ -188,6 +188,7 @@ export class BfDropContainerDirective implements OnChanges {
     // if (isDebugMode) { debugRenderCanvas(allPlaceholders, closestPlaceholder, $rootScope, $event, BfDnD, $element); }
 
     event.preventDefault();
+    if (this.bfDnD.bfNestedContainers) { event.stopPropagation(); }
   }
 
   @HostListener('dragenter', ['$event']) dragenter(event) {
@@ -198,10 +199,10 @@ export class BfDropContainerDirective implements OnChanges {
   }
 
   @HostListener('dragleave', ['$event']) dragleave(event) {
-    console.log('drag leave');
     this.container.dragStatus = 2; // leaving
     setTimeout(() => {
       if (this.container.dragStatus === 2) {
+        console.log('drag leave');
         this.container.dragStatus = 0; // none
         this.isDraggingOver = false;
         // if (!!this.bfDnD.activePlaceholder && !!this.bfDnD.activePlaceholder.element) {
@@ -223,7 +224,7 @@ export class BfDropContainerDirective implements OnChanges {
     this.bfDrop.next({ bfDraggable: this.bfDnD.bfDraggable, bfDropContainer: this.bfDropContainer });
     this.bfDnD.dropInto(event, this.el, this.bfDropContainer);
     event.preventDefault();
-
+    if (this.bfDnD.bfNestedContainers) { event.stopPropagation(); }
   }
 
 }

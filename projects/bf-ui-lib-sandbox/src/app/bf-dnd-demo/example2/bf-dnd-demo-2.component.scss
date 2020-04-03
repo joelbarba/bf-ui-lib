@@ -6,7 +6,6 @@
 }
 
 .board {
-  //z-index: 10;
   position: relative;
   width: 100%;
   height: 400px;
@@ -19,7 +18,6 @@
 }
 
 .draggable {
-  //z-index: 20;
   width: 200px;
   height: 60px;
   border: 1px solid red;
@@ -28,28 +26,12 @@
   @extend .f-center;
 
   &:hover { cursor: grab; }
-  &.is-dragging {
-    opacity: 0.2;
-  }
+  &.is-dragging { opacity: 0.2; }
 }
 
 .container {
-  //z-index: 30;
   width: 100%;
   height: 100%;
-  border: 4px dashed gray;
-  border-radius: 10px;
-  @extend .f-center;
-  &.dragging-over {
-    background: darkseagreen;
-    border-color: greenyellow;
-  }
+  background: lightgrey;
+  &.dragging-over { background: darkseagreen; }
 }
-.cont-list {
-  width: 100%;
-  height: 90%;
-  &.dragging-over {
-    background: darkseagreen;
-  }
-}
-

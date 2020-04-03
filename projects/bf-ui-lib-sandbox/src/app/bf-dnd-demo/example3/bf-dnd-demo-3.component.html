@@ -1,0 +1,82 @@
+<div class="row">
+  <div class="col-3">
+    <h2>BfDnD - Example 3</h2>
+  </div>
+  <div class="col-9 text-right">
+    <bf-btn bfText="BfDnD" (bfClick)="router.navigate(['/BfDnD'])"></bf-btn>
+    <bf-btn bfText="Ex.1" (bfClick)="router.navigate(['/BfDnD/example1'])"></bf-btn>
+    <bf-btn bfText="Ex.2" (bfClick)="router.navigate(['/BfDnD/example2'])"></bf-btn>
+    <bf-btn bfText="Ex.3" (bfClick)="router.navigate(['/BfDnD/example3'])" bfDisabled="true"></bf-btn>
+    <bf-btn bfText="Ex.4" (bfClick)="router.navigate(['/BfDnD/example4'])"></bf-btn>
+    <bf-btn bfText="Ex.5" (bfClick)="router.navigate(['/BfDnD/example5'])"></bf-btn>
+    <bf-btn bfText="Ex.6" (bfClick)="router.navigate(['/BfDnD/example6'])"></bf-btn>
+  </div>
+</div>
+<hr/>
+<h4>Multiple drop containers</h4>
+<p>Drag and drop to different containers. Nested containers may behave differently depending on the option</p>
+
+
+<div class="row">
+  <div class="col-4">
+    <div class="board">
+      <h4 class="padB30">Draggable elements</h4>
+      <div class="draggable" [bfDraggable]="obj1">{{obj1.name}}</div>
+      <div class="draggable" [bfDraggable]="obj2">{{obj2.name}}</div>
+      <div class="draggable" [bfDraggable]="obj3">{{obj3.name}}</div>
+    </div>
+  </div>
+
+  <div class="col-4">
+    <div class="container c1" [bfDropContainer]="container1">
+      <h5>Container 1</h5>
+      <div class="container c2" [bfDropContainer]="container3">
+        <h5>Container 3</h5>
+        <div class="container c3" [bfDropContainer]="container4">
+          <h5>Container 4</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-4">
+    <div class="container" [bfDropContainer]="container2">
+      <h5>Container 2</h5>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <bf-switch bfLabel="bfDnD.bfNestedContainers" bfLabelPos="left"
+               [(ngModel)]="isNestOp" (ngModelChange)="changeNestedOp($event)">
+    </bf-switch>
+    <div>activeContainer = {{bfDnD.activeContainer?.id}}</div>
+  </div>
+</div>
+
+
+
+
+<div class="row">
+  <div class="col-12"><hr></div>
+
+  <div class="col-5">
+    <h5>View:</h5>
+    <div class="code-box pad15">
+      <pre>{{viewCode}}</pre>
+    </div>
+  </div>
+
+  <div class="col-4">
+    <h5>Ctrl:</h5>
+    <div class="code-box pad15">
+      <pre>{{ctrlCode}}</pre>
+    </div>
+  </div>
+
+  <div class="col-3">
+    <h5>Scss:</h5>
+    <div class="code-box pad15">
+      <pre>{{scssCode}}</pre>
+    </div>
+  </div>
+</div>

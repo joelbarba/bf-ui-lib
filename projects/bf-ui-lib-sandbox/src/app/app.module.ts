@@ -46,6 +46,12 @@ import { BfRangeSliderDemoComponent } from './bf-range-slider-demo/bf-range-slid
 import {BfListHandlerTestComponent} from './bf-list-handler-demo/tests/bf-list-handler-test.component';
 import { BfDndDemoComponent } from './bf-dnd-demo/bf-dnd-demo.component';
 import {BfNoDataComponent} from '../../../bf-ui-lib/src/lib/bf-no-data/bf-no-data.component';
+import {BfDndDemo1Component} from './bf-dnd-demo/example1/bf-dnd-demo-1.component';
+import {BfDndDemo2Component} from './bf-dnd-demo/example2/bf-dnd-demo-2.component';
+import {BfDndDemo3Component} from './bf-dnd-demo/example3/bf-dnd-demo-3.component';
+import {BfDndDemo4Component} from './bf-dnd-demo/example4/bf-dnd-demo-4.component';
+import {BfDndDemo5Component} from './bf-dnd-demo/example5/bf-dnd-demo-5.component';
+import {BfDndDemo6Component} from './bf-dnd-demo/example6/bf-dnd-demo-6.component';
 
 
 @NgModule({
@@ -90,6 +96,12 @@ import {BfNoDataComponent} from '../../../bf-ui-lib/src/lib/bf-no-data/bf-no-dat
     BfListHandlerTestComponent,
     BfRangeSliderDemoComponent,
     BfDndDemoComponent,
+    BfDndDemo1Component,
+    BfDndDemo2Component,
+    BfDndDemo3Component,
+    BfDndDemo4Component,
+    BfDndDemo5Component,
+    BfDndDemo6Component,
   ],
   entryComponents: [BfNoDataComponent],
   imports: [

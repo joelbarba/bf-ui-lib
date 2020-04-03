@@ -4,6 +4,12 @@ import { CommonModule } from '@angular/common';
 import { IndexPageComponent } from './index-page/index-page.component';
 import * as docs from './doc-demos-list';
 import {BfListHandlerTestComponent} from './bf-list-handler-demo/tests/bf-list-handler-test.component';
+import {BfDndDemo1Component} from './bf-dnd-demo/example1/bf-dnd-demo-1.component';
+import {BfDndDemo2Component} from './bf-dnd-demo/example2/bf-dnd-demo-2.component';
+import {BfDndDemo3Component} from './bf-dnd-demo/example3/bf-dnd-demo-3.component';
+import {BfDndDemo4Component} from './bf-dnd-demo/example4/bf-dnd-demo-4.component';
+import {BfDndDemo5Component} from './bf-dnd-demo/example5/bf-dnd-demo-5.component';
+import {BfDndDemo6Component} from './bf-dnd-demo/example6/bf-dnd-demo-6.component';
 
 
 const routes: Routes = [
@@ -37,14 +43,23 @@ const routes: Routes = [
   { path: docs.BfSectionHeaderDoc.name,     component: docs.BfSectionHeaderDoc.demoComp    },
   { path: docs.ShowDoc.name,                component: docs.ShowDoc.demoComp               },
   { path: docs.BfGrowlDoc.name,             component: docs.BfGrowlDoc.demoComp            },
-  { path: docs.BfDndDemoDoc.name,           component: docs.BfDndDemoDoc.demoComp          },
   { path: docs.BfLoadingBarDoc.name,        component: docs.BfLoadingBarDoc.demoComp       },
   { path: docs.BfConfirmDoc.name,           component: docs.BfConfirmDoc.demoComp          },
   { path: docs.BfPrototypesDoc.name,        component: docs.BfPrototypesDoc.demoComp       },
-  { path: docs.BfListHandlerDoc.name,       component: docs.BfListHandlerDoc.demoComp      },
   { path: docs.BfPromiseDoc.name,           component: docs.BfPromiseDoc.demoComp          },
   { path: docs.BfDeferDoc.name,             component: docs.BfDeferDoc.demoComp            },
+
+  { path: docs.BfDndDemoDoc.name,           component: docs.BfDndDemoDoc.demoComp          },
+  { path: 'BfDnD/example1',                 component: BfDndDemo1Component                 },
+  { path: 'BfDnD/example2',                 component: BfDndDemo2Component                 },
+  { path: 'BfDnD/example3',                 component: BfDndDemo3Component                 },
+  { path: 'BfDnD/example4',                 component: BfDndDemo4Component                 },
+  { path: 'BfDnD/example5',                 component: BfDndDemo5Component                 },
+  { path: 'BfDnD/example6',                 component: BfDndDemo6Component                 },
+
+  { path: docs.BfListHandlerDoc.name,       component: docs.BfListHandlerDoc.demoComp      },
   { path: 'list-test',                      component: BfListHandlerTestComponent          },
+
   { path: 'lazy-loading-test',
     loadChildren: () => import('projects/bf-ui-lib-sandbox/src/app/bf-lazy-loaded-module/bf-lazy-loaded.module')
       .then(mod => {

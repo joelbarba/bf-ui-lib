@@ -146,6 +146,7 @@ export class BfDraggableDirective implements OnChanges {
 
   // When the touch dragging ends by dropping
   @HostListener('touchend', ['$event']) touchend(event) {
+    if (this.bfDnD.activeContainer) { this.bfDnD.activeContainer.onDrop(event); }
     this.dragend(event);
     this.bfDnD.enableScroll();
   }
