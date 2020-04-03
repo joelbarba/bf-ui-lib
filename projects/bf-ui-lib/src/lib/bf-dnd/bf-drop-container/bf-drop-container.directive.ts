@@ -21,43 +21,44 @@ export class BfDropContainerDirective implements OnChanges {
 
   @HostBinding('class.dragging-over') private isDraggingOver = false;
 
-  private dragStatus = 0; // 0=none, 1=over, 2=leaving
-  private readonly container: { id, element, model };
-  private dragOverSub;
+  public container;
 
   constructor(
     private el: ElementRef,
     public bfDnD: BfDnDService,
     public growl: BfGrowlService
   ) {
+    const contId = this.id || 'bf-drop-container-' + this.bfDnD.containers.length;
+    this.container = {
+      id          : contId,
+      element     : this.el.nativeElement,
+      model       : this.bfDropContainer,
+      dragStatus  : 0, // 0=none, 1=over, 2=leaving
+      onDragOver  : (e) => this.dragover(e),
+      onDragEnter : (e) => this.dragenter(e),
+      onDragLeave : (e) => this.dragleave(e),
+      onDrop      : (e) => this.drop(e),
+    };
 
-    this.id = this.id || 'bf-drop-container-' + this.bfDnD.containers.length;
-
-    if (!!this.id) { // Make sure it's not registered yet
-      for (let ind = 0; ind < this.bfDnD.containers.length; ind++) {
-        if (this.bfDnD.containers[ind].id === this.id) {
-          console.error('Alert: [bfDropContainer] with a duplicated ID: ', this.id);
-          this.bfDnD.containers.splice(ind, 1);
-          break;
-        }
+    // Make sure it's not registered yet (remove any)
+    for (let ind = 0; ind < this.bfDnD.containers.length; ind++) {
+      if (this.bfDnD.containers[ind].id === contId) {
+        console.error('Alert: [bfDropContainer] with a duplicated ID: ', contId);
+        this.bfDnD.containers.splice(ind, 1);
+        break;
       }
     }
 
-    // Register the element in BfDnD.containers[]
-    this.container = { id: this.id, element: this.el.nativeElement, model: this.bfDropContainer };
-    this.bfDnD.containers.push(this.container);
-
-    this.dragOverSub = this.bfDnD.touchDragOver$.subscribe(container => {
-      console.log('DRAAAAAw', container);
-    });
+    this.bfDnD.containers.push(this.container); // Register the element in BfDnD.containers[]
   }
 
   ngOnChanges(changes) {}
 
 
   @HostListener('dragover', ['$event']) dragover(event: any) {
+    console.log('dragover');
     this.isDraggingOver = true;
-    this.dragStatus = 1; // over
+    this.container.dragStatus = 1; // over
     this.bfDnD.activeContainer = this.container;
     //
     // // This weird function is to delay the placeholder's position calculation
@@ -186,20 +187,35 @@ export class BfDropContainerDirective implements OnChanges {
     //
     // if (isDebugMode) { debugRenderCanvas(allPlaceholders, closestPlaceholder, $rootScope, $event, BfDnD, $element); }
 
-
-
     event.preventDefault();
   }
 
-  @HostListener('dragenter') dragenter() {
+  @HostListener('dragenter', ['$event']) dragenter(event) {
+    console.log('dragenter');
     this.isDraggingOver = true;
+    this.container.dragStatus = 1; // over
+    event.preventDefault();
   }
 
-  @HostListener('dragleave') dragleave() {
-    this.isDraggingOver = false;
+  @HostListener('dragleave', ['$event']) dragleave(event) {
+    console.log('drag leave');
+    this.container.dragStatus = 2; // leaving
+    setTimeout(() => {
+      if (this.container.dragStatus === 2) {
+        this.container.dragStatus = 0; // none
+        this.isDraggingOver = false;
+        // if (!!this.bfDnD.activePlaceholder && !!this.bfDnD.activePlaceholder.element) {
+        //   BfDnD.activePlaceholder.element.removeClass('active-placeholder');
+        //   BfDnD.activePlaceholder = null;
+        // }
+        this.bfDnD.activeContainer = null;
+      }
+    }, 50);
+    event.preventDefault();
   }
 
   @HostListener('drop', ['$event']) drop(event: any) {
+    console.log('drop');
     this.isDraggingOver = false;
     // if (!!BfDnD.activePlaceholder && !!BfDnD.activePlaceholder.element) {
     //   BfDnD.activePlaceholder.element.removeClass('active-placeholder');
@@ -207,22 +223,7 @@ export class BfDropContainerDirective implements OnChanges {
     this.bfDrop.next({ bfDraggable: this.bfDnD.bfDraggable, bfDropContainer: this.bfDropContainer });
     this.bfDnD.dropInto(event, this.el, this.bfDropContainer);
     event.preventDefault();
+
   }
 
-
-
-
-  // @HostListener('mouseover', ['$event']) mouseover(event) {
-  //   console.log('container - mouseover');
-  //   event.preventDefault();
-  // }
-  // @HostListener('mouseenter', ['$event']) mouseenter(event) {
-  //   console.log('container - mouseenter');
-  // }
-  // @HostListener('mousemove', ['$event']) mousemove(event) {
-  //   // if (this.bfDnD.isDragging) {
-  //     console.log('container - dragging over');
-  //     event.preventDefault();
-  //   // }
-  // }
 }

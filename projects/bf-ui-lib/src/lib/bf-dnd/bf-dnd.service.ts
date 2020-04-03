@@ -20,11 +20,11 @@ export class BfDnDService {
   public activePlaceholder = null;     // Reference to the active (closest) placeholder in placeholders[]
   public activeContainer = null;       // Reference to the active (dragging over) container in containers[]
 
-  public touchDragOver$ = new Subject();   // This is for containers to know when dragging over (when touchmove)
 
   // Internals
   private isDropping = false;           // To know whether the drop occurs into a valid container (true) or not (false)
   private currentDropContainer = null;  // Model attach to the current dropping container
+  private fixScrolls = [];
 
   constructor() {
     // Shortcuts
@@ -33,19 +33,8 @@ export class BfDnDService {
     this.dragEndKo$ = this.change$.pipe(filter((ev: any) => ev.eventName === 'onDragEndKo'), map(ev => ev.params));
 
 
-    // Detect when dragging over for touch screens (there's no event on the element, it has to be positional)
-    document.addEventListener('touchmove', (event) => {
-      if (this.isDragging) {
-        const ghost = event.touches[0];
-        for (const cont of this.containers) {
-          const contRect = cont.element.getBoundingClientRect();
-          if (ghost.pageX >= contRect.left && ghost.pageX <= contRect.right && ghost.pageY >= contRect.top && ghost.pageY <= contRect.bottom) {
-            this.touchDragOver$.next(cont);
-          }
-        }
-      }
-    });
-
+    // Listen to this event globally, so we can detect when a dragging moves over a container and mock the dragover
+    document.addEventListener('touchmove', this.onTouchMove);
 
     this.change$.subscribe((ev: any) => {
       console.log('bfDnD - ', ev.eventName);
@@ -91,6 +80,80 @@ export class BfDnDService {
     this.activePlaceholder = null;
     this.bfDragMode = null;
   };
+
+
+
+  // ------------------------------ Touch Screen Support ----------------------------------
+  // Dragging on touch screen is quite tricky.
+  // It is used to move scrolls, so we need to detect and freeze all scrollable elements when you
+  // are dragging an element, and prevent both actions at the same time
+
+  private getElementsWithScrolls = () => {
+    const getComputedStyle = document.body && document.body['currentStyle'] ?
+      (elem) => elem['currentStyle'] :
+      (elem) => document.defaultView.getComputedStyle(elem, null);
+
+    const getActualCss = (elem, style) => getComputedStyle(elem)[style];
+    const autoOrScroll = (text) => (text === 'scroll' || text === 'auto');
+    const isXScrollable = (elem) => elem.offsetWidth < elem.scrollWidth && autoOrScroll(getActualCss(elem, 'overflow-x'));
+    const isYScrollable = (elem) => elem.offsetHeight < elem.scrollHeight && autoOrScroll(getActualCss(elem, 'overflow-y'));
+    const hasScroller = (elem) => (isYScrollable(elem) || isXScrollable(elem));
+    return [].filter.call(document.querySelectorAll('*'), hasScroller);
+  };
+
+  // Find all elements in the body with scroll, and freeze them (keep reference to unfreeze later)
+  public disableScroll = () => {
+    this.fixScrolls = [];
+    const addRef = (ref, posX, posY) => {
+      ref.onscroll = () => { ref.scrollTo(posX, posY); };
+      if (ref.style) {
+        ref.oriOverflow = ref.style.overflow;
+        ref.style.overflow = 'hidden';
+      }
+      this.fixScrolls.push(ref);
+    };
+
+    // Freeze window scroll first
+    document.body.style.overflow = 'hidden';
+    addRef(window, window.pageXOffset || document.documentElement.scrollLeft,
+                   window.pageYOffset || document.documentElement.scrollTop);
+
+    const scrollEls = this.getElementsWithScrolls();
+    if (scrollEls) { scrollEls.forEach(el => { addRef(el, el.scrollLeft, el.scrollTop); }); }
+  };
+
+  // Unfreeze frozen scrolls
+  public enableScroll = () => {
+    document.body.style.overflow = 'auto';
+    this.fixScrolls.forEach(ref => {
+      ref.onscroll = () => {};
+      if (ref.style) { ref.style.overflow = ref.oriOverflow || null; }
+    });
+  };
+
+
+  private onTouchMove = (event) => {
+    if (this.isDragging) {
+      const ghost = event.touches[0];
+      const mockEvent = event;
+      mockEvent.preventDefault = () => {};
+
+      for (const cont of this.containers) {
+        const contRect = cont.element.getBoundingClientRect();
+
+        // Check if moving within the container rectangle area
+        if (ghost.clientX >= contRect.left && ghost.clientX <= contRect.right && ghost.clientY >= contRect.top && ghost.clientY <= contRect.bottom) {
+          if (cont.dragStatus === 0) { cont.onDragEnter(mockEvent); } // Mock drag enter
+          cont.onDragOver(mockEvent); // Dragging over the container area
+
+        } else { // If no dragging over anymore, mock drag leave
+          if (cont.dragStatus === 1) { cont.onDragLeave(mockEvent); }
+        }
+      }
+    }
+  };
+
+
 
 
 }

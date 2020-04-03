@@ -121,7 +121,14 @@ export class BfDraggableDirective implements OnChanges {
   // ------------------------------ Touch Screen Support ----------------------------------
   // Drag and drop for touch screens works differently (it is actually not recommended)
 
-  // When the touch starts / goes on
+
+
+  // When the touch starts
+  @HostListener('touchstart') touchstart() {
+    this.bfDnD.disableScroll(); // You cannot drag and scroll touching at the same time. Disable scroll
+  }
+
+  // When the touch moves
   @HostListener('touchmove', ['$event']) touchmove(event) {
     if (!this.isDragging) {
       this.dragstart(event);
@@ -137,9 +144,17 @@ export class BfDraggableDirective implements OnChanges {
     }
   }
 
-  // When the touch dragging ends
-  @HostListener('touchend', ['$event']) touchend(event) { this.dragend(event); }
+  // When the touch dragging ends by dropping
+  @HostListener('touchend', ['$event']) touchend(event) {
+    this.dragend(event);
+    this.bfDnD.enableScroll();
+  }
 
+  // When the touch dragging ends by something unexpected
+  @HostListener('touchcancel', ['$event']) touchcancel(event) {
+    this.dragend(event);
+    this.bfDnD.enableScroll();
+  }
 
   // Get the coordinates (this is how dragula does it)
   private getCoord = (coord, event) => {
