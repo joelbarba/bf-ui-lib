@@ -25,18 +25,18 @@ export class BfDndDemo3Component implements OnInit, OnDestroy {
   public viewCode = `<div class="col-4">
   <div class="board">
     <h4 class="padB30">Draggable elements</h4>
-    <div class="draggable" [bfDraggable]="obj1">{{obj1.name}}</div>
-    <div class="draggable" [bfDraggable]="obj2">{{obj2.name}}</div>
-    <div class="draggable" [bfDraggable]="obj3">{{obj3.name}}</div>
+    <div [bfDraggable]="obj1">{{obj1.name}}</div>
+    <div [bfDraggable]="obj2">{{obj2.name}}</div>
+    <div [bfDraggable]="obj3">{{obj3.name}}</div>
   </div>
 </div>
 
 <div class="col-4">
-  <div class="container c1" [bfDropContainer]="container1">
+  <div class="c1" [bfDropContainer]="container1">
     <h5>Container 1</h5>
-    <div class="container c2" [bfDropContainer]="container3">
+    <div class="c2" [bfDropContainer]="container3">
       <h5>Container 3</h5>
-      <div class="container c3" [bfDropContainer]="container4">
+      <div class="c3" [bfDropContainer]="container4">
         <h5>Container 4</h5>
       </div>
     </div>
@@ -44,7 +44,7 @@ export class BfDndDemo3Component implements OnInit, OnDestroy {
 </div>
 
 <div class="col-4">
-  <div class="container" [bfDropContainer]="container2">
+  <div [bfDropContainer]="container2">
     <h5>Container 2</h5>
   </div>
 </div>`;
@@ -67,7 +67,7 @@ ngOnInit() {
   });
 }`;
 
-  scssCode = `.draggable {
+  scssCode = `.bf-draggable {
   width: 200px;
   height: 60px;
   border: 1px solid red;
@@ -79,7 +79,7 @@ ngOnInit() {
   &.is-dragging { opacity: 0.2; }
 }
 
-.container {
+.bf-drop-container {
   width: 100%;
   height: 95%;
   h5 { z-index: -1; }

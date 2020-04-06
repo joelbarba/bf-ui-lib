@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {BfDropContainerDirective} from "./bf-drop-container.directive";
 
-import { BfDropContainerDirective } from './bf-drop-placeholder.component';
 
-describe('BfDropPlaceholderComponent', () => {
+describe('bfDropContainerDirective', () => {
   let component: BfDropContainerDirective;
   let fixture: ComponentFixture<BfDropContainerDirective>;
 

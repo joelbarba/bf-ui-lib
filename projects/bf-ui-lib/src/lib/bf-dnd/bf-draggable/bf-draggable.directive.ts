@@ -1,13 +1,11 @@
 import {
-  ApplicationRef,
-  Component,
   Directive,
-  ElementRef, EmbeddedViewRef,
+  ElementRef,
   HostBinding,
   HostListener,
   Input,
   OnChanges,
-  OnInit, Renderer2
+  Renderer2
 } from '@angular/core';
 import {BfGrowlService} from '../../bf-growl/bf-growl.service';
 import {BfDnDService} from '../bf-dnd.service';
@@ -24,27 +22,24 @@ export class BfDraggableDirective implements OnChanges {
   @Input() bfDraggable: {};
   @Input() bfDragMode = 'copy';
 
+  @HostBinding('class.bf-draggable') elementClass = true;
   @HostBinding('class.is-dragging') private isDragging = false;
 
-  private halfWidth;  // Element's middle point
-  private halfHeight;
+
 
   constructor(
     private el: ElementRef,
     public growl: BfGrowlService,
     public bfDnD: BfDnDService,
-    // private renderer: Renderer2,
+    private renderer: Renderer2,
     // private appRef: ApplicationRef,
   ) {
 
-    // this.el.nativeElement.addEventListener('touchstart', (event) => { console.log('touchstart'); });
-    // this.el.nativeElement.addEventListener('touchmove', (event) => { console.log('touchmove'); });
-    // this.el.nativeElement.addEventListener('touchend', (event) => { console.log('touchend'); });
-    // this.el.nativeElement.addEventListener('touchcancel', (event) => { console.log('touchcancel'); });
   }
 
   ngOnChanges(changes) {
-    this.el.nativeElement.draggable = true;
+    const isDraggable = this.bfDragMode === 'disabled' ? 'false' : 'true';
+    this.renderer.setAttribute(this.el.nativeElement, 'draggable', isDraggable);
   }
 
   // When the drag starts
@@ -58,6 +53,7 @@ export class BfDraggableDirective implements OnChanges {
     if (event.type !== 'touchmove') { event.dataTransfer.setData('Text', ''); }
 
     // Creates a div to wrap a copy of the selected element, and float it along the dragging
+    // We are going to do this natively without any Angular rendering or view link, since is purely cosmetic
     let ghost = document.getElementById('bf-drag-ghost-id');
     if (!!ghost) { ghost.remove(); }
     ghost = document.createElement('div');
@@ -69,7 +65,6 @@ export class BfDraggableDirective implements OnChanges {
     ghost.style.top = '-2500px';
     ghost.style.left = '-2500px';
 
-    const params = { event, element: this.el, bfDraggable: this.bfDraggable, bfDragMode: this.bfDragMode };
 
     if (!isSafari) { // No Safari browsers (the setDragImage needs to be done in the same cycle)
       this.setDragImage(event, ghost);
@@ -88,17 +83,15 @@ export class BfDraggableDirective implements OnChanges {
       }, 20);
     }
 
-
-
     event.stopPropagation();
   }
 
   private setDragImage = (event, ghost) => {
     const renderedShadowRect = document.getElementById('bf-drag-ghost-id').getBoundingClientRect();
-    this.halfWidth = renderedShadowRect.width / 2;
-    this.halfHeight = renderedShadowRect.height / 2;
+    this.bfDnD.ghostHalfWidth = renderedShadowRect.width / 2;
+    this.bfDnD.ghostHalfHeight = renderedShadowRect.height / 2;
     if (event.type !== 'touchmove') {
-      event.dataTransfer.setDragImage(ghost, this.halfWidth, this.halfHeight);
+      event.dataTransfer.setDragImage(ghost, this.bfDnD.ghostHalfWidth, this.bfDnD.ghostHalfHeight);
     }
   };
 
@@ -138,8 +131,8 @@ export class BfDraggableDirective implements OnChanges {
       const clientY = this.getCoord('clientY', event);
       const ghost = document.getElementById('bf-drag-ghost-id');
       if (ghost) {
-        ghost.style.left = (clientX - this.halfWidth) + 'px';
-        ghost.style.top = (clientY - this.halfHeight) + 'px';
+        ghost.style.left = (clientX - this.bfDnD.ghostHalfWidth) + 'px';
+        ghost.style.top = (clientY - this.bfDnD.ghostHalfHeight) + 'px';
       }
     }
   }

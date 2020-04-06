@@ -84,10 +84,10 @@ body {
 }
 
 .bf-drag-ghost {
-  .elem {
+  .bf-draggable {
     background: #7c1fda !important;
     opacity: 0.8;
-    transform: rotate(8deg);
+    //transform: rotate(8deg);
   }
 }
 

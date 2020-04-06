@@ -20,15 +20,14 @@
   <div class="col-3">
     <div class="board">
       <h4 class="padB30">Draggable elements</h4>
-      <div class="draggable" [bfDraggable]="obj1">{{obj1.name}}</div>
-      <div class="draggable" [bfDraggable]="obj2">{{obj2.name}}</div>
-      <div class="draggable" [bfDraggable]="obj3">{{obj3.name}}</div>
+      <div [bfDraggable]="obj1">{{obj1.name}}</div>
+      <div [bfDraggable]="obj2">{{obj2.name}}</div>
+      <div [bfDraggable]="obj3">{{obj3.name}}</div>
     </div>
   </div>
   <div class="col-3">
     <div class="board">
-      <div class="container" bfDropContainer
-           (bfDrop)="growl.success($event.bfDraggable.name + ' dropped')">
+      <div bfDropContainer (bfDrop)="growl.success($event.bfDraggable.name + ' dropped')">
         Drop here
       </div>
     </div>

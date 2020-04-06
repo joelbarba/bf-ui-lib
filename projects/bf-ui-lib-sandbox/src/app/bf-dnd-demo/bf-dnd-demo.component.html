@@ -28,39 +28,68 @@
 <!--  <div class="cont" (dragover)="onDragOver($event)" (drop)="growl.success('Drop')">Drop here</div>-->
 <!--</div>-->
 
-
-
-
 <p>List example 2. Drag elements to different placeholder in a container</p>
 <div class="row">
-  <div class="col-4">
+  <div class="col-3">
     <div class="board">
       <h4>List 1</h4>
       <div *ngFor="let item of list1">
-        <div class="draggable" [bfDraggable]="item" bfDragMode="copy">{{item.name}}</div>
+        <div [bfDraggable]="item" bfDragMode="copy">{{item.name}}</div>
       </div>
     </div>
   </div>
 
-  <div class="col-4">
-    <div class="container" [bfDropContainer]="container1">Container 1</div>
+  <div class="col-3">
+    <div id="cont-1" [bfDropContainer]="container1">
+      <h5>Container 1</h5>
+
+      <div [bfDropPlaceholder]="{ pos: 0 }" bfDropContainerId="cont-1">Placeholder 0</div>
+      <div [bfDropPlaceholder]="{ pos: 1 }" bfDropContainerId="cont-1">Placeholder 1</div>
+      <div [bfDropPlaceholder]="{ pos: 2 }" bfDropContainerId="cont-1">Placeholder 2</div>
+    </div>
   </div>
 
-  <div class="col-4">
-    <div class="container" [bfDropContainer]="container2">
-        Container 2
+  <div class="col-6">
+    <div id="cont-2" class="cont-2" [bfDropContainer]="container2">
+      <h5>Container 2</h5>
+      <div class="ph-1" [bfDropPlaceholder]="{ pos: 1 }" bfDropContainerId="cont-2">Placeholder 1</div>
+      <div class="ph-2" [bfDropPlaceholder]="{ pos: 2 }" bfDropContainerId="cont-2">Placeholder 2</div>
+      <div class="ph-3" [bfDropPlaceholder]="{ pos: 3 }" bfDropContainerId="cont-2">Placeholder 3</div>
+      <div class="ph-4" [bfDropPlaceholder]="{ pos: 4 }" bfDropContainerId="cont-2">Placeholder 4</div>
+      <div class="ph-5" [bfDropPlaceholder]="{ pos: 5 }" bfDropContainerId="cont-2">Placeholder 5</div>
     </div>
   </div>
 </div>
 
 
-<div class="row">
-  <div class="col-12">
-    <bf-switch bfLabel="bfDnD.bfNestedContainers" bfLabelPos="left"
-               [(ngModel)]="isNestOp" (ngModelChange)="changeNestedOp($event)">
+<div class="row marT30 marB30">
+  <!--<div class="col-12">-->
+  <!--  <bf-switch bfLabel="bfDnD.bfNestedContainers" bfLabelPos="left"-->
+  <!--             [(ngModel)]="isNestOp" (ngModelChange)="changeNestedOp($event)">-->
+  <!--  </bf-switch>-->
+  <!--</div>-->
+  <div class="col-3">
+    <div><b>activeContainer =</b>{{bfDnD.activeContainer?.id}}</div>
+    <div><b>activePlaceholder =</b>{{bfDnD.activePlaceholder?.id}}</div>
+    <bf-switch bfLabel="bfDnD.isDebugMode" bfLabelPos="left"
+               [(ngModel)]="isDebugMode" (ngModelChange)="bfDnD.setDebugMode($event)">
     </bf-switch>
-    <div>activeContainer = {{bfDnD.activeContainer?.id}}</div>
   </div>
+  <div class="col-3">
+    <div>
+      <b>Containers =</b>
+      <span class="marL15" *ngFor="let cont of bfDnD.containers">{{cont.id}}</span>
+    </div>
+    <bf-switch bfLabel="bfDnD.isAccurateMode" bfLabelPos="left"
+               [(ngModel)]="isAccurateMode" (ngModelChange)="bfDnD.isAccurateMode = $event">
+    </bf-switch>
+  </div>
+
+  <div class="col-6">
+    <b>Placeholders =</b>
+    <span class="marL15" *ngFor="let placeholder of bfDnD.placeholders">{{placeholder.id}}</span>
+  </div>
+
 </div>
 
 

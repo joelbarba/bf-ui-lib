@@ -34,7 +34,8 @@ export class BfDndDemoComponent implements OnInit, AfterViewInit, OnDestroy {
   public container2 = { id: '2', list: [] };
   public container3 = { id: '3', list: [] };
   public container4 = { id: '4', list: [] };
-  public isNestOp = false;
+  public isDebugMode = false;
+  public isAccurateMode = false;
 
 
 
@@ -56,10 +57,13 @@ export class BfDndDemoComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
 
     this.subs.add(this.bfDnD.dragEndOk$.subscribe(params => {
+      params.bfDropContainer.list.push(params.bfDraggable);
       console.log('dropping ', params, this.bfDnD.activeContainer);
-      this.growl.success('Dropping into container ' + params.bfDropContainer.id + ' - Item: ' + params.bfDraggable.name);
-      // this.list2.push(params.bfDraggable);
-      // this.list1.removeByProp('name', params.bfDraggable.name);
+      this.growl.success('Dropping into container '
+        + params.bfDropContainer.id
+        + ' - placeholder: ' + params.bfDropPlaceholder.model.pos
+        // + ' - Item: ' + params.bfDraggable.name
+      );
     }));
     //
     // this.bfDnD.dragEndKo$.subscribe(params => {
@@ -93,6 +97,10 @@ export class BfDndDemoComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.vc2.createEmbeddedView(this.myTemplate);
   }
   ngOnDestroy() { this.subs.unsubscribe(); }
+
+  public changeDebugMode = (value) => {
+    this.bfDnD.setDebugMode(value);
+  }
 }
 
 

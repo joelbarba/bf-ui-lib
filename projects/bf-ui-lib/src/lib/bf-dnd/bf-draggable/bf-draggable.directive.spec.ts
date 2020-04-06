@@ -1,8 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {BfDraggableDirective} from './bf-draggable.directive';
 
-import { BfDraggableDirective } from './bf-drop-placeholder.component';
-
-describe('BfDropPlaceholderComponent', () => {
+describe('BfDraggableDirective', () => {
   let component: BfDraggableDirective;
   let fixture: ComponentFixture<BfDraggableDirective>;
 

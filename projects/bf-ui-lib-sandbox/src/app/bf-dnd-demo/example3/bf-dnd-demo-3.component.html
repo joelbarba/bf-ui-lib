@@ -21,18 +21,18 @@
   <div class="col-4">
     <div class="board">
       <h4 class="padB30">Draggable elements</h4>
-      <div class="draggable" [bfDraggable]="obj1">{{obj1.name}}</div>
-      <div class="draggable" [bfDraggable]="obj2">{{obj2.name}}</div>
-      <div class="draggable" [bfDraggable]="obj3">{{obj3.name}}</div>
+      <div [bfDraggable]="obj1">{{obj1.name}}</div>
+      <div [bfDraggable]="obj2">{{obj2.name}}</div>
+      <div [bfDraggable]="obj3">{{obj3.name}}</div>
     </div>
   </div>
 
   <div class="col-4">
-    <div class="container c1" [bfDropContainer]="container1">
+    <div class="c1" [bfDropContainer]="container1">
       <h5>Container 1</h5>
-      <div class="container c2" [bfDropContainer]="container3">
+      <div class="c2" [bfDropContainer]="container3">
         <h5>Container 3</h5>
-        <div class="container c3" [bfDropContainer]="container4">
+        <div class="c3" [bfDropContainer]="container4">
           <h5>Container 4</h5>
         </div>
       </div>
@@ -40,7 +40,7 @@
   </div>
 
   <div class="col-4">
-    <div class="container" [bfDropContainer]="container2">
+    <div [bfDropContainer]="container2">
       <h5>Container 2</h5>
     </div>
   </div>

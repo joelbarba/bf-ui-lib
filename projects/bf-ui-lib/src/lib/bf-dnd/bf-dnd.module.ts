@@ -1,6 +1,6 @@
 import {CommonModule} from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
-import {BfDropPlaceholderComponent} from './bf-drop-placeholder/bf-drop-placeholder.component';
+import {BfDropPlaceholderDirective} from './bf-drop-placeholder/bf-drop-placeholder.directive';
 import {BfDropContainerDirective} from './bf-drop-container/bf-drop-container.directive';
 import {BfDraggableDirective} from './bf-draggable/bf-draggable.directive';
 
@@ -9,12 +9,12 @@ import {BfDraggableDirective} from './bf-draggable/bf-draggable.directive';
   declarations: [
     BfDraggableDirective,
     BfDropContainerDirective,
-    BfDropPlaceholderComponent,
+    BfDropPlaceholderDirective,
   ],
   exports: [
     BfDraggableDirective,
     BfDropContainerDirective,
-    BfDropPlaceholderComponent,
+    BfDropPlaceholderDirective,
   ],
 })
 export class BfDnDModule {

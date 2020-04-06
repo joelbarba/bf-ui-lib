@@ -43,7 +43,7 @@ import { BfNoDataComponent } from './bf-no-data/bf-no-data.component';
 import { Ng5SliderModule } from 'ng5-slider';
 import { BfSectionHeaderComponent } from './bf-section-header/bf-section-header.component';
 import { BfRangeSliderComponent } from './bf-range-slider/bf-range-slider.component';
-import { BfDropPlaceholderComponent } from './bf-dnd/bf-drop-placeholder/bf-drop-placeholder.component';
+import {BfDropPlaceholderDirective} from './bf-dnd/bf-drop-placeholder/bf-drop-placeholder.directive';
 import {BfDraggableDirective} from './bf-dnd/bf-draggable/bf-draggable.directive';
 import {BfDropContainerDirective} from './bf-dnd/bf-drop-container/bf-drop-container.directive';
 
@@ -82,10 +82,6 @@ import {BfDropContainerDirective} from './bf-dnd/bf-drop-container/bf-drop-conta
     BfNoDataComponent,
     BfSectionHeaderComponent,
     BfRangeSliderComponent,
-
-    // BfDraggableDirective,
-    // BfDropContainerDirective,
-    // BfDropPlaceholderComponent,
   ],
   entryComponents: [BfConfirmComponent],
   imports: [
@@ -105,9 +101,6 @@ import {BfDropContainerDirective} from './bf-dnd/bf-drop-container/bf-drop-conta
     Ng5SliderModule,
   ],
   exports: [
-    // BfDraggableDirective,
-    // BfDropContainerDirective,
-    // BfDropPlaceholderComponent,
     BfSectionHeaderComponent,
     BfRangeSliderComponent,
     BfNoDataComponent,

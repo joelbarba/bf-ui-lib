@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { BfDndDemoComponent } from './bf-drop-placeholder-demo.component';
+import {BfDndDemoComponent} from './bf-dnd-demo.component';
 
 describe('BfDropPlaceholderDemoComponent', () => {
   let component: BfDndDemoComponent;

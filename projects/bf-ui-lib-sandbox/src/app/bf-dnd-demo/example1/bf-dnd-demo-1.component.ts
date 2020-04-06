@@ -24,21 +24,21 @@ export class BfDndDemo1Component implements OnInit, OnDestroy {
   public viewCode = `<div class="col-3">
   <div class="board">
     <h4 class="padB30">Draggable elements</h4>
-    <div class="draggable" [bfDraggable]="{ id: 1, name: 'Orange' }">Orange</div>
-    <div class="draggable" [bfDraggable]="{ id: 2, name: 'Banana' }">Banana</div>
-    <div class="draggable" [bfDraggable]="{ id: 3, name: 'Apple' }">Apple</div>
+    <div [bfDraggable]="{ id: 1, name: 'Orange' }">Orange</div>
+    <div [bfDraggable]="{ id: 2, name: 'Banana' }">Banana</div>
+    <div [bfDraggable]="{ id: 3, name: 'Apple' }">Apple</div>
   </div>
 </div>
 
 <div class="col-3">
   <div class="board">
-    <div class="container" bfDropContainer
-         (bfDrop)="growl.success($event.bfDraggable.name + ' dropped')">Drop here
+    <div bfDropContainer (bfDrop)="growl.success($event.bfDraggable.name)">
+       Drop here
     </div>
   </div>
 </div>`;
 
-  scssCode = `.draggable {
+  scssCode = `.bf-draggable {
   width: 200px;
   height: 60px;
   border: 1px solid red;
@@ -49,7 +49,7 @@ export class BfDndDemo1Component implements OnInit, OnDestroy {
   &.is-dragging { opacity: 0.2; }
 }
 
-.container {
+.bf-drop-container {
   width: 100%;
   height: 100%;
   border: 4px dashed gray;
@@ -69,7 +69,7 @@ ngOnInit() {
     // console.log('dropping ', params);
   });
 
-  this.subs.add(this.bfDnD.dragEndKo$.subscribe(params => {
+  this.bfDnD.dragEndKo$.subscribe(params => {
     this.growl.error('Ups, that fell out');
   });
 }`;

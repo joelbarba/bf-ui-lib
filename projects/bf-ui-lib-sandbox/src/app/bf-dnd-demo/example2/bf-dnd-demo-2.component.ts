@@ -24,15 +24,15 @@ export class BfDndDemo2Component implements OnInit, OnDestroy {
   public viewCode = `<div class="col-3">
   <div class="board">
     <h4 class="padB30">Draggable elements</h4>
-    <div class="draggable" [bfDraggable]="obj1">{{obj1.name}}</div>
-    <div class="draggable" [bfDraggable]="obj2">{{obj2.name}}</div>
-    <div class="draggable" [bfDraggable]="obj3">{{obj3.name}}</div>
+    <div [bfDraggable]="obj1">{{obj1.name}}</div>
+    <div [bfDraggable]="obj2">{{obj2.name}}</div>
+    <div [bfDraggable]="obj3">{{obj3.name}}</div>
   </div>
 </div>
 
 <div class="col-3">
   <div class="board">
-    <div class="container" [bfDropContainer]="container1" (bfDrop)="addItem($event)">
+    <div [bfDropContainer]="container1" (bfDrop)="addItem($event)">
       <h4 class="padB30">List 1</h4>
       <div *ngFor="let item of container1.list" class="marT5">
         <bf-btn bfType="delete-icon" (bfClick)="container1.list.removeById(item.id)"></bf-btn>
@@ -44,7 +44,7 @@ export class BfDndDemo2Component implements OnInit, OnDestroy {
 
 <div class="col-3">
   <div class="board">
-    <div class="container" [bfDropContainer]="container2" (bfDrop)="addItem($event)">
+    <div [bfDropContainer]="container2" (bfDrop)="addItem($event)">
       <h4 class="padB30">List 2</h4>
       <div *ngFor="let item of container2.list" class="marT5">
         <bf-btn bfType="delete-icon" (bfClick)="container2.list.removeById(item.id)"></bf-btn>
@@ -66,7 +66,7 @@ export class BfDndDemo2Component implements OnInit, OnDestroy {
   }
 }
 
-.draggable {
+.bf-draggable {
   width: 200px;
   height: 60px;
   border: 1px solid red;
@@ -78,7 +78,7 @@ export class BfDndDemo2Component implements OnInit, OnDestroy {
   &.is-dragging { opacity: 0.2; }
 }
 
-.container {
+.bf-drop-container {
   width: 100%;
   height: 100%;
   background: lightgrey;

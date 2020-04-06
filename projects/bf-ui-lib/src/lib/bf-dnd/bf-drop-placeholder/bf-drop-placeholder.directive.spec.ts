@@ -1,20 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {BfDropPlaceholderDirective} from './bf-drop-placeholder.directive';
 
-import { BfDropPlaceholderComponent } from './bf-drop-placeholder.component';
-
-describe('BfDropPlaceholderComponent', () => {
-  let component: BfDropPlaceholderComponent;
-  let fixture: ComponentFixture<BfDropPlaceholderComponent>;
+describe('BfDropPlaceholderDirective', () => {
+  let component: BfDropPlaceholderDirective;
+  let fixture: ComponentFixture<BfDropPlaceholderDirective>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BfDropPlaceholderComponent ]
+      declarations: [ BfDropPlaceholderDirective ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BfDropPlaceholderComponent);
+    fixture = TestBed.createComponent(BfDropPlaceholderDirective);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
