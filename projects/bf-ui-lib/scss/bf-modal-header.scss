@@ -1,9 +1,16 @@
+$modal-header-padding: 25px;
+$modal-header-padding-y: 0;
+$modal-header-padding-x: 0;
+
 .modal-header {
   flex-direction: column;
-  padding: 25px !important;
   .modal-header--title {
     width: 100%;
     display: flex;
+    button.close {
+      outline: none;
+      padding: 0;
+    }
   }
   .modal-header--description {
     color: $primary-color;
@@ -14,4 +21,3 @@
     margin-top: -2px;
   }
 }
-

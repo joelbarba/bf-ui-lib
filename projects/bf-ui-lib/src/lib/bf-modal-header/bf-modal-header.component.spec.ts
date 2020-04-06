@@ -28,7 +28,7 @@ describe('BfModalHeaderComponent', () => {
   });
 
   it('should emit close event', () => {
-    const closeSpy = spyOn(component.closeModal, 'emit');
+    const closeSpy = spyOn(component.bfClose, 'emit');
 
     component.close();
     expect(closeSpy).toHaveBeenCalled();

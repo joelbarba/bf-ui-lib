@@ -7,8 +7,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class BfModalHeaderComponent implements OnInit {
   @Input() bfTitle: string;
   @Input() bfDescription: string = null;
-
-  @Output() closeModal = new EventEmitter();
+  @Output() bfClose = new EventEmitter();
 
   public bfAriaLabel = 'view.common.modal.close.button';
 
@@ -18,7 +17,7 @@ export class BfModalHeaderComponent implements OnInit {
   }
 
   close() {
-    this.closeModal.emit();
+    this.bfClose.emit();
   }
 
 }

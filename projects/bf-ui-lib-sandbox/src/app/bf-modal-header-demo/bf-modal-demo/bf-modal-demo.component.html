@@ -1,5 +1,5 @@
-<bf-modal-header [bfTitle]="compConf.title" [bfDescription]="compConf.hasDescription ? compConf.description : ''" (closeModal)="close()"></bf-modal-header>
-          
+<bf-modal-header [bfTitle]="compConf.title" [bfDescription]="compConf.hasDescription ? compConf.description : ''" (bfClose)="close()"></bf-modal-header>
+
 <div class="modal-body">
   <div class="row">
     <div class="col-12">
@@ -7,4 +7,3 @@
     </div>
   </div>
 </div>
-  
