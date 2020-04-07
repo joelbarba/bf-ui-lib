@@ -34,6 +34,7 @@ export class BfDnDService {
   private currentDropContainer = null;  // Model attach to the current dropping container
   private fixScrolls = [];
   private calcPositions$ = new Subject(); // This is to delay the placeholder's position calculation
+  private calcPosSub; // Subscription for calcPositions$
   private canvasElem;
 
   constructor() {
@@ -46,11 +47,6 @@ export class BfDnDService {
     // Listen to this event globally, so we can detect when a dragging moves over a container and mock the dragover
     document.addEventListener('touchmove', this.onTouchMove);
 
-
-    // When placeholder positions are constantly changing, only recalculate their position every .5 seconds
-    // This should give enough time for animations and other transitions (expanding placeholders)
-    this.calcPositions$.pipe(throttleTime(500)).subscribe(container => this.calcPositions(container));
-
     if (this.isDebugMode) { this.setDebugMode(true); }
   }
 
@@ -61,6 +57,12 @@ export class BfDnDService {
     this.bfDraggable = bfDraggable;
     this.bfDragMode = bfDragMode;
     this.activePlaceholder = null;
+
+    // When placeholder positions are constantly changing, only recalculate their position every .5 seconds
+    // This should give enough time for animations and other transitions (expanding placeholders)
+    if (!!this.calcPosSub) { this.calcPosSub.unsubscribe(); }
+    this.calcPosSub = this.calcPositions$.pipe(throttleTime(500)).subscribe(container => this.calcPositions(container));
+
     this.change$.next({ eventName: 'onDragStart', params: { element, bfDraggable, bfDragMode } });
   };
 
@@ -92,6 +94,10 @@ export class BfDnDService {
     this.isDragging = false;
     this.activePlaceholder = null;
     this.bfDragMode = null;
+    if (!!this.calcPosSub) {
+      this.calcPosSub.unsubscribe();
+      this.calcPosSub = null;
+    }
   };
 
 
@@ -112,7 +118,7 @@ export class BfDnDService {
 
   // Calculates the current position and dimension of the placeholders
   public calcPositions = (container?) => {
-    console.log('calcPositions', new Date());
+    // console.log('calcPositions', new Date());
     // If a container is provided, it calculates only the placeholders of this container
     this.placeholders.filter(ph => !container || ph.containerId === container.id).forEach((placeholder) => {
       const dropSpot = placeholder.element.getBoundingClientRect();

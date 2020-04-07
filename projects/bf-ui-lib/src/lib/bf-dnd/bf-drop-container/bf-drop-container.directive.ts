@@ -64,11 +64,10 @@ export class BfDropContainerDirective implements OnChanges, OnDestroy {
 
 
   @HostListener('dragover', ['$event']) dragover(event: any) {
-    console.log('dragover', this.container.id);
+    // console.log('dragover', this.container.id);
     this.isDraggingOver = true;
     this.container.dragStatus = 1; // over
     this.bfDnD.activeContainer = this.container;
-
     this.bfDnD.dragOverRender(this.container, event); // Calculate active placeholder
 
     event.preventDefault();
@@ -76,18 +75,24 @@ export class BfDropContainerDirective implements OnChanges, OnDestroy {
   }
 
   @HostListener('dragenter', ['$event']) dragenter(event) {
-    console.log('dragenter');
+    if (this.el.nativeElement.contains(event.fromElement)) {
+      return false; // That means you are switching elements within the container
+    }
+    console.log('dragenter', this.container.id);
     this.isDraggingOver = true;
     this.container.dragStatus = 1; // over
-    // this.bfDnD.calcPositions(this.container);
+    this.bfDnD.calcPositions(this.container);
     event.preventDefault();
   }
 
   @HostListener('dragleave', ['$event']) dragleave(event) {
+    if (this.el.nativeElement.contains(event.fromElement)) {
+      return false; // That means you are switching elements within the container
+    }
+    console.log('drag leave', this.container.id);
     this.container.dragStatus = 2; // leaving
     setTimeout(() => {
       if (this.container.dragStatus === 2) {
-        console.log('drag leave');
         this.container.dragStatus = 0; // none
         this.isDraggingOver = false;
         if (!!this.bfDnD.activePlaceholder) {
@@ -101,7 +106,7 @@ export class BfDropContainerDirective implements OnChanges, OnDestroy {
   }
 
   @HostListener('drop', ['$event']) drop(event: any) {
-    console.log('drop');
+    console.log('drop', this.container.id);
     this.isDraggingOver = false;
     if (!!this.bfDnD.activePlaceholder) { this.bfDnD.activePlaceholder.setActive(false); }
     this.bfDrop.next({ bfDraggable: this.bfDnD.bfDraggable, bfDropContainer: this.bfDropContainer });

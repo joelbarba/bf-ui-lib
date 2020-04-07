@@ -27,7 +27,6 @@ export class BfDropPlaceholderDirective implements OnChanges, OnDestroy {
       element       : this.el.nativeElement,
       model         : this.bfDropPlaceholder,
       containerId   : this.bfDropContainerId,
-      wrapperClass  : 'valid',
       getActive     : () => this.isActive,
       setActive     : (value) => this.isActive = value,
     };

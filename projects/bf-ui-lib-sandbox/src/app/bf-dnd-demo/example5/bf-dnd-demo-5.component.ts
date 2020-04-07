@@ -11,68 +11,47 @@ import {BfDnDService} from '../../../../../bf-ui-lib/src/lib/bf-dnd/bf-dnd.servi
 })
 export class BfDndDemo5Component implements OnInit, OnDestroy {
   private subs = new SubSink();
-  public obj1 = { id: '1', name: 'Orange' };
-  public obj2 = { id: '2', name: 'Banana' };
-  public obj3 = { id: '3', name: 'Apple' };
-  public list1 = [this.obj1, this.obj2, this.obj3];
-  public list2 = [];
-  public container1 = { id: '1', list: [] };
-  public container2 = { id: '2', list: [] };
-  public container3 = { id: '3', list: [] };
-  public container4 = { id: '4', list: [] };
+  public myList = [
+    { id: '1',  order: 0, name: 'Orange' },
+    { id: '2',  order: 1, name: 'Banana' },
+    { id: '3',  order: 2, name: 'Apple' },
+    { id: '4',  order: 3, name: 'Berries' },
+    { id: '5',  order: 4, name: 'Pear' },
+    { id: '6',  order: 5, name: 'Melon' },
+    { id: '7',  order: 6, name: 'Cherry' },
+    { id: '8',  order: 7, name: 'Grapes' },
+    { id: '9',  order: 8, name: 'Peach' },
+    { id: '10', order: 9, name: 'Lemon' },
+  ];
 
-  public viewCode = `<div class="col-3">
-  <div class="board">
-    <h4 class="padB30">Draggable elements</h4>
-    <div class="draggable" [bfDraggable]="{ id: 1, name: 'Orange' }">Orange</div>
-    <div class="draggable" [bfDraggable]="{ id: 2, name: 'Banana' }">Banana</div>
-  </div>
-</div>
+  public viewCode = ``;
 
-<div class="col-3">
-  <div class="board">
-    <div class="container" bfDropContainer
-         (bfDrop)="growl.success($event.bfDraggable.name + ' dropped')">
-      <span>Drop here</span>
-    </div>
-  </div>
-</div>`;
+  scssCode = `a
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  d
+  `;
 
-  scssCode = `.draggable {
-  width: 200px;
-  height: 60px;
-  border: 1px solid red;
-  margin: 5px;
-  background: orange;
-  @extend .flex-center;
-  &:hover { cursor: grab; }
-  &.is-dragging { opacity: 0.2; }
-}
-
-.container {
-  width: 100%;
-  height: 100%;
-  border: 4px dashed gray;
-  border-radius: 10px;
-  @extend .flex-center;
-  &.dragging-over {
-    background: darkseagreen;
-    border-color: greenyellow;
-  }
-}`;
-
-  ctrlCode = `constructor(public bfDnD: BfDnDService) {}
-
-ngOnInit() {
-
-  this.bfDnD.dragEndOk$.subscribe(params => {
-    // console.log('dropping ', params);
-  });
-
-  this.subs.add(this.bfDnD.dragEndKo$.subscribe(params => {
-    this.growl.error('Ups, that fell out');
-  });
-}`;
+  ctrlCode = `constructor(public bfDnD: BfDnDService) {}`;
 
   constructor(
     public router: Router,
@@ -89,9 +68,9 @@ ngOnInit() {
     //   // this.list1.removeByProp('name', params.bfDraggable.name);
     // }));
 
-    this.subs.add(this.bfDnD.dragEndKo$.subscribe(params => {
-      this.growl.error('Ups, that fell out');
-    }));
+    // this.subs.add(this.bfDnD.dragEndKo$.subscribe(params => {
+    //   this.growl.error('Ups, that fell out');
+    // }));
 
   }
 

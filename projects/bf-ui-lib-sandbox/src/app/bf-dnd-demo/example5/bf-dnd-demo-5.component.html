@@ -14,25 +14,45 @@
 </div>
 <hr/>
 <h4>List reordering</h4>
-<p>5- : Reorder list draging elements up/down</p>
+<p>Using drag and drop to reorder rows on a list</p>
 
 <div class="row">
   <div class="col-3">
-    <div class="board">
-      <h4 class="padB30">Draggable elements</h4>
-      <div class="draggable" [bfDraggable]="obj1">{{obj1.name}}</div>
-      <div class="draggable" [bfDraggable]="obj2">{{obj2.name}}</div>
+    <h5>Reorderable List</h5>
+    <div [bfDraggable]="1" bfDragMode="move">
+      DRAG ME
     </div>
+
+    <div id="list-cont" [bfDropContainer]="">
+      <div class="list-wrapper" *ngFor="let item of myList">
+
+        <div [bfDraggable]="item" bfDragMode="move">
+            <span>{{'pos ' + item.order}}</span>
+            <span class="marL30">{{item.id + '. ' + item.name}}</span>
+        </div>
+
+        <div [id]="item.id" [bfDropPlaceholder]="" bfDropContainerId="list-cont"
+             *ngIf="bfDnD.bfDraggable?.id !== item.id">
+          <span>{{ 'placeholder ' + item.id}}</span>
+        </div>
+
+      </div>
+    </div>
+
   </div>
+
   <div class="col-3">
-    <div class="board">
-      <div class="container" bfDropContainer
-           (bfDrop)="growl.success($event.bfDraggable.name + ' dropped')">
-        Drop here
+    <div class="test-1" [bfDropContainer]="">
+      <div class="test-2">
+        <div class="test-3">HERE</div>
       </div>
     </div>
   </div>
+</div>
+ActivePlaceholder = {{bfDnD.activePlaceholder?.id}}
 
+<div class="row">
+  <div class="col-12"><hr></div>
   <div class="col-6">
     <h5>View:</h5>
     <div class="code-box pad15">
@@ -40,7 +60,6 @@
     </div>
   </div>
 
-  <div class="col-12"><hr></div>
 
   <div class="col-6">
     <h5>Ctrl:</h5>
