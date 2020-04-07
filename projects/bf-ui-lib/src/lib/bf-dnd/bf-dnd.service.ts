@@ -46,9 +46,6 @@ export class BfDnDService {
     // Listen to this event globally, so we can detect when a dragging moves over a container and mock the dragover
     document.addEventListener('touchmove', this.onTouchMove);
 
-    this.change$.subscribe((ev: any) => {
-      console.log('bfDnD - ', ev.eventName);
-    });
 
     // When placeholder positions are constantly changing, only recalculate their position every .5 seconds
     // This should give enough time for animations and other transitions (expanding placeholders)
@@ -304,7 +301,7 @@ export class BfDnDService {
 
 
 
-  // ------------------------------ Debug mode support ----------------------------------
+  // -------------------------------- Debug mode support ----------------------------------
   // All logic here below is purely debugging tools, no needed for the feature to work
 
   public setDebugMode = (value) => {

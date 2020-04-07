@@ -72,7 +72,7 @@ export class BfDndDemo2Component implements OnInit, OnDestroy {
   border: 1px solid red;
   margin: 5px;
   background: orange;
-  @extend .f-center;
+  @extend .flex-center;
 
   &:hover { cursor: grab; }
   &.is-dragging { opacity: 0.2; }

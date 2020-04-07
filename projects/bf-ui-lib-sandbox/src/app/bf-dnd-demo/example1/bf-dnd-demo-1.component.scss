@@ -1,9 +1,4 @@
-
-.f-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+@import 'helpers';
 
 .board {
   //z-index: 10;
@@ -24,7 +19,7 @@
   border: 1px solid red;
   margin: 5px;
   background: orange;
-  @extend .f-center;
+  @extend .flex-center;
 
   &:hover { cursor: grab; }
   &.is-dragging { opacity: 0.2; }
@@ -35,7 +30,7 @@
   height: 100%;
   border: 4px dashed gray;
   border-radius: 10px;
-  @extend .f-center;
+  @extend .flex-center;
   &.dragging-over {
     background: darkseagreen;
     border-color: greenyellow;

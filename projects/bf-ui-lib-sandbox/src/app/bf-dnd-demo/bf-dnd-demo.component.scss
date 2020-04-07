@@ -1,9 +1,4 @@
-
-.f-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+@import 'helpers';
 
 .board {
   //z-index: 10;
@@ -24,7 +19,7 @@
   border: 1px solid red;
   margin: 5px;
   background: orange;
-  @extend .f-center;
+  @extend .flex-center;
 
   &:hover { cursor: grab; }
   &.is-dragging {
@@ -62,7 +57,7 @@
   .bf-drop-placeholder {
     margin: 0;
     padding: 0;
-    @extend .f-center;
+    @extend .flex-center;
     position: absolute;
     &.ph-1 { left: 10px;  top: 210px; width: 300px; height: 50px; }
     &.ph-2 { left: 320px; top: 50px;  width: 200px; height: 70px; }
