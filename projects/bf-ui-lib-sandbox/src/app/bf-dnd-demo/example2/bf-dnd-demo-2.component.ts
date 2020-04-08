@@ -106,7 +106,16 @@ addItem(event) {
     public bfDnD: BfDnDService,
   ) {}
 
-  ngOnInit() { }
+  ngOnInit() {
+
+    // this.subs.add(this.bfDnD.activeContainer$.subscribe(cont => {
+    //   console.log('New active container: ', cont);
+    // }));
+    // this.subs.add(this.bfDnD.activePlaceholder$.subscribe(ph => {
+    //   console.log('New active placeholder: ', ph);
+    // }));
+
+  }
 
   addItem(event) {
     const list = event.bfDropContainer.list;

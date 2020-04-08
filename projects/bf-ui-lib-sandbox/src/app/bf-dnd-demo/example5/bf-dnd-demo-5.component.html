@@ -13,27 +13,43 @@
   </div>
 </div>
 <hr/>
-<h4>List reordering</h4>
-<p>Using drag and drop to reorder rows on a list</p>
+<h4>Reorderable List</h4>
+<p>Using drag and drop to reorder rows on an array list</p>
+<p>There is placeholder with height: 0 after every element in the list. When dragging, the active placeholder
+grows its height, representing a valid spot (position on the list) where to drop.
+<br>To allow dropping into the first position too, there's an extra placeholder before the list too.
+When the dragging starts, the dragged element gets hidden, and also its placeholder.
+</p>
+<hr>
 
-<div class="row">
+<div class="row"
+     [class.use-height-animation]="heightAnimation"
+     [class.use-drop-animation]="dropAnimation">
   <div class="col-3">
-    <h5>Reorderable List</h5>
-    <div [bfDraggable]="1" bfDragMode="move">
-      DRAG ME
-    </div>
+    <h6>myList</h6>
 
-    <div id="list-cont" [bfDropContainer]="">
-      <div class="list-wrapper" *ngFor="let item of myList">
+    <div id="list-cont" bfDropContainer (bfDrop)="reorderList($event)">
 
-        <div [bfDraggable]="item" bfDragMode="move">
-            <span>{{'pos ' + item.order}}</span>
-            <span class="marL30">{{item.id + '. ' + item.name}}</span>
+      <!--Unique first placeholder to drop at position 0-->
+      <div id="pos-0" [bfDropPlaceholder]="{ pos: -1 }" bfDropContainerId="list-cont">
+        <span class="marL20">{{'myList[' + bfDnD.bfDraggable?.pos + ']'}}</span>
+        <span class="marL30">{{bfDnD.bfDraggable?.id + '. ' + bfDnD.bfDraggable?.name}}</span>
+      </div>
+
+      <div *ngFor="let item of myList">
+
+        <!--Row Item-->
+        <div class="list-draggable" [bfDraggable]="item" [class.is-dropping]="item.id === isDroppingId">
+          <span class="icon-more2 marR5"></span>
+          <span>{{'myList[' + item.pos + ']'}}</span>
+          <span class="marL30">{{item.id + '. ' + item.name}}</span>
         </div>
 
-        <div [id]="item.id" [bfDropPlaceholder]="" bfDropContainerId="list-cont"
-             *ngIf="bfDnD.bfDraggable?.id !== item.id">
-          <span>{{ 'placeholder ' + item.id}}</span>
+        <!--Placeholder below every item (except the dragging one)-->
+        <div [id]="'pos-' + item.id" *ngIf="bfDnD.bfDraggable?.id !== item.id"
+             [bfDropPlaceholder]="item" bfDropContainerId="list-cont">
+          <span class="marL20">{{'myList[' + bfDnD.bfDraggable?.pos + ']'}}</span>
+          <span class="marL30">{{bfDnD.bfDraggable?.id + '. ' + bfDnD.bfDraggable?.name}}</span>
         </div>
 
       </div>
@@ -41,37 +57,41 @@
 
   </div>
 
-  <div class="col-3">
-    <div class="test-1" [bfDropContainer]="">
-      <div class="test-2">
-        <div class="test-3">HERE</div>
-      </div>
+  <div class="col-2 text-left padR0 padT30">
+    <div><bf-switch bfLabel="Height Animations" [(ngModel)]="heightAnimation" bfLabelPos="left"></bf-switch></div>
+    <div><bf-switch bfLabel="Drop Animations" [(ngModel)]="dropAnimation" bfLabelPos="left"></bf-switch></div>
+    <div class="padT15">ActivePlaceholder = {{bfDnD.activePlaceholder?.id}}</div>
+    <div class="">Dragging Item = {{bfDnD.bfDraggable?.id + '. ' + bfDnD.bfDraggable?.name}}</div>
+    <div class="marT40">
+      <bf-btn bfType="save" bfText="Reset Array myList[]" (bfClick)="resetArray()"></bf-btn>
     </div>
   </div>
-</div>
-ActivePlaceholder = {{bfDnD.activePlaceholder?.id}}
 
-<div class="row">
-  <div class="col-12"><hr></div>
-  <div class="col-6">
+
+  <div class="col-7">
     <h5>View:</h5>
     <div class="code-box pad15">
       <pre>{{viewCode}}</pre>
     </div>
   </div>
+</div>
 
 
-  <div class="col-6">
+<div class="row">
+  <div class="col-12"><hr></div>
+  <div class="col-5">
     <h5>Ctrl:</h5>
     <div class="code-box pad15">
-      <pre>{{ctrlCode}}</pre>
+      <pre style="font-size: 12px;">{{ctrlCode}}</pre>
     </div>
   </div>
 
-  <div class="col-6">
+  <div class="col-7">
     <h5>Scss:</h5>
-    <div class="code-box pad15">
-      <pre>{{scssCode}}</pre>
+    <div class="row padR15">
+      <div class="col-6 code-box"><pre style="font-size: 12px;">{{scssCode1}}</pre></div>
+      <div class="col-6 code-box"><pre style="font-size: 12px;">{{scssCode2}}</pre></div>
     </div>
+
   </div>
 </div>

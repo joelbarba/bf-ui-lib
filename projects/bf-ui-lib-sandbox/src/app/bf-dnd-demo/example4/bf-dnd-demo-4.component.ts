@@ -132,6 +132,10 @@ export class BfDndDemo4Component implements OnInit, OnDestroy {
       );
     }));
 
+    this.subs.add(this.bfDnD.activeContainer$.subscribe(cont => console.log('A container: ', cont)));
+    this.subs.add(this.bfDnD.activePlaceholder$.subscribe(ph => console.log('Active placeholder: ', ph)));
+    this.subs.add(this.bfDnD.dragOver$.subscribe(ph => console.log('Dragging over...')));
+
   }
 
   ngOnDestroy() { this.subs.unsubscribe(); }

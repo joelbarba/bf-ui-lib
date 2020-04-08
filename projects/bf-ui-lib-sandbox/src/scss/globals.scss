@@ -91,6 +91,17 @@ body {
   }
 }
 
+.bf-drag-ghost {
+  .bf-draggable.list-draggable {
+    opacity: 0.6;
+    background: gray !important;
+    width: 200px;
+    height: 40px;
+    padding: 10px 15px;
+    transform: rotate(-3deg);
+  }
+}
+
 
 // Add spacing when 2+ components in a row
 bf-btn:not(.block) + bf-btn:not(.block) { margin-left: 5px; }

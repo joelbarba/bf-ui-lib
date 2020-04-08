@@ -14,12 +14,16 @@ export class BfDnDService {
   public bfNestedContainers = false;  // If true, only the last nested container turns active on dragover
   public isAccurateMode = false;      // It requires more calculation but gives a better accuracy to select the active placeholder
 
-  // // Callback functions
+  // Observables
   public change$ = new Subject();   // Event source (all triggers go through this guy)
   public dragStart$;                // When a drag operation starts
   public dragEndOk$;                // When a drag operation finishes successfully (drop into valid container)
   public dragEndKo$;                // When a drag operation finishes unsuccessfully (drop out of any container)
+  public activeContainer$ = new Subject();    // Emits every time the activeContainer changes
+  public activePlaceholder$ = new Subject();  // Emits every time the activePlaceholder changes
+  public dragOver$ = new Subject(); // Constant emits on dragover event on bf-drop-containers
 
+  // Registered items
   public containers = [];              // List of the registered containers (<bf-drop-container>)
   public placeholders = [];            // List of the registered placeholders (<bf-drop-placeholder>)
                                        // id, element, model, containerId
@@ -33,8 +37,7 @@ export class BfDnDService {
   private isDropping = false;           // To know whether the drop occurs into a valid container (true) or not (false)
   private currentDropContainer = null;  // Model attach to the current dropping container
   private fixScrolls = [];
-  private calcPositions$ = new Subject(); // This is to delay the placeholder's position calculation
-  private calcPosSub; // Subscription for calcPositions$
+  private dragOverSub; // Subscription for dragOver$
   private canvasElem;
 
   constructor() {
@@ -56,12 +59,15 @@ export class BfDnDService {
     this.isDragging = true;
     this.bfDraggable = bfDraggable;
     this.bfDragMode = bfDragMode;
-    this.activePlaceholder = null;
+    if (this.activePlaceholder) {
+      this.activePlaceholder = null;
+      this.activePlaceholder$.next(this.activePlaceholder);
+    }
 
     // When placeholder positions are constantly changing, only recalculate their position every .5 seconds
     // This should give enough time for animations and other transitions (expanding placeholders)
-    if (!!this.calcPosSub) { this.calcPosSub.unsubscribe(); }
-    this.calcPosSub = this.calcPositions$.pipe(throttleTime(500)).subscribe(container => this.calcPositions(container));
+    if (!!this.dragOverSub) { this.dragOverSub.unsubscribe(); }
+    this.dragOverSub = this.dragOver$.pipe(throttleTime(500)).subscribe(container => this.calcPositions(container));
 
     this.change$.next({ eventName: 'onDragStart', params: { element, bfDraggable, bfDragMode } });
   };
@@ -90,13 +96,20 @@ export class BfDnDService {
       this.change$.next({ eventName: 'onDragEndKo', params: { bfDraggable: this.bfDraggable }});
     }
 
+    // In case there's still active ones (it may happen on nested parents)
+    this.containers.forEach(cont => cont.setDragging(false));
+    this.placeholders.forEach(ph => ph.setActive(false));
+
     this.isDropping = false;
     this.isDragging = false;
-    this.activePlaceholder = null;
     this.bfDragMode = null;
-    if (!!this.calcPosSub) {
-      this.calcPosSub.unsubscribe();
-      this.calcPosSub = null;
+    if (this.activePlaceholder) {
+      this.activePlaceholder = null;
+      this.activePlaceholder$.next(this.activePlaceholder);
+    }
+    if (!!this.dragOverSub) {
+      this.dragOverSub.unsubscribe();
+      this.dragOverSub = null;
     }
   };
 
@@ -140,7 +153,7 @@ export class BfDnDService {
 
   // Calculate active placeholder based on current positions
   public dragOverRender = (container, event) => {
-    this.calcPositions$.next(container);
+    this.dragOver$.next(container);
 
     // Filter those placeholders linked to the container
     const allPlaceholders = this.placeholders.filter(ph => ph.containerId === container.id);
@@ -223,6 +236,7 @@ export class BfDnDService {
       if (closestPlaceholder) {
         this.activePlaceholder = closestPlaceholder;
         this.activePlaceholder.setActive(true);
+        this.activePlaceholder$.next(this.activePlaceholder);
       }
     }
 

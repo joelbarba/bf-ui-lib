@@ -1,4 +1,5 @@
 import {
+  ApplicationRef,
   Directive,
   ElementRef,
   HostBinding,
@@ -44,6 +45,7 @@ export class BfDraggableDirective implements OnChanges {
 
   // When the drag starts
   @HostListener('dragstart', ['$event']) dragstart(event) {
+    event.stopPropagation();
     this.isDragging = true;
     this.bfDragMode = this.bfDragMode || 'copy';
 
@@ -53,17 +55,20 @@ export class BfDraggableDirective implements OnChanges {
     if (event.type !== 'touchmove') { event.dataTransfer.setData('Text', ''); }
 
     // Creates a div to wrap a copy of the selected element, and float it along the dragging
-    // We are going to do this natively without any Angular rendering or view link, since is purely cosmetic
     let ghost = document.getElementById('bf-drag-ghost-id');
     if (!!ghost) { ghost.remove(); }
     ghost = document.createElement('div');
-    ghost.setAttribute('id', 'bf-drag-ghost-id');
-    ghost.setAttribute('class', 'bf-drag-ghost');
-    ghost.appendChild(this.el.nativeElement.cloneNode(true));
-    document.body.appendChild(ghost);
-    ghost.style.position = 'fixed';
-    ghost.style.top = '-2500px';
-    ghost.style.left = '-2500px';
+    this.renderer.setAttribute(ghost, 'id', 'bf-drag-ghost-id');
+    this.renderer.setAttribute(ghost, 'class', 'bf-drag-ghost');
+    this.renderer.appendChild(ghost, this.el.nativeElement.cloneNode(true));
+    this.renderer.appendChild(document.body, ghost);
+    // this.renderer.appendChild(this.el.nativeElement.parentNode, ghost);
+    this.renderer.setStyle(ghost, 'position', 'fixed');
+    this.renderer.setStyle(ghost, 'top', '-2500px');
+    this.renderer.setStyle(ghost, 'left', '-2500px');
+    // const dragRect = this.el.nativeElement.getBoundingClientRect();
+    // this.renderer.setStyle(ghost, 'width', dragRect.width + 'px');
+    // this.renderer.setStyle(ghost, 'height', dragRect.height + 'px');
 
 
     if (!isSafari) { // No Safari browsers (the setDragImage needs to be done in the same cycle)
@@ -83,7 +88,6 @@ export class BfDraggableDirective implements OnChanges {
       }, 20);
     }
 
-    event.stopPropagation();
   }
 
   private setDragImage = (event, ghost) => {
@@ -101,7 +105,6 @@ export class BfDraggableDirective implements OnChanges {
     this.bfDnD.dragEnd();
     const ghost = document.getElementById('bf-drag-ghost-id');
     if (!!ghost) { ghost.remove(); }
-    // if (isDebugMode) { debugRenderPannel(event, BfDnD); }
   }
 
   // Workaround to make element draggable in IE9
