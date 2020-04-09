@@ -120,6 +120,9 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.clear': 'Clear',
     'view.common.close': 'Close',
     'directives.bfAutocomplete.no_results_found': 'No results found',
+    'view.common.modal.title': 'Title',
+    'view.common.modal.description': 'Description',
+    'view.common.modal.close.button': 'Close',
     'view.common.title': 'Title',
     'view.common.description': 'Description'
   };
@@ -160,6 +163,9 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.today': 'Avui',
     'view.common.clear': 'Net',
     'view.common.close': 'Tanca',
+    'view.common.modal.title': 'Titulo',
+    'view.common.modal.description': 'Descripción',
+    'view.common.modal.close.button': 'Cerrar',
     'view.common.title': 'Titulo',
     'view.common.description': 'Descripción'
   };
