@@ -1,4 +1,14 @@
-import {Component, Directive, ElementRef, HostBinding, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
+import {
+  Component,
+  Directive,
+  ElementRef,
+  HostBinding,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Renderer2
+} from '@angular/core';
 import {BfDnDService} from '../bf-dnd.service';
 import {generateId} from '../../generate-id';
 
@@ -7,6 +17,7 @@ import {generateId} from '../../generate-id';
 export class BfDropPlaceholderDirective implements OnChanges, OnDestroy {
   @Input() bfDropContainerId = '';
   @Input() bfDropPlaceholder;
+  @Input() bfDragGroup;
   @Input() id;
 
   @HostBinding('class.bf-drop-placeholder') elementClass = true;
@@ -16,7 +27,8 @@ export class BfDropPlaceholderDirective implements OnChanges, OnDestroy {
 
   constructor(
     private el: ElementRef,
-    public bfDnD: BfDnDService,
+    private bfDnD: BfDnDService,
+    private renderer: Renderer2,
   ) {
 
     this.id = this.bfDnD.getUniqueId(this.bfDnD.placeholders, 'bf-drop-placeholder-');
@@ -46,6 +58,15 @@ export class BfDropPlaceholderDirective implements OnChanges, OnDestroy {
 
     if (changes.hasOwnProperty('bfDropPlaceholder')) { this.placeholder.model = this.bfDropPlaceholder; }
     if (changes.hasOwnProperty('bfDropContainerId')) { this.placeholder.containerId = this.bfDropContainerId; }
+
+    // Add a css class with the bfDragGroup value
+    if (changes.hasOwnProperty('bfDragGroup')) {
+      if (this.bfDragGroup) {
+        this.renderer.addClass(this.el.nativeElement, this.bfDragGroup);
+      } else if (changes.bfDragGroup.previousValue) {
+        this.renderer.removeClass(this.el.nativeElement, changes.bfDragGroup.previousValue);
+      }
+    }
   }
 
   ngOnDestroy() { // Unregister

@@ -9,6 +9,7 @@ export class BfDnDService {
   private isDebugMode = false;    // If you turn this on, make sure parent nodes of 'bf-drop-container' have z-index >= 100
 
   public isDragging = false;          // Whether there is a dragging operation ongoing
+  public draggingGroup;               // bfDragGroup of the current dragging element
   public bfDraggable = null;          // Model attach to the dragging element
   public bfDragMode = null;           // Current dragging mode (copy / move)
   public bfNestedContainers = false;  // If true, only the last nested container turns active on dragover

@@ -14,65 +14,65 @@ export class BfDndDemo6Component implements OnInit, OnDestroy {
   public obj1 = { id: '1', name: 'Orange' };
   public obj2 = { id: '2', name: 'Banana' };
   public obj3 = { id: '3', name: 'Apple' };
-  public list1 = [this.obj1, this.obj2, this.obj3];
-  public list2 = [];
+  public obj4 = { id: '4', name: 'Lemon' };
   public container1 = { id: '1', list: [] };
   public container2 = { id: '2', list: [] };
-  public container3 = { id: '3', list: [] };
-  public container4 = { id: '4', list: [] };
 
-  public viewCode = `<div class="col-3">
-  <div class="board">
-    <h4 class="padB30">Draggable elements</h4>
-    <div class="draggable" [bfDraggable]="{ id: 1, name: 'Orange' }">Orange</div>
-    <div class="draggable" [bfDraggable]="{ id: 2, name: 'Banana' }">Banana</div>
+  viewCode = `<div class="col-3">
+  <h4 class="padB30">Group 1</h4>
+  <div bfDragGroup="group-1" [bfDraggable]="obj1">{{obj1.name}}</div>
+  <div bfDragGroup="group-1" [bfDraggable]="obj2">{{obj2.name}}</div>
+</div>
+<div class="col-3">
+  <div bfDropContainer bfDragGroup="group-1" 
+       (bfDrop)="growl.success($event.bfDraggable.name + ' dropped')">
+    <h6>Drop container 1</h6>
   </div>
 </div>
 
+
 <div class="col-3">
-  <div class="board">
-    <div class="container" bfDropContainer
-         (bfDrop)="growl.success($event.bfDraggable.name + ' dropped')">
-      <span>Drop here</span>
-    </div>
+  <div bfDropContainer bfDragGroup="group-2"
+       (bfDrop)="growl.success($event.bfDraggable.name + ' dropped')">
+    <h6>Drop container 2</h6>
   </div>
+</div>
+<div class="col-3">
+  <h4 class="padB30">Group 2</h4>
+  <div bfDragGroup="group-2" [bfDraggable]="obj3">{{obj3.name}}</div>
+  <div bfDragGroup="group-2" [bfDraggable]="obj4">{{obj4.name}}</div>
 </div>`;
 
-  scssCode = `.draggable {
+
+  scssCode = `.bf-draggable {
   width: 200px;
   height: 60px;
+  cursor: grab;
   border: 1px solid red;
-  margin: 5px;
   background: orange;
   @extend .flex-center;
-  &:hover { cursor: grab; }
+  &.group-2 {
+    border: 1px solid #2196F3;
+    background: lightseagreen;
+  }
   &.is-dragging { opacity: 0.2; }
 }
 
-.container {
+.bf-drop-container {
   width: 100%;
   height: 100%;
   border: 4px dashed gray;
   border-radius: 10px;
   @extend .flex-center;
+  &.group-2 { border: 4px dashed royalblue; }
+
   &.dragging-over {
     background: darkseagreen;
     border-color: greenyellow;
   }
 }`;
 
-  ctrlCode = `constructor(public bfDnD: BfDnDService) {}
-
-ngOnInit() {
-
-  this.bfDnD.dragEndOk$.subscribe(params => {
-    // console.log('dropping ', params);
-  });
-
-  this.subs.add(this.bfDnD.dragEndKo$.subscribe(params => {
-    this.growl.error('Ups, that fell out');
-  });
-}`;
+  ctrlCode = ``;
 
   constructor(
     public router: Router,

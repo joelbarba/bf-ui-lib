@@ -22,16 +22,15 @@ const isSafari = window['safari'] !== undefined;
 export class BfDraggableDirective implements OnChanges {
   @Input() bfDraggable: {};
   @Input() bfDragMode = 'copy';
+  @Input() bfDragGroup;
 
   @HostBinding('class.bf-draggable') elementClass = true;
   @HostBinding('class.is-dragging') private isDragging = false;
 
-
-
   constructor(
     private el: ElementRef,
-    public growl: BfGrowlService,
-    public bfDnD: BfDnDService,
+    private growl: BfGrowlService,
+    private bfDnD: BfDnDService,
     private renderer: Renderer2,
     // private appRef: ApplicationRef,
   ) {
@@ -41,12 +40,22 @@ export class BfDraggableDirective implements OnChanges {
   ngOnChanges(changes) {
     const isDraggable = this.bfDragMode === 'disabled' ? 'false' : 'true';
     this.renderer.setAttribute(this.el.nativeElement, 'draggable', isDraggable);
+
+    // Add a css class with the bfDragGroup value
+    if (changes.hasOwnProperty('bfDragGroup')) {
+      if (this.bfDragGroup) {
+        this.renderer.addClass(this.el.nativeElement, this.bfDragGroup);
+      } else if (changes.bfDragGroup.previousValue) {
+        this.renderer.removeClass(this.el.nativeElement, changes.bfDragGroup.previousValue);
+      }
+    }
   }
 
   // When the drag starts
   @HostListener('dragstart', ['$event']) dragstart(event) {
     event.stopPropagation();
     this.isDragging = true;
+    this.bfDnD.draggingGroup = this.bfDragGroup;
     this.bfDragMode = this.bfDragMode || 'copy';
 
     // The dragging data is stored in bfDraggable, but we still need to add a dataTransfer to make it work in Firefox
