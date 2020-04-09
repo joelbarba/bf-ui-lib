@@ -187,6 +187,7 @@ reorderList(event) {
 
   resetArray() {
     this.myList = this.myList.sort((a, b) => Number.parseInt(a.id) - Number.parseInt(b.id));
+    this.myList.forEach((item, ind) => item.pos = ind);
     this.growl.success('Array list has been reset');
   }
 

@@ -65,13 +65,20 @@ export class BfDndDemo1Component implements OnInit, OnDestroy {
 
 ngOnInit() {
 
-  this.bfDnD.dragEndOk$.subscribe(params => {
-    // console.log('dropping ', params);
+  this.bfDnD.dragStart$.subscribe(drag => console.log('drag start'));
+
+  this.bfDnD.dragEndOk$.subscribe(bfDropContainer => {
+    this.growl.success('Dropping into container');
   });
 
   this.bfDnD.dragEndKo$.subscribe(params => {
     this.growl.error('Ups, that fell out');
   });
+
+
+  this.bfDnD.activeContainer$.subscribe(cont => console.log('Container: ', cont));
+  this.bfDnD.activePlaceholder$.subscribe(ph => console.log('Placeholder: ', ph));
+  this.bfDnD.dragOver$.subscribe(cont => console.log('Dragging over...'));  
 }`;
 
   constructor(
@@ -89,9 +96,17 @@ ngOnInit() {
     //   // this.list1.removeByProp('name', params.bfDraggable.name);
     // }));
 
+
     this.subs.add(this.bfDnD.dragEndKo$.subscribe(params => {
       this.growl.error('Ups, that fell out');
     }));
+
+    // this.subs.add(this.bfDnD.dragStart$.subscribe(params => console.log('drag start')));
+    // this.subs.add(this.bfDnD.dragEndOk$.subscribe(params => console.log('drop in')));
+    // this.subs.add(this.bfDnD.dragEndKo$.subscribe(params => console.log('drop out')));
+    // this.subs.add(this.bfDnD.activeContainer$.subscribe(cont => console.log('Container: ', cont)));
+    // this.subs.add(this.bfDnD.activePlaceholder$.subscribe(ph => console.log('Placeholder: ', ph)));
+    // this.subs.add(this.bfDnD.dragOver$.subscribe(cont => console.log('Dragging over...')));
 
   }
 
