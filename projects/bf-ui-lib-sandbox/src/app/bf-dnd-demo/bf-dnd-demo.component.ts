@@ -37,8 +37,17 @@ export class BfDndDemoComponent implements OnInit, AfterViewInit, OnDestroy {
   public isDebugMode = false;
   public isAccurateMode = false;
 
-
-
+  code1 = ` <h4 [bfDraggable]="{ name: 'Orange' }" bfDragMode="move">Orange</h4>`;
+  code2 = `<div id="bf-drag-ghost-id" class="bf-drag-ghost"> ... </div>`;
+  code3 = `<div [bfDropContainer]="myList" (bfDrop)="growl.success($event.bfDraggable.name)"></div>`;
+  code4 = `this.bfDnD.dragEndOk$.subscribe(params => {
+  params.bfDropContainer.list.push(params.bfDraggable);
+});`;
+  code5 = `<div [bfDropPlaceholder]="{ pos: 1 }" bfDropContainerId="container-1">
+  <h6>Placeholder 1</h6>
+</div>`;
+  code6 = `placeholder.distance = ((event.clientX - placeholder.midX) * (event.clientX - placeholder.midX)
+                      + (event.clientY - placeholder.midY) * (event.clientY - placeholder.midY));`;
 
   constructor(
     public router: Router,
@@ -57,19 +66,14 @@ export class BfDndDemoComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
 
     this.subs.add(this.bfDnD.dragEndOk$.subscribe(params => {
-      params.bfDropContainer.list.push(params.bfDraggable);
-      console.log('dropping ', params, this.bfDnD.activeContainer);
-      this.growl.success('Dropping into container '
-        + params.bfDropContainer.id
-        + ' - placeholder: ' + params.bfDropPlaceholder.model.pos
-        // + ' - Item: ' + params.bfDraggable.name
-      );
+      let msg = 'Dropping "' + params.bfDraggable.name + '" into container ' + params.bfDropContainer.id;
+      if (params.bfDropPlaceholder) {
+        msg += ' <br> placeholder ' + params.bfDropPlaceholder.model.pos;
+      }
+      this.growl.success(msg);
     }));
-    //
-    // this.bfDnD.dragEndKo$.subscribe(params => {
-    //   this.growl.error('Ups, that fell out');
-    // });
 
+    this.subs.add(this.bfDnD.dragEndKo$.subscribe(params => this.growl.error('Ups, that fell out')));
   }
 
   moveTo1(item) {
@@ -107,8 +111,8 @@ export class BfDndDemoComponent implements OnInit, AfterViewInit, OnDestroy {
 export const BfDndDemoDoc = {
   name    : `BfDnD`,
   uiType  : 'module',
-  desc    : `Generates a ....`,
-  api     : `[bfText]: The text... `,
-  instance: `<bf-drop-placeholder></bf-drop-placeholder>`,
+  desc    : `Drag and drop module`,
+  api     : `BfDnDService + [bfDraggable] + [bfDropContainer] + [bfDropPlaceholder]`,
+  instance: `BfDnDService`,
   demoComp: BfDndDemoComponent
 };

@@ -105,7 +105,7 @@ export class BfDropContainerDirective implements OnChanges, OnDestroy {
     }
 
     event.preventDefault();
-    console.log('dragenter', this.container.id);
+    // console.log('dragenter', this.container.id);
     this.container.setDragging(true);
     this.container.dragStatus = 1; // over
     this.bfDnD.calcPositions(this.container);
@@ -120,7 +120,7 @@ export class BfDropContainerDirective implements OnChanges, OnDestroy {
     }
 
     event.preventDefault();
-    console.log('drag leave', this.container.id);
+    // console.log('drag leave', this.container.id);
     this.container.dragStatus = 2; // leaving
     setTimeout(() => {
       if (this.container.dragStatus === 2) {

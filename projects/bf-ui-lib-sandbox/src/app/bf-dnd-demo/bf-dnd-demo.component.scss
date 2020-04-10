@@ -1,23 +1,21 @@
 @import 'helpers';
 
 .board {
-  //z-index: 10;
   position: relative;
   width: 100%;
-  height: 400px;
+  height: 340px;
   border: 1px solid black;
   padding: 30px;
   background: lightcyan;
-  &.dragging-over {
-    background: darkseagreen;
-  }
+  text-align: center;
+  &.dragging-over { background: darkseagreen; }
 }
 
 .bf-draggable {
   width: 200px;
   height: 60px;
   border: 1px solid red;
-  margin: 5px;
+  margin: 5px auto;
   background: orange;
   @extend .flex-center;
 
@@ -36,7 +34,7 @@
   text-align: center;
   padding: 20px;
   &.dragging-over {
-    background: rgba(darkseagreen, 0.2);
+    background: rgba(darkseagreen, 0.4);
     border-color: greenyellow;
   }
 }
@@ -65,4 +63,15 @@
     &.ph-4 { left: 500px; top: 260px; width: 200px; height: 70px; }
     &.ph-5 { left: 50px;  top: 310px; width: 185px; height: 60px; }
   }
+}
+
+.params-box {
+  background: #e0e0e0;
+  padding: 15px;
+  font-size: 15px;
+}
+table {
+  border: 1px solid gray;
+  th { padding: 2px 10px; }
+  td { padding: 10px; }
 }
