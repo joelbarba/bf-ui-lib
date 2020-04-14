@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import {BfDnDService} from '../bf-dnd.service';
 import {generateId} from '../../generate-id';
+import {BfArray} from "../../bf-prototypes/bf-prototypes";
 
 
 @Directive({ selector: '[bfDropPlaceholder]' })
@@ -49,7 +50,7 @@ export class BfDropPlaceholderDirective implements OnChanges, OnDestroy {
   // ngOnInit() { }
   ngOnChanges(changes) {
     if (changes.hasOwnProperty('id')) {
-      if (!this.bfDnD.placeholders.getById(this.id)) {
+      if (!BfArray.getById.call(this.bfDnD.placeholders, this.id)) {
         this.placeholder.id = this.id;
       } else {
         console.error('[bfDropPlaceholder] id is not unique: ', this.id);
@@ -70,7 +71,7 @@ export class BfDropPlaceholderDirective implements OnChanges, OnDestroy {
   }
 
   ngOnDestroy() { // Unregister
-    this.bfDnD.placeholders.removeById(this.id);
+    BfArray.removeById.call(this.bfDnD.placeholders, this.id);
   }
 
 }

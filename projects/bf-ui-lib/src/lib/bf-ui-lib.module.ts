@@ -46,6 +46,7 @@ import { BfRangeSliderComponent } from './bf-range-slider/bf-range-slider.compon
 import {BfDropPlaceholderDirective} from './bf-dnd/bf-drop-placeholder/bf-drop-placeholder.directive';
 import {BfDraggableDirective} from './bf-dnd/bf-draggable/bf-draggable.directive';
 import {BfDropContainerDirective} from './bf-dnd/bf-drop-container/bf-drop-container.directive';
+import { MyTestDirective } from './my-test.directive';
 
 
 
@@ -82,6 +83,7 @@ import {BfDropContainerDirective} from './bf-dnd/bf-drop-container/bf-drop-conta
     BfNoDataComponent,
     BfSectionHeaderComponent,
     BfRangeSliderComponent,
+    MyTestDirective,
   ],
   entryComponents: [BfConfirmComponent],
   imports: [

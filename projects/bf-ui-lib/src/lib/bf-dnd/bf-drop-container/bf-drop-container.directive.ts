@@ -10,6 +10,7 @@ import {
   Output, Renderer2
 } from '@angular/core';
 import {BfDnDService} from '../bf-dnd.service';
+import {BfArray} from '../../bf-prototypes/bf-prototypes';
 
 @Directive({ selector: '[bfDropContainer]' })
 export class BfDropContainerDirective implements OnChanges, OnDestroy {
@@ -51,7 +52,7 @@ export class BfDropContainerDirective implements OnChanges, OnDestroy {
 
   ngOnChanges(changes) {
     if (changes.hasOwnProperty('id')) {
-      if (!this.bfDnD.containers.getById(this.id)) {
+      if (!BfArray.getById.call(this.bfDnD.containers, this.id)) {
         this.container.id = this.id;
       } else {
         console.error('[bfDropContainer] id is not unique: ', this.id);
@@ -74,7 +75,7 @@ export class BfDropContainerDirective implements OnChanges, OnDestroy {
   }
 
   ngOnDestroy() { // Unregister on destroy
-    this.bfDnD.containers.removeById(this.container.id);
+    BfArray.removeById.call(this.bfDnD.containers, this.container.id);
   }
 
 

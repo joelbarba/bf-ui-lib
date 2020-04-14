@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Subject} from 'rxjs';
 import {filter, map, throttleTime} from 'rxjs/operators';
 import {generateId} from '../generate-id';
+import {BfArray} from '../bf-prototypes/bf-prototypes';
 
 
 @Injectable({ providedIn: 'root' })
@@ -118,14 +119,15 @@ export class BfDnDService {
   // Generate unique id to register an element (to drop containers[] or placeholders[])
   public getUniqueId = (list = [], prefix = '') => {
     let id;
-    let max = 0;
+    let max =  0;
+    const aaa = BfArray.getById.call(list, id);
 
     do {
       id = prefix + (max < 1000 ? list.length + max : generateId(20).toLowerCase());
       max++;
-    } while (max < 2000 && (!id || list.getById(id)));
+    } while (max < 2000 && (!id || BfArray.getById.call(list, id)));
 
-    if (list.getById(id)) { console.error('Could not set a unique id'); id = ''; }
+    if (BfArray.getById.call(list, id)) { console.error('Could not set a unique id'); id = ''; }
     return id;
   };
 
