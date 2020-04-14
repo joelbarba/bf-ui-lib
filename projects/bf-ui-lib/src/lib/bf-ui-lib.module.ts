@@ -43,10 +43,6 @@ import { BfNoDataComponent } from './bf-no-data/bf-no-data.component';
 import { Ng5SliderModule } from 'ng5-slider';
 import { BfSectionHeaderComponent } from './bf-section-header/bf-section-header.component';
 import { BfRangeSliderComponent } from './bf-range-slider/bf-range-slider.component';
-import {BfDropPlaceholderDirective} from './bf-dnd/bf-drop-placeholder/bf-drop-placeholder.directive';
-import {BfDraggableDirective} from './bf-dnd/bf-draggable/bf-draggable.directive';
-import {BfDropContainerDirective} from './bf-dnd/bf-drop-container/bf-drop-container.directive';
-import { MyTestDirective } from './my-test.directive';
 
 
 
@@ -83,7 +79,6 @@ import { MyTestDirective } from './my-test.directive';
     BfNoDataComponent,
     BfSectionHeaderComponent,
     BfRangeSliderComponent,
-    MyTestDirective,
   ],
   entryComponents: [BfConfirmComponent],
   imports: [

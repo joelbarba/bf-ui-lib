@@ -24,10 +24,11 @@
       <div [bfDraggable]="obj2">{{obj2.name}}</div>
       <div [bfDraggable]="obj3">{{obj3.name}}</div>
     </div>
+    <div>Last Operation: <span class="last-op">{{lastOp}}</span></div>
   </div>
   <div class="col-3">
     <div class="board">
-      <div bfDropContainer (bfDrop)="growl.success($event.bfDraggable.name + ' dropped')">
+      <div bfDropContainer (bfDrop)="lastOp = $event.bfDraggable.name + ' dropped'; growl.success(lastOp)">
         Drop here
       </div>
     </div>

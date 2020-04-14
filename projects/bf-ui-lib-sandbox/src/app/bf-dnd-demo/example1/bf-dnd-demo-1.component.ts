@@ -20,6 +20,7 @@ export class BfDndDemo1Component implements OnInit, OnDestroy {
   public container2 = { id: '2', list: [] };
   public container3 = { id: '3', list: [] };
   public container4 = { id: '4', list: [] };
+  public lastOp = '';
 
   public viewCode = `<div class="col-3">
   <div class="board">
@@ -98,7 +99,8 @@ ngOnInit() {
 
 
     this.subs.add(this.bfDnD.dragEndKo$.subscribe(params => {
-      this.growl.error('Ups, that fell out');
+      this.lastOp = 'Ups, that fell out';
+      this.growl.error(this.lastOp);
     }));
 
     // this.subs.add(this.bfDnD.dragStart$.subscribe(params => console.log('drag start')));
