@@ -30,9 +30,9 @@
     <div class="board">
       <div [bfDropContainer]="container1" (bfDrop)="addItem($event)">
         <h4 class="padB30">List 1</h4>
-        <div *ngFor="let item of container1.list" class="marT5">
+        <div *ngFor="let item of container1.list" class="list-item-row">
           <bf-btn bfType="delete-icon" (bfClick)="container1.list.removeById(item.id)"></bf-btn>
-          <span class="marL20" >{{item.id}}. {{item.name}}</span>
+          <span class="marL20 list-item" >{{item.id}}. {{item.name}}</span>
         </div>
       </div>
     </div>
@@ -42,9 +42,9 @@
     <div class="board">
       <div [bfDropContainer]="container2" (bfDrop)="addItem($event)">
         <h4 class="padB30">List 2</h4>
-        <div *ngFor="let item of container2.list" class="marT5">
+        <div *ngFor="let item of container2.list" class="list-item-row">
           <bf-btn bfType="delete-icon" (bfClick)="container2.list.removeById(item.id)"></bf-btn>
-          <span class="marL20" >{{item.id}}. {{item.name}}</span>
+          <span class="marL20 list-item" >{{item.id}}. {{item.name}}</span>
         </div>
       </div>
     </div>

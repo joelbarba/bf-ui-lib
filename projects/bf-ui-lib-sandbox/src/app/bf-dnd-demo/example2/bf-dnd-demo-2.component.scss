@@ -27,6 +27,14 @@
 .bf-drop-container {
   width: 100%;
   height: 100%;
-  background: lightgrey;
+  background: rgba(lightgrey, 0.3);
+  padding: 15px;
   &.dragging-over { background: darkseagreen; }
+}
+
+.list-item-row {
+  margin-top: 5px;
+  padding: 5px;
+  background: orange;
+  border: 1px solid red;
 }

@@ -46,10 +46,10 @@
   </div>
 
   <div class="col-12">
-    <bf-switch bfLabel="bfDnD.bfNestedContainers" bfLabelPos="left"
+    <bf-switch bfLabel="bfDnD.bfNestedContainers" bfLabelPos="left" class="nested-mode-switch"
                [(ngModel)]="isNestOp" (ngModelChange)="changeNestedOp($event)">
     </bf-switch>
-    <div>activeContainer = {{bfDnD.activeContainer?.id}}</div>
+    <div>activeContainer = <span class="demo-active-container-id">{{bfDnD.activeContainer?.id}}</span></div>
   </div>
 </div>
 

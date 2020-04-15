@@ -26,7 +26,7 @@
       </bf-switch>
     </div>
     <div>
-      <bf-switch bfLabel="bfDnD.isAccurateMode" bfLabelPos="left"
+      <bf-switch bfLabel="bfDnD.isAccurateMode" bfLabelPos="left" class="accurate-mode-switch"
                  [(ngModel)]="isAccurateMode" (ngModelChange)="bfDnD.isAccurateMode = $event">
       </bf-switch>
     </div>
@@ -79,8 +79,8 @@
       <span class="marL15" *ngFor="let cont of bfDnD.containers"
             [class.is-active]="cont.id === bfDnD.activeContainer?.id">{{cont.id}}</span>
     </div>
-    <div><b>activeContainer = </b>{{bfDnD.activeContainer?.id}}</div>
-    <div><b>activePlaceholder = </b>{{bfDnD.activePlaceholder?.id}}</div>
+    <div><b>activeContainer = </b><span class="demo-active-container-id">{{bfDnD.activeContainer?.id}}</span></div>
+    <div><b>activePlaceholder = </b><span class="demo-active-placeholder-id">{{bfDnD.activePlaceholder?.id}}</span></div>
   </div>
 </div>
 
