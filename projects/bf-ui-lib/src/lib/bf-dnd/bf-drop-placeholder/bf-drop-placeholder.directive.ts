@@ -10,8 +10,7 @@ import {
   Renderer2
 } from '@angular/core';
 import {BfDnDService} from '../bf-dnd.service';
-import {generateId} from '../../generate-id';
-import {BfArray} from "../../bf-prototypes/bf-prototypes";
+import {BfArray} from '../../bf-prototypes/bf-prototypes';
 
 
 @Directive({ selector: '[bfDropPlaceholder]' })
