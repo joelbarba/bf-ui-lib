@@ -199,8 +199,9 @@ reorderList(event) {
 
     // Calculate new position in the array
     let newPos = placeAfter.pos;
-    if (newPos < dragItem.pos) { newPos++; }
-    this.growl.success(`Item "${dragItem.name}" reordered <br> from myList[${dragItem.pos}] --- to ---> myList[${newPos}]`);
+    const oldPos = dragItem.pos;
+    if (newPos < oldPos) { newPos++; }
+    this.growl.success(`Item "${dragItem.name}" reordered <br> from myList[${oldPos}] --- to ---> myList[${newPos}]`);
 
     this.myList.removeById(dragItem.id); // Remove it from original position
     this.myList.splice(newPos, 0, dragItem); // Inject it after the placeholder item

@@ -1,4 +1,4 @@
-import {$, $$, browser} from 'protractor';
+import {$, $$, browser, by, element} from 'protractor';
 // import {code} from 'html-dnd';
 
 export class BfDndPo {
@@ -56,4 +56,24 @@ export class BfDndPo {
   // Example 4
   accurateSwitch = () => $('.accurate-mode-switch .bf-switch');
 
+
+  // Example 5
+  getPage5ListItem = (ind = 0) => {
+    const list = element(by.id('list-cont'));
+    return list.$$(`.list-draggable .item-name`).get(ind);
+  };
+  getPage5ListPh = (id = 0) => $('.bf-drop-placeholder.placeholder-' + id);
+  getPage5ListArray = () => {
+    const list = element(by.id('list-cont'));
+    return list.$$(`.list-draggable`).map((rowEl) => {
+      return rowEl.$('.item-name').getText();
+    });
+  };
+
+
+  // Example 6
+  getElemG1 = () => $$('.group-1.bf-draggable').get(0);
+  getElemG2 = () => $$('.group-2.bf-draggable').get(0);
+  getContG1 = () => $('.group-1.bf-drop-container');
+  getContG2 = () => $('.group-2.bf-drop-container');
 }

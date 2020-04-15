@@ -17,6 +17,7 @@ export class BfDndDemo6Component implements OnInit, OnDestroy {
   public obj4 = { id: '4', name: 'Lemon' };
   public container1 = { id: '1', list: [] };
   public container2 = { id: '2', list: [] };
+  public lastOp = '';
 
   viewCode = `<div class="col-3">
   <h4 class="padB30">Group 1</h4>
@@ -90,7 +91,8 @@ export class BfDndDemo6Component implements OnInit, OnDestroy {
     // }));
 
     this.subs.add(this.bfDnD.dragEndKo$.subscribe(params => {
-      this.growl.error('Ups, that fell out');
+      this.lastOp = 'Ups, that fell out';
+      this.growl.error(this.lastOp);
     }));
 
   }

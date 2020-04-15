@@ -53,6 +53,7 @@ export class BfDraggableDirective implements OnChanges {
 
   // When the drag starts
   @HostListener('dragstart', ['$event']) dragstart(event) {
+    // console.log('[bfDraggable] --> dragstart');
     event.stopPropagation();
     this.isDragging = true;
     this.bfDnD.draggingGroup = this.bfDragGroup;
@@ -110,6 +111,7 @@ export class BfDraggableDirective implements OnChanges {
 
   // When dropping
   @HostListener('dragend', ['$event']) dragend(event) {
+    // console.log('[bfDraggable] --> dragend');
     this.isDragging = false;
     this.bfDnD.dragEnd();
     const ghost = document.getElementById('bf-drag-ghost-id');

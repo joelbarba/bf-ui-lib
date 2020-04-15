@@ -29,7 +29,7 @@
   <div class="col-3 padR50">
     <div class="board">
       <div bfDragGroup="group-1"
-           bfDropContainer (bfDrop)="growl.success($event.bfDraggable.name + ' dropped')">
+           bfDropContainer (bfDrop)="lastOp=$event.bfDraggable.name + ' dropped'; growl.success(lastOp)">
         <div class="text-center">
           <h6>Drop container 1</h6>
           <p>Only elements from group 1 are allowed here</p>
@@ -42,7 +42,7 @@
   <div class="col-3 padL50">
     <div class="board">
       <div bfDropContainer bfDragGroup="group-2"
-           (bfDrop)="growl.success($event.bfDraggable.name + ' dropped')">
+           (bfDrop)="lastOp=$event.bfDraggable.name + ' dropped'; growl.success(lastOp)">
         <div class="text-center">
           <h6>Drop container 2</h6>
           <p>Only elements from group 2 are allowed here</p>
@@ -58,6 +58,8 @@
     </div>
   </div>
 </div>
+<div>Last Operation: <span class="last-op">{{lastOp}}</span></div>
+<div>activeContainer = <span class="demo-active-container-id">{{bfDnD.activeContainer?.id}}</span></div>
 
 <div class="row">
   <div class="col-12"><hr></div>

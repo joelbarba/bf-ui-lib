@@ -86,7 +86,7 @@ export class BfDropContainerDirective implements OnChanges, OnDestroy {
     event.preventDefault();
     if (this.bfDnD.bfNestedContainers) { event.stopPropagation(); }
 
-    // console.log('dragover', this.container.id);
+    // console.log('[bfDropContainer] --> dragover', this.container.id);
     this.container.setDragging(true);
     this.container.dragStatus = 1; // over
     if (this.bfDnD.activeContainer !== this.container) {
@@ -106,7 +106,7 @@ export class BfDropContainerDirective implements OnChanges, OnDestroy {
     }
 
     event.preventDefault();
-    // console.log('dragenter', this.container.id);
+    // console.log('[bfDropContainer] --> dragenter', this.container.id);
     this.container.setDragging(true);
     this.container.dragStatus = 1; // over
     this.bfDnD.calcPositions(this.container);
@@ -121,7 +121,7 @@ export class BfDropContainerDirective implements OnChanges, OnDestroy {
     }
 
     event.preventDefault();
-    // console.log('drag leave', this.container.id);
+    // console.log('[bfDropContainer] --> dragleave', this.container.id);
     this.container.dragStatus = 2; // leaving
     setTimeout(() => {
       if (this.container.dragStatus === 2) {
@@ -145,6 +145,7 @@ export class BfDropContainerDirective implements OnChanges, OnDestroy {
 
     event.preventDefault();
     if (this.bfDnD.bfNestedContainers) { event.stopPropagation(); }
+    // console.log('[bfDropContainer] --> drop', this.container.id);
 
     this.container.setDragging(false);
     if (!!this.bfDnD.activePlaceholder) { this.bfDnD.activePlaceholder.setActive(false); }

@@ -1,6 +1,5 @@
 import {BfDndPo} from './bf-dnd.po';
 import {BfDnDMock} from './bf-dnd-mock';
-import {$, $$} from "protractor";
 
 
 /* This is a test that includes:
@@ -222,4 +221,100 @@ describe('Test BfDnD 4: Drop Placeholders', () => {
     await dnd.dragOver();
     await dnd.drop();
   });
+});
+
+
+describe('Test BfDnD 5: Reorderable List', () => {
+  let page: BfDndPo;
+
+  beforeEach(async () => {
+    page = new BfDndPo(5);
+    await page.navigateTo();
+  });
+
+  it('Should move Apple element after Grapes', async () => {
+    const dnd = new BfDnDMock();
+    // dnd.showPointer = true;
+
+    const appleEl = await page.getPage5ListItem(2);
+    await dnd.drag(appleEl);
+    await dnd.dragOver(page.getPage5ListPh(4)); // Drag after Berries
+    await dnd.dragOver(page.getPage5ListPh(5)); // Drag after Pear
+    await dnd.dragOver(page.getPage5ListPh(6)); // Drag after Melon
+    await dnd.dragOver(page.getPage5ListPh(7)); // Drag after Cherry
+    await dnd.dragOver(page.getPage5ListPh(8)); // Drag after Grapes
+    await dnd.drop();
+    await dnd.wait(100);
+    expect(await page.getPage5ListArray()).toEqual([
+      '1. Orange',
+      '2. Banana',
+      '4. Berries',
+      '5. Pear',
+      '6. Melon',
+      '7. Cherry',
+      '8. Grapes',
+      '3. Apple',
+      '9. Peach',
+      '10. Lemon']);
+  });
+
+  it('Should move Cherry element to the top', async () => {
+    const dnd = new BfDnDMock();
+    // dnd.showPointer = true;
+
+    await dnd.drag(await page.getPage5ListItem(6)); // Cherry item
+    await dnd.dragOver(page.getPage5ListPh(0)); // Drag at the top
+    await dnd.drop();
+
+    const oriList = await page.getPage5ListArray();
+    console.log(oriList);
+    expect(oriList).toEqual([
+      '7. Cherry',
+      '1. Orange',
+      '2. Banana',
+      '3. Apple',
+      '4. Berries',
+      '5. Pear',
+      '6. Melon',
+      '8. Grapes',
+      '9. Peach',
+      '10. Lemon']);
+  });
+
+});
+
+
+describe('Test BfDnD 6: Multiple Dragging Groups', () => {
+  let page: BfDndPo;
+
+  beforeEach(async () => {
+    page = new BfDndPo(6);
+    await page.navigateTo();
+  });
+
+  it('Should drag element of group 1 to only container of group 1', async () => {
+    const dnd = new BfDnDMock();
+    // dnd.showPointer = true;
+
+    const elemG1 = await page.getElemG1();
+    await dnd.drag(elemG1);
+    await dnd.dragOver(page.getContG1());
+    expect(await page.getActiveContainer()).toBe('bf-drop-container-0');
+    await dnd.dragOver(page.getContG2());
+    expect(await page.getActiveContainer()).toBe('');
+    await dnd.drop();
+  });
+
+  it('Should drag element of group 2 to only container of group 2', async () => {
+    const dnd = new BfDnDMock();
+
+    const elemG2 = await page.getElemG2();
+    await dnd.drag(elemG2);
+    await dnd.dragOver(page.getContG1());
+    expect(await page.getActiveContainer()).toBe('');
+    await dnd.dragOver(page.getContG2());
+    expect(await page.getActiveContainer()).toBe('bf-drop-container-1');
+    await dnd.drop();
+  });
+
 });
