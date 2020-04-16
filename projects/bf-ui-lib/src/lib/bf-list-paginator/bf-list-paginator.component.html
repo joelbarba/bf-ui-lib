@@ -7,12 +7,10 @@
     <div class="page-btn prev-btn" (click)="bfCtrl.currentPage > 1 && goToPrev()"
          [class.disabled]="bfCtrl.currentPage === 1">‹</div>
 
-    <div class="page-btn" *ngFor="let listBtn of listBtns"
+    <div class="page-btn num-btn" *ngFor="let listBtn of listBtns"
          [class.current]="bfCtrl.currentPage === listBtn.pageNum"
          [class.disabled]="!listBtn.pageNum"
-         (click)="!!listBtn.pageNum && goToPage(listBtn.pageNum)">
-      {{ listBtn.pageNum || '...' }}
-    </div>
+         (click)="!!listBtn.pageNum && goToPage(listBtn.pageNum)">{{ listBtn.pageNum || '...' }}</div>
     <div class="page-btn next-btn" (click)="bfCtrl.currentPage < bfCtrl.totalPages && goToNext()"
          [class.disabled]="bfCtrl.currentPage === bfCtrl.totalPages">›</div>
 
