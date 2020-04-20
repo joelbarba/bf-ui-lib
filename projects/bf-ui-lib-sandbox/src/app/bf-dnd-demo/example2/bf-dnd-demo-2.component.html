@@ -20,7 +20,7 @@
   <div class="col-3">
     <div class="board">
       <h4 class="padB30">Draggable elements</h4>
-      <div [bfDraggable]="obj1">{{obj1.name}}</div>
+      <div [bfDraggable]="obj1" [style.width]="relativeWidth ? '100%' : undefined">{{obj1.name}}</div>
       <div [bfDraggable]="obj2">{{obj2.name}}</div>
       <div [bfDraggable]="obj3">{{obj3.name}}</div>
     </div>
@@ -47,6 +47,15 @@
           <span class="marL20 list-item" >{{item.id}}. {{item.name}}</span>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div class="col-3">
+    <bf-switch bfLabel="bfDraggable width" bfLabelPos="left" bfOffText="200px (fixed)" bfOnText="100% (relative)"
+               [(ngModel)]="relativeWidth">
+    </bf-switch>
+    <div class="marT15">
+      <bf-switch bfLabel="BfDnD.copyShadowRectangle" bfLabelPos="left" [(ngModel)]="bfDnD.setShadowSize"></bf-switch>
     </div>
   </div>
 </div>

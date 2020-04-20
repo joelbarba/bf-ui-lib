@@ -76,9 +76,12 @@ export class BfDraggableDirective implements OnChanges {
     this.renderer.setStyle(ghost, 'position', 'fixed');
     this.renderer.setStyle(ghost, 'top', '-2500px');
     this.renderer.setStyle(ghost, 'left', '-2500px');
-    // const dragRect = this.el.nativeElement.getBoundingClientRect();
-    // this.renderer.setStyle(ghost, 'width', dragRect.width + 'px');
-    // this.renderer.setStyle(ghost, 'height', dragRect.height + 'px');
+
+    if (this.bfDnD.setShadowSize) {
+      const dragRect = this.el.nativeElement.getBoundingClientRect();
+      this.renderer.setStyle(ghost, 'width', dragRect.width + 'px');
+      this.renderer.setStyle(ghost, 'height', dragRect.height + 'px');
+    }
 
 
     if (!isSafari) { // No Safari browsers (the setDragImage needs to be done in the same cycle)

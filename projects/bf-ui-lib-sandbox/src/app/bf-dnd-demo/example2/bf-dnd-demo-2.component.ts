@@ -21,6 +21,8 @@ export class BfDndDemo2Component implements OnInit, OnDestroy {
   public container3 = { id: '3', list: [] };
   public container4 = { id: '4', list: [] };
 
+  public relativeWidth = false;
+
   public viewCode = `<div class="col-3">
   <div class="board">
     <h4 class="padB30">Draggable elements</h4>
@@ -118,6 +120,10 @@ addItem(event) {
   }
 
   addItem(event) {
+    if (!this.bfDnD.isDragging) {
+      this.growl.error('Uhmmm, you are dropping something suspicious here. I do not like it');
+      return false;
+    }
     const list = event.bfDropContainer.list;
     list.push({ ...event.bfDraggable, id: list.length });
   }

@@ -118,6 +118,13 @@
     For Safari, we also append it later (otherwise it doesn't work), so no restyling can be applied for now.
     <br>The static dragging element is also accessible through <b>BfDnD.bfDraggable</b>.
   </p>
+
+  <p>In case you use relative sizes on your bfDraggable elements (% instead of px) you can turn on the
+    <b>BfDnD.setShadowSize = true</b> option. This will automatically resize the wrapper for the "bf-drag-ghost" with the same
+    size of the bfDraggable, taken at the moment of the dragstart with .getBoundingClientRect().
+    See an example here: <a [routerLink]="['/BfDnD/example2']">2. Drop to a list to add</a>
+    <br>Mind that this sets with/height styles, so no it overrides whatever css you are applying on the wrapper.
+  </p>
 </div>
 
 
@@ -331,6 +338,7 @@
 <b>bfDragMode</b>              string      Mode of the dragging element attached to the [bfDragMode]=“copy”
 <b>bfNestedContainers</b>      boolean     If true, only the last nested container turns active on dragover
 <b>isAccurateMode</b>          boolean     Whether using accurate mode to calculate the active placeholder
+<b>setShadowSize</b>           boolean     It sets with/height to "bf-drag-ghost" wrapper on dragstart, so you can use relative sizing (width:100%)
 <b>activeContainer</b>         obj         Pointer to the active container (on the BfDnD.container[] list)
 <b>activePlaceholder</b>       obj         Pointer to the active placeholder (on the BfDnD.placeholders[] list)
 

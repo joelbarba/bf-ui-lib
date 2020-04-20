@@ -15,6 +15,7 @@ export class BfDnDService {
   public bfDragMode = null;           // Current dragging mode (copy / move)
   public bfNestedContainers = false;  // If true, only the last nested container turns active on dragover
   public isAccurateMode = false;      // It requires more calculation but gives a better accuracy to select the active placeholder
+  public setShadowSize = false;       // It sets with/height to "bf-drag-ghost" wrapper on dragstart, so you can use relative sizing (width:100%)
 
   // Observables
   public change$ = new Subject();   // Event source (all triggers go through this guy)
