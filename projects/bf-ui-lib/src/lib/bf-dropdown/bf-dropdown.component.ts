@@ -308,8 +308,8 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
       let itemLabel = '';
 
       if (!!this.bfRender) {
-        if (!renderExpr) { // Display single property
-          itemLabel = $item[this.bfRender];
+        if (!renderExpr) { // Display item property / string label
+          itemLabel = $item[this.bfRender] || this.bfRender;
 
         } else {  // Display custom render expression
           // tslint:disable-next-line:no-eval
