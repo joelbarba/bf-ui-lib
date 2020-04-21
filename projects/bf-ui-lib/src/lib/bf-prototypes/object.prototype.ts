@@ -43,8 +43,8 @@ BfObject.keyMap = function(propNames: string) {
  * @param fromObject     ? Object - Object from where to copy to property
  * @example
  *      var myObj1 = { age: 10 };
- *      myObj1.copyStrict('name', { name: 'Sam' });  // --> Adds myObj.name = 'Sam'
- *      myObj1.copyStrict('age', { name: 'Sam' });   // --> Deletes myObj.age
+ *      myObj1.cloneProp('name', { name: 'Sam' });  // --> Adds myObj.name = 'Sam'
+ *      myObj1.cloneProp('age', { name: 'Sam' });   // --> Deletes myObj.age
  */
 BfObject.cloneProp = function(propName: string, fromObject: Object) {
   if (!!propName) {

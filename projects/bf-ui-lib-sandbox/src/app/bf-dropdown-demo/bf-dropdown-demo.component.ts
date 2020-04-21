@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {BfTranslateService} from '../translate.service';
 
 @Component({
   selector: 'app-bf-dropdown-demo',
@@ -71,6 +72,7 @@ export class BfDropdownDemoComponent implements OnInit {
              [bfDisabled]="false">
 </bf-dropdown>`;
   public timeZones =  [
+    { country_code: null, time_zone: 'Europe/Dublin',      img: 'assets/language-flags/ja.png' },
     { country_code: null, time_zone: 'Africa/Addis_Ababa', img: 'assets/language-flags/ja.png' },
     { country_code: null, time_zone: 'Africa/Algiers',     img: 'assets/language-flags/us.png'  },
     { country_code: null, time_zone: 'Africa/Asmara',      img: 'assets/language-flags/ie.png'  },
@@ -98,7 +100,7 @@ public extCtrl$ = new Subject();
 <bf-btn (bfClick)="extCtrl$.next({ action: 'collapse' })"></bf-btn>
 <bf-btn (bfClick)="extCtrl$.next({ action: 'toggle' })"></bf-btn>
 <bf-btn (bfClick)="extCtrl$.next({ action: 'type', value: 'ax' })"></bf-btn>`;
-
+  renderFnStr = `renderFn = (item, ind) => bfTranslate.doTranslate('view.common.field_name') + ' ' + ind;`;
 
   public brStr = `
 `;
@@ -113,7 +115,7 @@ public extCtrl$ = new Subject();
     isDisabled: false, disabledTip: 'view.tooltip.message',
     isErrorOnPristine: false,
     hasSelect: false,  selectField: 'username',
-    hasRender: false,  renderExp: `$$$ $item.id + ' - ' + $item.username`,
+    hasRender: false,  hasRenderFn: false, renderExp: `$$$ $item.id + ' - ' + $item.username`,
     hasLabel: false,   labelText: 'view.common.field_name',
     hasTooltip: false, tooltipText: 'view.tooltip.message', tooltipPos: 'top', tooltipBody: true,
     hasEmptyLabel: false, customEmptyLabel: 'view.common.all',
@@ -171,6 +173,11 @@ public extCtrl$ = new Subject();
       this.customExLinked = false;
       setTimeout(() => { this.customExLinked = true; });
     }
+    if (this.compConf.hasRenderFn) {
+      this.customDropdownCode += this.bsStr + `[bfRenderFn]="renderFn"`;
+      this.customExLinked = false;
+      setTimeout(() => { this.customExLinked = true; });
+    }
 
     if (this.compConf.hasTooltip) {
       this.customDropdownCode += this.bsStr + `bfTooltip="${this.compConf.tooltipText}"`;
@@ -202,7 +209,7 @@ public extCtrl$ = new Subject();
 
 
 
-  constructor() {
+  constructor(private bfTranslate: BfTranslateService) {
     // Make the list without "img" and "icon" fields
     this.myList = this.myList3.dCopy().map(el => {
       delete el.img;
@@ -213,6 +220,10 @@ public extCtrl$ = new Subject();
   }
 
   ngOnInit() { }
+
+  renderFn = (item, ind) => {
+    return this.bfTranslate.doTranslate('view.common.field_name') + ' ' + ind;
+  };
 
 
 
@@ -230,6 +241,8 @@ export const BfDropdownDoc = {
 [bfRender]           : Field to display on the list (property from bfList items).
                          If empty, a row with all properties will be displayed.
                          It can also be an eval() expression. Start with a '$$$' and use $item reference for eval. Example: bfRender="$$$ $item.first_name + ' ' + $item.last_name"
+[bfRenderFn]         : Function to render the list. It is called for every item and should return the string that will be displayed.
+                       It overrides [bfRender]. The function is passed 'item' and 'index' parameters.
 [bfRenderImg]        : Name of the field that contains the url of the image to display on the item ("img" by default)
 [bfRenderIcon]       : Name of the field that contains the css class of the (icomoon) icon to display on the item ("icon" by default)
 [bfLabel]            : If provided, a <bf-label> is added above the selector with the given text

@@ -9,20 +9,29 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
 
 <!--Test dropdown in a form-->
 <div class="col-4">
-  <form #profileSettingsForm="ngForm">
-    invalid={{profileSettingsForm.invalid}}
-    <bf-dropdown class="col-12 full-width" name="timeZone"
-                 [(ngModel)]="profileForm.time_zone"
-                 [bfList]="timeZones"
-                 bfLabel="view.common.timezone"
-                 bfSelect="time_zone"
-                 bfRender="time_zone"
-                 #profileTimeZone="ngModel"
-                 [bfRequired]="true">
-    </bf-dropdown>
-    valid={{profileTimeZone.valid}}
-    , errors={{profileTimeZone.errors | json}}
-  </form>
+  <!--<form #profileSettingsForm="ngForm">-->
+  <!--  invalid={{profileSettingsForm.invalid}}-->
+  <!--  <bf-dropdown class="col-12 full-width" name="timeZone"-->
+  <!--               [(ngModel)]="profileForm.time_zone"-->
+  <!--               [bfList]="timeZones"-->
+  <!--               bfLabel="view.common.timezone"-->
+  <!--               bfSelect="time_zone"-->
+  <!--               bfRender="time_zone"-->
+  <!--               #profileTimeZone="ngModel"-->
+  <!--               [bfRequired]="true">-->
+  <!--  </bf-dropdown>-->
+  <!--  valid={{profileTimeZone.valid}}-->
+  <!--  , errors={{profileTimeZone.errors | json}}-->
+  <!--</form>-->
+
+  <!--<bf-dropdown class="col-12 full-width" name="timeZone"-->
+  <!--             [(ngModel)]="profileForm.time_zone"-->
+  <!--             [bfList]="timeZones"-->
+  <!--             bfLabel="view.common.timezone"-->
+  <!--             bfSelect="time_zone"-->
+  <!--             [bfRenderFn]="renderFn"-->
+  <!--&gt;-->
+  <!--</bf-dropdown>-->
 </div>
 
 
@@ -62,6 +71,7 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
                      [bfList]="dList"
                      [bfSelect]="(compConf.hasSelect && !!compConf.selectField) ? compConf.selectField : null"
                      [bfRender]="(compConf.hasRender ? compConf.renderExp : null)"
+                     [bfRenderFn]="(compConf.hasRenderFn ? renderFn : null)"
 
                      [bfEmptyLabel]="compConf.hasEmptyLabel ? compConf.customEmptyLabel : 'view.common.empty'"
                      [bfEmptyValue]="compConf.hasEmptyValue ? compConf.customEmptyValue : null"
@@ -88,23 +98,23 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
     <div class="col-7">
 
       <div class="row marT15">
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="bfRequired"></bf-checkbox> </div>
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isErrorOnPristine" (ngModelChange)="upComp()" bfLabel="bfErrorOnPristine"></bf-checkbox> </div>
 
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="bfDisabled"></bf-checkbox> </div>
         <div class="col-6 offset-6" *ngIf="compConf.isDisabled">
           <bf-input class="flat" [(ngModel)]="compConf.disabledTip" bfPlaceholder="This is disabled because..." (ngModelChange)="upComp()"></bf-input>
         </div>
       </div>
 
       <div class="row marT15">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasLabel" (ngModelChange)="upComp()" bfLabel="Has Label"></bf-checkbox> </div>
+        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasLabel" (ngModelChange)="upComp()" bfLabel="bfLabel"></bf-checkbox> </div>
         <div class="col-10" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasLabel"></bf-input> </div>
 
         <div class="col-2"  *ngIf="compConf.hasLabel"></div>
         <div class="col-10" *ngIf="compConf.hasLabel">
           <div class="row">
-            <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip"  (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox> </div>
+            <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip"  (ngModelChange)="upComp()" bfLabel="bfTooltip"></bf-checkbox> </div>
             <div class="col-9" *ngIf="compConf.hasTooltip">
               <bf-input [(ngModel)]="compConf.tooltipText" (ngModelChange)="upComp()"></bf-input>
             </div>
@@ -124,16 +134,30 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
       </div>
 
       <div class="row">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasSelect" (ngModelChange)="upComp()" bfLabel="Has Select"></bf-checkbox> </div>
+        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasSelect" (ngModelChange)="upComp()" bfLabel="bfSelect"></bf-checkbox> </div>
         <div class="col-10" *ngIf="compConf.hasSelect">
           <bf-dropdown [(ngModel)]="compConf.selectField" (ngModelChange)="upComp()" [bfList]="compSelFields" bfRender="id" bfSelect="id" [bfRequired]="true"> </bf-dropdown>
         </div>
       </div>
 
       <div class="row marT15">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasRender" (ngModelChange)="upComp()" bfLabel="Has Render"></bf-checkbox> </div>
-        <div class="col-10" *ngIf="compConf.hasRender">
-          <bf-input class="flat" [(ngModel)]="compConf.renderExp" bfPlaceholder="$$$ $item.name + ' - ' + $item.email" (ngModelChange)="upComp()"></bf-input>
+        <bf-checkbox class="col-2 padT5" bfLabel="bfRender"
+                     [(ngModel)]="compConf.hasRender"
+                     (ngModelChange)="compConf.hasRenderFn = false; upComp()">
+        </bf-checkbox>
+        <div class="col-10">
+          <bf-input class="flat" *ngIf="compConf.hasRender"
+                    [(ngModel)]="compConf.renderExp"
+                    bfPlaceholder="$$$ $item.name + ' - ' + $item.email" (ngModelChange)="upComp()">
+          </bf-input>
+        </div>
+
+        <bf-checkbox class="col-2 padT5" bfLabel="bfRenderFn"
+                     [(ngModel)]="compConf.hasRenderFn"
+                     (ngModelChange)="compConf.hasRender = false; upComp()">
+        </bf-checkbox>
+        <div class="col-10" *ngIf="compConf.hasRenderFn && !compConf.hasRender">
+          <pre style="background: aliceblue; padding: 5px 10px; margin-bottom: 0;">{{renderFnStr}}</pre>
         </div>
       </div>
 
