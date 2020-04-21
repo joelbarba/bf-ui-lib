@@ -43,7 +43,7 @@ import { BfNoDataComponent } from './bf-no-data/bf-no-data.component';
 import { Ng5SliderModule } from 'ng5-slider';
 import { BfSectionHeaderComponent } from './bf-section-header/bf-section-header.component';
 import { BfRangeSliderComponent } from './bf-range-slider/bf-range-slider.component';
-
+import { BfModalHeaderComponent } from './bf-modal-header/bf-modal-header.component';
 
 
 @NgModule({
@@ -79,8 +79,11 @@ import { BfRangeSliderComponent } from './bf-range-slider/bf-range-slider.compon
     BfNoDataComponent,
     BfSectionHeaderComponent,
     BfRangeSliderComponent,
+    BfModalHeaderComponent,
   ],
-  entryComponents: [BfConfirmComponent],
+  entryComponents: [
+    BfConfirmComponent
+  ],
   imports: [
     // BrowserModule,
     CommonModule,
@@ -98,6 +101,7 @@ import { BfRangeSliderComponent } from './bf-range-slider/bf-range-slider.compon
     Ng5SliderModule,
   ],
   exports: [
+    BfModalHeaderComponent,
     BfSectionHeaderComponent,
     BfRangeSliderComponent,
     BfNoDataComponent,

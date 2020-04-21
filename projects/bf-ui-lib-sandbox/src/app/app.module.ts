@@ -43,6 +43,8 @@ import { BfNoDataDemoComponent } from './bf-no-data-demo/bf-no-data-demo.compone
 import { BfDualCheckboxDemoComponent } from './bf-dual-checkbox-demo/bf-dual-checkbox-demo.component';
 import { BfSectionHeaderDemoComponent } from './bf-section-header-demo/bf-section-header-demo.component';
 import { BfRangeSliderDemoComponent } from './bf-range-slider-demo/bf-range-slider-demo.component';
+import { BfModalHeaderDemoComponent } from './bf-modal-header-demo/bf-modal-header-demo.component';
+import { BfModalDemoComponent } from './bf-modal-header-demo/bf-modal-demo/bf-modal-demo.component';
 import {BfListHandlerTestComponent} from './bf-list-handler-demo/tests/bf-list-handler-test.component';
 import { BfDndDemoComponent } from './bf-dnd-demo/bf-dnd-demo.component';
 import {BfNoDataComponent} from '../../../bf-ui-lib/src/lib/bf-no-data/bf-no-data.component';
@@ -95,6 +97,8 @@ import {BfDndDemo6Component} from './bf-dnd-demo/example6/bf-dnd-demo-6.componen
     BfSectionHeaderDemoComponent,
     BfListHandlerTestComponent,
     BfRangeSliderDemoComponent,
+    BfModalHeaderDemoComponent,
+    BfModalDemoComponent,
     BfDndDemoComponent,
     BfDndDemo1Component,
     BfDndDemo2Component,

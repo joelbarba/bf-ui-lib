@@ -39,6 +39,7 @@ const routes: Routes = [
   { path: docs.BfPagePlaceholderDoc.name,   component: docs.BfPagePlaceholderDoc.demoComp  },
   { path: docs.BfListPaginatorDoc.name,     component: docs.BfListPaginatorDoc.demoComp    },
   { path: docs.BfNoDataDoc.name,            component: docs.BfNoDataDoc.demoComp           },
+  { path: docs.BfModalHeaderDoc.name,       component: docs.BfModalHeaderDoc.demoComp      },
   { path: docs.BfLoadingSpinnerDoc.name,    component: docs.BfLoadingSpinnerDoc.demoComp   },
   { path: docs.BfSectionHeaderDoc.name,     component: docs.BfSectionHeaderDoc.demoComp    },
   { path: docs.ShowDoc.name,                component: docs.ShowDoc.demoComp               },

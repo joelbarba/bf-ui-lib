@@ -1,10 +1,4 @@
-<div class="modal-header">
-  <h4 class="modal-title">{{trans.title$ | async}}</h4>
-  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('close')">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-
+<bf-modal-header [bfTitle]="conf.title" (bfClose)="activeModal.dismiss('close')"></bf-modal-header>
 <div class="modal-body">
   <div class="row">
     <div class="col-12">
