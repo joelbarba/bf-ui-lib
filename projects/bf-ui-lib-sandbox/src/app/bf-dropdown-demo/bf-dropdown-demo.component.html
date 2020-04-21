@@ -24,14 +24,15 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
   <!--  , errors={{profileTimeZone.errors | json}}-->
   <!--</form>-->
 
-  <!--<bf-dropdown class="col-12 full-width" name="timeZone"-->
-  <!--             [(ngModel)]="profileForm.time_zone"-->
-  <!--             [bfList]="timeZones"-->
-  <!--             bfLabel="view.common.timezone"-->
-  <!--             bfSelect="time_zone"-->
-  <!--             [bfRenderFn]="renderFn"-->
-  <!--&gt;-->
-  <!--</bf-dropdown>-->
+  <bf-dropdown class="col-12 full-width" name="timeZone"
+               [(ngModel)]="selObj9"
+               [bfList]="myList4"
+               bfLabel="Test"
+               bfSelect="id"
+               bfRender="label"
+  >
+               <!--[bfRenderFn]="renderFn"-->
+  </bf-dropdown>
 </div>
 
 

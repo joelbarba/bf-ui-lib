@@ -45,6 +45,13 @@ export class BfDropdownDemoComponent implements OnInit {
     { id: 23, username: 'greyghost',    email: 'greyghost@targaryen.com',    first_name: 'Greyghost',    last_name: 'Targaryen', icon2: 'icon-menu3',        img2: 'assets/language-flags/ca.png' },
     { id: 24, username: 'sheepstealer', email: 'sheepstealer@targaryen.com', first_name: 'Sheepstealer', last_name: 'Targaryen', icon: 'icon-link',          img: 'assets/language-flags/de.png' },
   ];
+  public myList4 = [
+    { id:  1, label: 'views.item_number' },
+    { id:  2, label: 'views.item_number' },
+    { id:  3, label: 'views.item_number' },
+    { id:  4, label: 'views.item_number' },
+    { id:  5, label: 'views.item_number' },
+  ];
   public dList;
 
   public selObj = { id: 2, username: 'syrax', email: 'syrax@targaryen.com', first_name: 'Syrax', last_name: 'Targaryen' };
@@ -217,6 +224,17 @@ public extCtrl$ = new Subject();
       return el;
     });
     this.dList = this.myList;
+
+    const item = { name: 'hee', surname: 'asas', age: 10, aa: {b:1}, bb:[1,2,3,5], cc: new Date() };
+    const transParams = {};
+    Object.keys(item).forEach(itemProp => {
+      const prop = item[itemProp];
+      if (typeof prop === 'string' || typeof prop === 'number') { transParams[itemProp] = prop; }
+    });
+    for (const [key, value] of Object.entries(item)) {
+      if (typeof value === 'string' || typeof value === 'number') { transParams[key] = value; }
+    }
+    console.log('transParams', transParams);
   }
 
   ngOnInit() { }

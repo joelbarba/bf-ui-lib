@@ -357,11 +357,20 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   // Sync translation for the values of the list ($label --> $renderedText)
   public translateExtList = () => {
     if (!!this.extList) {
-      if (this.bfRenderFn && typeof this.bfRenderFn === 'function') { // If render function, call it
-        this.extList.forEach((item, ind) => item.$renderedText = this.bfRenderFn(item, ind));
-      } else {
-        this.extList.forEach(item => item.$renderedText = this.translate.doTranslate(item.$label));
-      }
+      this.extList.forEach((item, ind) => {
+
+        if (this.bfRenderFn && typeof this.bfRenderFn === 'function') { // If render function, call it
+          item.$renderedText = this.bfRenderFn(item, ind);
+
+        } else {
+          const params = {};  // Take as translation params those primitives on the same item
+          for (const [key, value] of Object.entries(item)) {
+            if (typeof value === 'string' || typeof value === 'number') { params[key] = value; }
+          }
+
+          item.$renderedText = this.translate.doTranslate(item.$label, params);
+        }
+      });
     }
 
     // Update empty translation (in case it was not on the list)
