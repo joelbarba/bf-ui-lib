@@ -101,7 +101,7 @@ allResolved(stack: Array<BfPromise>): BfPromise ---> (NOT IMPLEMENTED YET) Retur
 
 
 export const BfPromiseDoc = {
-  name    : `bfPromise`,
+  name    : `BfPromise`,
   uiType  : 'class',
   desc    : `(Class) Custom Promise Generator (promise with asteroids)`,
   api     : `resolve(result?) --> It resolves the current promise (shortcut to the inner resolver)

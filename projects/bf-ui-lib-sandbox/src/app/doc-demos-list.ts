@@ -33,4 +33,5 @@ export { BfGrowlDoc } from './bf-growl-demo/bf-growl-demo.component';
 export { BfListHandlerDoc } from './bf-list-handler-demo/bf-list-handler-demo.component';
 export { BfModalHeaderDoc } from './bf-modal-header-demo/bf-modal-header-demo.component';
 export { BfSectionHeaderDoc } from './bf-section-header-demo/bf-section-header-demo.component';
+export { BfDndDemoDoc } from './bf-dnd-demo/bf-dnd-demo.component';
 

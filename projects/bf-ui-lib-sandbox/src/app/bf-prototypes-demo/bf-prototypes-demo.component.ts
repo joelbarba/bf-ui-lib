@@ -181,7 +181,7 @@ BfPrototypes.run(['Array.getById', 'Array.getByProp', 'Object.dCopy']);`;
 
 
 export const BfPrototypesDoc = {
-  name    : `bfPrototypes`,
+  name    : `BfPrototypes`,
   uiType  : 'function',
   desc    : `Collection of helper functions to perform basic variable types operations`,
   api     : `[bfText]: Button text`,

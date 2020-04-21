@@ -28,14 +28,15 @@ export const compList = [
   docs.BfNoDataDoc,
   docs.BfLoadingSpinnerDoc,
   docs.BfSectionHeaderDoc,
+  docs.ShowDoc,
   docs.BfGrowlDoc,
   docs.BfLoadingBarDoc,
+  docs.BfDndDemoDoc,
   docs.BfConfirmDoc,
   docs.BfPrototypesDoc,
   docs.BfListHandlerDoc,
   docs.BfPromiseDoc,
   docs.BfDeferDoc,
-  docs.ShowDoc
 ];
 
 

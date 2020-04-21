@@ -1,0 +1,111 @@
+<div class="row">
+  <div class="col-3">
+    <h2>BfDnD - Example 4</h2>
+  </div>
+  <div class="col-9 text-right">
+    <bf-btn bfText="BfDnD" (bfClick)="router.navigate(['/BfDnD'])"></bf-btn>
+    <bf-btn bfText="Ex.1" (bfClick)="router.navigate(['/BfDnD/example1'])"></bf-btn>
+    <bf-btn bfText="Ex.2" (bfClick)="router.navigate(['/BfDnD/example2'])"></bf-btn>
+    <bf-btn bfText="Ex.3" (bfClick)="router.navigate(['/BfDnD/example3'])"></bf-btn>
+    <bf-btn bfText="Ex.4" (bfClick)="router.navigate(['/BfDnD/example4'])" bfDisabled="true"></bf-btn>
+    <bf-btn bfText="Ex.5" (bfClick)="router.navigate(['/BfDnD/example5'])"></bf-btn>
+    <bf-btn bfText="Ex.6" (bfClick)="router.navigate(['/BfDnD/example6'])"></bf-btn>
+  </div>
+</div>
+<hr/>
+
+<div class="row">
+  <div class="col-8">
+    <h4>Drop Placeholders</h4>
+    <p>Using different placeholders into the containers to drop in different positions</p>
+  </div>
+  <div class="col-4 text-right">
+    <div>
+      <bf-switch bfLabel="bfDnD.isDebugMode" bfLabelPos="left"
+                 [(ngModel)]="isDebugMode" (ngModelChange)="bfDnD.setDebugMode($event)">
+      </bf-switch>
+    </div>
+    <div>
+      <bf-switch bfLabel="bfDnD.isAccurateMode" bfLabelPos="left" class="accurate-mode-switch"
+                 [(ngModel)]="isAccurateMode" (ngModelChange)="bfDnD.isAccurateMode = $event">
+      </bf-switch>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-3">
+    <div class="board">
+      <h4>List 1</h4>
+      <div *ngFor="let item of list1">
+        <div [bfDraggable]="item" bfDragMode="copy">{{item.name}}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-3">
+    <div id="cont-1" [bfDropContainer]="container1">
+      <h5>Container 1</h5>
+
+      <div [bfDropPlaceholder]="{ pos: 0 }" bfDropContainerId="cont-1">Placeholder 0</div>
+      <div [bfDropPlaceholder]="{ pos: 1 }" bfDropContainerId="cont-1">Placeholder 1</div>
+      <div [bfDropPlaceholder]="{ pos: 2 }" bfDropContainerId="cont-1">Placeholder 2</div>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <div id="cont-2" class="cont-2" [bfDropContainer]="container2">
+      <h5>Container 2</h5>
+      <div class="ph-1" [bfDropPlaceholder]="{ pos: 1 }" bfDropContainerId="cont-2">Placeholder 1</div>
+      <div class="ph-2" [bfDropPlaceholder]="{ pos: 2 }" bfDropContainerId="cont-2">Placeholder 2</div>
+      <div class="ph-3" [bfDropPlaceholder]="{ pos: 3 }" bfDropContainerId="cont-2">Placeholder 3</div>
+      <div class="ph-4" [bfDropPlaceholder]="{ pos: 4 }" bfDropContainerId="cont-2">Placeholder 4</div>
+      <div class="ph-5" [bfDropPlaceholder]="{ pos: 5 }" bfDropContainerId="cont-2">Placeholder 5</div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row marT30 marB30">
+  <div class="col-12">
+    <div>
+      <b>Placeholders =</b>
+      <span class="marL15" *ngFor="let placeholder of bfDnD.placeholders"
+            [class.is-active]="placeholder.id === bfDnD.activePlaceholder?.id">
+        {{placeholder.id}}
+      </span>
+    </div>
+    <div><b>Containers =</b>
+      <span class="marL15" *ngFor="let cont of bfDnD.containers"
+            [class.is-active]="cont.id === bfDnD.activeContainer?.id">{{cont.id}}</span>
+    </div>
+    <div><b>activeContainer = </b><span class="demo-active-container-id">{{bfDnD.activeContainer?.id}}</span></div>
+    <div><b>activePlaceholder = </b><span class="demo-active-placeholder-id">{{bfDnD.activePlaceholder?.id}}</span></div>
+  </div>
+</div>
+
+
+
+<div class="row">
+  <div class="col-7">
+    <h5>View:</h5>
+    <div class="code-box pad15">
+      <pre>{{viewCode}}</pre>
+    </div>
+    <hr class="marT30">
+    <h5>Ctrl:</h5>
+    <div class="code-box pad15">
+      <pre>{{ctrlCode}}</pre>
+    </div>
+  </div>
+  <div class="col-5">
+    <h5>Scss:</h5>
+    <div class="code-box pad15">
+      <pre>{{scssCode}}</pre>
+    </div>
+  </div>
+
+
+  <div class="col-12"><hr></div>
+
+</div>

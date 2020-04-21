@@ -72,7 +72,7 @@ $growl-error-bg: $warning_color !default;`;
 
 
 export const BfGrowlDoc = {
-  name    : `bfGrowl`,
+  name    : `BfGrowl`,
   uiType  : 'module',
   desc    : `Growl Module to push notifications on the screen`,
   api     : `growl.success(text) : Pushes a successful notification

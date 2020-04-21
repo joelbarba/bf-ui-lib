@@ -1,0 +1,88 @@
+<div class="row">
+  <div class="col-3">
+    <h2>BfDnD - Example 6</h2>
+  </div>
+  <div class="col-9 text-right">
+    <bf-btn bfText="BfDnD" (bfClick)="router.navigate(['/BfDnD'])"></bf-btn>
+    <bf-btn bfText="Ex.1" (bfClick)="router.navigate(['/BfDnD/example1'])"></bf-btn>
+    <bf-btn bfText="Ex.2" (bfClick)="router.navigate(['/BfDnD/example2'])"></bf-btn>
+    <bf-btn bfText="Ex.3" (bfClick)="router.navigate(['/BfDnD/example3'])"></bf-btn>
+    <bf-btn bfText="Ex.4" (bfClick)="router.navigate(['/BfDnD/example4'])"></bf-btn>
+    <bf-btn bfText="Ex.5" (bfClick)="router.navigate(['/BfDnD/example5'])"></bf-btn>
+    <bf-btn bfText="Ex.6" (bfClick)="router.navigate(['/BfDnD/example6'])" bfDisabled="true"></bf-btn>
+  </div>
+</div>
+<hr/>
+
+<h4>Multiple Dragging Groups</h4>
+<p>Using 2 different groups of drag and drop with [bfDragGroup].
+<br>Elements on the left (group 1) cannot interact with elements on the right (group 2)</p>
+
+<div class="row">
+  <div class="col-3 padL50">
+    <div class="board">
+      <h4 class="padB30">Group 1</h4>
+      <div bfDragGroup="group-1" [bfDraggable]="obj1">{{obj1.name}}</div>
+      <div bfDragGroup="group-1" [bfDraggable]="obj2">{{obj2.name}}</div>
+    </div>
+  </div>
+  <div class="col-3 padR50">
+    <div class="board">
+      <div bfDragGroup="group-1"
+           bfDropContainer (bfDrop)="lastOp=$event.bfDraggable.name + ' dropped'; growl.success(lastOp)">
+        <div class="text-center">
+          <h6>Drop container 1</h6>
+          <p>Only elements from group 1 are allowed here</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-3 padL50">
+    <div class="board">
+      <div bfDropContainer bfDragGroup="group-2"
+           (bfDrop)="lastOp=$event.bfDraggable.name + ' dropped'; growl.success(lastOp)">
+        <div class="text-center">
+          <h6>Drop container 2</h6>
+          <p>Only elements from group 2 are allowed here</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-3 padR50">
+    <div class="board">
+      <h4 class="padB30">Group 2</h4>
+      <div bfDragGroup="group-2" [bfDraggable]="obj3">{{obj3.name}}</div>
+      <div bfDragGroup="group-2" [bfDraggable]="obj4">{{obj4.name}}</div>
+    </div>
+  </div>
+</div>
+<div>Last Operation: <span class="last-op">{{lastOp}}</span></div>
+<div>activeContainer = <span class="demo-active-container-id">{{bfDnD.activeContainer?.id}}</span></div>
+
+<div class="row">
+  <div class="col-12"><hr></div>
+
+  <div class="col-8">
+    <h5>View:</h5>
+    <div class="code-box pad15">
+      <pre>{{viewCode}}</pre>
+    </div>
+  </div>
+
+  <div class="col-4">
+    <h5>Scss:</h5>
+    <div class="code-box pad15">
+      <pre>{{scssCode}}</pre>
+    </div>
+  </div>
+
+  <!--<div class="col-6">-->
+  <!--  <h5>Ctrl:</h5>-->
+  <!--  <div class="code-box pad15">-->
+  <!--    <pre>{{ctrlCode}}</pre>-->
+  <!--  </div>-->
+  <!--</div>-->
+
+</div>

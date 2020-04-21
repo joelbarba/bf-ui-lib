@@ -6,6 +6,7 @@ import { NgbModule, NgbActiveModal, NgbModalModule, NgbDatepickerModule } from '
 // Modules
 import { BfGrowlModule } from './bf-growl/bf-growl.module';
 import { BfLoadingBarModule } from './bf-loading-bar/bf-loading-bar.module';
+import { BfDnDModule } from './bf-dnd/bf-dnd.module';
 
 // Services
 import { BfConfirmService } from './bf-confirm/bf-confirm.service';
@@ -43,6 +44,7 @@ import { Ng5SliderModule } from 'ng5-slider';
 import { BfSectionHeaderComponent } from './bf-section-header/bf-section-header.component';
 import { BfRangeSliderComponent } from './bf-range-slider/bf-range-slider.component';
 import { BfModalHeaderComponent } from './bf-modal-header/bf-modal-header.component';
+
 
 @NgModule({
   declarations: [
@@ -92,27 +94,28 @@ import { BfModalHeaderComponent } from './bf-modal-header/bf-modal-header.compon
     NgbProgressbarModule,
     NgbModalModule,
     BfGrowlModule,
+    BfDnDModule,
     BfLoadingBarModule,
     NgbDatepickerModule,
     NgbModule,
     Ng5SliderModule,
   ],
   exports: [
-    BfModalHeaderComponent,  // <--- New component
-    BfSectionHeaderComponent,  // <--- New component
-    BfRangeSliderComponent,  // <--- New component
-    BfNoDataComponent,  // <--- New component
+    BfModalHeaderComponent,
+    BfSectionHeaderComponent,
+    BfRangeSliderComponent,
+    BfNoDataComponent,
     ShowDirective,
-    BfLoadingSpinnerDirective,  // <--- New component
-    BfLoadingSpinnerComponent,  // <--- New component
-    BfPagePlaceholderComponent,  // <--- New component
-    BfSliderComponent,  // <--- New component
-    BfColorPickerComponent,  // <--- New component
-    BfStatusBadgeComponent,  // <--- New component
-    BfProgressBarComponent,  // <--- New component
-    BfMultiSelectorComponent,  // <--- New component
+    BfLoadingSpinnerDirective,
+    BfLoadingSpinnerComponent,
+    BfPagePlaceholderComponent,
+    BfSliderComponent,
+    BfColorPickerComponent,
+    BfStatusBadgeComponent,
+    BfProgressBarComponent,
+    BfMultiSelectorComponent,
     BfAutocompleteComponent,
-    BfTimePickerComponent,  // <--- New component
+    BfTimePickerComponent,
     FormsModule,
     BfListPaginatorComponent,
     BfDatePickerComponent,
@@ -129,9 +132,10 @@ import { BfModalHeaderComponent } from './bf-modal-header/bf-modal-header.compon
     BfLabelComponent,
     BfBtnComponent,
     BfListHeaderColComponent,
+    BfRangeSliderComponent,
     BfGrowlModule,
     BfLoadingBarModule,
-    BfRangeSliderComponent,
+    BfDnDModule,
   ]
 })
 export class BfUiLibModule {
