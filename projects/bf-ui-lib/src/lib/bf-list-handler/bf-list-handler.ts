@@ -14,7 +14,7 @@ export interface BfListHandlerConfig {
   extMethods    ?: boolean;
   smartTrigger  ?: boolean;
   dataInput$    ?: Observable<any> | Subject<any> | BehaviorSubject<any>;
-  backendPagination ?: (fullFilter: any, slimFilter?: any, isDiff?: boolean) => void | Promise<void | { list, count }>;
+  backendPagination ?: (fullFilter: any, slimFilter?: any, isDiff?: boolean, isFirstFetch?: boolean) => void | Promise<void | { list, count }>;
 }
 
 
@@ -277,6 +277,8 @@ export class BfListHandler {
   public fetchPage = () => {
     this.filters = this.getFilters();
     const isFilterDiff = this.isFilterDiff(this.lastFilters, this.filters);
+    const isFirstFetch = (this.loadingStatus === 0);
+
     if (this.loadingStatus === 0 || !this.smartTrigger || isFilterDiff) {
       this.loadingStatus = 4;
       this.lastFilters = dCopy(this.filters); // Keep a copy to remember
@@ -284,7 +286,7 @@ export class BfListHandler {
       const slimFilter = dCopy(this.filters);
       Object.keys(slimFilter).forEach(n => { if (!slimFilter[n]) { delete slimFilter[n]; } });
 
-      const resPromise = this.backendPagination(dCopy(slimFilter), dCopy(this.filters), isFilterDiff);
+      const resPromise = this.backendPagination(dCopy(slimFilter), dCopy(this.filters), isFilterDiff, isFirstFetch);
 
       if (!!resPromise) { // If a promise is returned, trigger the page load automatically
         return resPromise.then(page => {
