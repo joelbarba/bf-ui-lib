@@ -107,7 +107,10 @@ import {BfDndDemo6Component} from './bf-dnd-demo/example6/bf-dnd-demo-6.componen
     BfDndDemo5Component,
     BfDndDemo6Component,
   ],
-  entryComponents: [BfNoDataComponent],
+  entryComponents: [
+    BfNoDataComponent, 
+    BfModalDemoComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
