@@ -7,6 +7,7 @@ import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of } from 'rxjs';
 import {map} from 'rxjs/operators';
 import { Patterns } from '../patterns';
+import {BfDefer} from '../bf-defer/bf-defer';
 
 export interface IbfInputCtrl {
   getControl  ?: { _: FormControl };
@@ -126,6 +127,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   public manualError = null; // Manual error (set through addError() / removeError())
   public ctrlSubs;  // Subscription to external control observable
   private ctrlObject; // Hold an object with the input controller and the action methods
+  private inputCtrlDefer = new BfDefer();  // This is resolved once inputCtrl is initialized
 
 
   @ViewChild('ngInputRef', { static: false }) ngInputRef: ElementRef;
@@ -172,15 +174,10 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
     // console.error('ngOnChanges', change);
     // console.log('this.ngInputRef', this.ngInputRef);
 
-    // Link the formControl form the <input #ngInputRef="ngModel"> to "this.inputCtrl"
-    if (!!this.ngInputRef && !!this.ngInputRef['control'] && !this.inputCtrl) {
-      this.inputCtrl = this.ngInputRef['control'];
-      this.inputCtrl.setValidators(this.customValidator);
-      this.inputCtrl.updateValueAndValidity();
-    }
+    this.initInputCtrl(true); // If not yet, link the formControl to "this.inputCtrl"
 
     if (change.hasOwnProperty('bfValidator')) {
-      this.inputCtrl.updateValueAndValidity();
+      this.inputCtrlDefer.promise.then(() => this.inputCtrl.updateValueAndValidity());
     }
 
 
@@ -253,9 +250,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   ngAfterViewInit() {
     // console.log('ngAfterViewInit', this.ngControl);
 
-    if (!!this.ngInputRef && !!this.ngInputRef['control'] && !this.inputCtrl) {
-      this.inputCtrl = this.ngInputRef['control'];
-    }
+    this.initInputCtrl(); // Link the formControl to "this.inputCtrl"
 
     this.bfOnLoaded.emit({ // expose the formControl
       inputCtrl$ : this.inputCtrl ? this.inputCtrl.statusChanges.pipe(map(status => this.inputCtrl)) : null,
@@ -272,6 +267,15 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
     if (!!this.ctrlSubs) { this.ctrlSubs.unsubscribe(); }
   }
 
+  // Link the formControl from the <input #ngInputRef="ngModel"> to "this.inputCtrl"
+  initInputCtrl(updateValue = false) {
+    if (!!this.ngInputRef && !!this.ngInputRef['control'] && !this.inputCtrl) {
+      this.inputCtrl = this.ngInputRef['control'];
+      this.inputCtrl.setValidators(this.customValidator);
+      if (updateValue) { this.inputCtrl.updateValueAndValidity(); }
+      this.inputCtrlDefer.resolve(this.inputCtrl);
+    }
+  }
 
   setPattern() {
     if (this.bfValidType) {
