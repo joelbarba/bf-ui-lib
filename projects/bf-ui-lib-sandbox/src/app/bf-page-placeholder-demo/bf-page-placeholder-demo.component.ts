@@ -65,7 +65,7 @@ $disabled_input_color : $disabled-color;
 
     if (this.profileExample.isSection) {
       this.instance += `bfType="profile"` + this.bsStr;
-      this.instance += `[bfSection]="[`;
+      this.instance += `[bfSections]="[`;
 
       this.profileExample.sectionList = [];
       if (this.profileExample.hasAvatar) {
