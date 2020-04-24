@@ -15,8 +15,8 @@ import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, Validators } from
   ]
 })
 export class BfQuantityInputComponent implements OnInit, ControlValueAccessor {
-  @Input() bfMinVal: number;
-  @Input() bfMaxVal: number;
+  @Input() bfMinVal = 1;
+  @Input() bfMaxVal = 100;
   @Input() bfDisabled: boolean;
 
   public bfModelControl: FormControl;
@@ -30,8 +30,8 @@ export class BfQuantityInputComponent implements OnInit, ControlValueAccessor {
   }
 
   setMinMaxValues() {
-    this.bfMinVal = (typeof this.bfMinVal === 'string' ? parseInt(this.bfMinVal, 10) : this.bfMinVal) || 1;
-    this.bfMaxVal = (typeof this.bfMaxVal === 'string' ? parseInt(this.bfMaxVal, 10) : this.bfMaxVal) || 100;
+    this.bfMinVal = (typeof this.bfMinVal === 'string' ? parseInt(this.bfMinVal, 10) : this.bfMinVal);
+    this.bfMaxVal = (typeof this.bfMaxVal === 'string' ? parseInt(this.bfMaxVal, 10) : this.bfMaxVal);
     this.bfMinVal = this.bfMinVal > this.bfMaxVal ? this.bfMaxVal : this.bfMinVal;
   }
 
