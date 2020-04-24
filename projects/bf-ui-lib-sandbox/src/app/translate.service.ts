@@ -102,6 +102,7 @@ export class BfTranslateService extends BfUILibTransService {
     'views.common.30_items_per_page'    : 'Show 30 items per page',
     'views.common.50_items_per_page'    : 'Show 50 items per page',
     'views.common.100_items_per_page'   : 'Show 100 items per page',
+    'views.item_number'   : 'Item number {{id}} - {{name}}',
     'view.common.search'  :  'Search',
     'view.common.edit'    :  'Edit',
     'view.common.save'    :  'Save',
@@ -151,6 +152,7 @@ export class BfTranslateService extends BfUILibTransService {
     'views.common.30_items_per_page'    : 'Mostra 30 ítems per pàgina',
     'views.common.50_items_per_page'    : 'Mostra 50 ítems per pàgina',
     'views.common.100_items_per_page'   : 'Mostra 100 ítems per pàgina',
+    'views.item_number'   : 'La cosa número {{id}} - {{name}}',
     'view.common.search'  :  'Buscar',
     'view.common.edit'    :  'Editar',
     'view.common.save'    :  'Guardar',
@@ -182,8 +184,12 @@ export class BfTranslateService extends BfUILibTransService {
     this.changeLanguage('en');
   }
 
-  public doTranslate = (label ?: string, params?): string => {
-    return this.transDict[label] || label;
+  public doTranslate = (label ?: string, params = {}): string => {
+    let text = this.transDict[label] || label || '';
+    for (const [key, value] of Object.entries(params)) {
+      text = text.replace(new RegExp('{{' + key + '}}', 'gi'), value);
+    }
+    return text;
   };
 
   public getLabel$ = (label ?: string, params = {}): Observable<string> => {

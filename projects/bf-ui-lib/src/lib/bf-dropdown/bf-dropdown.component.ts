@@ -167,6 +167,7 @@ import { BfUILibTransService} from '../abstract-translate.service';
 export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChanges, AfterViewInit, OnDestroy {
   @Input() bfList: Array<any>;    // List of options (array of objects)
   @Input() bfRender = '';         // How to display every option on the expanded list
+  @Input() bfRenderFn;            // Function to be called to render the list items (when bfRender is not enough)
   @Input() bfSelect = '';         // What fields need to be selected on the model (from the list object)
   @Input() bfRequired: unknown = false; // Whether the model is required (can't be empty)
   @Input() bfDisabled: unknown = false; // Whether the dropdown is disabled
@@ -301,21 +302,22 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
     // If bfRender starts with $$$, it's an eval() expression. If not, a single field
     const renderExpr = (this.bfRender && this.bfRender.slice(0, 3) === '$$$') ? this.bfRender.slice(4) : false;
+    if (renderExpr) { console.warn('bfDropdown - bfRender - Consider using [bfRenderFn] instead of an eval expression'); }
 
     this.extList.forEach(($item, ind) => {
       let itemLabel = '';
 
       if (!!this.bfRender) {
-        if (!renderExpr) { // Display single property
-          itemLabel = $item[this.bfRender];
+        if (!renderExpr) { // Display item property / string label
+          itemLabel = $item[this.bfRender] || this.bfRender;
 
         } else {  // Display custom render expression
           // tslint:disable-next-line:no-eval
-          itemLabel = eval(renderExpr);
+          itemLabel = eval(renderExpr); // We'll keep this for back compatibility, but better use [bfRenderFn]
         }
 
-      } else { // If bfRender not provided: Display all props
-        for (const prop in $item) {
+      } else if (!this.bfRenderFn) { // If render function, $label will be calculated later
+        for (const prop in $item) { // If no rendering defined: Display all props
           if ($item.hasOwnProperty(prop)) {
             if (!!itemLabel) { itemLabel += ', '; }
             itemLabel += $item[prop];
@@ -355,7 +357,20 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   // Sync translation for the values of the list ($label --> $renderedText)
   public translateExtList = () => {
     if (!!this.extList) {
-      this.extList.forEach(item => item.$renderedText = this.translate.doTranslate(item.$label));
+      this.extList.forEach((item, ind) => {
+
+        if (this.bfRenderFn && typeof this.bfRenderFn === 'function') { // If render function, call it
+          item.$renderedText = this.bfRenderFn(item, ind);
+
+        } else {
+          const params = {};  // Take as translation params those primitives on the same item
+          for (const [key, value] of Object.entries(item)) {
+            if (typeof value === 'string' || typeof value === 'number') { params[key] = value; }
+          }
+
+          item.$renderedText = this.translate.doTranslate(item.$label, params);
+        }
+      });
     }
 
     // Update empty translation (in case it was not on the list)
@@ -479,7 +494,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   public filterList = (value) => {
     const patternVal = value.toLowerCase();
     this.extList.forEach(item => {
-      item.$isMatch = item.$renderedText.toLowerCase().indexOf(patternVal) >= 0;
+      item.$isMatch = item.$renderedText && item.$renderedText.toLowerCase().indexOf(patternVal) >= 0;
     });
     this.emptyItem.$isMatch = true; // Fix empty option as always visible
   };
@@ -496,7 +511,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
         } else { // Multiple prop match
           matchItem = this.extList.filter(item => {
-            return !!item.$index && (JSON.stringify(item.keyMap(this.bfSelect)) === JSON.stringify(value));
+            return !!item.$index && (JSON.stringify(BfObject.keyMap.call(item, this.bfSelect)) === JSON.stringify(value));
           })[0];
         }
 
@@ -576,7 +591,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
         if (this.bfSelect.indexOf(',') === -1) {
           modelUp = selObj[this.bfSelect];  // Select 1 prop
         } else {
-          modelUp = selObj.keyMap(this.bfSelect);  // Select filtered props
+          modelUp = BfObject.keyMap.call(selObj, this.bfSelect); // Select filtered props
         }
       }
     }
