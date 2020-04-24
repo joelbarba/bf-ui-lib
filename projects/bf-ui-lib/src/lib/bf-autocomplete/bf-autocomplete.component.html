@@ -47,12 +47,10 @@
     <div class="list-container" #listContainer>
       <div *ngFor="let item of list" class="option-row {{item}}"
            [class.selected]="isHighlighted(item)"
-           (mousedown)="select(item)">
+           (mousedown)="select(item);">
         <span>{{item}}</span>
       </div>
-      <div *ngIf="!!list && !list.length" class="option-row empty-row">
-        {{bfEmptyTextTrans$ | async}}
-      </div>
     </div>
+
   </div>
 </div>

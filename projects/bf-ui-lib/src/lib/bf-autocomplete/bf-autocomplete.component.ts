@@ -1,4 +1,14 @@
-import { Component, ElementRef, forwardRef, HostListener, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  forwardRef,
+  HostListener,
+  Input,
+  OnChanges,
+  OnInit, Output,
+  ViewChild
+} from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { from, Observable, of } from 'rxjs';
 import { BfUILibTransService } from '../abstract-translate.service';
@@ -65,10 +75,10 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @Input() bfTooltip = '';        // Add a badge next to the label with the tooltip to give more info
   @Input() bfTooltipPos = 'top';  // If tooltip on the label, specific position (top by default)
   @Input() bfTooltipBody = true;  // If tooltip on the label, whether it is appended on the body
-  @Input() bfEmptyText = 'directives.bfAutocomplete.no_results_found';
   @Input() bfValidType: keyof typeof Patterns;  // Predefined validator patterns. It overrides bfPattern
   @Input() bfPattern;
   @Input() bfErrorOnPristine;
+  @Output() bfOnSelect = new EventEmitter<any>();
 
   // --------------
 
@@ -81,7 +91,6 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   isFocus = false;     // Whether the input is focused
 
   bfDisabledTipTrans$: Observable<string> = of('');   // Translated text for the disabled tooltip
-  bfEmptyTextTrans$: Observable<string> = of('');
   bfPlaceholderTrans$: Observable<string> = of('');   // Translated text for the placeholder
 
   @ViewChild('autocomplete', { static: true }) autocomplete: ElementRef<HTMLElement>;
@@ -111,7 +120,6 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
       this.bfDisabledTipTrans$ = this.translate.getLabel$(this.bfDisabledTip);
     }
     if (changes.hasOwnProperty('bfPlaceholder'))  { this.setPlaceholder(); }
-    this.bfEmptyTextTrans$ = this.translate.getLabel$(this.bfEmptyText);
 
     this.filter();
   }
@@ -162,8 +170,13 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   confirm() {
     if (this.navigatedItem) { this.ngModel = this.navigatedItem; }
-    this.autocompleteInput.nativeElement.blur();
-    this.collapse();
+    if (!this.checkValidity(this.ngModel)) {
+      this.autocompleteInput.nativeElement.blur();
+      this.collapse();
+      if (this.bfOnSelect) {
+        this.bfOnSelect.emit(this.ngModel);
+      }
+    }
   }
 
   // React on key events (on the input)
@@ -197,6 +210,9 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
     this.updateModel(value);
     this.collapse();
     this.filter();
+    if (this.bfOnSelect) {
+      this.bfOnSelect.emit(this.ngModel);
+    }
   }
 
   reset() {

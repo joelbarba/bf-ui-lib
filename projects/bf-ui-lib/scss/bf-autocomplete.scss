@@ -89,10 +89,10 @@ bf-autocomplete {
         width: 100%;
         z-index: 6000;
         max-height: 300px;
-        padding: 5px 0;
         overflow: auto;
         border-bottom-left-radius: 3px;
         border-bottom-right-radius: 3px;
+        overflow-x: hidden;
 
         .option-row {
           padding: 4px 10px;
@@ -101,6 +101,9 @@ bf-autocomplete {
           max-height: 72px;
           display: flex;
           align-items: center;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
           &:not(.empty-row) { cursor: pointer; }
 
           i {
@@ -175,11 +178,11 @@ bf-autocomplete {
   }
 
   &.full-width .bf-autocomplete-form-group {
-    width: 100%;
+      width: 100%;
   }
 
-  &.flat .autocomplete-form-group {
-    margin-bottom: 0;
+  &.flat .bf-autocomplete-form-group {
+      margin-bottom: 0;
   }
 
 }
