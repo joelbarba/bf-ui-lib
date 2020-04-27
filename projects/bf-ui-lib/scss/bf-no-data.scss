@@ -28,3 +28,44 @@ bf-no-data {
     .empty-description  { font-size: 16px; margin-top: .5rem; }
   }
 }
+
+// Different sizes (xl = default)
+
+bf-no-data.size-lg {
+  .empty-placeholder {
+    min-height: 40vh;
+    div[class*="icon-"] { font-size: 25vh; }
+    .empty-title        { font-size: 25px; margin-top: 1.5rem; }
+    .empty-description  { font-size: 16px; margin-top: .5rem; }
+  }
+}
+
+bf-no-data.size-md {
+  .empty-placeholder {
+    max-height: 300px;
+    min-height: 300px;
+    div[class*="icon-"] { font-size: 120px; }
+    .empty-title        { font-size: 25px; margin-top: 1.5rem; }
+    .empty-description  { font-size: 16px; margin-top: .5rem; }
+  }
+}
+
+bf-no-data.size-sm {
+  .empty-placeholder {
+    max-height: 150px;
+    min-height: 150px;
+    div[class*="icon-"] { font-size: 60px; }
+    .empty-title        { font-size: 25px; margin-top: 1rem; }
+    .empty-description  { font-size: 16px; margin-top: .5rem; }
+  }
+}
+
+bf-no-data.size-xs {
+  .empty-placeholder {
+    max-height: 75px;
+    min-height: 75px;
+    div[class*="icon-"] { font-size: 40px; }
+    .empty-title        { font-size: 20px; margin-top: .5rem; }
+    .empty-description  { font-size: 12px; margin-top: 0; }
+  }
+}

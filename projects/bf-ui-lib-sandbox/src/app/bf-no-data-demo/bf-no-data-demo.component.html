@@ -14,14 +14,14 @@ but a placeholder option (bfIsPlaceholder = true) when a list of items is empty 
 <!--  </div>-->
 <!--</div>-->
 
-<div class="row whiteBg">
-  <bf-no-data class="col-12"
-              [bfIsPlaceholder]="true"
-              bfIcon="icon-hour-glass"
-              bfTitle="No Items yet"
-              bfDescription="Click to add a new item."
-  ></bf-no-data>
-</div>
+<!--<div class="row whiteBg">-->
+<!--  <bf-no-data class="col-12 size-lg"-->
+<!--              [bfIsPlaceholder]="true"-->
+<!--              bfIcon="icon-hour-glass"-->
+<!--              bfTitle="No Items yet"-->
+<!--              bfDescription="Click to add a new item."-->
+<!--  ></bf-no-data>-->
+<!--</div>-->
 
 
 <!--bf-no-data Customization-->
@@ -29,14 +29,7 @@ but a placeholder option (bfIsPlaceholder = true) when a list of items is empty 
   <div class="row">
     <div class="col-5 marB15">
       <h5 class="marB25">bf-no-data Customization:</h5>
-      <div>
-        <bf-no-data [bfMessage]="compConf.hasLabel ? compConf.bfMessage : 'view.common.no_data_to_show'"
-                    [bfIsPlaceholder]="compConf.isPlaceholder"
-                    [bfIcon]="compConf.bfIcon"
-                    [bfTitle]="compConf.bfTitle"
-                    [bfDescription]="compConf.bfDescription"
-        ></bf-no-data>
-      </div>
+
 
       <div class="marT15">
         <div class="code-box pad15">
@@ -53,6 +46,12 @@ but a placeholder option (bfIsPlaceholder = true) when a list of items is empty 
                      bfLabelPos="left" bfLabel="Is Empty List Placeholder" bfOnText="Yes" bfOffText="No">
           </bf-switch>
         </div>
+        <div class="col-4 padT5" *ngIf="compConf.isPlaceholder">
+          <bf-dropdown bfLabel="bfIcon" [(ngModel)]="compConf.bfIcon" (ngModelChange)="upComp()"
+                       [bfList]="iconList" bfRender="icon" bfSelect="icon"
+          ></bf-dropdown>
+        </div>
+        <bf-input class="col-4 padT25" [(ngModel)]="compConf.bfIcon" (ngModelChange)="upComp()"></bf-input>
       </div>
 
       <div class="row marT15" *ngIf="!compConf.isPlaceholder">
@@ -63,14 +62,20 @@ but a placeholder option (bfIsPlaceholder = true) when a list of items is empty 
       </div>
 
       <div class="row marT15" *ngIf="compConf.isPlaceholder">
-        <div class="col-4 padT5">
-          <bf-input bfLabel="bfIcon" [(ngModel)]="compConf.bfIcon" (ngModelChange)="upComp()"></bf-input>
-        </div>
-        <div class="col-8" style="margin-bottom: -5px;">
+        <div class="col-6" style="margin-bottom: -5px;">
           <bf-input bfLabel="bfTitle" [(ngModel)]="compConf.bfTitle" (ngModelChange)="upComp()"></bf-input>
         </div>
-        <div class="col-12" >
+        <div class="col-6" >
           <bf-input bfLabel="bfDescription" [(ngModel)]="compConf.bfDescription" (ngModelChange)="upComp()"></bf-input>
+        </div>
+
+        <div class="col-12">
+          <bf-label class="marR15" bfText="Css Size Class"></bf-label>
+          <bf-radio [(ngModel)]="compConf.sizeClass" bfLabel="size-xl" bfValue="size-xl" (ngModelChange)="upComp()"></bf-radio>
+          <bf-radio [(ngModel)]="compConf.sizeClass" bfLabel="size-lg" bfValue="size-lg" (ngModelChange)="upComp()"></bf-radio>
+          <bf-radio [(ngModel)]="compConf.sizeClass" bfLabel="size-md" bfValue="size-md" (ngModelChange)="upComp()"></bf-radio>
+          <bf-radio [(ngModel)]="compConf.sizeClass" bfLabel="size-sm" bfValue="size-sm" (ngModelChange)="upComp()"></bf-radio>
+          <bf-radio [(ngModel)]="compConf.sizeClass" bfLabel="size-xs" bfValue="size-xs" (ngModelChange)="upComp()"></bf-radio>
         </div>
       </div>
 
@@ -79,6 +84,16 @@ but a placeholder option (bfIsPlaceholder = true) when a list of items is empty 
   </div>
 </div>
 
+
+<div class="row whiteBg">
+  <bf-no-data [bfMessage]="compConf.hasLabel ? compConf.bfMessage : 'view.common.no_data_to_show'"
+              class="col-12" [ngClass]="compConf.sizeClass"
+              [bfIsPlaceholder]="compConf.isPlaceholder"
+              [bfIcon]="compConf.bfIcon"
+              [bfTitle]="compConf.bfTitle"
+              [bfDescription]="compConf.bfDescription"
+  ></bf-no-data>
+</div>
 <hr>
 
 
