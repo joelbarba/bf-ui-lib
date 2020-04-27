@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class BfQuantityInputDemoComponent implements OnInit {
 
   public myVar: any = 15;
+  public myVar2;
   public lastMod = new Date();
   public name = BfQuantityInputDoc.name;
   public desc = BfQuantityInputDoc.desc;
@@ -102,6 +103,9 @@ $quantity-input-blocked-btn: darken($primary_color, 8%) !default;`;
 
   setLastMod = () => this.lastMod = new Date();
 
+  myFunc($event) {
+    console.log('change emited', $event);
+  }
 }
 
 export const BfQuantityInputDoc = {

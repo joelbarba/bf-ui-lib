@@ -9,174 +9,181 @@
     <pre>{{api}}</pre>
   </div>
 
-
-  <div>
-    <form #myForm="ngForm">
-      <p>lastMod = {{lastMod}}</p>
-      <bf-input [(ngModel)]="myVar" name="322sd89d8s9" style="display: inline-block"></bf-input>
-      <bf-quantity-input [(ngModel)]="myVar" #bfQuantityRef="ngModel"
-                         (ngModelChange)="setLastMod()"
-                         style="display: inline-block"
-                         name="d8s87fsd89" bfMinVal="10">
-      </bf-quantity-input>
-
-      <bf-btn bfText="Set value = 2" (bfClick)="myVar = 2" bfType="save"></bf-btn>
-      <bf-btn bfText="Set string" (bfClick)="myVar = 'hey'" bfType="save"></bf-btn>
-      <bf-btn bfText="Set object" (bfClick)="myVar = { name: 'hey' }" bfType="save"></bf-btn>
-
-      <div *ngIf="!!bfQuantityRef">
-        FromControl:
-        value={{bfQuantityRef.value}}
-        , valid={{bfQuantityRef.valid}}
-        , invalid={{bfQuantityRef.invalid}}
-        , errors={{bfQuantityRef.errors | json}}
-        , pristine={{bfQuantityRef.pristine}}
-      </div>
-
-      <div *ngIf="!!myForm">
-        ngForm:
-        valid={{myForm.valid}}
-        pristine={{myForm.pristine}}
-        dirty={{myForm.dirty}}
-        value={{myForm.value | json}},
-        errors={{bfQuantityRef.errors | json}}
-      </div>
-    </form>
+  <div style="max-width: 300px;">
+    <bf-quantity-input [(ngModel)]="myVar2" (ngModelChange)="myFunc($event)"
+                       [bfMinVal]="0" [bfMaxVal]="10">
+    </bf-quantity-input>
+    myVar={{myVar2}}
   </div>
 
 
-  <!-- bfQuantityInput Customization-->
-  <div class="whiteBg">
-    <div class="row">
-      <div class="col-4 marB15">
-        <h5 class="marB25">bfQuantityInput customization:</h5>
-        <div class="padB30" *ngIf="custom.exLinked">
-          <bf-quantity-input
-            [(ngModel)]="custom.object.value"
-            [name]="custom.object.name"
-            [class]="custom.config.hasMode ? custom.object.mode: null"
-            [bfDisabled]="custom.object.disable"
-            [bfMinVal]="custom.config.hasMinValue ? custom.object.minValue : null"
-            [bfMaxVal]="custom.config.hasMaxValue ? custom.object.maxValue : null">
-          </bf-quantity-input>
-        </div>
-        <div class="code-box pad15">
-          <pre>{{custom.componentView}}</pre>
-          <br>
-          <pre>Value: {{custom.object.value}}</pre>
-        </div>
-      </div>
+  <!--<div>-->
+  <!--  <form #myForm="ngForm">-->
+  <!--    <p>lastMod = {{lastMod}}</p>-->
+  <!--    <bf-input [(ngModel)]="myVar" name="322sd89d8s9" style="display: inline-block"></bf-input>-->
+  <!--    <bf-quantity-input [(ngModel)]="myVar" #bfQuantityRef="ngModel"-->
+  <!--                       (ngModelChange)="setLastMod()"-->
+  <!--                       style="display: inline-block"-->
+  <!--                       name="d8s87fsd89" bfMinVal="10">-->
+  <!--    </bf-quantity-input>-->
 
-      <div class="col-8">
-        <div class="row marT15">
-          <div class="col-3 padT5">
-            <bf-checkbox [(ngModel)]="custom.object.disable" (ngModelChange)="custom.buildComponentView();"
-                         bfLabel="Is Disabled"></bf-checkbox>
-          </div>
-        </div>
+  <!--    <bf-btn bfText="Set value = 2" (bfClick)="myVar = 2" bfType="save"></bf-btn>-->
+  <!--    <bf-btn bfText="Set string" (bfClick)="myVar = 'hey'" bfType="save"></bf-btn>-->
+  <!--    <bf-btn bfText="Set object" (bfClick)="myVar = { name: 'hey' }" bfType="save"></bf-btn>-->
 
-        <div class="row marT15">
-          <div class="col-4 padT5">
-            <bf-checkbox [(ngModel)]="custom.config.hasMinValue" (ngModelChange)="custom.buildComponentView()"
-                         bfLabel="Has minimum value"></bf-checkbox>
-          </div>
-          <div class="col-8" style="margin-bottom: -5px;">
-            <bf-input [(ngModel)]="custom.object.minValue" (ngModelChange)="custom.buildComponentView()"
-                      [bfDisabled]="!custom.config.hasMinValue"></bf-input>
-          </div>
-        </div>
+  <!--    <div *ngIf="!!bfQuantityRef">-->
+  <!--      FromControl:-->
+  <!--      value={{bfQuantityRef.value}}-->
+  <!--      , valid={{bfQuantityRef.valid}}-->
+  <!--      , invalid={{bfQuantityRef.invalid}}-->
+  <!--      , errors={{bfQuantityRef.errors | json}}-->
+  <!--      , pristine={{bfQuantityRef.pristine}}-->
+  <!--    </div>-->
 
-        <div class="row marT15">
-          <div class="col-4 padT5">
-            <bf-checkbox [(ngModel)]="custom.config.hasMaxValue" (ngModelChange)="custom.buildComponentView()"
-                         bfLabel="Has maximum value"></bf-checkbox>
-          </div>
-          <div class="col-8" style="margin-bottom: -5px;">
-            <bf-input [(ngModel)]="custom.object.maxValue" (ngModelChange)="custom.buildComponentView()"
-                      [bfDisabled]="!custom.config.hasMaxValue"></bf-input>
-          </div>
-        </div>
+  <!--    <div *ngIf="!!myForm">-->
+  <!--      ngForm:-->
+  <!--      valid={{myForm.valid}}-->
+  <!--      pristine={{myForm.pristine}}-->
+  <!--      dirty={{myForm.dirty}}-->
+  <!--      value={{myForm.value | json}},-->
+  <!--      errors={{bfQuantityRef.errors | json}}-->
+  <!--    </div>-->
+  <!--  </form>-->
+  <!--</div>-->
 
-        <div class="row marT15">
-          <div class="col-4 padT5">
-            <bf-checkbox [(ngModel)]="custom.config.hasMode" (ngModelChange)="custom.buildComponentView()"
-                         bfLabel="Has specific mode"></bf-checkbox>
-          </div>
-          <div class="col-8" style="margin-bottom: -5px;">
-            <bf-dropdown [(ngModel)]="custom.object.mode"
-                         (ngModelChange)="custom.buildComponentView()"
-                         [bfList]="custom.config.modeOptions"
-                         [bfDisabled]="!custom.config.hasMode"
-                         bfSelect="text"
-                         bfRender="text"></bf-dropdown>
-          </div>
-        </div>
-      </div>
 
-    </div>
-  </div>
+<!--  &lt;!&ndash; bfQuantityInput Customization&ndash;&gt;-->
+<!--  <div class="whiteBg">-->
+<!--    <div class="row">-->
+<!--      <div class="col-4 marB15">-->
+<!--        <h5 class="marB25">bfQuantityInput customization:</h5>-->
+<!--        <div class="padB30" *ngIf="custom.exLinked">-->
+<!--          <bf-quantity-input-->
+<!--            [(ngModel)]="custom.object.value"-->
+<!--            [name]="custom.object.name"-->
+<!--            [class]="custom.config.hasMode ? custom.object.mode: null"-->
+<!--            [bfDisabled]="custom.object.disable"-->
+<!--            [bfMinVal]="custom.config.hasMinValue ? custom.object.minValue : null"-->
+<!--            [bfMaxVal]="custom.config.hasMaxValue ? custom.object.maxValue : null">-->
+<!--          </bf-quantity-input>-->
+<!--        </div>-->
+<!--        <div class="code-box pad15">-->
+<!--          <pre>{{custom.componentView}}</pre>-->
+<!--          <br>-->
+<!--          <pre>Value: {{custom.object.value}}</pre>-->
+<!--        </div>-->
+<!--      </div>-->
 
-  <hr>
+<!--      <div class="col-8">-->
+<!--        <div class="row marT15">-->
+<!--          <div class="col-3 padT5">-->
+<!--            <bf-checkbox [(ngModel)]="custom.object.disable" (ngModelChange)="custom.buildComponentView();"-->
+<!--                         bfLabel="Is Disabled"></bf-checkbox>-->
+<!--          </div>-->
+<!--        </div>-->
 
-  <h5 class="mt-4">Examples:</h5>
-  <div class="col-12 examples-table">
+<!--        <div class="row marT15">-->
+<!--          <div class="col-4 padT5">-->
+<!--            <bf-checkbox [(ngModel)]="custom.config.hasMinValue" (ngModelChange)="custom.buildComponentView()"-->
+<!--                         bfLabel="Has minimum value"></bf-checkbox>-->
+<!--          </div>-->
+<!--          <div class="col-8" style="margin-bottom: -5px;">-->
+<!--            <bf-input [(ngModel)]="custom.object.minValue" (ngModelChange)="custom.buildComponentView()"-->
+<!--                      [bfDisabled]="!custom.config.hasMinValue"></bf-input>-->
+<!--          </div>-->
+<!--        </div>-->
 
-    <div class="row">
-      <div class="col-3">
-        <span class="bold"> Instance 1</span>
-        <br/>
-        <bf-quantity-input
-          [(ngModel)]="instance1.object.value"
-          [name]="instance1.object.name"
-          [bfDisabled]="instance1.object.disable"
-          [bfMinVal]="instance1.object.minValue"
-          [bfMaxVal]="instance1.object.maxValue"
-          [class]="instance1.object.mode">
-        </bf-quantity-input>
-        <br>
-        <div class="whiteBg pad15">
-          Value from ngModel : {{ instance1.object.value }}
-        </div>
-      </div>
-      <div class="col-9">
-        <pre>{{instance1.template}}</pre>
-      </div>
-    </div>
+<!--        <div class="row marT15">-->
+<!--          <div class="col-4 padT5">-->
+<!--            <bf-checkbox [(ngModel)]="custom.config.hasMaxValue" (ngModelChange)="custom.buildComponentView()"-->
+<!--                         bfLabel="Has maximum value"></bf-checkbox>-->
+<!--          </div>-->
+<!--          <div class="col-8" style="margin-bottom: -5px;">-->
+<!--            <bf-input [(ngModel)]="custom.object.maxValue" (ngModelChange)="custom.buildComponentView()"-->
+<!--                      [bfDisabled]="!custom.config.hasMaxValue"></bf-input>-->
+<!--          </div>-->
+<!--        </div>-->
 
-    <div class="row">
-      <div class="col-3">
-        <span class="bold"> Instance 2</span>
-        <br/>
-        <bf-quantity-input
-          [(ngModel)]="instance2.object.value"
-          [name]="instance1.object.name"
-          [bfDisabled]="instance2.object.disable"
-          [bfMinVal]="instance2.object.minValue"
-          [bfMaxVal]="instance2.object.maxValue"
-          [class]="instance2.object.mode">
-        </bf-quantity-input>
-        <br>
-        <div class="whiteBg pad15">
-          Value from ngModel : {{ instance2.object.value }}
-        </div>
-      </div>
-      <div class="col-9">
-        <pre>{{instance2.template}}</pre>
-      </div>
-    </div>
+<!--        <div class="row marT15">-->
+<!--          <div class="col-4 padT5">-->
+<!--            <bf-checkbox [(ngModel)]="custom.config.hasMode" (ngModelChange)="custom.buildComponentView()"-->
+<!--                         bfLabel="Has specific mode"></bf-checkbox>-->
+<!--          </div>-->
+<!--          <div class="col-8" style="margin-bottom: -5px;">-->
+<!--            <bf-dropdown [(ngModel)]="custom.object.mode"-->
+<!--                         (ngModelChange)="custom.buildComponentView()"-->
+<!--                         [bfList]="custom.config.modeOptions"-->
+<!--                         [bfDisabled]="!custom.config.hasMode"-->
+<!--                         bfSelect="text"-->
+<!--                         bfRender="text"></bf-dropdown>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
 
-  </div>
+<!--    </div>-->
+<!--  </div>-->
 
-  <!--CSS Styling-->
-  <div class="row marT40">
-    <div class="col-12">
-      <hr>
-      <h4>CSS Styling</h4>
-      <p>The following SASS variables can be overridden to provide customized coloring:</p>
-      <pre class="padL30">{{ cssReset }}</pre>
-    </div>
-  </div>
-</div>
+<!--  <hr>-->
+
+<!--  <h5 class="mt-4">Examples:</h5>-->
+<!--  <div class="col-12 examples-table">-->
+
+<!--    <div class="row">-->
+<!--      <div class="col-3">-->
+<!--        <span class="bold"> Instance 1</span>-->
+<!--        <br/>-->
+<!--        <bf-quantity-input-->
+<!--          [(ngModel)]="instance1.object.value"-->
+<!--          [name]="instance1.object.name"-->
+<!--          [bfDisabled]="instance1.object.disable"-->
+<!--          [bfMinVal]="instance1.object.minValue"-->
+<!--          [bfMaxVal]="instance1.object.maxValue"-->
+<!--          [class]="instance1.object.mode">-->
+<!--        </bf-quantity-input>-->
+<!--        <br>-->
+<!--        <div class="whiteBg pad15">-->
+<!--          Value from ngModel : {{ instance1.object.value }}-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="col-9">-->
+<!--        <pre>{{instance1.template}}</pre>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div class="row">-->
+<!--      <div class="col-3">-->
+<!--        <span class="bold"> Instance 2</span>-->
+<!--        <br/>-->
+<!--        <bf-quantity-input-->
+<!--          [(ngModel)]="instance2.object.value"-->
+<!--          [name]="instance1.object.name"-->
+<!--          [bfDisabled]="instance2.object.disable"-->
+<!--          [bfMinVal]="instance2.object.minValue"-->
+<!--          [bfMaxVal]="instance2.object.maxValue"-->
+<!--          [class]="instance2.object.mode">-->
+<!--        </bf-quantity-input>-->
+<!--        <br>-->
+<!--        <div class="whiteBg pad15">-->
+<!--          Value from ngModel : {{ instance2.object.value }}-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="col-9">-->
+<!--        <pre>{{instance2.template}}</pre>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--  </div>-->
+
+<!--  &lt;!&ndash;CSS Styling&ndash;&gt;-->
+<!--  <div class="row marT40">-->
+<!--    <div class="col-12">-->
+<!--      <hr>-->
+<!--      <h4>CSS Styling</h4>-->
+<!--      <p>The following SASS variables can be overridden to provide customized coloring:</p>-->
+<!--      <pre class="padL30">{{ cssReset }}</pre>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
 
 
 

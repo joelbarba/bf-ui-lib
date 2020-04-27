@@ -56,25 +56,9 @@ export class BfQuantityInputComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  checkValidationsInModel(value) {
-    value = Number(value);
-    // Reset to min or max if overflow
-    if (value < this.bfMinVal || !value) {
-      value = this.bfMinVal;
-    } else if (value > this.bfMaxVal) {
-      value = this.bfMaxVal;
-    }
-
-    // Avoid decimals
-    value = Math.trunc(value);
-
-    // Update if the modelValue in the FormControl is different to the real value
-    if (this.bfModelControl.value !== value) {
-      this.bfModelControl.setValue(value, {
-        emitModelToViewChange: true
-      });
-    }
-  }
+  // checkValidationsInModel(value) {
+  //   console.log('checkValidationsInModel', value, this.bfModelControl.value);
+  // }
 
   // ------- ControlValueAccessor ----- //
 
@@ -83,11 +67,24 @@ export class BfQuantityInputComponent implements OnInit, ControlValueAccessor {
 
   // this method sets the value programmatically
   writeValue(value) {
-    // Validate and update the model if has bad validation
-    this.checkValidationsInModel(value);
+    // console.log('Propagate to the parent model', value);
 
-    // Propagate to the parent model
-    this.onChange(this.bfModelControl.value);
+    if (value === undefined || value === null) { value = this.bfMinVal; }
+
+    value = Number(value);  // Validate and update the model if has bad validation
+    value = Math.trunc(value);  // Avoid decimals
+
+    // Reset to min or max if overflow
+    if (value < this.bfMinVal) { value = this.bfMinVal;
+    } else if (value > this.bfMaxVal) { value = this.bfMaxVal; }
+
+    // Update if the modelValue in the FormControl is different to the real value
+    if (this.bfModelControl.value !== value) {
+      // console.log('this.bfModelControl.setValue()', value, this.bfModelControl.value);
+      this.bfModelControl.setValue(value, { emitModelToViewChange: true });
+
+      this.onChange(value); // Propagate to the parent model
+    }
   }
 
   // Upon UI element value changes, this method gets triggered
