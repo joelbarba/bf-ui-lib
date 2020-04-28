@@ -43,7 +43,6 @@ $placeholder-color: $primary !default`;
   };
   public upComp = () => {
     this.customCompCode = `<bf-no-data `;
-    console.log('xxxxxxxxxxxx', new Date());
     let compClasses = '';
     if (this.compConf.sizeClass !== 'size-xl') { compClasses += this.compConf.sizeClass; }
     if (!!compClasses) { this.customCompCode += `class="${compClasses}"` + this.bsStr; }
