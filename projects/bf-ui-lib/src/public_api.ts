@@ -16,6 +16,7 @@ export * from './lib/bf-loading-bar/bf-loading-bar.service';
 export * from './lib/bf-loading-bar/bf-loading-bar.component';
 
 export * from './lib/bf-dnd/bf-dnd.module';
+export * from './lib/bf-dnd/bf-dnd.service';
 export * from './lib/bf-dnd/bf-draggable/bf-draggable.directive';
 export * from './lib/bf-dnd/bf-drop-container/bf-drop-container.directive';
 export * from './lib/bf-dnd/bf-drop-placeholder/bf-drop-placeholder.directive';

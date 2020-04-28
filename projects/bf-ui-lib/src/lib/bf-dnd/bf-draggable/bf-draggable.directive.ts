@@ -8,7 +8,6 @@ import {
   OnChanges,
   Renderer2
 } from '@angular/core';
-import {BfGrowlService} from '../../bf-growl/bf-growl.service';
 import {BfDnDService} from '../bf-dnd.service';
 
 // public readonly isFirefox = typeof InstallTrigger !== 'undefined';
@@ -29,7 +28,6 @@ export class BfDraggableDirective implements OnChanges {
 
   constructor(
     private el: ElementRef,
-    private growl: BfGrowlService,
     private bfDnD: BfDnDService,
     private renderer: Renderer2,
     // private appRef: ApplicationRef,
