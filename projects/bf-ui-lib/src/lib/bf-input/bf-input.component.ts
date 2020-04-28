@@ -271,7 +271,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   initInputCtrl(updateValue = false) {
     if (!!this.ngInputRef && !!this.ngInputRef['control'] && !this.inputCtrl) {
       this.inputCtrl = this.ngInputRef['control'];
-      this.inputCtrl.setValidators(this.customValidator);
+      // this.inputCtrl.setValidators(this.customValidator);
       if (updateValue) { this.inputCtrl.updateValueAndValidity(); }
       this.inputCtrlDefer.resolve(this.inputCtrl);
     }
