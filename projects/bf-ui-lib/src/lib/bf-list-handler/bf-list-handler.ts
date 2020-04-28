@@ -274,12 +274,12 @@ export class BfListHandler {
   // ---------------- Backend side pagination ----------------------
 
   // Backend pagination: Call this every time a different page needs to be requested and loaded
-  public fetchPage = () => {
+  public fetchPage = (force = false) => {
     this.filters = this.getFilters();
     const isFilterDiff = this.isFilterDiff(this.lastFilters, this.filters);
     const isFirstFetch = (this.loadingStatus === 0);
 
-    if (this.loadingStatus === 0 || !this.smartTrigger || isFilterDiff) {
+    if (this.loadingStatus === 0 || !this.smartTrigger || isFilterDiff || force) {
       this.loadingStatus = 4;
       this.lastFilters = dCopy(this.filters); // Keep a copy to remember
 
