@@ -189,7 +189,8 @@ export const BfAutocompleteDoc = {
 [bfEmptyText]: When no suggestion are matched display a text (default: 'No results found')
 [bfValidType]: Sets a default pattern: 'integer' | 'number' | 'decimal' | 'email'
 [bfPattern]: custom BfPattern
-[bfErrorOnPristine]: If true, validate on pristine
+[bfErrorOnPristine]: If true, validate on pristine,
+[bfClearAfterEnter]: If true, after bfOnEnter reset the ngModel
 (bfOnEnter): on press Enter, emit value`,
   cssReset: `The scss variables are the same used for the BfDropdown because they must be aligned:
 $dropdown-selection-bg: $quaternary_color !default;
@@ -198,6 +199,8 @@ $dropdown-valid-color: $valid-color !default;`,
   instance: `<bf-autocomplete
  [(ngModel)]="selectedEmail"
  (ngModelChange)="onSelectEmail(selectedEmail)"
+ (bfOnEnter)="onEnterEmail(selectedEmail)"
+ [bfClearAfterEnter]="true"
  [bfList]="emailList"
  bfValidType="email"
  bfLabel="Select/Type email"

@@ -80,6 +80,7 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @Input() bfValidType: keyof typeof Patterns;  // Predefined validator patterns. It overrides bfPattern
   @Input() bfPattern;
   @Input() bfErrorOnPristine;
+  @Input() bfClearAfterEnter = false;
   @Output() bfOnEnter = new EventEmitter<any>();
 
   // --------------
@@ -179,6 +180,9 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
       this.collapse();
       if (this.bfOnEnter && !!this.ngModel && !!this.ngModel.trim()) {
         this.bfOnEnter.emit(this.ngModel);
+        if (this.bfClearAfterEnter) {
+          this.ngModel = null;
+        }
       }
     }
   }
