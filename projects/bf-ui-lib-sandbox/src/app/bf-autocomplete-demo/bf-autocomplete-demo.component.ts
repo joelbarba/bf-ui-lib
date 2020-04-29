@@ -157,7 +157,11 @@ export class BfAutocompleteDemoComponent implements OnInit {
   }
 
   onSelectEmail(value) {
-    console.log('Value from ngModelChange', value);
+    console.log('ngModel changed (ngModelChange), Value: ', value);
+  }
+
+  onEnterEmail(value) {
+    console.log('Enter key pressed, Value: ', value);
   }
 
   constructor() { }
@@ -185,7 +189,8 @@ export const BfAutocompleteDoc = {
 [bfEmptyText]: When no suggestion are matched display a text (default: 'No results found')
 [bfValidType]: Sets a default pattern: 'integer' | 'number' | 'decimal' | 'email'
 [bfPattern]: custom BfPattern
-[bfErrorOnPristine]: If true, validate on pristine`,
+[bfErrorOnPristine]: If true, validate on pristine
+(bfOnEnter): on press Enter, emit value`,
   cssReset: `The scss variables are the same used for the BfDropdown because they must be aligned:
 $dropdown-selection-bg: $quaternary_color !default;
 $dropdown-selection-hover: $primary_color !default;

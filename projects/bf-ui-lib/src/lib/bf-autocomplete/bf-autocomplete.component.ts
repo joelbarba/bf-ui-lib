@@ -47,6 +47,8 @@ import { Patterns } from '../patterns';
  * |--------|---------------------|------------------------------------------------------------------------------------|
  * | @      | bfErrorOnPristine   | If true, validate on pristine                                                      |
  * |--------|---------------------|------------------------------------------------------------------------------------|
+ * | @      | bfOnEnter           | Event emitter, if valid on enter execute the emit                                                      |
+ * |--------|---------------------|------------------------------------------------------------------------------------|
  *
  *****/
 
@@ -78,7 +80,7 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @Input() bfValidType: keyof typeof Patterns;  // Predefined validator patterns. It overrides bfPattern
   @Input() bfPattern;
   @Input() bfErrorOnPristine;
-  @Output() bfOnSelect = new EventEmitter<any>();
+  @Output() bfOnEnter = new EventEmitter<any>();
 
   // --------------
 
@@ -165,7 +167,9 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
     this.navigatedItem = list[nextIndex];
     this.setPlaceholder(this.navigatedItem);
 
-    this.listContainer.nativeElement.scrollTop = nextIndex * this.listContainer.nativeElement.children[0].clientHeight;
+    if (this.listContainer.nativeElement.children[0]) {
+      this.listContainer.nativeElement.scrollTop = nextIndex * this.listContainer.nativeElement.children[0].clientHeight;
+    }
   }
 
   confirm() {
@@ -173,8 +177,8 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
     if (!this.checkValidity(this.ngModel)) {
       this.autocompleteInput.nativeElement.blur();
       this.collapse();
-      if (this.bfOnSelect) {
-        this.bfOnSelect.emit(this.ngModel);
+      if (this.bfOnEnter && !!this.ngModel && !!this.ngModel.trim()) {
+        this.bfOnEnter.emit(this.ngModel);
       }
     }
   }
@@ -210,9 +214,6 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
     this.updateModel(value);
     this.collapse();
     this.filter();
-    if (this.bfOnSelect) {
-      this.bfOnSelect.emit(this.ngModel);
-    }
   }
 
   reset() {

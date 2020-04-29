@@ -134,6 +134,7 @@
     <div class="col-3">
       <bf-autocomplete [(ngModel)]="selectedEmail"
                        (ngModelChange)="onSelectEmail(selectedEmail)"
+                       (bfOnEnter)="onEnterEmail(selectedEmail)"
                        [bfList]="emailList"
                        bfValidType="email"
                        bfLabel="Select/Type email"
