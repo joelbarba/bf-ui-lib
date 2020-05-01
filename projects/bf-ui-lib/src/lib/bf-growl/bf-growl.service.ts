@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable, NgZone} from '@angular/core';
 import { BfUILibTransService} from '../abstract-translate.service';
 import { BehaviorSubject } from 'rxjs';
 
@@ -7,7 +7,8 @@ export class BfGrowlService {
   public msgList = [];
 
   constructor(
-    private translate: BfUILibTransService
+    private ngZone: NgZone,
+    private translate: BfUILibTransService,
   ) { }
 
   public success(text: string, labelParams = {}, timeOut = 2000) {
@@ -36,7 +37,7 @@ export class BfGrowlService {
       newMsg.status = 'fading'; // Start the animation of fading out
 
       // Remove the message after the vanishing animation
-      setTimeout(() => {
+      this.setTimeoutNoZone(() => {
         const ind = this.msgList.indexOf(newMsg);
         this.msgList.splice(ind, 1);
       }, 600);
@@ -44,7 +45,7 @@ export class BfGrowlService {
 
     // Set the timeout to remove the message automatically after a while
     if (newMsg.timeOut > 0) {
-      const timer = setTimeout(newMsg.remove, newMsg.timeOut);
+      const timer = this.setTimeoutNoZone(newMsg.remove, newMsg.timeOut);
       newMsg.cancelTimeout = () => {
         newMsg.status = 'stuck';
         newMsg.cancelTimeout = null;
@@ -54,5 +55,14 @@ export class BfGrowlService {
 
   }
 
+
+  // This is like "setTimeout()" but running outside ngZone
+  setTimeoutNoZone = (callback, time) => {
+    return this.ngZone.runOutsideAngular(() => {
+      return setTimeout(() => {
+        this.ngZone.run(callback);
+      }, time);
+    });
+  }
 
 }
