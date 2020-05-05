@@ -6,7 +6,7 @@
 
   <div class="quantity-controller-center">
     <input type="text" class="quantity-input"
-           [disabled]="bfDisabled"
+           [disabled]="bfDisabled" (wheel)="onMouseWheel($event)"
            [(ngModel)]="bfModel" (ngModelChange)="modelChange($event)"/>
   </div>
 

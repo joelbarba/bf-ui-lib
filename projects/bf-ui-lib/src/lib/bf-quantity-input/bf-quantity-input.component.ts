@@ -64,6 +64,20 @@ export class BfQuantityInputComponent implements OnInit, OnChanges, ControlValue
   };
 
 
+  // When rolling the wheel of the mouse, increment / decrement value
+  onMouseWheel(event) {
+    if (this.bfDisabled) { return; }
+
+    if (event.wheelDelta > 0) {
+      this.modelChange(this.bfModel + 1);
+    } else {
+      this.modelChange(this.bfModel - 1);
+    }
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+
   // Changing the value internally (propagate up)
   modelChange(value) {
     const nextVal = this.getValidValue(value);

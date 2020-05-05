@@ -26,8 +26,8 @@ export class BfQuantityInputDemoComponent implements OnInit {
       value: 0,
       name: 'custom',
       disable: false,
-      minValue: null,
-      maxValue: null,
+      minValue: 0,
+      maxValue: 20,
       mode: null
     },
     componentView: `<bf-quantity-input></bf-quantity-input>`,
@@ -36,15 +36,14 @@ export class BfQuantityInputDemoComponent implements OnInit {
       const obj = this.custom.object;
       const config = this.custom.config;
       this.custom.componentView = `<bf-quantity-input
-      [(ngModel)]="value"
-      [name]="${obj.name}"
-      [bfDisabled]="${obj.disable}"` +
-      (config.hasMinValue ? `
-      [bfMinVal]="${obj.minValue}"` : '') +
-      (config.hasMaxValue ? `
-      [bfMaxVal]="${obj.maxValue}"` : '') +
-      (config.hasMode ? `
-      class="${obj.mode}"` : '') + '>' + `
+          [(ngModel)]="value"
+          [bfDisabled]="${obj.disable}"` +
+          (config.hasMinValue ? `
+          [bfMinVal]="${obj.minValue}"` : '') +
+          (config.hasMaxValue ? `
+          [bfMaxVal]="${obj.maxValue}"` : '') +
+          (config.hasMode ? `
+          class="${obj.mode}"` : '') + '>' + `
 </bf-quantity-input>`;
 
       // setTimeout(() => {
