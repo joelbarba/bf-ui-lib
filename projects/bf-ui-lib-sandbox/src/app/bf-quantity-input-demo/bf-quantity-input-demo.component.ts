@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class BfQuantityInputDemoComponent implements OnInit {
 
   public myVar: any = 15;
-  public myVar2;
+  public myVar2 = 3;
   public lastMod = new Date();
   public name = BfQuantityInputDoc.name;
   public desc = BfQuantityInputDoc.desc;
@@ -32,7 +32,7 @@ export class BfQuantityInputDemoComponent implements OnInit {
     },
     componentView: `<bf-quantity-input></bf-quantity-input>`,
     buildComponentView: () => {
-      this.custom.exLinked = false;
+      // this.custom.exLinked = false;
       const obj = this.custom.object;
       const config = this.custom.config;
       this.custom.componentView = `<bf-quantity-input
@@ -46,9 +46,10 @@ export class BfQuantityInputDemoComponent implements OnInit {
       (config.hasMode ? `
       class="${obj.mode}"` : '') + '>' + `
 </bf-quantity-input>`;
-      setTimeout(() => {
-        this.custom.exLinked = true;
-      }, 10);
+
+      // setTimeout(() => {
+      //   this.custom.exLinked = true;
+      // }, 10);
     }
   };
 

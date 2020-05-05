@@ -1,98 +1,97 @@
-import { ChangeDetectionStrategy, Component, forwardRef, Input, OnInit } from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+import {Component, forwardRef, Input, OnChanges, OnInit} from '@angular/core';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
   selector: 'bf-quantity-input',
   templateUrl: './bf-quantity-input.component.html',
   styleUrls: [],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      multi: true,
-      useExisting: forwardRef(() => BfQuantityInputComponent)
-    },
-  ]
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    multi: true,
+    useExisting: forwardRef(() => BfQuantityInputComponent)
+  }]
 })
-export class BfQuantityInputComponent implements OnInit, ControlValueAccessor {
-  @Input() bfMinVal = 1;
-  @Input() bfMaxVal = 100;
-  @Input() bfDisabled: boolean;
+export class BfQuantityInputComponent implements OnInit, OnChanges, ControlValueAccessor {
+  @Input() bfMinVal;
+  @Input() bfMaxVal;
+  @Input() bfDisabled = false;
 
-  public bfModelControl: FormControl;
+  public bfModel = 0; // internal value
+  public previousValue = 0; // keep last value to rollback when invalid
+  public decBtnEnabled = true;
+  public incBtnEnabled = true;
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit() {
-    this.setMinMaxValues();
-    this.setModelControl();
-  }
+  ngOnChanges(changes) {
+    if (changes.hasOwnProperty('bfMinVal')) { this.bfMinVal = this.checkRangeValue(this.bfMinVal); }
+    if (changes.hasOwnProperty('bfMaxVal')) { this.bfMaxVal = this.checkRangeValue(this.bfMaxVal); }
 
-  setMinMaxValues() {
-    this.bfMinVal = (typeof this.bfMinVal === 'string' ? parseInt(this.bfMinVal, 10) : this.bfMinVal);
-    this.bfMaxVal = (typeof this.bfMaxVal === 'string' ? parseInt(this.bfMaxVal, 10) : this.bfMaxVal);
-    this.bfMinVal = this.bfMinVal > this.bfMaxVal ? this.bfMaxVal : this.bfMinVal;
-  }
-
-  setModelControl() {
-    this.bfModelControl = new FormControl([
-      Validators.required
-    ]);
-    this.bfModelControl[!!this.bfDisabled ? 'disable' : 'enable']();
-  }
-
-  increaseQuantity() {
-    const bfModel = this.bfModelControl.value;
-    if (!this.bfDisabled && (this.bfMaxVal === undefined || bfModel < this.bfMaxVal)) {
-      this.writeValue(bfModel + 1);
+    if (this.bfMinVal !== undefined && this.bfMaxVal !== undefined && this.bfMaxVal < this.bfMinVal) {
+      console.error('bfMinVal > bfMaxVal (', this.bfMinVal, '>', this.bfMaxVal, ')');
+      this.bfMaxVal = this.bfMinVal;
     }
+
+    this.modelChange(this.bfModel); // Update the model according to the new validations
   }
 
-  decreaseQuantity() {
-    const bfModel = this.bfModelControl.value;
-    if (!this.bfDisabled && (this.bfMinVal === undefined || bfModel > this.bfMinVal)) {
-      this.writeValue(bfModel - 1);
+  ngOnInit() {}
+
+  // Validate input value to a valid number or undefined (--> bfMinVal / bfMaxVal)
+  checkRangeValue(value) {
+    if (value === null) { value = undefined; }
+    if (typeof value === 'string') { value = parseInt(value, 10); }
+    if (Number.isNaN(value)) { value = undefined; }
+    return value;
+  }
+
+  // Returns a valid value after all validations (--> bfModel)
+  getValidValue = (value) => {
+    if (value === null || value === '') { value = 0; }
+    value = Number.parseInt(value, 10);
+
+    if (Number.isNaN(value)) { value = this.previousValue; }
+    value = Math.trunc(value);
+
+    if (this.bfMinVal !== undefined && value < this.bfMinVal) { value = this.bfMinVal; }
+    if (this.bfMaxVal !== undefined && value > this.bfMaxVal) { value = this.bfMaxVal; }
+
+    // Enable/disable the inc/dec buttons
+    this.decBtnEnabled = !this.bfDisabled && (this.bfMinVal === undefined || this.bfMinVal < value);
+    this.incBtnEnabled = !this.bfDisabled && (this.bfMaxVal === undefined || this.bfMaxVal > value);
+
+    return value;
+  };
+
+
+  // Changing the value internally (propagate up)
+  modelChange(value) {
+    const nextVal = this.getValidValue(value);
+    // console.log('modelChange ', this.bfModel, ' --->', nextVal);
+    if (this.previousValue !== nextVal) {
+      this.previousValue = nextVal;
+      this.onChange(nextVal);
     }
-  }
 
-  // checkValidationsInModel(value) {
-  //   console.log('checkValidationsInModel', value, this.bfModelControl.value);
-  // }
+    // Do it on the next cycle, so the input gets updated again after ngModel change
+    setTimeout(() => { this.bfModel = nextVal; });
+  }
 
   // ------- ControlValueAccessor ----- //
 
   onChange: any = (_: any) => {};
   onTouch: any = () => {};
+  registerOnChange(fn: any) { this.onChange = fn; }
+  registerOnTouched(fn: any) { this.onTouch = fn; }
 
-  // this method sets the value programmatically
+  // When the value is changed externally (propagated down)
   writeValue(value) {
-    // console.log('Propagate to the parent model', value);
-
-    if (value === undefined || value === null) { value = this.bfMinVal; }
-
-    value = Number(value);  // Validate and update the model if has bad validation
-    value = Math.trunc(value);  // Avoid decimals
-
-    // Reset to min or max if overflow
-    if (value < this.bfMinVal) { value = this.bfMinVal;
-    } else if (value > this.bfMaxVal) { value = this.bfMaxVal; }
-
-    // Update if the modelValue in the FormControl is different to the real value
-    if (this.bfModelControl.value !== value) {
-      // console.log('this.bfModelControl.setValue()', value, this.bfModelControl.value);
-      this.bfModelControl.setValue(value, { emitModelToViewChange: true });
-
-      this.onChange(value); // Propagate to the parent model
-    }
+    const nextVal = this.getValidValue(value);
+    // console.log('writeValue ', this.bfModel, ' --->', nextVal);
+    this.bfModel = nextVal;
+    this.previousValue = nextVal;
+    if (value !== nextVal) { this.onChange(nextVal); } // If value was rectified, push it back up
   }
 
-  // Upon UI element value changes, this method gets triggered
-  registerOnChange(fn: any) {
-    this.onChange = fn;
-  }
-  // Upon touching the element, this method gets triggered
-  registerOnTouched(fn: any) {
-    this.onTouch = fn;
-  }
+
 }
