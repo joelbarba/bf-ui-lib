@@ -33,25 +33,29 @@
       </bf-quantity-input>
 
       <bf-btn class="marL15" bfText="Set value = 2" (bfClick)="myVar = 2" bfType="save"></bf-btn>
-      <bf-btn class="marL15" bfText="Set string" (bfClick)="myVar = 'hey'" bfType="save"></bf-btn>
-      <bf-btn class="marL15" bfText="Set object" (bfClick)="myVar = { name: 'hey' }" bfType="save"></bf-btn>
+      <bf-btn bfText="Set string" (bfClick)="myVar = 'hey'" bfType="save"></bf-btn>
+      <bf-btn bfText="Set object" (bfClick)="myVar = { name: 'hey' }" bfType="save"></bf-btn>
+      <bf-btn bfType="save" bfText="Set decimal 3.14159" (bfClick)="myVar=3.14159"></bf-btn>
+      <bf-btn bfText="-1" (bfClick)="myVar=myVar-1"></bf-btn>
+      <bf-btn bfText="+1" (bfClick)="myVar=myVar+1"></bf-btn>
+      <span class="marL15">myVar={{myVar}}</span>
 
       <div *ngIf="!!bfQuantityRef">
         FromControl:
         value={{bfQuantityRef.value}}
-        , valid={{bfQuantityRef.valid}}
-        , invalid={{bfQuantityRef.invalid}}
-        , errors={{bfQuantityRef.errors | json}}
-        , pristine={{bfQuantityRef.pristine}}
+        ,  valid={{bfQuantityRef.valid}}
+        ,  invalid={{bfQuantityRef.invalid}}
+        ,  errors={{bfQuantityRef.errors | json}}
+        ,  pristine={{bfQuantityRef.pristine}}
       </div>
 
       <div *ngIf="!!myForm">
         ngForm:
         valid={{myForm.valid}}
-        pristine={{myForm.pristine}}
-        dirty={{myForm.dirty}}
-        value={{myForm.value | json}},
-        errors={{bfQuantityRef.errors | json}}
+        ,  pristine={{myForm.pristine}}
+        ,  dirty={{myForm.dirty}}
+        ,  value={{myForm.value | json}},
+        ,  errors={{bfQuantityRef.errors | json}}
       </div>
     </form>
   </div>

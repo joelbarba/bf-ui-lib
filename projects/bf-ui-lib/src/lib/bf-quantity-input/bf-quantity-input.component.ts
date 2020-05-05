@@ -102,9 +102,9 @@ export class BfQuantityInputComponent implements OnInit, OnChanges, ControlValue
   writeValue(value) {
     const nextVal = this.getValidValue(value);
     // console.log('writeValue ', this.bfModel, ' --->', nextVal);
-    this.bfModel = nextVal;
     this.previousValue = nextVal;
     if (value !== nextVal) { this.onChange(nextVal); } // If value was rectified, push it back up
+    setTimeout(() => { this.bfModel = nextVal; }); // Avoid overlap with modelChange timeout
   }
 
 
