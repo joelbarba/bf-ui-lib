@@ -179,15 +179,11 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
       this.bfOnEnter.emit(this.navigatedItem);
       this.navigatedItem = null;
     } else {
-      // Updated model only if valid
       this.bfOnEnter.emit(this.ngModel);
     }
-    setTimeout(() => {
-      this.autocompleteInput.nativeElement.blur();
-      this.setPlaceholder(null);
-      this.collapse();
-    }, 10);
-
+    this.autocompleteInput.nativeElement.blur();
+    this.setPlaceholder(null);
+    this.collapse();
   }
 
   // React on key events (on the input)

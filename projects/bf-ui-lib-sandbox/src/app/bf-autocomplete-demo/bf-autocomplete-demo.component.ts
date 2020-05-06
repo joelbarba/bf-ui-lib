@@ -172,11 +172,6 @@ export class BfAutocompleteDemoComponent implements OnInit {
     console.log('ngModel changed (ngModelChange), Value: ', value);
   }
 
-  onEnterEmail(value) {
-    console.log('Enter key pressed, Value: ', value);
-    this.selectedEmail = '';
-  }
-
   constructor() { }
 
   ngOnInit() {
