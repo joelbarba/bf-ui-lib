@@ -70,7 +70,7 @@ export class BfListHandler {
     if (customInit.hasOwnProperty('filterFields'))      { this.filterFields      = customInit.filterFields; }
 
     // Setting initial values from parsed url route (2nd param, overriding the defaults)
-    if (qParams.hasOwnProperty('limit')) { this.rowsPerPage = parseInt(qParams.limit) || 0; }
+    if (qParams.hasOwnProperty('limit')) { this.rowsPerPage = parseInt(qParams.limit) || 1; }
     if (qParams.hasOwnProperty('offset')) {
       this.currentPage = Math.floor((parseInt(qParams.offset) || 0) / this.rowsPerPage) + 1;
     }
