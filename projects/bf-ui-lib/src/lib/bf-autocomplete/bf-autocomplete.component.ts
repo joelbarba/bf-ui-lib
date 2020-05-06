@@ -80,7 +80,7 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @Input() bfValidType: keyof typeof Patterns;  // Predefined validator patterns. It overrides bfPattern
   @Input() bfPattern;
   @Input() bfErrorOnPristine;
-  @Input() bfClearAfterEnter = false;
+  // @Input() bfClearAfterEnter = false;
   @Output() bfOnEnter = new EventEmitter<any>();
 
   // --------------
@@ -174,17 +174,20 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   confirm() {
-    if (this.navigatedItem) { this.ngModel = this.navigatedItem; }
-    if (!this.checkValidity(this.ngModel)) {
-      this.autocompleteInput.nativeElement.blur();
-      this.collapse();
-      if (this.bfOnEnter && !!this.ngModel && !!this.ngModel.trim()) {
-        this.bfOnEnter.emit(this.ngModel);
-        if (this.bfClearAfterEnter) {
-          this.ngModel = null;
-        }
-      }
+    if (this.navigatedItem) {
+      this.updateModel(this.navigatedItem);
+      this.bfOnEnter.emit(this.navigatedItem);
+      this.navigatedItem = null;
+    } else {
+      // Updated model only if valid
+      this.bfOnEnter.emit(this.ngModel);
     }
+    setTimeout(() => {
+      this.autocompleteInput.nativeElement.blur();
+      this.setPlaceholder(null);
+      this.collapse();
+    }, 10);
+
   }
 
   // React on key events (on the input)
@@ -204,7 +207,7 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   setPlaceholder(value?: string) {
-    const newPlaceholder = value ? value : this.bfPlaceholder;
+    const newPlaceholder = !!value ? value : this.bfPlaceholder;
     this.bfPlaceholderTrans$ = this.translate.getLabel$(newPlaceholder);
   }
 
@@ -267,8 +270,7 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   // Select an item from extList to bfModel, and propagate ngModel up
   updateModel(value) {
-    this.navigatedItem = null;
-    this.setPlaceholder();
+    this.setPlaceholder(null);
     this.propagateModelUp(value);
   }
 

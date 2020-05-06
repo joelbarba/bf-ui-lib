@@ -101,8 +101,20 @@ export class BfAutocompleteDemoComponent implements OnInit {
     { id: 23, username: 'greyghost',    email: 'greyghost@targaryen.com',    first_name: 'Greyghost',    last_name: 'Targaryen', icon2: 'icon-menu3',        img2: 'assets/language-flags/ca.png' },
     { id: 24, username: 'sheepstealer', email: 'sheepstealer@targaryen.com', first_name: 'Sheepstealer', last_name: 'Targaryen', icon: 'icon-link',          img: 'assets/language-flags/de.png' },
   ];
-
+  selectedCountry;
   mapUnmapExample;
+  countries = ['Italy', 'Spain', 'French', 'Cuba', 'Bolivia', 'Argentina', 'Croatia', 'Thailand', 'China'];
+  lastCountryEmitted;
+  instanceCountry = `<bf-autocomplete [(ngModel)]="selectedCountry"
+                       (bfOnEnter)="onEnterCountry(selectedCountry)"
+                       [bfList]="countries"
+                       bfLabel="Select a country"
+                       bfPlaceholder="Select a country"
+      ></bf-autocomplete>`;
+  onEnterCountry(value) {
+    this.lastCountryEmitted = value;
+  }
+
   mapUnmapExampleUpdate(item?) { return `How to get the original object from the ngModel?
 
   mapUserList() {
@@ -162,6 +174,7 @@ export class BfAutocompleteDemoComponent implements OnInit {
 
   onEnterEmail(value) {
     console.log('Enter key pressed, Value: ', value);
+    this.selectedEmail = '';
   }
 
   constructor() { }
@@ -190,7 +203,6 @@ export const BfAutocompleteDoc = {
 [bfValidType]: Sets a default pattern: 'integer' | 'number' | 'decimal' | 'email'
 [bfPattern]: custom BfPattern
 [bfErrorOnPristine]: If true, validate on pristine,
-[bfClearAfterEnter]: If true, after bfOnEnter reset the ngModel
 (bfOnEnter): on press Enter, emit value`,
   cssReset: `The scss variables are the same used for the BfDropdown because they must be aligned:
 $dropdown-selection-bg: $quaternary_color !default;
@@ -200,7 +212,6 @@ $dropdown-valid-color: $valid-color !default;`,
  [(ngModel)]="selectedEmail"
  (ngModelChange)="onSelectEmail(selectedEmail)"
  (bfOnEnter)="onEnterEmail(selectedEmail)"
- [bfClearAfterEnter]="true"
  [bfList]="emailList"
  bfValidType="email"
  bfLabel="Select/Type email"
