@@ -2,7 +2,8 @@
 // BfAutocomplete = 'BfBtn'
 
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { BfGrowlService } from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service';
 
 @Component({
   selector: 'app-bf-autocomplete-demo',
@@ -101,18 +102,32 @@ export class BfAutocompleteDemoComponent implements OnInit {
     { id: 23, username: 'greyghost',    email: 'greyghost@targaryen.com',    first_name: 'Greyghost',    last_name: 'Targaryen', icon2: 'icon-menu3',        img2: 'assets/language-flags/ca.png' },
     { id: 24, username: 'sheepstealer', email: 'sheepstealer@targaryen.com', first_name: 'Sheepstealer', last_name: 'Targaryen', icon: 'icon-link',          img: 'assets/language-flags/de.png' },
   ];
+
+  @ViewChild('countryAutocomplete', { static: true }) countryAutocomplete;
   selectedCountry;
   mapUnmapExample;
   countries = ['Italy', 'Spain', 'French', 'Cuba', 'Bolivia', 'Argentina', 'Croatia', 'Thailand', 'China'];
   lastCountryEmitted;
   instanceCountry = `<bf-autocomplete [(ngModel)]="selectedCountry"
-                       (bfOnEnter)="onEnterCountry(selectedCountry)"
-                       [bfList]="countries"
-                       bfLabel="Select a country"
-                       bfPlaceholder="Select a country"
-      ></bf-autocomplete>`;
+  (bfOnEnter)="onEnterCountry(selectedCountry)"
+  [bfList]="countries"
+  bfLabel="Select a country"
+  bfPlaceholder="Select a country"
+></bf-autocomplete>`;
+  onEnterExample = `  onEnterCountry(value) {
+    this.growl.success('Selected: ' + value);
+    setTimeout(() => {
+      this.selectedCountry = '';
+      this.countryAutocomplete.focus();
+    });
+  }`;
+
   onEnterCountry(value) {
-    this.lastCountryEmitted = value;
+    this.growl.success('Selected: ' + value);
+    setTimeout(() => {
+      this.selectedCountry = '';
+      this.countryAutocomplete.focus();
+    });
   }
 
   mapUnmapExampleUpdate(item?) { return `How to get the original object from the ngModel?
@@ -172,7 +187,7 @@ export class BfAutocompleteDemoComponent implements OnInit {
     console.log('ngModel changed (ngModelChange), Value: ', value);
   }
 
-  constructor() { }
+  constructor(private growl: BfGrowlService) { }
 
   ngOnInit() {
     this.mapUserList();
