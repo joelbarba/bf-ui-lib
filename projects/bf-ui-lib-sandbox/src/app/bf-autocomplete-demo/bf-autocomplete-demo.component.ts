@@ -2,7 +2,8 @@
 // BfAutocomplete = 'BfBtn'
 
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { BfGrowlService } from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service';
 
 @Component({
   selector: 'app-bf-autocomplete-demo',
@@ -102,7 +103,33 @@ export class BfAutocompleteDemoComponent implements OnInit {
     { id: 24, username: 'sheepstealer', email: 'sheepstealer@targaryen.com', first_name: 'Sheepstealer', last_name: 'Targaryen', icon: 'icon-link',          img: 'assets/language-flags/de.png' },
   ];
 
+  @ViewChild('countryAutocomplete', { static: true }) countryAutocomplete;
+  selectedCountry;
   mapUnmapExample;
+  countries = ['Italy', 'Spain', 'French', 'Cuba', 'Bolivia', 'Argentina', 'Croatia', 'Thailand', 'China'];
+  lastCountryEmitted;
+  instanceCountry = `<bf-autocomplete [(ngModel)]="selectedCountry"
+  (bfOnEnter)="onEnterCountry(selectedCountry)"
+  [bfList]="countries"
+  bfLabel="Select a country"
+  bfPlaceholder="Select a country"
+></bf-autocomplete>`;
+  onEnterExample = `  onEnterCountry(value) {
+    this.growl.success('Selected: ' + value);
+    setTimeout(() => {
+      this.selectedCountry = '';
+      this.countryAutocomplete.focus();
+    });
+  }`;
+
+  onEnterCountry(value) {
+    this.growl.success('Selected: ' + value);
+    setTimeout(() => {
+      this.selectedCountry = '';
+      this.countryAutocomplete.focus();
+    });
+  }
+
   mapUnmapExampleUpdate(item?) { return `How to get the original object from the ngModel?
 
   mapUserList() {
@@ -157,10 +184,10 @@ export class BfAutocompleteDemoComponent implements OnInit {
   }
 
   onSelectEmail(value) {
-    console.log('Value from ngModelChange', value);
+    console.log('ngModel changed (ngModelChange), Value: ', value);
   }
 
-  constructor() { }
+  constructor(private growl: BfGrowlService) { }
 
   ngOnInit() {
     this.mapUserList();
@@ -185,7 +212,8 @@ export const BfAutocompleteDoc = {
 [bfEmptyText]: When no suggestion are matched display a text (default: 'No results found')
 [bfValidType]: Sets a default pattern: 'integer' | 'number' | 'decimal' | 'email'
 [bfPattern]: custom BfPattern
-[bfErrorOnPristine]: If true, validate on pristine`,
+[bfErrorOnPristine]: If true, validate on pristine,
+(bfOnEnter): on press Enter, emit value`,
   cssReset: `The scss variables are the same used for the BfDropdown because they must be aligned:
 $dropdown-selection-bg: $quaternary_color !default;
 $dropdown-selection-hover: $primary_color !default;
@@ -193,6 +221,7 @@ $dropdown-valid-color: $valid-color !default;`,
   instance: `<bf-autocomplete
  [(ngModel)]="selectedEmail"
  (ngModelChange)="onSelectEmail(selectedEmail)"
+ (bfOnEnter)="onEnterEmail(selectedEmail)"
  [bfList]="emailList"
  bfValidType="email"
  bfLabel="Select/Type email"

@@ -47,6 +47,8 @@ import { Patterns } from '../patterns';
  * |--------|---------------------|------------------------------------------------------------------------------------|
  * | @      | bfErrorOnPristine   | If true, validate on pristine                                                      |
  * |--------|---------------------|------------------------------------------------------------------------------------|
+ * | @      | bfOnEnter           | Event emitter, if valid on enter execute the emit                                                      |
+ * |--------|---------------------|------------------------------------------------------------------------------------|
  *
  *****/
 
@@ -78,7 +80,8 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @Input() bfValidType: keyof typeof Patterns;  // Predefined validator patterns. It overrides bfPattern
   @Input() bfPattern;
   @Input() bfErrorOnPristine;
-  @Output() bfOnSelect = new EventEmitter<any>();
+  // @Input() bfClearAfterEnter = false;
+  @Output() bfOnEnter = new EventEmitter<any>();
 
   // --------------
 
@@ -165,18 +168,22 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
     this.navigatedItem = list[nextIndex];
     this.setPlaceholder(this.navigatedItem);
 
-    this.listContainer.nativeElement.scrollTop = nextIndex * this.listContainer.nativeElement.children[0].clientHeight;
+    if (this.listContainer.nativeElement.children[0]) {
+      this.listContainer.nativeElement.scrollTop = nextIndex * this.listContainer.nativeElement.children[0].clientHeight;
+    }
   }
 
   confirm() {
-    if (this.navigatedItem) { this.ngModel = this.navigatedItem; }
-    if (!this.checkValidity(this.ngModel)) {
-      this.autocompleteInput.nativeElement.blur();
-      this.collapse();
-      if (this.bfOnSelect) {
-        this.bfOnSelect.emit(this.ngModel);
-      }
+    if (this.navigatedItem) {
+      this.updateModel(this.navigatedItem);
+      this.bfOnEnter.emit(this.navigatedItem);
+      this.navigatedItem = null;
+    } else {
+      this.bfOnEnter.emit(this.ngModel);
     }
+    this.autocompleteInput.nativeElement.blur();
+    this.setPlaceholder(null);
+    this.collapse();
   }
 
   // React on key events (on the input)
@@ -196,7 +203,7 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   setPlaceholder(value?: string) {
-    const newPlaceholder = value ? value : this.bfPlaceholder;
+    const newPlaceholder = !!value ? value : this.bfPlaceholder;
     this.bfPlaceholderTrans$ = this.translate.getLabel$(newPlaceholder);
   }
 
@@ -210,9 +217,6 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
     this.updateModel(value);
     this.collapse();
     this.filter();
-    if (this.bfOnSelect) {
-      this.bfOnSelect.emit(this.ngModel);
-    }
   }
 
   reset() {
@@ -262,8 +266,7 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   // Select an item from extList to bfModel, and propagate ngModel up
   updateModel(value) {
-    this.navigatedItem = null;
-    this.setPlaceholder();
+    this.setPlaceholder(null);
     this.propagateModelUp(value);
   }
 

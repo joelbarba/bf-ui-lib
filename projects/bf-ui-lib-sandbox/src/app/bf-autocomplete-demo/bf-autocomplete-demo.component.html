@@ -129,16 +129,16 @@
 
 <h5 class="mt-4">Examples:</h5>
 <div class="col-12 examples-table">
-
+  <!-- Normal email insertion -->
   <div class="row">
     <div class="col-3">
       <bf-autocomplete [(ngModel)]="selectedEmail"
-                       (ngModelChange)="onSelectEmail(selectedEmail)"
                        [bfList]="emailList"
                        bfValidType="email"
                        bfLabel="Select/Type email"
                        bfPlaceholder="Select/Type email"
       ></bf-autocomplete>
+
       <span>ngModel: <bf-input [(ngModel)]="selectedEmail"></bf-input></span>
     </div>
     <div class="col-4">
@@ -149,6 +149,25 @@
     </div>
   </div>
 
+  <div class="row">
+    <div class="col-3">
+      <bf-autocomplete #countryAutocomplete
+                       [(ngModel)]="selectedCountry"
+                       (bfOnEnter)="onEnterCountry(selectedCountry)"
+                       [bfList]="countries"
+                       bfLabel="Select a country"
+                       bfPlaceholder="Select a country"
+      ></bf-autocomplete>
+      Press <b>Enter</b> to emit it.
+      <span>Last emitted value: {{lastCountryEmitted}}</span>
+    </div>
+    <div class="col-5">
+      <pre>{{instanceCountry}}</pre>
+    </div>
+    <div class="col-4 code-box">
+      <pre>{{onEnterExample}}</pre>
+    </div>
+  </div>
 </div>
 
 
