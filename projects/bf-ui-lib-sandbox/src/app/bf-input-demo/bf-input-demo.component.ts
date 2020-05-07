@@ -1,39 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {BfGrowlService} from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service';
-import {IbfInputCtrl} from '../../../../bf-ui-lib/src/lib/bf-input/bf-input.component';
-import {Subject} from 'rxjs';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-bf-input-demo',
   templateUrl: './bf-input-demo.component.html',
   styleUrls: ['./bf-input-demo.component.scss']
 })
-export class BfInputDemoComponent implements OnInit {
-
-
-  constructor(
-    public growl: BfGrowlService,
-  ) { }
+export class BfInputDemoComponent implements OnInit, AfterViewInit {
   public name = BfInputDoc.name;
   public desc = BfInputDoc.desc;
   public api = BfInputDoc.api;
   public instance = BfInputDoc.instance;
-  public val1 = '1';
+  public val1;
   public val2 = 'Barba';
 
-  public myModel = 'My default value';
-  public boxCo = new Array(10); // Box collapsers
+  public boxCo = new Array(10); // Box collapsible
   public myVariable3: any;
   public myVariable4: any;
   public myVariable5: any;
-  public user: any;
-  public pass: any;
   public bfModel: any;
+  public isLinked = true;
 
+  constructor(
+    public growl: BfGrowlService,
+    public router: Router,
+  ) {}
 
-
-  public instance2 =
-`<bf-input</bf-input>`;
 
 
   public formExampleInput100 = `<form #myForm="ngForm">
@@ -51,7 +44,7 @@ export class BfInputDemoComponent implements OnInit {
   public flatExample = '<bf-input class="flat" [ngModel]="bfModel"></bf-input>';
   public inputColExample = `<bf-input [(ngModel)]="myVar" class="input-col-1" bfLabel="view.common.name"></bf-input>
 <bf-input [(ngModel)]="myVar" class="input-col-2" bfLabel="view.common.name"></bf-input>
-<bf-input [(ngModel)]="myVar" class="input-col-3" bfLabel="view.common.name"></bf-input>`;
+<bf-input [(ngModel)]="myVar" class="input-col-5" bfLabel="view.common.name"></bf-input>`;
 
   public cssReset = `$input-optional-color  : $optional-color !default;  // <-- this is a bootstrap default
 $input-focused-color   : $focused-color !default;
@@ -60,48 +53,37 @@ $input-required-color  : $required-color !default;
 $input-invalid-color   : $invalid-color !default;
 $input-valid-color     : $valid-color !default;`;
 
-  public instance4 = `<bf-input [(ngModel)]="myModel" bfAutoFocus="true"
-          (bfOnKeyDown)="growl.success('Key pressed -> ' + $event.key)">
-</bf-input>`;
-  public instance5 = `<bf-input [(ngModel)]="myModel" bfAutoFocus="true"
-          (bfOnEsc)="growl.success('Esc key pressed')"
-          (bfOnEnter)="growl.success('Enter key pressed')"
-          (bfOnCtrlEnter)="growl.success('Ctrl + Enter key pressed')">
-</bf-input>`;
 
-  public ctrl: IbfInputCtrl = {};
-  public extCtrl$ = new Subject();
-  public ctrlActions = [
-    `{ action: 'setFocus' } ................. Sets the focus on the input`,
-    `{ action: 'setBlur' } .................. Forces focus lose`,
-    `{ action: 'setDirty' } ................. Turns the input dirty`,
-    `{ action: 'setPristine' } .............. Turns the input pristine`,
-    `{ action: 'addError', label: text } .... Adds an manual error`,
-    `{ action: 'removeError' } .............. Removes the manual error`,
-    `{ action: 'refresh' } .................. Forces internal refresh`,
+
+  public btnIcons = [
+    { icon: 'loading'            },
+    { icon: 'icon-search'        },
+    { icon: 'icon-pencil'        },
+    { icon: 'icon-eye'           },
+    { icon: 'icon-plus'          },
+    { icon: 'icon-minus'         },
+    { icon: 'icon-cross'         },
+    { icon: 'icon-blocked'       },
+    { icon: 'icon-undo2'         },
+    { icon: 'icon-home'          },
+    { icon: 'icon-office'        },
+    { icon: 'icon-phone2'        },
+    { icon: 'icon-bell2'         },
+    { icon: 'icon-user'          },
+    { icon: 'icon-users'         },
+    { icon: 'icon-lock'          },
+    { icon: 'icon-cog'           },
+    { icon: 'icon-bin'           },
+    { icon: 'icon-shield'        },
+    { icon: 'icon-link'          },
+    { icon: 'icon-star-full'     },
+    { icon: 'icon-thumbs-up'     },
+    { icon: 'icon-notification2' },
+    { icon: 'icon-warning2'      },
+    { icon: 'icon-checkmark'     },
+    { icon: 'icon-loop3'         },
+    { icon: 'icon-spell-check'   },
   ];
-  public extCtrlExample = `<bf-input [(ngModel)]="val" [extCtrl$]="extCtrl$"></bf-input>
-
-public extCtrl$ = new Subject();
-
-<bf-btn bfText="setFocus"    (bfClick)="extCtrl$.next({ action: 'setFocus' })"></bf-btn>
-<bf-btn bfText="setDirty"    (bfClick)="extCtrl$.next({ action: 'setDirty' })"></bf-btn>
-<bf-btn bfText="setPristine" (bfClick)="extCtrl$.next({ action: 'setPristine' })"></bf-btn>
-<bf-btn bfText="addError"    (bfClick)="extCtrl$.next({ action: 'addError', label: 'Oh oh!' })"></bf-btn>
-<bf-btn bfText="removeError" (bfClick)="extCtrl$.next({ action: 'removeError' })"></bf-btn>
-<bf-btn bfText="refresh"     (bfClick)="extCtrl$.next({ action: 'refresh' })"></bf-btn>`;
-
-  public extCtrlExample2 = `public ctrl: IbfInputCtrl = {};
-this.ctrl.setFocus();
-
-<bf-input [(ngModel)]="val" (bfOnLoaded)="ctrl = $event"></bf-input>`;
-
-
-  public linkCustomInput = true;
-
-  public clickMsg;
-
-  public isAutofilled = '';
 
 
   // ---- This is the logic to manage autogenerated code example ----
@@ -118,85 +100,52 @@ this.ctrl.setFocus();
     { id: 'true',       text: 'true'   },
     { id: 'false',      text: 'false'  },
   ];
-  public inputTypes = [
-    { id: 'text',     text: 'text',     },
-    { id: 'number',   text: 'number',   },
-    { id: 'password', text: 'password', },
-    { id: 'email',    text: 'email',    },
-  ];
+
   public myVariable = '';
   public compConf = {
     hasLabel: true, labelText: 'view.common.name',
+
+    hasType: false, inputType: 'text', inputTypes: [
+      { id: 'text',     text: 'text',     },
+      { id: 'number',   text: 'number',   },
+      { id: 'password', text: 'password', },
+      { id: 'email',    text: 'email',    },
+    ],
+
     hasPlaceholder: false, placeholderText: 'view.common.name',
-    isRequired: true,
-    hasType: false, inputType: 'text',
+    isRequired: true, hasAutoFocus: false, hasAutocomplete: true,
     isDisabled: false, disabledTip: '',
     hasIcon: false, inputIcon: 'icon-search',
     hasTooltip: false, inputTooltip: 'Hello World', inputTooltipPos: null, inputTooltipBody: false,
+
     hasLeftBtn: false, leftBtnIcon: 'icon-plus', hasLeftBtnText: false, leftBtnText: '$',
     hasRightBtn: false, rightBtnIcon: 'icon-eye', hasRightBtnText: false, rightBtnText: 'view.common.yes',
-    hasBtnListener: true,
-    hasAutoFocus: false,
-    hasAutocomplete: true,
+
+    hasBtnListener: false,
     hasKeyDown: false,
     hasKeyEsc: false,
     hasKeyEnter: false,
     hasKeyCtrlEnter: false,
     hasFlat: false,
+
+    hasOnLoad: false,
+    hasBeforeChange: false,
   };
 
 
 
 
-
-
-
-
-
-
-
-  public valCompCode = '';
-  public valEx: any = {
-    isRequired: false, minLen: 0,
-    isMaxLen: false, maxLen: 5,
-    hasPattern: false, pattern: '[A-Za-z]{3,8}',
-    valType: null, valTypes: [
-      { id: 'integer',  text: 'integer',  },
-      { id: 'number',   text: 'number',   },
-      { id: 'decimal',  text: 'decimal',  },
-      { id: 'email',    text: 'email',    },
-    ],
-    hasBfValidator: false, bfValMatchVal: '666',
-    hasErrOnPristine: false,
-    hasIcon: false,        hasInvalidIcon: false,             hasValidIcon: false,
-    bfIcon: 'icon-search', bfInvalidIcon: 'icon-thumbs-down', bfValidIcon: 'icon-checkmark4',
-    hasErrorText: false, bfErrorText: 'view.common.custom_error',
-    errorPos: '', errorPosOpts : [
-      { id: 'top-right',    text: 'top-right',  },
-      { id: 'bottom-left',  text: 'bottom-left',   },
-      { id: 'bottom-right', text: 'bottom-right',  },
-    ],
-    hasOnLoad: false, hasBeforeChange: false,
-    hasAutocomplete: false
-  };
-  public isInputReady = false;
-  public inputCtrl: IbfInputCtrl = {};
   ngOnInit() {
     this.upComp();
-    this.upComp2();
-    // this.boxCo[0] = true;
-    // this.boxCo[1] = true;
-    // this.boxCo[2] = true;
-    // this.boxCo[3] = true;
   }
-  public resetInput = () => {
-    this.linkCustomInput = false;
-    setTimeout(() => { this.linkCustomInput = true; });
+  ngAfterViewInit() {} // console.log('EXT - ngAfterViewInit');
+
+  reLink = () => {
+    this.isLinked = false;
+    setTimeout(() => this.isLinked = true, 500);
   };
-  public addonClick = (msg = '') => {
-    this.clickMsg += ' ' + msg;
-    setTimeout(() => { this.clickMsg = ''; }, 1000);
-  };
+
+
   public upComp = () => {
     this.customCompCode = `<bf-input `;
 
@@ -209,14 +158,15 @@ this.ctrl.setFocus();
     }
 
     this.customCompCode += `[(ngModel)]="myVariable"`;
-    if (this.compConf.isRequired) { this.customCompCode += this.bsStr + `bfRequired="true"`; }
-    if (this.compConf.hasLabel) { this.customCompCode += this.bsStr + `bfLabel="${this.compConf.labelText}"`; }
-    if (this.compConf.hasPlaceholder) { this.customCompCode += this.bsStr + `bfPlaceholder="${this.compConf.placeholderText}"`; }
-    if (this.compConf.hasIcon) { this.customCompCode += this.bsStr + `bfIcon="${this.compConf.inputIcon}"`; }
+    if (this.compConf.hasLabel)             { this.customCompCode += this.bsStr + `bfLabel="${this.compConf.labelText}"`; }
+    if (this.compConf.hasPlaceholder)       { this.customCompCode += this.bsStr + `bfPlaceholder="${this.compConf.placeholderText}"`; }
+    if (this.compConf.hasIcon)              { this.customCompCode += this.bsStr + `bfIcon="${this.compConf.inputIcon}"`; }
     if (this.compConf.inputType !== 'text') { this.customCompCode += this.bsStr + `bfType="${this.compConf.inputType}"`; }
-    if (this.compConf.hasAutoFocus) { this.customCompCode += this.bsStr + `bfAutoFocus="true"`; }
-    if (this.compConf.isDisabled) { this.customCompCode += this.bsStr + `[bfDisabled]="true"`; }
-    if (!!this.compConf.disabledTip) { this.customCompCode += this.bsStr + `bfDisabledTip="${this.compConf.disabledTip}"`; }
+    if (this.compConf.isRequired)           { this.customCompCode += this.bsStr + `[bfRequired]="true"`; }
+    if (this.compConf.hasAutoFocus)         { this.customCompCode += this.bsStr + `[bfAutoFocus]="true"`; }
+    if (this.compConf.hasAutocomplete)      { this.customCompCode += this.bsStr + `[bfAutocomplete]="true"`; }
+    if (this.compConf.isDisabled)           { this.customCompCode += this.bsStr + `[bfDisabled]="true"`; }
+    if (!!this.compConf.disabledTip)        { this.customCompCode += this.bsStr + `bfDisabledTip="${this.compConf.disabledTip}"`; }
 
     if (this.compConf.hasTooltip) {
       this.customCompCode += this.bsStr + `bfTooltip="${this.compConf.inputTooltip}"`;
@@ -243,56 +193,12 @@ this.ctrl.setFocus();
     if (this.compConf.hasKeyEnter) { this.customCompCode += this.bsStr + `(bfOnEnter)="onClickFn($event)"`; }
     if (this.compConf.hasKeyCtrlEnter) { this.customCompCode += this.bsStr + `(bfOnCtrlEnter)="onClickFn($event)"`; }
 
+    if (this.compConf.hasOnLoad) { this.customCompCode += this.bsStr + `(bfOnLoaded)="ctrl = $event"`; }
+    if (this.compConf.hasBeforeChange) { this.customCompCode += this.bsStr + `(bfBeforeChange)="doSomething($event)"`; }
+
     this.customCompCode += (`>` + this.brStr + `</bf-input>`);
   };
-  public inputInit = (inputCtrl) => {
-    this.inputCtrl = inputCtrl;
-    // this.inputCtrl.inputCtrl$.subscribe(val => console.log('inputCtrl$ ----> ', val));
-    setTimeout(() => this.isInputReady = true);
-  };
-  public validIfFn = (value) => {
-    return (value === this.valEx.bfValMatchVal) ? null : { label : 'this is wrong' };
-  };
-  public catchValue = (obj) => {
-    // console.log(obj);
-  };
 
-  public upComp2 = () => {
-    this.valCompCode = `<bf-input #bfInputRef="ngModel"`;
-    this.valCompCode += this.bsStr + `[(ngModel)]="myVariable"`;
-    if (this.valEx.isRequired) { this.valCompCode += this.bsStr + `bfRequired="true"`; }
-    if (this.valEx.minLen > 0) { this.valCompCode += this.bsStr + `bfMinlength="${this.valEx.minLen}"`; }
-    if (this.valEx.isMaxLen)   { this.valCompCode += this.bsStr + `bfMaxlength="${this.valEx.maxLen}"`; }
-    if (this.valEx.hasPattern) { this.valCompCode += this.bsStr + `bfPattern="${this.valEx.pattern}"`; }
-    if (this.valEx.valType)    { this.valCompCode += this.bsStr + `bfValidType="${this.valEx.valType}"`; }
-    if (this.valEx.hasBfValidator) { this.valCompCode += this.bsStr + `bfValidator="validFn"`; }
-
-    if (this.valEx.hasErrOnPristine)  { this.valCompCode += this.bsStr + `bfErrorOnPristine="true"`; }
-    if (this.valEx.hasIcon)           { this.valCompCode += this.bsStr + `bfIcon="${this.valEx.bfIcon}"`; }
-    if (this.valEx.hasInvalidIcon)    { this.valCompCode += this.bsStr + `bfInvalidIcon="${this.valEx.bfInvalidIcon}"`; }
-    if (this.valEx.hasValidIcon)      { this.valCompCode += this.bsStr + `bfValidIcon="${this.valEx.bfValidIcon}"`; }
-    if (this.valEx.hasErrorText)      { this.valCompCode += this.bsStr + `bfErrorText="${this.valEx.bfErrorText}"`; }
-    if (this.valEx.errorPos)          { this.valCompCode += this.bsStr + `bfErrorPos="${this.valEx.errorPos}"`; }
-
-    if (this.valEx.hasOnLoad) { this.valCompCode += this.bsStr + `(bfOnLoaded)="bfInput = $event"`; }
-    if (this.valEx.hasBeforeChange)  { this.valCompCode += this.bsStr + `(bfBeforeChange)="catchValue($event)"`; }
-
-    this.valCompCode += (`>` + this.brStr + `</bf-input>`);
-
-
-    if (this.valEx.hasOnLoad) {
-      this.valCompCode += `\n\n\n` + `bfInput.inputCtrl$.subscribe(val => console.log('inputCtrl$ ----> ', val));\n`;
-      this.valCompCode += `bfInput.setFocus();\n`;
-      this.valCompCode += `bfInput.setDirty();\n`;
-      this.valCompCode += `bfInput.setPristine();\n`;
-      this.valCompCode += `bfInput.addError({ label: 'manual error here' });\n`;
-      this.valCompCode += `bfInput.removeError();\n`;
-    }
-  };
-
-  public validIfEqual = (value) => {
-    return (value === '666' || value === '') ? null : { label : 'views.common.invalidddd', value: 'xxx' };
-  };
 
   public checkModelChange = (value) => console.log('Value from ngModel ->', value);
 }

@@ -20,6 +20,7 @@ $checkbox-disabled-border: darken($disabled-color, 3%) !default;
 //    </div>
 
 bf-checkbox {
+  display: inline-block;
   &.block { display: block; }
 
   div.checkbox {

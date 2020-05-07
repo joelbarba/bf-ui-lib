@@ -54,6 +54,10 @@ import {BfDndDemo3Component} from './bf-dnd-demo/example3/bf-dnd-demo-3.componen
 import {BfDndDemo4Component} from './bf-dnd-demo/example4/bf-dnd-demo-4.component';
 import {BfDndDemo5Component} from './bf-dnd-demo/example5/bf-dnd-demo-5.component';
 import {BfDndDemo6Component} from './bf-dnd-demo/example6/bf-dnd-demo-6.component';
+import {BfInputValidatorsDemoComponent} from './bf-input-demo/ex1-validators/bf-input-validators-demo.component';
+import {BfInputAsyncValidatorDemoComponent} from './bf-input-demo/ex2-async-validation/bf-input-async-validator-demo.component';
+import {BfInputControlsDemoComponent} from './bf-input-demo/ex3-controls/bf-input-controls-demo.component';
+import {BfInputAutofillDemoComponent} from './bf-input-demo/ex4-autofill/bf-input-autofill-demo.component';
 
 
 @NgModule({
@@ -69,6 +73,11 @@ import {BfDndDemo6Component} from './bf-dnd-demo/example6/bf-dnd-demo-6.componen
     BfCheckboxDemoComponent,
     BfDualCheckboxDemoComponent,
     BfInputDemoComponent,
+    BfInputValidatorsDemoComponent,
+    BfInputAsyncValidatorDemoComponent,
+    BfInputAutofillDemoComponent,
+    BfInputControlsDemoComponent,
+
     BfDropdownDemoComponent,
     BfSwitchDemoComponent,
     BfQuantityInputDemoComponent,

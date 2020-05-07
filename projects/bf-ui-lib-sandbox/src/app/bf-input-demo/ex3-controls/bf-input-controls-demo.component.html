@@ -1,0 +1,111 @@
+<div class="row">
+  <div class="col-6">
+    <h2>bf-input - Manual Control</h2>
+  </div>
+  <div class="col-6 text-right">
+    <bf-btn bfText="bfInput" (bfClick)="router.navigate(['/bf-input'])"></bf-btn>
+    <bf-btn bfText="Validators"      (bfClick)="router.navigate(['/bf-input/validators'])"></bf-btn>
+    <bf-btn bfText="Async Validator" (bfClick)="router.navigate(['/bf-input/async-validator'])"></bf-btn>
+    <bf-btn bfText="Controls"        (bfClick)="router.navigate(['/bf-input/controls'])" bfDisabled="true"></bf-btn>
+    <bf-btn bfText="Autofill"        (bfClick)="router.navigate(['/bf-input/autofill'])"></bf-btn>
+  </div>
+</div>
+<hr>
+Example about how to externally control the bf-input. There are 2 ways to manage this:
+<ul class="marT5">
+  <li><b>(bfOnLoaded)</b>: Hooking the controller object</li>
+  <li><b>[extCtrl$]</b>: With an input observable</li>
+</ul>
+
+<div class="whiteBg row">
+  <div class="col-12"><h5 class="marB25">Controller Object:</h5></div>
+  <div class="col-12 marB15">
+    You can use the returned object in <b>(bfOnLoaded)</b> to trigger internal actions.
+    You should make sure though that the object has been initialized before using it.
+  </div>
+
+  <div class="col-7">
+    <bf-input style="max-width: 500px; display: block;" #bfInputRef="ngModel"
+              bfLabel="My Input"
+              [(ngModel)]="val1"
+              (bfOnLoaded)="ctrl = $event"
+              [bfRequired]="true">
+    </bf-input>
+    <div class="" *ngIf="!!bfInputRef">
+      <span class="marL10">valid: <b [style.color]="bfInputRef.valid ? '#28a745': '#dc3545'">{{bfInputRef.valid | json}}</b></span>
+      <span class="marL10">pristine: <b>{{bfInputRef.pristine | json}}</b></span>
+      <span class="marL10">errors: <b>{{bfInputRef.errors | json}}</b></span>
+    </div>
+
+    <div class="marT10">
+      <div class="code-box pad15">
+        <pre style="overflow-x: hidden;">{{extCtrlExample1}}</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-5 padT20">
+    <bf-btn style="width: 200px;" class="full-width" bfType="save" bfText="ctrl.setFocus()"    (bfClick)="ctrl.setFocus()" ></bf-btn>
+    <bf-btn style="width: 200px;" class="full-width" bfType="save" bfText="ctrl.setBlur()"     (bfClick)="ctrl.setBlur()" ></bf-btn>
+    <div class="marT5"></div>
+    <bf-btn style="width: 200px;" class="full-width" bfType="save" bfText="ctrl.setDirty()"    (bfClick)="ctrl.setDirty()" ></bf-btn>
+    <bf-btn style="width: 200px;" class="full-width" bfType="save" bfText="ctrl.setPristine()" (bfClick)="ctrl.setPristine()" ></bf-btn>
+    <div class="marT5"></div>
+    <bf-btn style="width: 200px;" class="full-width" bfType="save" bfText="ctrl.removeError()" (bfClick)="ctrl.removeError()" ></bf-btn>
+    <bf-btn style="width: 200px;" class="full-width" bfType="save" bfText="ctrl.addError()"    (bfClick)="ctrl.addError({ label: 'Oh no!' })" ></bf-btn>
+    <div class="marT5"></div>
+    <bf-btn style="width: 200px;" class="full-width" bfType="save" bfText="ctrl.refresh()"     (bfClick)="ctrl.refresh()" ></bf-btn>
+
+
+  </div>
+</div>
+
+<div class="whiteBg row marT30">
+  <div class="col-12"><h5 class="marB25">Input observable [extCtrl$]</h5></div>
+  <div class="col-12 marB15">
+    You can pass an observable to <b>[extCtrl$]</b>. The component will automatically subscribe and listen to it, so actions
+    can be emitted through it. You can use a Subject if you need to trigger them manually. The .next() should send an object with an "action" and "value"
+  </div>
+
+  <div class="col-7">
+    <bf-input style="max-width: 500px; display: block;" #bfInputRef2="ngModel"
+              bfLabel="My Input"
+              [(ngModel)]="val1"
+              [extCtrl$]="extCtrl$"
+              [bfRequired]="true">
+    </bf-input>
+    <div class="" *ngIf="!!bfInputRef2">
+      <span class="marL10">valid: <b [style.color]="bfInputRef2.valid ? '#28a745': '#dc3545'">{{bfInputRef2.valid | json}}</b></span>
+      <span class="marL10">pristine: <b>{{bfInputRef2.pristine | json}}</b></span>
+      <span class="marL10">errors: <b>{{bfInputRef2.errors | json}}</b></span>
+    </div>
+
+
+    <div class="marT20">
+      <div class="code-box pad15">
+        <pre style="overflow-x: hidden;">{{extCtrlExample2}}</pre>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-5 padT20">
+    <bf-btn style="width: 200px;" class="full-width" bfType="save" bfText="ctrl.setFocus()"    (bfClick)="extCtrl$.next({ action: 'setFocus' })" ></bf-btn>
+    <bf-btn style="width: 200px;" class="full-width" bfType="save" bfText="ctrl.setBlur()"     (bfClick)="extCtrl$.next({ action: 'setBlur' })" ></bf-btn>
+    <div class="marT5"></div>
+    <bf-btn style="width: 200px;" class="full-width" bfType="save" bfText="ctrl.setDirty()"    (bfClick)="extCtrl$.next({ action: 'setDirty' })" ></bf-btn>
+    <bf-btn style="width: 200px;" class="full-width" bfType="save" bfText="ctrl.setPristine()" (bfClick)="extCtrl$.next({ action: 'setPristine' })" ></bf-btn>
+    <div class="marT5"></div>
+    <bf-btn style="width: 200px;" class="full-width" bfType="save" bfText="ctrl.removeError()" (bfClick)="extCtrl$.next({ action: 'removeError' })" ></bf-btn>
+    <bf-btn style="width: 200px;" class="full-width" bfType="save" bfText="ctrl.addError()"    (bfClick)="extCtrl$.next({ action: 'addError', label: 'Oh oh!' })"></bf-btn>
+    <div class="marT5"></div>
+    <bf-btn style="width: 200px;" class="full-width" bfType="save" bfText="ctrl.refresh()"     (bfClick)="extCtrl$.next({ action: 'refresh' })" ></bf-btn>
+
+    <div class="padT15">
+      <code><ul class="padL15"><li *ngFor="let ctrlAction of ctrlActions">{{ctrlAction}}</li></ul></code>
+    </div>
+  </div>
+
+</div>
+
+
