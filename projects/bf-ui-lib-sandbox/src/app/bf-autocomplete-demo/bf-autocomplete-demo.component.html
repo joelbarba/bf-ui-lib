@@ -17,8 +17,6 @@
   <div class="col-3">myVar={{myVar}} </div>
 </div>
 
-
-
 <h5 class="mt-4">Parameters:</h5>
 <div class="col-12">
   <pre>{{api}}</pre>
@@ -41,6 +39,7 @@
                          [bfTooltipPos]="(compConf.hasLabel && compConf.tooltipPos || 'top')"
                          [bfTooltipBody]="compConf.hasLabel && compConf.tooltipBody"
                          [bfValidType]="compConf.validType"
+                         [bfMinLength]="compConf.hasMinLength ? compConf.minLength : null"
         >
         </bf-autocomplete>
         <span style="margin-bottom: 5px;">ngModel: <bf-input [(ngModel)]="stringSelected"></bf-input></span>
@@ -111,6 +110,17 @@
 
       <div class="row  marT10">
         <div class="col-2 padT5">
+          <bf-checkbox [(ngModel)]="compConf.hasMinLength" (ngModelChange)="upComp()"
+                       bfLabel="bfMinLength"></bf-checkbox>
+        </div>
+        <div class="col-10">
+          <bf-input [(ngModel)]="compConf.minLength" (ngModelChange)="upComp()" bfType="number"
+                    [bfDisabled]="!compConf.hasMinLength"></bf-input>
+        </div>
+      </div>
+
+      <div class="row  marT10">
+        <div class="col-2 padT5">
           <span class="marL30">bfValidType:</span>
         </div>
         <div class="col">
@@ -126,51 +136,48 @@
 
 <hr>
 
-
-<h5 class="mt-4">Examples:</h5>
+<h5 class="mt-4">Invite Attendee Video Conference case:</h5>
 <div class="col-12 examples-table">
   <!-- Normal email insertion -->
   <div class="row">
-    <div class="col-3">
-      <bf-autocomplete [(ngModel)]="selectedEmail"
-                       [bfList]="emailList"
-                       bfValidType="email"
-                       bfLabel="Select/Type email"
-                       bfPlaceholder="Select/Type email"
-      ></bf-autocomplete>
-
-      <span>ngModel: <bf-input [(ngModel)]="selectedEmail"></bf-input></span>
-    </div>
     <div class="col-4">
-      <pre>{{instance}}</pre>
-    </div>
-    <div class="col-5 code-box">
-      <pre>{{mapUnmapExample}}</pre>
-    </div>
-  </div>
 
-  <div class="row">
-    <div class="col-3">
-      <bf-autocomplete #countryAutocomplete
-                       [(ngModel)]="selectedCountry"
-                       (bfOnEnter)="onEnterCountry(selectedCountry)"
-                       [bfList]="countries"
-                       bfLabel="Select a country"
-                       bfPlaceholder="Select a country"
-      ></bf-autocomplete>
-      Press <b>Enter</b> to emit it.
-      <span>Last emitted value: {{lastCountryEmitted}}</span>
-    </div>
-    <div class="col-5">
-      <pre>{{instanceCountry}}</pre>
+      <div class="d-flex flex-column">
+        <!-- FORM -->
+        <div class="d-flex flex-row justify-content-around">
+          <bf-autocomplete #emailAutocomplete
+                           #emailAutocompleteRef="ngModel"
+                           [(ngModel)]="selection"
+                           [bfList]="emailList"
+                           bfValidType="email"
+                           bfPlaceholder="Select/Type email"
+                           (bfSelect)="submit(selection, emailAutocompleteRef.invalid)"
+          ></bf-autocomplete>
+
+          <bf-btn bfText="submit" bfType="secondary"
+                  [bfDisabled]="emailAutocompleteRef.invalid || !selection"
+                  (bfClick)="submit(selection, emailAutocompleteRef.invalid)">
+          </bf-btn>
+        </div>
+
+        <div class="d-flex flex-column">
+          <ul>
+            <li *ngFor="let attendee of attendees;">
+              {{attendee.email || attendee}}
+            </li>
+          </ul>
+        </div>
+
+      </div>
     </div>
     <div class="col-4 code-box">
-      <pre>{{onEnterExample}}</pre>
+      <pre>{{instanceEmail}}</pre>
+    </div>
+    <div class="col-4 code-box">
+      <pre>{{mapUnmapExampleUpdate({ username: 'user.username', email: 'user.email'})}}</pre>
     </div>
   </div>
 </div>
-
-
 <!--CSS Styling-->
 <div class="row marT40">
   <div class="col-12">

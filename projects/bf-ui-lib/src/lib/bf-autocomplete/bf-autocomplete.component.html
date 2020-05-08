@@ -2,7 +2,7 @@
      (keydown)="triggerKey($event)"
      [class.is-required]="bfRequired"
      [class.is-disabled]="bfDisabled"
-     [class.is-focus]="isFocus || isExpanded"
+     [class.is-focus]="isFocus"
      [class.is-error]="isInvalid && (!ngControl.pristine || bfErrorOnPristine)">
 
   <bf-label *ngIf="!!bfLabel"
@@ -14,7 +14,7 @@
   </bf-label>
 
   <div class="bf-autocomplete"
-       [class.is-expanded]="isExpanded">
+       [class.is-expanded]="isExpanded()">
     <div class="input-group" #autocompleteInputGroup
          [disableTooltip]="!bfDisabled || !bfDisabledTip"
          [ngbTooltip]="bfDisabledTipTrans$ | async">
@@ -29,13 +29,13 @@
 
 
       <div class="input-group-append">
-        <button [hidden]="(!!ngModel && ngModel.length > 0) && isExpanded"
+        <button [hidden]="(!!ngModel && ngModel.length > 0) && isFocus"
                 class="btn btn-outline-secondary" tabIndex="-1"
                 [disabled]="bfDisabled"
                 (click)="!bfDisabled && toggle()">
           <span class="icon-search"></span>
         </button>
-        <button [hidden]="(!ngModel || ngModel.length === 0) || !isExpanded"
+        <button [hidden]="(!ngModel || ngModel.length === 0) || !isFocus"
                 class="btn btn-outline-secondary" tabIndex="-1"
                 (click)="reset()">
           <span class="icon-cross3"></span>
@@ -47,7 +47,7 @@
     <div class="list-container" #listContainer>
       <div *ngFor="let item of list" class="option-row {{item}}"
            [class.selected]="isHighlighted(item)"
-           (mousedown)="select(item);">
+           (mouseup)="select(item);">
         <span>{{item}}</span>
       </div>
     </div>
