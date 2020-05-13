@@ -47,7 +47,7 @@ import { Patterns } from '../patterns';
  * |--------|---------------------|------------------------------------------------------------------------------------|
  * | @      | bfErrorOnPristine   | If true, validate on pristine                                                      |
  * |--------|---------------------|------------------------------------------------------------------------------------|
- * | @      | bfOnEnter           | Event emitter, if valid on enter execute the emit                                                      |
+ * | @      | bfSelect            | Event emitter, select or enter an item in the list                                       |
  * |--------|---------------------|------------------------------------------------------------------------------------|
  *
  *****/
@@ -67,7 +67,7 @@ import { Patterns } from '../patterns';
   ]
 })
 export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, OnChanges {
-  @Input() ngModel;
+  @Input() ngModel: string;
   @Input() bfList: Array<string>;    // List of options (array of strings)
   @Input() bfRequired = false; // Whether the model is required (can't be empty)
   @Input() bfDisabled = false; // Whether the autocomplete is disabled
@@ -80,9 +80,9 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @Input() bfValidType: keyof typeof Patterns;  // Predefined validator patterns. It overrides bfPattern
   @Input() bfPattern;
   @Input() bfErrorOnPristine;
-  // @Input() bfClearAfterEnter = false;
+  @Input() bfMinLength = 0;   // [optional] Number of keys needed to start showing suggestions. If absent, shows the list on focus.
   @Output() bfOnEnter = new EventEmitter<any>();
-  @Input() bfMinLength = 0;
+  @Output() bfSelect = new EventEmitter<any>();
 
   // --------------
 
@@ -91,7 +91,6 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   list;
   navigatedItem; // Retain the navigated item
   isInvalid = false;   // If the model holds an invalid option
-  isExpanded = false;  // Whether the list is shown (true) or hidden
   isFocus = false;     // Whether the input is focused
 
   bfDisabledTipTrans$: Observable<string> = of('');   // Translated text for the disabled tooltip
@@ -138,6 +137,13 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
     this.list = [ ...this.bfList ];
   }
 
+  /**
+   * @returns whether the list is visible or not
+   */
+  isExpanded() {
+    return this.isFocus && this.list.length > 0 && ((this.ngModel || '').length >= (this.bfMinLength || 0));
+  }
+
   setPattern() {
     if (this.bfValidType) {
       this.bfPattern = Patterns[this.bfValidType];
@@ -145,19 +151,17 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   toggle() {
-      this.isExpanded ? this.collapse() : this.expand();
+    this.isFocus ? this.collapse() : this.expand();
   }
 
   // On input focus in -> Expand the select list
   expand() {
-    this.isExpanded = true;
     this.focus();
   }
 
   // On input focus out -> Collapse the select list
   collapse() {
     this.isFocus = false;
-    this.isExpanded = false;
     this.navigatedItem = null;
     this.setPlaceholder(this.navigatedItem);
   }
@@ -177,11 +181,14 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   confirm() {
     if (this.navigatedItem) {
+      this.setValidity(true);
       this.updateModel(this.navigatedItem);
-      this.bfOnEnter.emit(this.navigatedItem);
+      this.bfSelect.emit(this.navigatedItem);
       this.navigatedItem = null;
     } else {
-      this.bfOnEnter.emit(this.ngModel);
+      if (!!this.ngModel) {
+        this.bfSelect.emit(this.ngModel);
+      }
     }
     this.autocompleteInput.nativeElement.blur();
     this.setPlaceholder(null);
@@ -217,8 +224,9 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   select(value) {
     this.updateModel(value);
-    this.collapse();
+    this.setValidity(true);
     this.filter();
+    this.bfSelect.emit(value);
   }
 
   reset() {

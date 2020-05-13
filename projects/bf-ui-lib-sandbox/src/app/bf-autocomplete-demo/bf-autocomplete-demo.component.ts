@@ -58,7 +58,7 @@ export class BfAutocompleteDemoComponent implements OnInit {
     { id: 'decimal',  text: 'decimal',  },
     { id: 'email',    text: 'email',    },
   ];
-  compConf: any = {
+  compConf = {
     isRequired: false,
     isDisabled: false,
     rows: null,
@@ -66,16 +66,19 @@ export class BfAutocompleteDemoComponent implements OnInit {
     labelText: 'My Description',
     hasPlaceholder: false,
     placeholderText: 'My Placeholder',
+    hasFullWidth: false,
+    hasMinLength: false,
+    hasSquash: false,
     hasTooltip: false,
+    minLength: undefined as number,
     tooltipText: 'Hello World',
     tooltipPos: null,
     tooltipBody: false,
     validType: null
   };
   customCompCode = `<bf-dropdown [(ngModel)]="stringSelected" [bfList]="stringList"></bf-dropdown>`;
-
+  // Invitee attendee parameters
   emailList;
-  selectedEmail;
   userList = [
     { id:  0, username: 'joel.barba',   email: 'joel@barba.com', first_name: 'Joel', last_name: 'Barba', icon: 'icon-smile2', img: 'assets/language-flags/ca.png' },
     { id:  2, username: 'syrax',        email: 'syrax@targaryen.com',        first_name: 'Syrax',        last_name: 'Targaryen', icon: 'icon-home',          img: 'assets/language-flags/de.png' },
@@ -102,34 +105,23 @@ export class BfAutocompleteDemoComponent implements OnInit {
     { id: 23, username: 'greyghost',    email: 'greyghost@targaryen.com',    first_name: 'Greyghost',    last_name: 'Targaryen', icon2: 'icon-menu3',        img2: 'assets/language-flags/ca.png' },
     { id: 24, username: 'sheepstealer', email: 'sheepstealer@targaryen.com', first_name: 'Sheepstealer', last_name: 'Targaryen', icon: 'icon-link',          img: 'assets/language-flags/de.png' },
   ];
-
-  @ViewChild('countryAutocomplete', { static: true }) countryAutocomplete;
-  selectedCountry;
   mapUnmapExample;
-  countries = ['Italy', 'Spain', 'French', 'Cuba', 'Bolivia', 'Argentina', 'Croatia', 'Thailand', 'China'];
-  lastCountryEmitted;
-  instanceCountry = `<bf-autocomplete [(ngModel)]="selectedCountry"
-  (bfOnEnter)="onEnterCountry(selectedCountry)"
-  [bfList]="countries"
-  bfLabel="Select a country"
-  bfPlaceholder="Select a country"
-></bf-autocomplete>`;
-  onEnterExample = `  onEnterCountry(value) {
-    this.growl.success('Selected: ' + value);
-    setTimeout(() => {
-      this.selectedCountry = '';
-      this.countryAutocomplete.focus();
-    });
-  }`;
+  @ViewChild('emailAutocomplete', { static: true }) emailAutocomplete;
+  selection;
+  attendees = [];
+  instanceEmail = `<bf-autocomplete #emailAutocomplete
+  [(ngModel)]="selection"
+  [bfList]="emailList"
+  bfValidType="email"
+  bfPlaceholder="Select/Type email"
+  (bfSelect)="submit(selection, emailAutocomplete.isInvalid)"
+></bf-autocomplete>
 
-  onEnterCountry(value) {
-    this.growl.success('Selected: ' + value);
-    setTimeout(() => {
-      this.selectedCountry = '';
-      this.countryAutocomplete.focus();
-    });
-  }
-
+<bf-btn bfText="submit" bfType="secondary"
+    [bfDisabled]="emailAutocomplete.isInvalid"
+    (bfClick)="submit(selection, emailAutocomplete.isInvalid)">
+</bf-btn>`;
+// All the rest
   mapUnmapExampleUpdate(item?) { return `How to get the original object from the ngModel?
 
   mapUserList() {
@@ -170,6 +162,10 @@ export class BfAutocompleteDemoComponent implements OnInit {
 
     if (this.compConf.validType)    { this.customCompCode += bsStr + `bfValidType="${this.compConf.validType}"`; }
 
+    if (this.compConf.minLength) {
+      this.customCompCode += bsStr + `[bfMinLength]="${this.compConf.minLength}"`;
+    }
+
     this.customCompCode += (`>` + brStr + `</bf-autocomplete>`);
   }
 
@@ -183,8 +179,20 @@ export class BfAutocompleteDemoComponent implements OnInit {
     return !!user ? user : value;
   }
 
-  onSelectEmail(value) {
-    console.log('ngModel changed (ngModelChange), Value: ', value);
+  submit(value, isInvalid) {
+    if (isInvalid) {
+      this.growl.error(`Comon! ${value} is not an email and you know it!`);
+      setTimeout(() => {
+        this.emailAutocomplete.focus();
+      });
+    } else {
+      this.growl.success('Emitted value: ' + value);
+      this.attendees.push(this.unmapUser(value));
+      setTimeout(() => {
+        this.selection = '';
+        this.emailAutocomplete.focus();
+      });
+    }
   }
 
   constructor(private growl: BfGrowlService) { }
@@ -213,7 +221,7 @@ export const BfAutocompleteDoc = {
 [bfValidType]: Sets a default pattern: 'integer' | 'number' | 'decimal' | 'email'
 [bfPattern]: custom BfPattern
 [bfErrorOnPristine]: If true, validate on pristine,
-(bfOnEnter): on press Enter, emit value`,
+(bfOnSelect): on selection or enter, emit value`,
   cssReset: `The scss variables are the same used for the BfDropdown because they must be aligned:
 $dropdown-selection-bg: $quaternary_color !default;
 $dropdown-selection-hover: $primary_color !default;

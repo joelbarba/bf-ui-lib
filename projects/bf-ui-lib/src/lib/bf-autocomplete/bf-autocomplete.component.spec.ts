@@ -89,13 +89,13 @@ describe('BfAutocompleteComponent', () => {
     });
 
     it('should collapse', () => {
-      component.isExpanded = true;
+      component.isFocus = true;
       component.toggle();
       expect(collapseSpy).toHaveBeenCalled();
     });
 
     it('should expand', () => {
-      component.isExpanded = false;
+      component.isFocus = false;
       component.toggle();
       expect(expandSpy).toHaveBeenCalled();
     });
@@ -110,7 +110,6 @@ describe('BfAutocompleteComponent', () => {
 
     it('should expand', () => {
       component.expand();
-      expect(component.isExpanded).toBe(true);
       expect(focusSpy).toHaveBeenCalled();
     });
   });
@@ -119,7 +118,29 @@ describe('BfAutocompleteComponent', () => {
     it('should collapse', () => {
       component.collapse();
       expect(component.isFocus).toBe(false);
-      expect(component.isExpanded).toBe(false);
+    });
+  });
+
+  describe('isExpanded()', () => {
+    beforeEach(() => {
+      component.isFocus = true;
+      component.ngModel = 'test string';
+      component.list = [ 'entry' ];
+    });
+
+    it('should hide the list if the input is not focused', () => {
+      component.isFocus = false;
+      expect(component.isExpanded()).toBe(false);
+    });
+
+    it('should hide the list if it is empty', () => {
+      component.list = [];
+      expect(component.isExpanded()).toBe(false);
+    });
+
+    it('should hide the list if the user has not keyed enough characters', () => {
+      component.bfMinLength = 16;
+      expect(component.isExpanded()).toBe(false);
     });
   });
 
@@ -170,7 +191,6 @@ describe('BfAutocompleteComponent', () => {
       component.select(value);
       expect(updateModelSpy).toHaveBeenCalledWith(value);
       expect(filterSpy).toHaveBeenCalled();
-      expect(collapseSpy).toHaveBeenCalled();
     });
 
     it('should update, filter, expand and focus on reset', () => {
