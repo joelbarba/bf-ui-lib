@@ -11,73 +11,142 @@
     <div class="col-5 marB15">
       <h5 class="marB25">Textarea Customization:</h5>
       <div>
-        <bf-textarea [(ngModel)]="myVal"
-                     [class.flat]="compConf.hasFlat"
-                     [bfLabel]="compConf.hasLabel ? compConf.labelText : ''"
-                     [bfPlaceholder]="compConf.hasPlaceholder ? compConf.placeholder : ''"
-                     [bfRequired]="compConf.isRequired"
-                     [bfDisabled]="compConf.isDisabled"
-                     [bfRows]="compConf.rows"
+        <bf-textarea [(ngModel)]="myVal" #bfInputRef="ngModel"
+                     [class.flat]="conf.hasFlat"
+                     [bfLabel]="conf.hasLabel ? conf.labelText : ''"
+                     [bfPlaceholder]="conf.hasPlaceholder ? conf.placeholder : ''"
+                     [bfRequired]="conf.isRequired"
+                     [bfDisabled]="conf.isDisabled"
+                     [bfRows]="conf.rows"
 
-                     (bfOnKeyDown)="compConf.hasKeyDown && growl.success('Key Down -> ' + $event.key)"
-                     (bfOnEsc)="compConf.hasKeyEsc && growl.success('ESC key was pressed')"
-                     (bfOnSave)="compConf.hasKeyCtrlEnter && growl.success('Ctrl + ENTER key were pressed')"
+                     (bfOnKeyDown)="conf.hasKeyDown && growl.success('Key Down -> ' + $event.key)"
+                     (bfOnEsc)="conf.hasKeyEsc && growl.success('ESC key was pressed')"
+                     (bfOnSave)="conf.hasKeyCtrlEnter && growl.success('Ctrl + ENTER key were pressed')"
 
-                     [bfTooltip]="(compConf.hasTooltip ? compConf.tooltipText : null)"
-                     [bfTooltipPos]="(compConf.tooltipPos || 'top')"
-                     [bfTooltipBody]="compConf.tooltipBody">
+                     [bfErrorOnPristine]="conf.hasErrOnPristine"
+                     [bfMinlength]="conf.isMinLen ? conf.minLen : null"
+                     [bfMaxlength]="conf.isMaxLen ? conf.maxLen : null"
+                     [bfPattern]="conf.hasPattern ? conf.pattern : null"
+                     [bfValidIf]="conf.hasValidIf ? (myVal === 'AAA') : null"
+                     [bfValidator]="conf.hasBfValidator ? bfValidatorFn : null"
+
+                     [bfTooltip]="(conf.hasTooltip ? conf.tooltipText : null)"
+                     [bfTooltipPos]="(conf.tooltipPos || 'top')"
+                     [bfTooltipBody]="conf.tooltipBody"
+
+                     (bfOnLoaded)="inputRef = $event">
         </bf-textarea>
       </div>
-      <div>
+
+      <div *ngIf="!!bfInputRef" style="font-family: monospace;">
+        FromControl (ngModel):<br>
+        <div class="marL10">- bfInputRef.value: <b>{{bfInputRef.value | json}}</b></div>
+        <div class="marL10">- bfInputRef.valid: <b [style.color]="bfInputRef.valid ? '#28a745': '#dc3545'">{{bfInputRef.valid | json}}</b></div>
+        <div class="marL10">- bfInputRef.pristine: <b>{{bfInputRef.pristine | json}}</b></div>
+        <div class="marL10">- bfInputRef.errors: <b>{{bfInputRef.errors | json}}</b></div>
+      </div>
+
+      <div class="marT15">
         <div class="code-box pad15">
-          <pre>{{customCompCode}}</pre>
+          <pre>{{code}}</pre>
         </div>
       </div>
+
+
     </div>
 
     <div class="col-7">
 
+      <!--Required + Disabled + Error on pristine + Rows-->
       <div class="row marT15">
-        <div class="col-2 padT15"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>
-        <div class="col-2 padT15"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>
-        <div class="col-6">
-          <bf-btn bfIcon="icon-minus" (bfClick)="(compConf.rows = compConf.rows - 1) && upComp()" ></bf-btn>
-          <bf-btn bfIcon="icon-plus" (bfClick)="(compConf.rows = compConf.rows + 1) && upComp()"></bf-btn>
-          <bf-label class="marL15 value-inline" bfText="Rows" [bfValue]="(compConf.rows + '')"></bf-label>
+        <bf-checkbox class="col-2 padT15" bfLabel="bfRequired" [(ngModel)]="conf.isRequired" (ngModelChange)="upComp()"></bf-checkbox>
+        <bf-checkbox class="col-2 padT15" bfLabel="bfDisabled" [(ngModel)]="conf.isDisabled" (ngModelChange)="upComp()"></bf-checkbox>
+        <bf-checkbox class="col-3 padT15" bfLabel="bfErrorOnPristine" [(ngModel)]="conf.hasErrOnPristine" (ngModelChange)="upComp()"></bf-checkbox>
+        <div class="col-3">
+          <bf-btn bfIcon="icon-minus" (bfClick)="(conf.rows > 1) && (conf.rows = conf.rows - 1) && upComp()" ></bf-btn>
+          <bf-btn bfIcon="icon-plus" (bfClick)="(conf.rows = conf.rows + 1) && upComp()"></bf-btn>
+          <bf-label class="marL15 value-inline" bfText="bfRows" [bfValue]="(conf.rows + '')"></bf-label>
         </div>
       </div>
 
+      <!--Label-->
       <div class="row marT15">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasLabel" (ngModelChange)="upComp()" bfLabel="Has Label"></bf-checkbox> </div>
-        <div class="col-10" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasLabel"></bf-input> </div>
+        <bf-checkbox class="col-2 padT5" bfLabel="bfLabel" [(ngModel)]="conf.hasLabel" (ngModelChange)="upComp()"></bf-checkbox>
+        <bf-input class="col-10" style="margin-bottom: -5px;" [(ngModel)]="conf.labelText" (ngModelChange)="upComp()" [bfDisabled]="!conf.hasLabel"></bf-input>
       </div>
+
+      <!--Placeholder-->
+      <div class="row">
+        <bf-checkbox class="col-2 padT5" bfLabel="bfPlaceholder" [(ngModel)]="conf.hasPlaceholder" (ngModelChange)="upComp()"></bf-checkbox>
+        <bf-input class="col-10" style="margin-bottom: -5px;" [(ngModel)]="conf.placeholder" (ngModelChange)="upComp()" [bfDisabled]="!conf.hasPlaceholder"></bf-input>
+      </div>
+
+      <!--Tooltip-->
+      <div class="row">
+        <bf-checkbox class="col-2 padT5" bfLabel="bfTooltip" [(ngModel)]="conf.hasTooltip" (ngModelChange)="upComp()"></bf-checkbox>
+        <bf-input class="col-10" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipText" (ngModelChange)="upComp()"></bf-input>
+        <div class="col-2"></div>
+        <bf-dropdown class="col-5" bfLabel="bfTooltipPos" [bfDisabled]="!conf.hasTooltip"
+                     [(ngModel)]="conf.tooltipPos" (ngModelChange)="upComp()"
+                     [bfList]="[{ id: 'top', text: 'top' }, { id: 'right', text: 'right' }, { id: 'bottom', text: 'bottom' }, { id: 'left', text: 'left' }]"
+                     bfRender="text" bfSelect="id">
+        </bf-dropdown>
+        <bf-dropdown class="col-5" bfLabel="bfTooltipBody" [bfDisabled]="!conf.hasTooltip"
+                     [(ngModel)]="conf.tooltipBody" (ngModelChange)="upComp()"
+                     [bfList]="[{ id: 'true', text: 'true' }, { id: 'false', text: 'false' }]" bfRender="text" bfSelect="id">
+        </bf-dropdown>
+      </div>
+
 
       <div class="row">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasPlaceholder" (ngModelChange)="upComp()" bfLabel="Placeholder"></bf-checkbox> </div>
-        <div class="col-10" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.placeholder" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasPlaceholder"></bf-input> </div>
+
+        <!--MinLen-->
+        <bf-checkbox class="col-2 block padT10" bfLabel="bfMinlength" [(ngModel)]="conf.isMinLen" (ngModelChange)="upComp()"></bf-checkbox>
+        <bf-input class="col-1" [bfDisabled]="!conf.isMinLen" [(ngModel)]="conf.minLen" (ngModelChange)="upComp()"></bf-input>
+        <div class="col-7 padT10"><span [show]="conf.isMinLen">(Remember minlength does not apply on empty values)</span></div>
+
+        <!--bfValidIf-->
+        <bf-checkbox class="col-2 block padT15" bfLabel="bfValidIf" [(ngModel)]="conf.hasValidIf" (ngModelChange)="upComp()"></bf-checkbox>
+
+        <!--MaxLen-->
+        <bf-checkbox class="col-2 block padT10" bfLabel="bfMaxlength" [(ngModel)]="conf.isMaxLen" (ngModelChange)="upComp()"></bf-checkbox>
+        <bf-input class="col-1" [bfDisabled]="!conf.isMaxLen" [(ngModel)]="conf.maxLen" (ngModelChange)="upComp()"></bf-input>
+
+        <!--bfPattern-->
+        <bf-checkbox class="offset-1 col-2 block padT10" bfLabel="bfPattern" [(ngModel)]="conf.hasPattern" (ngModelChange)="upComp()"></bf-checkbox>
+        <bf-input class="col-3" [(ngModel)]="conf.pattern" (ngModelChange)="upComp()" [bfDisabled]="!conf.hasPattern"></bf-input>
+
+        <bf-checkbox class="offset-1 col-2 block padT15" bfLabel="bfValidator" [(ngModel)]="conf.hasBfValidator" (ngModelChange)="upComp()"></bf-checkbox>
       </div>
 
-      <div class="row">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox> </div>
-        <div class="col-10" *ngIf="compConf.hasTooltip">
-          <bf-input [(ngModel)]="compConf.tooltipText" (ngModelChange)="upComp()"></bf-input>
-        </div>
-        <div class="col-2" *ngIf="compConf.hasTooltip"></div>
-        <div class="col-5" *ngIf="compConf.hasTooltip">
-          bfTooltipPos: <bf-dropdown [(ngModel)]="compConf.tooltipPos" (ngModelChange)="upComp()"
-                                     [bfList]="[{ id: 'top', text: 'top' }, { id: 'right', text: 'right' }, { id: 'bottom', text: 'bottom' }, { id: 'left', text: 'left' }]"
-                                     bfRender="text" bfSelect="id"> </bf-dropdown>
-        </div>
-        <div class="col-5" *ngIf="compConf.hasTooltip">
-          bfTooltipBody: <bf-dropdown [(ngModel)]="compConf.tooltipBody" (ngModelChange)="upComp()" [bfList]="[{ id: 'true', text: 'true' }, { id: 'false', text: 'false' }]" bfRender="text" bfSelect="id"> </bf-dropdown>
-        </div>
-      </div>
 
-      <!--Key Listeners-->
       <div class="row marT15">
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasKeyDown" (ngModelChange)="upComp()" bfLabel="bfOnKeyDown"></bf-checkbox> </div>
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasKeyEsc" (ngModelChange)="upComp()" bfLabel="bfOnEsc"></bf-checkbox> </div>
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasKeyCtrlEnter" (ngModelChange)="upComp()" bfLabel="bfOnSave (Ctrl+Enter)"></bf-checkbox> </div>
+        <div class="col-4">
+          <bf-checkbox bfLabel="Manual error trigger" [(ngModel)]="conf.hasManualErr" (ngModelChange)="upComp()"></bf-checkbox>
+          <div class="marL35 marT5">
+            <bf-btn class="full-width" bfType="save" bfText="Clear Error" style="width: 150px;"
+                    [bfDisabled]="!conf.hasManualErr" (bfClick)="inputRef.removeError()">
+            </bf-btn>
+          </div>
+          <div class="marL35 marT5">
+            <bf-btn class="full-width" bfType="save" bfText="Add Error" style="width: 150px;"
+                    [bfDisabled]="!conf.hasManualErr" (bfClick)="inputRef.addError({ label: 'wroooong!' })">
+            </bf-btn>
+          </div>
+        </div>
+
+        <div class="col-8">
+          <div class="row">
+            <!--Key Listeners-->
+            <bf-checkbox class="col-3 block marT10" bfLabel="(bfOnKeyDown)" [(ngModel)]="conf.hasKeyDown" (ngModelChange)="upComp()"></bf-checkbox>
+            <bf-checkbox class="col-3 block marT10" bfLabel="(bfOnEsc)" [(ngModel)]="conf.hasKeyEsc" (ngModelChange)="upComp()"></bf-checkbox>
+            <bf-checkbox class="col-6 block marT10" bfLabel="(bfOnSave) - Ctrl+Enter" [(ngModel)]="conf.hasKeyCtrlEnter" (ngModelChange)="upComp()"></bf-checkbox>
+
+            <!--bfOnLoaded + bfBeforeChange-->
+            <bf-checkbox class="col-3 block marT10" bfLabel="(bfOnLoaded)" [(ngModel)]="conf.hasOnLoad" (ngModelChange)="upComp()"></bf-checkbox>
+            <bf-checkbox class="col-3 block marT10" bfLabel="(bfBeforeChange)" [(ngModel)]="conf.hasBeforeChange" (ngModelChange)="upComp()"></bf-checkbox>
+          </div>
+        </div>
       </div>
 
 
@@ -85,7 +154,7 @@
       <div class="row marT15">
         <div class="col-8 padT5">
           <bf-label bfText="CSS Classes"></bf-label>
-          <bf-checkbox class="marL20" [(ngModel)]="compConf.hasFlat" (ngModelChange)="upComp()" bfLabel="flat"></bf-checkbox>
+          <bf-checkbox class="marL20" [(ngModel)]="conf.hasFlat" (ngModelChange)="upComp()" bfLabel="flat"></bf-checkbox>
         </div>
       </div>
 

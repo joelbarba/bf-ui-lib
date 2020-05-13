@@ -2,8 +2,8 @@
      [class.is-required]="bfRequired"
      [class.is-disabled]="bfDisabled"
      [class.is-error]="status === 'error'"
-     [class.is-pristine]="status === 'pristine'"
-     [class.is-dirty]="status === 'dirty'"
+     [class.is-pristine]="isPristine"
+     [class.is-dirty]="!isPristine"
      [class.is-focus]="isFocus"
      [class.horizontalLayoutClass]="false">
 
@@ -38,6 +38,7 @@
             [required]="bfRequired"
             [minlength]="bfMinlength"
             [maxlength]="bfMaxlength"
+            [pattern]="bfPattern"
 
             (focusin)="isFocus=true"
             (focusout)="isFocus=false"
@@ -45,3 +46,13 @@
   </textarea>
 
 </div>
+
+<!--<div class="col-12" *ngIf="!!ngInputRef" style="font-family: monospace;">-->
+<!--  FromControl (internal input):<br>-->
+<!--  <div class="marL10">- ngInputRef.value: <b>{{ngInputRef.value | json}}</b></div>-->
+<!--  <div class="marL10">- ngInputRef.valid: <b [style.color]="ngInputRef.valid ? '#28a745': '#dc3545'">{{ngInputRef.valid | json}}</b></div>-->
+<!--  <div class="marL10">- ngInputRef.pristine: <b>{{ngInputRef.pristine | json}}</b></div>-->
+<!--  <div class="marL10">- ngInputRef.errors: <b>{{ngInputRef.errors | json}}</b></div>-->
+<!--</div>-->
+<!--<hr>-->
+

@@ -74,7 +74,7 @@ export class BfInputValidatorsDemoComponent implements OnInit, AfterViewInit {
   public upComp = () => {
     this.valCompCode = `<bf-input #bfInputRef="ngModel"`;
     this.valCompCode += this.bsStr + `[(ngModel)]="myVariable"`;
-    if (this.valEx.hasErrOnPristine)  { this.valCompCode += this.bsStr + `bfErrorOnPristine="true"`; }
+    if (this.valEx.hasErrOnPristine)  { this.valCompCode += this.bsStr + `[bfErrorOnPristine]="true"`; }
     if (this.valEx.isDisabled)        { this.customCompCode += this.bsStr + `[bfDisabled]="true"`; }
     if (this.valEx.errorPos)          { this.valCompCode += this.bsStr + `bfErrorPos="${this.valEx.errorPos}"`; }
     if (this.valEx.inputType !== 'text') { this.customCompCode += this.bsStr + `bfType="${this.valEx.inputType}"`; }

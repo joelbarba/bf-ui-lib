@@ -229,6 +229,7 @@ export const BfInputDoc = {
 [bfMaxlength]       : Max number of chars. Built in validator "maxlength". Null means no max. It blocks input if limit.
 [bfPattern]         : Regex validator. Built in validator "pattern". Null means no validation.
 [bfValidType]       : Predefined validator patterns. It overrides bfPattern. Values = [integer, number, decimal, email]
+[bfValidIf]         : Boolean expression to determine the input validity
 [bfValidator]       : Callback function called every time the internal ngModel validates its value. Parameter = current value of the model.
                       It should return null (valid) or error object (invalid).
 [bfErrorOnPristine] : If true, errors will be shown in pristine state too (by default pristine shows as valid always).

@@ -24,9 +24,6 @@
   <pre>{{api}}</pre>
 </div>
 
-<bf-autocomplete [(ngModel)]="stringSelected" [bfMinLength]="123">
-</bf-autocomplete>
-
 <!--bf-autocomplete Customization-->
 <div class="whiteBg">
   <div class="row">
@@ -44,7 +41,6 @@
                          [bfTooltipPos]="(compConf.hasLabel && compConf.tooltipPos || 'top')"
                          [bfTooltipBody]="compConf.hasLabel && compConf.tooltipBody"
                          [bfValidType]="compConf.validType"
-                         [bfMinLength]="123"
         >
         </bf-autocomplete>
         <span style="margin-bottom: 5px;">ngModel: <bf-input [(ngModel)]="stringSelected"></bf-input></span>
