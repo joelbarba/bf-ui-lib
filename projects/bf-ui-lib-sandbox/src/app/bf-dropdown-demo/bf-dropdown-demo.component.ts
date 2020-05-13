@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {BfTranslateService} from '../translate.service';
+import {BfGrowlService} from "../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service";
 
 @Component({
   selector: 'app-bf-dropdown-demo',
@@ -63,6 +64,8 @@ export class BfDropdownDemoComponent implements OnInit {
   public selObj7;
   public selObj8;
   public selObj9;
+  public selObj10;
+  public loadingPromise;
 
   public instance2 = `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList" bfSelect="username" bfRender="email">
 </bf-dropdown>`;
@@ -113,13 +116,13 @@ public extCtrl$ = new Subject();
 `;
   public bsStr = `
              `;
-  public customDropdownCode = `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`;
+  public code = `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`;
   public isViewOn = true;
   public res = ``;
-  public selObj10;
-  public compConf = {
+  public conf = {
     isRequired: false,
     isDisabled: false, disabledTip: 'view.tooltip.message',
+    isLoading: false, isLoadingWithPromise: false, bfLoadingPromise: null,
     isErrorOnPristine: false,
     hasSelect: false,  selectField: 'username',
     hasRender: false,  hasRenderFn: false, renderExp: `$$$ $item.id + ' - ' + $item.username`,
@@ -134,8 +137,8 @@ public extCtrl$ = new Subject();
   public compSelFields = [{id: 'id'}, {id: 'username'}, {id: 'email'}, {id: 'first_name'}, {id: 'last_name'}];
   public switchList = () => {
     this.dList = this.myList3.dCopy().map(el => {
-      if (!this.compConf.hasImages) { delete el.img; }
-      if (!this.compConf.hasIcons)  { delete el.icon; }
+      if (!this.conf.hasImages) { delete el.img; }
+      if (!this.conf.hasIcons)  { delete el.icon; }
       return el;
     });
     if (!!this.selObj10) { this.selObj10 = this.dList.getById(this.selObj10.id); }
@@ -144,79 +147,93 @@ public extCtrl$ = new Subject();
       this.upComp();
       this.customExLinked = true;
     });
-  }
+  };
+
+  public loadWithPromise = () => {
+    this.conf.isLoading = false;
+    this.conf.isLoadingWithPromise = true;
+    this.conf.bfLoadingPromise = new Promise(resolve => setTimeout(resolve, 4000));
+    this.growl.success('4 second Promise set as bfLoading');
+  };
+
   public upComp = () => {
-    this.customDropdownCode = `<bf-dropdown `;
+    if (this.conf.isLoading) { this.conf.isLoadingWithPromise = false; }
+
+
+    this.code = `<bf-dropdown `;
     let compClasses = '';
-    if (this.compConf.hasFullWidth) { compClasses = 'full-width'; }
-    // if (this.compConf.hasSquash) {
+    if (this.conf.hasFullWidth) { compClasses = 'full-width'; }
+    // if (this.conf.hasSquash) {
     //   if (!!compClasses) { compClasses += ' '; }
     //   compClasses += 'squash';
     // }
     if (!!compClasses) {
-      this.customDropdownCode += `class="${compClasses}"` + this.bsStr;
+      this.code += `class="${compClasses}"` + this.bsStr;
     }
-    this.customDropdownCode += `[(ngModel)]="selObj"` + this.bsStr;
-    // this.customDropdownCode += `(ngModelChange)="doSomething($event)"` + this.bsStr;
-    this.customDropdownCode += `[bfList]="myList"`;
+    this.code += `[(ngModel)]="selObj"` + this.bsStr;
+    // this.code += `(ngModelChange)="doSomething($event)"` + this.bsStr;
+    this.code += `[bfList]="myList"`;
 
-    if (this.compConf.isRequired) {
-      this.customDropdownCode += this.bsStr + `[bfRequired]="true"`;
+    if (this.conf.isRequired) {
+      this.code += this.bsStr + `[bfRequired]="true"`;
     }
-    if (this.compConf.isDisabled) {
-      this.customDropdownCode += this.bsStr + `[bfDisabled]="true"`;
-    }
-
-    if (this.compConf.hasLabel) {
-      this.customDropdownCode += this.bsStr + `bfLabel="${this.compConf.labelText}"`;
+    if (this.conf.isDisabled) {
+      this.code += this.bsStr + `[bfDisabled]="true"`;
     }
 
-    if (this.compConf.hasSelect && !!this.compConf.selectField) {
-      this.customDropdownCode += this.bsStr + `bfSelect="${this.compConf.selectField}"`;
+    if (this.conf.hasLabel) {
+      this.code += this.bsStr + `bfLabel="${this.conf.labelText}"`;
     }
 
-    if (this.compConf.hasRender) {
-      this.customDropdownCode += this.bsStr + `bfRender="${this.compConf.renderExp}"`;
+    if (this.conf.hasSelect && !!this.conf.selectField) {
+      this.code += this.bsStr + `bfSelect="${this.conf.selectField}"`;
+    }
+
+    if (this.conf.hasRender) {
+      this.code += this.bsStr + `bfRender="${this.conf.renderExp}"`;
       this.customExLinked = false;
       setTimeout(() => { this.customExLinked = true; });
     }
-    if (this.compConf.hasRenderFn) {
-      this.customDropdownCode += this.bsStr + `[bfRenderFn]="renderFn"`;
+    if (this.conf.hasRenderFn) {
+      this.code += this.bsStr + `[bfRenderFn]="renderFn"`;
       this.customExLinked = false;
       setTimeout(() => { this.customExLinked = true; });
     }
 
-    if (this.compConf.hasTooltip) {
-      this.customDropdownCode += this.bsStr + `bfTooltip="${this.compConf.tooltipText}"`;
-      if (!!this.compConf.tooltipPos) {
-        this.customDropdownCode += this.bsStr + `bfTooltipPos="${this.compConf.tooltipPos}"`;
+    if (this.conf.hasTooltip) {
+      this.code += this.bsStr + `bfTooltip="${this.conf.tooltipText}"`;
+      if (!!this.conf.tooltipPos) {
+        this.code += this.bsStr + `bfTooltipPos="${this.conf.tooltipPos}"`;
       }
-      if (!!this.compConf.tooltipBody) {
-        this.customDropdownCode += this.bsStr + `bfTooltipBody="${this.compConf.tooltipBody}"`;
+      if (!!this.conf.tooltipBody) {
+        this.code += this.bsStr + `bfTooltipBody="${this.conf.tooltipBody}"`;
       }
     }
 
-    if (this.compConf.isDisabled) {
-      this.customDropdownCode += this.bsStr + `[bfDisabled]="true"`;
-      if (!!this.compConf.disabledTip) { this.customDropdownCode += this.bsStr + `bfDisabledTip="${this.compConf.disabledTip}"`; }
+    if (this.conf.isDisabled) {
+      this.code += this.bsStr + `[bfDisabled]="true"`;
+      if (!!this.conf.disabledTip) { this.code += this.bsStr + `bfDisabledTip="${this.conf.disabledTip}"`; }
     }
+    this.code += (`>` + this.brStr + `</bf-dropdown>`);
 
 
+  };
 
-    this.customDropdownCode += (`>` + this.brStr + `</bf-dropdown>`);
-  }
   public mockAutoSelect = () => {
     this.selObj10 = {...this.myList.getById(13)};
-  }
+  };
 
   public rebuildView = () => {
     this.isViewOn = false;
     setTimeout(() => this.isViewOn = true);
-  }
+  };
 
 
 
-  constructor(private bfTranslate: BfTranslateService) {
+  constructor(
+    private bfTranslate: BfTranslateService,
+    public growl: BfGrowlService,
+  ) {
     // Make the list without "img" and "icon" fields
     this.myList = this.myList3.dCopy().map(el => {
       delete el.img;

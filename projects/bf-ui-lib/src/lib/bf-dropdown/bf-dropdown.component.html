@@ -29,7 +29,7 @@
              (focusin)="expandList()"
              (focusout)="collapseList()">
 
-      <img *ngIf="!!bfModel?.$img" class="input-image" [class.fade]="isExpanded" [src]="bfModel?.$img">
+      <img *ngIf="!!bfModel?.$img" class="input-image" [class.fade]="isExpanded" [src]="bfModel?.$img" [alt]="bfModel?.$img">
 
       <span *ngIf="bfModel?.$icon && !bfModel?.$img" class="input-icon" [class.fade]="isExpanded"
             [ngClass]="bfModel?.$icon">
@@ -37,7 +37,9 @@
 
       <div class="input-group-append" (click)="!bfDisabled && onInputBtnClick()">
         <button class="btn btn-outline-secondary" [disabled]="bfDisabled ? 'true' : ''">
-          <span class="icon-arrow-down22"></span>
+          <span [hidden]="isLoading" class="icon-arrow-down22"></span>
+          <!--<span [hidden]="!isLoading" class="icon-loop32 loading"></span>-->
+          <span [hidden]="!isLoading" class="loading"></span>
         </button>
       </div>
     </div>
@@ -47,7 +49,7 @@
            [class.selected]="bfModel === item"
            [hidden]="!item.$isMatch"
            (mousedown)="selectItem(item)">
-        <img *ngIf="!!item?.$img"  class="option-row-image" [src]="item?.$img">
+        <img *ngIf="!!item?.$img"  class="option-row-image" [src]="item?.$img" [alt]="item?.$img">
         <span *ngIf="!!item?.$icon" class="option-row-icon" [ngClass]="item?.$icon"></span>
         <span>{{item.$renderedText}}</span>
 <!--        {{option.$isMatch}} - {{option.$renderedText}}-->

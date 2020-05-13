@@ -184,6 +184,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfEmptyValue: any = null;  // By default the empty option sets a "null" value to the ngModel.
                                       // You can add a custom value here to be set when the empty option is selected
   @Input() bfErrorOnPristine = false; // If true, errors will be shown in initial state too (by default pristine shows as valid always)
+  @Input() bfLoading: boolean | Promise<any>;  // To display the loading animation on the expand button
 
   @Input() extCtrl$: Observable<any>; // To trigger actions manually from an external observable (subject)
 
@@ -205,6 +206,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   public isInvalid = false;   // If the model holds an invalid option
   public isExpanded = false;  // Whether the list is shown (true) or hidden
   public isFocus = false;     // Whether the input is focused
+  public isLoading = false;   // Whether to show the loading spinner animation on the expand button
 
   // Empty option item (in extList)
   public emptyItem = {
@@ -216,11 +218,12 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     $icon: null,
   };
 
-  public bfLabelTrans$: Observable<string> = of('');         // Translated text for the label
-  public bfTooltipTrans$: Observable<string> = of('');       // Translated text for the tooltip of the label
-  public bfDisabledTipTrans$: Observable<string> = of('');   // Translated text for the disabled tooltip
+  public bfLabelTrans$ = of('');         // Translated text for the label
+  public bfTooltipTrans$ = of('');       // Translated text for the tooltip of the label
+  public bfDisabledTipTrans$ = of('');   // Translated text for the disabled tooltip
   public langSubs;  // Subscription to language changes
   public ctrlSubs;  // Subscription to external control observable
+  public lastLoadPromise; // Reference to avoid bfLoading promise overlap
 
   @ViewChild('dropdownInput', { static: false }) elInput: ElementRef<HTMLInputElement>;
 
@@ -278,6 +281,22 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     if (changes.hasOwnProperty('bfTooltip'))      { this.bfTooltipTrans$ = this.translate.getLabel$(this.bfTooltip); }
     if (changes.hasOwnProperty('bfDisabledTip'))  { this.bfDisabledTipTrans$ = this.translate.getLabel$(this.bfDisabledTip); }
     // if (changes.hasOwnProperty('bfPlaceholder'))  { this.bfPlaceholderTrans$ = this.translate.getLabel$(this.bfPlaceholder); }
+
+
+    // bfLoading can come in as a 'boolean' or a promise. In this case, we'll automatically manage isLoading
+    if (changes.hasOwnProperty('bfLoading')) {
+      this.isLoading = false;
+      const bfLoading = changes.bfLoading.currentValue;
+      if (bfLoading && typeof bfLoading === 'boolean') { this.isLoading = bfLoading; }
+      if (bfLoading && typeof bfLoading === 'object' && typeof bfLoading.then === 'function') {
+        this.isLoading = true;
+        this.lastLoadPromise = bfLoading;
+        bfLoading.then(() => {
+          if (this.lastLoadPromise === bfLoading) { this.isLoading = false; }
+        }, () => {});
+      }
+    }
+
 
   }
 

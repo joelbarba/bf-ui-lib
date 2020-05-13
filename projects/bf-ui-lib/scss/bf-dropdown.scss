@@ -70,12 +70,22 @@ bf-dropdown {
           color: $white;
           border-left: none;
           font-size: 14px;
-          padding: 0;
-          min-width: 38px;
+          padding: 0 0 0 2px;
+          min-width: 36px;
           display: flex;
           align-items: center;
-          justify-content: space-around;
-          div { padding: 0 7.5px; }
+          justify-content: center;
+          span.loading {
+            animation: bfSpinAround 500ms infinite linear;
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid transparent;
+            border-top-color: $white;
+            border-left-color: $white;
+            //border-bottom: none; border-right: none;
+            border-radius: 100%;
+          }
           &:focus { box-shadow: none; }
           &:active { box-shadow: none; }
         }
@@ -94,6 +104,10 @@ bf-dropdown {
           color: $dropdown-valid-color;
           border-top-color: $optional-color;
           border-right-color: $optional-color;
+          span.loading {
+            border-top-color: $focused-color;
+            border-left-color: $focused-color;
+          }
         }
         .list-container { display: block; }
       }
@@ -151,6 +165,10 @@ bf-dropdown {
         .btn.btn-outline-secondary {
           background: $color;
           border-color: $color;
+          //span.loading {
+          //  border-top-color: $color;
+          //  border-left-color: $color;
+          //}
         }
         &.is-expanded .btn.btn-outline-secondary {
           background: $white;
