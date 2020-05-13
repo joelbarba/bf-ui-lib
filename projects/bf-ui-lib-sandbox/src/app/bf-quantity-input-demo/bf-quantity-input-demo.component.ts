@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class BfQuantityInputDemoComponent implements OnInit {
 
   public myVar: any = 15;
+  public myVar2 = 3;
   public lastMod = new Date();
   public name = BfQuantityInputDoc.name;
   public desc = BfQuantityInputDoc.desc;
@@ -25,29 +26,29 @@ export class BfQuantityInputDemoComponent implements OnInit {
       value: 0,
       name: 'custom',
       disable: false,
-      minValue: null,
-      maxValue: null,
+      minValue: 0,
+      maxValue: 20,
       mode: null
     },
     componentView: `<bf-quantity-input></bf-quantity-input>`,
     buildComponentView: () => {
-      this.custom.exLinked = false;
+      // this.custom.exLinked = false;
       const obj = this.custom.object;
       const config = this.custom.config;
       this.custom.componentView = `<bf-quantity-input
-      [(ngModel)]="value"
-      [name]="${obj.name}"
-      [bfDisabled]="${obj.disable}"` +
-      (config.hasMinValue ? `
-      [bfMinVal]="${obj.minValue}"` : '') +
-      (config.hasMaxValue ? `
-      [bfMaxVal]="${obj.maxValue}"` : '') +
-      (config.hasMode ? `
-      class="${obj.mode}"` : '') + '>' + `
+          [(ngModel)]="value"
+          [bfDisabled]="${obj.disable}"` +
+          (config.hasMinValue ? `
+          [bfMinVal]="${obj.minValue}"` : '') +
+          (config.hasMaxValue ? `
+          [bfMaxVal]="${obj.maxValue}"` : '') +
+          (config.hasMode ? `
+          class="${obj.mode}"` : '') + '>' + `
 </bf-quantity-input>`;
-      setTimeout(() => {
-        this.custom.exLinked = true;
-      }, 10);
+
+      // setTimeout(() => {
+      //   this.custom.exLinked = true;
+      // }, 10);
     }
   };
 
@@ -102,6 +103,9 @@ $quantity-input-blocked-btn: darken($primary_color, 8%) !default;`;
 
   setLastMod = () => this.lastMod = new Date();
 
+  myFunc($event) {
+    console.log('change emited', $event);
+  }
 }
 
 export const BfQuantityInputDoc = {

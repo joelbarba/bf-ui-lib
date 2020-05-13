@@ -9,37 +9,53 @@
     <pre>{{api}}</pre>
   </div>
 
+  <!--<div style="max-width: 300px;">-->
+  <!--  <bf-quantity-input [(ngModel)]="myVar2" (ngModelChange)="myFunc($event)"-->
+  <!--                     [bfMinVal]="5" [bfMaxVal]="20">-->
+  <!--  </bf-quantity-input>-->
+  <!--</div>-->
+
+  <!--<hr>-->
+  <!--<bf-btn bfType="save" bfText="Take -1" (bfClick)="myVar2=myVar2-1"></bf-btn>-->
+  <!--  myVar={{myVar2}}-->
+  <!--<bf-btn bfType="save" bfText="Add +1" (bfClick)="myVar2=myVar2+1"></bf-btn>-->
+  <!--<bf-btn bfType="save" bfText="Set decimal 3.14159" (bfClick)="myVar2=3.14159"></bf-btn>-->
+
 
   <div>
     <form #myForm="ngForm">
       <p>lastMod = {{lastMod}}</p>
-      <bf-input [(ngModel)]="myVar" name="322sd89d8s9" style="display: inline-block"></bf-input>
+      <bf-input [(ngModel)]="myVar" name="322sd89d8s9" style="display: inline-block" class="marR15"></bf-input>
       <bf-quantity-input [(ngModel)]="myVar" #bfQuantityRef="ngModel"
                          (ngModelChange)="setLastMod()"
                          style="display: inline-block"
                          name="d8s87fsd89" bfMinVal="10">
       </bf-quantity-input>
 
-      <bf-btn bfText="Set value = 2" (bfClick)="myVar = 2" bfType="save"></bf-btn>
+      <bf-btn class="marL15" bfText="Set value = 2" (bfClick)="myVar = 2" bfType="save"></bf-btn>
       <bf-btn bfText="Set string" (bfClick)="myVar = 'hey'" bfType="save"></bf-btn>
       <bf-btn bfText="Set object" (bfClick)="myVar = { name: 'hey' }" bfType="save"></bf-btn>
+      <bf-btn bfType="save" bfText="Set decimal 3.14159" (bfClick)="myVar=3.14159"></bf-btn>
+      <bf-btn bfText="-1" (bfClick)="myVar=myVar-1"></bf-btn>
+      <bf-btn bfText="+1" (bfClick)="myVar=myVar+1"></bf-btn>
+      <span class="marL15">myVar={{myVar}}</span>
 
       <div *ngIf="!!bfQuantityRef">
         FromControl:
         value={{bfQuantityRef.value}}
-        , valid={{bfQuantityRef.valid}}
-        , invalid={{bfQuantityRef.invalid}}
-        , errors={{bfQuantityRef.errors | json}}
-        , pristine={{bfQuantityRef.pristine}}
+        ,  valid={{bfQuantityRef.valid}}
+        ,  invalid={{bfQuantityRef.invalid}}
+        ,  errors={{bfQuantityRef.errors | json}}
+        ,  pristine={{bfQuantityRef.pristine}}
       </div>
 
       <div *ngIf="!!myForm">
         ngForm:
         valid={{myForm.valid}}
-        pristine={{myForm.pristine}}
-        dirty={{myForm.dirty}}
-        value={{myForm.value | json}},
-        errors={{bfQuantityRef.errors | json}}
+        ,  pristine={{myForm.pristine}}
+        ,  dirty={{myForm.dirty}}
+        ,  value={{myForm.value | json}},
+        ,  errors={{bfQuantityRef.errors | json}}
       </div>
     </form>
   </div>
@@ -50,7 +66,7 @@
     <div class="row">
       <div class="col-4 marB15">
         <h5 class="marB25">bfQuantityInput customization:</h5>
-        <div class="padB30" *ngIf="custom.exLinked">
+        <div class="padB30">
           <bf-quantity-input
             [(ngModel)]="custom.object.value"
             [name]="custom.object.name"
@@ -177,6 +193,3 @@
     </div>
   </div>
 </div>
-
-
-

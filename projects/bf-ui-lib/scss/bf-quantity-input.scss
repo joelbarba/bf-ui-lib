@@ -7,30 +7,24 @@ $quantity-input-blocked-btn: darken($primary_color, 8%) !default;
 
 bf-quantity-input {
 
-  &.large {
-    .quantity-controller {
-      height: 40px;
-      div.quantity-controller-box {
-        padding: 14px 0;
-      }
+  &.large .quantity-controller {
+    height: 40px;
+    div.quantity-controller-box {
+      padding: 14px 0;
     }
   }
 
-  &.small {
-    .quantity-controller {
-      height: 28px;
-      div.quantity-controller-box {
-        padding: 8px 0;
-      }
+  &.small .quantity-controller {
+    height: 28px;
+    div.quantity-controller-box {
+      padding: 8px 0;
     }
   }
 
-  &.button-fit {
-    .quantity-controller {
-      height: 35px;
-      div.quantity-controller-box {
-        padding: 10px 0;
-      }
+  &.button-fit .quantity-controller {
+    height: 35px;
+    div.quantity-controller-box {
+      padding: 10px 0;
     }
   }
 
@@ -72,21 +66,22 @@ bf-quantity-input {
     div.quantity-controller-center {
       height:100%;
       width:40%;
-      input {
+      input.quantity-input {
         height:100%;
         width:100%;
         text-align: center;
         border: 2px solid $quantity-input-border;
         border-radius: 0;
-        border-left:0 none;
-        border-right:0 none;
+        border-left: none;
+        border-right: none;
+        &:focus {
+          outline: none;
+          border: 2px $focused-color solid;
+          margin-right: -4px;
+          //border-top: 2px $focused-color solid;
+          //border-bottom: 2px $focused-color solid;
+        }
       }
-    }
-
-    input[type=number]::-webkit-inner-spin-button,
-    input[type=number]::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
     }
 
   }
