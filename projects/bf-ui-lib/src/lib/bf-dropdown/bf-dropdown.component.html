@@ -15,6 +15,18 @@
     <span *ngIf="bfRequired" class="asterisk">*</span>
   </label>
 
+  <!--Error Message-->
+  <span *ngIf="isInvalid && (!ngControl.pristine || bfErrorOnPristine)"
+        class="bf-dropdown-error-text"
+        [class.pull-up]="!bfLabel"
+        [class.default]="errorPosition === 'default'"
+        [class.top-right]="errorPosition === 'top-right'"
+        [class.bottom-left]="errorPosition === 'bottom-left'"
+        [class.bottom-right]="errorPosition === 'bottom-right'">
+    {{errorTextTrans$ | async}}
+  </span>
+
+
   <div class="bf-dropdown" [class.is-expanded]="isExpanded">
     <div class="input-group"
          [disableTooltip]="!bfDisabled || !bfDisabledTip"

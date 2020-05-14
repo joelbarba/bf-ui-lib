@@ -82,10 +82,10 @@ bf-input {
         &.none { display: none; } // Hide error text
 
         &.default { // Default error position:
-          @media (min-width: 767px) { right: 5px; padding-top: 2px; } // Default > xs = Top right
+          @media (min-width: 767px) { right: 5px; padding-top: 3px; } // Default > xs = Top right
           @media (max-width: 768px) { bottom: -20px; right: 5px; }    // Default xs = Bottom right
         }
-        &.top-right { right: 5px; padding-top: 2px; }
+        &.top-right { right: 5px; padding-top: 3px; }
         &.bottom-left  { bottom: -20px; left: 5px; }
         &.bottom-right { bottom: -20px; right: 5px; }
       }

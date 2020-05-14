@@ -2,7 +2,7 @@
 <hr/>
 <p>{{desc}}</p>
 <p>This is a simplified version of the bfDropdown from AngularJS (for now). It allows to select 1 value from a list of values.
-For other options, check components bf-autoselector, bf-multiselector, ...</p>
+For other options, check components bf-autocomplete, bf-multi-selector, ...</p>
 
 <h5 class="mt-4">Parameters:</h5>
 <div *ngIf="false" class="col-12"><pre>{{api}}</pre></div>
@@ -28,14 +28,14 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
 
 
 <!--Button Customization-->
-<div *ngIf="isViewOn" class="whiteBg">
+<div *ngIf="true" class="whiteBg">
   <div class="row">
     <div class="col-5 marB15">
       <h5 class="marB25">Dropdown Customization:</h5>
 
-      <div *ngIf="customExLinked">
-        <bf-dropdown [class.full-width]="conf.hasFullWidth"
-                     [(ngModel)]="selObj10"
+      <div *ngIf="isLinked">
+        <bf-dropdown [class.full-width]="conf.hasFullWidth" style="width: 400px;"
+                     [(ngModel)]="selObj10" #bfDropdownRef="ngModel"
                      [bfList]="dList"
                      [bfSelect]="(conf.hasSelect && !!conf.selectField) ? conf.selectField : null"
                      [bfRender]="(conf.hasRender ? conf.renderExp : null)"
@@ -53,10 +53,35 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
                      [bfTooltip]="(conf.hasLabel && conf.hasTooltip ? conf.tooltipText : null)"
                      [bfTooltipPos]="(conf.hasLabel && conf.tooltipPos || 'top')"
                      [bfTooltipBody]="conf.hasLabel && conf.tooltipBody"
+                     [bfErrorText]="conf.hasErrorText ? conf.bfErrorText : ''"
+                     [bfErrorPos]="conf.errorPos"
         >
         </bf-dropdown>
-                     <!--[bfLoading]="conf.isLoading"-->
+        <!--<div class="col-12 padL30" *ngIf="!!innerInput" style="font-family: monospace;">-->
+        <!--  FromControl (internal input):<br>-->
+        <!--  <div class="marL10">- inputCtrl.value: <b>{{innerInput.value | json}}</b></div>-->
+        <!--  <div class="marL10">- inputCtrl.valid: <b [style.color]="innerInput.valid ? '#28a745': '#dc3545'">{{innerInput.valid | json}}</b></div>-->
+        <!--  <div class="marL10">- inputCtrl.pristine: <b>{{innerInput.pristine | json}}</b></div>-->
+        <!--  <div class="marL10">- inputCtrl.errors: <b>{{innerInput.errors | json}}</b></div>-->
+        <!--  <hr>-->
+        <!--</div>-->
+
+        <div class="col-12 padL30" *ngIf="!!bfDropdownRef" style="font-family: monospace;">
+          FromControl (ngModel):<br>
+          <div class="marL10">- bfInputRef.value: <b>{{bfDropdownRef.value | json}}</b></div>
+          <div class="marL10">- bfInputRef.valid: <b [style.color]="bfDropdownRef.valid ? '#28a745': '#dc3545'">{{bfDropdownRef.valid | json}}</b></div>
+          <div class="marL10">- bfInputRef.pristine: <b>{{bfDropdownRef.pristine | json}}</b></div>
+          <div class="marL10">- bfInputRef.errors: <b>{{bfDropdownRef.errors | json}}</b></div>
+        </div>
       </div>
+
+      <div class="padT30">
+        <bf-btn bfIcon="icon-loop32"  bfText="Relink" (bfClick)="reLink()"></bf-btn>
+        <bf-btn bfType="save" bfText="val=Item 13" (bfClick)="mockAutoSelect()"></bf-btn>
+        <bf-btn bfType="save" bfText="val=null" (bfClick)="selObj10=null"></bf-btn>
+        <bf-btn bfType="save" bfText="val='random'" (bfClick)="selObj10='random'"></bf-btn>
+      </div>
+
       <pre class="padT10">Selection = {{selObj10 | json}}</pre>
       <div>
         <div class="code-box pad15">
@@ -68,110 +93,120 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
     <div class="col-7">
 
       <div class="row marT15">
-        <bf-checkbox class="col-3 block padT5" bfLabel="bfRequired" [(ngModel)]="conf.isRequired" (ngModelChange)="upComp()"></bf-checkbox>
+        <bf-checkbox class="col-2 block padT5" bfLabel="bfRequired" [(ngModel)]="conf.isRequired" (ngModelChange)="upComp()"></bf-checkbox>
         <bf-checkbox class="col-3 block padT5" bfLabel="bfErrorOnPristine" [(ngModel)]="conf.isErrorOnPristine" (ngModelChange)="upComp()"></bf-checkbox>
-        <bf-checkbox class="col-3 block padT5" bfLabel="bfDisabled" [(ngModel)]="conf.isDisabled" (ngModelChange)="upComp()"></bf-checkbox>
-        <div class="col-6 offset-6" *ngIf="conf.isDisabled">
-          <bf-input class="flat" [(ngModel)]="conf.disabledTip" bfPlaceholder="This is disabled because..." (ngModelChange)="upComp()"></bf-input>
-        </div>
+        <bf-checkbox class="col-2 block padT5" bfLabel="bfDisabled" [(ngModel)]="conf.isDisabled" (ngModelChange)="upComp()"></bf-checkbox>
+        <bf-input class="col-5 flat" [bfDisabled]="!conf.isDisabled" [(ngModel)]="conf.disabledTip" bfPlaceholder="[bfDisabledTip]: This is disabled because..." (ngModelChange)="upComp()"></bf-input>
       </div>
 
       <div class="row marT15">
+
+        <!--bfLabel-->
         <bf-checkbox class="col-2 block padT5" bfLabel="bfLabel" [(ngModel)]="conf.hasLabel" (ngModelChange)="upComp()"></bf-checkbox>
         <bf-input class="col-4" style="margin-bottom: -5px;" [(ngModel)]="conf.labelText" (ngModelChange)="upComp()" [bfDisabled]="!conf.hasLabel"></bf-input>
 
+        <!--bfLoading-->
         <bf-checkbox class="col-3 block padT5" bfLabel="bfLoading" [(ngModel)]="conf.isLoading" (ngModelChange)="upComp()"></bf-checkbox>
         <bf-btn bfType="save" bfText="bfLoading (promise)" (bfClick)="loadWithPromise()"></bf-btn>
-        <!--<bf-checkbox class="col-3 block padT5" bfLabel="bfLoading (with promise)"-->
-        <!--             [(ngModel)]="conf.isLoadingWithPromise" (ngModelChange)="upComp()"></bf-checkbox>-->
 
-        <div class="offset-2 col-10" *ngIf="conf.hasLabel">
+        <!--bfTooltip-->
+        <div class="offset-2 col-10">
           <div class="row">
-            <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="conf.hasTooltip"  (ngModelChange)="upComp()" bfLabel="bfTooltip"></bf-checkbox> </div>
-            <div class="col-9" *ngIf="conf.hasTooltip">
-              <bf-input [(ngModel)]="conf.tooltipText" (ngModelChange)="upComp()"></bf-input>
-            </div>
-            <div class="col-3" *ngIf="conf.hasTooltip">
-              <bf-checkbox [(ngModel)]="conf.tooltipBody" bfLabel="bfTooltipBody" (ngModelChange)="upComp()"></bf-checkbox>
-            </div>
-            <div class="col-9" *ngIf="conf.hasTooltip">
+            <bf-checkbox class="col-3 padT5" bfLabel="bfTooltip" [bfDisabled]="!conf.hasLabel" [(ngModel)]="conf.hasTooltip"  (ngModelChange)="upComp()"></bf-checkbox>
+            <bf-input class="col-9" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipText" (ngModelChange)="upComp()"></bf-input>
+            <bf-checkbox class="col-3" bfLabel="bfTooltipBody" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipBody" (ngModelChange)="upComp()"></bf-checkbox>
+            <div class="col-9">
               <bf-label class="marR20" bfText="bfTooltipPos"></bf-label>
-              <bf-radio class="marR15" [(ngModel)]="conf.tooltipPos" bfLabel="top"     bfValue="top"    bfRadioGroup="tooltipPos" (ngModelChange)="upComp()"></bf-radio>
-              <bf-radio class="marR15" [(ngModel)]="conf.tooltipPos" bfLabel="left"    bfValue="left"   bfRadioGroup="tooltipPos" (ngModelChange)="upComp()"></bf-radio>
-              <bf-radio class="marR15" [(ngModel)]="conf.tooltipPos" bfLabel="right"   bfValue="right"  bfRadioGroup="tooltipPos" (ngModelChange)="upComp()"></bf-radio>
-              <bf-radio class="marR15" [(ngModel)]="conf.tooltipPos" bfLabel="bottom"  bfValue="bottom" bfRadioGroup="tooltipPos" (ngModelChange)="upComp()"></bf-radio>
+              <bf-radio class="marR15" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" bfLabel="top"     bfValue="top"    bfRadioGroup="tooltipPos" (ngModelChange)="upComp()"></bf-radio>
+              <bf-radio class="marR15" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" bfLabel="left"    bfValue="left"   bfRadioGroup="tooltipPos" (ngModelChange)="upComp()"></bf-radio>
+              <bf-radio class="marR15" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" bfLabel="right"   bfValue="right"  bfRadioGroup="tooltipPos" (ngModelChange)="upComp()"></bf-radio>
+              <bf-radio class="marR15" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" bfLabel="bottom"  bfValue="bottom" bfRadioGroup="tooltipPos" (ngModelChange)="upComp()"></bf-radio>
             </div>
           </div>
         </div>
 
       </div>
 
-      <div class="row">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="conf.hasSelect" (ngModelChange)="upComp()" bfLabel="bfSelect"></bf-checkbox> </div>
-        <div class="col-10" *ngIf="conf.hasSelect">
-          <bf-dropdown [(ngModel)]="conf.selectField" (ngModelChange)="upComp()" [bfList]="compSelFields" bfRender="id" bfSelect="id" [bfRequired]="true"> </bf-dropdown>
-        </div>
+      <!--bfSelect-->
+      <div class="row marT15">
+        <bf-checkbox class="col-2 padT5" bfLabel="bfSelect" [(ngModel)]="conf.hasSelect" (ngModelChange)="upComp()" bfTooltipPos="left" bfTooltip="The field of the object to be set in the ngModel when selected. If empty, the whole object is set to ngModel."></bf-checkbox>
+        <bf-dropdown class="col-10" [bfDisabled]="!conf.hasSelect" [(ngModel)]="conf.selectField" (ngModelChange)="upComp()"
+                     [bfList]="compSelFields" bfRender="id" bfSelect="id" [bfRequired]="true">
+        </bf-dropdown>
       </div>
 
-      <div class="row marT15">
-        <bf-checkbox class="col-2 padT5" bfLabel="bfRender"
-                     [(ngModel)]="conf.hasRender"
-                     (ngModelChange)="conf.hasRenderFn = false; upComp()">
+      <!--bfRender-->
+      <div class="row marT5">
+        <bf-checkbox class="col-2 padT5" bfLabel="bfRender" bfTooltipPos="left" bfTooltip="How to display every item on the list. It can be either a field of the object or a translation label"
+                     [(ngModel)]="conf.hasRender" (ngModelChange)="conf.hasRenderFn = false; upComp()">
         </bf-checkbox>
-        <div class="col-10">
-          <bf-input class="flat" *ngIf="conf.hasRender"
-                    [(ngModel)]="conf.renderExp"
-                    bfPlaceholder="$$$ $item.name + ' - ' + $item.email" (ngModelChange)="upComp()">
-          </bf-input>
+        <bf-input class="col-3 flat" [bfDisabled]="!conf.hasRender" [(ngModel)]="conf.renderExp"
+                  bfPlaceholder="field to display..." (ngModelChange)="upComp()">
+        </bf-input>
+        <div class="col-7 padT5" *ngIf="conf.hasRender && !conf.hasRenderFn">
+          <pre *ngIf="conf.renderExp === 'views.item_number'" style="background: aliceblue; padding: 5px 10px; margin-bottom: 0;">{{renderInfo}}</pre>
+          <pre *ngIf="conf.renderExp !== 'views.item_number'" style="background: aliceblue; padding: 5px 10px; margin-bottom: 0;">bfRender="id", "username", "email", "first_name" ...</pre>
         </div>
 
-        <bf-checkbox class="col-2 padT5" bfLabel="bfRenderFn"
-                     [(ngModel)]="conf.hasRenderFn"
-                     (ngModelChange)="conf.hasRender = false; upComp()">
+        <div class="col-12 padT10"></div>
+
+        <bf-checkbox class="col-2 padT5" bfLabel="bfRenderFn" bfTooltipPos="left" bfTooltip="If bfRender is not enough, use this function to determine how to render every item on the list"
+                     [(ngModel)]="conf.hasRenderFn" (ngModelChange)="conf.hasRender = false; upComp()">
         </bf-checkbox>
         <div class="col-10" *ngIf="conf.hasRenderFn && !conf.hasRender">
           <pre style="background: aliceblue; padding: 5px 10px; margin-bottom: 0;">{{renderFnStr}}</pre>
         </div>
       </div>
 
+      <!--Empty label + Empty Value-->
       <div class="row marT15">
-        <div class="col-2 padT5">
-          <bf-checkbox [(ngModel)]="conf.hasEmptyLabel" (ngModelChange)="upComp()" bfLabel="bfEmptyLabel"></bf-checkbox>
-        </div>
-        <div class="col-4">
-          <bf-input class="flat" [hidden]="!conf.hasEmptyLabel"
-                    [(ngModel)]="conf.customEmptyLabel" (ngModelChange)="upComp()">
-          </bf-input>
-        </div>
+        <bf-checkbox class="col-2 padT5" bfLabel="bfEmptyLabel" bfTooltipPos="left" bfTooltip="To be displayed instead of 'Empty'"
+                     [(ngModel)]="conf.hasEmptyLabel" (ngModelChange)="upComp()">
+        </bf-checkbox>
+        <bf-input class="col-4 flat" [bfDisabled]="!conf.hasEmptyLabel" [(ngModel)]="conf.customEmptyLabel" (ngModelChange)="upComp()"></bf-input>
 
-        <bf-checkbox class="col-2 block padT5" bfLabel="bfEmptyValue" [(ngModel)]="conf.hasEmptyValue" (ngModelChange)="upComp()"></bf-checkbox>
-
-        <div class="col-4">
-          <bf-input class="flat" [hidden]="!conf.hasEmptyValue"
-                    [(ngModel)]="conf.customEmptyValue" (ngModelChange)="upComp()">
-          </bf-input>
-        </div>
-
+        <bf-checkbox class="col-2 block padT5" bfLabel="bfEmptyValue" bfTooltip="Value to be set to ngModel when empty option selected (default=null)"
+                     [(ngModel)]="conf.hasEmptyValue" (ngModelChange)="upComp()">
+        </bf-checkbox>
+        <bf-input class="col-4 flat" [bfDisabled]="!conf.hasEmptyValue" [(ngModel)]="conf.customEmptyValue" (ngModelChange)="upComp()"></bf-input>
       </div>
 
       <div class="row marT15">
-        <bf-checkbox class="col-3 padT5" [(ngModel)]="conf.hasImages" (ngModelChange)="switchList()" bfLabel="Show images"></bf-checkbox>
-        <span class="marT5" [hidden]="!conf.hasImages">To show images just add the property "<b>img</b>" on every object of the array with the url</span>
-     </div>
-      <div class="row">
-        <bf-checkbox class="col-3 padT5" [(ngModel)]="conf.hasIcons" (ngModelChange)="switchList()" bfLabel="Show icons"></bf-checkbox>
-        <span class="marT5" [hidden]="!conf.hasIcons">To show icons just add the property "<b>icon</b>" on every object of the array with the icomoon class</span>
-     </div>
+        <!--bfErrorText-->
+        <bf-checkbox class="col-2 padT10" bfLabel="bfErrorText" [(ngModel)]="conf.hasErrorText" (ngModelChange)="upComp()"></bf-checkbox>
+        <bf-input class="col-4" bfPlaceholder="'none' = displays no text"
+                  [(ngModel)]="conf.bfErrorText" [bfDisabled]="!conf.hasErrorText" (ngModelChange)="upComp()">
+        </bf-input>
+
+        <!--bfErrorPos-->
+        <bf-label class="col-2" bfText="bfErrorPos"></bf-label>
+        <div class="col-4">
+          <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" bfRadioGroup="errPos" bfLabel="default" [bfValue]="null"></bf-radio>
+          <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" bfRadioGroup="errPos" bfLabel="top-right" bfValue="top-right"></bf-radio>
+          <br>
+          <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" bfRadioGroup="errPos" bfLabel="bottom-left" bfValue="bottom-left"></bf-radio>
+          <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" bfRadioGroup="errPos" bfLabel="bottom-right" bfValue="bottom-right"></bf-radio>
+        </div>
+        <!--<bf-dropdown bfLabel="bfErrorPos"-->
+        <!--             [(ngModel)]="valEx.errorPos" [bfList]="valEx.errorPosOpts"-->
+        <!--             bfRender="text" bfSelect="id" (ngModelChange)="upComp2()">-->
+        <!--</bf-dropdown>-->
+
+
+      </div>
+
+      <!--Show Images + Icons-->
+      <div class="row marT15 padT5">
+        <bf-checkbox class="col-2" [(ngModel)]="conf.hasImages" (ngModelChange)="switchList()" bfLabel="Show images"></bf-checkbox>
+        <span class="col-10" [hidden]="!conf.hasImages">To show images just add the property "<b>img</b>" on every object of the array with the url</span>
+      </div>
+      <div class="row marT15 padT5">
+        <bf-checkbox class="col-2" [(ngModel)]="conf.hasIcons" (ngModelChange)="switchList()" bfLabel="Show icons"></bf-checkbox>
+        <span class="col-10" [hidden]="!conf.hasIcons">To show icons just add the property "<b>icon</b>" on every object of the array with the icomoon class</span>
+      </div>
 
       <div class="row marT15">
-        <div class="col-3 padT5">
-          <bf-checkbox [(ngModel)]="conf.hasFullWidth" (ngModelChange)="upComp()" bfLabel="Full Width"></bf-checkbox>
-       </div>
-        <div class="col-9 text-right padT30">
-          <bf-btn bfType="save" bfText="Select Item 13" (bfClick)="mockAutoSelect()"></bf-btn>
-          <bf-btn bfType="save" bfText="Reset Model" (bfClick)="selObj10=null"></bf-btn>
-          <bf-btn bfType="save" bfText="Rebuild" (bfClick)="rebuildView()"></bf-btn>
-        </div>
+        <bf-checkbox class="col-3 padT5" bfLabel="CSS: 'full-width'" [(ngModel)]="conf.hasFullWidth" (ngModelChange)="upComp()"></bf-checkbox>
       </div>
 
     </div>
@@ -192,10 +227,10 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
     <h5>Single and Full Selection Examples</h5>
   </div>
   <div class="col-4 text-right">
-    <bf-btn bfText="Reset Dropdowns" bfType="save" (bfClick)="rebuildView()"></bf-btn>
+    <bf-btn bfText="Reset Dropdowns" bfType="save" (bfClick)="reLink()"></bf-btn>
   </div>
 
-  <div class="col-3" *ngIf="isViewOn">
+  <div class="col-3" *ngIf="isLinked">
 
     <bf-dropdown class="full-width" #dropdown1="ngModel"
                  name="single-sel-test"
@@ -219,7 +254,7 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
   </div>
 
 
-  <div class="col-8" *ngIf="isViewOn">
+  <div class="col-8" *ngIf="isLinked">
     <bf-dropdown class="full-width" #dropdown2="ngModel"
                  [(ngModel)]="selObj6"
                  [bfList]="myList"
@@ -253,7 +288,7 @@ For other options, check components bf-autoselector, bf-multiselector, ...</p>
 
 
 <!--External control-->
-<div *ngIf="isViewOn" class="whiteBg">
+<div *ngIf="isLinked" class="whiteBg">
   <div class="row">
     <div class="col-12 marB5">
       <h5 class="marB25">External Control Example (extCtrl$):</h5>

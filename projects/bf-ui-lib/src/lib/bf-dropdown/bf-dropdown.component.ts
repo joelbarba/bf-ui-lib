@@ -184,6 +184,9 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfEmptyValue: any = null;  // By default the empty option sets a "null" value to the ngModel.
                                       // You can add a custom value here to be set when the empty option is selected
   @Input() bfErrorOnPristine = false; // If true, errors will be shown in initial state too (by default pristine shows as valid always)
+  @Input() bfErrorPos = 'top-right';  // top-right, bottom-left, bottom-right
+  @Input() bfErrorText: string;   // Custom error text (label) to display when invalid value
+
   @Input() bfLoading: boolean | Promise<any>;  // To display the loading animation on the expand button
 
   @Input() extCtrl$: Observable<any>; // To trigger actions manually from an external observable (subject)
@@ -208,6 +211,8 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   public isFocus = false;     // Whether the input is focused
   public isLoading = false;   // Whether to show the loading spinner animation on the expand button
 
+  public errorPosition = 'default';
+
   // Empty option item (in extList)
   public emptyItem = {
     $index: 0,
@@ -221,6 +226,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   public bfLabelTrans$ = of('');         // Translated text for the label
   public bfTooltipTrans$ = of('');       // Translated text for the tooltip of the label
   public bfDisabledTipTrans$ = of('');   // Translated text for the disabled tooltip
+  public errorTextTrans$ = of('test');       // Translated text for the error message
   public langSubs;  // Subscription to language changes
   public ctrlSubs;  // Subscription to external control observable
   public lastLoadPromise; // Reference to avoid bfLoading promise overlap
@@ -281,6 +287,12 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     if (changes.hasOwnProperty('bfTooltip'))      { this.bfTooltipTrans$ = this.translate.getLabel$(this.bfTooltip); }
     if (changes.hasOwnProperty('bfDisabledTip'))  { this.bfDisabledTipTrans$ = this.translate.getLabel$(this.bfDisabledTip); }
     // if (changes.hasOwnProperty('bfPlaceholder'))  { this.bfPlaceholderTrans$ = this.translate.getLabel$(this.bfPlaceholder); }
+
+    if (changes.hasOwnProperty('bfErrorPos') && this.bfErrorPos) { this.errorPosition = this.bfErrorPos; }
+    if (changes.hasOwnProperty('bfErrorText')) {
+      this.errorTextTrans$ = this.translate.getLabel$(this.bfErrorText || 'view.common.invalid_value');
+      if (this.bfErrorText === 'none') { this.errorTextTrans$ = of(''); }
+    }
 
 
     // bfLoading can come in as a 'boolean' or a promise. In this case, we'll automatically manage isLoading

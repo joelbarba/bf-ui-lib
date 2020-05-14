@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {Subject} from 'rxjs';
 import {BfTranslateService} from '../translate.service';
-import {BfGrowlService} from "../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service";
+import {BfGrowlService} from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service';
 
 @Component({
   selector: 'app-bf-dropdown-demo',
@@ -13,6 +13,21 @@ export class BfDropdownDemoComponent implements OnInit {
   public desc = BfDropdownDoc.desc;
   public api = BfDropdownDoc.api;
   public instance = BfDropdownDoc.instance;
+
+  constructor(
+    private bfTranslate: BfTranslateService,
+    public growl: BfGrowlService,
+  ) {
+    // Make the list without "img" and "icon" fields
+    this.myList = this.myList3.dCopy().map(el => {
+      delete el.img;
+      delete el.icon;
+      return el;
+    });
+    this.dList = this.myList;
+  }
+
+
   public myList;
   public myList2 = [
     { id:  1, username: 'view.common.name' },
@@ -84,8 +99,8 @@ export class BfDropdownDemoComponent implements OnInit {
   public timeZones =  [
     { country_code: null, time_zone: 'Europe/Dublin',      img: 'assets/language-flags/ja.png' },
     { country_code: null, time_zone: 'Africa/Addis_Ababa', img: 'assets/language-flags/ja.png' },
-    { country_code: null, time_zone: 'Africa/Algiers',     img: 'assets/language-flags/us.png'  },
-    { country_code: null, time_zone: 'Africa/Asmara',      img: 'assets/language-flags/ie.png'  },
+    { country_code: null, time_zone: 'Africa/Algiers',     img: 'assets/language-flags/us.png' },
+    { country_code: null, time_zone: 'Africa/Asmara',      img: 'assets/language-flags/ie.png' },
   ];
   public profileForm = { time_zone: 'Europe/Dublin' };
 
@@ -111,30 +126,73 @@ public extCtrl$ = new Subject();
 <bf-btn (bfClick)="extCtrl$.next({ action: 'toggle' })"></bf-btn>
 <bf-btn (bfClick)="extCtrl$.next({ action: 'type', value: 'ax' })"></bf-btn>`;
   renderFnStr = `renderFn = (item, ind) => bfTranslate.doTranslate('view.common.field_name') + ' ' + ind;`;
+  renderInfo = `'views.item_number': 'Item number {{id}} - {{name}}'`;
 
   public brStr = `
 `;
   public bsStr = `
              `;
-  public code = `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`;
-  public isViewOn = true;
-  public res = ``;
+  public code = ``;
+  public isLinked = true;
+  public customExLinked = true;  // To link / unlink component
+  public compSelFields = [{id: 'id'}, {id: 'username'}, {id: 'email'}, {id: 'first_name'}, {id: 'last_name'}];
+
   public conf = {
-    isRequired: false,
-    isDisabled: false, disabledTip: 'view.tooltip.message',
+    isRequired: true,
+    isDisabled: false, disabledTip: '',
     isLoading: false, isLoadingWithPromise: false, bfLoadingPromise: null,
-    isErrorOnPristine: false,
+    isErrorOnPristine: true,
     hasSelect: false,  selectField: 'username',
-    hasRender: false,  hasRenderFn: false, renderExp: `$$$ $item.id + ' - ' + $item.username`,
-    hasLabel: false,   labelText: 'view.common.field_name',
+    hasRender: true,  hasRenderFn: false, renderExp: `views.item_number`,
+    hasLabel: true,   labelText: 'view.common.field_name',
     hasTooltip: false, tooltipText: 'view.tooltip.message', tooltipPos: 'top', tooltipBody: true,
     hasEmptyLabel: false, customEmptyLabel: 'view.common.all',
     hasEmptyValue: false, customEmptyValue: 'everything',
     hasImages: false, hasIcons: false,
+
+    hasErrorText: false, bfErrorText: `this ain't good`, errorPos: null,
+
     hasFullWidth: true,
   };
-  public customExLinked = true;  // To link / unlink component
-  public compSelFields = [{id: 'id'}, {id: 'username'}, {id: 'email'}, {id: 'first_name'}, {id: 'last_name'}];
+  public upComp = () => {
+    if (this.conf.isLoading) { this.conf.isLoadingWithPromise = false; }
+
+
+    this.code = `<bf-dropdown `;
+    let compClasses = '';
+    if (this.conf.hasFullWidth) { compClasses = 'full-width'; }
+    if (!!compClasses) { this.code += `class="${compClasses}"` + this.bsStr; }
+    this.code += `[(ngModel)]="selObj"` + this.bsStr;
+    this.code += `[bfList]="myList"`;
+
+    if (this.conf.isRequired) { this.code += this.bsStr + `[bfRequired]="true"`; }
+    if (this.conf.isDisabled) { this.code += this.bsStr + `[bfDisabled]="true"`; }
+    if (this.conf.hasLabel)   { this.code += this.bsStr + `bfLabel="${this.conf.labelText}"`; }
+    if (this.conf.hasSelect && !!this.conf.selectField) {
+      this.code += this.bsStr + `bfSelect="${this.conf.selectField}"`;
+    }
+
+    if (this.conf.hasRender)   { this.code += this.bsStr + `bfRender="${this.conf.renderExp}"`;  this.reLink(0); }
+    if (this.conf.hasRenderFn) { this.code += this.bsStr + `[bfRenderFn]="renderFn"`;  this.reLink(0); }
+
+    if (this.conf.hasTooltip) {
+      this.code += this.bsStr + `bfTooltip="${this.conf.tooltipText}"`;
+      if (!!this.conf.tooltipPos)  { this.code += this.bsStr + `bfTooltipPos="${this.conf.tooltipPos}"`; }
+      if (!!this.conf.tooltipBody) { this.code += this.bsStr + `bfTooltipBody="${this.conf.tooltipBody}"`; }
+    }
+
+    if (this.conf.isDisabled) {
+      this.code += this.bsStr + `[bfDisabled]="true"`;
+      if (!!this.conf.disabledTip) { this.code += this.bsStr + `bfDisabledTip="${this.conf.disabledTip}"`; }
+    }
+    this.code += (`>` + this.brStr + `</bf-dropdown>`);
+
+
+  };
+
+
+  ngOnInit() { }
+
   public switchList = () => {
     this.dList = this.myList3.dCopy().map(el => {
       if (!this.conf.hasImages) { delete el.img; }
@@ -156,94 +214,18 @@ public extCtrl$ = new Subject();
     this.growl.success('4 second Promise set as bfLoading');
   };
 
-  public upComp = () => {
-    if (this.conf.isLoading) { this.conf.isLoadingWithPromise = false; }
 
-
-    this.code = `<bf-dropdown `;
-    let compClasses = '';
-    if (this.conf.hasFullWidth) { compClasses = 'full-width'; }
-    // if (this.conf.hasSquash) {
-    //   if (!!compClasses) { compClasses += ' '; }
-    //   compClasses += 'squash';
-    // }
-    if (!!compClasses) {
-      this.code += `class="${compClasses}"` + this.bsStr;
-    }
-    this.code += `[(ngModel)]="selObj"` + this.bsStr;
-    // this.code += `(ngModelChange)="doSomething($event)"` + this.bsStr;
-    this.code += `[bfList]="myList"`;
-
-    if (this.conf.isRequired) {
-      this.code += this.bsStr + `[bfRequired]="true"`;
-    }
-    if (this.conf.isDisabled) {
-      this.code += this.bsStr + `[bfDisabled]="true"`;
-    }
-
-    if (this.conf.hasLabel) {
-      this.code += this.bsStr + `bfLabel="${this.conf.labelText}"`;
-    }
-
-    if (this.conf.hasSelect && !!this.conf.selectField) {
-      this.code += this.bsStr + `bfSelect="${this.conf.selectField}"`;
-    }
-
-    if (this.conf.hasRender) {
-      this.code += this.bsStr + `bfRender="${this.conf.renderExp}"`;
-      this.customExLinked = false;
-      setTimeout(() => { this.customExLinked = true; });
-    }
-    if (this.conf.hasRenderFn) {
-      this.code += this.bsStr + `[bfRenderFn]="renderFn"`;
-      this.customExLinked = false;
-      setTimeout(() => { this.customExLinked = true; });
-    }
-
-    if (this.conf.hasTooltip) {
-      this.code += this.bsStr + `bfTooltip="${this.conf.tooltipText}"`;
-      if (!!this.conf.tooltipPos) {
-        this.code += this.bsStr + `bfTooltipPos="${this.conf.tooltipPos}"`;
-      }
-      if (!!this.conf.tooltipBody) {
-        this.code += this.bsStr + `bfTooltipBody="${this.conf.tooltipBody}"`;
-      }
-    }
-
-    if (this.conf.isDisabled) {
-      this.code += this.bsStr + `[bfDisabled]="true"`;
-      if (!!this.conf.disabledTip) { this.code += this.bsStr + `bfDisabledTip="${this.conf.disabledTip}"`; }
-    }
-    this.code += (`>` + this.brStr + `</bf-dropdown>`);
-
-
-  };
 
   public mockAutoSelect = () => {
     this.selObj10 = {...this.myList.getById(13)};
   };
 
-  public rebuildView = () => {
-    this.isViewOn = false;
-    setTimeout(() => this.isViewOn = true);
+
+  reLink = (time = 500) => {
+    this.isLinked = false;
+    setTimeout(() => this.isLinked = true, time);
   };
 
-
-
-  constructor(
-    private bfTranslate: BfTranslateService,
-    public growl: BfGrowlService,
-  ) {
-    // Make the list without "img" and "icon" fields
-    this.myList = this.myList3.dCopy().map(el => {
-      delete el.img;
-      delete el.icon;
-      return el;
-    });
-    this.dList = this.myList;
-  }
-
-  ngOnInit() { }
 
   renderFn = (item, ind) => {
     return this.bfTranslate.doTranslate('view.common.field_name') + ' ' + ind;
