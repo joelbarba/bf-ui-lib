@@ -160,3 +160,12 @@ $popover-body-color: #white;
 $modal-header-padding: 25px;
 $modal-header-padding-y: 0;
 $modal-header-padding-x: 0px;
+
+// From: https://fonts.google.com/?sidebar.open
+@font-face { font-family: 'WF-Lato'; src: url('/assets/fonts/Lato-Regular.ttf'); }
+@font-face { font-family: 'WF-Mont'; src: url('/assets/fonts/Montserrat-Regular.ttf'); }
+
+@font-face { font-family: 'WF-Roboto'; src: url('/assets/fonts/Roboto-Regular.ttf'); }
+@font-face { font-family: 'WF-Oxygen'; src: url('/assets/fonts/Oxygen-Regular.ttf'); }
+@font-face { font-family: 'WF-Ubuntu'; src: url('/assets/fonts/Ubuntu-Regular.ttf'); }
+@font-face { font-family: 'WF-FiraSans'; src: url('/assets/fonts/FiraSans-Regular.ttf'); }
