@@ -55,8 +55,10 @@ For other options, check components bf-autocomplete, bf-multi-selector, ...</p>
                      [bfTooltipBody]="conf.hasLabel && conf.tooltipBody"
                      [bfErrorText]="conf.hasErrorText ? conf.bfErrorText : ''"
                      [bfErrorPos]="conf.errorPos"
+                     [extCtrl$]="extCtrl$"
         >
         </bf-dropdown>
+
         <!--<div class="col-12 padL30" *ngIf="!!innerInput" style="font-family: monospace;">-->
         <!--  FromControl (internal input):<br>-->
         <!--  <div class="marL10">- inputCtrl.value: <b>{{innerInput.value | json}}</b></div>-->
@@ -77,9 +79,10 @@ For other options, check components bf-autocomplete, bf-multi-selector, ...</p>
 
       <div class="padT30">
         <bf-btn bfIcon="icon-loop32"  bfText="Relink" (bfClick)="reLink()"></bf-btn>
-        <bf-btn bfType="save" bfText="val=Item 13" (bfClick)="mockAutoSelect()"></bf-btn>
-        <bf-btn bfType="save" bfText="val=null" (bfClick)="selObj10=null"></bf-btn>
-        <bf-btn bfType="save" bfText="val='random'" (bfClick)="selObj10='random'"></bf-btn>
+        <bf-btn bfText="val=null" (bfClick)="selObj10=null"></bf-btn>
+        <bf-btn bfText="val='syrax'" (bfClick)="selObj10='syrax'"></bf-btn>
+        <bf-btn bfText="val='abc'" (bfClick)="selObj10='abc'"></bf-btn>
+        <bf-btn bfText="val=Item 13" (bfClick)="mockAutoSelect()"></bf-btn>
       </div>
 
       <pre class="padT10">Selection = {{selObj10 | json}}</pre>
@@ -130,9 +133,18 @@ For other options, check components bf-autocomplete, bf-multi-selector, ...</p>
       <!--bfSelect-->
       <div class="row marT15">
         <bf-checkbox class="col-2 padT5" bfLabel="bfSelect" [(ngModel)]="conf.hasSelect" (ngModelChange)="upComp()" bfTooltipPos="left" bfTooltip="The field of the object to be set in the ngModel when selected. If empty, the whole object is set to ngModel."></bf-checkbox>
-        <bf-dropdown class="col-10" [bfDisabled]="!conf.hasSelect" [(ngModel)]="conf.selectField" (ngModelChange)="upComp()"
-                     [bfList]="compSelFields" bfRender="id" bfSelect="id" [bfRequired]="true">
-        </bf-dropdown>
+        <!--<bf-dropdown class="col-10" [bfDisabled]="!conf.hasSelect" [(ngModel)]="conf.selectField" (ngModelChange)="upComp()"-->
+        <!--             [bfList]="compSelFields" bfRender="id" bfSelect="id" [bfRequired]="true">-->
+        <!--</bf-dropdown>-->
+        <div class="col-4 padT5 padB15">
+          <select [disabled]="!conf.hasSelect" [(ngModel)]="conf.selectField" (ngModelChange)="upComp()">
+            <option value="id">id</option>
+            <option value="username">username</option>
+            <option value="email">email</option>
+            <option value="first_name">first_name</option>
+            <option value="last_name">last_name</option>
+          </select>
+        </div>
       </div>
 
       <!--bfRender-->
@@ -143,10 +155,13 @@ For other options, check components bf-autocomplete, bf-multi-selector, ...</p>
         <bf-input class="col-3 flat" [bfDisabled]="!conf.hasRender" [(ngModel)]="conf.renderExp"
                   bfPlaceholder="field to display..." (ngModelChange)="upComp()">
         </bf-input>
-        <div class="col-7 padT5" *ngIf="conf.hasRender && !conf.hasRenderFn">
+        <div class="col-6 padT5" *ngIf="conf.hasRender && !conf.hasRenderFn">
           <pre *ngIf="conf.renderExp === 'views.item_number'" style="background: aliceblue; padding: 5px 10px; margin-bottom: 0;">{{renderInfo}}</pre>
           <pre *ngIf="conf.renderExp !== 'views.item_number'" style="background: aliceblue; padding: 5px 10px; margin-bottom: 0;">bfRender="id", "username", "email", "first_name" ...</pre>
         </div>
+        <bf-checkbox class="col-1 padT10" bfLabel="" [(ngModel)]="conf.renderLabel" bfTooltip="Render a translation label instead"
+                     (ngModelChange)="(conf.renderLabel ? conf.renderExp = 'views.item_number' : conf.renderExp = 'email'); upComp()">
+        </bf-checkbox>
 
         <div class="col-12 padT10"></div>
 
@@ -171,14 +186,13 @@ For other options, check components bf-autocomplete, bf-multi-selector, ...</p>
         <bf-input class="col-4 flat" [bfDisabled]="!conf.hasEmptyValue" [(ngModel)]="conf.customEmptyValue" (ngModelChange)="upComp()"></bf-input>
       </div>
 
+      <!--bfErrorText + bfError Pos-->
       <div class="row marT15">
-        <!--bfErrorText-->
         <bf-checkbox class="col-2 padT10" bfLabel="bfErrorText" [(ngModel)]="conf.hasErrorText" (ngModelChange)="upComp()"></bf-checkbox>
         <bf-input class="col-4" bfPlaceholder="'none' = displays no text"
                   [(ngModel)]="conf.bfErrorText" [bfDisabled]="!conf.hasErrorText" (ngModelChange)="upComp()">
         </bf-input>
 
-        <!--bfErrorPos-->
         <bf-label class="col-2" bfText="bfErrorPos"></bf-label>
         <div class="col-4">
           <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" bfRadioGroup="errPos" bfLabel="default" [bfValue]="null"></bf-radio>
@@ -187,12 +201,19 @@ For other options, check components bf-autocomplete, bf-multi-selector, ...</p>
           <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" bfRadioGroup="errPos" bfLabel="bottom-left" bfValue="bottom-left"></bf-radio>
           <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" bfRadioGroup="errPos" bfLabel="bottom-right" bfValue="bottom-right"></bf-radio>
         </div>
-        <!--<bf-dropdown bfLabel="bfErrorPos"-->
-        <!--             [(ngModel)]="valEx.errorPos" [bfList]="valEx.errorPosOpts"-->
-        <!--             bfRender="text" bfSelect="id" (ngModelChange)="upComp2()">-->
-        <!--</bf-dropdown>-->
+      </div>
 
-
+      <!--bfErrorText + bfError Pos-->
+      <div class="row marT15">
+        <bf-checkbox class="col-2 padT10" bfLabel="Controls" [(ngModel)]="conf.hasControls" (ngModelChange)="upComp()"></bf-checkbox>
+        <div class="col-10">
+          <bf-btn bfText="Expand"   (bfClick)="extCtrl$.next({ action: 'expand' })"></bf-btn>
+          <bf-btn bfText="Collapse" (bfClick)="extCtrl$.next({ action: 'collapse' })"></bf-btn>
+          <bf-btn bfText="Toggle"   (bfClick)="extCtrl$.next({ action: 'toggle' })"></bf-btn>
+          <bf-btn bfText="Type"     (bfClick)="extCtrl$.next({ action: 'type', value: 'ax' })"></bf-btn>
+          <bf-btn bfText="+ Error"  (bfClick)="extCtrl$.next({ action: 'addError', value: 'wrong' })"></bf-btn>
+          <bf-btn bfText="- Error"  (bfClick)="extCtrl$.next({ action: 'removeError' })"></bf-btn>
+        </div>
       </div>
 
       <!--Show Images + Icons-->
@@ -222,7 +243,7 @@ For other options, check components bf-autocomplete, bf-multi-selector, ...</p>
 
 
 <!--Single and Full Selection Examples-->
-<div class="row whiteBg">
+<div *ngIf="false" class="row whiteBg">
   <div class="col-8 marB20">
     <h5>Single and Full Selection Examples</h5>
   </div>
@@ -288,7 +309,7 @@ For other options, check components bf-autocomplete, bf-multi-selector, ...</p>
 
 
 <!--External control-->
-<div *ngIf="isLinked" class="whiteBg">
+<div *ngIf="false" class="whiteBg">
   <div class="row">
     <div class="col-12 marB5">
       <h5 class="marB25">External Control Example (extCtrl$):</h5>
@@ -316,6 +337,8 @@ For other options, check components bf-autocomplete, bf-multi-selector, ...</p>
       <bf-btn bfText="Collapse" (bfClick)="extCtrl$.next({ action: 'collapse' })"></bf-btn>
       <bf-btn bfText="Toggle"   (bfClick)="extCtrl$.next({ action: 'toggle' })"></bf-btn>
       <bf-btn bfText="Type"     (bfClick)="extCtrl$.next({ action: 'type', value: 'ax' })"></bf-btn>
+      <bf-btn bfText="+ Error"  (bfClick)="extCtrl$.next({ action: 'addError', value: 'wrong' })"></bf-btn>
+      <bf-btn bfText="- Error"  (bfClick)="extCtrl$.next({ action: 'removeError' })"></bf-btn>
       <!--<bf-input style="margin-left: 15px; display: inline-block" [ngModel]="res"-->
       <!--          (ngModelChange)="extCtrl$.next({ action: 'type', value: $event })">-->
       <!--</bf-input>-->
@@ -334,7 +357,7 @@ For other options, check components bf-autocomplete, bf-multi-selector, ...</p>
 
 
 <h5 class="mt-4">Simple Examples:</h5>
-<div *ngIf="true" class="col-12 examples-table">
+<div *ngIf="false" class="col-12 examples-table">
 
   <div class="row">
     <div class="col-3">
@@ -387,7 +410,7 @@ For other options, check components bf-autocomplete, bf-multi-selector, ...</p>
 
 
 <!--Applicable classes -->
-<div *ngIf="true" class="row">
+<div *ngIf="false" class="row">
   <div class="col-12 marT20">
     <hr>
     <h5 class="mt-4">Applicable classes:</h5>

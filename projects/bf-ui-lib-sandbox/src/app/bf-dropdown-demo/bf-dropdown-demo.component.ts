@@ -14,6 +14,7 @@ export class BfDropdownDemoComponent implements OnInit {
   public api = BfDropdownDoc.api;
   public instance = BfDropdownDoc.instance;
 
+
   constructor(
     private bfTranslate: BfTranslateService,
     public growl: BfGrowlService,
@@ -27,6 +28,7 @@ export class BfDropdownDemoComponent implements OnInit {
     this.dList = this.myList;
   }
 
+  public isLinked = true;
 
   public myList;
   public myList2 = [
@@ -133,7 +135,6 @@ public extCtrl$ = new Subject();
   public bsStr = `
              `;
   public code = ``;
-  public isLinked = true;
   public customExLinked = true;  // To link / unlink component
   public compSelFields = [{id: 'id'}, {id: 'username'}, {id: 'email'}, {id: 'first_name'}, {id: 'last_name'}];
 
@@ -142,8 +143,9 @@ public extCtrl$ = new Subject();
     isDisabled: false, disabledTip: '',
     isLoading: false, isLoadingWithPromise: false, bfLoadingPromise: null,
     isErrorOnPristine: true,
-    hasSelect: false,  selectField: 'username',
-    hasRender: true,  hasRenderFn: false, renderExp: `views.item_number`,
+    hasSelect: true,  selectField: 'username',
+    hasRender: true,  hasRenderFn: false, renderExp: `email`, renderLabel: false,
+
     hasLabel: true,   labelText: 'view.common.field_name',
     hasTooltip: false, tooltipText: 'view.tooltip.message', tooltipPos: 'top', tooltipBody: true,
     hasEmptyLabel: false, customEmptyLabel: 'view.common.all',
@@ -151,12 +153,12 @@ public extCtrl$ = new Subject();
     hasImages: false, hasIcons: false,
 
     hasErrorText: false, bfErrorText: `this ain't good`, errorPos: null,
+    hasControls: true,
 
     hasFullWidth: true,
   };
   public upComp = () => {
     if (this.conf.isLoading) { this.conf.isLoadingWithPromise = false; }
-
 
     this.code = `<bf-dropdown `;
     let compClasses = '';
@@ -172,8 +174,8 @@ public extCtrl$ = new Subject();
       this.code += this.bsStr + `bfSelect="${this.conf.selectField}"`;
     }
 
-    if (this.conf.hasRender)   { this.code += this.bsStr + `bfRender="${this.conf.renderExp}"`;  this.reLink(0); }
-    if (this.conf.hasRenderFn) { this.code += this.bsStr + `[bfRenderFn]="renderFn"`;  this.reLink(0); }
+    if (this.conf.hasRender)   { this.code += this.bsStr + `bfRender="${this.conf.renderExp}"`; }  // this.reLink(0); }
+    if (this.conf.hasRenderFn) { this.code += this.bsStr + `[bfRenderFn]="renderFn"`; } // this.reLink(0); }
 
     if (this.conf.hasTooltip) {
       this.code += this.bsStr + `bfTooltip="${this.conf.tooltipText}"`;
@@ -186,7 +188,6 @@ public extCtrl$ = new Subject();
       if (!!this.conf.disabledTip) { this.code += this.bsStr + `bfDisabledTip="${this.conf.disabledTip}"`; }
     }
     this.code += (`>` + this.brStr + `</bf-dropdown>`);
-
 
   };
 

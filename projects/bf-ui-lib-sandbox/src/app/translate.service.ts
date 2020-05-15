@@ -125,7 +125,8 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.modal.description': 'Description',
     'view.common.modal.close.button': 'Close',
     'view.common.title': 'Title',
-    'view.common.description': 'Description'
+    'view.common.description': 'Description',
+    'view.common.error.invalid_option': 'Invalid Option',
   };
   public transDictCAT = {
     'view.common.name'            : 'Nom',
@@ -169,7 +170,8 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.modal.description': 'Descripción',
     'view.common.modal.close.button': 'Cerrar',
     'view.common.title': 'Titulo',
-    'view.common.description': 'Descripción'
+    'view.common.description': 'Descripción',
+    'view.common.error.invalid_option': 'Opció incorrecta',
   };
 
   public transDict$ = new BehaviorSubject(this.transDict);
@@ -185,9 +187,11 @@ export class BfTranslateService extends BfUILibTransService {
   }
 
   public doTranslate = (label ?: string, params = {}): string => {
-    let text = this.transDict[label] || label || '';
+    let text = (this.transDict[label] || label || '') + '';
     for (const [key, value] of Object.entries(params)) {
-      text = text.replace(new RegExp('{{' + key + '}}', 'gi'), value);
+      text = text.replace('{{' + key + '}}', value + '');
+      // text = text.replace(new RegExp('{{' + key + '}}', 'gi'), value);
+      // text = text.replace(this.transRegExps[label], value + '');
     }
     return text;
   };
@@ -195,9 +199,11 @@ export class BfTranslateService extends BfUILibTransService {
   public getLabel$ = (label ?: string, params = {}): Observable<string> => {
     return this.transDict$.pipe(
       map(translations => {
-        let text = translations[label] || label || '';
+        let text = (this.transDict[label] || label || '') + '';
         for (const [key, value] of Object.entries(params)) {
-          text = text.replace(new RegExp('{{' + key + '}}', 'gi'), value);
+          text = text.replace('{{' + key + '}}', value + '');
+          // text = text.replace(new RegExp('{{' + key + '}}', 'gi'), value);
+          // text = text.replace(this.transRegExps[label], value + '');
         }
         return text;
       })

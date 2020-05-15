@@ -3,7 +3,7 @@
      [class.is-required]="bfRequired"
      [class.is-disabled]="bfDisabled"
      [class.is-focus]="isFocus || isExpanded"
-     [class.is-error]="isInvalid && (!ngControl.pristine || bfErrorOnPristine)">
+     [class.is-error]="showError">
 
   <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
     <span class="info-badge" *ngIf="!!bfTooltip"
@@ -16,7 +16,7 @@
   </label>
 
   <!--Error Message-->
-  <span *ngIf="isInvalid && (!ngControl.pristine || bfErrorOnPristine)"
+  <span *ngIf="showError"
         class="bf-dropdown-error-text"
         [class.pull-up]="!bfLabel"
         [class.default]="errorPosition === 'default'"
@@ -70,6 +70,8 @@
   </div>
 
   <!--pristine={{ngControl.pristine | json}}-->
-  <!--bfModel={{bfModel | json}}-->
+  bfModel={{bfModel | json}}
 
 </div>
+
+errors={{errors | json}}
