@@ -139,7 +139,7 @@ public extCtrl$ = new Subject();
   public compSelFields = [{id: 'id'}, {id: 'username'}, {id: 'email'}, {id: 'first_name'}, {id: 'last_name'}];
 
   public conf = {
-    isRequired: true,
+    isRequired: false,
     isDisabled: false, disabledTip: '',
     isLoading: false, isLoadingWithPromise: false, bfLoadingPromise: null,
     isErrorOnPristine: true,
@@ -148,6 +148,7 @@ public extCtrl$ = new Subject();
 
     hasLabel: true,   labelText: 'view.common.field_name',
     hasTooltip: false, tooltipText: 'view.tooltip.message', tooltipPos: 'top', tooltipBody: true,
+    hasPlaceholder: false, bfPlaceholder: '--- Select Item ---',
     hasEmptyLabel: false, customEmptyLabel: 'view.common.all',
     hasEmptyValue: false, customEmptyValue: 'everything',
     hasImages: false, hasIcons: false,

@@ -41,7 +41,8 @@ For other options, check components bf-autocomplete, bf-multi-selector, ...</p>
                      [bfRender]="(conf.hasRender ? conf.renderExp : null)"
                      [bfRenderFn]="(conf.hasRenderFn ? renderFn : null)"
 
-                     [bfEmptyLabel]="conf.hasEmptyLabel ? conf.customEmptyLabel : 'view.common.empty'"
+                     [bfPlaceholder]="conf.hasPlaceholder ? conf.bfPlaceholder : null"
+                     [bfEmptyLabel]="conf.hasEmptyLabel ? conf.customEmptyLabel : null"
                      [bfEmptyValue]="conf.hasEmptyValue ? conf.customEmptyValue : null"
 
                      [bfRequired]="conf.isRequired"
@@ -155,6 +156,7 @@ For other options, check components bf-autocomplete, bf-multi-selector, ...</p>
         <bf-input class="col-3 flat" [bfDisabled]="!conf.hasRender" [(ngModel)]="conf.renderExp"
                   bfPlaceholder="field to display..." (ngModelChange)="upComp()">
         </bf-input>
+
         <div class="col-6 padT5" *ngIf="conf.hasRender && !conf.hasRenderFn">
           <pre *ngIf="conf.renderExp === 'views.item_number'" style="background: aliceblue; padding: 5px 10px; margin-bottom: 0;">{{renderInfo}}</pre>
           <pre *ngIf="conf.renderExp !== 'views.item_number'" style="background: aliceblue; padding: 5px 10px; margin-bottom: 0;">bfRender="id", "username", "email", "first_name" ...</pre>
@@ -175,7 +177,15 @@ For other options, check components bf-autocomplete, bf-multi-selector, ...</p>
 
       <!--Empty label + Empty Value-->
       <div class="row marT15">
-        <bf-checkbox class="col-2 padT5" bfLabel="bfEmptyLabel" bfTooltipPos="left" bfTooltip="To be displayed instead of 'Empty'"
+        <bf-checkbox class="col-2 padT5" bfLabel="bfPlaceholder" bfTooltipPos="left" bfTooltip="To be displayed when 'Empty' option selected (only if no bfEmptyLabel)"
+                     [(ngModel)]="conf.hasPlaceholder" (ngModelChange)="upComp()">
+        </bf-checkbox>
+        <bf-input class="col-4 marB15 flat" [bfDisabled]="!conf.hasPlaceholder || conf.hasEmptyLabel" [(ngModel)]="conf.bfPlaceholder" (ngModelChange)="upComp()"></bf-input>
+        <div class="col-6 padT5">
+          <span class="text-danger" [show]="conf.hasPlaceholder && conf.hasEmptyLabel">When <b>[bfEmptyLabel]</b> is set, the placeholder is never shown</span>
+        </div>
+
+        <bf-checkbox class="col-2 padT5" bfLabel="bfEmptyLabel" bfTooltipPos="left" bfTooltip="To be displayed instead of 'Empty' (null) on both the list and the input"
                      [(ngModel)]="conf.hasEmptyLabel" (ngModelChange)="upComp()">
         </bf-checkbox>
         <bf-input class="col-4 flat" [bfDisabled]="!conf.hasEmptyLabel" [(ngModel)]="conf.customEmptyLabel" (ngModelChange)="upComp()"></bf-input>

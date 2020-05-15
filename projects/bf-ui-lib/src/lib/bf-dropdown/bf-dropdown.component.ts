@@ -182,7 +182,8 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfTooltipPos = 'top';  // If tooltip on the label, specific position (top by default)
   @Input() bfTooltipBody = true;  // If tooltip on the label, whether it is appened on the body
 
-  @Input() bfEmptyLabel = 'view.common.empty';   // Label for the text of the emptyItem (when not required)
+  @Input() bfPlaceholder;   // Placeholder to show when no value selected. If bfEmptyLabel, this gets overridden
+  @Input() bfEmptyLabel;    // Text of the emptyItem option (no label = 'Empty')
   @Input() bfEmptyValue: any = null;  // By default the empty option sets a "null" value to the ngModel.
                                       // You can add a custom value here to be set when the empty option is selected
   @Input() bfErrorOnPristine = false; // If true, errors will be shown in initial state too (by default pristine shows as valid always)
@@ -203,9 +204,10 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   public ngControl;  // Reference to the external formControl
 
   public bfModel; // <--- internal ngModel
-  public isModelEmpty = false;  // Whether the bfModel is holding the empty option
-  public selModelText = '';  // Text representation of the selected Model (to display in the input / placeholder)
-  public inputText = '';     // Text on the input (ngModel)
+  public isModelEmpty = false;    // Whether the bfModel is holding the empty option
+  public selModelText = '';       // Text representation of the selected Model (to display in the input / placeholder)
+  public inputPlaceholder = '';   // Text on the input placeholder
+  public inputText = '';          // Text on the input (ngModel)
   public extList; // Make a copy from bfList to make sure we never modify the input array
 
   public isInvalid = false;   // If the model holds an invalid option
@@ -235,6 +237,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   public bfTooltipTrans$ = of('');       // Translated text for the tooltip of the label
   public bfDisabledTipTrans$ = of('');   // Translated text for the disabled tooltip
   public errorTextTrans$ = of('');       // Translated text for the error message
+  public renderedPlaceholder;   // Translated value of the custom placeholder
   public langSubs;  // Subscription to language changes
   public ctrlSubs;  // Subscription to external control observable
   public lastLoadPromise; // Reference to avoid bfLoading promise overlap
@@ -255,7 +258,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
       this.renderExtList();
     });
 
-    const updateCtrl = () => { if (this.ngControl) { this.ngControl.updateValueAndValidity(); }};
+    // const updateCtrl = () => { if (this.ngControl) { this.ngControl.updateValueAndValidity(); }};
     // this.ctrlObject = {
     //   setFocus    : () => this.elementRef.nativeElement.querySelector('input').focus({ preventScroll: false }),
     //   setBlur     : () => this.elementRef.nativeElement.querySelector('input').blur(),
@@ -329,16 +332,17 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
       this.setEmptyOption();
     }
 
+    if (changing('bfPlaceholder')) { this.renderLabels(); }
+
     if (changing('bfEmptyLabel')) {
-      this.emptyItem.$label = this.bfEmptyLabel;
-      this.emptyItem.$renderedText = this.translate.doTranslate(this.emptyItem.$label);
+      this.emptyItem.$label = this.bfEmptyLabel || 'view.common.empty';
+      this.renderLabels();
     }
 
     // Generate new observables for the dynamic text
     if (changing('bfLabel'))        { this.bfLabelTrans$ = this.translate.getLabel$(this.bfLabel); }
     if (changing('bfTooltip'))      { this.bfTooltipTrans$ = this.translate.getLabel$(this.bfTooltip); }
     if (changing('bfDisabledTip'))  { this.bfDisabledTipTrans$ = this.translate.getLabel$(this.bfDisabledTip); }
-    // if (changing('bfPlaceholder'))  { this.bfPlaceholderTrans$ = this.translate.getLabel$(this.bfPlaceholder); }
 
     if (changing('bfErrorPos')) { this.errorPosition = this.bfErrorPos || 'default'; }
     if (changing('bfErrorText') && this.isInvalid) { this.runValidation(3); }
@@ -361,14 +365,11 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   }
 
-  ngOnInit() {
-    console.log(new Date(), 'ngOnInit');
-  }
+  ngOnInit() {}
 
   // ngAfterContentInit() { }
 
   ngAfterViewInit() {
-    console.log(new Date(), 'ngAfterViewInit');
     this.bfOnLoaded.emit({});
   }
 
@@ -444,20 +445,21 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
           item.$renderedText = this.translate.doTranslate(item.$label, params);
 
           // It seems that this above is in some cases overkilling??? Is it probably the doTranslate mock?
-          // const time = new Date(); console.log(time.getSeconds() + '.' + time.getMilliseconds(), 'translate', item.username);
+          // const time = new Date();  console.log(time.getSeconds() + '.' + time.getMilliseconds(), 'translate', item.username);
         }
       });
     }
 
-    // Update empty translation (in case it was not on the list)
-    this.emptyItem.$renderedText = this.translate.doTranslate(this.emptyItem.$label);
-
-    // Update also the text display on the input (selected option)
-    if (!this.isInvalid || this.isModelEmpty) {
-      this.selModelText = this.bfModel ? this.bfModel.$renderedText : '';
-      if (!this.isExpanded) { this.inputText = this.selModelText; }
-    }
+    this.renderLabels();
   };
+
+  // Update translation for empty options and placeholders
+  public renderLabels = () => {
+    this.emptyItem.$renderedText = this.translate.doTranslate(this.emptyItem.$label);
+    this.renderedPlaceholder = this.translate.doTranslate(this.bfPlaceholder);
+    this.setModelText(this.bfModel ? this.bfModel.$renderedText : this.emptyItem.$renderedText);
+  };
+
 
 
   // ------- ControlValueAccessor -----
@@ -557,7 +559,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     this.isFocus = false;
     setTimeout(() => {
       this.isExpanded = false;
-      this.inputText = this.selModelText; // Show the model text
+      this.inputText = this.selModelText; // Take back the selected text
     }, 100);
   };
 
@@ -635,15 +637,10 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
       }
     }
 
-    if (!!value && this.extList.indexOf(matchItem) === -1) {
-      // If value could not be matched
+    if (!!value && this.extList.indexOf(matchItem) === -1) { // In case of "no match"
       this.bfModel = value;
       this.isModelEmpty = false;
-      // this.runValidation(5); // noMatch error (writeValue will always trigger validate())
-
-      // Show invalid value (if string)
-      this.selModelText = (typeof value === 'string') ? value : '';
-      this.inputText = this.selModelText;
+      this.setModelText((typeof value === 'string') ? value : '');  // Show the invalid value (if string)
 
     } else {
       this.selectItem(matchItem, { value }); // select valid match
@@ -658,15 +655,13 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     if (selObj !== this.emptyItem && selObj !== null && selObj !== undefined) {
       this.bfModel = selObj;
       this.isModelEmpty = false;
+      this.setModelText(this.bfModel.$renderedText);
+
     } else {
       this.bfModel = this.emptyItem;
       this.isModelEmpty = true;
+      this.setModelText(this.emptyItem.$renderedText);
     }
-
-    // this.runValidation(6); // In case the new selection produces a wrong status
-
-    this.selModelText = this.bfModel ? this.bfModel.$renderedText : '';
-    this.inputText = this.selModelText;
 
     let modelUp;  // Object to propagate up (to the formControl of the bf-dropdown)
 
@@ -708,4 +703,20 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     }
 
   };
+
+
+  // Determine how to display the selected option on the input
+  public setModelText = (value) => {
+    if (!this.isModelEmpty || this.bfEmptyLabel) { // When item selected, show the rendered value on the input
+      this.selModelText = value;
+      this.inputText = this.selModelText;
+      this.inputPlaceholder = this.selModelText; // Keep it, so when expanding (and clear inputText) still display it
+
+    } else {  // When selecting 'Empty' (with no custom label), leave the input blank
+      this.selModelText = '';
+      this.inputText = '';
+      this.inputPlaceholder = this.renderedPlaceholder;
+    }
+  };
+
 }

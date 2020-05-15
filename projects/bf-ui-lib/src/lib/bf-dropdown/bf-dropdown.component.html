@@ -1,3 +1,8 @@
+<br>inputText={{inputText}}
+<br>inputPlaceholder={{inputPlaceholder}}
+<br>selModelText={{selModelText}}
+<div *ngIf="dropdownInput">value={{dropdownInput.value | json}}</div>
+
 <div class="form-group bf-dropdown-form-group"
      (keydown)="triggerKey($event)"
      [class.is-required]="bfRequired"
@@ -33,10 +38,10 @@
          [ngbTooltip]="bfDisabledTipTrans$ | async">
 
       <input type="text" class="form-control" #dropdownInput
-             [ngModel]="inputText" (ngModelChange)="filterList($event)"
+             [(ngModel)]="inputText" (ngModelChange)="filterList($event)"
              [class.has-image]="!!bfModel?.$img"
              [class.has-icon]="!!bfModel?.$icon"
-             [placeholder]="selModelText"
+             [placeholder]="inputPlaceholder"
              [disabled]="bfDisabled"
              (focusin)="expandList()"
              (focusout)="collapseList()">
@@ -70,8 +75,8 @@
   </div>
 
   <!--pristine={{ngControl.pristine | json}}-->
-  bfModel={{bfModel | json}}
+  <!--<br> bfModel={{bfModel | json}}-->
 
 </div>
 
-errors={{errors | json}}
+<!--errors={{errors | json}}-->
