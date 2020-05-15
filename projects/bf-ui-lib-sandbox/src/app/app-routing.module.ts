@@ -10,7 +10,10 @@ import {BfDndDemo3Component} from './bf-dnd-demo/example3/bf-dnd-demo-3.componen
 import {BfDndDemo4Component} from './bf-dnd-demo/example4/bf-dnd-demo-4.component';
 import {BfDndDemo5Component} from './bf-dnd-demo/example5/bf-dnd-demo-5.component';
 import {BfDndDemo6Component} from './bf-dnd-demo/example6/bf-dnd-demo-6.component';
-
+import {BfInputValidatorsDemoComponent} from './bf-input-demo/ex1-validators/bf-input-validators-demo.component';
+import {BfInputAsyncValidatorDemoComponent} from './bf-input-demo/ex2-async-validation/bf-input-async-validator-demo.component';
+import {BfInputControlsDemoComponent} from './bf-input-demo/ex3-controls/bf-input-controls-demo.component';
+import {BfInputAutofillDemoComponent} from './bf-input-demo/ex4-autofill/bf-input-autofill-demo.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/index', pathMatch: 'full' },
@@ -18,6 +21,11 @@ const routes: Routes = [
   { path: docs.BfBtnDoc.name,               component: docs.BfBtnDoc.demoComp              },
   { path: docs.BfLabelDoc.name,             component: docs.BfLabelDoc.demoComp            },
   { path: docs.BfInputDoc.name,             component: docs.BfInputDoc.demoComp            },
+  { path: 'bf-input/validators',      component: BfInputValidatorsDemoComponent      },
+  { path: 'bf-input/async-validator', component: BfInputAsyncValidatorDemoComponent  },
+  { path: 'bf-input/controls',        component: BfInputControlsDemoComponent  },
+  { path: 'bf-input/autofill',        component: BfInputAutofillDemoComponent  },
+
   { path: docs.BfTextareaDoc.name,          component: docs.BfTextareaDoc.demoComp         },
   { path: docs.BfDropdownDoc.name,          component: docs.BfDropdownDoc.demoComp         },
   { path: docs.BfAutocompleteDoc.name,      component: docs.BfAutocompleteDoc.demoComp     },

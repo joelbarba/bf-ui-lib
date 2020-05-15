@@ -1,0 +1,265 @@
+<div class="row">
+  <div class="col-6">
+    <h2>bf-input - Validators</h2>
+  </div>
+  <div class="col-6 text-right">
+    <bf-btn bfText="bfInput" (bfClick)="router.navigate(['/bf-input'])"></bf-btn>
+    <bf-btn bfText="Validators"      (bfClick)="router.navigate(['/bf-input/validators'])" bfDisabled="true"></bf-btn>
+    <bf-btn bfText="Async Validator" (bfClick)="router.navigate(['/bf-input/async-validator'])"></bf-btn>
+    <bf-btn bfText="Controls"        (bfClick)="router.navigate(['/bf-input/controls'])"></bf-btn>
+    <bf-btn bfText="Autofill"        (bfClick)="router.navigate(['/bf-input/autofill'])"></bf-btn>
+  </div>
+</div>
+<hr>
+Examples with the multiple (synchronous) validators that can be applied.
+
+<!--Input Validators-->
+<div class="whiteBg row">
+  <h5 class="col-12 marB15">Input Validators</h5>
+
+  <div class="col-6">
+    <div class="row" *ngIf="isLinked">
+      <bf-input class="col-9"
+                [(ngModel)]="val1"  #bfInputRef="ngModel"
+                [bfDisabled]="valEx.isDisabled"
+                [bfType]="valEx.bfType"
+
+                [bfRequired]="valEx.isRequired"
+                [bfMinlength]="valEx.isMinLen ? valEx.minLen : null"
+                [bfMaxlength]="valEx.isMaxLen ? valEx.maxLen : null"
+                [bfPattern]="valEx.hasPattern ? valEx.pattern : null"
+                [bfValidType]="valEx.hasValidType ? valEx.valType : null"
+                [bfValidIf]="valEx.hasValidIf ? (val1 === valEx.bfValMatchVal) : null"
+                [bfValidator]="valEx.hasBfValidator ? bfValidatorFn : null"
+
+                [bfErrorOnPristine]="valEx.hasErrOnPristine"
+                [bfIcon]="valEx.hasIcon ? valEx.bfIcon : ''"
+                [bfInvalidIcon]="valEx.hasInvalidIcon ? valEx.bfInvalidIcon : 'icon-warning22'"
+                [bfValidIcon]="valEx.hasValidIcon ? valEx.bfValidIcon : ''"
+                [bfErrorText]="valEx.hasErrorText ? valEx.bfErrorText : ''"
+                [bfErrorPos]="valEx.errorPos"
+                (bfOnLoaded)="inputRef = $event"
+                bfLabel="view.common.name">
+      </bf-input>
+
+      <div class="col-3 padT20 text-right"><bf-btn bfText="Relink" (bfClick)="reLink()"></bf-btn></div>
+
+      <div class="col-12 padL30" *ngIf="!!innerInput" style="font-family: monospace;">
+        FromControl (internal input):<br>
+        <div class="marL10">- inputCtrl.value: <b>{{innerInput.value | json}}</b></div>
+        <div class="marL10">- inputCtrl.valid: <b [style.color]="innerInput.valid ? '#28a745': '#dc3545'">{{innerInput.valid | json}}</b></div>
+        <div class="marL10">- inputCtrl.pristine: <b>{{innerInput.pristine | json}}</b></div>
+        <div class="marL10">- inputCtrl.errors: <b>{{innerInput.errors | json}}</b></div>
+        <hr>
+      </div>
+
+      <div class="col-12 padL30" *ngIf="!!bfInputRef" style="font-family: monospace;">
+        FromControl (ngModel):<br>
+        <div class="marL10">- bfInputRef.value: <b>{{bfInputRef.value | json}}</b></div>
+        <div class="marL10">- bfInputRef.valid: <b [style.color]="bfInputRef.valid ? '#28a745': '#dc3545'">{{bfInputRef.valid | json}}</b></div>
+        <div class="marL10">- bfInputRef.pristine: <b>{{bfInputRef.pristine | json}}</b></div>
+        <div class="marL10">- bfInputRef.errors: <b>{{bfInputRef.errors | json}}</b></div>
+      </div>
+    </div>
+
+
+    <div>
+      <hr>
+      <h5>Set value externally</h5>
+      <span>val:</span><input class="marB10 marL10" type="text" [(ngModel)]="val1">
+      <br>
+      <bf-btn bfText="val1 = '20'" (bfClick)="val1='20'"></bf-btn>
+      <bf-btn bfText="val1 = '300'" (bfClick)="val1='300'"></bf-btn>
+      <bf-btn bfText="val1 = 'AAA'" (bfClick)="val1='AAA'"></bf-btn>
+      <bf-btn bfText="val1 = '123456789'" (bfClick)="val1='123456789'"></bf-btn>
+      <bf-btn bfText="val1 = '@#*'" (bfClick)="val1='@#*'"></bf-btn>
+      <bf-btn bfText="val1 = ''" (bfClick)="val1=''"></bf-btn>
+      <div class="padT5"></div>
+      <bf-btn bfText="val1 = null" (bfClick)="val1=null"></bf-btn>
+      <bf-btn bfText="val1 = undefined" (bfClick)="val1=undefined"></bf-btn>
+      <bf-btn bfText="val1 = false" (bfClick)="val1=false"></bf-btn>
+      <bf-btn bfText="val1 = 0" (bfClick)="val1=0"></bf-btn>
+
+    </div>
+
+    <div class="padT15">
+      <div class="code-box pad15">
+        <pre>{{valCompCode}}</pre>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-6" *ngIf="!!inputRef">
+
+    <div class="row">
+
+      <!--bfErrorOnPristine-->
+      <bf-checkbox class="col-3 block" bfLabel="bfErrorOnPristine" [(ngModel)]="valEx.hasErrOnPristine" (ngModelChange)="upComp()"></bf-checkbox>
+
+      <!--Disabled-->
+      <bf-checkbox class="col-3 block" bfLabel="bfDisabled" [(ngModel)]="valEx.isDisabled" (ngModelChange)="upComp()"></bf-checkbox>
+
+      <!--bfErrorPos-->
+      <bf-dropdown class="col-3" style="margin-top: -32px" bfLabel="bfErrorPos"
+                   [bfList]="valEx.errorPosOpts" bfRender="text" bfSelect="id"
+                   [(ngModel)]="valEx.errorPos" (ngModelChange)="upComp()">
+      </bf-dropdown>
+
+
+      <bf-dropdown class="col-3" style="margin-top: -32px" bfLabel="bfType"
+                   [bfList]="valEx.inputTypes" bfRender="text" bfSelect="id" [bfRequired]="true"
+                   [(ngModel)]="valEx.bfType" (ngModelChange)="upComp()">
+      </bf-dropdown>
+
+      <!--bfInvalidIcon-->
+      <div class="col-6">
+        <bf-checkbox bfLabel="bfInvalidIcon" style="width: 130px;" [(ngModel)]="valEx.hasInvalidIcon" (ngModelChange)="upComp()"></bf-checkbox>
+        <input style="width: 200px;" [(ngModel)]="valEx.bfInvalidIcon" [disabled]="!valEx.hasInvalidIcon" (ngModelChange)="upComp()">
+      </div>
+
+      <!--bfValidIcon-->
+      <div class="col-6">
+        <bf-checkbox bfLabel="bfValidIcon" style="width: 120px;" [(ngModel)]="valEx.hasValidIcon" (ngModelChange)="upComp()"></bf-checkbox>
+        <input style="width: 200px;" [(ngModel)]="valEx.bfValidIcon" [disabled]="!valEx.hasValidIcon" (ngModelChange)="upComp()">
+      </div>
+
+      <!--bfErrorText-->
+      <div class="col-6">
+        <bf-checkbox bfLabel="bfErrorText" style="width: 130px;" bfTooltipPos="left" bfTooltip="It will replace any other error message"
+                     [(ngModel)]="valEx.hasErrorText" (ngModelChange)="upComp()"></bf-checkbox>
+        <input style="width: 200px;" [(ngModel)]="valEx.bfErrorText" [disabled]="!valEx.hasErrorText" (ngModelChange)="upComp()">
+      </div>
+
+      <!--bfIcon-->
+      <div class="col-6">
+        <bf-checkbox bfLabel="bfIcon" style="width: 120px;" [(ngModel)]="valEx.hasIcon" (ngModelChange)="upComp()"></bf-checkbox>
+        <input style="width: 200px;" [(ngModel)]="valEx.bfIcon" [disabled]="!valEx.hasIcon" (ngModelChange)="upComp()">
+      </div>
+
+    </div>
+
+    <div class="row">
+      <!--<h5 class="col-12 marB15">Validators</h5>-->
+      <div class="col-12"><hr></div>
+
+      <!--Required-->
+      <bf-checkbox class="col-12 block" style="min-height: 40px;" bfLabel="bfRequired" [(ngModel)]="valEx.isRequired" (ngModelChange)="upComp()"></bf-checkbox>
+
+      <!--MinLen-->
+      <div class="col-12" style="min-height: 40px;">
+        <bf-checkbox bfLabel="bfMinlength" style="width: 130px;" [(ngModel)]="valEx.isMinLen" (ngModelChange)="upComp()"></bf-checkbox>
+        <input style="width: 50px;" [disabled]="!valEx.isMinLen" [(ngModel)]="valEx.minLen" (ngModelChange)="upComp()">
+        <span class="marL20" [show]="valEx.isMinLen">(Remember minlength does not apply on empty values)</span>
+      </div>
+
+      <!--MaxLen-->
+      <div class="col-12" style="min-height: 40px;">
+        <bf-checkbox bfLabel="bfMaxlength" style="width: 130px;" [(ngModel)]="valEx.isMaxLen" (ngModelChange)="upComp()"></bf-checkbox>
+        <input style="width: 50px;" [disabled]="!valEx.isMaxLen" [(ngModel)]="valEx.maxLen" (ngModelChange)="upComp()">
+      </div>
+
+      <!--bfValidType-->
+      <div class="col-12" style="min-height: 40px;">
+        <bf-checkbox bfLabel="bfValidType" style="width: 130px;" [(ngModel)]="valEx.hasValidType" (ngModelChange)="upComp()"></bf-checkbox>
+        <bf-dropdown style="display: inline-block; width: 150px;" [(ngModel)]="valEx.valType" [bfList]="valEx.valTypes"
+                     bfRender="text" bfSelect="id" [bfDisabled]="!valEx.hasValidType" (ngModelChange)="upComp()">
+        </bf-dropdown>
+        <span class="marL30 text-danger" [show]="valEx.hasValidType && valEx.hasPattern">You shall not use [bfPattern] + [bfValidType] !!</span>
+      </div>
+
+      <!--bfPattern-->
+      <div class="col-12" style="min-height: 40px;">
+        <bf-checkbox bfLabel="bfPattern" style="width: 130px;" [(ngModel)]="valEx.hasPattern" (ngModelChange)="upComp()"></bf-checkbox>
+        <input style="width: 150px;" [(ngModel)]="valEx.pattern" (ngModelChange)="upComp()" [disabled]="!valEx.hasPattern">
+      </div>
+
+      <!--bfValidIf-->
+      <div class="col-12" style="min-height: 40px;">
+        <bf-checkbox bfLabel="bfValidIf (expr):" [(ngModel)]="valEx.hasValidIf" (ngModelChange)="upComp()"></bf-checkbox>
+        <span class="marL15">
+          <span>{{'[bfValidIf]="val1 === \''}}</span>
+          <input type="text" style="width: 50px;" [(ngModel)]="valEx.bfValMatchVal" (ngModelChange)="upComp()" [disabled]="!valEx.hasValidIf">
+          <span>{{'\'"'}}</span>
+        </span>
+      </div>
+
+      <!--bfValidator-->
+      <div class="col-12" style="min-height: 40px;">
+        <bf-checkbox bfLabel="bfValidator (function):" [(ngModel)]="valEx.hasBfValidator" (ngModelChange)="upComp()"></bf-checkbox>
+        <span class="marL15">
+          <span>{{"validIfFn = (value) => value === '"}}</span>
+          <input type="text" style="width: 50px;" [(ngModel)]="valEx.bfValMatchVal" (ngModelChange)="upComp()" [disabled]="!valEx.hasBfValidator">
+          <span>{{"' ? null : { label : 'wrooong' };"}}</span>
+        </span>
+      </div>
+
+      <!--bfAsyncValidator-->
+      <!--<div class="col-12" style="min-height: 40px;">-->
+      <!--  <bf-checkbox bfLabel="bfAsyncValidator (promise):" [(ngModel)]="valEx.hasAsyncVal" (ngModelChange)="upComp()"></bf-checkbox>-->
+      <!--  <span class="marL15">-->
+      <!--    <span>{{"fn = (value) => Promise.resolve(value === '"}}</span>-->
+      <!--    <input type="text" style="width: 50px;" [(ngModel)]="valEx.bfValMatchVal" (ngModelChange)="upComp()" [disabled]="!valEx.hasAsyncVal">-->
+      <!--    <span>{{"' ? null : { label : 'no' });"}}</span>-->
+      <!--  </span>-->
+      <!--</div>-->
+
+      <!--Manual error-->
+      <div class="col-12">
+        <hr>
+        <bf-checkbox bfLabel="Manual error trigger" [(ngModel)]="valEx.hasManualErr" (ngModelChange)="upComp()"></bf-checkbox>
+        <span style="vertical-align: top; margin-left: 50px;">Use variable:
+          <b style="margin-left: 35px; font-family: monospace;">{{manualErrorEx3}}</b>
+        </span>
+        <br>
+        <span style="vertical-align: top; margin-left: 210px; margin-right: 30px;">Add to bf-input:
+          <b style="margin-left: 12px; font-family: monospace;">(bfOnLoaded)="inputCtrl = $event"</b>
+        </span>
+
+        <div class="marL35 marT5">
+          <bf-btn class="full-width" bfType="save" bfText="Clear Error" style="width: 150px;"
+                  [bfDisabled]="!valEx.hasManualErr" (bfClick)="inputRef.removeError()">
+          </bf-btn>
+          <span style="margin-left: 25px; font-family: monospace;">{{manualErrorEx1}}</span>
+        </div>
+        <div class="marL35 marT5">
+          <bf-btn class="full-width" bfType="save" bfText="Add Error" style="width: 150px;"
+                  [bfDisabled]="!valEx.hasManualErr" (bfClick)="inputRef.addError({ label: 'wroooong!' })">
+          </bf-btn>
+          <span style="margin-left: 25px; font-family: monospace;">{{manualErrorEx2}}</span>
+        </div>
+
+        <!--<bf-btn class="full-width" bfType="save" bfText="Set Focus" style="width: 150px;"-->
+        <!--        [bfDisabled]="!valEx.hasManualErr" (bfClick)="ngInputRef.setFocus()">-->
+        <!--</bf-btn>-->
+        <!--<bf-btn class="full-width" bfType="save" bfText="Set Blur" style="width: 150px;"-->
+        <!--        [bfDisabled]="!valEx.hasManualErr" (bfClick)="ngInputRef.setBlur()">-->
+        <!--</bf-btn>-->
+        <!--<bf-btn class="full-width" bfType="save" bfText="Set Dirty" style="width: 150px;"-->
+        <!--        [bfDisabled]="!valEx.hasManualErr" (bfClick)="ngInputRef.setDirty()">-->
+        <!--</bf-btn>-->
+        <!--<bf-btn class="full-width" bfType="save" bfText="Set Pristine" style="width: 150px;"-->
+        <!--        [bfDisabled]="!valEx.hasManualErr" (bfClick)="ngInputRef.setPristine()">-->
+        <!--</bf-btn>-->
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-12 marT30">
+    <p>The bf-input uses <b>NG_VALIDATORS</b> internally to set the validity of the component.
+      <br>
+      Here's a diagram about how/when this is triggered on the different actions
+      (<a href="https://go.gliffy.com/go/html5/13282334" target="_blank">original source of the diagram</a>):
+    </p>
+  </div>
+  <div class="col-12 padL30">
+    <!--<a href="assets/bfInput.png" target="_blank"><img src="assets/bfInput.png"></a>-->
+    <a href="bf-ui-lib-doc/assets/bfInput.png" target="_blank"><img src="bf-ui-lib-doc/assets/bfInput.png"></a>
+  </div>
+</div>
+
+

@@ -31,6 +31,7 @@
 
   <span *ngIf="displayIcon" class="bf-input-inner-icon"
         [ngClass]="displayIcon"
+        [class.loading]="bfIcon === 'loading'"
         [class.bf-icon-error]="status === 'error'">
   </span>
 
@@ -48,7 +49,6 @@
       </button>
     </div>
 
-         <!--[formControl]="inputCtrl"-->
     <input class="form-control" name="bfInput" #ngInputRef="ngModel"
            [ngModel]="bfModel" (ngModelChange)="parseModelChange($event)"
            [disabled]="bfDisabled"
@@ -76,3 +76,20 @@
     </div>
   </div>
 </div>
+
+
+<!--<div class="col-12" *ngIf="!!ngInputRef" style="font-family: monospace;">-->
+<!--  FromControl (internal input):<br>-->
+<!--  <div class="marL10">- ngInputRef.value: <b>{{ngInputRef.value | json}}</b></div>-->
+<!--  <div class="marL10">- ngInputRef.valid: <b [style.color]="ngInputRef.valid ? '#28a745': '#dc3545'">{{ngInputRef.valid | json}}</b></div>-->
+<!--  <div class="marL10">- ngInputRef.pristine: <b [style.color]="ngInputRef.pristine ? '#28a745': '#dc3545'">{{ngInputRef.pristine | json}}</b></div>-->
+<!--  <div class="marL10">- ngInputRef.errors: <b>{{ngInputRef.errors | json}}</b></div>-->
+<!--</div>-->
+<!--<hr>-->
+
+<!--<bf-btn bfText="propagateModelUp()"   (bfClick)="propagateModelUp(bfModel)"></bf-btn>-->
+<!--<bf-btn bfText="bfModel = ''"         (bfClick)="parseModelChange('')"></bf-btn>-->
+<!--<bf-btn bfText="bfModel = null"       (bfClick)="parseModelChange(null)"></bf-btn>-->
+<!--<bf-btn bfText="bfModel = undefined"  (bfClick)="parseModelChange(undefined)"></bf-btn>-->
+<!--<bf-btn bfText="bfModel = false"      (bfClick)="parseModelChange(false)"></bf-btn>-->
+<!--<bf-btn bfText="bfModel = 0"          (bfClick)="parseModelChange(0)"></bf-btn>-->

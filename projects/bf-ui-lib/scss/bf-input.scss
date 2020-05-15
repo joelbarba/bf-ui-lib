@@ -24,9 +24,8 @@ bf-input {
       font-size: 14px;
       text-align: center;
       pointer-events: none;
-      &.bf-icon-loading {
-        -webkit-animation: spinAround 1000ms infinite linear;
-        animation: spinAround 1000ms infinite linear;
+      &.loading {
+        animation: bfSpinAround 1000ms infinite linear;
       }
     }
 
@@ -114,7 +113,7 @@ bf-input {
 
 
   // Horizontal layout (label to the left, input to the right)
-  &.input-col, :host[class*="input-col-"] {
+  &.input-col, &[class*="input-col-"] {
     .bf-input-form-group {
       display: flex;
       label {

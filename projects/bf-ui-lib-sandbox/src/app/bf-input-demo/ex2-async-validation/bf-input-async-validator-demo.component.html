@@ -1,0 +1,189 @@
+<div class="row">
+  <div class="col-6">
+    <h2>bf-input - Asynchronous Validator</h2>
+  </div>
+  <div class="col-6 text-right">
+    <bf-btn bfText="bfInput" (bfClick)="router.navigate(['/bf-input'])"></bf-btn>
+    <bf-btn bfText="Validators"      (bfClick)="router.navigate(['/bf-input/validators'])"></bf-btn>
+    <bf-btn bfText="Async Validator" (bfClick)="router.navigate(['/bf-input/async-validator'])" bfDisabled="true"></bf-btn>
+    <bf-btn bfText="Controls"        (bfClick)="router.navigate(['/bf-input/controls'])"></bf-btn>
+    <bf-btn bfText="Autofill"        (bfClick)="router.navigate(['/bf-input/autofill'])"></bf-btn>
+  </div>
+</div>
+<hr>
+<p>Example about how to implement an asynchronous validation using [bfValidator] and manual error controls</p>
+<p>
+The idea is to add asynchronous logic (webapi request?) in [bfValidator], and once we get the response,
+manually set the validity of the input using addError() / removeError().
+  <br>Additionally, a valid/invalid/loading icon is set to [bfIcon] to give a nicer visualization about what's going on.
+</p>
+<p>
+  An observable is initially used to debounce and prevent duplicates through a pipe,
+  and a subscription to mock an asynchronous request (it could be done with a switchMap too if you like to go full Rx).
+  <br>
+  A global variable (asyncOp) is used to keep the previous value sent for validation, so we avoid triggering
+  the validation again for the same value, and also detect if there is a newer validation once resolved, to
+  drop and avoid overlapping.
+</p>
+
+<!--Input Validators-->
+<div class="whiteBg row">
+  <h5 class="col-12 marB15">Input Validators</h5>
+
+  <div class="col-6">
+    <div class="row" *ngIf="isLinked">
+      <bf-input class="col-9"
+                [(ngModel)]="val1"  #bfInputRef="ngModel"
+                [bfDisabled]="valEx.isDisabled"
+                [bfRequired]="valEx.isRequired"
+                [bfValidator]="bfAsyncValidatorFn"
+
+                [bfErrorOnPristine]="valEx.hasErrOnPristine"
+                [bfIcon]="valEx.hasIcon ? valEx.bfIcon : ''"
+                [bfInvalidIcon]="valEx.hasInvalidIcon ? valEx.bfInvalidIcon : 'icon-warning22'"
+                [bfValidIcon]="valEx.hasValidIcon ? valEx.bfValidIcon : ''"
+                [bfErrorText]="valEx.hasErrorText ? valEx.bfErrorText : ''"
+                [bfErrorPos]="valEx.errorPos"
+                (bfOnLoaded)="inputRef = $event"
+                bfLabel="view.common.name">
+      </bf-input>
+
+      <div class="col-3 padT20 text-right"><bf-btn bfText="Relink" (bfClick)="reLink()"></bf-btn></div>
+
+      <!--<div class="col-12 padL30" *ngIf="!!inputRef" style="font-family: monospace;">-->
+      <!--  FromControl (internal input):<br>-->
+      <!--  <div class="marL10">- inputCtrl.value: <b>{{inputRef.inputCtrl.value | json}}</b></div>-->
+      <!--  <div class="marL10">- inputCtrl.valid: <b>{{inputRef.inputCtrl.valid | json}}</b></div>-->
+      <!--  <div class="marL10">- inputCtrl.pristine: <b>{{inputRef.inputCtrl.pristine | json}}</b></div>-->
+      <!--  <div class="marL10">- inputCtrl.errors: <b>{{inputRef.inputCtrl.errors | json}}</b></div>-->
+      <!--  <hr>-->
+      <!--</div>-->
+
+      <div class="col-12 padL30" *ngIf="!!bfInputRef" style="font-family: monospace;">
+        FromControl (ngModel):<br>
+        <div class="marL10">- bfInputRef.value: <b>{{bfInputRef.value | json}}</b></div>
+        <div class="marL10">- bfInputRef.valid: <b [style.color]="bfInputRef.valid ? '#28a745': '#dc3545'">{{bfInputRef.valid | json}}</b></div>
+        <div class="marL10">- bfInputRef.pristine: <b>{{bfInputRef.pristine | json}}</b></div>
+        <div class="marL10">- bfInputRef.errors: <b>{{bfInputRef.errors | json}}</b></div>
+      </div>
+    </div>
+
+
+    <div>
+      <hr>
+      <h5>Set value externally</h5>
+      <span>val:</span><input class="marB10 marL10" type="text" [(ngModel)]="val1">
+      <br>
+      <bf-btn bfText="val1 = '20'" (bfClick)="val1='20'"></bf-btn>
+      <bf-btn bfText="val1 = '300'" (bfClick)="val1='300'"></bf-btn>
+      <bf-btn bfText="val1 = 'AAA'" (bfClick)="val1='AAA'"></bf-btn>
+      <bf-btn bfText="val1 = '123456789'" (bfClick)="val1='123456789'"></bf-btn>
+      <bf-btn bfText="val1 = '@#*'" (bfClick)="val1='@#*'"></bf-btn>
+      <bf-btn bfText="val1 = ''" (bfClick)="val1=''"></bf-btn>
+      <div class="padT5"></div>
+      <bf-btn bfText="val1 = null" (bfClick)="val1=null"></bf-btn>
+      <bf-btn bfText="val1 = undefined" (bfClick)="val1=undefined"></bf-btn>
+      <bf-btn bfText="val1 = false" (bfClick)="val1=false"></bf-btn>
+      <bf-btn bfText="val1 = 0" (bfClick)="val1=0"></bf-btn>
+
+    </div>
+
+    <div class="padT15">
+      <div class="code-box pad15">
+        <pre>{{valCompCode}}</pre>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-6" *ngIf="!!inputRef">
+
+    <div class="row">
+
+      <!--bfErrorOnPristine-->
+      <bf-checkbox class="col-3 block" bfLabel="bfErrorOnPristine" [(ngModel)]="valEx.hasErrOnPristine" (ngModelChange)="upComp()"></bf-checkbox>
+
+      <!--Disabled-->
+      <bf-checkbox class="col-3 block" bfLabel="bfDisabled" [(ngModel)]="valEx.isDisabled" (ngModelChange)="upComp()"></bf-checkbox>
+
+      <!--bfErrorPos-->
+      <bf-dropdown class="col-3" style="margin-top: -32px" bfLabel="bfErrorPos"
+                   [bfList]="valEx.errorPosOpts" bfRender="text" bfSelect="id"
+                   [(ngModel)]="valEx.errorPos" (ngModelChange)="upComp()">
+      </bf-dropdown>
+
+
+      <bf-dropdown class="col-3" style="margin-top: -32px" bfLabel="bfType"
+                   [bfList]="valEx.inputTypes" bfRender="text" bfSelect="id" [bfRequired]="true"
+                   [(ngModel)]="valEx.bfType" (ngModelChange)="upComp()">
+      </bf-dropdown>
+
+      <!--bfInvalidIcon-->
+      <div class="col-6">
+        <bf-checkbox bfLabel="bfInvalidIcon" style="width: 130px;" [(ngModel)]="valEx.hasInvalidIcon" (ngModelChange)="upComp()"></bf-checkbox>
+        <input style="width: 200px;" [(ngModel)]="valEx.bfInvalidIcon" [disabled]="!valEx.hasInvalidIcon" (ngModelChange)="upComp()">
+      </div>
+
+      <!--bfValidIcon-->
+      <div class="col-6">
+        <bf-checkbox bfLabel="bfValidIcon" style="width: 120px;" [(ngModel)]="valEx.hasValidIcon" (ngModelChange)="upComp()"></bf-checkbox>
+        <input style="width: 200px;" [(ngModel)]="valEx.bfValidIcon" [disabled]="!valEx.hasValidIcon" (ngModelChange)="upComp()">
+      </div>
+
+      <!--bfErrorText-->
+      <div class="col-6">
+        <bf-checkbox bfLabel="bfErrorText" style="width: 130px;" bfTooltipPos="left" bfTooltip="It will replace any other error message"
+                     [(ngModel)]="valEx.hasErrorText" (ngModelChange)="upComp()"></bf-checkbox>
+        <input style="width: 200px;" [(ngModel)]="valEx.bfErrorText" [disabled]="!valEx.hasErrorText" (ngModelChange)="upComp()">
+      </div>
+
+      <!--bfIcon-->
+      <div class="col-6">
+        <bf-checkbox bfLabel="bfIcon" style="width: 120px;" [(ngModel)]="valEx.hasIcon" (ngModelChange)="upComp()"></bf-checkbox>
+        <input style="width: 200px;" [(ngModel)]="valEx.bfIcon" [disabled]="!valEx.hasIcon" (ngModelChange)="upComp()">
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-12"><hr></div>
+
+      <!--Required-->
+      <bf-checkbox class="col-4 block" style="min-height: 40px;" bfLabel="bfRequired" [(ngModel)]="valEx.isRequired" (ngModelChange)="upComp()"></bf-checkbox>
+
+      <!--Manual error-->
+      <div class="col-8 text-right">
+        <bf-btn bfType="save" bfText="Clear Error" (bfClick)="inputRef.removeError()"></bf-btn>
+        <bf-btn bfType="save" bfText="Add Error" (bfClick)="inputRef.addError({ label: 'wroooong!' })"></bf-btn>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-4">
+        <span>Debounce Time:</span>
+        <input style="width: 200px;" [(ngModel)]="valEx.debounceTime" (ngModelChange)="setValidation()">
+      </div>
+      <div class="col-4">
+        <span>Async response time:</span>
+        <input style="width: 200px;" [(ngModel)]="valEx.timeoutMock">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 padT15">
+        <hr>
+        <h5>Code Example:</h5>
+        <div class="code-box pad15">
+          <pre style="font-size: 12px;">{{codeEx}}</pre>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>
+
+
+
+
+
