@@ -1,7 +1,7 @@
-<br>inputText={{inputText}}
-<br>inputPlaceholder={{inputPlaceholder}}
-<br>selModelText={{selModelText}}
-<div *ngIf="dropdownInput">value={{dropdownInput.value | json}}</div>
+<!--<br>inputText={{inputText}}-->
+<!--<br>inputPlaceholder={{inputPlaceholder}}-->
+<!--<br>selModelText={{selModelText}}-->
+<!--<div *ngIf="dropdownInput">value={{dropdownInput.value | json}}</div>-->
 
 <div class="form-group bf-dropdown-form-group"
      (keydown)="triggerKey($event)"
@@ -32,7 +32,7 @@
   </span>
 
 
-  <div class="bf-dropdown" [class.is-expanded]="isExpanded">
+  <div class="bf-dropdown" [class.is-expanded]="isExpanded" [class.expand-upward]="expandUpward">
     <div class="input-group"
          [disableTooltip]="!bfDisabled || !bfDisabledTip"
          [ngbTooltip]="bfDisabledTipTrans$ | async">
@@ -54,14 +54,14 @@
 
       <div class="input-group-append" (click)="!bfDisabled && onInputBtnClick()">
         <button class="btn btn-outline-secondary" [disabled]="bfDisabled ? 'true' : ''">
-          <span [hidden]="isLoading" class="icon-arrow-down22"></span>
+          <span [hidden]="isLoading" [ngClass]="(isExpanded && expandUpward) ? 'icon-arrow-up22' : 'icon-arrow-down22'"></span>
           <!--<span [hidden]="!isLoading" class="icon-loop32 loading"></span>-->
           <span [hidden]="!isLoading" class="loading"></span>
         </button>
       </div>
     </div>
 
-    <div class="list-container">
+    <div class="list-container" [class.list-upward]="expandUpward" *ngIf="isExpanded">
       <div *ngFor="let item of extList" class="option-row"
            [class.selected]="bfModel === item"
            [hidden]="!item.$isMatch"

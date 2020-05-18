@@ -93,14 +93,29 @@ bf-dropdown {
       }
 
       &.is-expanded {
-        input.form-control {
-          border-bottom-left-radius: 0;
-          border-bottom: none;
+        &:not(.expand-upward) {
+          input.form-control {
+            border-bottom-left-radius: 0;
+            border-bottom: none;
+          }
+          .btn.btn-outline-secondary {
+            border-bottom-right-radius: 0;
+            border-bottom-color: transparent;
+          }
         }
+        &.expand-upward {
+          input.form-control {
+            border-top-left-radius: 0;
+            border-top: none;
+          }
+          .btn.btn-outline-secondary {
+            border-top-right-radius: 0;
+            border-top-color: transparent;
+          }
+        }
+
         .btn.btn-outline-secondary {
-          border-bottom-right-radius: 0;
           border-left-color: transparent;
-          border-bottom-color: transparent;
           background: $white;
           color: $dropdown-valid-color;
           border-top-color: $optional-color;
@@ -116,22 +131,36 @@ bf-dropdown {
       // Expanded list to select an item
       .list-container {
         background: $white;
-        border: 1px solid $optional-color;
-        border-top-color: rgba($optional-color, 0.5);
         display: none;
         position: absolute;
         width: 100%;
         z-index: 6000;
         max-height: 300px;
-        padding: 5px 0;
+        padding: 0; // padding: 5px 0;
         overflow: auto;
-        border-bottom-left-radius: 3px;
-        border-bottom-right-radius: 3px;
+        border: 1px solid $optional-color;
+
+        &:not(.list-upward) {
+          border-top-color: rgba($optional-color, 0.5);
+          border-bottom-left-radius: 3px;
+          border-bottom-right-radius: 3px;
+        }
+
+        &.list-upward {
+          bottom: 34px; // pull it up
+          border-top-left-radius: 3px;
+          border-top-right-radius: 3px;
+          border-bottom-color: rgba($optional-color, 0.5);
+        }
+
         .option-row {
           padding: 4px 10px;
           margin: 1px 0;
           min-height: 36px;
           max-height: 72px;
+          &:last-child  { min-height: 37px; margin-bottom: 0; }
+          &:first-child { min-height: 37px; margin-top: 0;  }
+
           display: flex;
           align-items: center;
           cursor: pointer;
@@ -152,6 +181,7 @@ bf-dropdown {
             margin-right: 10px;
           }
         }
+
       }
 
     }
@@ -200,9 +230,14 @@ bf-dropdown {
           color: $color;
           border-color: $color $color transparent transparent;
         }
+        &.is-expanded.expand-upward .btn.btn-outline-secondary {
+          border-color: transparent $color $color transparent;
+        }
+
         .list-container {
           border-color: $color;
-          border-top-color: rgba($optional-color, 0.5);
+          &:not(.list-upward) { border-top-color: rgba($optional-color, 0.5); }
+          &.list-upward { border-bottom-color: rgba($optional-color, 0.5); }
         }
       }
     }

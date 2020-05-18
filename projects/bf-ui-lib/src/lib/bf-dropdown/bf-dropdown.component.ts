@@ -14,8 +14,8 @@ import BfObject from '../bf-prototypes/object.prototype';
 import BfArray from '../bf-prototypes/array.prototypes';
 import {Observable, of} from 'rxjs';
 import { BfUILibTransService} from '../abstract-translate.service';
-import {BfDefer} from "../bf-defer/bf-defer";
-import {dCopy} from "../bf-prototypes/deep-copy";
+import {BfDefer} from '../bf-defer/bf-defer';
+import {dCopy} from '../bf-prototypes/deep-copy';
 
 
 /****
@@ -222,6 +222,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     noMatch: false,       // When ngModel set externally and no match on the list
     manualErr: null,      // Manual error (set through addError() / removeError())
   };
+  public expandUpward = false;  // Whether to expand the list upward (true) or downward (false)
 
   // Empty option item (in extList)
   public emptyItem = {
@@ -250,6 +251,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   constructor(
     private translate: BfUILibTransService,
+    private htmlEl: ElementRef,
   ) {
     console.log(new Date(), 'constructor');
     // Rerender the list labels on language change
@@ -398,7 +400,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
         itemLabel = $item[this.bfRender] || this.bfRender;  // Display item property / string label
 
       } else if (!this.bfRenderFn) { // If render function, $label will be calculated later
-        itemLabel = Object.keys($item).join(', '); // If no rendering defined: Display all props
+        itemLabel = Object.values($item).join(', '); // If no rendering defined: Display all props
       }
 
       $item.$label = itemLabel + '';
@@ -485,7 +487,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     }
   }
 
-
+  // Run ngModel validation safely
   public runValidation = (num) => {
     if (this.ngControl) {
       console.log(new Date(), 'runValidation(', num, ')', this.errors);
@@ -547,6 +549,14 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   // On input focus in -> Expand the select list
   public expandList = () => {
     console.log(new Date(), 'expandList: focus in - expand');
+
+    // If the dropdown is to close to the bottom of the window, expand it upward so the list doesn't fall off
+    if (this.htmlEl) {
+      // $scope.openAbove = ($(window).height() - ($element.offset().top - $(window).scrollTop()) < 380);  (from old portal)
+      const renderedShadowRect = this.htmlEl.nativeElement.getBoundingClientRect();
+      this.expandUpward = (window.innerHeight - renderedShadowRect.bottom) < 350;
+    }
+
     this.isFocus = true;
     this.isExpanded = true;
     this.inputText = '';  // Clear the text to work as a filter
