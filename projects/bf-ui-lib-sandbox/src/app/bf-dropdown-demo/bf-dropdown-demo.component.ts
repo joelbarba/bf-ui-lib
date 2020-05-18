@@ -144,6 +144,7 @@ public extCtrl$ = new Subject();
     isLoading: false, isLoadingWithPromise: false, bfLoadingPromise: null,
     isErrorOnPristine: false,
     hasSelect: true,  selectField: 'username',
+    hasOrder: false, bfOrderBy: 'last_name, -username',
     hasRender: true,  hasRenderFn: false, renderExp: `email`, renderLabel: false,
 
     hasLabel: true,   labelText: 'view.common.field_name',

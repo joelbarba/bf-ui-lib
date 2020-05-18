@@ -45,6 +45,7 @@ For other options, check components bf-autocomplete, bf-multi-selector, ...</p>
         <bf-dropdown [class.full-width]="conf.hasFullWidth" style="width: 400px;"
                      [(ngModel)]="selObj10" #bfDropdownRef="ngModel"
                      [bfList]="dList"
+                     [bfOrderBy]="conf.hasOrder ? conf.bfOrderBy: null"
                      [bfSelect]="(conf.hasSelect && !!conf.selectField) ? conf.selectField : null"
                      [bfRender]="(conf.hasRender ? conf.renderExp : null)"
                      [bfRenderFn]="(conf.hasRenderFn ? renderFn : null)"
@@ -139,7 +140,7 @@ For other options, check components bf-autocomplete, bf-multi-selector, ...</p>
         <!--<bf-dropdown class="col-10" [bfDisabled]="!conf.hasSelect" [(ngModel)]="conf.selectField" (ngModelChange)="upComp()"-->
         <!--             [bfList]="compSelFields" bfRender="id" bfSelect="id" [bfRequired]="true">-->
         <!--</bf-dropdown>-->
-        <div class="col-4 padT5 padB15">
+        <div class="col-3 padT5 padB15">
           <select [disabled]="!conf.hasSelect" [(ngModel)]="conf.selectField" (ngModelChange)="upComp()">
             <option value="id">id</option>
             <option value="username">username</option>
@@ -148,6 +149,8 @@ For other options, check components bf-autocomplete, bf-multi-selector, ...</p>
             <option value="last_name">last_name</option>
           </select>
         </div>
+        <bf-checkbox class="col-2 padT5" bfLabel="bfOrderBy" [(ngModel)]="conf.hasOrder" (ngModelChange)="upComp()"></bf-checkbox>
+        <bf-input class="col-5" [bfDisabled]="!conf.hasOrder" [(ngModel)]="conf.bfOrderBy" (ngModelChange)="upComp()"></bf-input>
       </div>
 
       <!--bfRender-->

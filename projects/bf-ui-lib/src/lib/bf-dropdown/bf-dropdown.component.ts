@@ -13,11 +13,10 @@ import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS } f
 import BfObject from '../bf-prototypes/object.prototype';
 import BfArray from '../bf-prototypes/array.prototypes';
 import {Observable, of, Subject, Subscription} from 'rxjs';
-import { BfUILibTransService} from '../abstract-translate.service';
+import {BfUILibTransService} from '../abstract-translate.service';
 import {BfDefer} from '../bf-defer/bf-defer';
 import {dCopy} from '../bf-prototypes/deep-copy';
-import set = Reflect.set;
-import {debounceTime} from "rxjs/operators";
+import {debounceTime} from 'rxjs/operators';
 
 
 /****
@@ -178,6 +177,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfRequired: unknown = false; // Whether the model is required (can't be empty)
   @Input() bfDisabled: unknown = false; // Whether the dropdown is disabled
   @Input() bfDisabledTip = '';    // If dropdown disabled, tooltip to display on hover (label)
+  @Input() bfOrderBy = '';        // Field (or fields separated by ,). If prefixed by '-', desc order for the field
 
   @Input() bfLabel = '';          // Label to display above the dropdown
   @Input() bfTooltip = '';        // Add a badge next to the label with the tooltip to give more info
@@ -323,7 +323,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     }
 
     // List generation (bfList --> extList)
-    if (changing('bfList') || changing('bfRender') || changing('bfRenderFn')) {
+    if (changing('bfList') || changing('bfOrderBy') || changing('bfRender') || changing('bfRenderFn')) {
       this.generateExtList();
     }
 
@@ -403,22 +403,40 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     // if (renderExpr) { console.warn('bfDropdown - bfRender - Consider using [bfRenderFn] instead of an eval expression'); }
     // itemLabel = eval(renderExpr); // We'll keep this for back compatibility, but better use [bfRenderFn]
 
-    this.extList.forEach(($item, ind) => {
+    this.extList.forEach((item, ind) => {
       let itemLabel = '';
 
       if (!!this.bfRender) {
-        itemLabel = $item[this.bfRender] || this.bfRender;  // Display item property / string label
+        itemLabel = item[this.bfRender] || this.bfRender;  // Display item property / string label
 
       } else if (!this.bfRenderFn) { // If render function, $label will be calculated later
-        itemLabel = Object.values($item).join(', '); // If no rendering defined: Display all props
+        itemLabel = Object.values(item).join(', '); // If no rendering defined: Display all props
       }
 
-      $item.$label = itemLabel + '';
-      $item.$index = ind + 1;  // Internal unique index
-      $item.$isMatch = true;   // filter none by default
-      $item.$img = $item[this.bfRenderImg] || null;
-      $item.$icon = $item[this.bfRenderIco] || null;
+      item.$label = itemLabel + '';
+      item.$index = ind + 1;  // Internal unique index
+      item.$isMatch = true;   // filter none by default
+      item.$img = item[this.bfRenderImg] || null;
+      item.$icon = item[this.bfRenderIco] || null;
     });
+
+    // Order the list
+    if (this.bfOrderBy) {
+      const fields = this.bfOrderBy.split(',').map(field => field.trim()).reverse();
+      this.extList = this.extList.sort((itemA, itemB) => {
+        let diff = 0;
+        fields.forEach(field => {
+          if (field.charAt(0) === '-') {
+            if (itemA[field.slice(1)] < itemB[field.slice(1)]) { diff =  1; }
+            if (itemA[field.slice(1)] > itemB[field.slice(1)]) { diff = -1; }
+          } else {
+            if (itemA[field] < itemB[field]) { diff = -1; }
+            if (itemA[field] > itemB[field]) { diff =  1; }
+          }
+        });
+        return diff;
+      });
+    }
 
     this.setEmptyOption(); // Set Empty option
     this.renderExtList(); // Set $renderedText
