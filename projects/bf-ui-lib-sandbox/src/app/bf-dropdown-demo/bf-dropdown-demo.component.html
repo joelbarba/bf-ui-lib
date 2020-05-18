@@ -7,7 +7,6 @@ For other options, check components bf-autocomplete, bf-multi-selector, ...</p>
 <h5 class="mt-4">Parameters:</h5>
 <div *ngIf="false" class="col-12"><pre>{{api}}</pre></div>
 
-<div style="padding: 400px"></div>
 
 <!--Test dropdown in a form-->
 <!--<div class="col-4">-->
@@ -35,6 +34,14 @@ For other options, check components bf-autocomplete, bf-multi-selector, ...</p>
       <h5 class="marB25">Dropdown Customization:</h5>
 
       <div *ngIf="isLinked">
+        <div class="col-12 padL30 marB30" *ngIf="!!bfDropdownRef" style="font-family: monospace;">
+          FromControl (ngModel):<br>
+          <div class="marL10">- bfInputRef.value: <b>{{bfDropdownRef.value | json}}</b></div>
+          <div class="marL10">- bfInputRef.valid: <b [style.color]="bfDropdownRef.valid ? '#28a745': '#dc3545'">{{bfDropdownRef.valid | json}}</b></div>
+          <div class="marL10">- bfInputRef.pristine: <b>{{bfDropdownRef.pristine | json}}</b></div>
+          <div class="marL10">- bfInputRef.errors: <b>{{bfDropdownRef.errors | json}}</b></div>
+        </div>
+
         <bf-dropdown [class.full-width]="conf.hasFullWidth" style="width: 400px;"
                      [(ngModel)]="selObj10" #bfDropdownRef="ngModel"
                      [bfList]="dList"
@@ -70,19 +77,13 @@ For other options, check components bf-autocomplete, bf-multi-selector, ...</p>
         <!--  <hr>-->
         <!--</div>-->
 
-        <div class="col-12 padL30" *ngIf="!!bfDropdownRef" style="font-family: monospace;">
-          FromControl (ngModel):<br>
-          <div class="marL10">- bfInputRef.value: <b>{{bfDropdownRef.value | json}}</b></div>
-          <div class="marL10">- bfInputRef.valid: <b [style.color]="bfDropdownRef.valid ? '#28a745': '#dc3545'">{{bfDropdownRef.valid | json}}</b></div>
-          <div class="marL10">- bfInputRef.pristine: <b>{{bfDropdownRef.pristine | json}}</b></div>
-          <div class="marL10">- bfInputRef.errors: <b>{{bfDropdownRef.errors | json}}</b></div>
-        </div>
+
       </div>
 
       <div class="padT30">
         <bf-btn bfIcon="icon-loop32"  bfText="Relink" (bfClick)="reLink()"></bf-btn>
         <bf-btn bfText="val=null" (bfClick)="selObj10=null"></bf-btn>
-        <bf-btn bfText="val='syrax'" (bfClick)="selObj10='syrax'"></bf-btn>
+        <bf-btn bfText="val='arrax'" (bfClick)="selObj10='arrax'"></bf-btn>
         <bf-btn bfText="val='abc'" (bfClick)="selObj10='abc'"></bf-btn>
         <bf-btn bfText="val=Item 13" (bfClick)="mockAutoSelect()"></bf-btn>
       </div>

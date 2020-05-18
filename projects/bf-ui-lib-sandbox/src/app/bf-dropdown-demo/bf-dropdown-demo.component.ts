@@ -142,19 +142,19 @@ public extCtrl$ = new Subject();
     isRequired: false,
     isDisabled: false, disabledTip: '',
     isLoading: false, isLoadingWithPromise: false, bfLoadingPromise: null,
-    isErrorOnPristine: true,
+    isErrorOnPristine: false,
     hasSelect: true,  selectField: 'username',
     hasRender: true,  hasRenderFn: false, renderExp: `email`, renderLabel: false,
 
     hasLabel: true,   labelText: 'view.common.field_name',
     hasTooltip: false, tooltipText: 'view.tooltip.message', tooltipPos: 'top', tooltipBody: true,
-    hasPlaceholder: false, bfPlaceholder: '--- Select Item ---',
+    hasPlaceholder: true, bfPlaceholder: '--- Select Item ---',
     hasEmptyLabel: false, customEmptyLabel: 'view.common.all',
     hasEmptyValue: false, customEmptyValue: 'everything',
     hasImages: false, hasIcons: false,
 
     hasErrorText: false, bfErrorText: `this ain't good`, errorPos: null,
-    hasControls: true,
+    hasControls: false,
 
     hasFullWidth: true,
   };

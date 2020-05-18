@@ -7,15 +7,17 @@ import {
   OnChanges,
   ViewChild,
   ElementRef,
-  OnDestroy, EventEmitter, AfterViewInit
+  OnDestroy, EventEmitter, AfterViewInit, ViewChildren
 } from '@angular/core';
 import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import BfObject from '../bf-prototypes/object.prototype';
 import BfArray from '../bf-prototypes/array.prototypes';
-import {Observable, of} from 'rxjs';
+import {Observable, of, Subject, Subscription} from 'rxjs';
 import { BfUILibTransService} from '../abstract-translate.service';
 import {BfDefer} from '../bf-defer/bf-defer';
 import {dCopy} from '../bf-prototypes/deep-copy';
+import set = Reflect.set;
+import {debounceTime} from "rxjs/operators";
 
 
 /****
@@ -209,6 +211,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   public inputPlaceholder = '';   // Text on the input placeholder
   public inputText = '';          // Text on the input (ngModel)
   public extList; // Make a copy from bfList to make sure we never modify the input array
+  public bfCandidate; // Pointer to a extList item that might be selected next but not yet (hovering / arrow scrolling)
 
   public isInvalid = false;   // If the model holds an invalid option
   public isExpanded = false;  // Whether the list is shown (true) or hidden
@@ -239,15 +242,20 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   public bfDisabledTipTrans$ = of('');   // Translated text for the disabled tooltip
   public errorTextTrans$ = of('');       // Translated text for the error message
   public renderedPlaceholder;   // Translated value of the custom placeholder
-  public langSubs;  // Subscription to language changes
-  public ctrlSubs;  // Subscription to external control observable
   public lastLoadPromise; // Reference to avoid bfLoading promise overlap
+  public subs: {[ key: string]: Subscription } = {};  // Subscriptions holder
 
   private readonly ctrlObject; // Hold an object with the input controller and the action methods
   private inputCtrlDefer = new BfDefer();  // This is resolved once inputCtrl is initialized
 
+  public ignoreHover = false; // When scrolling with the arrow keys, ignore mouse hover
+  public arrowScroll$ = new Subject();
+  public listHeight; // Computed height of the expanded listContainer
+  public allRows; // Reference to the optionRows.toArray() html elements array
 
   @ViewChild('dropdownInput', { static: false }) elInput: ElementRef<HTMLInputElement>;
+  @ViewChild('listContainer', { static: false }) listContainer: ElementRef<HTMLInputElement>;
+  @ViewChildren('optionRow') optionRows;
 
   constructor(
     private translate: BfUILibTransService,
@@ -255,10 +263,13 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   ) {
     console.log(new Date(), 'constructor');
     // Rerender the list labels on language change
-    this.langSubs = this.translate.onLangChange$.subscribe(() => {
+    this.subs.langSubs = this.translate.onLangChange$.subscribe(() => {
       console.log(new Date(), 'translate.onLangChange$');
       this.renderExtList();
     });
+
+    // Give the browser .1s to scroll and avoid the mouseenter selecting a different item while using arrows up/down
+    this.subs.scrollSub = this.arrowScroll$.pipe(debounceTime(100)).subscribe(() => this.ignoreHover = false);
 
     // const updateCtrl = () => { if (this.ngControl) { this.ngControl.updateValueAndValidity(); }};
     // this.ctrlObject = {
@@ -283,8 +294,8 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
     // External control via extCtrl$
     if (changing('extCtrl$')) {
-      if (!!this.ctrlSubs) { this.ctrlSubs.unsubscribe(); }
-      this.ctrlSubs = this.extCtrl$.subscribe((option: { action: string, value?: any }) => {
+      if (!!this.subs.ctrlSubs) { this.subs.ctrlSubs.unsubscribe(); }
+      this.subs.ctrlSubs = this.extCtrl$.subscribe((option: { action: string, value?: any }) => {
         console.log(new Date(), 'bf-dropdown --> extCtrl$');
         if (option.action === 'expand' && !this.isExpanded)  { this.deferExpand(); }
         if (option.action === 'collapse' && this.isExpanded) { this.collapseList(); }
@@ -377,8 +388,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   ngOnDestroy() {
     console.log(new Date(), 'ngOnDestroy');
-    if (!!this.langSubs) { this.langSubs.unsubscribe(); }
-    if (!!this.ctrlSubs) { this.ctrlSubs.unsubscribe(); }
+    Object.values(this.subs).forEach(sub => sub.unsubscribe());
   }
 
 
@@ -552,15 +562,33 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
     // If the dropdown is to close to the bottom of the window, expand it upward so the list doesn't fall off
     if (this.htmlEl) {
-      // $scope.openAbove = ($(window).height() - ($element.offset().top - $(window).scrollTop()) < 380);  (from old portal)
       const renderedShadowRect = this.htmlEl.nativeElement.getBoundingClientRect();
       this.expandUpward = (window.innerHeight - renderedShadowRect.bottom) < 350;
     }
 
+    this.bfCandidate = this.bfModel;
     this.isFocus = true;
     this.isExpanded = true;
     this.inputText = '';  // Clear the text to work as a filter
     this.filterList('');
+
+    // If the selected element is down in the list, auto scroll so it's immediately visible
+    setTimeout(() => {
+      if (this.optionRows && this.listContainer) {
+        this.allRows = this.optionRows.toArray();
+        this.listHeight = this.listContainer.nativeElement.getBoundingClientRect().height;
+        const selectedEl = this.allRows.find(el => el.nativeElement.classList.contains('selected'));
+        if (selectedEl) {
+          const offsetTop = selectedEl.nativeElement.offsetTop;
+          const clientHeight = selectedEl.nativeElement.clientHeight;
+          const scrollTop = this.listContainer.nativeElement.scrollTop;
+          const posY = offsetTop - scrollTop;
+          if (posY + clientHeight > this.listHeight) { // Scroll down
+            this.listContainer.nativeElement.scrollTo({ top: scrollTop + posY - 15, behavior: 'auto' });
+          }
+        }
+      }
+    });
   };
 
   // On input focus out -> Collapse the select list
@@ -579,23 +607,50 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     console.log(new Date(), 'triggerKey');
     if (event.key === 'Escape' && this.isExpanded) { this.elInput.nativeElement.blur(); } // make it lose the focus
 
-    // Use bfModel as a temporary pointer to the highlighted item on the list while moving up/down with arrows
+    // Use bfCandidate as a temporary pointer to the highlighted item on the list while moving up/down with arrows
+    if (!this.bfCandidate) { this.bfCandidate = this.bfModel; }
     const visibleList = this.extList.filter(item => item.$isMatch);
-    const ind = visibleList.indexOf(this.bfModel);
+    const ind = visibleList.indexOf(this.bfCandidate);
 
     if (event.key === 'ArrowDown') {
       const nextInd = (ind >= 0 && ind < visibleList.length - 1) ? ind + 1 : 0;
-      this.bfModel = visibleList[nextInd];
+      this.bfCandidate = visibleList[nextInd];
+      this.ignoreHover = true;
+      this.arrowScroll$.next();
     }
     if (event.key === 'ArrowUp') {
       const nextInd = (ind > 0) ? ind - 1 : visibleList.length - 1;
-      this.bfModel = visibleList[nextInd];
+      this.bfCandidate = visibleList[nextInd];
+      this.ignoreHover = true;
+      this.arrowScroll$.next();
     }
 
     if (event.key === 'Enter') {
-      this.selectItem(this.bfModel);
+      this.selectItem(this.bfCandidate);
       this.elInput.nativeElement.blur();
     }
+
+    // Wait for the css classes to be applied on the view
+    // If the candidate falls out of the scrolling window, auto scroll so it gets back in
+    setTimeout(() => {
+      if (this.allRows && this.listContainer) {
+        const candidateEl = this.allRows.find(el => el.nativeElement.classList.contains('candidate'));
+        if (candidateEl) {
+          const offsetTop = candidateEl.nativeElement.offsetTop;
+          const clientHeight = candidateEl.nativeElement.clientHeight;
+          const scrollTop = this.listContainer.nativeElement.scrollTop;
+          const posY = offsetTop - scrollTop;
+
+          if (posY < 0) { // Scroll up
+            this.listContainer.nativeElement.scrollTo({ top: scrollTop + posY - 5, behavior: 'auto' });
+          }
+          if (posY + clientHeight > this.listHeight) { // Scroll down
+            this.listContainer.nativeElement.scrollTo({ top: scrollTop + posY + 5 + clientHeight - this.listHeight, behavior: 'auto' });
+          }
+        }
+      }
+    });
+
   };
 
 

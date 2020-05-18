@@ -169,7 +169,7 @@ bf-dropdown {
             color: $white;
             background: $dropdown-selection-bg
           }
-          &:hover {
+          &.candidate {
             background: $dropdown-selection-hover;
             color: $white;
           }
