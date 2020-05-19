@@ -26,7 +26,7 @@
   </label>
 
   <!--Error Message-->
-  <span *ngIf="showError"
+  <span *ngIf="showError && errorPosition !== 'none'"
         class="bf-dropdown-error-text"
         [class.pull-up]="!bfLabel"
         [class.default]="errorPosition === 'default'"

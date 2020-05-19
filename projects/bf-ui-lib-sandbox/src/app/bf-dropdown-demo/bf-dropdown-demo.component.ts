@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Subject} from 'rxjs';
 import {BfTranslateService} from '../translate.service';
 import {BfGrowlService} from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service';
+import {IbfDropdownCtrl} from '../../../../bf-ui-lib/src/lib/bf-dropdown/bf-dropdown.component';
 
 @Component({
   selector: 'app-bf-dropdown-demo',
@@ -82,51 +83,59 @@ export class BfDropdownDemoComponent implements OnInit {
   public selObj8;
   public selObj9;
   public selObj10;
-  public loadingPromise;
 
-  public instance2 = `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList" bfSelect="username" bfRender="email">
-</bf-dropdown>`;
-  public instance3 = `<bf-dropdown [(ngModel)]="selObj"
-             [bfList]="myList"
-             bfSelect="username, first_name, last_name"
-             bfRender="$$$ $item.first_name + ' ' + $item.last_name + ' (' + $item.email + ')'">
-</bf-dropdown>`;
-  public instance4 = `<bf-dropdown [(ngModel)]="selObj"
-             [bfList]="myList"
-             bfRender="email"
-             bfLabel="Email"
-             [bfRequired]="true"
-             [bfDisabled]="false">
-</bf-dropdown>`;
-  public timeZones =  [
-    { country_code: null, time_zone: 'Europe/Dublin',      img: 'assets/language-flags/ja.png' },
-    { country_code: null, time_zone: 'Africa/Addis_Ababa', img: 'assets/language-flags/ja.png' },
-    { country_code: null, time_zone: 'Africa/Algiers',     img: 'assets/language-flags/us.png' },
-    { country_code: null, time_zone: 'Africa/Asmara',      img: 'assets/language-flags/ie.png' },
-  ];
-  public profileForm = { time_zone: 'Europe/Dublin' };
+
 
   public cssReset = `$dropdown-selection-bg: $quaternary_color !default;
 $dropdown-selection-hover: $primary_color !default;
 $dropdown-valid-color: $valid-color !default;`;
 
 
-
+  public myCtrl: IbfDropdownCtrl;
+  public myCtrl2: IbfDropdownCtrl;
   public extCtrl$ = new Subject();
-  public ctrlActions = [
-    `{ action: 'expand' } ............... Expands the selection list`,
-    `{ action: 'collapse' } ............. Collapses the selection list`,
-    `{ action: 'toggle' } ............... Expands/Collapses the selection list`,
-    `{ action: 'type', value: text } .... Sets the value in the search input`,
+  public ctrlActions1 = [
+    `expand()............... Expands the selection list`,
+    `collapse()............. Collapses the selection list`,
+    `toggle()............... Expands/Collapses the selection list`,
+    `type(text) ............ Sets the value in the search input`,
+    `setPristine().......... Resets the pristine state`,
+    `addError() ............ Adds a manual error`,
+    `removeError(text)...... Removes the manual error`,
   ];
-  public extCtrlExample = `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList" [extCtrl$]="extCtrl$"></bf-dropdown>
+  public ctrlActions2 = [
+    `{ action: 'expand' } ................. Expands the selection list`,
+    `{ action: 'collapse' } ............... Collapses the selection list`,
+    `{ action: 'toggle' } ................. Expands/Collapses the selection list`,
+    `{ action: 'type', value: text } ...... Sets the value in the search input`,
+    `{ action: 'setPristine' } ............ Resets the pristine state`,
+    `{ action: 'addError', value: err } ... Adds a manual error`,
+    `{ action: 'removeError' } ............ Removes the manual error`,
+  ];
+  public extCtrlExample1 = `<bf-dropdown .... (bfOnLoaded)="myCtrl = $event"></bf-dropdown>
+
+public myCtrl: IbfDropdownCtrl;
+
+myCtrl.expand()
+myCtrl.collapse()
+myCtrl.toggle()
+myCtrl.type('ax')
+myCtrl.setPristine()
+myCtrl.addError('wrong')
+myCtrl.removeError()`;
+
+  public extCtrlExample2 = `<bf-dropdown .... [extCtrl$]="extCtrl$"></bf-dropdown>
 
 public extCtrl$ = new Subject();
 
-<bf-btn (bfClick)="extCtrl$.next({ action: 'expand' })"></bf-btn>
-<bf-btn (bfClick)="extCtrl$.next({ action: 'collapse' })"></bf-btn>
-<bf-btn (bfClick)="extCtrl$.next({ action: 'toggle' })"></bf-btn>
-<bf-btn (bfClick)="extCtrl$.next({ action: 'type', value: 'ax' })"></bf-btn>`;
+extCtrl$.next({ action: 'expand' })
+extCtrl$.next({ action: 'collapse' })
+extCtrl$.next({ action: 'toggle' })
+extCtrl$.next({ action: 'type', value: 'ax' })
+extCtrl$.next({ action: 'setPristine' })
+extCtrl$.next({ action: 'addError' })
+extCtrl$.next({ action: 'removeError', value: 'wrong' })`;
+
   renderFnStr = `renderFn = (item, ind) => bfTranslate.doTranslate('view.common.field_name') + ' ' + ind;`;
   renderInfo = `'views.item_number': 'Item number {{id}} - {{name}}'`;
 
@@ -135,8 +144,6 @@ public extCtrl$ = new Subject();
   public bsStr = `
              `;
   public code = ``;
-  public customExLinked = true;  // To link / unlink component
-  public compSelFields = [{id: 'id'}, {id: 'username'}, {id: 'email'}, {id: 'first_name'}, {id: 'last_name'}];
 
   public conf = {
     isRequired: false,
@@ -149,15 +156,15 @@ public extCtrl$ = new Subject();
 
     hasLabel: true,   labelText: 'view.common.field_name',
     hasTooltip: false, tooltipText: 'view.tooltip.message', tooltipPos: 'top', tooltipBody: true,
-    hasPlaceholder: true, bfPlaceholder: '--- Select Item ---',
+    hasPlaceholder: true, bfPlaceholder: 'views.dropdown.placeholder',
     hasEmptyLabel: false, customEmptyLabel: 'view.common.all',
     hasEmptyValue: false, customEmptyValue: 'everything',
     hasImages: false, hasIcons: false,
 
     hasErrorText: false, bfErrorText: `this ain't good`, errorPos: null,
-    hasControls: false,
+    hasControls: false, bfCustomPlacementList: undefined,
 
-    hasFullWidth: true,
+    hasFullWidth: true, hasFlat: false,
   };
   public upComp = () => {
     if (this.conf.isLoading) { this.conf.isLoadingWithPromise = false; }
@@ -165,32 +172,55 @@ public extCtrl$ = new Subject();
     this.code = `<bf-dropdown `;
     let compClasses = '';
     if (this.conf.hasFullWidth) { compClasses = 'full-width'; }
+    if (this.conf.hasFlat) { compClasses += (compClasses ? ', ' : '') + 'flat'; }
     if (!!compClasses) { this.code += `class="${compClasses}"` + this.bsStr; }
-    this.code += `[(ngModel)]="selObj"` + this.bsStr;
+    this.code += `[(ngModel)]="val"` + this.bsStr;
     this.code += `[bfList]="myList"`;
 
+    if (this.conf.hasLabel)   { this.code += this.bsStr + `bfLabel="${this.conf.labelText}"`; }
+    if (this.conf.isErrorOnPristine) { this.code += this.bsStr + `[bfErrorOnPristine]="true"`; }
     if (this.conf.isRequired) { this.code += this.bsStr + `[bfRequired]="true"`; }
     if (this.conf.isDisabled) { this.code += this.bsStr + `[bfDisabled]="true"`; }
-    if (this.conf.hasLabel)   { this.code += this.bsStr + `bfLabel="${this.conf.labelText}"`; }
-    if (this.conf.hasSelect && !!this.conf.selectField) {
-      this.code += this.bsStr + `bfSelect="${this.conf.selectField}"`;
-    }
-
-    if (this.conf.hasRender)   { this.code += this.bsStr + `bfRender="${this.conf.renderExp}"`; }  // this.reLink(0); }
-    if (this.conf.hasRenderFn) { this.code += this.bsStr + `[bfRenderFn]="renderFn"`; } // this.reLink(0); }
-
+    if (this.conf.disabledTip) { this.code += this.bsStr + `bfDisabledTip="${this.conf.disabledTip}"`; }
     if (this.conf.hasTooltip) {
       this.code += this.bsStr + `bfTooltip="${this.conf.tooltipText}"`;
       if (!!this.conf.tooltipPos)  { this.code += this.bsStr + `bfTooltipPos="${this.conf.tooltipPos}"`; }
       if (!!this.conf.tooltipBody) { this.code += this.bsStr + `bfTooltipBody="${this.conf.tooltipBody}"`; }
     }
 
-    if (this.conf.isDisabled) {
-      this.code += this.bsStr + `[bfDisabled]="true"`;
-      if (!!this.conf.disabledTip) { this.code += this.bsStr + `bfDisabledTip="${this.conf.disabledTip}"`; }
+    if (this.conf.hasOrder)  { this.code += this.bsStr + `bfOrderBy="${this.conf.bfOrderBy}"`; }
+    if (this.conf.isLoading) {
+      if (this.conf.isLoadingWithPromise) {
+        this.code += this.bsStr + `bfLoading="myPromise"`;
+      } else {
+        this.code += this.bsStr + `bfLoading="${this.conf.isLoading}"`;
+      }
     }
+
+    if (this.conf.hasSelect && !!this.conf.selectField) {
+      this.code += this.bsStr + `bfSelect="${this.conf.selectField}"`;
+    }
+    if (this.conf.hasRender)   { this.code += this.bsStr + `bfRender="${this.conf.renderExp}"`; }  // this.reLink(0); }
+    if (this.conf.hasRenderFn) { this.code += this.bsStr + `[bfRenderFn]="renderFn"`; } // this.reLink(0); }
+
+    if (this.conf.hasPlaceholder) { this.code += this.bsStr + `bfPlaceholder="${this.conf.bfPlaceholder}"`; }
+    if (this.conf.hasEmptyLabel)  { this.code += this.bsStr + `bfEmptyLabel="${this.conf.customEmptyLabel}"`; }
+    if (this.conf.hasEmptyValue)  { this.code += this.bsStr + `bfEmptyValue="${this.conf.customEmptyValue}"`; }
+    if (this.conf.hasErrorText)   { this.code += this.bsStr + `bfErrorText="${this.conf.bfErrorText}"`; }
+    if (this.conf.errorPos)       { this.code += this.bsStr + `bfErrorPos="${this.conf.errorPos}"`; }
+
+    if (this.conf.bfCustomPlacementList === 'top' || this.conf.bfCustomPlacementList === 'bottom') {
+      this.code += this.bsStr + `bfCustomPlacementList="${this.conf.bfCustomPlacementList}"`;
+    }
+
+    if (this.conf.hasControls) { this.code += this.bsStr + `(bfOnLoaded)="myCtrl = $event"`; }
+
     this.code += (`>` + this.brStr + `</bf-dropdown>`);
 
+    if (this.conf.hasControls) {
+      this.code += this.brStr + this.brStr + `public myCtrl: IbfDropdownCtrl;`;
+      this.code += this.brStr + `myCtrl.toggle(); myCtrl.type('aaa');`;
+    }
   };
 
 
@@ -203,11 +233,6 @@ public extCtrl$ = new Subject();
       return el;
     });
     if (!!this.selObj10) { this.selObj10 = this.dList.getById(this.selObj10.id); }
-    this.customExLinked = false;
-    setTimeout(() => {
-      this.upComp();
-      this.customExLinked = true;
-    });
   };
 
   public loadWithPromise = () => {
@@ -244,27 +269,41 @@ export const BfDropdownDoc = {
   name    : `bf-dropdown`,
   uiType  : 'component',
   desc    : `Generates a dropdown selector list.`,
-  api     : `*[(ngModel)]         : The ngModel directive is linked to the inner <select>, so that can be used as a form element with ngForm (status is propagated).
-*[bfList]            : Array of objects with the list to be displayed in the dropdown
-[bfSelect]           : The name of the property to be selected from the object of the list. If empty, all object selected. If multiple props add a keyMap list ('prop1, prop2, ...')
+  api     : `*[(ngModel)]         : The model holding the value of the selected item.
+*[bfList]            : Array of objects with representing the list to be displayed when expanded.
+[bfSelect]           : Field to be set to the ngModel once selected (property from bfList items). If empty, the full object is set. 
+                       You can also select multiple properties with a keyMap list 'prop1, prop2, ...'
 [bfRender]           : Field to display on the list (property from bfList items).
                          If empty, a row with all properties will be displayed.
-                         It can also be an eval() expression. Start with a '$$$' and use $item reference for eval. Example: bfRender="$$$ $item.first_name + ' ' + $item.last_name"
-[bfRenderFn]         : Function to render the list. It is called for every item and should return the string that will be displayed.
+                         If a translation label is provided, that will be translated applying the object of the list as translation parameters
+[bfRenderFn]         : Function to determine how to render the items of list. Called for every item and should return the string that will be displayed.
                        It overrides [bfRender]. The function is passed 'item' and 'index' parameters.
-[bfRenderImg]        : Name of the field that contains the url of the image to display on the item ("img" by default)
-[bfRenderIcon]       : Name of the field that contains the css class of the (icomoon) icon to display on the item ("icon" by default)
+[bfRenderImg]        : Name of the field containing the url of the image to display on the item ("img" by default)
+[bfRenderIcon]       : Name of the field containing the css class of the (icomoon) icon to display on the item ("icon" by default)
+[bfOrderBy]          : Field (or fields separated by ,). If prefixed by '-', desc order is applied for the field. 
 [bfLabel]            : If provided, a <bf-label> is added above the selector with the given text
+[bfTooltip]          : If label provided, adds a info badge with a tooltip (automatically translated)
+[bfTooltipPos]       : Position of the tooltip (top by default)
+[bfTooltipBody]      : Whether the tooltip is append to the body (default true) or next the the html element (false). The parent container may affect the visibility of the tooltip
 [bfRequired]         : Whether the value is required. If not, and "Empty" option will be added a the top of the list
 [bfDisabled]         : Whether the selector is disabled or not
 [bfDisabledTip]      : Text with the tooltip to display on hover when the input is disabled
-[bfEmptyLabel]       : By default the empty option shows the "view.common.empty" label. In case you need to display a different label, add it here.
-[bfEmptyValue]       : By default the empty option sets "null" value to the ngModel. If you need a different value being set in this case, add it here.
-[bfErrorOnPristine]  : If true, errors will be shown in pristine state too (by default pristine shows always as valid).
-[extCtrl$]           : Observable to trigger external actions. Its .next() should emit an object with "action"/"value". Actions: ['expand', 'collapse', 'toggle', 'type']
-(bfOnLoaded)         : Emitter to catch the moment when the component is ready (ngAfterViewInit)
+
+[bfPlaceholder]      : Placeholder to show when no value is selected. If bfEmptyLabel has a custom label, this is never shown.
+[bfEmptyLabel]       : By default the empty option shows the "view.common.empty" label. To display a different label, add it here.
+[bfEmptyValue]       : By default the empty option sets "null" value to the ngModel. To set a different value, add it here.
+[bfErrorOnPristine]  : If true, errors will be shown in pristine state too (by default pristine shows always as valid, even if it's not).
+[bfErrorText]        : Custom error text (label) to display when invalid value.
+[bfErrorPos]         : Custom position where to display the error text. Values = ['top-right', 'bottom-left', 'bottom-right', 'none']. None will hide the error text.
+[bfLoading]          : To show a loading spinner on the left button.
+                       Either a boolean (true=show, false=hide), or a promise that will automatically show the spinner while not resolved. 
+[bfCustomPlacementList] : By default the list expands up/down depending on its position on the screen. To force it: 'top' | 'bottom'.
+  
+[extCtrl$]           : Observable to trigger actions. Its .next() should emit an object with "action"/"value"
+(bfOnLoaded)         : Emitter to catch the moment when the component is ready. It also emits the control object.
 (bfBeforeChange)     : Emitter to catch the next value before it is set. It returns both (currentValue, nextValue)
-`,
+(bfOnListExpanded)   : Emitter to catch the moment when the list expands (focus in)
+(bfOnListCollapsed)  : Emitter to catch the moment when the list collapses (select or blur)`,
   instance: `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`,
   demoComp: BfDropdownDemoComponent
 };

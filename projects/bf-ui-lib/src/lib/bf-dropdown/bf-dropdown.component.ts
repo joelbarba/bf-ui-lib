@@ -1,156 +1,24 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  forwardRef,
-  OnChanges,
-  ViewChild,
-  ElementRef,
-  OnDestroy, EventEmitter, AfterViewInit, ViewChildren
-} from '@angular/core';
-import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
+import {Component, OnInit, Input, Output, forwardRef, ElementRef, EventEmitter} from '@angular/core';
+import {OnChanges, OnDestroy,  AfterViewInit, ViewChild, ViewChildren} from '@angular/core';
+import {FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS} from '@angular/forms';
 import BfObject from '../bf-prototypes/object.prototype';
 import BfArray from '../bf-prototypes/array.prototypes';
 import {Observable, of, Subject, Subscription} from 'rxjs';
 import {BfUILibTransService} from '../abstract-translate.service';
-import {BfDefer} from '../bf-defer/bf-defer';
 import {dCopy} from '../bf-prototypes/deep-copy';
 import {debounceTime} from 'rxjs/operators';
 
+// The control object (bfOnLoaded) emits
+export interface IbfDropdownCtrl {
+  expand      ?: { () };
+  collapse    ?: { () };
+  toggle      ?: { () };
+  type        ?: { (value: string) };
+  setPristine ?: { () };
+  removeError ?: { () };
+  addError    ?: { (err) };
+}
 
-/****
- *  ATTRIBUTES
-
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | =      | *ngModel            | Where the selected object of the list is held                                      |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | =      | *bfList             | The list of the options (array of object)                                          |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | @      | bfRender            | Field to display on the list (property from bfList items)                          |
- * |        |                     | It can also be an eval() expression. Start with a '$$$' and use $item reference:   |                                              |
- * |        |                     | bfRender="$$$ $item.first_name + ' ' + $item.last_name"                            |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | @      | bfSelect            | Select one or more fields of the selected object (keyMap syntax) of the list       |
- * |        |                     | to set it into the ngModel. If only one selected field, no object wrap             |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | @      | bfRequired          | Whether the input is required or not                                               |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | =      | bfDisabled          | Disable the input                                                                  |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | @      | bfLabel             | If present it adds a label above the input                                         |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | @      | bfPlaceholder       | The placeholder of the input field                                                 |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | &      | onItemSelected      | Callback - Called when the user select a value from the list, the value is passed  |
- * |        |                     | as parameter                                                                       |
- * |        |                     |                                                                                    |
- * |        |                     | Params                                                                             |
- * |        |                     | - $item                                                                            |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | @      | customEmptyText     | Replace the default text of the empty option                                       |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | @      | customEmptyVal      | Replace the default empty value (ONLY STRING ALLOWED IN THIS VERSION)              |
- *
- *
- *
-
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | @      | bfOrderBy           | The field to order the list                                                        |
- * |--------|----------------------------------------------------------------------------------------------------------|
-
-
- * | @      | groupBy             |  group the list by one field of the objects                                        |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | @      | email               | Require email validation                                                           |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | @      | orderReverse        | Reverse the ordering                                                               |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | @      | customMainIcon      | Replace the default lens icon with a custom one, specify the classes               |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | @      | customIcon          | Replace the default lens icon with a custom one, specify the classes               |
- * |        |                     | (FOR CUSTOM BUTTON)                                                                |
-
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | @      | customPlacementList | The current dropdown list is displaying the list according to the screen size      |
- * |        |                     | This parameter will display the dropdown list just to one side                     |
- * |        |                     | Allowed placement:                                                                 |
- * |        |                     | -     top                                                                          |
- * |        |                     | -     bottom                                                                       |
- * |--------|---------------------|------------------------------------------------------------------------------------|
-
-
-
- * | &      | lazyLoad            | Function to retrieve the list lazy loaded list, MUST return a promise              |
- * |        |                     |                                                                                    |
- * |        |                     | Params                                                                             |
- * |        |                     | - $search                                                                          |
- * |        |                     |                                                                                    |
- * |        |                     |  REQUIRED if you do not provide list                                               |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | =      | minSearchLength     |  The min length to start a search and open the list, values > 0 will hide the      |
- * |        |                     |  search button                                                                     |
- * |        |                     |  DEFAULT 0                                                                         |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | @      | ngRequired          |  you can specify if the input is required or not by expression                     |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | @      | resultsNumber       | if true, returns all instances in the list, without checking if they closely match.|
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | @      | noCloseOnClick      | (only in the multiselect version)                                                  |
- * |        |                     | Prevent the close of the list if you select an item                                |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | =      | bfPopupTemplate     | The template of the bfPopupSelector, see bfPopupSelector and bfPopupSelectorTable  |
- * |        |                     | documentation                                                                      |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | &      | customAction        | Callback - custom action, replaces the default reset                               |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | =      | customDisable       | Enable/disable custom button                                                       |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | &      | afterInit           | Callback - called when the list is prepared, you receive the prepared list as      |
- * |        |                     | paramater                                                                          |
- * |        |                     |                                                                                    |
- * |        |                     | Params                                                                             |
- * |        |                     | - $itemList                                                                        |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | &      | onFocus             | Callback - called when the focus event is fired on the input search element        |
- * |        |                     |                                                                                    |
- * |        |                     | Params                                                                             |
- * |        |                     | - $itemList                                                                        |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | &      | onItemRemoved       | (only in the multiselect version)                                                  |
- * |        |                     | Callback - Called when the user removes a items from the multiselect list          |
- * |        |                     |                                                                                    |
- * |        |                     | Params                                                                             |
- * |        |                     | - $item                                                                            |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | &      | onReset             | Callback - Called when the lens is clicked and the form is resetted                |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | &      | onBlur              | Callback - Called when the blur event is fired on the input search element         |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | &      | generateImageLink   | Callback - Called for generate an image link (put on the right of the element)     |
- * |        |                     | You must return a string with the link of the image, you receive in input the      |
- * |        |                     | item for the row                                                                   |
- * |        |                     |                                                                                    |
- * |        |                     | Params                                                                             |
- * |        |                     | - $item                                                                            |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | &      | generateIconClass   | Callback - Called for generate an image icon classes (put on the right of the      |
- * |        |                     | element). You must return a string with the link of the image, you receive in      |
- * |        |                     | input the item for the row                                                         |
- * |        |                     |                                                                                    |
- * |        |                     | Params                                                                             |
- * |        |                     | - $item                                                                            |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | <      | loading             | Boolean - control the spinner from outside                                         |
- * |        |                     | IMPORTANT: you can use this only if the bfdropdown is not lazyloaded               |
- * |--------|---------------------|------------------------------------------------------------------------------------|
- * | <      | eventListenerName   | String - If provided, bfdropdown listens to an event with the name                 |
- * |        |                     | "bfdropdown:[eventListenerName]", so we can control some of its actions outside.   |
- * |        |                     | The paramater must be an object with the property "action". Depending on that      |
- * |        |                     | the event will trigger the corresponding internal function:                        |
- * |        |                     |   - toggleList : Expand / collapse the list                                        |
- * |--------|---------------------|------------------------------------------------------------------------------------|
-*****/
 
 @Component({
   selector: 'bf-dropdown',
@@ -161,7 +29,7 @@ import {debounceTime} from 'rxjs/operators';
       provide: NG_VALUE_ACCESSOR, multi: true,
       useExisting: forwardRef(() => BfDropdownComponent),
     },
-    { // Custom validator
+    {
       provide: NG_VALIDATORS, multi: true,
       useExisting: forwardRef(() => BfDropdownComponent),
     }
@@ -191,26 +59,30 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfErrorOnPristine = false; // If true, errors will be shown in initial state too (by default pristine shows as valid always)
   @Input() bfErrorPos = 'top-right';  // top-right, bottom-left, bottom-right
   @Input() bfErrorText: string;   // Custom error text (label) to display when invalid value
+  @Input() bfCustomPlacementList: 'top' | 'bottom';   // To force the direction the list is expanded.
+                                                      // By default this is automatic based on the position on the window
 
   @Input() bfLoading: boolean | Promise<any>;  // To display the loading animation on the expand button
 
-  @Input() extCtrl$: Observable<any>; // To trigger actions manually from an external observable (subject)
+  @Input() extCtrl$: Observable<unknown>; // To trigger actions manually from an external observable (subject)
 
-  @Output() bfOnLoaded = new EventEmitter<any>();     // Emitter to catch the moment when the component is ready (ngAfterViewInit)
-  @Output() bfBeforeChange = new EventEmitter<any>(); // Emitter to catch the next value before it is set
+  @Output() bfOnLoaded = new EventEmitter<IbfDropdownCtrl>();         // Emitter to catch the moment when the component is ready (ngAfterViewInit)
+  @Output() bfOnListExpanded = new EventEmitter<any>();   // The moment when the list expands (focus in)
+  @Output() bfOnListCollapsed = new EventEmitter<any>();  // The moment when the list collapses (select or blur)
+  @Output() bfBeforeChange = new EventEmitter<any>();     // The moment before a value is set (selected)
 
 
   // --------------
 
 
-  public ngControl;  // Reference to the external formControl
+  public ngControl; // Reference to the external formControl
+  public bfModel;   // Internal model, to hold the selected object of the list, or empty value
 
-  public bfModel; // <--- internal ngModel
   public isModelEmpty = false;    // Whether the bfModel is holding the empty option
   public selModelText = '';       // Text representation of the selected Model (to display in the input / placeholder)
   public inputPlaceholder = '';   // Text on the input placeholder
   public inputText = '';          // Text on the input (ngModel)
-  public extList; // Make a copy from bfList to make sure we never modify the input array
+  public extList;     // A copy from bfList to make sure we never modify the input array
   public bfCandidate; // Pointer to a extList item that might be selected next but not yet (hovering / arrow scrolling)
 
   public isInvalid = false;   // If the model holds an invalid option
@@ -245,8 +117,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   public lastLoadPromise; // Reference to avoid bfLoading promise overlap
   public subs: {[ key: string]: Subscription } = {};  // Subscriptions holder
 
-  private readonly ctrlObject; // Hold an object with the input controller and the action methods
-  private inputCtrlDefer = new BfDefer();  // This is resolved once inputCtrl is initialized
+  private readonly ctrlObject; // Object to expose control methods externally
 
   public ignoreHover = false; // When scrolling with the arrow keys, ignore mouse hover
   public arrowScroll$ = new Subject();
@@ -261,63 +132,60 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     private translate: BfUILibTransService,
     private htmlEl: ElementRef,
   ) {
-    console.log(new Date(), 'constructor');
+
     // Rerender the list labels on language change
-    this.subs.langSubs = this.translate.onLangChange$.subscribe(() => {
-      console.log(new Date(), 'translate.onLangChange$');
-      this.renderExtList();
-    });
+    this.subs.langSubs = this.translate.onLangChange$.subscribe(() => this.renderExtList());
 
     // Give the browser .1s to scroll and avoid the mouseenter selecting a different item while using arrows up/down
     this.subs.scrollSub = this.arrowScroll$.pipe(debounceTime(100)).subscribe(() => this.ignoreHover = false);
 
-    // const updateCtrl = () => { if (this.ngControl) { this.ngControl.updateValueAndValidity(); }};
-    // this.ctrlObject = {
-    //   setFocus    : () => this.elementRef.nativeElement.querySelector('input').focus({ preventScroll: false }),
-    //   setBlur     : () => this.elementRef.nativeElement.querySelector('input').blur(),
-    //   setDirty    : (opts?) => { this.inputCtrl.markAsDirty(opts); updateCtrl(); },
-    //   setPristine : (opts?) => { this.inputCtrl.markAsPristine(opts); updateCtrl(); },
-    //   refresh     : () => updateCtrl(),
-    //   removeError : ()      => {
-    //     if (this.manualError !== null) { this.manualError = null; updateCtrl(); }
-    //   },
-    //   addError : (err)   => {
-    //     if (JSON.stringify(this.manualError) !== JSON.stringify(err)) { this.manualError = err; updateCtrl(); }
-    //   },
-    // };
+    // Controller object
+    this.ctrlObject = {
+      expand      : () => !this.isExpanded && this.deferExpand(),
+      collapse    : () => this.isExpanded && this.collapseList(),
+      toggle      : () => this.isExpanded ? this.collapseList() : this.deferExpand(),
+      setPristine : () => {
+        if (this.ngControl) { this.ngControl.markAsPristine(); }
+        this.runValidation();
+      },
+      type        : (value) => {
+        setTimeout(() => {
+          this.elInput.nativeElement.focus();
+          this.inputText = value;
+          this.filterList(this.inputText);
+        }, 100);
+      },
+      addError    : (value) => {
+        if (JSON.stringify(this.errors.manualErr) !== JSON.stringify(value)) {
+          this.errors.manualErr = value;
+          this.runValidation();
+        }
+      },
+      removeError : () => {
+        if (this.errors.manualErr !== null) {
+          this.errors.manualErr = null;
+          this.runValidation();
+        }
+      },
+    };
   }
 
   ngOnChanges(changes) {
-    console.log(new Date(), 'ngOnChanges', changes);
-
     const changing = (prop) => changes.hasOwnProperty(prop);  // just a shortcut
 
     // External control via extCtrl$
     if (changing('extCtrl$')) {
       if (!!this.subs.ctrlSubs) { this.subs.ctrlSubs.unsubscribe(); }
       this.subs.ctrlSubs = this.extCtrl$.subscribe((option: { action: string, value?: any }) => {
-        console.log(new Date(), 'bf-dropdown --> extCtrl$');
-        if (option.action === 'expand' && !this.isExpanded)  { this.deferExpand(); }
-        if (option.action === 'collapse' && this.isExpanded) { this.collapseList(); }
-        if (option.action === 'toggle') { this.isExpanded ? this.collapseList() : this.deferExpand(); }
-        if (option.action === 'type') {
-          setTimeout(() => {
-            this.elInput.nativeElement.focus();
-            this.inputText = option.value;
-            this.filterList(this.inputText);
-          }, 100);
-        }
-        if (option.action === 'addError') {
-          if (JSON.stringify(this.errors.manualErr) !== JSON.stringify(option.value)) {
-            this.errors.manualErr = option.value;
-            this.runValidation(1);
-          }
-        }
-        if (option.action === 'removeError') {
-          if (this.errors.manualErr !== null) {
-            this.errors.manualErr = null;
-            this.runValidation(2);
-          }
+        switch (option.action) {
+          case 'expand'     : this.ctrlObject.expand(); break;
+          case 'collapse'   : this.ctrlObject.collapse(); break;
+          case 'toggle'     : this.ctrlObject.toggle(); break;
+          case 'type'       : this.ctrlObject.type(option.value); break;
+          case 'setPristine': this.ctrlObject.setPristine(); break;
+          case 'addError'   : this.ctrlObject.addError(option.value); break;
+          case 'removeError': this.ctrlObject.removeError(); break;
+          default: break;
         }
       });
     }
@@ -358,7 +226,8 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     if (changing('bfDisabledTip'))  { this.bfDisabledTipTrans$ = this.translate.getLabel$(this.bfDisabledTip); }
 
     if (changing('bfErrorPos')) { this.errorPosition = this.bfErrorPos || 'default'; }
-    if (changing('bfErrorText') && this.isInvalid) { this.runValidation(3); }
+    if (changing('bfErrorText') && this.isInvalid) { this.runValidation(); }
+    if (changing('bfErrorOnPristine')) { this.runValidation(); }
 
 
     // bfLoading can come in as a 'boolean' or a promise. In this case, we'll automatically manage isLoading
@@ -380,14 +249,11 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   ngOnInit() {}
 
-  // ngAfterContentInit() { }
-
   ngAfterViewInit() {
-    this.bfOnLoaded.emit({});
+    this.bfOnLoaded.emit({ ...this.ctrlObject }); // Expose all control methods
   }
 
   ngOnDestroy() {
-    console.log(new Date(), 'ngOnDestroy');
     Object.values(this.subs).forEach(sub => sub.unsubscribe());
   }
 
@@ -395,7 +261,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   // Generates the extended list to be used internally (bfList --> extList)
   public generateExtList = () => {
-    console.log(new Date(), 'generateExtList');
     this.extList = dCopy(this.bfList || []); // Make a copy
 
     // If bfRender starts with $$$, it's an eval() expression. If not, a single field
@@ -444,7 +309,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   // Add or remove the "Empty" option to the extList
   public setEmptyOption = () => {
-    console.log(new Date(), 'setEmptyOption');
     if (!this.bfRequired) { // If not required, the list should have "Empty" option
       if (!this.extList.find(item => item.$index === this.emptyItem.$index)) {
         this.emptyItem.$renderedText = this.translate.doTranslate(this.emptyItem.$label);
@@ -455,12 +319,11 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     }
 
     // Check validity when Empty option is selected
-    this.runValidation(4); // That might set emptyRequired error
+    this.runValidation(); // That might set emptyRequired error
   };
 
   // Sync translation for the values of the list ($label --> $renderedText)
   public renderExtList = () => {
-    console.log(new Date(), 'renderExtList', this.extList ? this.extList.length : '0');
     if (!!this.extList) {
       this.extList.forEach((item, ind) => {
 
@@ -504,7 +367,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   //   1 - Before ngAfterViewInit (value always null)
   //   2 - After ngAfterViewInit (initial ngModel value from outside)
   writeValue(value: any) {
-    console.log(new Date(), 'writeValue -> ', value);
     if (this.ngControl) { // Ignore first trigger before ngAfterViewInit
       const wasPristine = this.ngControl.pristine;
 
@@ -516,11 +378,8 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   }
 
   // Run ngModel validation safely
-  public runValidation = (num) => {
-    if (this.ngControl) {
-      console.log(new Date(), 'runValidation(', num, ')', this.errors);
-      this.ngControl.updateValueAndValidity();
-    } // This triggers NG_VALIDATORS -> validate()
+  public runValidation = () => {
+    if (this.ngControl) { this.ngControl.updateValueAndValidity(); } // This triggers NG_VALIDATORS -> validate()
   };
 
   // NG_VALIDATORS: To determine the <bf-input [ngModel]> formControl status. Triggered:
@@ -528,7 +387,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   //   - After propagateModelUp()
   //   - After this.ngControl.updateValueAndValidity()
   public validate = (extFormCtrl: FormControl) => {
-    console.log(new Date(), 'validate');
     let result = null;  // null is valid
     this.ngControl = extFormCtrl; // Save the reference to the external form Control
 
@@ -560,13 +418,11 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   // Focus on input (deferring it to next cycle)
   public deferExpand = () => {
-    console.log(new Date(), 'deferExpand');
     setTimeout(() => this.elInput.nativeElement.focus());
   };
 
   // Click on the expand/collapse input button
   public onInputBtnClick = () => {
-    console.log(new Date(), 'onInputBtnClick');
     this.isExpanded = !this.isExpanded;
     if (this.isExpanded) {
       this.elInput.nativeElement.focus();
@@ -576,12 +432,14 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   // On input focus in -> Expand the select list
   public expandList = () => {
-    console.log(new Date(), 'expandList: focus in - expand');
 
     // If the dropdown is to close to the bottom of the window, expand it upward so the list doesn't fall off
-    if (this.htmlEl) {
+    if (this.htmlEl && !this.bfCustomPlacementList) {
       const renderedShadowRect = this.htmlEl.nativeElement.getBoundingClientRect();
       this.expandUpward = (window.innerHeight - renderedShadowRect.bottom) < 350;
+
+    } else { // Force the direction the list is expanded towards
+      this.expandUpward = this.bfCustomPlacementList === 'top';
     }
 
     this.bfCandidate = this.bfModel;
@@ -607,22 +465,23 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
         }
       }
     });
+
+    this.bfOnListExpanded.emit();
   };
 
   // On input focus out -> Collapse the select list
   public collapseList = () => {
-    console.log(new Date(), 'collapseList: focus out - collapse');
     this.isFocus = false;
     setTimeout(() => {
       this.isExpanded = false;
       this.inputText = this.selModelText; // Take back the selected text
+      this.bfOnListCollapsed.emit();
     }, 100);
   };
 
 
   // React on key events (on the input)
   public triggerKey = (event) => {
-    console.log(new Date(), 'triggerKey');
     if (event.key === 'Escape' && this.isExpanded) { this.elInput.nativeElement.blur(); } // make it lose the focus
 
     // Use bfCandidate as a temporary pointer to the highlighted item on the list while moving up/down with arrows
@@ -674,7 +533,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   // Filter the list to display according to the input text
   public filterList = (value) => {
-    console.log(new Date(), 'filterList');
     const patternVal = value.toLowerCase();
     this.extList.forEach(item => {
       item.$isMatch = item.$renderedText && item.$renderedText.toLowerCase().indexOf(patternVal) >= 0;
@@ -685,7 +543,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   // Given an external object/value, find and select the match on the internal list
   public matchSelection = (value) => {
-    console.log(new Date(), 'matchSelection');
     let matchItem = null;
 
     if (value !== null && value !== undefined) {
@@ -733,7 +590,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   // Select an item from extList to bfModel, and propagate ngModel up
   public selectItem = (selObj, writeValue?) => {
-    console.log(new Date(), 'selectItem', selObj);
 
     if (selObj !== this.emptyItem && selObj !== null && selObj !== undefined) {
       this.bfModel = selObj;
@@ -779,9 +635,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
     // In case this comes from NG_VALUE_ACCESSOR -> writeValue(), the ngModel is already set (no need to propagate up)
     if (!writeValue || writeValue.value !== modelUp) {
-      if (writeValue) { console.warn(new Date(), 'NG_VALUE_ACCESSOR updated: ', writeValue.value, ' --> ', modelUp); }
-      console.warn(new Date(), 'propagateModelUp', modelUp);
-
       this.propagateModelUp(modelUp); // This triggers NG_VALIDATORS -> validate()
     }
 
