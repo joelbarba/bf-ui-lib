@@ -162,7 +162,7 @@ extCtrl$.next({ action: 'removeError', value: 'wrong' })`;
     hasImages: false, hasIcons: false,
 
     hasErrorText: false, bfErrorText: `this ain't good`, errorPos: null,
-    hasControls: false, bfCustomPlacementList: undefined,
+    hasControls: false, bfCustomPlacementList: '',
 
     hasFullWidth: true, hasFlat: false,
   };

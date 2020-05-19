@@ -240,7 +240,7 @@
           <bf-label bfText="bfCustomPlacementList" bfTooltip="By default the dropdown expands downwards unless its position on the screen is too low. With this option you can force the direction it will be always expanded towards"></bf-label>
           <div class="text-right padR10">
             <select [(ngModel)]="conf.bfCustomPlacementList" (ngModelChange)="upComp()">
-              <option [value]="undefined">auto</option>
+              <option value="">auto</option>
               <option value="top">top</option>
               <option value="bottom">bottom</option>
             </select>
