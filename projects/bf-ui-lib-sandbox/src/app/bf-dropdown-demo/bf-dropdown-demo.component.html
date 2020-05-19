@@ -192,14 +192,14 @@
 
         <div class="col-2">
           <bf-label class="block" bfText="bfErrorPos"></bf-label>
-          <bf-radio [(ngModel)]="conf.errorPos" bfRadioGroup="errPos" bfLabel="none" bfValue="none" bfTooltip="Error text always hidden" bfTooltipPos="left"></bf-radio>
+          <bf-radio [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" bfRadioGroup="errPos" bfLabel="none" bfValue="none" bfTooltip="Error text always hidden" bfTooltipPos="left"></bf-radio>
         </div>
         <div class="col-4">
-          <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" bfRadioGroup="errPos" bfLabel="default" [bfValue]="null"></bf-radio>
-          <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" bfRadioGroup="errPos" bfLabel="top-right" bfValue="top-right"></bf-radio>
+          <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" bfRadioGroup="errPos" bfLabel="default" [bfValue]="null"></bf-radio>
+          <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" bfRadioGroup="errPos" bfLabel="top-right" bfValue="top-right"></bf-radio>
           <br>
-          <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" bfRadioGroup="errPos" bfLabel="bottom-left" bfValue="bottom-left"></bf-radio>
-          <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" bfRadioGroup="errPos" bfLabel="bottom-right" bfValue="bottom-right"></bf-radio>
+          <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" bfRadioGroup="errPos" bfLabel="bottom-left" bfValue="bottom-left"></bf-radio>
+          <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" bfRadioGroup="errPos" bfLabel="bottom-right" bfValue="bottom-right"></bf-radio>
         </div>
       </div>
 
