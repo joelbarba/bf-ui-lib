@@ -8,6 +8,7 @@ bf-dropdown {
   .bf-dropdown-form-group {
     display: inline-block;
     margin-bottom: 15px;
+    position: relative; // Set it as a container for the internal relatives
 
     label {
       transition-property: color;
@@ -70,30 +71,59 @@ bf-dropdown {
           color: $white;
           border-left: none;
           font-size: 14px;
-          padding: 0;
-          min-width: 38px;
+          padding: 0 0 0 2px;
+          min-width: 36px;
           display: flex;
           align-items: center;
-          justify-content: space-around;
-          div { padding: 0 7.5px; }
+          justify-content: center;
+          span.loading {
+            animation: bfSpinAround 500ms infinite linear;
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid transparent;
+            border-top-color: $white;
+            border-left-color: $white;
+            //border-bottom: none; border-right: none;
+            border-radius: 100%;
+          }
           &:focus { box-shadow: none; }
           &:active { box-shadow: none; }
         }
       }
 
       &.is-expanded {
-        input.form-control {
-          border-bottom-left-radius: 0;
-          border-bottom: none;
+        &:not(.expand-upward) {
+          input.form-control {
+            border-bottom-left-radius: 0;
+            border-bottom: none;
+          }
+          .btn.btn-outline-secondary {
+            border-bottom-right-radius: 0;
+            border-bottom-color: transparent;
+          }
         }
+        &.expand-upward {
+          input.form-control {
+            border-top-left-radius: 0;
+            border-top: none;
+          }
+          .btn.btn-outline-secondary {
+            border-top-right-radius: 0;
+            border-top-color: transparent;
+          }
+        }
+
         .btn.btn-outline-secondary {
-          border-bottom-right-radius: 0;
           border-left-color: transparent;
-          border-bottom-color: transparent;
           background: $white;
           color: $dropdown-valid-color;
           border-top-color: $optional-color;
           border-right-color: $optional-color;
+          span.loading {
+            border-top-color: $focused-color;
+            border-left-color: $focused-color;
+          }
         }
         .list-container { display: block; }
       }
@@ -101,22 +131,36 @@ bf-dropdown {
       // Expanded list to select an item
       .list-container {
         background: $white;
-        border: 1px solid $optional-color;
-        border-top-color: rgba($optional-color, 0.5);
         display: none;
         position: absolute;
         width: 100%;
         z-index: 6000;
         max-height: 300px;
-        padding: 5px 0;
+        padding: 0; // padding: 5px 0;
         overflow: auto;
-        border-bottom-left-radius: 3px;
-        border-bottom-right-radius: 3px;
+        border: 1px solid $optional-color;
+
+        &:not(.list-upward) {
+          border-top-color: rgba($optional-color, 0.5);
+          border-bottom-left-radius: 3px;
+          border-bottom-right-radius: 3px;
+        }
+
+        &.list-upward {
+          bottom: 34px; // pull it up
+          border-top-left-radius: 3px;
+          border-top-right-radius: 3px;
+          border-bottom-color: rgba($optional-color, 0.5);
+        }
+
         .option-row {
           padding: 4px 10px;
           margin: 1px 0;
           min-height: 36px;
           max-height: 72px;
+          &:last-child  { min-height: 37px; margin-bottom: 0; }
+          &:first-child { min-height: 37px; margin-top: 0;  }
+
           display: flex;
           align-items: center;
           cursor: pointer;
@@ -125,7 +169,7 @@ bf-dropdown {
             color: $white;
             background: $dropdown-selection-bg
           }
-          &:hover {
+          &.candidate {
             background: $dropdown-selection-hover;
             color: $white;
           }
@@ -137,11 +181,36 @@ bf-dropdown {
             margin-right: 10px;
           }
         }
+
       }
 
     }
 
     &.is-disabled { input.form-control { color: $disabled-color; cursor: not-allowed; } }
+
+    &.is-error { // Error message text
+      .bf-dropdown-error-text {
+        color: $invalid-color;
+        font-size: 11px;
+        position: absolute;
+        &.pull-up { top: -23px; } // If no label, pull message up above the box
+
+        // errorPosition:
+        &.none { display: none; } // Hide error text
+
+        &.default { // Default error position:
+          @media (min-width: 767px) { right: 5px; padding-top: 3px; } // Default > xs = Top right
+          @media (max-width: 768px) { bottom: -20px; right: 5px; }    // Default xs = Bottom right
+        }
+        &.top-right { right: 5px; padding-top: 3px; }
+        &.bottom-left  { bottom: -20px; left: 5px; }
+        &.bottom-right { bottom: -20px; right: 5px; }
+      }
+
+      // If error text at the bottom, add extra margin
+      &.error-bottom { margin-bottom: 30px; }
+      @media (max-width: 768px) { &.error-default { margin-bottom: 30px; } } // Small default goes to the bottom too
+    }
 
     // Changes the colors depending on the status
     @mixin bf-dropdown-status-color($color) {
@@ -151,15 +220,24 @@ bf-dropdown {
         .btn.btn-outline-secondary {
           background: $color;
           border-color: $color;
+          //span.loading {
+          //  border-top-color: $color;
+          //  border-left-color: $color;
+          //}
         }
         &.is-expanded .btn.btn-outline-secondary {
           background: $white;
           color: $color;
           border-color: $color $color transparent transparent;
         }
+        &.is-expanded.expand-upward .btn.btn-outline-secondary {
+          border-color: transparent $color $color transparent;
+        }
+
         .list-container {
           border-color: $color;
-          border-top-color: rgba($optional-color, 0.5);
+          &:not(.list-upward) { border-top-color: rgba($optional-color, 0.5); }
+          &.list-upward { border-bottom-color: rgba($optional-color, 0.5); }
         }
       }
     }

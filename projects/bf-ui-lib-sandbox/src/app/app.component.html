@@ -2,11 +2,22 @@
 <div class="navbar">
   <h1 routerLink="/index">BF UI Library</h1>
 
-  <div>
-    <span style="font-size: 18px;">Language:</span>
-    <bf-radio class="marL20" [(ngModel)]="lang" bfValue="en"  bfLabel="En"  (ngModelChange)="translate.changeLanguage(lang)" bfRadioGroup="lang"></bf-radio>
-    <bf-radio class="marL20" [(ngModel)]="lang" bfValue="cat" bfLabel="Cat" (ngModelChange)="translate.changeLanguage(lang)" bfRadioGroup="lang"></bf-radio>
+  <div class="nav-options">
+    <div>
+      <span style="font-size: 18px;">Language:</span>
+      <bf-radio class="marL20" [(ngModel)]="lang" bfValue="en"  bfLabel="En"  (ngModelChange)="translate.changeLanguage(lang)" bfRadioGroup="lang"></bf-radio>
+      <bf-radio class="marL20" [(ngModel)]="lang" bfValue="cat" bfLabel="Cat" (ngModelChange)="translate.changeLanguage(lang)" bfRadioGroup="lang"></bf-radio>
+    </div>
+
+    <div style="font-size: 18px; margin: 0 15px 0 50px;">Font Family:</div>
+    <div style="color: grey;">
+      <bf-dropdown class="flat" style="max-width: 210px;" [bfRequired]="true"
+                   [bfList]="fontsList" bfRender="name" bfSelect="css"
+                   [(ngModel)]="selectedFont">
+      </bf-dropdown>
+    </div>
   </div>
+
   <!--<a class="home-link mr-3" routerLink="/index">-->
   <!--  <span class="icon-home"></span>-->
   <!--</a>-->
@@ -16,7 +27,7 @@
 <bf-growl-pop-up></bf-growl-pop-up>
 <bf-loading-bar></bf-loading-bar>
 
-<div class="container route-container">
+<div class="container route-container" [ngClass]="selectedFont">
   <div class="row">
     <div class="col-12">
       <router-outlet></router-outlet>
