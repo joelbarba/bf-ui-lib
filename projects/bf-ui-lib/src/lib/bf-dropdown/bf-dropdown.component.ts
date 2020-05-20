@@ -50,14 +50,14 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfLabel = '';          // Label to display above the dropdown
   @Input() bfTooltip = '';        // Add a badge next to the label with the tooltip to give more info
   @Input() bfTooltipPos = 'top';  // If tooltip on the label, specific position (top by default)
-  @Input() bfTooltipBody = true;  // If tooltip on the label, whether it is appened on the body
+  @Input() bfTooltipBody = true;  // If tooltip on the label, whether it is appended on the body
 
   @Input() bfPlaceholder;   // Placeholder to show when no value selected. If bfEmptyLabel, this gets overridden
   @Input() bfEmptyLabel;    // Text of the emptyItem option (no label = 'Empty')
   @Input() bfEmptyValue: any = null;  // By default the empty option sets a "null" value to the ngModel.
                                       // You can add a custom value here to be set when the empty option is selected
   @Input() bfErrorOnPristine = false; // If true, errors will be shown in initial state too (by default pristine shows as valid always)
-  @Input() bfErrorPos = 'top-right';  // top-right, bottom-left, bottom-right
+  @Input() bfErrorPos: 'default' | 'top-right' | 'bottom-left' | 'bottom-right' | 'none' = 'default'; // Position of the error text
   @Input() bfErrorText: string;   // Custom error text (label) to display when invalid value
   @Input() bfCustomPlacementList: 'top' | 'bottom';   // To force the direction the list is expanded.
                                                       // By default this is automatic based on the position on the window
