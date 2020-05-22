@@ -35,13 +35,12 @@
         <!--  <hr>-->
         <!--</div>-->
 
-                     <!--[bfSelect]="(conf.hasSelect && !!conf.selectField) ? conf.selectField : null"-->
         <bf-dropdown [class.full-width]="conf.hasFullWidth" style="max-width: 450px;"
                      [class.flat]="conf.hasFlat"
                      [(ngModel)]="selObj10" #bfDropdownRef="ngModel"
                      [bfList]="dList"
                      [bfOrderBy]="conf.hasOrder ? conf.bfOrderBy: null"
-                     bfSelect="username, email"
+                     [bfSelect]="(conf.hasSelect && !!conf.selectField) ? conf.selectField : null"
                      [bfRender]="(conf.hasRender ? conf.renderExp : null)"
                      [bfRenderFn]="(conf.hasRenderFn ? renderFn : null)"
 
