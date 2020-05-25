@@ -13,8 +13,8 @@
           [placement]="bfTooltipPos"
           [container]="(bfTooltipBody ? 'body' : '')">
 
-    <span *ngIf="!!btnIcon && bfIconPos === 'left'"
-          class="btn-icon-section left" [class.full-icon]="!textLabel">
+    <span *ngIf="!!btnIcon && bfIconPos === 'left'" class="btn-left-text-baseline">.</span>
+    <span *ngIf="!!btnIcon && bfIconPos === 'left'" class="btn-icon-section left" [class.full-icon]="!textLabel">
       <span [class]="isLoading ? 'loading-spinner' : btnIcon"></span>
     </span>
 

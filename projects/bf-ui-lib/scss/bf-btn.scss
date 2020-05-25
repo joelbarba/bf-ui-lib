@@ -48,6 +48,10 @@ bf-btn {
         line-height: $btn-height;
       }
 
+      // When adding a button on the left, the text line is pulled because the
+      // icon font has a different baseline. Add a hidden text align properly
+      .btn-left-text-baseline { width: 0; }
+
       .btn-text-section {
         flex: 1;
         font-size: 13px;

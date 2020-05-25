@@ -109,3 +109,10 @@ bf-btn.block + bf-btn.block { margin-top: 5px; }
 
 bf-checkbox:not(.block) + bf-checkbox:not(.block) { margin-left: 15px; }
 bf-radio:not(.block) + bf-radio:not(.block) { margin-left: 15px; }
+
+
+// With Blueface font families, a baseline alignment looks better
+bf-btn .disabled-tooltip .bf-btn {
+  .btn-text-section { padding: 1px 15px 0; }
+  .btn-icon-section { padding: 1px 0 0 0; }
+}
