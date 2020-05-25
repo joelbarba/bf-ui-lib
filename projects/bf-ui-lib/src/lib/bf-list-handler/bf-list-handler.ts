@@ -17,6 +17,8 @@ export interface BfListHandlerConfig {
   backendPagination ?: (fullFilter: any, slimFilter?: any, isDiff?: boolean, isFirstFetch?: boolean) => void | Promise<void | { list, count }>;
 }
 
+export enum ListStatus { EMPTY = 0, LOADING = 1, LOADED = 2, ERROR = 3, FETCHING = 4 }
+
 
 export class BfListHandler {
   public render$: BehaviorSubject<any>; // Observable to listen to rendering changes
@@ -27,7 +29,7 @@ export class BfListHandler {
   public loadedList: Array<any>;    // Array with the full loaded content
   public renderedList: Array<any>;  // Array with the content to render on the list (filtered + ordered + paginated)
   public listName = '';             // Optional list identifier
-  public loadingStatus = 0;         // 0=Empty, 1=Loading, 2=Loaded, 3=Error, 4=Loading Page
+  public loadingStatus = ListStatus.EMPTY; // 0=Empty, 1=Loading, 2=Loaded, 3=Error, 4=Loading Page
   public totalItems = 0;            // loadedList.length
   public totalFiltered = 0;         // Total number of filtered items (middle step after filter and before pagination)
   public renderedItems = 0;         // renderedList.length
@@ -94,7 +96,7 @@ export class BfListHandler {
     this.loadedList = [];
     this.renderedList = [];
 
-    this.loadingStatus = 0; // Empty
+    this.loadingStatus = ListStatus.EMPTY;
     this.render$ = new BehaviorSubject(this.getState());
     this.renderList$ = this.render$.pipe(map(state => state.renderedList ));
     this.onFiltersChange$ = this.render$.pipe(
@@ -138,7 +140,7 @@ export class BfListHandler {
           this.currentPage = this.getPage(this.currentPage);
         }
         this.loadedList.forEach(this.extendItem);
-        this.loadingStatus = 2;
+        this.loadingStatus = ListStatus.LOADED;
         break;
 
       case 'ROWS': // New rows per page = refresh pagination
@@ -180,7 +182,7 @@ export class BfListHandler {
         });
 
     } else { // Backend (trigger on page change)
-      if (this.loadingStatus > 0) {
+      if (this.loadingStatus > ListStatus.EMPTY) {
         if (['ROWS', 'FILTER'].includes(change.action) && this.isFilterDiff(this.lastFilters, this.getFilters())) {
            this.currentPage = 1; // These actions should force offset reset
         }
@@ -200,12 +202,12 @@ export class BfListHandler {
 
     // Empty flags
     if (!this.backendPagination) {
-      this.isEmpty = this.loadingStatus === 2 && this.totalItems === 0; // Full list empty
-      this.noMatch = this.loadingStatus === 2 && this.totalItems > 0 && this.totalFiltered === 0; // No filter matches
+      this.isEmpty = this.loadingStatus === ListStatus.LOADED && this.totalItems === 0; // Full list empty
+      this.noMatch = this.loadingStatus === ListStatus.LOADED && this.totalItems > 0 && this.totalFiltered === 0; // No filter matches
     } else {
       const hasFilters = !!Object.keys(this.lastFilters).filter(n => !!this.lastFilters[n] && n !== 'limit' && n !== 'offset' && n !== 'order_by').length;
-      this.isEmpty = this.loadingStatus === 2 && this.renderedItems === 0 && !hasFilters && this.totalItems === 0; // Full list empty
-      this.noMatch = this.loadingStatus === 2 && this.renderedItems === 0 &&  hasFilters && this.totalItems === 0; // Filtered list empty
+      this.isEmpty = this.loadingStatus === ListStatus.LOADED && this.renderedItems === 0 && !hasFilters && this.totalItems === 0; // Full list empty
+      this.noMatch = this.loadingStatus === ListStatus.LOADED && this.renderedItems === 0 &&  hasFilters && this.totalItems === 0; // Filtered list empty
     }
 
     // debugList('dispatching: ', change.action, this.getState());
@@ -277,10 +279,10 @@ export class BfListHandler {
   public fetchPage = (force = false) => {
     this.filters = this.getFilters();
     const isFilterDiff = this.isFilterDiff(this.lastFilters, this.filters);
-    const isFirstFetch = (this.loadingStatus === 0);
+    const isFirstFetch = (this.loadingStatus === ListStatus.EMPTY);
 
-    if (this.loadingStatus === 0 || !this.smartTrigger || isFilterDiff || force) {
-      this.loadingStatus = 4;
+    if (this.loadingStatus === ListStatus.EMPTY || !this.smartTrigger || isFilterDiff || force) {
+      this.loadingStatus = ListStatus.FETCHING;
       this.lastFilters = dCopy(this.filters); // Keep a copy to remember
 
       const slimFilter = dCopy(this.filters);
@@ -323,7 +325,7 @@ export class BfListHandler {
   // Set an observable as the source of input data for the list
   public subscribeTo = (load$) => {
     if (!!this.subs.contentSub) { this.subs.contentSub.unsubscribe(); }
-    this.loadingStatus = 1; // loading
+    this.loadingStatus = ListStatus.LOADING;
     this.subs.contentSub = load$.subscribe(list => {
       this.load(dCopy(list || []));
     });
