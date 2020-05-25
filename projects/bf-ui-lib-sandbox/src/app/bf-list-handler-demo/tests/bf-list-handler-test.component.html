@@ -1,5 +1,8 @@
-<div class="bf-list-handler-test1" *ngIf="false">
-  <h2>List Test 1 (frontend pagination)</h2>
+<div class="bf-list-handler-test1" *ngIf="testNum === 1">
+  <div class="row">
+    <h2 class="col-10">List Test 1 (frontend pagination)</h2>
+    <bf-btn class="col-2 switch-test-2" bfText="Backend Pagination" (bfClick)="testNum=2"></bf-btn>
+  </div>
   <div class="row marT40">
     <bf-input class="col-3 filter-text" bfLabel="Free Text Filter" bfIcon="icon-search"
               [(ngModel)]="testList1.filterText" (ngModelChange)="testList1.filter($event)">
@@ -20,7 +23,7 @@
       <bf-btn bfText=".prevPage()" (bfClick)="testList1.prevPage()"
               bfIcon="icon-arrow-left6" bfIconPos="left">
       </bf-btn>
-      <bf-btn bfText=".nextPage()" (bfClick)="testList1.nextPage()"></bf-btn>
+      <bf-btn bfText=".nextPage()" bfType="save" (bfClick)="testList1.nextPage()"></bf-btn>
       <bf-btn bfText=".goToPage(2)" (bfClick)="testList1.goToPage(2)"></bf-btn>
       <bf-btn bfText=".paginate(20)" (bfClick)="testList1.paginate(20)"></bf-btn>
       <bf-btn bfText="orderConf.setField('username')" (bfClick)="testList1.orderConf.setField('username')"></bf-btn>
@@ -73,9 +76,11 @@
 
 
 
-<div class="bf-list-handler-test2 marT50" *ngIf="true">
-  <hr>
-  <h2>List Test 2 (backend pagination)</h2>
+<div class="bf-list-handler-test2" *ngIf="testNum === 2">
+  <div class="row">
+    <h2 class="col-10">List Test 2 (backend pagination)</h2>
+    <bf-btn class="col-2 switch-test-1" bfText="Frontend Pagination" (bfClick)="testNum=1"></bf-btn>
+  </div>
   <div class="row marT40">
     <!--<bf-input class="col-3 filter-text" bfLabel="Free Text Filter" bfIcon="icon-search"-->
     <!--          [(ngModel)]="testList2.filterText" (ngModelChange)="testList2.filter($event)">-->
@@ -100,7 +105,7 @@
       <bf-btn bfText=".prevPage()" (bfClick)="testList2.prevPage()"
               bfIcon="icon-arrow-left6" bfIconPos="left">
       </bf-btn>
-      <bf-btn bfText=".nextPage()" (bfClick)="testList2.nextPage()"></bf-btn>
+      <bf-btn bfText=".nextPage()" bfType="save" (bfClick)="testList2.nextPage()"></bf-btn>
       <bf-btn bfText=".goToPage(2)" (bfClick)="testList2.goToPage(2)"></bf-btn>
       <bf-btn bfText=".paginate(20)" (bfClick)="testList2.paginate(20)"></bf-btn>
       <bf-btn bfText="orderConf.setField('username')" (bfClick)="testList2.orderConf.setField('username')"></bf-btn>

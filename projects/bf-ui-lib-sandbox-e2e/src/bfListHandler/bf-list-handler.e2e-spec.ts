@@ -1,5 +1,5 @@
 import { BfListHandlerPo } from './bf-list-handler.po';
-import {browser, logging, protractor} from 'protractor';
+import {$, browser, logging, protractor} from 'protractor';
 
 /* This is a test that includes:
     - bfListHandler
@@ -43,18 +43,18 @@ const fullList = [
 describe('Test List integration', () => {
   let page: BfListHandlerPo;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     page = new BfListHandlerPo('.bf-list-handler-test1');
-    page.navigateTo();
+    await page.navigateTo();
   });
 
   it('Should load every page', async () => {
-    await page.navigateTo();
-    const paginator = await page.getPaginator();
-    const nextBtn = page.getPageNextBtn();
-    expect(paginator.length).toEqual(5);  // There should be 5 pages
+    const paginator = page.paginator;
+    const nextBtn = page.paginator.getPageNextBtn();
+    expect(await paginator.getPagesArr()).toEqual(['1', '2', '3', '4', '5']);  // There should be 5 pages
     expect(await page.getCurrPageNum()).toEqual('1'); // Should start by page 1
-    expect(await page.getListArr()).toEqual(fullList.slice(0, 5));  // Should display first page with 5 items
+    expect(await page.getFirstLastCount()).toEqual(['joel.barba', 'silverwing', 5]);
+    expect(await page.getListArr()).toEqual(fullList.slice(0, 5));
 
     await nextBtn.click();
     expect(await page.getCurrPageNum()).toEqual('2');
@@ -74,8 +74,6 @@ describe('Test List integration', () => {
   });
 
   it('Should order by username', async () => {
-    await page.navigateTo();
-    const paginator = await page.getPaginator();
     expect(await page.getListArr()).toEqual(fullList.slice(0, 5));
     const header2 = page.getListHeader(2);
     await header2.click();
@@ -97,61 +95,52 @@ describe('Test List integration', () => {
   });
 
   it('Should paginate different items per page', async () => {
-    await page.navigateTo();
     const nextBtn = page.getPageNextBtn();
     const prevBtn = page.getPagePrevBtn();
-    let paginator = await page.getPaginator();
-    expect(paginator.length).toEqual(5);
+    expect(await page.getPagesCount()).toEqual(5);
     expect(await page.getListArr()).toEqual(fullList.slice(0, 5));
 
     await page.selectIPP(1);  // 10 items per page
-    paginator = await page.getPaginator();
-    expect(paginator.length).toEqual(3);
+    expect(await page.getPagesCount()).toEqual(3);
     expect(await page.getListArr()).toEqual(fullList.slice(0, 10));
 
     await nextBtn.click(); // Page 2 of 10 items per page
     expect(await page.getListArr()).toEqual(fullList.slice(10, 20));
     await nextBtn.click(); // Page 3 of 10 items per page
     expect(await page.getListArr()).toEqual(fullList.slice(20, 24));
-    await (await page.getPaginatorBtn(1)).click(); // back to page 1
+    await (await page.paginator.goToPage(1)); // back to page 1
 
     await page.selectIPP(2);  // 15 items per page
-    paginator = await page.getPaginator();
-    expect(paginator.length).toEqual(2);
+    expect(await page.getPagesCount()).toEqual(2);
     expect(await page.getListArr()).toEqual(fullList.slice(0, 15));
 
     await page.selectIPP(3);  // 20 items per page
-    paginator = await page.getPaginator();
-    expect(paginator.length).toEqual(2);
+    expect(await page.getPagesCount()).toEqual(2);
     expect(await page.getListArr()).toEqual(fullList.slice(0, 20));
 
     await page.selectIPP(4);  // 30 items per page
-    paginator = await page.getPaginator();
-    expect(paginator.length).toEqual(1);
+    expect(await page.getPagesCount()).toEqual(1);
     expect(await page.getListArr()).toEqual(fullList.slice(0, 24));
   });
 
   it('Should handle data reloads', async () => {
-    await page.navigateTo();
-    const paginator = await page.getPaginator();
-    expect(paginator.length).toEqual(5);  // There should be 5 pages
+    expect(await page.getPagesCount()).toEqual(5);  // There should be 5 pages
     expect(await page.getCurrPageNum()).toEqual('1'); // Should start by page 1
     expect(await page.getListArr()).toEqual(fullList.slice(0, 5));  // Should display first page with 5 items
 
     await page.loadMoreBtn(); // Load 2 new items into the list
-    expect((await page.getPaginator()).length).toEqual(6);
-    await page.getPaginatorBtn(6).click();
+    expect(await page.getPagesCount()).toEqual(6);
+    await page.paginator.goToPage(6);
+
     expect(await page.getListArr()).toEqual([{ col1: '25', col2: 'dr.who', col3: 'who@dr.com', col4: 'Dr Who'}]);
 
     await page.loadLessBtn(); // Load 15 items list
     expect(await page.getCurrPageNum()).toEqual('3'); // Should go back to page 3 (last now)
-    expect((await page.getPaginator()).length).toEqual(3);
+    expect(await page.getPagesCount()).toEqual(3);
     expect((await page.getListArr()).length).toEqual(5);
   });
 
   it('Should filter by free text field (username + email)', async () => {
-    await page.navigateTo();
-    const paginator = await page.getPaginator();
     expect(await page.getListArr()).toEqual(fullList.slice(0, 5));
     const textInput = page.getTextFilter();
     await textInput.sendKeys('ca');
@@ -182,7 +171,6 @@ describe('Test List integration', () => {
   });
 
   it('Should filter by free + specific fields (username + email)', async () => {
-    await page.navigateTo();
     expect(await page.getListArr()).toEqual(fullList.slice(0, 5));
     const textInput = page.getTextFilter();
     const filterUsr = page.getFilterUser();
@@ -219,12 +207,10 @@ describe('Test List integration', () => {
   });
 
   it('Should debounce filter first_name', async () => {
-    await page.navigateTo();
     const filterName = page.getFilterName();
     expect(await page.getListArr()).toEqual(fullList.slice(0, 5));
 
     filterName.sendKeys('sunfyre');
-    expect(await page.getListArr()).toEqual(fullList.slice(0, 5));
     await browser.sleep(1100); // Wait 1 second for the debounce
     expect(await page.getListArr()).toEqual([
       { col1:  '6', col2: 'sunfyre',      col3: 'sunfyre@targaryen.com',      col4: 'Sunfyre Targaryen' },
@@ -255,18 +241,17 @@ describe('Test List backend side paginated', () => {
   let page: BfListHandlerPo;
   const beTime = 1100; // Mocked time to load a backend page
 
-  beforeEach(() => {
+  beforeEach(async () => {
     page = new BfListHandlerPo('.bf-list-handler-test2');
-    page.navigateTo();
+    await page.navigateTo();
+    await $('.switch-test-2').click();
   });
 
   it('Should load every backend page', async () => {
-    await page.navigateTo();
-    const paginator = await page.getPaginator();
     const nextBtn = page.getPageNextBtn();
 
     await browser.sleep(beTime); // Wait 1 second for the debounce
-    expect(paginator.length).toEqual(5);  // There should be 5 pages
+    expect(await page.getPagesCount()).toEqual(5);  // There should be 5 pages
     expect(await page.getCurrPageNum()).toEqual('1'); // Should start by page 1
     expect(await page.getListArr()).toEqual(fullList.slice(0, 5));  // Should display first page with 5 items
     expect(await page.getLimitBeF()).toEqual(['5', '0', 'id']); // Backend filter parameters
@@ -298,7 +283,6 @@ describe('Test List backend side paginated', () => {
   });
 
   it('Should reload and keep the page on order by', async () => {
-    await page.navigateTo();
     const nextBtn = page.getPageNextBtn();
 
     await browser.sleep(beTime);
@@ -346,17 +330,14 @@ describe('Test List backend side paginated', () => {
   });
 
   it('Should paginate different items per page', async () => {
-    await page.navigateTo();
     const nextBtn = page.getPageNextBtn();
-    let paginator = await page.getPaginator();
     await browser.sleep(beTime);
-    expect(paginator.length).toEqual(5);
+    expect(await page.getPagesCount()).toEqual(5);
     expect(await page.getListArr()).toEqual(fullList.slice(0, 5));
 
     await page.selectIPP(1);  // 10 items per page
     await browser.sleep(beTime);
-    paginator = await page.getPaginator();
-    expect(paginator.length).toEqual(3);
+    expect(await page.getPagesCount()).toEqual(3);
     expect(await page.getListArr()).toEqual(fullList.slice(0, 10));
     expect(await page.getLimitBeF()).toEqual(['10', '0', 'id']);
 
@@ -367,22 +348,19 @@ describe('Test List backend side paginated', () => {
 
     await page.selectIPP(2);  // 15 items per page (should return to page 1)
     await browser.sleep(beTime);
-    paginator = await page.getPaginator();
-    expect(paginator.length).toEqual(2);
+    expect(await page.getPagesCount()).toEqual(2);
     expect(await page.getCurrPageNum()).toEqual('1'); // Should start by page 1
     expect(await page.getListArr()).toEqual(fullList.slice(0, 15));
     expect(await page.getLimitBeF()).toEqual(['15', '0', 'id']);
 
     await page.selectIPP(4);  // 30 items per page
     await browser.sleep(beTime);
-    paginator = await page.getPaginator();
-    expect(paginator.length).toEqual(1);
+    expect(await page.getPagesCount()).toEqual(1);
     expect(await page.getListArr()).toEqual(fullList.slice(0, 24));
     expect(await page.getLimitBeF()).toEqual(['30', '0', 'id']);
   });
 
   it('Should filter specific fields triggering a backend page request', async () => {
-    await page.navigateTo();
     const nextBtn = page.getPageNextBtn();
     await browser.sleep(beTime);
     expect(await page.getListArr()).toEqual(fullList.slice(0, 5));
@@ -422,7 +400,6 @@ describe('Test List backend side paginated', () => {
   });
 
   it('Should paginate with a filter', async () => {
-    await page.navigateTo();
     const nextBtn = page.getPageNextBtn();
     await browser.sleep(beTime);
     expect(await page.getListArr()).toEqual(fullList.slice(0, 5));

@@ -1,7 +1,14 @@
 import {$, $$, browser, by, element} from 'protractor';
+import {BfListPaginatorPo} from '../bf-list-paginator.po';
 
 export class BfListHandlerPo {
-  base = '.bf-list-handler-test1';
+  public base = '.bf-list-handler-test1';
+  public paginator = new BfListPaginatorPo();
+  public selectors = {
+    rows:  ' li.list-row:not(.list-row-placeholder)',
+    cells: ' > div:not(.mobile-row)'
+  };
+
   constructor(baseCss) {
     this.base = baseCss;
   }
@@ -10,34 +17,63 @@ export class BfListHandlerPo {
   }
 
   // <bf-list-paginator>
-  getPaginator = () => $$(this.base + ' bf-list-paginator .page-btn:not(.prev-btn):not(.next-btn)').map((el) => el.getText());
-  getCurrPageNum = () => $(this.base + ' .bf-list-paginator .page-btn.current').getText();
-  getPageNextBtn = () => $(this.base + ' .bf-list-paginator .page-btn.next-btn');
-  getPagePrevBtn = () => $(this.base + ' .bf-list-paginator .page-btn.prev-btn');
-  getPaginatorBtn = (num) => $(this.base + ' bf-list-paginator .page-btn:nth-child(' + (num + 1) + ')');
+  getPagesCount = () => this.paginator.getPagesArr().then(list => list.length);
+  getCurrPageNum = () => this.paginator.getCurrPageNum();
+  getPageNextBtn = () => this.paginator.getPageNextBtn();
+  getPagePrevBtn = () => this.paginator.getPagePrevBtn();
+  selectIPP = (pageNum) => this.paginator.selectIPP(pageNum); // Select items per page option
+
 
   // List headers (to order)
   getListHeader = (num) => $(this.base + ' .list-header bf-list-header-col:nth-child(' + num + ')');
 
   // Return an object array with the displayed elements on the list
-  getListArr = () => {
-    return $$(this.base + ' .list-row:not(.list-row-placeholder)').map((rowEl, ind) => {
+  getListArr = async () => {
+    const list = await this.getArray();
+    return list.map(row => {
       return {
-        col1: rowEl.$('div[class*="col-"]:nth-child(1)').getText(),
-        col2: rowEl.$('div[class*="col-"]:nth-child(2)').getText(),
-        col3: rowEl.$('div[class*="col-"]:nth-child(3)').getText(),
-        col4: rowEl.$('div[class*="col-"]:nth-child(4)').getText(),
+        col1: row[0],
+        col2: row[1],
+        col3: row[2],
+        col4: row[3],
       };
     });
   };
+  getArray = async (rowNum?) => {
+    let tableArr = [];
+    const cellSelector = this.base + this.selectors.rows + this.selectors.cells;
+    const tRows = $$(this.base + this.selectors.rows);
 
-  // Select items per page option
-  selectIPP = async (pageNum) => {
-    const dropdownBtn = $(this.base + ' .page-num-selector .bf-dropdown .input-group-append');
-    const ops = await $$(this.base + ' .page-num-selector .bf-dropdown .list-container .option-row');
-    await dropdownBtn.click();
-    await ops[pageNum].click();
+    if (rowNum !== undefined) { // Selected row
+      const tRow = tRows.get(rowNum);
+      tableArr = await tRow.$$(cellSelector).map(el => el.getText());
+
+    } else {  // All rows
+      const count = await tRows.count();
+      for (let ind = 0; ind < count; ind++) {
+        const tRow = tRows.get(ind);
+        const cellArr = await tRow.$$(cellSelector).map(cellEl => {
+          return cellEl.getText();
+        });
+        tableArr.push(cellArr);
+      }
+    }
+    return tableArr;
   };
+
+  // Returns a summary of the list: [first row's name, last row's name, count]
+  getFirstLastCount = async (): Promise<[string, string, number] | [number]> => {
+    const cellSelector = this.base + this.selectors.rows + this.selectors.cells;
+    const tRows = $$(this.base + this.selectors.rows);
+    const count = await tRows.count();
+    if (count === 0) { return [0]; }
+    const firstRow: Array<string> = await tRows.get(0).$$(cellSelector).map(el => el.getText());
+    const lastRow: Array<string> = await tRows.get(count - 1).$$(cellSelector).map(el => el.getText());
+    return [firstRow[1], lastRow[1], count];
+  };
+
+
+
 
   getTextFilter = () => $(this.base + ' .filter-text input.form-control');
   getFilterUser = () => $(this.base + ' .filter-username input.form-control');

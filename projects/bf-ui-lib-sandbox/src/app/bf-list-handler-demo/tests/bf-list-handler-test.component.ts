@@ -39,6 +39,7 @@ export class BfListHandlerTestComponent implements OnInit, OnDestroy {
   public testList1: BfListHandler;
   public testList2: BfListHandler;
   public loader$ = new Subject();
+  public testNum = 1; // 1=frontend pagination / 2=backend pagination
 
 
   constructor() {
