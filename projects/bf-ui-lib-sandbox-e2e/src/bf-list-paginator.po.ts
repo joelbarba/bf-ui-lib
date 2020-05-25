@@ -10,7 +10,7 @@ export class BfListPaginatorPo {
   getPageNextBtn = () => $(this.base + ' .page-btn.next-btn');
   getPagePrevBtn = () => $(this.base + ' .page-btn.prev-btn');
 
-  getPagesArr     = () => $$(this.base + ' .page-btn.num-btn').map(el => el.getAttribute('innerHTML')); // .getText() does not work in the pipeline!
+  getPagesArr     = () => $$(this.base + ' .page-btn.num-btn').map(el => el.getAttribute('innerHTML'));
   getCurrPageNum  = () => $(this.base + ' .page-btn.current').getAttribute('innerHTML');
 
   getLastPage = async () => {
