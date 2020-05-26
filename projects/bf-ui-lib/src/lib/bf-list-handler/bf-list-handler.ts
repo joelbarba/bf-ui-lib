@@ -382,6 +382,26 @@ export class BfListHandler {
     this.dispatch({ action: 'FILTER', payload: '' });
   };
 
+  // Check if all settings are still on default
+  public isDefaultState = () => {
+    return this.isFilterEmpty()
+      && JSON.stringify(this.orderConf.fields) === JSON.stringify(this.customDefault.orderFields)
+      && this.orderConf.reverse === this.customDefault.orderReverse
+      && this.rowsPerPage === this.customDefault.rowsPerPage
+      && this.currentPage === 1;
+  };
+
+  // Check if there is any filter applied to the list
+  public isFilterEmpty = (ignorePagination = false) => {
+    return !this.filterText && !Object.keys(this.filters).filter(key => {
+      const ignore = ignorePagination && ['offset', 'limit', 'order_by'].includes(key);
+      return !ignore
+        && this.filters[key] !== ''
+        && this.filters[key] !== undefined
+        && this.filters[key] !== null;
+    }).length;
+  };
+
 
   // Extend the list item with manipulation methods: $save(), $remove()
   private extendItem = (item: any = {}) => {
