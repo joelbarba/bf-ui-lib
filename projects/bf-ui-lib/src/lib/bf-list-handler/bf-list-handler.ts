@@ -13,7 +13,8 @@ export interface BfListHandlerConfig {
   totalPages    ?: number;
   extMethods    ?: boolean;
   smartTrigger  ?: boolean;
-  dataInput$    ?: Observable<any> | Subject<any> | BehaviorSubject<any>;
+  data$         ?: Observable<any> | Subject<any> | BehaviorSubject<any>;
+  status$       ?: Observable<number> | Subject<number> | BehaviorSubject<number>;
   backendPagination ?: (fullFilter: any, slimFilter?: any, isDiff?: boolean, isFirstFetch?: boolean) => void | Promise<void | { list, count }>;
 }
 
@@ -53,7 +54,8 @@ export class BfListHandler {
   public lastFilters: any = {};  // Snapshot of the last "this.filters" applied to the list
   public customDefault;  // Default customInit value (set in constructor)
   public subs: {[ key: string]: Subscription } = {  // Subscriptions to hold
-    contentSub  : null,   // Content loader
+    dataSub     : null,   // Content loader
+    statusSub   : null,   // External status
     debounceSub : null,   // Debounced filter
   };
   private debouncedFilter$ = new Subject<{filterName: string, filterValue, debounceMs?: number}>();
@@ -72,6 +74,7 @@ export class BfListHandler {
     if (customInit.hasOwnProperty('filterFields'))      { this.filterFields      = customInit.filterFields; }
 
     // Setting initial values from parsed url route (2nd param, overriding the defaults)
+    if (qParams.hasOwnProperty('filterText')) { this.filterText = qParams.filterText; }
     if (qParams.hasOwnProperty('limit')) { this.rowsPerPage = parseInt(qParams.limit) || 1; }
     if (qParams.hasOwnProperty('offset')) {
       this.currentPage = Math.floor((parseInt(qParams.offset) || 0) / this.rowsPerPage) + 1;
@@ -108,7 +111,7 @@ export class BfListHandler {
     );
 
     // Automatically subscribe to an input source of data
-    if (customInit.hasOwnProperty('dataInput$')) { this.subscribeTo(customInit.dataInput$); }
+    if (customInit.hasOwnProperty('data$')) { this.subscribeTo(customInit.data$, customInit.status$); }
   }
 
 
@@ -173,7 +176,7 @@ export class BfListHandler {
     // Pagination
     if (!this.backendPagination) { // Frontend (slice based on the state)
         this.totalPages = Math.ceil(this.renderedList.length / this.rowsPerPage) || 1;
-        this.currentPage = this.getPage(); // In case it falls off
+        if (this.loadingStatus === ListStatus.LOADED) { this.currentPage = this.getPage(); } // In case it falls off
 
         this.renderedList = this.renderedList.filter((item, ind) => {
           const offSet = (this.currentPage - 1) * this.rowsPerPage;
@@ -323,12 +326,20 @@ export class BfListHandler {
   };
 
   // Set an observable as the source of input data for the list
-  public subscribeTo = (load$) => {
-    if (!!this.subs.contentSub) { this.subs.contentSub.unsubscribe(); }
-    this.loadingStatus = ListStatus.LOADING;
-    this.subs.contentSub = load$.subscribe(list => {
-      this.load(dCopy(list || []));
-    });
+  public subscribeTo = (data$, status$?) => {
+    if (!!this.subs.dataSub) { this.subs.dataSub.unsubscribe(); }
+
+    if (status$) {
+      if (!!this.subs.statusSub) { this.subs.statusSub.unsubscribe(); }
+      this.subs.statusSub = status$.subscribe(status => this.loadingStatus = status);
+      this.subs.dataSub = data$.subscribe(list => {
+        if (this.loadingStatus === ListStatus.LOADED) { this.load(dCopy(list || [])); }
+      });
+
+    } else { // If no status$, pretend it's loading until first data$
+      this.loadingStatus = ListStatus.LOADING;
+      this.subs.dataSub = data$.subscribe(list => this.load(dCopy(list || [])));
+    }
   };
 
   // Shortcuts to dispatch action

@@ -52,7 +52,8 @@ this.myList = new BfListHandler({
   filterFields  : ['username', 'email'],
   orderFields   : ['id', 'username'],
   orderReverse  : false,
-  dataInput$    : this.loader$
+  data$         : this.loader$,
+  status$       : this.status$,
 }, qParams);`;
 
 
@@ -123,7 +124,7 @@ this.myList.orderList = (list: Array<any>, orderFields: Array<string>, orderReve
   
   constructor() {
     this.myList = new BfListHandler({
-      dataInput$    : this.loader$,
+      data$         : this.loader$,
       listName      : 'test-list',
       filterFields  : ['username', 'first_name'],
       orderFields   : ['id', 'username'],
@@ -197,7 +198,7 @@ this.myList.orderList = (list: Array<any>, orderFields: Array<string>, orderReve
   ) {
 
     this.myList  = new BfListHandler({
-      dataInput$    : this.loader$,
+      data$         : this.loader$,
       listName      : 'test-list',
       filterFields  : ['username', 'first_name'],
       orderFields   : ['id', 'username'],
@@ -355,8 +356,10 @@ export const BfListHandlerDoc = {
 render$          → Emits the whole state object
 onFiltersChange$ → Emits when any filter on the list changes
 
-.load(data: Array<T>)                        → To load a new content passing a new array of objects.
-.subscribeTo(loader$: Observable<Array<T>>)  → Subscribes to a source (array to load on the list).
+.load(data: Array<T>)    → To load a new content passing a new array of objects.
+
+.subscribeTo(data$: Observable<Array<T>>, status$: Observable<number>)
+                         → Subscribes to a source (array to load on the list).
 
 loadedList    : Array<T> → Full loaded list (or current page when backend pagination).
 renderedList  : Array<T> → Rendered content (loadedList with order + filter + pagination applied).
