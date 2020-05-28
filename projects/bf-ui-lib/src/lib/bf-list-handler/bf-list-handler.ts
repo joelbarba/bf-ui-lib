@@ -418,7 +418,7 @@ export class BfListHandler {
   };
 
   // Default function to filter the list (on render). If "filterList" is extended later, this can be used to refer to the default
-  private defaultFilterList = (list: Array<any>, filterText: string = '', filterFields: Array<string>): Array<any> => {
+  public defaultFilterList = (list: Array<any>, filterText: string = '', filterFields: Array<string>): Array<any> => {
     if (!!this.backendPagination) { return list; } // No frontend filtering when backend pagination
 
     const filters: any = {}; // Take only filters with value
@@ -457,7 +457,7 @@ export class BfListHandler {
   };
 
   // Default function to order the list
-  private defaultOrderList = (list: Array<any>, orderFields: Array<string>, orderReverse: boolean): Array<any> => {
+  public defaultOrderList = (list: Array<any>, orderFields: Array<string>, orderReverse: boolean): Array<any> => {
     return list.sort((itemA, itemB) => {
       const reVal = !!orderReverse ? -1 : 1;
 
