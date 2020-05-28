@@ -421,9 +421,9 @@ export class BfListHandler {
   private defaultFilterList = (list: Array<any>, filterText: string = '', filterFields: Array<string>): Array<any> => {
     if (!!this.backendPagination) { return list; } // No frontend filtering when backend pagination
 
-    const filters: any = {};  // Filters with value (backend pag. excluded)
+    const filters: any = {}; // Take only filters with value
     for (const n of Object.keys(this.filters)) {
-      if (!!this.filters[n] && !(['limit', 'order_by', 'offset'].includes(n) && !!this.backendPagination)) {
+      if (this.filters[n] !== undefined && this.filters[n] !== null) {
         filters[n] = (this.filters[n] + '').toLowerCase();
       }
     }
@@ -446,7 +446,7 @@ export class BfListHandler {
         let isMatch2 = true; // Specific field filter (filters[n] === item[n])
         if (isFilters) {
           for (const n of Object.keys(item)) {
-            if (!!filters[n]) {
+            if (filters.hasOwnProperty(n)) {
               isMatch2 = isMatch2 && JSON.stringify(item[n]).toLowerCase().indexOf(filters[n]) >= 0;
             }
           }
