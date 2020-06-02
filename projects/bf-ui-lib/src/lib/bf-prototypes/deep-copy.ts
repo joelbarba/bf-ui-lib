@@ -42,9 +42,12 @@ function arrayDeepCopy() {
 
 /**
  * @description It returns a deep copy of the object (no references at any level)
+ *              Note: stringify omits keys with value 'undefined', and Dates are turned to strings
  */
 function objectDeepCopy() {
   return JSON.parse(JSON.stringify(this));
+  // const str = JSON.stringify(this, (key, value) => value === undefined ? '__undefined__' : value);
+  // const str2 = str.replace(/"__undefined__"/g, 'undefined');
   // const getCircularReplacer = () => {
   //   const seen = new WeakSet();
   //   return (key, value) => {
