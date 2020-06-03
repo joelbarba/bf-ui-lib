@@ -206,6 +206,19 @@ describe('Test List integration', () => {
     expect((await page.getListArr()).length).toEqual(0);
   });
 
+  it('Should filter by strict match on username', async () => {
+    expect(await page.getListArr()).toEqual(fullList.slice(0, 5));
+    const filterUsrStrict = page.getFilterUserStrict();
+    await page.selectIPP(6); // 100 items per page
+
+    await filterUsrStrict.sendKeys('bal'); // Usr='balerion'
+    expect(await page.getListArr()).toEqual([]);
+    await filterUsrStrict.sendKeys('erion'); // Usr='balerion'
+    expect(await page.getListArr()).toEqual([
+      { col1: '11', col2: 'balerion',     col3: 'balerion@targaryen.com',     col4: 'Balerion Targaryen' },
+    ]);
+  });
+
   it('Should debounce filter first_name', async () => {
     const filterName = page.getFilterName();
     expect(await page.getListArr()).toEqual(fullList.slice(0, 5));
