@@ -77,6 +77,7 @@ export class BfListHandlerPo {
 
   getTextFilter = () => $(this.base + ' .filter-text input.form-control');
   getFilterUser = () => $(this.base + ' .filter-username input.form-control');
+  getFilterUserStrict = () => $(this.base + ' .filter-username-strict input.form-control');
   getFilterEmail = () => $(this.base + ' .filter-email   input.form-control');
   getFilterName = () => $(this.base + ' .filter-name    input.form-control');
   loadMoreBtn = () => $(this.base + ' bf-btn.load-more-btn').click();
