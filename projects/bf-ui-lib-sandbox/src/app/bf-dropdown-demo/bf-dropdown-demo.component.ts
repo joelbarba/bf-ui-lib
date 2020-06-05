@@ -74,7 +74,7 @@ export class BfDropdownDemoComponent implements OnInit {
   public dList;
 
   public selObj = { id: 2, username: 'syrax', email: 'syrax@targaryen.com', first_name: 'Syrax', last_name: 'Targaryen' };
-  public selObj2;
+  public selObj2 = 2;
   public selObj3;
   public selObj4;
   public selObj5;
@@ -84,6 +84,13 @@ export class BfDropdownDemoComponent implements OnInit {
   public selObj9;
   public selObj10;
 
+  public asyncList1 = [];
+  public asyncList2 = [];
+  public asyncList3 = [];
+  public isLoading = true;
+  public isDisabled = false;
+  public loadingPromise;
+  public isLoading$: Subject<boolean> = new Subject();
 
 
   public cssReset = `$dropdown-selection-bg: $quaternary_color !default;
@@ -224,7 +231,15 @@ extCtrl$.next({ action: 'removeError', value: 'wrong' })`;
   };
 
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.upComp();
+    this.reloadPromise();
+    this.isLoading$.subscribe(
+      val => !val && (this.asyncList3 = this.myList),
+      err => {},
+      () => this.asyncList3 = this.myList
+    );
+  }
 
   public switchList = () => {
     this.dList = this.myList3.dCopy().map(el => {
@@ -260,8 +275,11 @@ extCtrl$.next({ action: 'removeError', value: 'wrong' })`;
   };
 
 
-
-
+  public reloadPromise = () => {
+    this.loadingPromise = new Promise(resolve => {
+      setTimeout(() => { this.asyncList2 = this.myList; resolve(); }, 5000);
+    });
+  };
 }
 
 
@@ -296,7 +314,8 @@ export const BfDropdownDoc = {
 [bfErrorText]        : Custom error text (label) to display when invalid value.
 [bfErrorPos]         : Custom position where to display the error text. Values = ['top-right', 'bottom-left', 'bottom-right', 'none']. None will hide the error text.
 [bfLoading]          : To show a loading spinner on the left button.
-                       Either a boolean (true=show, false=hide), or a promise that will automatically show the spinner while not resolved. 
+                       Either a boolean (true=show, false=hide), or a promise that will automatically show the spinner while not resolved,
+                       or an observable that emits a boolean (true=loading, false=loaded) 
 [bfCustomPlacementList] : By default the list expands up/down depending on its position on the screen. To force it: 'top' | 'bottom'.
   
 [extCtrl$]           : Observable to trigger actions. Its .next() should emit an object with "action"/"value"

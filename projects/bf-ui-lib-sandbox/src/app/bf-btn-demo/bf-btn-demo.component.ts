@@ -125,6 +125,7 @@ public toggleExample = `<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>`;
     { icon: 'icon-circle2'       },
     { icon: 'icon-loop3'         },
     { icon: 'icon-spell-check'   },
+    { icon: 'icon-spinner11'     },
   ];
   public btnTooltipPoss = [
     { id: 'top',        text: 'top'    },
