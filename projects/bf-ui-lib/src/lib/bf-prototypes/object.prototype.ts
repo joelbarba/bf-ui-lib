@@ -32,7 +32,9 @@ BfObject.keyFilter = function(filterFn: ((val?, key?) => boolean) | string): Par
     Object.entries(this).forEach(([key, val]) => !!filterFn(val, key) && (newObj[key] = val));
 
   } else if (typeof filterFn === 'string') {
-    filterFn.replace(/[ ]/g, '').split(',').forEach(key => newObj[key] = this[key]);
+    filterFn.replace(/[ ]/g, '').split(',')
+      .filter(key => this.hasOwnProperty(key))
+      .forEach(key => newObj[key] = this[key]);
   }
   return newObj;
 };
