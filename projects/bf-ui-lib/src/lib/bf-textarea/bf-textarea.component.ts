@@ -40,6 +40,8 @@ export class BfTextareaComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfErrorText: string;   // Custom error text (label) to display when invalid value
   @Input() bfErrorOnPristine = false; // If true, errors will be shown in pristine state too (by default pristine shows as valid always)
 
+  @Input() bfAutoFocus = false; // If true, once input linked to the view is automatically focused
+
   @Input() bfMinlength = null;  // Min number of chars. Built in validator (minlength)
   @Input() bfMaxlength = null;  // Max number of chars. Built in validator (maxlength). Null means no max. It blocks input if limit.
   @Input() bfPattern = null;    // Regex validator. Built in validator (pattern). Null means no validation.
@@ -144,6 +146,12 @@ export class BfTextareaComponent implements ControlValueAccessor, OnInit, OnChan
         this.ngControl.updateValueAndValidity(); // --> triggers NG_VALIDATORS -> validate() -> updateStatus()
         // this.propagateModelUp(this.bfModel);  // This would force NG_VALIDATORS too, but also trigger ngModelChange
       });
+    }
+
+    if (change.hasOwnProperty('bfAutoFocus') && !!this.bfAutoFocus) {
+      setTimeout(() => {  // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus
+        this.elementRef.nativeElement.querySelector('textarea').focus({ preventScroll: false });
+      }, 50);
     }
   }
 

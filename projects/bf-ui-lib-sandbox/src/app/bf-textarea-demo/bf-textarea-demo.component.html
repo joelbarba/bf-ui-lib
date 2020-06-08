@@ -18,6 +18,7 @@
                      [bfRequired]="conf.isRequired"
                      [bfDisabled]="conf.isDisabled"
                      [bfRows]="conf.rows"
+                     [bfAutoFocus]="conf.autofocus"
 
                      (bfOnKeyDown)="conf.hasKeyDown && growl.success('Key Down -> ' + $event.key)"
                      (bfOnEsc)="conf.hasKeyEsc && growl.success('ESC key was pressed')"
@@ -62,7 +63,8 @@
         <bf-checkbox class="col-2 padT15" bfLabel="bfRequired" [(ngModel)]="conf.isRequired" (ngModelChange)="upComp()"></bf-checkbox>
         <bf-checkbox class="col-2 padT15" bfLabel="bfDisabled" [(ngModel)]="conf.isDisabled" (ngModelChange)="upComp()"></bf-checkbox>
         <bf-checkbox class="col-3 padT15" bfLabel="bfErrorOnPristine" [(ngModel)]="conf.hasErrOnPristine" (ngModelChange)="upComp()"></bf-checkbox>
-        <div class="col-3">
+        <bf-checkbox class="col-3 padT15" bfLabel="bfAutoFocus" [(ngModel)]="conf.autofocus" (ngModelChange)="upComp()"></bf-checkbox>
+        <div class="col-3 mt-3">
           <bf-btn bfIcon="icon-minus" (bfClick)="(conf.rows > 1) && (conf.rows = conf.rows - 1) && upComp()" ></bf-btn>
           <bf-btn bfIcon="icon-plus" (bfClick)="(conf.rows = conf.rows + 1) && upComp()"></bf-btn>
           <bf-label class="marL15 value-inline" bfText="bfRows" [bfValue]="(conf.rows + '')"></bf-label>

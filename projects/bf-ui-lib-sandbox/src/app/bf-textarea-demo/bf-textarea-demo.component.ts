@@ -39,6 +39,7 @@ $textarea-invalid-color   : $invalid-color !default;`;
     hasPattern: false, pattern: '[A-Za-z]{3,20}',
     hasValidIf: false, hasBfValidator: false,
     hasManualErr: false,
+    autofocus: false,
 
     hasKeyDown: false, hasKeyEsc: false, hasKeyCtrlEnter: false,
     hasOnLoad: false, hasBeforeChange: false,
@@ -60,6 +61,7 @@ $textarea-invalid-color   : $invalid-color !default;`;
     if (this.conf.isRequired) { this.code += this.bsStr + `[bfRequired]="true"`; }
     if (this.conf.isDisabled) { this.code += this.bsStr + `[bfDisabled]="true"`; }
     if (this.conf.hasErrOnPristine)  { this.code += this.bsStr + `[bfErrorOnPristine]="true"`; }
+    if (this.conf.autofocus) { this.code += this.bsStr + `[bfAutoFocus]="true"`; }
 
     if (this.conf.isMinLen)    { this.code += this.bsStr + `bfMinlength="${this.conf.minLen}"`; }
     if (this.conf.isMaxLen)    { this.code += this.bsStr + `bfMaxlength="${this.conf.maxLen}"`; }
@@ -118,6 +120,7 @@ export const BfTextareaDoc = {
 [bfRequired]    : Whether the input is required or not
 [bfDisabled]    : Whether the input is disabled or not
 [bfPlaceholder] : Placeholder text (automatically translated)
+[bfAutoFocus]   : (true/false) If true, the textarea will get focused automatically once is initialized (linked to the view)
 
 [bfErrorText]   : Custom error text (label) to display when invalid value
 [bfErrorPos]    : Custom position where to display the error text. Values = ['top-right', 'bottom-left', 'bottom-right', 'none', 'default'].
