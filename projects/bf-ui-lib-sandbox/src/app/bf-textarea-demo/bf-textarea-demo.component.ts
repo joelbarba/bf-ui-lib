@@ -15,6 +15,7 @@ export class BfTextareaDemoComponent implements OnInit {
   public instance2 = `<bf-textarea</bf-textarea>`;
   public myVal = '';
   public flatExample = '<bf-textarea class="flat" [ngModel]="myVal"></bf-textarea>';
+  public resizeExample = '<bf-textarea class="resize" [ngModel]="myVal"></bf-textarea>';
   public inputRef: IbfInputCtrl; // bf-textarea controller object (ctrlObject)
   public cssReset = `$textarea-optional-color  : $optional-color !default;  // <-- this is a bootstrap default
 $textarea-focused-color   : $focused-color !default;
