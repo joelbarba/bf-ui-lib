@@ -7,6 +7,7 @@ declare global {
     keyFilter(filterFn: ((val?, key?) => boolean) | string): Partial<Object>;
     keyMap(props: string): Object;
     // keyMap(mapFn: (val?, key?) => any): Object;
+    keyCount(): number;
     peel(prefix?: string): Partial<Object>;
     isEqual(obj2: Object): boolean;
     updateFrom(Object): void;
@@ -56,6 +57,14 @@ BfObject.keyMap = function(props: string): Partial<Object> {
 //   return newObj;
 // };
 
+/**
+ * @ngdoc Object.prototype
+ * @description Returns then number of keys on the object
+ */
+BfObject.keyCount = function() {
+  return Object.keys(this).filter(key => this.hasOwnProperty(key)).length;
+};
+
 
 /**
  * @ngdoc Object.prototype
@@ -77,7 +86,6 @@ BfObject.peel = function() {
 BfObject.isEqual = function(obj2) {
   return isEqual(this, obj2);
 };
-
 
 /**
  * @ngdoc Object.prototype
