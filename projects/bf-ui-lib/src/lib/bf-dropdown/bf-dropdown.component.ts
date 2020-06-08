@@ -194,6 +194,13 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     // List generation (bfList --> extList)
     if (changing('bfList') || changing('bfOrderBy') || changing('bfRender') || changing('bfRenderFn')) {
       this.generateExtList();
+
+      if (changing('bfList')) { // If the list changes, match the ngModel with the new list
+        setTimeout(() => {
+          this.matchSelection(this.ngControl ? this.ngControl.value : this.bfModel);
+          this.ngControl.updateValueAndValidity();
+        });
+      }
     }
 
     // In case the selected field changes, reselect the item to set the new ngModel.value
