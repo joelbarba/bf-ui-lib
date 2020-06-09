@@ -509,6 +509,10 @@ export class BfListHandler {
         let valA = itemA[field];
         let valB = itemB[field];
 
+        // Avoid undefined sorting
+        if (valA === null || valA === undefined) { valA = ''; }
+        if (valB === null || valB === undefined) { valB = ''; }
+
         if (!isNaN(valA) && !isNaN(valB)) { // If numbers, compare using number type
           valA = Number(valA);
           valB = Number(valB);
