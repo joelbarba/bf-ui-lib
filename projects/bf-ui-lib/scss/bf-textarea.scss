@@ -69,6 +69,9 @@ bf-textarea {
 
   // Styles applied to the host (wrapper instance element) <bf-input>
   &.flat { .bf-textarea-form-group { margin-bottom: 0; } }
+
+
+  &.resize { textarea { resize: none; } }
 }
 
 

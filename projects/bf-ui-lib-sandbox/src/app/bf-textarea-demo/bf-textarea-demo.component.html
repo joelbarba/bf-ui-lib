@@ -18,6 +18,7 @@
                      [bfRequired]="conf.isRequired"
                      [bfDisabled]="conf.isDisabled"
                      [bfRows]="conf.rows"
+                     [bfAutoFocus]="conf.autofocus"
 
                      (bfOnKeyDown)="conf.hasKeyDown && growl.success('Key Down -> ' + $event.key)"
                      (bfOnEsc)="conf.hasKeyEsc && growl.success('ESC key was pressed')"
@@ -62,7 +63,8 @@
         <bf-checkbox class="col-2 padT15" bfLabel="bfRequired" [(ngModel)]="conf.isRequired" (ngModelChange)="upComp()"></bf-checkbox>
         <bf-checkbox class="col-2 padT15" bfLabel="bfDisabled" [(ngModel)]="conf.isDisabled" (ngModelChange)="upComp()"></bf-checkbox>
         <bf-checkbox class="col-3 padT15" bfLabel="bfErrorOnPristine" [(ngModel)]="conf.hasErrOnPristine" (ngModelChange)="upComp()"></bf-checkbox>
-        <div class="col-3">
+        <bf-checkbox class="col-3 padT15" bfLabel="bfAutoFocus" [(ngModel)]="conf.autofocus" (ngModelChange)="upComp()"></bf-checkbox>
+        <div class="col-3 mt-3">
           <bf-btn bfIcon="icon-minus" (bfClick)="(conf.rows > 1) && (conf.rows = conf.rows - 1) && upComp()" ></bf-btn>
           <bf-btn bfIcon="icon-plus" (bfClick)="(conf.rows = conf.rows + 1) && upComp()"></bf-btn>
           <bf-label class="marL15 value-inline" bfText="bfRows" [bfValue]="(conf.rows + '')"></bf-label>
@@ -200,8 +202,8 @@ myInput.errors = {{myInput.errors | json}}
 
 <!--Applicable classes -->
 <div class="row">
+  <h5 class="mt-4">Applicable classes:</h5>
   <div class="col-12">
-    <h5 class="mt-4">Applicable classes:</h5>
     <p>The textarea has a margin bottom 15px by default. To remove it, add the class "<span class="bold">flat</span>":</p>
     <pre class="marT10">{{ flatExample }}</pre>
   </div>
@@ -212,7 +214,17 @@ myInput.errors = {{myInput.errors | json}}
   </div>
   <div class="col-3">
     <div style="border: 1px dashed red">
-      <bf-textarea class="flat" bfRows="2" bfLabel="Without flat class" [ngModel]="myVal"></bf-textarea>
+      <bf-textarea class="flat" bfRows="2" bfLabel="With flat class" [ngModel]="myVal"></bf-textarea>
+    </div>
+  </div>
+  <div class="col-12" style="padding-top: 25px">
+    <p>The textarea has resize option by default. To remove it, add the class "<span class="bold">resize</span>":</p>
+    <pre class="marT10">{{ resizeExample }}</pre>
+    <div class="col-3">
+      <bf-textarea class="" bfRows="2" bfLabel="Without resize class" [ngModel]="myVal"></bf-textarea>
+    </div>
+    <div class="col-3">
+      <bf-textarea class="resize" bfRows="2" bfLabel="With resize class" [ngModel]="myVal"></bf-textarea>
     </div>
   </div>
 </div>
