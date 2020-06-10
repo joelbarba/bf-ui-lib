@@ -268,14 +268,21 @@
 <hr>
 <h5 class="marB20">Filtering</h5>
 <p>
-  There are 2 types of filter that are implemented by default: <b>filterText</b> string + <b>filters</b> object
+  There are 2 types of front end filtering: Using a free text (<b>filterText</b>) or a key value match (<b>filters</b>)
 </p>
 <ul>
-  <li><b>filterText</b> → is applied to a group of fields (<b>filterFields[]</b>) of every item on the list, as a generic search match.</li>
-  <li><b>filters</b> → object applies a match individually to every given field of every item. Backend filters are included here.</li>
+  <li><b>filterText</b> → is applied to a group of fields (<b>filterFields[]</b>) of every item on the list, as a generic search match. Do it passing only the 1st parameter to <b>.filter(value)</b></li>
+  <li><b>filters</b> → applies a match individually to every given field of every item. Backend filters are included here. Do it passing 1st + 2nd parameters to <b>.filter(value, 'field_name')</b></li>
 </ul>
-<p>By default the filtering is performed with a none case sensitive match of the pattern.
-  <br>
+<p>By default the filtering is performed with a none case sensitive match of the pattern for filterText.
+  <br>For specific filed filters, there are 3 different types of match that can be applied.
+</p>
+<ul>
+  <li><b>.filter(value, '=field_name')</b> Strict match → The value should match exactly the item's field (item.field_name === value)
+  <li><b>.filter(value, '~field_name')</b> Inclusive match → The value should be included into the item's field (item.field_name.includes(value)). No case sensitive.
+  <li><b>.filter([value1, value2, ...], 'field_name')</b> Array match → Any item's field can be any of the array of values (value.includes(item.field_name))
+</ul>
+<p>
   If a different filter needs to be applied, the method <b>.filterList()</b> can be extended to be used instead, providing a custom matching condition
   It should return the filtered list.
 </p>

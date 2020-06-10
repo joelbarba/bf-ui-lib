@@ -272,7 +272,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
       let itemLabel = '';
 
       if (!!this.bfRender) {
-        itemLabel = item[this.bfRender] || this.bfRender;  // Display item property / string label
+        itemLabel = item.hasOwnProperty(this.bfRender) ? item[this.bfRender] : this.bfRender;  // Display item property / string label
 
       } else if (!this.bfRenderFn) { // If render function, $label will be calculated later
         itemLabel = Object.values(item).join(', '); // If no rendering defined: Display all props
