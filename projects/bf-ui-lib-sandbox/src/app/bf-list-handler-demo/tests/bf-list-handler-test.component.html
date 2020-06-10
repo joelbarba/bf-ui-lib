@@ -7,15 +7,20 @@
     <bf-input class="col-3 filter-text" bfLabel="Free Text Filter" bfIcon="icon-search"
               [(ngModel)]="testList1.filterText" (ngModelChange)="testList1.filter($event)">
     </bf-input>
-    <bf-input class="col-3 filter-username" bfLabel="Filter username" bfIcon="icon-search"
-              [(ngModel)]="testList1.filters.username" (ngModelChange)="testList1.filter($event, 'username')">
+    <bf-input class="col-2 filter-username-strict" bfLabel="Filter =username" bfIcon="icon-search"
+              [(ngModel)]="testList1.filters.username" (ngModelChange)="testList1.filter($event || null, 'username')">
     </bf-input>
-    <bf-input class="col-3 filter-email" bfLabel="Filter email" bfIcon="icon-search"
-              [(ngModel)]="testList1.filters.email" (ngModelChange)="testList1.filter($event, 'email')">
+    <bf-input class="col-2 filter-username" bfLabel="Filter ~username" bfIcon="icon-search"
+              [(ngModel)]="testList1.filters.username" (ngModelChange)="testList1.filter($event, '~username')">
     </bf-input>
-    <bf-input class="col-3 filter-name" bfLabel="Filter Name (debounced)" bfIcon="icon-search"
-              [(ngModel)]="testList1.filters.first_name" (ngModelChange)="testList1.filter($event, 'first_name', 1000)">
+    <bf-input class="col-2 filter-email" bfLabel="Filter ~email" bfIcon="icon-search"
+              [(ngModel)]="testList1.filters.email" (ngModelChange)="testList1.filter($event, '~email')">
     </bf-input>
+    <bf-input class="col-2 filter-name" bfLabel="Filter Name (debounced)" bfIcon="icon-search"
+              [(ngModel)]="testList1.filters.first_name" (ngModelChange)="testList1.filter($event, '~first_name', 1000)">
+    </bf-input>
+
+
     <!--<bf-btn class="col-2 padT20" bfText="Clear Filters" (bfClick)="clearFilters()" bfType="save"></bf-btn>-->
     <div class="col-4 padT30">filterText={{testList1.filterText}} | filters={{testList1.filters | json }}</div>
 

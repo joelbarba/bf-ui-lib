@@ -4,6 +4,51 @@ import { BfPrototypes } from 'projects/bf-ui-lib/src/lib/bf-prototypes/bf-protot
 
 BfPrototypes.run();
 
+// const dateValue = new Date();
+// let myObj = {
+//   p1: 'hey',
+//   p2: null,
+//   p3: undefined,
+//   p4: 0,
+//   p5: false,
+//   p6: dateValue,
+//   p7: [1, 2, 3],
+//   p8: { name: 'god', age: 0 },
+//   $p10: 'this',
+//   $q20: 'this',
+// };
+// const obj1 = { p1: 'hey', p2: null, p3: undefined };
+// const obj2 = { p1: 'updated' };
+// BfObject.cloneProp.call(obj1, obj2);
+// console.log(obj1);
+
+// const myObj2 = dCopy(myObj1);
+// myObj2.p3 = undefined;
+// myObj2.p6 = myObj1.p6;
+// console.log(myObj1, myObj2);
+// const obj1: any = { p1: 'hey', p2: null }; obj1.p3 = { p4: 10, p5: obj1 }; // <-- obj1.p3.p5 === obj1
+// const obj2: any = { p1: 'hey', p2: null }; obj2.p3 = { p4: 10, p5: obj1 };
+// const res1 = isEqual(obj1, obj2);
+//
+//
+// const a: any = { p1: 'hey', p2: null };
+// a.p3 = { p4: 10, p5: a };
+// const b = { p1: 'hey', p2: null, p3: { p4: 10, p5: {} } };
+// // const a: any = [10, 30];
+// // a.push([1, 2, a]);
+// // const b = [10, 30, [1, 2, [10, 30]]];
+// const res = isEqual(a, b);
+//
+// // const res = myObj1.isEqual(myObj2);
+// console.log('res = ', res);
+
+// console.log(myObj, myObj.peel());
+
+// const myObj2 = myObj.valMap(val => val ? val : null);
+
+// const myObj2 = myObj.keyFilter(val => !!val);
+// console.log(myObj2);
+
 // const list = [{id:'1'}, {id:'2'}, {id:'3'}, {id:'4'}, [1,3,5, [9, 1, 2]], null, 1];
 // const a = list.getById('30');
 // list.removeById('30');
@@ -124,12 +169,12 @@ $invalid_input_color  : $warning_color;
 
   public arrayT = `Array<T>`;
   public partialT = `Partial<T>`;
-  public example3 = `import { BfPrototypes } from 'bf-ui-lib';
+  public example3 = `import { BfPrototypes } from '@blueface_npm/bf-ui-lib';
 
 BfPrototypes.run(); // This will override all prototypes`;
 
   public example4 = `// This will define prototypes for only 3 functions
-BfPrototypes.run(['Array.getById', 'Array.getByProp', 'Object.dCopy']);`;
+BfPrototypes.run(['Array.getById', 'Array.getByProp', 'Object.isEqual']);`;
 
 
 

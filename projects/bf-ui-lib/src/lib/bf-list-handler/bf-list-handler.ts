@@ -2,6 +2,7 @@ import {BehaviorSubject, Observable, Subject, Subscription, timer} from 'rxjs';
 import {debounce, distinctUntilChanged, map} from 'rxjs/operators';
 import {dCopy} from '../bf-prototypes/deep-copy';
 import Debug from 'debug';
+import {BfObject} from '../bf-prototypes/bf-prototypes';
 const debugList = Debug('bfUiLib:bfListHandler');  // Turn it on with:   localStorage.debug='bfUiLib:bfListHandler'
 
 export interface BfListHandlerConfig {
@@ -60,6 +61,7 @@ export class BfListHandler {
   };
   private debouncedFilter$ = new Subject<{filterName: string, filterValue, debounceMs?: number}>();
   private smartTrigger = true;  // For backend pagination: Avoid triggering page load again if filter hasn't changed
+  private filtersExt = {}; // Extended config on filters: {}. It keeps the prefix coming from .filter()
 
   constructor(customInit: Partial<BfListHandlerConfig> = {}, qParams: any = {}) {
     this.customDefault = dCopy(customInit);
@@ -353,8 +355,34 @@ export class BfListHandler {
     if (this.rowsPerPage !== rowsPerPage) { this.dispatch({ action: 'ROWS',  payload: rowsPerPage }); }
   };
 
-  public filter = (filterValue: any, filterName?: string, debounceMs = (!!this.backendPagination ? 500 : 0)) => {
+  // .filter()                              Triggers all filters set on the list
+  // .filter(filterValue)                   Triggers a text free included match on multiple fields
+  // .filter(filterValue, 'filter_name')    Triggers a strict match (=) on the specified field
+  // .filter(filterValue, '=filter_name')   Triggers a strict match (=) on the specified field
+  // .filter(filterValue, '~filter_name')   Triggers an included match (~) on the specified field
+
+  // public filter = (filterValue: any, filterName?: string, debounceMs = (!!this.backendPagination ? 500 : 0)) => {
+  public filter = (...args: [any?, string?, number?]) => {
+    const filterValue = args[0];
+    let filterName = args[1];
+    const debounceMs = args.length > 2 ? args[2] : (!!this.backendPagination ? 500 : 0);
+
+    if (args.length === 0) { // If no params, just trigger the filter again
+      this.dispatch({ action: 'FILTER', payload: this.filterText });
+      return true;
+    }
+
     if (filterName) { // Filter on an specific field
+
+      // If the filter name comes with a prefix, save it onto filtersExt: {}
+      const prefix = filterName.slice(0, 1);
+      if (prefix === '=' || prefix === '~') {
+        filterName = filterName.slice(1).trim();
+        this.filtersExt[filterName] = prefix;
+      } else {
+        this.filtersExt[filterName] = '=';
+      }
+
       this.debouncedFilter$.next({ filterValue, filterName, debounceMs });
 
     } else { // Filter filterText on multiple fields (filterFields)
@@ -418,16 +446,15 @@ export class BfListHandler {
   };
 
   // Default function to filter the list (on render). If "filterList" is extended later, this can be used to refer to the default
-  public defaultFilterList = (list: Array<any>, filterText: string = '', filterFields: Array<string>): Array<any> => {
+  public defaultFilterList = (list: Array<any>, filterText = '', filterFields: Array<string> = []): Array<any> => {
     if (!!this.backendPagination) { return list; } // No frontend filtering when backend pagination
 
-    const filters: any = {}; // Take only filters with value
-    for (const n of Object.keys(this.filters)) {
-      if (this.filters[n] !== undefined && this.filters[n] !== null) {
-        filters[n] = (this.filters[n] + '').toLowerCase();
-      }
-    }
-    const isFilters = Object.keys(filters).length > 0;
+    const filters = BfObject.peel.call(this.filters); // Strip out nulls and undefined s
+
+    const arrValues = {}; // Filters with an array value
+    Object.keys(filters).filter(key => Array.isArray(filters[key])).forEach(key => arrValues[key] = filters[key]);
+
+    const isFilters = Object.keys(filters).length > 0;  // Any specific filters ?
 
     if (!filterText && !isFilters) {
       return list; // If no filters, return it all
@@ -438,16 +465,32 @@ export class BfListHandler {
         let isMatch1 = true; // If filterText matches any of the fields of the item
         if (!!matchPattern) {
           isMatch1 = false;
-          for (const n of filterFields) {
-            isMatch1 = isMatch1 || JSON.stringify(item[n]).toLowerCase().indexOf(matchPattern) >= 0;
+          for (const key of filterFields) {
+            isMatch1 = isMatch1 || JSON.stringify(item[key]).toLowerCase().indexOf(matchPattern) >= 0;
           }
         }
 
-        let isMatch2 = true; // Specific field filter (filters[n] === item[n])
+        let isMatch2 = true; // Specific field filter (filters: {})
         if (isFilters) {
-          for (const n of Object.keys(item)) {
-            if (filters.hasOwnProperty(n)) {
-              isMatch2 = isMatch2 && JSON.stringify(item[n]).toLowerCase().indexOf(filters[n]) >= 0;
+          for (const key of Object.keys(item)) {
+            if (filters.hasOwnProperty(key)) {
+
+              // The 3 types of match:
+              // 1 .filter([val1, val2, val3], 'field')   If the value matches any of the ones in the array
+              // 2 .filter(filterValue, '~filter_name')   Included match (~). Match included in value
+              // 3 .filter(filterValue, '=filter_name')   Strict match (=). Same exact values
+
+              if (arrValues[key]) { // Match type 1 ([])
+                isMatch2 = isMatch2 && (filters[key].includes(item[key]) || !filters[key].length);
+
+              } else if (this.filtersExt[key] === '~') { // Match type 2 (~)
+                isMatch2 = isMatch2 && JSON.stringify(item[key]).toLowerCase().indexOf(filters[key]) >= 0;
+
+              } else { // // Match type 3 (=)
+                isMatch2 = isMatch2 && (item[key] === filters[key]);
+              }
+
+              if (!isMatch2) { break; } // If no match, stop looping
             }
           }
         }
@@ -465,6 +508,10 @@ export class BfListHandler {
       for (const field of orderFields) {
         let valA = itemA[field];
         let valB = itemB[field];
+
+        // Avoid undefined sorting
+        if (valA === null || valA === undefined) { valA = ''; }
+        if (valB === null || valB === undefined) { valB = ''; }
 
         if (!isNaN(valA) && !isNaN(valB)) { // If numbers, compare using number type
           valA = Number(valA);
@@ -485,7 +532,7 @@ export class BfListHandler {
 
 
   // Function to filter the list. ---> Extend this function if you need a custom filter
-  public filterList = (list: Array<any>, filterText: string = '', filterFields: Array<string>): Array<any> => {
+  public filterList = (list: Array<any>, filterText = '', filterFields: Array<string> = []): Array<any> => {
     return this.defaultFilterList(list, filterText, filterFields);
   };
 

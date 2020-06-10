@@ -36,22 +36,22 @@ fi
 
 lastCommitHash=`git log -1 --pretty=%h`
 lastCommitMsg=`git log -1 --pretty=%s`
-echo ""
-echo "Do you want to squash the version change in 'package.json' into the last commit before you publish:"
-echo ""
-echo "     #$lastCommitHash : $lastCommitMsg"
-echo ""
-echo "(Enter=Yes, anything else=No)"
-if [[ "$allYes" != "y" ]]; then read x; else x=""; fi
-if [[ "$x" = "" ]]; then
-    git add -A
-    git commit --fixup ${lastCommitHash}
-    export GIT_EDITOR=true
-    git rebase --autosquash -i HEAD~2
-    export GIT_EDITOR=false
-    echo "-- Version change squashed into last commit --"
-    git log -1
-fi
+#echo ""
+#echo "Do you want to squash the version change in 'package.json' into the last commit before you publish:"
+#echo ""
+#echo "     #$lastCommitHash : $lastCommitMsg"
+#echo ""
+#echo "(Enter=Yes, anything else=No)"
+#if [[ "$allYes" != "y" ]]; then read x; else x=""; fi
+#if [[ "$x" = "" ]]; then
+#    git add -A
+#    git commit --fixup ${lastCommitHash}
+#    export GIT_EDITOR=true
+#    git rebase --autosquash -i HEAD~2
+#    export GIT_EDITOR=false
+#    echo "-- Version change squashed into last commit --"
+#    git log -1
+#fi
 
 
 # Packing
@@ -79,3 +79,13 @@ pkgTar="./dist/bf-ui-lib/blueface_npm-bf-ui-lib-$pkgVer.tgz"
 echo ""
 echo "Publish the library (version $pkgVer) Tar File: $pkgTar"
 npm publish ${pkgTar}
+
+echo ""
+echo "Do you want to commit the package.json ---> $pkgVer (Enter=Yes, anything else=No)"
+echo ""
+if [[ "$allYes" != "y" ]]; then read x; else x=""; fi
+if [[ "$x" = "" ]]; then
+    git add -A
+    git commit -m "Publish $pkgVer"
+    git log -1
+fi
