@@ -3,7 +3,7 @@ import {OnChanges, OnDestroy,  AfterViewInit, ViewChild, ViewChildren} from '@an
 import {FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS} from '@angular/forms';
 import BfObject from '../bf-prototypes/object.prototype';
 import BfArray from '../bf-prototypes/array.prototypes';
-import {Observable, of, Subject, Subscription} from 'rxjs';
+import {isObservable, Observable, of, Subject, Subscription} from 'rxjs';
 import {BfUILibTransService} from '../abstract-translate.service';
 import {dCopy} from '../bf-prototypes/deep-copy';
 import {debounceTime} from 'rxjs/operators';
@@ -62,7 +62,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfCustomPlacementList: 'top' | 'bottom';   // To force the direction the list is expanded.
                                                       // By default this is automatic based on the position on the window
 
-  @Input() bfLoading: boolean | Promise<any>;  // To display the loading animation on the expand button
+  @Input() bfLoading: boolean | Promise<any> | Observable<boolean>;  // To display the loading animation on the expand button
 
   @Input() extCtrl$: Observable<unknown>; // To trigger actions manually from an external observable (subject)
 
@@ -115,6 +115,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   public errorTextTrans$ = of('');       // Translated text for the error message
   public renderedPlaceholder;   // Translated value of the custom placeholder
   public lastLoadPromise; // Reference to avoid bfLoading promise overlap
+  public isBfDisabledPresent = false;  // If [bfDisabled] present, do not change it automatically on bfLoading
   public subs: {[ key: string]: Subscription } = {};  // Subscriptions holder
 
   private readonly ctrlObject; // Object to expose control methods externally
@@ -193,6 +194,13 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     // List generation (bfList --> extList)
     if (changing('bfList') || changing('bfOrderBy') || changing('bfRender') || changing('bfRenderFn')) {
       this.generateExtList();
+
+      if (changing('bfList')) { // If the list changes, match the ngModel with the new list
+        setTimeout(() => {
+          this.matchSelection(this.ngControl ? this.ngControl.value : this.bfModel);
+          this.ngControl.updateValueAndValidity();
+        });
+      }
     }
 
     // In case the selected field changes, reselect the item to set the new ngModel.value
@@ -202,6 +210,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
     // If values come as strings, convert them
     if (changing('bfDisabled')) {
+      this.isBfDisabledPresent = true;
       if (this.bfDisabled === 'false') { this.bfDisabled = false; }
       if (this.bfDisabled === 'true')  { this.bfDisabled = true; }
     }
@@ -235,15 +244,40 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
       this.isLoading = false;
       const bfLoading = changes.bfLoading.currentValue;
       if (bfLoading && typeof bfLoading === 'boolean') { this.isLoading = bfLoading; }
+      if (bfLoading && typeof bfLoading === 'string')  { this.isLoading = bfLoading !== 'false'; }
       if (bfLoading && typeof bfLoading === 'object' && typeof bfLoading.then === 'function') {
         this.isLoading = true;
         this.lastLoadPromise = bfLoading;
         bfLoading.then(() => {
-          if (this.lastLoadPromise === bfLoading) { this.isLoading = false; }
+          if (this.lastLoadPromise === bfLoading) { this.afterLoaded(); }
         }, () => {});
       }
-    }
 
+      // In case of bfLoading coming as an observable
+      if (bfLoading && isObservable(bfLoading)) {
+        this.isLoading = true;
+        if (!!this.subs.loading) { this.subs.loading.unsubscribe(); }
+        this.subs.loading = bfLoading.subscribe(isLoading => {
+            if (isLoading) {
+              this.isLoading = true;
+              if (!this.isBfDisabledPresent) { this.bfDisabled = true; }
+            } else {
+              this.afterLoaded();
+            }
+          },
+          () => { this.afterLoaded(); },
+          () => { this.afterLoaded(); }
+        );
+      }
+
+      // Detect when bfLoading finishes (changes from 'true' --> 'false')
+      if (changes.bfLoading.previousValue === true && changes.bfLoading.currentValue === false) {
+        this.afterLoaded();
+      }
+
+      // If no bfDisable, control it automatically, disabling the dropdown while is loading
+      if (!this.isBfDisabledPresent) { this.bfDisabled = !!this.bfLoading; }
+    }
 
   }
 
@@ -257,6 +291,17 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     Object.values(this.subs).forEach(sub => sub.unsubscribe());
   }
 
+
+  // After loading (bfLoading=false), automatically match again the ngModel with the items of the list
+  public afterLoaded = () => {
+    this.isLoading = false;
+    setTimeout(() => {  // Wait until the new [bfList] is loaded, and match the ngModel again
+      const value = !!this.ngControl ? this.ngControl.value : this.bfModel;
+      this.matchSelection(value);
+      this.ngControl.updateValueAndValidity();
+      if (!this.isBfDisabledPresent) { this.bfDisabled = false; }
+    });
+  };
 
 
   // Generates the extended list to be used internally (bfList --> extList)
@@ -394,7 +439,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     this.errors.noMatch = !!(!this.isModelEmpty && this.extList.indexOf(this.bfModel) === -1);
 
     this.isInvalid = !!this.errors.emptyRequired || !!this.errors.noMatch || !!this.errors.manualErr;
-    this.showError = this.isInvalid && (!this.ngControl.pristine || this.bfErrorOnPristine);
+    this.showError = this.isInvalid && !this.isLoading && (!this.ngControl.pristine || this.bfErrorOnPristine);
 
     // Determine the error to display
     if (this.isInvalid) {
