@@ -484,7 +484,7 @@ export class BfListHandler {
                 isMatch2 = isMatch2 && (filters[key].includes(item[key]) || !filters[key].length);
 
               } else if (this.filtersExt[key] === '~') { // Match type 2 (~)
-                isMatch2 = isMatch2 && JSON.stringify(item[key]).toLowerCase().indexOf(filters[key]) >= 0;
+                isMatch2 = isMatch2 && JSON.stringify(item[key]).toLowerCase().indexOf((filters[key] + '').toLowerCase()) >= 0;
 
               } else { // // Match type 3 (=)
                 isMatch2 = isMatch2 && (item[key] === filters[key]);
