@@ -1,9 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { BfSectionHeaderComponent } from './bf-section-header.component';
 import { BfUILibTransService, BfTranslatePipe } from '../abstract-translate.service';
 import { BfUILibTransStubService } from '../../testing/bf-ui-lib-trans-service-stub.service';
-import { By } from '@angular/platform-browser';
 
 describe('BfSectionHeaderComponent', () => {
   let component: BfSectionHeaderComponent;

@@ -121,7 +121,6 @@ export class BfDnDService {
   public getUniqueId = (list = [], prefix = '') => {
     let id;
     let max =  0;
-    const aaa = BfArray.getById.call(list, id);
 
     do {
       id = prefix + (max < 1000 ? list.length + max : generateId(20).toLowerCase());

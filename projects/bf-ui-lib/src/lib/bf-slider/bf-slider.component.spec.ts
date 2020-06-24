@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BfSliderComponent } from './bf-slider.component';
 import {BfLabelComponent} from '../bf-label/bf-label.component';
-import {Ng5SliderModule, Options} from 'ng5-slider';
+import {Ng5SliderModule} from 'ng5-slider';
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
 describe('BfSliderComponent', () => {

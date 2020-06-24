@@ -1,6 +1,6 @@
-import {Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, forwardRef, OnChanges} from '@angular/core';
-import { FormControl, ControlValueAccessor, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
-import { Observable, of } from 'rxjs';
+import {Component, OnInit, Input, forwardRef, OnChanges} from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { of } from 'rxjs';
 import {BfUILibTransService} from '../abstract-translate.service';
 
 @Component({
