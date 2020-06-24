@@ -31,7 +31,6 @@ describe('BfDropPlaceholderDirective', () => {
     }).compileComponents();
 
     bfDnD = TestBed.get(BfDnDService); // * inject service instance
-    console.log(bfDnD.containers);
 
     fixture = TestBed.createComponent(HostComponent);
     component = fixture.componentInstance;

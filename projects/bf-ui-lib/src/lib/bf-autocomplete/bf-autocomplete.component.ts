@@ -113,7 +113,6 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   ngOnChanges(changes) {
-    console.log('bfMinLength', this.bfMinLength);
     if (changes.hasOwnProperty('ngModel')) {
       if (this.checkValidity(changes.ngModel.currentValue)) { this.bfErrorOnPristine = true; }
     }
