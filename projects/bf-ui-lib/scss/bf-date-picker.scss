@@ -24,7 +24,6 @@ bf-date-picker {
     }
 
     .input-group {
-      min-width: 250px;
       .input-group-prepend, .input-group-append .btn.btn-outline-secondary {
         border-color: $date-picker-valid-color;
         background: $date-picker-valid-color;
@@ -109,6 +108,9 @@ bf-date-picker {
 
   &.flat .bf-date-picker-form-group { margin-bottom: 0; }
 
+  &:not(.adapt) .bf-date-picker-form-group .input-group {
+    min-width: 250px;
+  }
 
   .hidden-input {
     visibility: hidden;

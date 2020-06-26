@@ -48,6 +48,7 @@
       <div *ngIf="isCompLinked">
         <form #datePickerForm="ngForm">
           <bf-date-picker [class.flat]="compConf.hasFlat" [class.modal-right]="compConf.hasModalRight"
+                          [class.adapt]="compConf.hasAdapt"
             [(ngModel)]="myDate" (ngModelChange)="checkNewModel($event)"
             [bfRequired]="!!compConf.isRequired"
             [bfDisabled]="!!compConf.isDisabled"
@@ -179,6 +180,7 @@
           <bf-label bfText="CSS Classes"></bf-label>
           <bf-checkbox class="marL20" [(ngModel)]="compConf.hasFlat"       (ngModelChange)="upComp()" bfLabel="flat"></bf-checkbox>
           <bf-checkbox class="marL20" [(ngModel)]="compConf.hasModalRight" (ngModelChange)="upComp()" bfLabel="modal-right" bfTooltip="It makes the modal open aligned to the right instead"></bf-checkbox>
+          <bf-checkbox class="marL20" [(ngModel)]="compConf.hasAdapt" (ngModelChange)="upComp()" bfLabel="adapt" bfTooltip="It removes min-width of the field"></bf-checkbox>
         </div>
       </div>
 

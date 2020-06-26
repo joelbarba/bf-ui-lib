@@ -27,8 +27,8 @@ export class BfDatePickerDemoComponent implements OnInit {
                 bfMaxDate="2020-02-09">
 </bf-date-picker>`;
 
-  public cssReset = `$date-picker-modal-day-color: #212529 !default; // default bootstrap $dropdown-color ;  
-  
+  public cssReset = `$date-picker-modal-day-color: #212529 !default; // default bootstrap $dropdown-color ;
+
 $date-picker-optional-color  : $optional-color !default;
 $date-picker-disabled-color  : $disabled-color !default;
 $date-picker-required-color  : $required-color !default;
@@ -117,7 +117,7 @@ $date-picker-valid-color     : $valid-color !default;`;
     bfLocale: null,
     bfMinDate: null,
     bfMaxDate: null,
-    hasFlat: false, hasModalRight: false,
+    hasFlat: false, hasModalRight: false, hasAdapt: false,
   };
   public upComp = () => {
     this.customCompCode = `<bf-date-picker `;
@@ -125,6 +125,7 @@ $date-picker-valid-color     : $valid-color !default;`;
     let compClasses = '';
     if (this.compConf.hasFlat)       { compClasses += (!!compClasses.length ? ' ' : '') + 'flat'; }
     if (this.compConf.hasModalRight) { compClasses += (!!compClasses.length ? ' ' : '') + 'modal-right'; }
+    if (this.compConf.hasAdapt) { compClasses += (!!compClasses.length ? ' ' : '') + 'adapt'; }
     if (!!compClasses) { this.customCompCode += `class="${compClasses}"` + this.bsStr; }
 
     this.customCompCode += `[(ngModel)]="myVal"` + this.bsStr;
@@ -196,7 +197,7 @@ export const BfDatePickerDoc = {
 [bfTooltipBody] : Whether the tooltip is append to the body (default true) or not (false)
 [bfErrorText]   : Custom error text (label) to display when invalid value
 [bfErrorPos]    : Custom position where to display the error text. Values = ['top-right', 'bottom-left', 'bottom-right', 'none']. None will hide the error text.`,
-  instance: `<bf-date-picker bfLabel="My Date" [(ngModel)]="myDate"                
+  instance: `<bf-date-picker bfLabel="My Date" [(ngModel)]="myDate"
                 [bfLocale]="bfTranslate.currentLocale">
 </bf-date-picker>`,
   demoComp: BfDatePickerDemoComponent
