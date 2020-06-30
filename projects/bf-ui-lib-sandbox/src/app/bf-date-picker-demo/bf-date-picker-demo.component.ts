@@ -117,7 +117,7 @@ $date-picker-valid-color     : $valid-color !default;`;
     bfLocale: null,
     bfMinDate: null,
     bfMaxDate: null,
-    hasFlat: false, hasModalRight: false, hasAdapt: false,
+    hasFlat: false, hasModalRight: false, hasNoMinWidth: false,
   };
   public upComp = () => {
     this.customCompCode = `<bf-date-picker `;
@@ -125,7 +125,7 @@ $date-picker-valid-color     : $valid-color !default;`;
     let compClasses = '';
     if (this.compConf.hasFlat)       { compClasses += (!!compClasses.length ? ' ' : '') + 'flat'; }
     if (this.compConf.hasModalRight) { compClasses += (!!compClasses.length ? ' ' : '') + 'modal-right'; }
-    if (this.compConf.hasAdapt) { compClasses += (!!compClasses.length ? ' ' : '') + 'adapt'; }
+    if (this.compConf.hasNoMinWidth) { compClasses += (!!compClasses.length ? ' ' : '') + 'no-min-width'; }
     if (!!compClasses) { this.customCompCode += `class="${compClasses}"` + this.bsStr; }
 
     this.customCompCode += `[(ngModel)]="myVal"` + this.bsStr;
