@@ -1,12 +1,10 @@
 import {
-  Component,
   Directive,
   ElementRef,
   HostBinding,
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
   Renderer2
 } from '@angular/core';
 import {BfDnDService} from '../bf-dnd.service';

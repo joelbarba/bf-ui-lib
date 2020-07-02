@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {BfUILibTransService} from '../abstract-translate.service';
 import {Observable, of} from 'rxjs';
 

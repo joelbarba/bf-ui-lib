@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, OnChanges, Output, ViewEncapsulation, DoCheck} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, OnChanges, Output, DoCheck} from '@angular/core';
 import {Observable} from 'rxjs';
 
 interface IBfCtrl {

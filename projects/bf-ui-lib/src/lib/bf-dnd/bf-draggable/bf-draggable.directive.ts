@@ -1,5 +1,4 @@
 import {
-  ApplicationRef,
   Directive,
   ElementRef,
   HostBinding,

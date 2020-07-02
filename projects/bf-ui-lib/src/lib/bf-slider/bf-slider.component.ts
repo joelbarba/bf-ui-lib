@@ -1,4 +1,4 @@
-import {Component, EventEmitter, forwardRef, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, forwardRef, Input, OnChanges, OnInit} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Options} from 'ng5-slider';
 

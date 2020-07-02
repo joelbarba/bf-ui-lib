@@ -1,5 +1,5 @@
-import {Component, OnInit, Input, forwardRef, OnDestroy, OnChanges, SimpleChanges, AfterViewInit} from '@angular/core';
-import {ViewChild, ElementRef, Inject} from '@angular/core';
+import {Component, OnInit, Input, forwardRef, OnDestroy, OnChanges, SimpleChanges} from '@angular/core';
+import {Inject} from '@angular/core';
 import {ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {BfUILibTransService} from '../abstract-translate.service';
 import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';

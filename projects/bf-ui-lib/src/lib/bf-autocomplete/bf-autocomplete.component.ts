@@ -10,7 +10,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { from, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { BfUILibTransService } from '../abstract-translate.service';
 import { Patterns } from '../patterns';
 
@@ -113,7 +113,6 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   ngOnChanges(changes) {
-    console.log('bfMinLength', this.bfMinLength);
     if (changes.hasOwnProperty('ngModel')) {
       if (this.checkValidity(changes.ngModel.currentValue)) { this.bfErrorOnPristine = true; }
     }

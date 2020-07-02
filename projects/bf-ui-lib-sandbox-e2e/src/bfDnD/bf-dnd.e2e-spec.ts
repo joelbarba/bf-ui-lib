@@ -267,7 +267,6 @@ describe('Test BfDnD 5: Reorderable List', () => {
     await dnd.drop();
 
     const oriList = await page.getPage5ListArray();
-    console.log(oriList);
     expect(oriList).toEqual([
       '7. Cherry',
       '1. Orange',

@@ -14,7 +14,7 @@ export class BfLoadingSpinnerComponent implements OnInit {
 @Directive({ selector: '[bfLoadingSpinner]' })
 export class BfLoadingSpinnerDirective implements OnChanges {
   @Input('bfLoadingSpinner') trigger;
-  @HostBinding('class.bf-spin-over') private isLoading = false;
+  @HostBinding('class.bf-spin-over') isLoading = false;
   public lastSubscription; // To unsubscribe in case a new obs needs be linked
   constructor() {}
   ngOnChanges(changes) {
