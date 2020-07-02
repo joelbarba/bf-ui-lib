@@ -12,7 +12,7 @@
 
 
 <div class="modal-footer">
-  <bf-btn *ngIf="conf.showCancel" bfType="cancel"  [bfText]="trans.cancelButtonText$ | async" (bfClick)="activeModal.dismiss('cancel')"></bf-btn>
-  <bf-btn *ngIf="conf.showNo"     bfType="cancel"  [bfText]="trans.noButtonText$ | async"     (bfClick)="activeModal.close('no')"></bf-btn>
-  <bf-btn *ngIf="conf.showYes"    bfType="update"  [bfText]="trans.yesButtonText$ | async"    (bfClick)="activeModal.close('yes')"></bf-btn>
+  <bf-btn *ngIf="conf.showCancel" bfType="cancel"   bfIcon="icon-blocked"     [bfText]="trans.cancelButtonText$ | async" (bfClick)="activeModal.dismiss('cancel')"></bf-btn>
+  <bf-btn *ngIf="conf.showNo"     bfType="warning"  bfIcon="icon-cross"     [bfText]="trans.noButtonText$ | async"     (bfClick)="activeModal.close('no')"></bf-btn>
+  <bf-btn *ngIf="conf.showYes"    bfType="update"   bfIcon="icon-checkmark" [bfText]="trans.yesButtonText$ | async"    (bfClick)="activeModal.close('yes')"></bf-btn>
 </div>
