@@ -58,7 +58,7 @@
       </span>
 
       <div class="input-group-append" (click)="!bfDisabled && onInputBtnClick()">
-        <button class="btn btn-outline-secondary" [disabled]="bfDisabled ? 'true' : ''">
+        <button class="btn btn-outline-secondary" [disabled]="bfDisabled ? 'true' : ''" tabIndex="-1">
           <span [hidden]="isLoading" [ngClass]="(isExpanded && expandUpward) ? 'icon-arrow-up22' : 'icon-arrow-down22'"></span>
           <!--<span [hidden]="!isLoading" class="icon-loop32 loading"></span>-->
           <span [hidden]="!isLoading" class="loading"></span>
