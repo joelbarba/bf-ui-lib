@@ -92,4 +92,14 @@ describe('BfRangeSliderComponent', () => {
     expect(component.sliderOptions.minLimit).toBe(110);
     expect(component.sliderOptions.minRange).toBe(5);
   });
+
+  describe('ngDoCheck()', () => {
+    it('should update values if changed', () => {
+      component.ngModel = { min: 10, max: 25 };
+      component.ngDoCheck();
+      expect(component.minValue).toBe(10);
+      expect(component.highValue).toBe(25);
+    });
+  });
+
 });

@@ -1,4 +1,4 @@
-import {Component, forwardRef, Input, OnChanges, OnInit} from '@angular/core';
+import { Component, DoCheck, forwardRef, Input, OnChanges, OnInit } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {BfSliderComponent} from '../bf-slider/bf-slider.component';
 import {Options} from 'ng5-slider';
@@ -19,7 +19,7 @@ interface BfRangeSliderValues {
     }
   ]
 })
-export class BfRangeSliderComponent extends BfSliderComponent implements ControlValueAccessor, OnInit, OnChanges {
+export class BfRangeSliderComponent extends BfSliderComponent implements ControlValueAccessor, OnInit, OnChanges, DoCheck {
 
 
   public minValue: number;
@@ -33,9 +33,24 @@ export class BfRangeSliderComponent extends BfSliderComponent implements Control
   }
 
   ngOnInit() {
+    this.init();
+  }
+
+  init() {
     this.minValue = this.ngModel.min;
     this.highValue = this.ngModel.max;
     this.rangeOptionsRebuild();
+  }
+
+  // Deep check the ngModel object to update the values
+  ngDoCheck() {
+    const { min, max } = this.ngModel;
+    if (min !== this.minValue) {
+      this.minValue = this.ngModel.min;
+    }
+    if (max !== this.highValue) {
+      this.highValue = this.ngModel.max;
+    }
   }
 
   ngOnChanges(changes): void {
