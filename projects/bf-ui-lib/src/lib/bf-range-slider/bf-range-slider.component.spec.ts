@@ -94,11 +94,23 @@ describe('BfRangeSliderComponent', () => {
   });
 
   describe('ngDoCheck()', () => {
-    it('should update values if changed', () => {
-      component.ngModel = { min: 10, max: 25 };
+    it('should update values if changed and considering the min and max', () => {
+      component.bfOptions = {
+        start: 0,
+        end: 10,
+        minRange: 5
+      };
+      component.ngModel = { min: 6, max: 8 };
+      component.ngOnInit();
+      expect(component.minValue).toBe(6);
+      expect(component.highValue).toBe(8);
       component.ngDoCheck();
-      expect(component.minValue).toBe(10);
-      expect(component.highValue).toBe(25);
+      expect(component.minValue).toBe(6);
+      expect(component.highValue).toBe(8);
+      component.ngModel = { min: 2, max: 10 };
+      component.ngDoCheck();
+      expect(component.minValue).toBe(5);
+      expect(component.highValue).toBe(10);
     });
   });
 

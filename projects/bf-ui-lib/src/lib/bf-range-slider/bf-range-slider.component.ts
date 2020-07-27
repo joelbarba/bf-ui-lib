@@ -46,10 +46,10 @@ export class BfRangeSliderComponent extends BfSliderComponent implements Control
   ngDoCheck() {
     const { min, max } = this.ngModel;
     if (min !== this.minValue) {
-      this.minValue = this.ngModel.min;
+      this.minValue = Math.max(this.ngModel.min, this.bfOptions.minRange ? this.bfOptions.minRange : this.ngModel.min);
     }
     if (max !== this.highValue) {
-      this.highValue = this.ngModel.max;
+      this.highValue = Math.min(this.ngModel.max, this.bfOptions.maxRange ? this.bfOptions.maxRange : this.ngModel.max);
     }
   }
 
