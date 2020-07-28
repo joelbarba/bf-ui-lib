@@ -33,10 +33,6 @@ export class BfRangeSliderComponent extends BfSliderComponent implements Control
   }
 
   ngOnInit() {
-    this.init();
-  }
-
-  init() {
     this.minValue = this.ngModel.min;
     this.highValue = this.ngModel.max;
     this.rangeOptionsRebuild();
@@ -44,6 +40,10 @@ export class BfRangeSliderComponent extends BfSliderComponent implements Control
 
   // Deep check the ngModel object to update the values
   ngDoCheck() {
+    this.updateModel();
+  }
+
+  updateModel() {
     const { min, max } = this.ngModel;
     if (min !== this.minValue) {
       this.minValue = Math.max(this.ngModel.min, this.bfOptions.minRange ? this.bfOptions.minRange : this.ngModel.min);
