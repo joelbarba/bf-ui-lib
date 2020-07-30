@@ -5,7 +5,7 @@ import {BfLabelComponent} from '../bf-label/bf-label.component';
 import {Ng5SliderModule} from 'ng5-slider';
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
-describe('BfRangeSliderComponent', () => {
+fdescribe('BfRangeSliderComponent', () => {
   let component: BfRangeSliderComponent;
   let fixture: ComponentFixture<BfRangeSliderComponent>;
 
@@ -91,27 +91,6 @@ describe('BfRangeSliderComponent', () => {
     expect(component.sliderOptions.maxRange).toBe(50);
     expect(component.sliderOptions.minLimit).toBe(110);
     expect(component.sliderOptions.minRange).toBe(5);
-  });
-
-  describe('updateModel()', () => {
-    it('should update values if changed and considering the min and max', () => {
-      component.bfOptions = {
-        start: 0,
-        end: 10,
-        minRange: 5
-      };
-      component.ngModel = { min: 6, max: 8 };
-      component.ngOnInit();
-      expect(component.minValue).toBe(6);
-      expect(component.highValue).toBe(8);
-      component.updateModel();
-      expect(component.minValue).toBe(6);
-      expect(component.highValue).toBe(8);
-      component.ngModel = { min: 2, max: 10 };
-      component.updateModel();
-      expect(component.minValue).toBe(5);
-      expect(component.highValue).toBe(10);
-    });
   });
 
 });

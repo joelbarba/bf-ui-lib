@@ -5,8 +5,7 @@
   </bf-label>
 </div>
 <ng5-slider [class.showOuterSelection]="bfShowOuterSection"
-            [(value)]="minValue"
-            [(highValue)]="highValue"
-            [options]="sliderOptions"
-            (valueChange)="valuesOnChange()">
+            [(value)]="ngModel.min"
+            [(highValue)]="ngModel.max"
+            [options]="sliderOptions">
 </ng5-slider>
