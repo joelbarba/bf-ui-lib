@@ -5,7 +5,7 @@ import {BfLabelComponent} from '../bf-label/bf-label.component';
 import {Ng5SliderModule} from 'ng5-slider';
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 
-fdescribe('BfRangeSliderComponent', () => {
+describe('BfRangeSliderComponent', () => {
   let component: BfRangeSliderComponent;
   let fixture: ComponentFixture<BfRangeSliderComponent>;
 
