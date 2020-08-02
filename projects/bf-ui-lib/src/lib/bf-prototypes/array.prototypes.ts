@@ -12,8 +12,9 @@ declare global {
     getKeyById(keyName: string, id: any): any;
     getKeyByProp(keyName: string, property: string, value: any): any;
     getLast(): T | undefined;
-    dCopy(): Array<T>;
+    toObject(): Object;
     isEqualTo(arr2: Array<any>): boolean;
+    dCopy(): Array<T>;
     // TODO:
     // To use await in a forEach --> https://codeburst.io/javascript-async-await-with-foreach-b6ba62bbf404
     // asyncForEach(callback: Function): Array<T>;
@@ -125,6 +126,30 @@ BfArray.removeByProp = function(property: string, value: any) {
     return undefined;
   }
 };
+
+/**
+ * @memberOf BfArray
+ * @description Converts an array to an object, pairing each index to a key-value entry
+ *              Every index of the array should be another array with [key, value] items
+ *              Ex:
+ *              [['p1', 1 ], ['p2', 2], ['p3', false]].toObject() --> { p1: 1, p2: 2, p3: false }
+ *              ['p1', 'p2', 'p3'].toObject() --> { p1: null, p2: null, p3: null }
+ */
+BfArray.toObject = function(): Object {
+  const obj = {};
+  this.forEach(item => {
+    if (typeof item === 'string' || typeof item === 'number') {
+      obj[item] = null;   // take just the object name
+
+    } else {  // Every item has to be: [key, val] or [key]
+      if (Array.isArray(item) && item.length > 0 && (typeof item[0] === 'string' || typeof item[0] === 'number')) {
+        obj[item[0]] = item.length > 1 ? item[1] : null;
+      }
+    }
+  });
+  return obj;
+};
+
 
 /**
  * @memberOf BfArray
