@@ -1,6 +1,6 @@
 // Export functions to extend the Array prototype
 import { arrayDeepCopy } from './deep-copy';
-import { isEqual } from './deep-equal';
+import { isEqualTo } from './deep-equal';
 
 declare global {
   interface Array<T> {
@@ -13,7 +13,7 @@ declare global {
     getKeyByProp(keyName: string, property: string, value: any): any;
     getLast(): T | undefined;
     dCopy(): Array<T>;
-    isEqual(arr2: Array<any>): boolean;
+    isEqualTo(arr2: Array<any>): boolean;
     // TODO:
     // To use await in a forEach --> https://codeburst.io/javascript-async-await-with-foreach-b6ba62bbf404
     // asyncForEach(callback: Function): Array<T>;
@@ -136,6 +136,6 @@ BfArray.dCopy = arrayDeepCopy;
  * @memberOf BfArray
  * @description It compares to another array (recursively)
  */
-BfArray.isEqual = function(arr2) { return isEqual(this, arr2); };
+BfArray.isEqualTo = function(arr2) { return isEqualTo(this, arr2); };
 
 export default BfArray;

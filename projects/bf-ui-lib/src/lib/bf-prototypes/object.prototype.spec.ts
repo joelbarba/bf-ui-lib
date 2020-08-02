@@ -58,30 +58,30 @@ describe('BfObject', () => {
     });
   });
 
-  describe('isEqual', () => {
+  describe('isEqualTo', () => {
     it('should compare primitives', () => {
       const obj1 = { p1: 'hey', p2: null, p4: 0, p5: false, };
       const obj2 = { p1: 'hey', p2: null, p4: 0, p5: false, };
       const obj3 = { p1: 'hey', p2: null, p4: 1, p5: false, };
-      expect(BfObject.isEqual.call(obj1, obj2)).toBe(true);
-      expect(BfObject.isEqual.call(obj1, obj3)).toBe(false);
+      expect(BfObject.isEqualTo.call(obj1, obj2)).toBe(true);
+      expect(BfObject.isEqualTo.call(obj1, obj3)).toBe(false);
     });
     it('should compare all types of properties', () => {
       const myObj2 = dCopy(myObj);
       myObj2.p3 = undefined;
       myObj2.p6 = myObj.p6;
-      expect(BfObject.isEqual.call(myObj, myObj2)).toBe(true);
+      expect(BfObject.isEqualTo.call(myObj, myObj2)).toBe(true);
     });
     it('should compare nested objects, checking cycling references', () => {
       const obj1: any = { p1: 'hey', p2: null }; obj1.p3 = { p4: 10, p5: obj1 }; // <-- obj1.p3.p5 === obj1
       const obj2: any = { p1: 'hey', p2: null }; obj2.p3 = { p4: 10, p5: obj1 }; // <-- obj2.p3.p5 === obj1
       obj2.p3.p5 = {};
-      expect(BfObject.isEqual.call(obj1, obj2)).toBe(false);
+      expect(BfObject.isEqualTo.call(obj1, obj2)).toBe(false);
     });
     it('should compare nested arrays, checking cycling references', () => {
       const arr1: any = [10, 30]; arr1.push([1, 2, arr1]);  // arr1 = [10, 30, [1, 2, [10, 30, [1, 2, ...]]]
       const arr2 = [10, 30, [1, 2, [10, 30]]];              // arr2 = [10, 30, [1, 2, [10, 30]]]
-      expect(BfObject.isEqual.call(arr1, arr2)).toBe(false);
+      expect(BfObject.isEqualTo.call(arr1, arr2)).toBe(false);
     });
   });
 

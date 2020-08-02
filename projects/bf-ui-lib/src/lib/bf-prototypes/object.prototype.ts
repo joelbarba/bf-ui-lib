@@ -1,6 +1,6 @@
 // Export functions to extend the Object prototype
 import { objectDeepCopy } from './deep-copy';
-import { isEqual } from './deep-equal';
+import { isEqualTo } from './deep-equal';
 
 declare global {
   interface Object {
@@ -9,7 +9,7 @@ declare global {
     // keyMap(mapFn: (val?, key?) => any): Object;
     keyCount(): number;
     peel(prefix?: string): Partial<Object>;
-    isEqual(obj2: Object): boolean;
+    isEqualTo(obj2: Object): boolean;
     updateFrom(Object): void;
     cloneProp(propName: string, fromObject: Object): Object;
     dCopy(): Object;
@@ -83,8 +83,8 @@ BfObject.peel = function() {
  * @ngdoc Object.prototype
  * @description It compares to another objects, going down recursively to all their properties
  */
-BfObject.isEqual = function(obj2) {
-  return isEqual(this, obj2);
+BfObject.isEqualTo = function(obj2) {
+  return isEqualTo(this, obj2);
 };
 
 /**

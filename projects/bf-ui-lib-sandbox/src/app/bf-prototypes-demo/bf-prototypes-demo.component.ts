@@ -28,7 +28,7 @@ BfPrototypes.run();
 // console.log(myObj1, myObj2);
 // const obj1: any = { p1: 'hey', p2: null }; obj1.p3 = { p4: 10, p5: obj1 }; // <-- obj1.p3.p5 === obj1
 // const obj2: any = { p1: 'hey', p2: null }; obj2.p3 = { p4: 10, p5: obj1 };
-// const res1 = isEqual(obj1, obj2);
+// const res1 = isEqualTo(obj1, obj2);
 //
 //
 // const a: any = { p1: 'hey', p2: null };
@@ -37,9 +37,9 @@ BfPrototypes.run();
 // // const a: any = [10, 30];
 // // a.push([1, 2, a]);
 // // const b = [10, 30, [1, 2, [10, 30]]];
-// const res = isEqual(a, b);
+// const res = isEqualTo(a, b);
 //
-// // const res = myObj1.isEqual(myObj2);
+// // const res = myObj1.isEqualTo(myObj2);
 // console.log('res = ', res);
 
 // console.log(myObj, myObj.peel());
@@ -174,7 +174,7 @@ $invalid_input_color  : $warning_color;
 BfPrototypes.run(); // This will override all prototypes`;
 
   public example4 = `// This will define prototypes for only 3 functions
-BfPrototypes.run(['Array.getById', 'Array.getByProp', 'Object.isEqual']);`;
+BfPrototypes.run(['Array.getById', 'Array.getByProp', 'Object.isEqualTo']);`;
 
 
 
