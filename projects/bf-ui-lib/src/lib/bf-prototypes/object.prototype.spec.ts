@@ -100,5 +100,23 @@ describe('BfObject', () => {
     });
   });
 
+  describe('hasProp', () => {
+    it('should detect an existing property', () => {
+      const obj1 = { p1: 1, p2: 2, p3: 3 };
+      expect(BfObject.hasProp.call(obj1, ['p1'])).toEqual(true);
+      expect(BfObject.hasProp.call(obj1, ['p2'])).toEqual(true);
+      expect(BfObject.hasProp.call(obj1, ['p3'])).toEqual(true);
+      expect(BfObject.hasProp.call(obj1, ['p1', 'p2', 'p3'])).toEqual(true);
+      expect(BfObject.hasProp.call(obj1, ['p1', 'p4'])).toEqual(true);
+      expect(BfObject.hasProp.call(obj1, 'p3')).toEqual(true);
+    });
+    it('should detect a non existing property', () => {
+      const obj1 = { p1: 1, p2: 2, p3: 3 };
+      expect(BfObject.hasProp.call(obj1, ['p4'])).toEqual(false);
+      expect(BfObject.hasProp.call(obj1, ['p4', 'p5', 'p6'])).toEqual(false);
+      expect(BfObject.hasProp.call(obj1, 'p4')).toEqual(false);
+    });
+  });
+
 
 });

@@ -9,6 +9,7 @@ declare global {
     // keyMap(mapFn: (val?, key?) => any): Object;
     keyCount(): number;
     peel(prefix?: string): Partial<Object>;
+    hasProp(props: Array<string> | string): boolean;
     isEqualTo(obj2: Object): boolean;
     updateFrom(Object): void;
     cloneProp(propName: string, fromObject: Object): Object;
@@ -78,6 +79,25 @@ BfObject.peel = function() {
   });
   return newObj;
 };
+
+
+/**
+ * @ngdoc Object.prototype
+ * @description Checks if the object contains any of the given properties
+ * @example   var obj = { id: 0, name: 'me', $age: 15 };
+ *            obj.hasProp(['id', 'email']);    // true   === obj.hasOwnProperty('id') || obj.hasOwnProperty('email')
+ *            obj.hasProp(['user', 'email']);  // false
+ */
+BfObject.hasProp = function(props: Array<string> | string = []): boolean {
+  if (typeof props === 'string') { // Checkin 1 single prop
+    return this.hasOwnProperty(props);
+  }
+  for (const prop of props) { // Check if the object has any of the props
+    if (this.hasOwnProperty(prop)) { return true; }
+  }
+  return false;
+};
+
 
 /**
  * @ngdoc Object.prototype
