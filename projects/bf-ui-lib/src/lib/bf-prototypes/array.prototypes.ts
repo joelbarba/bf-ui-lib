@@ -13,7 +13,7 @@ declare global {
     getKeyByProp(keyName: string, property: string, value: any): any;
     getLast(): T | undefined;
     toObject(): Object;
-    removeDuplicates(compareFn?: (itemA: any, itemB: any) => boolean);
+    removeDuplicates(compareFn?: (itemA: any, itemB: any) => boolean): Array<T>;
     isEqualTo(arr2: Array<any>): boolean;
     dCopy(): Array<T>;
     // TODO:
@@ -162,7 +162,7 @@ BfArray.toObject = function(): Object {
  *                    arr.removeDuplicates((a, b) => a.id === b.id);
  */
 BfArray.removeDuplicates = function(compareFn?: (itemA: any, itemB: any) => boolean) {
-  if (!this || this.length < 2) { return; }
+  if (!this || this.length < 2) { return this; }
   const arr = compareFn ? Array.from(this) : Array.from(new Set(this)); // Remove primitive duplicates (if no fn)
   this.splice(0); // Remove all items from the array
 
@@ -175,6 +175,7 @@ BfArray.removeDuplicates = function(compareFn?: (itemA: any, itemB: any) => bool
     }
     if (isUnique) { this.push(itemA); }
   });
+  return this;
 };
 
 
