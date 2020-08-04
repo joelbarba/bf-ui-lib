@@ -5,6 +5,8 @@ export { objectIsEqualTo };
 
 /** @description Deep comparison of 2 object or arrays */
 function isEqualTo(item1, item2, p1 = [], p2 = []) {
+  if (item1 === null || item2 === null) { return item1 === item2; }  // typeof null = object
+
   if (typeof item1 !== 'object' || typeof item2 !== 'object') {
     return false; // primitives
 

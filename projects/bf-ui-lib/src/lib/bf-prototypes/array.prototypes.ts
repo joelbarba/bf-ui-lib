@@ -13,6 +13,7 @@ declare global {
     getKeyByProp(keyName: string, property: string, value: any): any;
     getLast(): T | undefined;
     toObject(): Object;
+    removeDuplicates(compareFn?: (itemA: any, itemB: any) => boolean);
     isEqualTo(arr2: Array<any>): boolean;
     dCopy(): Array<T>;
     // TODO:
@@ -148,6 +149,32 @@ BfArray.toObject = function(): Object {
     }
   });
   return obj;
+};
+
+
+/**
+ * @memberOf BfArray
+ * @param compareFn - Iterator function to perform a custom comparison. Return true = it's a duplicate
+ * @description Remove all duplicated items in the array. This mutates the array.
+ *              By default it uses isEqualTo function to determine whether 2 items are equal
+ *              Ex:
+ *                    arr.removeDuplicates();
+ *                    arr.removeDuplicates((a, b) => a.id === b.id);
+ */
+BfArray.removeDuplicates = function(compareFn?: (itemA: any, itemB: any) => boolean) {
+  if (!this || this.length < 2) { return; }
+  const arr = compareFn ? Array.from(this) : Array.from(new Set(this)); // Remove primitive duplicates (if no fn)
+  this.splice(0); // Remove all items from the array
+
+  // Move items from arr[] --> this[], if they are uniques
+  compareFn = compareFn || isEqualTo;
+  arr.forEach(itemA => {
+    let isUnique = true;
+    for (const itemB of this) {
+      if (compareFn(itemA, itemB)) { isUnique = false; break; }
+    }
+    if (isUnique) { this.push(itemA); }
+  });
 };
 
 
