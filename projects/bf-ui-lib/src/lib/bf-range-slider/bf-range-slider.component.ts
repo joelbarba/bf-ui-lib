@@ -25,7 +25,7 @@ export class BfRangeSliderComponent extends BfSliderComponent implements Control
   public minValue: number;
   public highValue: number;
 
-  @Input() ngModel: BfRangeSliderValues;
+  @Input() ngModel : BfRangeSliderValues;
   @Input() bfShowOuterSection = false;
 
   constructor() {
@@ -53,7 +53,11 @@ export class BfRangeSliderComponent extends BfSliderComponent implements Control
 
   // ------- ControlValueAccessor -----
   writeValue(value) {
-    this.ngModel = value;
+    if (!value) {
+      this.ngModel = { min: 0, max: 0 };
+    } else {
+      this.ngModel = value;
+    }
   }
 
   public propagateModelUp = (_: any) => {};
