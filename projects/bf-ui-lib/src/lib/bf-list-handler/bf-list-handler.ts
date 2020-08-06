@@ -395,8 +395,9 @@ export class BfListHandler {
   };
 
   // Resets all filters + order + pagination
-  public reset = () => {
+  public reset = (defaults = {}) => {
     Object.keys(this.filters).forEach(n => this.filters[n] = null);
+    Object.keys(defaults).forEach(n => this.filters[n] = defaults[n]);
     this.filterText = '';
     this.orderConf.fields  = [ ...this.customDefault.orderFields ];
     this.orderConf.reverse = this.customDefault.orderReverse;
@@ -404,9 +405,11 @@ export class BfListHandler {
     this.goToPage(1);
   };
 
-  public resetFilters = () => {
+  // If fields[] is provided, it resets only the selected filters. Ex: resetFilters(['status', 'email'])
+  public resetFilters = (fields: Array<string> = null, defaults = {}) => {
     this.filterText = '';
-    Object.keys(this.filters).forEach(n => this.filters[n] = null);
+    Object.keys(this.filters).filter(n => !fields || fields.includes(n)).forEach(n => this.filters[n] = null);
+    Object.keys(defaults).filter(n => !fields || fields.includes(n)).forEach(n => this.filters[n] = defaults[n]);
     this.dispatch({ action: 'FILTER', payload: '' });
   };
 
@@ -420,13 +423,15 @@ export class BfListHandler {
   };
 
   // Check if there is any filter applied to the list
-  public isFilterEmpty = (ignorePagination = false) => {
-    return !this.filterText && !Object.keys(this.filters).filter(key => {
-      const ignore = ignorePagination && ['offset', 'limit', 'order_by'].includes(key);
-      return !ignore
-        && this.filters[key] !== ''
-        && this.filters[key] !== undefined
-        && this.filters[key] !== null;
+  public isFilterEmpty = (ignorePagination = false, defaults = {}) => {
+    return !this.filterText && !Object.entries(this.filters).filter(([key, val]) => {
+
+      // Remove pagination keys, whatever value they have
+      if (ignorePagination && ['offset', 'limit', 'order_by'].includes(key)) { return false; }
+
+      // Remove keys with empty or default values
+      return !(val === '' || val === undefined || val === null || val === defaults[key]);
+
     }).length;
   };
 
