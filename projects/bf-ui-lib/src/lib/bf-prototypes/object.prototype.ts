@@ -1,6 +1,6 @@
 // Export functions to extend the Object prototype
 import { objectDeepCopy } from './deep-copy';
-import { isEqual } from './deep-equal';
+import { isEqualTo } from './deep-equal';
 
 declare global {
   interface Object {
@@ -9,7 +9,8 @@ declare global {
     // keyMap(mapFn: (val?, key?) => any): Object;
     keyCount(): number;
     peel(prefix?: string): Partial<Object>;
-    isEqual(obj2: Object): boolean;
+    hasProp(props: Array<string> | string): boolean;
+    isEqualTo(obj2: Object): boolean;
     updateFrom(Object): void;
     cloneProp(propName: string, fromObject: Object): Object;
     dCopy(): Object;
@@ -79,12 +80,31 @@ BfObject.peel = function() {
   return newObj;
 };
 
+
+/**
+ * @ngdoc Object.prototype
+ * @description Checks if the object contains any of the given properties
+ * @example   var obj = { id: 0, name: 'me', $age: 15 };
+ *            obj.hasProp(['id', 'email']);    // true   === obj.hasOwnProperty('id') || obj.hasOwnProperty('email')
+ *            obj.hasProp(['user', 'email']);  // false
+ */
+BfObject.hasProp = function(props: Array<string> | string = []): boolean {
+  if (typeof props === 'string') { // Checkin 1 single prop
+    return this.hasOwnProperty(props);
+  }
+  for (const prop of props) { // Check if the object has any of the props
+    if (this.hasOwnProperty(prop)) { return true; }
+  }
+  return false;
+};
+
+
 /**
  * @ngdoc Object.prototype
  * @description It compares to another objects, going down recursively to all their properties
  */
-BfObject.isEqual = function(obj2) {
-  return isEqual(this, obj2);
+BfObject.isEqualTo = function(obj2) {
+  return isEqualTo(this, obj2);
 };
 
 /**

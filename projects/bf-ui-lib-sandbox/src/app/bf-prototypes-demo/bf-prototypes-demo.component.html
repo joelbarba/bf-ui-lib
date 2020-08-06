@@ -51,7 +51,11 @@
     <div class="col-7">Returns the selected property (keyName) of the first object that matches the "value" of the "property".</div>
   </div>
   <div class="row">
-    <div class="col-5"><pre>Array.<b>isEqual</b>(arr2: Array): boolean</pre></div>
+    <div class="col-5"><pre>Array.<b>toObject</b>(): Object</pre></div>
+    <div class="col-7">It converts the array to an object, pairing each index to a [key, value] array entry. Ex: [['a', 1 ], ['b', 2]] --> {{'{ a: 1, b: 2 }'}}</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Array.<b>isEqualTo</b>(arr2: Array): boolean</pre></div>
     <div class="col-7">It compares to another array, item by item, and going down recursively if non primitives</div>
   </div>
   <div class="row">
@@ -84,7 +88,11 @@
     <div class="col-7">Shortcut to obj.keyFilter(k => k !== null && k !== undefined)</div>
   </div>
   <div class="row">
-    <div class="col-5"><pre>Object.<b>isEqual</b>(obj2: Object): boolean</pre></div>
+    <div class="col-5"><pre>Object.<b>hasProp</b>(props: [string] | string): boolean</pre></div>
+    <div class="col-7">Multiple .hasOwnProperty() checks. If the object has any of the props, it returns true.</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Object.<b>isEqualTo</b>(obj2: Object): boolean</pre></div>
     <div class="col-7">It compares to another objects, going down recursively to all their properties</div>
   </div>
   <div class="row">
@@ -193,7 +201,7 @@
 <h5 class="marT20">Global functions</h5>
 <div class="col-12 examples-table">
   <div class="row">
-    <div class="col-5"><pre><b>isEqual</b>(i1: Array|Object, i2: Array|Object): boolean</pre></div>
+    <div class="col-5"><pre><b>isEqualTo</b>(i1: Array|Object, i2: Array|Object): boolean</pre></div>
     <div class="col-7">It compares 2 objects or arrays, item by item, and going down recursively if non primitives</div>
   </div>
   <div class="row">

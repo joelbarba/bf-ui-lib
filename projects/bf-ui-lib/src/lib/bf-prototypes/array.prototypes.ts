@@ -1,6 +1,6 @@
 // Export functions to extend the Array prototype
 import { arrayDeepCopy } from './deep-copy';
-import { isEqual } from './deep-equal';
+import { isEqualTo } from './deep-equal';
 
 declare global {
   interface Array<T> {
@@ -12,8 +12,10 @@ declare global {
     getKeyById(keyName: string, id: any): any;
     getKeyByProp(keyName: string, property: string, value: any): any;
     getLast(): T | undefined;
+    toObject(): Object;
+    removeDuplicates(compareFn?: (itemA: any, itemB: any) => boolean): Array<T>;
+    isEqualTo(arr2: Array<any>): boolean;
     dCopy(): Array<T>;
-    isEqual(arr2: Array<any>): boolean;
     // TODO:
     // To use await in a forEach --> https://codeburst.io/javascript-async-await-with-foreach-b6ba62bbf404
     // asyncForEach(callback: Function): Array<T>;
@@ -128,6 +130,57 @@ BfArray.removeByProp = function(property: string, value: any) {
 
 /**
  * @memberOf BfArray
+ * @description Converts an array to an object, pairing each index to a key-value entry
+ *              Every index of the array should be another array with [key, value] items
+ *              Ex:
+ *              [['p1', 1 ], ['p2', 2], ['p3', false]].toObject() --> { p1: 1, p2: 2, p3: false }
+ *              ['p1', 'p2', 'p3'].toObject() --> { p1: null, p2: null, p3: null }
+ */
+BfArray.toObject = function(): Object {
+  const obj = {};
+  this.forEach(item => {
+    if (typeof item === 'string' || typeof item === 'number') {
+      obj[item] = null;   // take just the object name
+
+    } else {  // Every item has to be: [key, val] or [key]
+      if (Array.isArray(item) && item.length > 0 && (typeof item[0] === 'string' || typeof item[0] === 'number')) {
+        obj[item[0]] = item.length > 1 ? item[1] : null;
+      }
+    }
+  });
+  return obj;
+};
+
+
+/**
+ * @memberOf BfArray
+ * @param compareFn - Iterator function to perform a custom comparison. Return true = it's a duplicate
+ * @description Remove all duplicated items in the array. This mutates the array.
+ *              By default it uses isEqualTo function to determine whether 2 items are equal
+ *              Ex:
+ *                    arr.removeDuplicates();
+ *                    arr.removeDuplicates((a, b) => a.id === b.id);
+ */
+BfArray.removeDuplicates = function(compareFn?: (itemA: any, itemB: any) => boolean) {
+  if (!this || this.length < 2) { return this; }
+  const arr = compareFn ? Array.from(this) : Array.from(new Set(this)); // Remove primitive duplicates (if no fn)
+  this.splice(0); // Remove all items from the array
+
+  // Move items from arr[] --> this[], if they are uniques
+  compareFn = compareFn || isEqualTo;
+  arr.forEach(itemA => {
+    let isUnique = true;
+    for (const itemB of this) {
+      if (compareFn(itemA, itemB)) { isUnique = false; break; }
+    }
+    if (isUnique) { this.push(itemA); }
+  });
+  return this;
+};
+
+
+/**
+ * @memberOf BfArray
  * @description Deep copy (clone) - Makes an exact copy of the array (no references) and returns it
  */
 BfArray.dCopy = arrayDeepCopy;
@@ -136,6 +189,6 @@ BfArray.dCopy = arrayDeepCopy;
  * @memberOf BfArray
  * @description It compares to another array (recursively)
  */
-BfArray.isEqual = function(arr2) { return isEqual(this, arr2); };
+BfArray.isEqualTo = function(arr2) { return isEqualTo(this, arr2); };
 
 export default BfArray;

@@ -4,7 +4,7 @@ import BfNumber from './number.prototype';
 import BfString from './string.prototype';
 import BfDate from './date.prototype';
 import { dCopy } from './deep-copy';
-import { isEqual } from './deep-equal';
+import { isEqualTo } from './deep-equal';
 
 
 const BfPrototypes = {
@@ -64,4 +64,4 @@ const BfPrototypes = {
     }
   }
 };
-export { BfPrototypes, BfArray, BfObject, BfNumber, BfString, BfDate, dCopy, isEqual };
+export { BfPrototypes, BfArray, BfObject, BfNumber, BfString, BfDate, dCopy, isEqualTo };
