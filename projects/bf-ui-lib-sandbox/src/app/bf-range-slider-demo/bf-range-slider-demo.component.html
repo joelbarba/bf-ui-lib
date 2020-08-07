@@ -33,7 +33,8 @@
       </div>
       <div class="row pad15">
         <div class="col-6">
-          <pre>{{sliderModelCode}}</pre>
+          <pre>ngModel.min = {{valueSlider.min}}</pre>
+          <pre>ngModel.max = {{valueSlider.max}}</pre>
         </div>
         <div class="col-6">
           <pre>{{sliderOptionsCode}}</pre>
@@ -47,10 +48,10 @@
         <div class="col-12"><h5>Range Slider Option:</h5></div>
 
         <div class="col-6">
-          <bf-input [(ngModel)]="valueSlider.min" bfLabel="Number Value" bfType="number" [bfDisabled]="true"></bf-input>
+          <bf-input [(ngModel)]="valueSlider.min" bfLabel="Number Value" bfType="number"></bf-input>
         </div>
         <div class="col-6">
-          <bf-input [(ngModel)]="valueSlider.max" bfLabel="High Value" bfType="number" [bfDisabled]="true"></bf-input>
+          <bf-input [(ngModel)]="valueSlider.max" bfLabel="High Value" bfType="number"></bf-input>
         </div>
       </div>
 
@@ -111,7 +112,7 @@
       <pre style="font-size: 12px;">{{instance2Obj}}</pre>
     </div>
   </div>
-  
+
   <div class="row">
     <div class="col-5">
       <bf-range-slider [(ngModel)]="slider3" [bfOptions]="slider3Options" [bfCustomSliderLabel]="newTranslate"></bf-range-slider>

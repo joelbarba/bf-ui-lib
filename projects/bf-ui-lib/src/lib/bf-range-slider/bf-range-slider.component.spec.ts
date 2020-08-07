@@ -92,4 +92,5 @@ describe('BfRangeSliderComponent', () => {
     expect(component.sliderOptions.minLimit).toBe(110);
     expect(component.sliderOptions.minRange).toBe(5);
   });
+
 });

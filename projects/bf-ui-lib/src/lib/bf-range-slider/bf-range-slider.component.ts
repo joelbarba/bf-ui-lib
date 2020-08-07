@@ -1,4 +1,4 @@
-import {Component, forwardRef, Input, OnChanges, OnInit} from '@angular/core';
+import { Component, forwardRef, Input, OnChanges, OnInit } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {BfSliderComponent} from '../bf-slider/bf-slider.component';
 import {Options} from 'ng5-slider';
@@ -25,7 +25,7 @@ export class BfRangeSliderComponent extends BfSliderComponent implements Control
   public minValue: number;
   public highValue: number;
 
-  @Input() ngModel: BfRangeSliderValues;
+  @Input() ngModel : BfRangeSliderValues;
   @Input() bfShowOuterSection = false;
 
   constructor() {
@@ -33,8 +33,6 @@ export class BfRangeSliderComponent extends BfSliderComponent implements Control
   }
 
   ngOnInit() {
-    this.minValue = this.ngModel.min;
-    this.highValue = this.ngModel.max;
     this.rangeOptionsRebuild();
   }
 
@@ -53,15 +51,13 @@ export class BfRangeSliderComponent extends BfSliderComponent implements Control
     }
   }
 
-  valuesOnChange() {
-    this.ngModel.min = this.minValue;
-    this.ngModel.max = this.highValue;
-    this.propagateModelUp(this.ngModel);
-  }
-
   // ------- ControlValueAccessor -----
   writeValue(value) {
-    this.ngModel = value;
+    if (!value) {
+      this.ngModel = { min: 0, max: 0 };
+    } else {
+      this.ngModel = value;
+    }
   }
 
   public propagateModelUp = (_: any) => {};
