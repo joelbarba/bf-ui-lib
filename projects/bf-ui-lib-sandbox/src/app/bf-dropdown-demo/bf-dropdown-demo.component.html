@@ -59,6 +59,8 @@
                      [bfTooltipBody]="conf.hasLabel && conf.tooltipBody"
                      [bfErrorText]="conf.hasErrorText ? conf.bfErrorText : ''"
                      [bfErrorPos]="conf.errorPos"
+                     [bfKeepSearch]="conf.bfKeepSearch"
+                     [bfFilterFn]="conf.hasFilterFn ? conf.bfFilterFn : null"
                      [bfCustomPlacementList]="conf.bfCustomPlacementList"
                      (bfOnLoaded)="myCtrl = $event"
         >
@@ -199,6 +201,15 @@
           <br>
           <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" bfRadioGroup="errPos" bfLabel="bottom-left" bfValue="bottom-left"></bf-radio>
           <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" bfRadioGroup="errPos" bfLabel="bottom-right" bfValue="bottom-right"></bf-radio>
+        </div>
+      </div>
+
+
+      <div class="row marT15">
+        <bf-checkbox class="col-2 padT10" bfLabel="bfKeepSearch" [(ngModel)]="conf.bfKeepSearch" (ngModelChange)="upComp()"></bf-checkbox>
+        <bf-checkbox class="col-2 padT10" bfLabel="bfFilterFn" [(ngModel)]="conf.hasFilterFn" (ngModelChange)="upComp()"></bf-checkbox>
+        <div class="col-7 padT5" *ngIf="conf.hasFilterFn">
+          <pre style="background: aliceblue; padding: 5px 10px; margin-bottom: 0;">bfFilterFn: (list) => list.filter(item => item.id > 3)</pre>
         </div>
       </div>
 

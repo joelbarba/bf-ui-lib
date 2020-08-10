@@ -43,7 +43,7 @@
          [ngbTooltip]="bfDisabledTipTrans$ | async">
 
       <input type="text" class="form-control" #dropdownInput
-             [(ngModel)]="inputText" (ngModelChange)="filterList($event)"
+             [(ngModel)]="inputText" (ngModelChange)="inputType($event)"
              [class.has-image]="!!bfModel?.$img"
              [class.has-icon]="!!bfModel?.$icon"
              [placeholder]="inputPlaceholder"
