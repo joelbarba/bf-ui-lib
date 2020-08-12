@@ -87,7 +87,7 @@ export class BfDropdownDemoComponent implements OnInit {
   public asyncList1 = [];
   public asyncList2 = [];
   public asyncList3 = [];
-  public isLoading = true;
+  public isLoading = false;
   public isDisabled = false;
   public loadingPromise;
   public isLoading$: Subject<boolean> = new Subject();
@@ -169,6 +169,7 @@ extCtrl$.next({ action: 'removeError', value: 'wrong' })`;
     hasImages: false, hasIcons: false,
 
     hasErrorText: false, bfErrorText: `this ain't good`, errorPos: null,
+    bfKeepSearch: false, hasFilterFn: false, bfFilterFn: (list) => list.filter(item => item.id > 3),
     hasControls: false, bfCustomPlacementList: '',
 
     hasFullWidth: true, hasFlat: false,
@@ -313,6 +314,8 @@ export const BfDropdownDoc = {
 [bfErrorOnPristine]  : If true, errors will be shown in pristine state too (by default pristine shows always as valid, even if it's not).
 [bfErrorText]        : Custom error text (label) to display when invalid value.
 [bfErrorPos]         : Custom position where to display the error text. Values = ['top-right', 'bottom-left', 'bottom-right', 'none']. None will hide the error text.
+[bfKeepSearch]       : If false (default) resets the search string every time the list is expanded, removing the previous filter. If true, it keeps it.
+[bfFilterFn]         : Custom function to perform the list filtering. It should return a sub-array with the filtered items.
 [bfLoading]          : To show a loading spinner on the left button.
                        Either a boolean (true=show, false=hide), or a promise that will automatically show the spinner while not resolved,
                        or an observable that emits a boolean (true=loading, false=loaded) 
@@ -322,7 +325,8 @@ export const BfDropdownDoc = {
 (bfOnLoaded)         : Emitter to catch the moment when the component is ready. It also emits the control object.
 (bfBeforeChange)     : Emitter to catch the next value before it is set. It returns both (currentValue, nextValue)
 (bfOnListExpanded)   : Emitter to catch the moment when the list expands (focus in)
-(bfOnListCollapsed)  : Emitter to catch the moment when the list collapses (select or blur)`,
+(bfOnListCollapsed)  : Emitter to catch the moment when the list collapses (select or blur)
+(bfOnTyping)         : Emitter to catch when typing into the input`,
   instance: `<bf-dropdown [(ngModel)]="selObj" [bfList]="myList"></bf-dropdown>`,
   demoComp: BfDropdownDemoComponent
 };

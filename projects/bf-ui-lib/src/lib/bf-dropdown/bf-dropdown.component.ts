@@ -65,11 +65,14 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfLoading: boolean | Promise<any> | Observable<boolean>;  // To display the loading animation on the expand button
 
   @Input() extCtrl$: Observable<unknown>; // To trigger actions manually from an external observable (subject)
+  @Input() bfFilterFn: (list: Array<any>, value: string) => Array<any>; // Custom function to perform the list filtering
+  @Input() bfKeepSearch = false;  // false = resets the search string every time the list is expanded, removing the previous filter
 
   @Output() bfOnLoaded = new EventEmitter<IbfDropdownCtrl>();         // Emitter to catch the moment when the component is ready (ngAfterViewInit)
   @Output() bfOnListExpanded = new EventEmitter<any>();   // The moment when the list expands (focus in)
   @Output() bfOnListCollapsed = new EventEmitter<any>();  // The moment when the list collapses (select or blur)
   @Output() bfBeforeChange = new EventEmitter<any>();     // The moment before a value is set (selected)
+  @Output() bfOnTyping = new EventEmitter<any>();         // When typing into the input
 
 
   // --------------
@@ -124,6 +127,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   public arrowScroll$ = new Subject();
   public listHeight; // Computed height of the expanded listContainer
   public allRows; // Reference to the optionRows.toArray() html elements array
+  public searchTxt = '';
 
   @ViewChild('dropdownInput', { static: false }) elInput: ElementRef<HTMLInputElement>;
   @ViewChild('listContainer', { static: false }) listContainer: ElementRef<HTMLInputElement>;
@@ -153,7 +157,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
         setTimeout(() => {
           this.elInput.nativeElement.focus();
           this.inputText = value;
-          this.filterList(this.inputText);
+          this.inputType(this.inputText);
         }, 100);
       },
       addError    : (value) => {
@@ -198,6 +202,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
       if (changing('bfList')) { // If the list changes, match the ngModel with the new list
         setTimeout(() => {
           this.matchSelection(this.ngControl ? this.ngControl.value : this.bfModel);
+          if (this.bfKeepSearch && this.isExpanded) { setTimeout(() => this.inputText = this.searchTxt); }
           this.ngControl.updateValueAndValidity();
         });
       }
@@ -490,8 +495,8 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     this.bfCandidate = this.bfModel;
     this.isFocus = true;
     this.isExpanded = true;
-    this.inputText = '';  // Clear the text to work as a filter
-    this.filterList('');
+    this.inputText = this.bfKeepSearch ? this.searchTxt : '';  // Reset the search string
+    this.filterList(this.inputText);
 
     // If the selected element is down in the list, auto scroll so it's immediately visible
     setTimeout(() => {
@@ -576,13 +581,25 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   };
 
 
+  public inputType = (value) => {
+    this.searchTxt = value;
+    this.bfOnTyping.emit(value);
+    this.filterList(value);
+  }
+
   // Filter the list to display according to the input text
   public filterList = (value) => {
-    const patternVal = value.toLowerCase();
-    this.extList.forEach(item => {
-      item.$isMatch = item.$renderedText && item.$renderedText.toLowerCase().indexOf(patternVal) >= 0;
-    });
-    this.emptyItem.$isMatch = true; // Fix empty option as always visible
+    if (this.bfFilterFn) {
+      const fList = this.bfFilterFn(this.extList, value);
+      this.extList.forEach(item => item.$isMatch = !!fList.find(e => e.$index === item.$index));
+
+    } else {
+      const patternVal = value.toLowerCase();
+      this.extList.forEach(item => {
+        item.$isMatch = item.$renderedText && item.$renderedText.toLowerCase().indexOf(patternVal) >= 0;
+      });
+      this.emptyItem.$isMatch = true; // Fix empty option as always visible
+    }
   };
 
 
