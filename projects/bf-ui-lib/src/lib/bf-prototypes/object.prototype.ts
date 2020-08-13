@@ -5,8 +5,8 @@ import { isEqualTo } from './deep-equal';
 declare global {
   interface Object {
     keyFilter(filterFn: ((val?, key?) => boolean) | string): Partial<Object>;
-    keyMap(props: string): Object;
-    // keyMap(mapFn: (val?, key?) => any): Object;
+    keyValue(mapFn: (val?, key?) => any): Object;
+    keyMap(mapFn: (key, val?) => string): Object;
     keyCount(): number;
     peel(prefix?: string): Partial<Object>;
     hasProp(props: Array<string> | string): boolean;
@@ -43,20 +43,35 @@ BfObject.keyFilter = function(filterFn: ((val?, key?) => boolean) | string): Par
 
 
 // Temporary fallback to support old logic until all instances changed
-BfObject.keyMap = function(props: string): Partial<Object> {
-  return BfObject.keyFilter.call(this, props);
-};
+// BfObject.keyMap = function(props: string): Partial<Object> {
+//   return BfObject.keyFilter.call(this, props);
+// };
+
 /**
  * @ngdoc Object.prototype
  * @description Iterates all properties on the object, mapping a new value
- * @example  const b = a.keyMap(val => !!val ? val : null);
- *           const c = a.keyMap((val, key) => key === 'id' ? null: val);
+ * @example  const b = a.valueMap(val => !!val ? val : null);
+ *           const c = a.valueMap((val, key) => key === 'id' ? null: val);
+ *           { p1: 10, p2: 20 }.valueMap(v => v + 1)  --> { p1: 11, p2: 21 }
+ *           { p1: 10, p2: 20 } --> { p1: 11, p2: 21 }
  */
-// BfObject.keyMap = function(mapFn) {
-//   const newObj = {};
-//   Object.entries(this).forEach(([key, val]) => newObj[key] = mapFn(val, key));
-//   return newObj;
-// };
+BfObject.valueMap = function(mapFn = (val, key?) => val) {
+  const newObj = {};
+  Object.entries(this).forEach(([key, val]) => newObj[key] = mapFn(val, key));
+  return newObj;
+};
+
+/**
+ * @ngdoc Object.prototype
+ * @description Iterates all properties on the object, mapping a new property name
+ * @example  const b = a.keyMap(key => key + '_desc');
+ *           { name: 1, age: 10 } ---> { name_desc: 1, age_desc: 10 }
+ */
+BfObject.keyMap = function(mapFn = (key, val?) => key) {
+  const newObj = {};
+  Object.entries(this).forEach(([key, val]) => newObj[mapFn(key, val) || key] = val);
+  return newObj;
+};
 
 /**
  * @ngdoc Object.prototype
