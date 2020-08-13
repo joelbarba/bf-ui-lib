@@ -85,8 +85,17 @@ export class BfListHandler {
       this.orderConf.reverse = qParams.order_by.charAt(0) === '-';
       this.orderConf.fields = qParams.order_by.replace(/-/gi, '').split(',');
     }
-    Object.keys(qParams).forEach(n => this.filters[n] = qParams[n]);
 
+    // Syntax of the incoming filter, to determine its type of match: queryParams = {
+    //    'email': 'sil', --> exact match filter
+    //    '~user': 'ver', --> like match filter
+    //  };
+    Object.entries(qParams).forEach(([key, value]) => {
+      let prefix = key.slice(0, 1);
+      if (prefix === '=' || prefix === '~') { key = key.slice(1).trim(); } else { prefix = '='; }
+      this.filtersExt[key] = prefix;
+      this.filters[key] = value;
+    });
     this.filters = this.getFilters();  // Initial filters
 
     // Init debounced filters subscription
