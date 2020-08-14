@@ -30,7 +30,11 @@
           "options": {
             "main": "projects/bf-ui-lib/src/test.ts",
             "tsConfig": "projects/bf-ui-lib/tsconfig.spec.json",
-            "karmaConfig": "projects/bf-ui-lib/karma.conf.js"
+            "karmaConfig": "projects/bf-ui-lib/karma.conf.js",
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/spectrum-colorpicker/spectrum.js"
+            ]
           }
         },
         "lint": {

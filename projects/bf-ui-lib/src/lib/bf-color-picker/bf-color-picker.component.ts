@@ -36,7 +36,11 @@ export class BfColorPickerComponent implements OnInit, OnChanges {
     });
   }
 
-  private getValidHexString(colorValue: string) {
+  private getValidHexString(colorValue: string): string {
+    if (!colorValue) {
+      return '';
+    }
+
     return colorValue.indexOf('#') === -1 ? `#${colorValue}` : colorValue;
   }
 
