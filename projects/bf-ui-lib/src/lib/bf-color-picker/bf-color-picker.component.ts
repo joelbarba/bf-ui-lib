@@ -15,10 +15,10 @@ export class BfColorPickerComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnChanges(changes: SimpleChanges) {
-    const { color } = changes;
+    const { bfColor } = changes;
 
-    if (!color.firstChange) {
-      this.updateSpectrumColorValue(color.currentValue);
+    if (!bfColor.firstChange) {
+      this.updateSpectrumColorValue(bfColor.currentValue);
     }
   }
 
@@ -28,7 +28,7 @@ export class BfColorPickerComponent implements OnInit, OnChanges {
 
   private initialiseColorPicker(): void {
     $('.color--picker').spectrum({
-      color: `#${this.bfColor}`,
+      color: this.getValidHexString(this.bfColor),
       flat: true,
       showButtons: false,
       showInitial: true,
@@ -36,16 +36,17 @@ export class BfColorPickerComponent implements OnInit, OnChanges {
     });
   }
 
+  private getValidHexString(colorValue: string) {
+    return colorValue.indexOf('#') === -1 ? `#${colorValue}` : colorValue;
+  }
+
   private updateSpectrumColorValue(color: string): void {
-    $('.color--picker').spectrum('set', `#${color}`);
+    const colorValue = this.getValidHexString(color);
+    $('.color--picker').spectrum('set', `#${colorValue}`);
   }
 
   private onChangeColor(color: any): void {
-    const updatedColor = this.getHexSubString(color);
+    const updatedColor = color.toHexString();
     this.bfColorChanged.emit(updatedColor);
-  }
-
-  private getHexSubString(color: any): string {
-    return color.toHexString().substr(1);
   }
 }
