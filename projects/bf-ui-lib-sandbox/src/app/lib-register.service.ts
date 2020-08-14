@@ -1,6 +1,8 @@
+import { BfColorPickerDoc } from './bf-color-picker-demo/bf-color-picker-demo.component';
 import { Injectable } from '@angular/core';
 import * as docs from './doc-demos-list';
 export const compList = [
+  BfColorPickerDoc,
   docs.BfBtnDoc,
   docs.BfLabelDoc,
   docs.BfInputDoc,
@@ -17,7 +19,6 @@ export const compList = [
   docs.BfTimePickerDoc,
   docs.BfSliderDoc,
   docs.BfRangeSliderDoc,
-  docs.BfColorPickerDoc,
   docs.BfStatusBadgeDoc,
   docs.BfProgressBarDoc,
   docs.BfListHeaderColDoc,

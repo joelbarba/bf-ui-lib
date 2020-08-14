@@ -8,7 +8,9 @@
     "@angular/common": "^8.1.0",
     "@angular/core": "^8.1.0",
     "@ng-bootstrap/ng-bootstrap": "^4.2.1",
-    "debug": "^4.1.1"
+    "debug": "^4.1.1",
+    "jquery": "^3.5.1",
+    "spectrum-colorpicker": "^1.8.1"
   },
   "repository": {
     "type": "git",
