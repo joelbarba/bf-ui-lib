@@ -76,8 +76,16 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-5" style="text-decoration: line-through;"><pre>Object.<b>keyMap</b>(propNames: string): Partial{{'<' + 'T' + '>'}}</pre></div>
-    <div class="col-7">Deprecated. Same as Object.keyFilter(propNames)</div>
+    <div class="col-5"><pre>Object.<b>valueMap</b>(mapFn = (val, key) => val): T</pre></div>
+    <div class="col-7">Returns a new object mapping every value from every key of the original object with an iterator function
+      <br>{{'{ p1: 10, p2: 20 }.valueMap(v => v + 1)  --> { p1: 11, p2: 21 }'}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Object.<b>keyMap</b>(mapFn = (key, val) => key): Object</pre></div>
+    <div class="col-7">Returns a new object mapping every property name with an iterator function. If !key, the same name is applied.
+      <br>{{"{ name: 1, age: 10 }.keyMap(k => k + '_desc') ---> { name_desc: 1, age_desc: 10 }"}}
+    </div>
   </div>
   <div class="row">
     <div class="col-5"><pre>Object.<b>keyCount</b>(): number</pre></div>
