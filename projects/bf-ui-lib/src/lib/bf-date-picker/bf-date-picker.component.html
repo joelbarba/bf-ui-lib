@@ -21,7 +21,7 @@
     {{ errorText | getLabel$ | async }}
   </span>
 
-  <div class="input-group" (click)="!bfDisabled && dpRef.toggle()">
+  <div *ngIf="!bfIsInlineDatePicker" class="input-group" (click)="!bfDisabled && dpRef.toggle()">
 
     <!--Just for displaying options (model is held in the other input)-->
     <input class="form-control" disabled="disabled" name="dpv"
@@ -40,22 +40,31 @@
     </div>
   </div>
 
-  <!--Internal input to hold the model-->
-  <input name="dp" class="hidden-input"
-         ngbDatepicker #dpRef="ngbDatepicker"
-         [(ngModel)]="bfModel" (ngModelChange)="onInternalModelChange()"
-         [navigation]="'arrows'"
-         [showWeekNumbers]="true"
-         [minDate]="ngbMinDate"
-         [maxDate]="ngbMaxDate"
-         [dayTemplate]="dayTemplate"
-         [footerTemplate]="bfDatePickerFooter">
+  <!-- Inline datepicker -->
 
-  <!--<div>bfModel={{bfModel | json}}</div>-->
+  <!--Internal input to hold the model-->
+  <input *ngIf="!bfIsInlineDatePicker" name="dp" class="hidden-input"
+  ngbDatepicker #dpRef="ngbDatepicker"
+  [(ngModel)]="bfModel" (ngModelChange)="onInternalModelChange()"
+  [navigation]="'arrows'"
+  [showWeekNumbers]="true"
+  [minDate]="ngbMinDate"
+  [maxDate]="ngbMaxDate"
+  [dayTemplate]="dayTemplate"
+  [footerTemplate]="bfDatePickerFooter" />
+
+  <ngb-datepicker
+    [(ngModel)]="bfModel"
+    [navigation]="'arrows'"
+    [showWeekNumbers]="'true'"
+    [minDate]="ngbMinDate"
+    [maxDate]="ngbMaxDate"
+    [dayTemplate]="dayTemplate"
+    (ngModelChange)="onInternalModelChange()"></ngb-datepicker>
 
   <!--Modal day in the calendar-->
   <ng-template #dayTemplate let-date
-               let-currentMonth="currentMonth"
+  let-currentMonth="currentMonth"
                let-selected="selected"
                let-disabled="disabled"
                let-today="today">

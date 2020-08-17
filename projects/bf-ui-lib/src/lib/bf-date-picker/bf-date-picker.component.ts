@@ -1,8 +1,8 @@
-import {Component, OnInit, Input, forwardRef, OnDestroy, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, OnInit, Input, forwardRef, OnDestroy, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
 import {Inject} from '@angular/core';
 import {ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {BfUILibTransService} from '../abstract-translate.service';
-import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDateStruct, NgbDatepicker, NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
 import BfString from '../bf-prototypes/string.prototype';
 import {DatePipe} from '@angular/common';
 
@@ -40,7 +40,9 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
 
   @Input() bfErrorPos = 'top-right';  // top-right, bottom-left, bottom-right
   @Input() bfErrorText: string;       // Error text to display when invalid value
+  @Input() bfIsInlineDatePicker: boolean // flag to determine if the date-picker should be inline or not
 
+  @ViewChild('dpRef', { static: true }) datePickerRef: NgbInputDatepicker;
 
   public isPristine = true;
   public status = 'valid';            // valid, error
@@ -86,7 +88,8 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
 
 
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (!!changes.bfLocale) { this.onInternalModelChange(true); }
