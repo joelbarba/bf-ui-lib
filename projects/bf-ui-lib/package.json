@@ -5,9 +5,9 @@
   "license": "ISC",
   "homepage": "https://oauthmgr-dev.blueface.com",
   "peerDependencies": {
-    "@angular/common": "^8.1.0",
-    "@angular/core": "^8.1.0",
-    "@ng-bootstrap/ng-bootstrap": "^4.2.1",
+    "@angular/common": "^10.0.9",
+    "@angular/core": "^10.0.9",
+    "@ng-bootstrap/ng-bootstrap": "^7.0.0",
     "debug": "^4.1.1"
   },
   "repository": {

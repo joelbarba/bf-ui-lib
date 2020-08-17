@@ -82,10 +82,8 @@ import { BfModalHeaderComponent } from './bf-modal-header/bf-modal-header.compon
     BfModalHeaderComponent,
   ],
   entryComponents: [
-    BfConfirmComponent
   ],
   imports: [
-    // BrowserModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -146,10 +144,7 @@ export class BfUiLibModule {
     }
   }
 
-  static forRoot(config): ModuleWithProviders {
-    // console.log('BfUiLibModule.forRoot()', new Date(), config.trans);
-
-
+  static forRoot(config): ModuleWithProviders<BfUiLibModule> {
     return {
       ngModule: BfUiLibModule,
       providers: [

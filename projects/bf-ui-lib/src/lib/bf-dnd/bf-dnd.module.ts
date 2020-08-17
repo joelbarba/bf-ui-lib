@@ -18,7 +18,7 @@ import {BfDraggableDirective} from './bf-draggable/bf-draggable.directive';
   ],
 })
 export class BfDnDModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<BfDnDModule> {
     return {
       ngModule: BfDnDModule,
     };
