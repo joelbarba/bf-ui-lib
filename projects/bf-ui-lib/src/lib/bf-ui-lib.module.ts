@@ -101,7 +101,7 @@ import { BfModalHeaderComponent } from './bf-modal-header/bf-modal-header.compon
     Ng5SliderModule,
   ],
   exports: [
-    BfColorPickerComponent,  // <--- New component
+    BfColorPickerComponent,
     BfModalHeaderComponent,
     BfSectionHeaderComponent,
     BfRangeSliderComponent,
