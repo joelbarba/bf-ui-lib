@@ -20,7 +20,7 @@
         [bfIcon]="(compConf.hasIcon ? compConf.inputIcon : '')"
         [bfType]="compConf.inputType"
       ></bf-input>
-      <bf-color-picker [bfColor]="colorValue" (bfColorChanged)="onColorChanged($event)"></bf-color-picker>
+      <bf-color-picker [(bfColor)]="colorValue"></bf-color-picker>
     </div>
     <div class="col-7">
       <pre>{{instance}}</pre>

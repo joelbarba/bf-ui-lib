@@ -10,7 +10,7 @@ declare var $: any;
 })
 export class BfColorPickerComponent implements OnInit, OnChanges {
   @Input() bfColor: string; // the value of the color
-  @Output() bfColorChanged: EventEmitter<string> = new EventEmitter(); // an event emitted when the color has changed
+  @Output() bfColorChange: EventEmitter<string> = new EventEmitter(); // an event emitted when the color has changed
 
   constructor() { }
 
@@ -51,6 +51,6 @@ export class BfColorPickerComponent implements OnInit, OnChanges {
 
   private onChangeColor(color: any): void {
     const updatedColor = color.toHexString();
-    this.bfColorChanged.emit(updatedColor);
+    this.bfColorChange.emit(updatedColor);
   }
 }
