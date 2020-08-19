@@ -19,14 +19,22 @@
           "options": {
             "tsConfig": "projects/bf-ui-lib/tsconfig.lib.json",
             "project": "projects/bf-ui-lib/ng-package.json"
-          }
+          },
+          "scripts": [
+            "node_modules/jquery/dist/jquery.min.js",
+            "node_modules/spectrum-colorpicker/spectrum.js"
+          ]
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "main": "projects/bf-ui-lib/src/test.ts",
             "tsConfig": "projects/bf-ui-lib/tsconfig.spec.json",
-            "karmaConfig": "projects/bf-ui-lib/karma.conf.js"
+            "karmaConfig": "projects/bf-ui-lib/karma.conf.js",
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/spectrum-colorpicker/spectrum.js"
+            ]
           }
         },
         "lint": {
@@ -67,10 +75,14 @@
               "projects/bf-ui-lib-sandbox/src/assets"
             ],
             "styles": [
-              "projects/bf-ui-lib-sandbox/src/styles.scss"
+              "projects/bf-ui-lib-sandbox/src/styles.scss",
+              "node_modules/spectrum-colorpicker/spectrum.css"
             ],
             "stylePreprocessorOptions": { "includePaths": ["projects/bf-ui-lib-sandbox/src/scss"] },
-            "scripts": [],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/spectrum-colorpicker/spectrum.js"
+            ],
             "es5BrowserSupport": true,
             "aot": true
           },
