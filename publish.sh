@@ -89,3 +89,11 @@ if [[ "$x" = "" ]]; then
     git commit -m "Publish $pkgVer"
     git log -1
 fi
+
+echo ""
+echo "Do you want to deploy the doc reference? (Enter=Yes, anything else=No)"
+echo ""
+if [[ "$allYes" != "y" ]]; then read x; else x=""; fi
+if [[ "$x" = "" ]]; then
+    sh update_doc.sh
+fi
