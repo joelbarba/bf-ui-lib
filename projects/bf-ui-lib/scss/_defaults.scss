@@ -19,6 +19,8 @@ $valid-color    : $primary_color !default;
 $invalid-color  : $warning_color !default;
 $page-placeholder-color : #f6f7f8 !default;
 
+$color-picker-gray-dark: lighten(#000, 20%) !default;
+
 $bf-ui-lib-colors: (
   'primary'     : $primary_color,
   'secondary'   : $secondary_color,

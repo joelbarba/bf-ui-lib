@@ -56,3 +56,4 @@ export * from './lib/bf-textarea/bf-textarea.component';
 export * from './lib/bf-time-picker/bf-time-picker.component';
 export * from './lib/show/show.component';
 
+export * from './lib/bf-color-picker/bf-color-picker.component';
