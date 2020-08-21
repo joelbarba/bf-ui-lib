@@ -1,0 +1,115 @@
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+<p>This component is to be used when having a list with multi selection. It works using a BfListSelection object, and there are 2 use cases of the component:</p>
+<ul>
+  <li><b>With [id]</b>: A checkbox for every item on the list, to select/unselect it.</li>
+  <li><b>Without [id]</b>: A checkbox to select/unselect all the items of the list (current page).</li>
+</ul>
+The <b>BfListSelection</b> exposes an object (.ids) with the list of selected items on the list.
+You can use the method <b>.getSelection()</b> to retrieve the list of id into an array.
+
+<h5 class="mt-4">Parameters:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+
+<div class="whiteBg row">
+  <div class="col-6 marB15">
+    <h5 class="marB25">On the list header:</h5>
+    <div class="code-box pad10">
+      <pre>{{instance1}}</pre>
+    </div>
+  </div>
+  <div class="col-6 marB15">
+    <h5 class="marB25">On every list row:</h5>
+    <div class="code-box pad10">
+      <pre>{{instance2}}</pre>
+    </div>
+  </div>
+
+
+  <div class="col-6">
+    <ul class="list-unstyled table-list">
+      <li class="list-header">
+        <bf-list-checkbox [selection]="sel"></bf-list-checkbox>
+        <bf-list-header-col class="col-7"  colTitle="Username"></bf-list-header-col>
+      </li>
+    </ul>
+  </div>
+  <div class="col-6">
+    <ul class="list-unstyled table-list">
+      <li class="list-row">
+        <bf-list-checkbox [selection]="sel" [id]="'999'"></bf-list-checkbox>
+        <div class="col-5">Napoleon Bonaparte</div>
+        <div class="col-6">napoleon.bonaparte@blueface.com</div>
+        <div class="col-1 text-right"><bf-btn bfType="edit-icon"></bf-btn></div>
+      </li>
+      <li class="list-row">
+        <bf-list-checkbox [selection]="sel" [id]="'998'"></bf-list-checkbox>
+        <div class="col-5">Julius Caesar</div>
+        <div class="col-6">julius.ceasar@blueface.com</div>
+        <div class="col-1 text-right"><bf-btn bfType="edit-icon"></bf-btn></div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<hr>
+
+
+<h5 class="mt-4">Example:</h5>
+<div class="row whiteBg padB10">
+  <bf-input class="col-6 col-md-4"
+            bfIcon="icon-search"
+            bfPlaceholder="view.common.search"
+            [bfAutoFocus]="true"
+            [(ngModel)]="myList.filterText"
+            (ngModelChange)="myList.filter($event)">
+  </bf-input>
+</div>
+<div class="row" [show]="myList.loadingStatus <= status.LOADING || myList.totalFiltered > 0">
+  <div class="col-12">
+    <ul class="list-unstyled table-list">
+      <li class="list-header">
+        <bf-list-header-col class="mobile" colTitle="Username"    fieldName="username"    [orderConf]="myList.orderConf"></bf-list-header-col>
+
+        <!--<bf-checkbox class="col-1" [ngModel]="sel.isPageChecked" (ngModelChange)="sel.togglePage()"></bf-checkbox>-->
+        <!--<bf-list-checkbox [selection]="sel" [id]="rates.id"></bf-list-checkbox>-->
+        <bf-list-checkbox [selection]="sel"></bf-list-checkbox>
+
+        <bf-list-header-col class="col-2"  colTitle="Username"    fieldName="username"    [orderConf]="myList.orderConf"></bf-list-header-col>
+        <bf-list-header-col class="col-1"  colTitle="Id"          fieldName="id"          [orderConf]="myList.orderConf"></bf-list-header-col>
+        <bf-list-header-col class="col-3"  colTitle="Email"       fieldName="email"       [orderConf]="myList.orderConf"></bf-list-header-col>
+        <bf-list-header-col class="col-3"  colTitle="First Name"  fieldName="first_name"  [orderConf]="myList.orderConf"></bf-list-header-col>
+        <bf-list-header-col class="col-3"  colTitle="Last Name"   fieldName="last_name"   [orderConf]="myList.orderConf"></bf-list-header-col>
+      </li>
+
+      <li class="list-row" *ngFor="let item of myList.renderList$ | async">
+
+        <!--<bf-checkbox class="col-1" [ngModel]="sel.ids[rate.id]" (ngModelChange)="sel.toggleCheck(rate.id)"></bf-checkbox>-->
+        <bf-list-checkbox [selection]="sel" [id]="item.id"></bf-list-checkbox>
+
+
+        <div class="col-2">{{item.username}}</div>
+        <div class="col-1">{{item.id}}</div>
+        <div class="col-3">{{item.email}}</div>
+        <div class="col-3">{{item.first_name}}</div>
+        <div class="col-2">{{item.last_name}}</div>
+        <div class="col-1 text-right">
+          <bf-btn bfType="edit-icon"></bf-btn>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="row whiteBg" [show]="myList.totalFiltered > 5">
+  <bf-list-paginator class="col-12 mobile-sm" [bfCtrl]="myList" bfShowSelector="true"></bf-list-paginator>
+</div>
+<div class="row whiteBg" [show]="myList.loadingStatus > status.LOADING && myList.totalFiltered === 0">
+  <bf-no-data class="col-12" [bfIsPlaceholder]="true" bfIcon="icon-phone4" bfTitle="No Results"></bf-no-data>
+</div>
+
+<div>
+  Selection = {{ sel.ids | json }}
+</div>

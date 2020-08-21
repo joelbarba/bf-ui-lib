@@ -21,6 +21,7 @@ export const compList = [
   docs.BfProgressBarDoc,
   docs.BfListHeaderColDoc,
   docs.BfListPaginatorDoc,
+  docs.BfListCheckboxDoc,
   docs.BfListPlaceholderDoc,
   docs.BfPagePlaceholderDoc,
   docs.BfNoDataDoc,

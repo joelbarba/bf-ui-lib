@@ -44,6 +44,7 @@ import { Ng5SliderModule } from 'ng5-slider';
 import { BfSectionHeaderComponent } from './bf-section-header/bf-section-header.component';
 import { BfRangeSliderComponent } from './bf-range-slider/bf-range-slider.component';
 import { BfModalHeaderComponent } from './bf-modal-header/bf-modal-header.component';
+import { BfListCheckboxComponent } from './bf-list-checkbox/bf-list-checkbox.component';
 
 
 @NgModule({
@@ -80,6 +81,7 @@ import { BfModalHeaderComponent } from './bf-modal-header/bf-modal-header.compon
     BfSectionHeaderComponent,
     BfRangeSliderComponent,
     BfModalHeaderComponent,
+    BfListCheckboxComponent,
   ],
   entryComponents: [
     BfConfirmComponent
@@ -101,6 +103,7 @@ import { BfModalHeaderComponent } from './bf-modal-header/bf-modal-header.compon
     Ng5SliderModule,
   ],
   exports: [
+    BfListCheckboxComponent,  // <--- New component
     BfColorPickerComponent,
     BfModalHeaderComponent,
     BfSectionHeaderComponent,

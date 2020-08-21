@@ -1,0 +1,9 @@
+<!--Full page selector-->
+<bf-checkbox *ngIf="!hasId" [ngModel]="selection.isPageChecked" class="revert"
+             (ngModelChange)="selection.togglePage()">
+</bf-checkbox>
+
+<!--Single item selector-->
+<bf-checkbox *ngIf="!!hasId" [ngModel]="selection.ids[id]"
+             (ngModelChange)="selection.toggleCheck(id)">
+</bf-checkbox>
