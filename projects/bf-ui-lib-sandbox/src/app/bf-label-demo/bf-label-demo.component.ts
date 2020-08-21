@@ -76,6 +76,7 @@ export class BfLabelDemoComponent implements OnInit {
     hasValue: false, value: 'view.common.field_name',
     isRequired: true,
     hasTooltip: true, tooltipText: 'view.tooltip.message', tooltipPos: null, tooltipBody: 'true',
+    hasBlock: false,
     hasNoBold: false,
     hasNoColon: false,
     hasColon: false,
@@ -97,6 +98,7 @@ export class BfLabelDemoComponent implements OnInit {
     this.customCompCode = `<bf-label `;
 
     let compClasses = '';
+    if (this.compConf.hasBlock)       { compClasses += (!!compClasses.length ? ' ' : '') + 'block'; }
     if (this.compConf.hasNoColon)     { compClasses += (!!compClasses.length ? ' ' : '') + 'no-colon'; }
     if (this.compConf.hasColon)       { compClasses += (!!compClasses.length ? ' ' : '') + 'colon'; }
     if (this.compConf.hasValueInline) { compClasses += (!!compClasses.length ? ' ' : '') + 'value-inline'; }
@@ -147,6 +149,7 @@ export class BfLabelDemoComponent implements OnInit {
 
   ngOnInit() {
     // this.translate.doTranslate('AAAAAAAA');
+    this.upComp();
   }
 
 }

@@ -6,23 +6,27 @@
 <div class="col-12"><pre>{{api}}</pre></div>
 
 
+
 <!--Customization-->
 <div class="whiteBg">
   <div class="row">
     <div class="col-6 marB15">
       <h5 class="marB25">Customized Checkbox:</h5>
       <div class="padB25">
-        <!--<h5>-->
-          <bf-checkbox [(ngModel)]="myValue"
-                       [class.block]="compConf.isClassBlock"
-                       [style.background]="compConf.isClassBlock ? 'lightgray' : 'white'"
-                       [bfLabel]="compConf.bfLabel"
-                       [bfDisabled]="compConf.isDisabled"
-                       [bfTooltip]="(compConf.hasTooltip ? compConf.tooltipText : null)"
-                       [bfTooltipPos]="(compConf.tooltipPos || 'top')"
-                       [bfTooltipBody]="compConf.tooltipBody">
-          </bf-checkbox>
-        <!--</h5>-->
+        <bf-checkbox [(ngModel)]="myValue"
+                     [class.block]="compConf.isClassBlock"
+                     [class.flat]="compConf.isClassFlat"
+                     [class.revert]="compConf.isClassRevert"
+                     [class.pad-input]="compConf.isClassPadInput"
+                     [class.pad-btn]="compConf.isClassPadBtn"
+                     [class.pad-form]="compConf.isClassPadForm"
+                     [class.bg]="isBg || compConf.isClassBlock"
+                     [bfLabel]="compConf.bfLabel"
+                     [bfDisabled]="compConf.isDisabled"
+                     [bfTooltip]="(compConf.hasTooltip ? compConf.tooltipText : null)"
+                     [bfTooltipPos]="(compConf.tooltipPos || 'top')"
+                     [bfTooltipBody]="compConf.tooltipBody">
+        </bf-checkbox>
       </div>
       <div>
         <div class="code-box pad15">
@@ -62,8 +66,14 @@
 
       <!--Classes-->
       <div class="row padT10">
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isClassBlock" (ngModelChange)="upComp()" bfLabel="block"></bf-checkbox> </div>
-        <!--<div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasColon" (ngModelChange)="upComp()" bfLabel="colon"></bf-checkbox> </div>-->
+        <div class="col-12"><hr></div>
+        <div class="col-12 padB15">CSS classes:</div>
+        <bf-checkbox class="col-2" [(ngModel)]="compConf.isClassBlock"    (ngModelChange)="upComp()" bfLabel="block" bfTooltip="Applies display: block;"></bf-checkbox>
+        <bf-checkbox class="col-2" [(ngModel)]="compConf.isClassFlat"     (ngModelChange)="upComp()" bfLabel="flat" bfTooltip="Applies max-height: 20px, so the line breaks won't enlarge it and will overflow"></bf-checkbox>
+        <bf-checkbox class="col-2" [(ngModel)]="compConf.isClassRevert"   (ngModelChange)="upComp()" bfLabel="revert" bfTooltip="Reverts the color when checked (background white, check primary)"></bf-checkbox>
+        <bf-checkbox class="col-2" [(ngModel)]="compConf.isClassPadBtn"   (ngModelChange)="upComp()" bfLabel="pad-btn" bfTooltip="To vertically align when next to a button"></bf-checkbox>
+        <bf-checkbox class="col-2" [(ngModel)]="compConf.isClassPadInput" (ngModelChange)="upComp()" bfLabel="pad-input" bfTooltip="To vertically align when next to an input with no label"></bf-checkbox>
+        <bf-checkbox class="col-2" [(ngModel)]="compConf.isClassPadForm"  (ngModelChange)="upComp()" bfLabel="pad-form" bfTooltip="To vertically align when next to an input with label"></bf-checkbox>
       </div>
 
     </div>
@@ -79,39 +89,50 @@
 
 
 <h5 class="mt-4">Examples:</h5>
-<div class="col-12 examples-table">
-
-  <div class="row">
-    <div class="col-3" style="display: block;">
-      <bf-checkbox [(ngModel)]="myValue" bfLabel="Check me"></bf-checkbox>
-      <span class="marL15">= {{myValue}}</span>
-    </div>
-    <div class="col-9"> <pre>{{instance}}</pre> </div>
+<div class="whiteBg row">
+  <div class="col-2 dashed-border">
+    <bf-checkbox [class.bg]="isBg" [ngModel]="myValue"></bf-checkbox>
+    <bf-checkbox [class.bg]="isBg" [ngModel]="myValue"></bf-checkbox>
+    <bf-checkbox [class.bg]="isBg" [ngModel]="myValue" bfLabel="Test label"></bf-checkbox>
   </div>
-  
-  <div class="row">
-    <div class="col-3">
-      <bf-checkbox bfLabel="Check me" [ngModel]="myValue" (ngModelChange)="myValue = $event"></bf-checkbox>
-    </div>
-    <div class="col-9"> <pre>{{instance2}}</pre> </div>
+  <div class="col-2 dashed-border">
+    <bf-checkbox [class.bg]="isBg" [ngModel]="myValue" bfLabel="User Name with a very long text that will certainly break the line"> </bf-checkbox>
   </div>
-
-  <div class="row">
-    <div class="col-3">
-      <bf-checkbox [(ngModel)]="myValue"></bf-checkbox>
-    </div>
-    <div class="col-9"> <pre>{{instance3}}</pre> </div>
+  <div class="col-2 dashed-border">
+    <bf-checkbox [class.bg]="isBg" class="block" [ngModel]="myValue" bfLabel="User Name with a very long text that will certainly break the line with block"> </bf-checkbox>
   </div>
-
-  <div class="row">
-    <div class="col-3">
-      <bf-checkbox class="block" [ngModel]="true"  bfLabel="Checked" [bfDisabled]="true"></bf-checkbox>
-      <bf-checkbox class="block marL0" [ngModel]="false" bfLabel="Unchecked" [bfDisabled]="true"></bf-checkbox>
-    </div>
-    <div class="col-9"> <pre>{{instance4}}</pre> </div>
+  <div class="col-3 dashed-border">
+    <bf-checkbox [class.bg]="isBg" class="block" [ngModel]="myValue" bfLabel="With block class"></bf-checkbox>
+    <bf-checkbox [class.bg]="isBg" [ngModel]="myValue" bfLabel="Inline 1"></bf-checkbox>
+    <bf-checkbox [class.bg]="isBg" [ngModel]="myValue" bfLabel="Inline 2"></bf-checkbox>
+    <bf-checkbox [class.bg]="isBg" [ngModel]="myValue" bfLabel="Inline 3"></bf-checkbox>
   </div>
-
+  <div class="col-2 offset-1">
+    <bf-switch bfLabel="Show background" [(ngModel)]="isBg"></bf-switch>
+  </div>
 </div>
+<div class="whiteBg row">
+  <bf-input class="col-2" [ngModel]="textValue" bfIcon="icon-search"></bf-input>
+  <bf-checkbox class="col-2 pad-input" [class.bg]="isBg" [ngModel]="myValue" bfLabel='class="pad-input"'></bf-checkbox>
+
+  <bf-dropdown class="col-2" [ngModel]="textValue" [bfList]="[{id: 1}]" bfLabel="Selector"></bf-dropdown>
+  <bf-checkbox class="col-2 pad-form" [class.bg]="isBg" [ngModel]="myValue" bfLabel='class="pad-form"'></bf-checkbox>
+
+  <div class="col-2">
+    <bf-label class="block" bfText="Select Option"></bf-label>
+    <bf-checkbox class="pad-input" [class.bg]="isBg" [ngModel]="myValue" bfLabel="pad-input"></bf-checkbox>
+    <bf-checkbox class="pad-input" [class.bg]="isBg" [ngModel]="myValue" bfLabel="pad-input"></bf-checkbox>
+  </div>
+  <div class="col-2 padH0">
+    <pre>{{instance2}}</pre>
+  </div>
+  <div class="col-12 pad5"></div>
+
+  <bf-btn class="col-2 full-width" bfType="save" bfText="Click Me"></bf-btn>
+  <bf-checkbox class="col-2 pad-btn" [class.bg]="isBg" [ngModel]="myValue" bfLabel='class="pad-btn"'></bf-checkbox>
+</div>
+
+
 
 <div class="row">
   <div class="col-12"><hr></div>

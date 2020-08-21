@@ -11,12 +11,12 @@ export class BfCheckboxDemoComponent implements OnInit {
   public api = BfCheckboxDoc.api;
   public instance = BfCheckboxDoc.instance;
   public myValue = true;
+  public textValue = '';
+  public isBg = false;
 
-  public instance2 = `<bf-checkbox bfLabel="Check me" [ngModel]="myValue" (ngModelChange)="myValue = $event"></bf-checkbox>`;
-  public instance3 = `<bf-checkbox [(ngModel)]="myValue"></bf-checkbox>`;
-
-  public instance4 = `<bf-checkbox [ngModel]="true"  bfLabel="Checked" [bfDisabled]="true"></bf-checkbox>
-<bf-checkbox [ngModel]="false" bfLabel="Unchecked" [bfDisabled]="true"></bf-checkbox>`;
+  public instance2 = `<bf-label class="block">
+<bf-checkbox class="pad-input">
+<bf-checkbox class="pad-input">`;
 
   public bootstrapHtmlStructure = `<div class="form-check">
   <input class="form-check-input" type="checkbox" value="">
@@ -58,13 +58,26 @@ $checkbox-disabled-border: darken($disabled-color, 3%) !default;`;
     isDisabled: false,
     hasTooltip: false, tooltipText: 'view.tooltip.message', tooltipPos: null, tooltipBody: 'true',
     isClassBlock: false,
+    isClassFlat: false,
+    isClassRevert: false,
+    isClassPadInput: false,
+    isClassPadBtn: false,
+    isClassPadForm: false,
   };
   public upComp = () => {
     this.customCompCode = `<bf-checkbox `;
 
     let compClasses = '';
-    if (this.compConf.isClassBlock) { compClasses += (!!compClasses.length ? ' ' : '') + 'block'; }
-    if (!!compClasses) { this.customCompCode += `class="${compClasses}"` + this.bsStr; }
+    if (this.compConf.isClassBlock)    { compClasses += (!!compClasses.length ? ' ' : '') + 'block'; }
+    if (this.compConf.isClassFlat)     { compClasses += (!!compClasses.length ? ' ' : '') + 'flat'; }
+    if (this.compConf.isClassRevert)   { compClasses += (!!compClasses.length ? ' ' : '') + 'revert'; }
+    if (this.compConf.isClassPadInput) { compClasses += (!!compClasses.length ? ' ' : '') + 'pad-input'; }
+    if (this.compConf.isClassPadBtn)   { compClasses += (!!compClasses.length ? ' ' : '') + 'pad-btn'; }
+    if (this.compConf.isClassPadForm)  { compClasses += (!!compClasses.length ? ' ' : '') + 'pad-form'; }
+    if (!!compClasses) {
+      this.customCompCode += `class="${compClasses}"` + this.bsStr;
+    }
+
 
     if (this.compConf.bfLabel) { this.customCompCode += `bfLabel="${this.compConf.bfLabel}"`; }
 
@@ -82,7 +95,9 @@ $checkbox-disabled-border: darken($disabled-color, 3%) !default;`;
 
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.upComp();
+  }
 
 }
 

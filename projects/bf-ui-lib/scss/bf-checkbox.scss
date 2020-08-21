@@ -21,7 +21,23 @@ $checkbox-disabled-border: darken($disabled-color, 3%) !default;
 
 bf-checkbox {
   display: inline-block;
+
   &.block { display: block; }
+  &[class*="col-"] { display: block; }
+
+  &.pad-input { padding-top: 7px; }
+  &.pad-btn   { padding-top: 8.5px; }
+  &.pad-form  { padding-top: 30px; }
+
+  &.flat div.checkbox { max-height: 20px; }
+
+  &.revert {
+    div.checkbox label input[type=checkbox]:checked + span.check-box {
+      background: $white;
+      &:before { color: $primary_color; }
+    }
+  }
+
 
   div.checkbox {
     display: inline-block;
@@ -47,11 +63,13 @@ bf-checkbox {
 
         // Generate a box over the input to mock the checkbox
         + span.check-box {
-          width: 20px;
           height: 20px;
+          width: 20px;
+          min-width: 20px;
           text-align: center;
-          line-height: 15px;
-          padding: 1.5px 0;
+          //line-height: 1;
+          line-height: 16px; // Mozilla aligns it different
+          @supports (-moz-appearance:none) { line-height: 15px; }
           cursor: pointer;
           border-width: 1px;
           border-style: solid;
@@ -64,8 +82,8 @@ bf-checkbox {
           &:before {
             opacity: 0;
             font-size: 12px;
-            padding: 0 3px; // 12(font-size) + 1+1(border) + 3+3(padding) = 20px
-            vertical-align: bottom;
+            line-height: 1;
+            vertical-align: baseline;
           }
         }
 

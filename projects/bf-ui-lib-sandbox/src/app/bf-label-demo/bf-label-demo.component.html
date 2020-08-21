@@ -20,7 +20,8 @@ It also makes use of the translation service (if present), to automatically tran
         <!--<bf-label class="text-18" bfValue="view.common.field_name"></bf-label>-->
         <!--<bf-label class="text-24" bfValue="view.common.field_name"></bf-label>-->
 
-        <bf-label [class.no-colon]="compConf.hasNoColon"
+        <bf-label [class.block]="compConf.hasBlock"
+                  [class.no-colon]="compConf.hasNoColon"
                   [class.colon]="compConf.hasColon"
                   [class.value-inline]="compConf.hasValueInline"
                   [class.value-list]="compConf.hasValueList"
@@ -81,6 +82,7 @@ It also makes use of the translation service (if present), to automatically tran
 
       <div class="row padT10">
         <div class="col-12"><hr></div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasBlock" (ngModelChange)="upComp()" bfLabel="block" bfTooltip="Applies display: block;"></bf-checkbox> </div>
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasNoColon" (ngModelChange)="upComp()" bfLabel="no-colon"></bf-checkbox> </div>
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasColon" (ngModelChange)="upComp()" bfLabel="colon"></bf-checkbox> </div>
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasValueInline" (ngModelChange)="upComp()" bfLabel="value-inline"></bf-checkbox> </div>

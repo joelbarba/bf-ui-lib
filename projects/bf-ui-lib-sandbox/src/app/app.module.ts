@@ -127,7 +127,8 @@ import {BfInputAutofillDemoComponent} from './bf-input-demo/ex4-autofill/bf-inpu
     NgbDatepickerModule,
     FormsModule,
     ReactiveFormsModule,
-    BfUiLibModule.forRoot({ trans: {
+    BfUiLibModule.forRoot({
+      trans: {
         useExisting: BfTranslateService
       }
     }),
@@ -136,7 +137,8 @@ import {BfInputAutofillDemoComponent} from './bf-input-demo/ex4-autofill/bf-inpu
         provide: TranslateLoader,
         useClass: BfTranslateLoader
       }
-    })
+    }),
+    NgbTooltipModule
   ],
   bootstrap: [AppComponent]
 })
