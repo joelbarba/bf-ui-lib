@@ -59,7 +59,7 @@ import {BfInputAsyncValidatorDemoComponent} from './bf-input-demo/ex2-async-vali
 import {BfInputControlsDemoComponent} from './bf-input-demo/ex3-controls/bf-input-controls-demo.component';
 import {BfInputAutofillDemoComponent} from './bf-input-demo/ex4-autofill/bf-input-autofill-demo.component';
 import { BfListCheckboxDemoComponent } from './bf-list-checkbox-demo/bf-list-checkbox-demo.component';
-import {BfListSelectionDemoComponent} from "./bf-list-selection-demo/bf-list-selection-demo.component";
+import {BfListSelectionDemoComponent} from './bf-list-selection-demo/bf-list-selection-demo.component';
 
 
 @NgModule({

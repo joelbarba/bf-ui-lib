@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {BfListHandler, ListStatus} from '../../../../bf-ui-lib/src/lib/bf-list-handler/bf-list-handler';
 import {BfListSelection} from '../../../../bf-ui-lib/src/lib/bf-list-selection/bf-list-selection';
-import {BfGrowlService} from "../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service";
+import {BfGrowlService} from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service';
 
 
 @Component({
