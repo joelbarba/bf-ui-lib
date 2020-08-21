@@ -45,8 +45,15 @@ export const BfListCheckboxDoc = {
   name    : `bf-list-checkbox`,
   uiType  : 'component',
   desc    : `Generates a checkbox to be placed inside a list row for multiple item selection.`,
-  api     : `[selection] : The BfListSelection object to control the multiselection
-[id]        : If provided, the identification of the row element to select. If not, it behaves as a full page selector. `,
+  api     : `[selection]   : The BfListSelection object to control the multi selection
+[id]          : If provided, the identification of the row element to select. If not, it behaves as a full page selector. 
+[actions]     : In case of a header checkbox (no id), you can pass an array of actions to generate an expandable list. The action object has:
+                    label     : string  --> Translate label to display the name of the action
+                    disabled ?: boolean --> To disable the action
+                    fn       ?: (sel?: BfListSelection) => void }]  --> Callback function when the action is clicked
+
+(actionClick) : Apart from the callback function, you can also use this emitter to react to action clicks.   
+`,
   instance: `<bf-list-checkbox></bf-list-checkbox>`,
   demoComp: BfListCheckboxDemoComponent
 };

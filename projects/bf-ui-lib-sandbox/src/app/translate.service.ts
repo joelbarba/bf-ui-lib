@@ -129,6 +129,7 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.description': 'Description',
     'view.common.error.invalid_option': 'Invalid Option',
     'views.dropdown.placeholder': '--- Select Item ---',
+    'view.common.actions': 'Actions',
   };
   public transDictCAT = {
     'view.common.name'            : 'Nom',
@@ -176,6 +177,7 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.description': 'Descripción',
     'view.common.error.invalid_option': 'Opció incorrecta',
     'views.dropdown.placeholder': '--- Tria Quelcom ---',
+    'view.common.actions': 'Accions',
   };
 
   public transDict$ = new BehaviorSubject(this.transDict);

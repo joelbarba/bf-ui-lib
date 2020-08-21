@@ -1,5 +1,5 @@
 import {BfListHandler} from '../bf-list-handler/bf-list-handler';
-import {isObservable, Observable, Subscription} from 'rxjs';
+import {BehaviorSubject, isObservable, Observable, Subscription} from 'rxjs';
 
 
 export class BfListSelection {
@@ -8,12 +8,16 @@ export class BfListSelection {
   public isPageChecked = false; // Whether the current page has all items selected
   public resetOnFilter = true;  // If true, onFiltersChange$ empties the selection
   public list;                  // List of items rendered on the current page
+  public count = 0;             // Length of the selection
+  public onChange$: BehaviorSubject<{}>; // To react to any change on the selection
 
   // The param can be:
   // 1 - A BfListHandler object
   // 2 - An observable emitting the array of items (renderList$)
   // 3 - An array with the list of items (renderedList)
   constructor(param: BfListHandler | Observable<Array<{}>> | Array<{}>) {
+    this.onChange$ = new BehaviorSubject(this.ids);
+
     let list$;
     if (param instanceof BfListHandler) {
       list$ = param.renderList$;
@@ -38,6 +42,8 @@ export class BfListSelection {
   public resetSel = () => { this.ids = {}; this.refresh(); };
   public refresh = () => {
     this.isPageChecked = this.list && this.list.length && this.list.every(item => this.ids[item.id]);
+    this.count = Object.keys(this.ids).length;
+    this.onChange$.next(this.ids);
   }
 
   public toggleCheck = (id: string, value = !this.ids[id]) => {

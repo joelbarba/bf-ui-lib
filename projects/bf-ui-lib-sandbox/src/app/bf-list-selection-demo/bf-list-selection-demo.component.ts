@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {BfListHandler, ListStatus} from '../../../../bf-ui-lib/src/lib/bf-list-handler/bf-list-handler';
 import {BfListSelection} from '../../../../bf-ui-lib/src/lib/bf-list-selection/bf-list-selection';
+import {BfGrowlService} from "../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service";
 
 
 @Component({
@@ -61,6 +62,41 @@ this.mySel.getSelection(); / this.mySel.ids;
   </li>
 </ul>`;
 
+  example3 = `<ul class="list-unstyled table-list">
+  <li class="list-header">
+    <bf-list-header-col class="mobile" ...
+  
+    <bf-list-checkbox class="actions-pad" [selection]="sel"
+                      [actions]="actions" (actionClick)="triggerAction($event)">
+    </bf-list-checkbox>
+
+    <bf-list-header-col class="col-2" ...
+    <bf-list-header-col class="col-2" ...
+  </li>
+  <li class="list-row">
+    <bf-mobile-list-row ...
+  
+    <bf-list-checkbox class="actions-pad" [selection]="sel" [id]="item.id">
+      <span class="icon-aid-kit"></span>
+      <span class="icon-warning2"></span>
+      <span class="icon-spam"></span>
+    </bf-list-checkbox>
+                     
+    </bf-list-checkbox>  
+    <div class="col-2">...</div>
+    <div class="col-2">...</div>
+  </li>
+</ul>`;
+
+  example4 = `public myList = new BfListHandler({ ... });
+public mySel = new BfListSelection(this.myList);
+
+public actions = [
+  { id: 1, label: 'Delete all',    disabled: false, fn: (sel) => ... },
+  { id: 2, label: 'Move all',      disabled: true,  fn: (sel) => ... },
+  { id: 3, label: 'Link selected', disabled: false, fn: (sel) => ... },
+];`;
+
 
 
   public status = ListStatus;
@@ -100,14 +136,20 @@ this.mySel.getSelection(); / this.mySel.ids;
     rowsPerPage: 5,
   });
 
-
   // public sel: BfListSelection;
   public sel = new BfListSelection(this.myList);
   // public sel = new BfListSelection(this.myList.renderList$);
   // public sel = new BfListSelection(this.myList.renderedList);
 
+  public actions = [
+    { id: 1, label: 'Delete all',          disabled: false, fn: (sel) => console.log('Delete action', sel) },
+    { id: 2, label: 'Move all',            disabled: true,  fn: (sel) => console.log('Move action', sel) },
+    { id: 3, label: 'Link selected items', disabled: false, fn: (sel) => console.log('Link action', sel) },
+  ];
 
-  constructor() { }
+  constructor(
+    private growl: BfGrowlService,
+  ) { }
 
   ngOnInit() {
     this.myList.load(this.itemsList);
@@ -124,6 +166,10 @@ this.mySel.getSelection(); / this.mySel.ids;
     this.myList.loadedList.forEach(item => this.sel.toggleCheck(item.id, true));
   }
 
+  public triggerAction(action) {
+    this.growl.success(`Action ${action.label} performed on a multiple selection: ${this.sel.getSelection()}`);
+  }
+
 }
 
 
@@ -138,8 +184,10 @@ export const BfListSelectionDoc = {
 
 ids: {};                    Object list with the selected keys (ids)
 list: [];                   Reference to the list of items rendered on the current page of the list (renderedList)
+count: number               Current number of selected items
 isPageChecked: boolean;     Whether the current page has all items selected or not
 resetOnFilter: boolean;     If true and using a BfListHandler, onFiltersChange$ empties the selection automatically
+onChange$: BehaviorSubject  Emits the new list of selected items every time it changes
 
 destroy() ................. In case of using observables, to destroy subscriptions. 
 getSelection() ............ Returns the selected ids with an array = Object.keys(this.ids).
