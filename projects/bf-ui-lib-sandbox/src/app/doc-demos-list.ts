@@ -35,3 +35,4 @@ export { BfModalHeaderDoc } from './bf-modal-header-demo/bf-modal-header-demo.co
 export { BfSectionHeaderDoc } from './bf-section-header-demo/bf-section-header-demo.component';
 export { BfDndDemoDoc } from './bf-dnd-demo/bf-dnd-demo.component';
 export { BfListCheckboxDoc } from './bf-list-checkbox-demo/bf-list-checkbox-demo.component';
+export { BfListSelectionDoc } from './bf-list-selection-demo/bf-list-selection-demo.component';

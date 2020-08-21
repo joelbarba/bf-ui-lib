@@ -1,0 +1,107 @@
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+
+<p>Use an instance of this class to generate al multi selector handler for lists.
+<br>It keeps track of the current selected items, exposing them on the <b>ids</b> object. It also
+provides the methods to interact with the selection, item by item or selecting one group/page at once.
+</p>
+
+<p>To simplify the usage of the selection in the view you can combine it with the <a href="/bf-list-checkbox"><b>{{compInst}}</b></a>
+</p>
+
+<div class="col-12"><pre>{{api}}</pre></div>
+
+<hr>
+<h5 class="marB20">Example:</h5>
+<div class="marB10">
+  Selected IDs: {{ sel.getSelection() | json }}
+</div>
+
+<div class="row whiteBg padB10">
+  <bf-input class="col-4"
+            bfIcon="icon-search"
+            bfPlaceholder="view.common.search"
+            [bfAutoFocus]="true"
+            [(ngModel)]="myList.filterText"
+            (ngModelChange)="myList.filter($event)">
+  </bf-input>
+  <bf-switch class="col-2" [(ngModel)]="sel.resetOnFilter"
+             bfOnText="true" bfOffText="false"
+             bfLabel="resetOnFilter" bfLabelPos="left">
+  </bf-switch>
+
+  <div class="col-6 text-right">
+    <bf-btn bfType="secondary" bfIcon="icon-eye" bfText="Get Selection" (bfClick)="getSel()"></bf-btn>
+    <bf-btn bfType="save" bfText="Select All" (bfClick)="selectAll()"></bf-btn>
+    <bf-btn bfType="save" bfText="Reset All" (bfClick)="sel.resetSel()"></bf-btn>
+  </div>
+</div>
+
+<div class="row" [show]="myList.loadingStatus <= status.LOADING || myList.totalFiltered > 0">
+  <div class="col-12">
+    <ul class="list-unstyled table-list">
+      <li class="list-header">
+        <bf-list-header-col class="mobile" colTitle="Username"    fieldName="username"    [orderConf]="myList.orderConf"></bf-list-header-col>
+
+        <!--<bf-checkbox class="col-1" [ngModel]="sel.isPageChecked" (ngModelChange)="sel.togglePage()"></bf-checkbox>-->
+        <!--<bf-list-checkbox [selection]="sel" [id]="rates.id"></bf-list-checkbox>-->
+        <bf-list-checkbox [selection]="sel"></bf-list-checkbox>
+
+        <bf-list-header-col class="col-2"  colTitle="Username"    fieldName="username"    [orderConf]="myList.orderConf"></bf-list-header-col>
+        <bf-list-header-col class="col-1"  colTitle="Id"          fieldName="id"          [orderConf]="myList.orderConf"></bf-list-header-col>
+        <bf-list-header-col class="col-3"  colTitle="Email"       fieldName="email"       [orderConf]="myList.orderConf"></bf-list-header-col>
+        <bf-list-header-col class="col-3"  colTitle="First Name"  fieldName="first_name"  [orderConf]="myList.orderConf"></bf-list-header-col>
+        <bf-list-header-col class="col-3"  colTitle="Last Name"   fieldName="last_name"   [orderConf]="myList.orderConf"></bf-list-header-col>
+      </li>
+
+      <li class="list-row" *ngFor="let item of myList.renderList$ | async">
+
+        <!--<bf-checkbox class="col-1" [ngModel]="sel.ids[rate.id]" (ngModelChange)="sel.toggleCheck(rate.id)"></bf-checkbox>-->
+        <bf-list-checkbox [selection]="sel" [id]="item.id"></bf-list-checkbox>
+
+
+        <div class="col-2">{{item.username}}</div>
+        <div class="col-1">{{item.id}}</div>
+        <div class="col-3">{{item.email}}</div>
+        <div class="col-3">{{item.first_name}}</div>
+        <div class="col-2">{{item.last_name}}</div>
+        <div class="col-1 text-right">
+          <bf-btn bfType="edit-icon"></bf-btn>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="row whiteBg" [show]="myList.totalFiltered > 5">
+  <bf-list-paginator class="col-12 mobile-sm" [bfCtrl]="myList" bfShowSelector="true"></bf-list-paginator>
+</div>
+<div class="row whiteBg" [show]="myList.loadingStatus > status.LOADING && myList.totalFiltered === 0">
+  <bf-no-data class="col-12 size-md" [bfIsPlaceholder]="true" bfIcon="icon-blocked" bfTitle="No Results"></bf-no-data>
+</div>
+
+
+
+
+
+<hr>
+<div class="row">
+  <div class="col-6">
+    <p>Usage in a common list:</p>
+    <div class="examples-table">
+      <div class="code-box padV10 padH15">
+        <pre style="font-size: 16px;">{{example1}}</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <p>Usage without bf-list-checkbox:</p>
+    <div class="examples-table">
+      <div class="code-box padV10 padH15">
+        <pre style="font-size: 16px;">{{example2}}</pre>
+      </div>
+    </div>
+  </div>
+</div>

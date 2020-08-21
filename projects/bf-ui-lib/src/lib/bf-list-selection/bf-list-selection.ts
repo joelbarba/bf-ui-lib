@@ -49,8 +49,7 @@ export class BfListSelection {
     this.refresh();
   };
 
-  public togglePage = () => {
-    const nextValue = !this.isPageChecked;
-    this.list.forEach(rate => this.toggleCheck(rate.id, nextValue));
+  public togglePage = (value = !this.isPageChecked) => {
+    this.list.forEach(rate => this.toggleCheck(rate.id, value));
   };
 }

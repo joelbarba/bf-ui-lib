@@ -36,10 +36,10 @@ export const compList = [
   docs.BfConfirmDoc,
   docs.BfPrototypesDoc,
   docs.BfListHandlerDoc,
+  docs.BfListSelectionDoc,
   docs.BfPromiseDoc,
   docs.BfDeferDoc,
 ];
-
 
 
 /* {
