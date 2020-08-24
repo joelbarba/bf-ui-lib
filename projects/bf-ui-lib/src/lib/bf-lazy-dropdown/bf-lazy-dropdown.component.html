@@ -1,0 +1,71 @@
+<div class="form-group dropdown-form-group"
+     (keydown)="triggerKey($event)"
+     [class.is-required]="bfRequired"
+     [class.is-disabled]="bfDisabled"
+     [class.is-focus]="isFocus || isExpanded"
+     [class.is-error]="showError">
+
+  <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
+    <span class="info-badge" *ngIf="!!bfTooltip"
+          [ngbTooltip]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
+          [container]="(bfTooltipBody ? 'body' : '')">
+      <span class="icon-info"></span>
+    </span>
+    <span>{{bfLabelTrans$ | async}}</span>:
+    <span *ngIf="bfRequired" class="asterisk">*</span>
+  </label>
+
+  <!--Error Message-->
+  <span *ngIf="showError && errorPosition !== 'none'"
+        class="dropdown-error-text"
+        [class.pull-up]="!bfLabel"
+        [class.default]="errorPosition === 'default'"
+        [class.top-right]="errorPosition === 'top-right'"
+        [class.bottom-left]="errorPosition === 'bottom-left'"
+        [class.bottom-right]="errorPosition === 'bottom-right'">
+    {{errorTextTrans$ | async}}
+  </span>
+
+
+  <div class="dropdown" [class.is-expanded]="isExpanded && !isLoading" [class.expand-upward]="expandUpward">
+    <div class="input-group"
+         [disableTooltip]="!bfDisabled || !bfDisabledTip"
+         [ngbTooltip]="bfDisabledTipTrans$ | async">
+
+      <input type="text" class="form-control" #dropdownInput
+             [(ngModel)]="inputText" (ngModelChange)="typing$.next($event)"
+             [placeholder]="bfPlaceholderTrans$ | async"
+             [disabled]="bfDisabled"
+             (focusin)="expandList()"
+             (focusout)="collapseList()">
+
+      <div class="input-group-append" (click)="!bfDisabled && onInputBtnClick()">
+        <button class="btn btn-outline-secondary" [disabled]="bfDisabled ? 'true' : ''" tabIndex="-1">
+          <span [hidden]="isLoading"
+                [ngClass]="!inputText ? 'icon-search' : 'icon-cross'"
+                (click)="!!inputText && clear()"
+          ></span>
+          <span [hidden]="!isLoading" class="loading"></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="list-container" #listContainer
+         *ngIf="isExpanded"
+         [class.list-upward]="expandUpward">
+      <div *ngFor="let item of list" class="option-row" #optionRow
+           [class.selected]="bfModel === item"
+           [class.candidate]="bfCandidate === item"
+           (mouseenter)="!ignoreHover$ && (bfCandidate = item)"
+           (mouseleave)="!ignoreHover$ && (bfCandidate = null)"
+           (mousedown)="selectItem(item)">
+        <span>{{item.$renderedText}}</span>
+      </div>
+      <div *ngIf="showNoResultLabel()" class="option-row">
+        <span>{{noResultLabel | async}}</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+

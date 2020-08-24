@@ -56,3 +56,4 @@ export * from './lib/bf-range-slider/bf-range-slider.component';
 export * from './lib/bf-modal-header/bf-modal-header.component';
 
 export * from './lib/bf-color-picker/bf-color-picker.component';
+export * from './lib/bf-lazy-dropdown/bf-lazy-dropdown.component';

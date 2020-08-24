@@ -58,6 +58,7 @@ import {BfInputValidatorsDemoComponent} from './bf-input-demo/ex1-validators/bf-
 import {BfInputAsyncValidatorDemoComponent} from './bf-input-demo/ex2-async-validation/bf-input-async-validator-demo.component';
 import {BfInputControlsDemoComponent} from './bf-input-demo/ex3-controls/bf-input-controls-demo.component';
 import {BfInputAutofillDemoComponent} from './bf-input-demo/ex4-autofill/bf-input-autofill-demo.component';
+import { BfLazyDropdownDemoComponent } from './bf-lazy-dropdown-demo/bf-lazy-dropdown-demo.component';
 
 
 @NgModule({
@@ -115,6 +116,7 @@ import {BfInputAutofillDemoComponent} from './bf-input-demo/ex4-autofill/bf-inpu
     BfDndDemo4Component,
     BfDndDemo5Component,
     BfDndDemo6Component,
+    BfLazyDropdownDemoComponent,
   ],
   entryComponents: [
     BfNoDataComponent, 

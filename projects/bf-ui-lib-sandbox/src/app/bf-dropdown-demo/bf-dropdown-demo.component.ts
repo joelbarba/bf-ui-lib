@@ -290,7 +290,7 @@ export const BfDropdownDoc = {
   desc    : `Generates a dropdown selector list.`,
   api     : `*[(ngModel)]         : The model holding the value of the selected item.
 *[bfList]            : Array of objects with representing the list to be displayed when expanded.
-[bfSelect]           : Field to be set to the ngModel once selected (property from bfList items). If empty, the full object is set. 
+[bfSelect]           : Field to be set to the ngModel once selected (property from bfList items). If empty, the full object is set.
                        You can also select multiple properties with a keyMap list 'prop1, prop2, ...'
 [bfRender]           : Field to display on the list (property from bfList items).
                          If empty, a row with all properties will be displayed.
@@ -299,7 +299,7 @@ export const BfDropdownDoc = {
                        It overrides [bfRender]. The function is passed 'item' and 'index' parameters.
 [bfRenderImg]        : Name of the field containing the url of the image to display on the item ("img" by default)
 [bfRenderIcon]       : Name of the field containing the css class of the (icomoon) icon to display on the item ("icon" by default)
-[bfOrderBy]          : Field (or fields separated by ,). If prefixed by '-', desc order is applied for the field. 
+[bfOrderBy]          : Field (or fields separated by ,). If prefixed by '-', desc order is applied for the field.
 [bfLabel]            : If provided, a <bf-label> is added above the selector with the given text
 [bfTooltip]          : If label provided, adds a info badge with a tooltip (automatically translated)
 [bfTooltipPos]       : Position of the tooltip (top by default)
@@ -318,9 +318,9 @@ export const BfDropdownDoc = {
 [bfFilterFn]         : Custom function to perform the list filtering. It should return a sub-array with the filtered items.
 [bfLoading]          : To show a loading spinner on the left button.
                        Either a boolean (true=show, false=hide), or a promise that will automatically show the spinner while not resolved,
-                       or an observable that emits a boolean (true=loading, false=loaded) 
+                       or an observable that emits a boolean (true=loading, false=loaded)
 [bfCustomPlacementList] : By default the list expands up/down depending on its position on the screen. To force it: 'top' | 'bottom'.
-  
+
 [extCtrl$]           : Observable to trigger actions. Its .next() should emit an object with "action"/"value"
 (bfOnLoaded)         : Emitter to catch the moment when the component is ready. It also emits the control object.
 (bfBeforeChange)     : Emitter to catch the next value before it is set. It returns both (currentValue, nextValue)

@@ -35,3 +35,5 @@ export { BfModalHeaderDoc } from './bf-modal-header-demo/bf-modal-header-demo.co
 export { BfSectionHeaderDoc } from './bf-section-header-demo/bf-section-header-demo.component';
 export { BfDndDemoDoc } from './bf-dnd-demo/bf-dnd-demo.component';
 import { BfColorPickerDoc } from './bf-color-picker-demo/bf-color-picker-demo.component';
+export { BfLazyDropdownDoc } from './bf-lazy-dropdown-demo/bf-lazy-dropdown-demo.component';
+

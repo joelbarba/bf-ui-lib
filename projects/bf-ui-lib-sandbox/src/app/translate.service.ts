@@ -104,6 +104,7 @@ export class BfTranslateService extends BfUILibTransService {
     'views.common.50_items_per_page'    : 'Show 50 items per page',
     'views.common.100_items_per_page'   : 'Show 100 items per page',
     'views.item_number'   : 'Item number {{id}} - {{name}}',
+    'views.item_number_lazy'   : 'Item number {{id}} - {{first_name}}',
     'view.common.search'  :  'Search',
     'view.common.edit'    :  'Edit',
     'view.common.save'    :  'Save',
@@ -129,7 +130,10 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.description': 'Description',
     'view.common.error.invalid_option': 'Invalid Option',
     'views.dropdown.placeholder': '--- Select Item ---',
+    'views.lazy_dropdown.label': 'Search an email',
+    'views.lazy_dropdown.placeholder': 'Search user email',
   };
+
   public transDictCAT = {
     'view.common.name'            : 'Nom',
     'view.common.username'        : `Nom d'usuari`,
@@ -157,6 +161,7 @@ export class BfTranslateService extends BfUILibTransService {
     'views.common.50_items_per_page'    : 'Mostra 50 ítems per pàgina',
     'views.common.100_items_per_page'   : 'Mostra 100 ítems per pàgina',
     'views.item_number'   : 'La cosa número {{id}} - {{name}}',
+    'views.item_number_lazy'   : 'La cosa número {{id}} - {{first_name}}',
     'view.common.search'  :  'Buscar',
     'view.common.edit'    :  'Editar',
     'view.common.save'    :  'Guardar',

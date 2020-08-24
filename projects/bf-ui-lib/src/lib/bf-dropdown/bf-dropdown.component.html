@@ -8,7 +8,7 @@
 <!--<br> bfCandidate={{bfCandidate?.id + ' - ' +  bfCandidate?.email}}-->
 <!--errors={{errors | json}}-->
 
-<div class="form-group bf-dropdown-form-group"
+<div class="form-group dropdown-form-group"
      (keydown)="triggerKey($event)"
      [class.is-required]="bfRequired"
      [class.is-disabled]="bfDisabled"
@@ -27,7 +27,7 @@
 
   <!--Error Message-->
   <span *ngIf="showError && errorPosition !== 'none'"
-        class="bf-dropdown-error-text"
+        class="dropdown-error-text"
         [class.pull-up]="!bfLabel"
         [class.default]="errorPosition === 'default'"
         [class.top-right]="errorPosition === 'top-right'"
@@ -37,7 +37,7 @@
   </span>
 
 
-  <div class="bf-dropdown" [class.is-expanded]="isExpanded" [class.expand-upward]="expandUpward">
+  <div class="dropdown" [class.is-expanded]="isExpanded" [class.expand-upward]="expandUpward">
     <div class="input-group"
          [disableTooltip]="!bfDisabled || !bfDisabledTip"
          [ngbTooltip]="bfDisabledTipTrans$ | async">
