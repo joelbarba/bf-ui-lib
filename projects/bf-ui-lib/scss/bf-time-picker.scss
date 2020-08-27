@@ -17,6 +17,10 @@ bf-time-picker {
     cursor: pointer !important;
   }
 
+  .dropdown-toggle:after {
+    content: none;
+  }
+
   // Expandable box
   .dropdown .dropdown-menu {
     width: 365px;
