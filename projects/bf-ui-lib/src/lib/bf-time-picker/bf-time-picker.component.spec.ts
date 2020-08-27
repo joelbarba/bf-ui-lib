@@ -15,18 +15,20 @@ import { BfDate } from '../bf-prototypes/bf-prototypes';
 
 // enable prototypes for test. Error is thrown when the global run is used this will be a temporary measure
 for (const proFn in BfDate) {
-  Date.prototype[proFn] = BfDate[proFn]
+  if (BfDate.hasOwnProperty(proFn)) {
+    Date.prototype[proFn] = BfDate[proFn];
+  }
 }
 
 const assertDate = (value: Date, valueToTest: Date): boolean => {
   return value.toUTCString() === valueToTest.toUTCString();
-}
+};
 
 const updateFixture = (fixture: ComponentFixture<BfTimePickerComponent>): void => {
   fixture.detectChanges();
   tick();
   flushMicrotasks();
-}
+};
 
 describe('BfTimePickerComponent', () => {
   let component: BfTimePickerComponent;
@@ -147,7 +149,7 @@ describe('BfTimePickerComponent', () => {
 
     const changes = {
       bfSelectedTime: new SimpleChange(component.bfSelectedTime, selectedTime, false)
-    }
+    };
 
     component.ngOnChanges(changes);
     updateFixture(fixture);
@@ -165,7 +167,7 @@ describe('BfTimePickerComponent', () => {
 
     const changes = {
       bfMinTime: new SimpleChange(component.bfMinTime, minTime, false)
-    }
+    };
 
     component.ngOnChanges(changes);
     updateFixture(fixture);
@@ -183,7 +185,7 @@ describe('BfTimePickerComponent', () => {
 
     const changes = {
       bfMaxTime: new SimpleChange(component.bfMaxTime, maxTime, false)
-    }
+    };
 
     component.ngOnChanges(changes);
     updateFixture(fixture);
@@ -486,7 +488,7 @@ describe('BfTimePickerComponent', () => {
   it('should emit an event when onSave is called', fakeAsync(() => {
     const selectedTimeChangeSpy = spyOn(component.bfSelectedTimeChange, 'emit').and.callFake(() => {});
     const initialDate = new Date('2020-08-24');
-    component.bfSelectedTime = initialDate
+    component.bfSelectedTime = initialDate;
     fixture.detectChanges();
 
     component.onSave({ close: () => {} } as NgbDropdown);

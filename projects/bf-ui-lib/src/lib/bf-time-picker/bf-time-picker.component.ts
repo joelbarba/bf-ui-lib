@@ -6,13 +6,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map, filter, distinctUntilChanged } from 'rxjs/operators';
 
 interface FollowingValues {
-  hours: number,
-  minutes: number
+  hours: number;
+  minutes: number;
 }
 
 interface SupportedTimezones {
-  country_code: string
-  time_zone: string
+  country_code: string;
+  time_zone: string;
 }
 
 @Component({
@@ -29,7 +29,7 @@ export class BfTimePickerComponent implements OnInit, OnChanges {
   @Input() bfIsDisabled: boolean; // if the input should be disabled
   @Input() bfMinTime: Date; // The minimum allowed time
   @Input() bfMaxTime: Date; // the maxium allowed time
-  @Input() bfPlacement: string = 'bottom'; // the position of the dropdown container default to bottom
+  @Input() bfPlacement = 'bottom'; // the position of the dropdown container default to bottom
 
   @Output() bfSelectedTimeChange: EventEmitter<Date> = new EventEmitter(); // An event emitted when the date/time has been updated
   @Output() bfSelectedTimezoneChange: EventEmitter<string> = new EventEmitter(); // An event emitted when the timezone has changed
@@ -85,7 +85,7 @@ export class BfTimePickerComponent implements OnInit, OnChanges {
   }
 
   public isButtonDisabled() {
-    return this.bfIsDisabled || !this.bfSupportedTimezones
+    return this.bfIsDisabled || !this.bfSupportedTimezones;
   }
 
   public onDateChanged(newDate: any) {
@@ -159,25 +159,25 @@ export class BfTimePickerComponent implements OnInit, OnChanges {
         map((date: Date) => date.getHours()),
         map(this.padNumberString),
         distinctUntilChanged()
-      )
+      );
   }
 
-  public onMouseWheelHours(event: MouseWheelEvent): void {
+  public onMouseWheelHours(event: WheelEvent): void {
     event.stopPropagation();
     event.preventDefault();
 
     event.deltaY > 0
       ? this.decrementHours()
-      : this.incrementHours()
+      : this.incrementHours();
   }
 
-  public onMouseWheelMinutes(event: MouseWheelEvent): void {
+  public onMouseWheelMinutes(event: WheelEvent): void {
     event.stopPropagation();
     event.preventDefault();
 
     event.deltaY > 0
       ? this.decrementMinutes()
-      : this.incrementMinutes()
+      : this.incrementMinutes();
   }
 
   /**
@@ -189,7 +189,7 @@ export class BfTimePickerComponent implements OnInit, OnChanges {
     const currentHour = currentTime.getHours();
     const updatedTime = new Date(currentTime);
 
-    let updatedHours = currentHour + 1
+    let updatedHours = currentHour + 1;
 
     if (updatedHours > 23) {
       updatedHours = 0;
@@ -203,7 +203,7 @@ export class BfTimePickerComponent implements OnInit, OnChanges {
       // if we increase an hour we need to check if the minute value is valid if not a call to update the minutes will be made
       if (this.isUpdatingMaximumMinutesRequired(updatedTime, this.bfMaxTime)) {
         updatedTime.setMinutes(this.bfMaxTime.getMinutes());
-        this.incrementMinutes(updatedTime)
+        this.incrementMinutes(updatedTime);
       }
       this.updateSuggestedTime(updatedTime);
       return;
@@ -245,7 +245,7 @@ export class BfTimePickerComponent implements OnInit, OnChanges {
     const currentMinutes = currentTime.getMinutes();
     const updatedTime = new Date(currentTime);
 
-    let updateMinutes = currentMinutes + 1;
+    const updateMinutes = currentMinutes + 1;
 
     if (updateMinutes > 59) {
       updatedTime.setMinutes(0);
@@ -330,7 +330,7 @@ export class BfTimePickerComponent implements OnInit, OnChanges {
 
           returnValues.after = isGreaterThanMax
             ? returnValues.after
-            : { hours: hoursAfter, minutes: minutesAfter }
+            : { hours: hoursAfter, minutes: minutesAfter };
 
           return returnValues;
         })

@@ -40,7 +40,7 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
 
   @Input() bfErrorPos = 'top-right';  // top-right, bottom-left, bottom-right
   @Input() bfErrorText: string;       // Error text to display when invalid value
-  @Input() bfIsInlineDatePicker: boolean // flag to determine if the date-picker should be inline or not
+  @Input() bfIsInlineDatePicker: boolean; // flag to determine if the date-picker should be inline or not
 
   @ViewChild('dpRef', { static: true }) datePickerRef: NgbInputDatepicker;
 

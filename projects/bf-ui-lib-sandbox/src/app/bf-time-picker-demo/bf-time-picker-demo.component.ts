@@ -47,7 +47,7 @@ $disabled_input_color : $disabled-color;
       [bfLocale]="locale">
     </bf-time-picker>`;
 
-  public compConf:any = {
+  public compConf: any = {
     isDisabled: false,
     minTime: null,
     maxTime: null
