@@ -31,10 +31,13 @@
 
       <div class="row marT15">
         <div class="col-5">
-          <bf-date-picker bfLabel="Min Date" [(ngModel)]="compConf.minTime" (ngModelChange)="upComp()"></bf-date-picker>
+          <bf-time-picker bfLabel="Min Datetime" [(bfSelectedTime)]="compConf.minTime" [bfSupportedTimezones]="supportedTimezones" (bfSelectedTimeChange)="upComp()"></bf-time-picker>
         </div>
+      </div>
+
+      <div class="row marT15">
         <div class="col-5">
-          <bf-date-picker bfLabel="Max Date" [(ngModel)]="compConf.maxTime" (ngModelChange)="upComp()"></bf-date-picker>
+          <bf-time-picker bfLabel="Max Datetime" [(bfSelectedTime)]="compConf.maxTime" [bfSupportedTimezones]="supportedTimezones" (bfSelectedTimeChange)="upComp()"></bf-time-picker>
         </div>
       </div>
     </div>

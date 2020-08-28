@@ -21,7 +21,7 @@ import {DatePipe} from '@angular/common';
     }
   ]
 })
-export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
+export class BfDatePickerComponent implements OnChanges, OnDestroy, ControlValueAccessor {
   private ngControl;  // Reference to the parent model controller
   public bfModel: NgbDateStruct; // Internal to hold the ngModel inside the wrapper
 
@@ -85,11 +85,6 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
       return null; // valid
     }
   };
-
-
-
-  ngOnInit() {
-  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (!!changes.bfLocale) { this.onInternalModelChange(true); }

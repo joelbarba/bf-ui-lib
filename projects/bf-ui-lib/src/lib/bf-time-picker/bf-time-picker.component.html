@@ -1,5 +1,6 @@
+<bf-label [bfText]="bfLabel"></bf-label>
 <div ngbDropdown [autoClose]="false" [placement]="bfPlacement" #timePickerDropdown="ngbDropdown">
-  <div class="input-group" ngbDropdownToggle>
+  <div class="input-group" ngbDropdownToggle [attr.disabled]="isButtonDisabled()">
     <input type="text" class="form-control display-input" [ngModel]="getDisplayTime$() | async" disabled/>
     <span class="input-group-btn">
       <bf-btn bfIcon="icon-clock3" bfType="primary" [bfDisabled]="isButtonDisabled()"></bf-btn>
@@ -8,11 +9,11 @@
 
   <div ngbDropdownMenu>
     <div class="row uib-datepicker-popup">
-      <div class="card card-body card-sm date-picker-card" style="padding-right: 9px; padding-left: 10px;">
+      <div class="card card-body card-sm pl-2">
         <bf-date-picker
           [ngModel]="getFormattedTimeString$() | async"
           (ngModelChange)="onDateChanged($event)"
-          [bfIsInlineDatePicker]="'true'"
+          [bfIsInlineDatePicker]="true"
           [bfMinDate]="formatDate(bfMinTime)"
           [bfMaxDate]="formatDate(bfMaxTime)">
         </bf-date-picker>
@@ -22,16 +23,16 @@
     <div class="row temp-placeholder"></div>
 
     <div class="card card-body card-sm time-wrapper">
-      <div class="timezone-row" *ngIf="bfSupportedTimezones">
+      <div class="px-2" *ngIf="bfSupportedTimezones">
         <bf-dropdown class="full-width" [ngModel]="bfSelectedTimezone" [bfList]="bfSupportedTimezones" [bfPlaceholder]="'Timezone'" bfSelect="time_zone" bfRender="time_zone"  (ngModelChange)="onTimezoneChanged($event)"></bf-dropdown>
       </div>
 
-      <div class="text-center timepicker-row d-flex flex-row justify-content-around" *ngIf="(getFollowingValues$() | async) as followingValues">
+      <div class="text-center timepicker-row d-flex flex-row justify-content-around px-1" *ngIf="(getFollowingValues$() | async) as followingValues">
 
         <div class="arrows">
           <div class="d-flex flex-column arrows-right">
-            <bf-btn class="arrow-btn" bfType="primary" bfIcon="icon-arrow-up3" (click)="incrementHours()" [bfDisabled]="followingValues.after.hours === null"></bf-btn>
-            <bf-btn class="arrow-btn" bfType="primary" bfIcon="icon-arrow-down3" (click)="decrementHours()" [bfDisabled]="followingValues.before.hours === null"></bf-btn>
+            <bf-btn class="arrow-btn" bfType="primary" bfIcon="icon-arrow-up3" (click)="incrementHours()" [bfDisabled]="!followingValues.after.hours"></bf-btn>
+            <bf-btn class="arrow-btn" bfType="primary" bfIcon="icon-arrow-down3" (click)="decrementHours()" [bfDisabled]="!followingValues.before.hours"></bf-btn>
           </div>
         </div>
 
@@ -58,16 +59,15 @@
 
         <div class="arrows">
           <div class="d-flex flex-column arrows-left">
-            <bf-btn class="arrow-btn" bfType="primary" bfIcon="icon-arrow-up3" (click)="incrementMinutes()" [bfDisabled]="followingValues.after.minutes === null"></bf-btn>
-            <bf-btn class="arrow-btn" bfType="primary" bfIcon="icon-arrow-down3" (click)="decrementMinutes()" [bfDisabled]="followingValues.before.minutes === null"></bf-btn>
+            <bf-btn class="arrow-btn" bfType="primary" bfIcon="icon-arrow-up3" (click)="incrementMinutes()" [bfDisabled]="!followingValues.after.minutes"></bf-btn>
+            <bf-btn class="arrow-btn" bfType="primary" bfIcon="icon-arrow-down3" (click)="decrementMinutes()" [bfDisabled]="!followingValues.before.minutes"></bf-btn>
           </div>
         </div>
       </div>
 
     </div>
 
-    <div class="row float-right">
-      <div class="spacer20"></div>
+    <div class="d-flex flex-row justify-content-end mt-3">
       <bf-btn bfType="cancel" (click)="onCancel(timePickerDropdown)"></bf-btn>
       <bf-btn bfType="save" (click)="onSave(timePickerDropdown)"></bf-btn>
     </div>

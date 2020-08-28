@@ -31,11 +31,6 @@ bf-time-picker {
       border-color: $light-gray;
     }
 
-    .date-picker-card {
-      padding-left: 10px;
-      padding-right: 10px;
-    }
-
     .temp-placeholder {
       width: 200px;
       height: 20px;
@@ -49,14 +44,9 @@ bf-time-picker {
       padding-right: 0px;
 
       //Timezone
-      .timezone-row {
-        padding-right: 10px;
-        padding-left: 10px;
-
-        .timezone-dropdown {
-          .bf-dropdown-container {
-            margin-bottom: 5px;
-          }
+      .timezone-dropdown {
+        .bf-dropdown-container {
+          margin-bottom: 5px;
         }
       }
 
@@ -68,8 +58,8 @@ bf-time-picker {
           border-radius: 4px;
           margin: 10px 5px;
 
-          .arrows-right, .arrows-left > .arrow-btn {
-            div > .bf-btn {
+          .arrows-right, .arrows-left {
+            .bf-btn {
               height: 35px;
               width: 30px;
               border-radius: 0;
@@ -100,7 +90,6 @@ bf-time-picker {
         }
 
         .time-area {
-          float: left;
           width: calc(100% - 80px);
 
           .tmiddle {

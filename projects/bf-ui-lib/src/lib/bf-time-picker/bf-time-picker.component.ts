@@ -22,6 +22,7 @@ interface SupportedTimezones {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BfTimePickerComponent implements OnInit, OnChanges {
+  @Input() bfLabel: string // The label for the component
   @Input() bfSelectedTime: Date; // date/time object specifying the selected date/time
   @Input() bfSelectedTimezone: any; // the desired timezone
   @Input() bfSupportedTimezones: Array<SupportedTimezones>; // An array of supported timezones for an application
@@ -48,7 +49,7 @@ export class BfTimePickerComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     const { bfSelectedTime, bfMinTime, bfMaxTime } = changes;
     if (bfSelectedTime) {
-      if (!bfSelectedTime.isFirstChange() && !this.isChangeTheSame(bfSelectedTime)) {
+      if (this.shouldUpdateChange(bfSelectedTime)) {
         const newTime = bfSelectedTime.currentValue;
 
         this.updateSuggestedTime(
@@ -62,7 +63,7 @@ export class BfTimePickerComponent implements OnInit, OnChanges {
     }
 
     if (bfMinTime) {
-      if (!bfMinTime.isFirstChange() && !this.isChangeTheSame(bfMinTime)) {
+      if (this.shouldUpdateChange(bfMinTime)) {
         const currentTime = this.getSuggestedTime();
         const { currentValue } = bfMinTime;
 
@@ -73,7 +74,7 @@ export class BfTimePickerComponent implements OnInit, OnChanges {
     }
 
     if (bfMaxTime) {
-      if (!bfMaxTime.isFirstChange() && !this.isChangeTheSame(bfMaxTime)) {
+      if (this.shouldUpdateChange(bfMaxTime)) {
         const currentTime = this.getSuggestedTime();
         const { currentValue } = bfMaxTime;
 
@@ -84,11 +85,17 @@ export class BfTimePickerComponent implements OnInit, OnChanges {
     }
   }
 
+  public openTimePicker(timePicker: NgbDropdown) {
+    if (!this.isButtonDisabled() && !timePicker.isOpen()) {
+      timePicker.open();
+    }
+  }
+
   public isButtonDisabled() {
     return this.bfIsDisabled || !this.bfSupportedTimezones;
   }
 
-  public onDateChanged(newDate: any) {
+  public onDateChanged(newDate: string) {
     const currentTime = this.getSuggestedTime();
     const updatedDate = new Date(newDate);
 
@@ -98,8 +105,7 @@ export class BfTimePickerComponent implements OnInit, OnChanges {
   }
 
   public onTimezoneChanged(currentTimezone: string): void {
-    let currentTime = this.getSuggestedTime();
-    currentTime = currentTime.convertTZ(currentTimezone);
+    const currentTime = this.getSuggestedTime().convertTZ(currentTimezone);
 
     if (this.bfMinTime) {
       this.bfMinTime = this.bfMinTime.convertTZ(currentTimezone);
@@ -185,27 +191,26 @@ export class BfTimePickerComponent implements OnInit, OnChanges {
    * @param currentTime The current time at invocation. Can be called with updated Date from the increment minutes function
    */
   public incrementHours(currentTime: Date = null): void {
-    currentTime = currentTime || this.getSuggestedTime();
-    const currentHour = currentTime.getHours();
-    const updatedTime = new Date(currentTime);
+    const timeToUpdate = this.getDateCopy(currentTime || this.getSuggestedTime());
+    const currentHour = timeToUpdate.getHours();
 
     let updatedHours = currentHour + 1;
 
     if (updatedHours > 23) {
       updatedHours = 0;
-      updatedTime.addDays(1);
-      updatedTime.setHours(updatedHours);
+      timeToUpdate.addDays(1);
+      timeToUpdate.setHours(updatedHours);
     }
 
-    updatedTime.setHours(updatedHours);
+    timeToUpdate.setHours(updatedHours);
 
-    if (!this.isTimeGreaterThanMaximumLimit(updatedTime)) {
+    if (!this.isTimeGreaterThanMaximumLimit(timeToUpdate)) {
       // if we increase an hour we need to check if the minute value is valid if not a call to update the minutes will be made
-      if (this.isUpdatingMaximumMinutesRequired(updatedTime, this.bfMaxTime)) {
-        updatedTime.setMinutes(this.bfMaxTime.getMinutes());
-        this.incrementMinutes(updatedTime);
+      if (this.isUpdatingMaximumMinutesRequired(timeToUpdate, this.bfMaxTime)) {
+        timeToUpdate.setMinutes(this.bfMaxTime.getMinutes());
+        this.incrementMinutes(timeToUpdate);
       }
-      this.updateSuggestedTime(updatedTime);
+      this.updateSuggestedTime(timeToUpdate);
       return;
     }
   }
@@ -215,66 +220,61 @@ export class BfTimePickerComponent implements OnInit, OnChanges {
    * @param currentTime The current time at invocation. Can be called with updated date from the decrement minutes function
    */
   public decrementHours(currentTime: Date = null): void {
-    currentTime = currentTime || this.getSuggestedTime();
-    const currentHour = currentTime.getHours();
-    const updatedTime = new Date(currentTime);
+    const timeToUpdate = this.getDateCopy(currentTime || this.getSuggestedTime());
+    const currentHour = timeToUpdate.getHours();
 
     let updatedHour = currentHour - 1;
 
     if (updatedHour < 0) {
       updatedHour = 23;
-      updatedTime.addDays(- 1);
-      updatedTime.setHours(updatedHour);
+      timeToUpdate.addDays(- 1);
+      timeToUpdate.setHours(updatedHour);
     }
 
-    updatedTime.setHours(updatedHour);
+    timeToUpdate.setHours(updatedHour);
 
-    if (!this.isTimeLessThanMinimumLimit(updatedTime)) {
+    if (!this.isTimeLessThanMinimumLimit(timeToUpdate)) {
       // if we drop an hour we need to check if the minute value is valid if not a call to update the minutes will be made
-      if (this.isUpdatingMinimumMinutesRequired(updatedTime, this.bfMinTime)) {
-        updatedTime.setMinutes(this.bfMinTime.getMinutes());
-        this.decrementMinutes(updatedTime);
+      if (this.isUpdatingMinimumMinutesRequired(timeToUpdate, this.bfMinTime)) {
+        timeToUpdate.setMinutes(this.bfMinTime.getMinutes());
+        this.decrementMinutes(timeToUpdate);
       }
-      this.updateSuggestedTime(updatedTime);
+      this.updateSuggestedTime(timeToUpdate);
       return;
     }
   }
 
   public incrementMinutes(currentTime: Date = null): void {
-    currentTime = currentTime || this.getSuggestedTime();
-    const currentMinutes = currentTime.getMinutes();
-    const updatedTime = new Date(currentTime);
-
+    const timeToUpdate = this.getDateCopy(currentTime || this.getSuggestedTime());
+    const currentMinutes = timeToUpdate.getMinutes();
     const updateMinutes = currentMinutes + 1;
 
     if (updateMinutes > 59) {
-      updatedTime.setMinutes(0);
-      this.incrementHours(updatedTime); // update the time with the current updated minutes
+      timeToUpdate.setMinutes(0);
+      this.incrementHours(timeToUpdate); // update the time with the current updated minutes
     } else {
-      updatedTime.setMinutes(updateMinutes);
+      timeToUpdate.setMinutes(updateMinutes);
 
-      if (!this.isTimeGreaterThanMaximumLimit(updatedTime)) {
-        this.updateSuggestedTime(updatedTime);
+      if (!this.isTimeGreaterThanMaximumLimit(timeToUpdate)) {
+        this.updateSuggestedTime(timeToUpdate);
         return;
       }
     }
   }
 
   public decrementMinutes(currentTime: Date = null): void {
-    currentTime = currentTime || this.getSuggestedTime();
-    const currentMinutes = currentTime.getMinutes();
-    const updatedTime = new Date(currentTime);
-
+    const timeToUpdate = this.getDateCopy(currentTime || this.getSuggestedTime());
+    const currentMinutes = timeToUpdate.getMinutes();
     const updatedMinutes = currentMinutes - 1;
 
     if (updatedMinutes < 0) {
-      updatedTime.setMinutes(59);
-      this.decrementHours(updatedTime); // update the time with the current updated minutes
+      timeToUpdate.setMinutes(59);
+      this.decrementHours(timeToUpdate); // update the time with the current updated minutes
     } else {
-      updatedTime.setMinutes(updatedMinutes);
+      timeToUpdate.setMinutes(updatedMinutes);
 
-      if (!this.isTimeLessThanMinimumLimit(updatedTime)) {
-        this.updateSuggestedTime(updatedTime);
+      if (!this.isTimeLessThanMinimumLimit(timeToUpdate)) {
+        this.updateSuggestedTime(timeToUpdate);
         return;
       }
     }
@@ -361,6 +361,10 @@ export class BfTimePickerComponent implements OnInit, OnChanges {
     return false;
   }
 
+  private shouldUpdateChange(change: SimpleChange) {
+    return !change.isFirstChange() && !this.isChangeTheSame(change);
+  }
+
   private isChangeTheSame(change: SimpleChange): boolean {
     const { currentValue, previousValue } = change;
     return currentValue.toUTCString() === previousValue.toUTCString();
@@ -382,5 +386,9 @@ export class BfTimePickerComponent implements OnInit, OnChanges {
     }
 
     return false;
+  }
+
+  private getDateCopy(currentTime: Date): Date {
+    return new Date(currentTime);
   }
 }

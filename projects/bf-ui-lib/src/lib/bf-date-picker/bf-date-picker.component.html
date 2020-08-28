@@ -46,7 +46,7 @@
   <input *ngIf="!bfIsInlineDatePicker" name="dp" class="hidden-input"
   ngbDatepicker #dpRef="ngbDatepicker"
   [(ngModel)]="bfModel" (ngModelChange)="onInternalModelChange()"
-  [navigation]="'arrows'"
+  navigation="arrows"
   [showWeekNumbers]="true"
   [minDate]="ngbMinDate"
   [maxDate]="ngbMaxDate"
@@ -55,8 +55,8 @@
 
   <ngb-datepicker
     [(ngModel)]="bfModel"
-    [navigation]="'arrows'"
-    [showWeekNumbers]="'true'"
+    navigation="arrows"
+    [showWeekNumbers]="true"
     [minDate]="ngbMinDate"
     [maxDate]="ngbMaxDate"
     [dayTemplate]="dayTemplate"

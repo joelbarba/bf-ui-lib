@@ -199,7 +199,7 @@ describe('BfTimePickerComponent', () => {
     component.bfSelectedTime = new Date('2020-08-24');
     fixture.detectChanges();
 
-    component.onDateChanged(updatedDate);
+    component.onDateChanged('2020-08-25');
     updateFixture(fixture);
 
     const isDateTheSame = assertDate(component.getSuggestedTime(), updatedDate);
