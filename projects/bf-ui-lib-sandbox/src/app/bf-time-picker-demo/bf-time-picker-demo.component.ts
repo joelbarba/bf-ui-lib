@@ -98,7 +98,7 @@ $disabled_input_color : $disabled-color;
         [bfSupportedTimezones]="supportedTimezones"
         [bfIsDisabled]="true">
       </bf-time-picker>
-    `
+    `;
   }
 }
 

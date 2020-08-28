@@ -22,7 +22,7 @@ interface SupportedTimezones {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BfTimePickerComponent implements OnInit, OnChanges {
-  @Input() bfLabel: string // The label for the component
+  @Input() bfLabel: string; // The label for the component
   @Input() bfSelectedTime: Date; // date/time object specifying the selected date/time
   @Input() bfSelectedTimezone: any; // the desired timezone
   @Input() bfSupportedTimezones: Array<SupportedTimezones>; // An array of supported timezones for an application
