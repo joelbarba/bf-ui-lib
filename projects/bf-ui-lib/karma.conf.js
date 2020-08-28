@@ -18,7 +18,15 @@ module.exports = function (config) {
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, '../../coverage/bf-ui-lib'),
       reports: ['html', 'lcovonly'],
-      fixWebpackSourcePaths: true
+      fixWebpackSourcePaths: true,
+      thresholds: {
+        global: {
+          statements: 45,
+          branches: 14,
+          functions: 36,
+          lines: 45
+        }
+      }
     },
     reporters: ['progress', 'kjhtml'],
     port: 9876,
