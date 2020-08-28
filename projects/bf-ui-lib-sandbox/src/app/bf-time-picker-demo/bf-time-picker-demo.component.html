@@ -37,7 +37,7 @@
 
       <div class="row marT15">
         <div class="col-5">
-          <bf-time-picker bfLabel="Max Datetime" [(bfSelectedTime)]="compConf.maxTime" [bfSupportedTimezones]="supportedTimezones" (bfSelectedTimeChange)="upComp()"></bf-time-picker>
+          <bf-time-picker bfLabel="Max Datetime" [(bfSelectedTime)]="compConf.maxTime" [bfSupportedTimezones]="supportedTimezones" (bfSelectedTimeChange)="upComp()" ></bf-time-picker>
         </div>
       </div>
     </div>
@@ -53,7 +53,9 @@
         <bf-time-picker [bfSelectedTimezone]="'Europe/Dublin'" [bfSupportedTimezones]="[{ country_code: null, time_zone: 'Europe/Dublin' }, { country_code: null, time_zone: 'US/Arizona' }]"></bf-time-picker>
       </div>
       <div class="col-7">
-        <pre>{{instance}}</pre>
+        <div class="code-box">
+          <pre>{{instance}}</pre>
+        </div>
       </div>
     </div>
 
@@ -68,7 +70,28 @@
         ></bf-time-picker>
       </div>
       <div class="col-7">
-        <pre>{{instance2}}</pre>
+        <div class="code-box">
+          <pre>{{instance2}}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-5">
+        <bf-time-picker
+          bfLabel="Disabled"
+          [(bfSelectedTime)]="defaultStartDate"
+          [(bfSelectedTimezone)]="defaultTimezone"
+          [bfMinTime]="minTime"
+          [bfMaxTime]="maxTime"
+          [bfSupportedTimezones]="supportedTimezones"
+          [bfIsDisabled]="true"
+        ></bf-time-picker>
+      </div>
+      <div class="col-7">
+        <div class="code-box">
+          <pre>{{instance3}}</pre>
+        </div>
       </div>
     </div>
   </div>

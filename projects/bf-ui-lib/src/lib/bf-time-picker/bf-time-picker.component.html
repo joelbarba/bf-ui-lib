@@ -1,9 +1,9 @@
 <bf-label [bfText]="bfLabel"></bf-label>
 <div ngbDropdown [autoClose]="false" [placement]="bfPlacement" #timePickerDropdown="ngbDropdown">
-  <div class="input-group" ngbDropdownToggle [attr.disabled]="isButtonDisabled()">
+  <div class="input-group" ngbDropdownAnchor (click)="toggleTimePicker(timePickerDropdown)">
     <input type="text" class="form-control display-input" [ngModel]="getDisplayTime$() | async" disabled/>
     <span class="input-group-btn">
-      <bf-btn bfIcon="icon-clock3" bfType="primary" [bfDisabled]="isButtonDisabled()"></bf-btn>
+      <bf-btn bfIcon="icon-clock3" bfType="primary" [bfDisabled]="isDisabled()"></bf-btn>
     </span>
   </div>
 
@@ -24,7 +24,7 @@
 
     <div class="card card-body card-sm time-wrapper">
       <div class="px-2" *ngIf="bfSupportedTimezones">
-        <bf-dropdown class="full-width" [ngModel]="bfSelectedTimezone" [bfList]="bfSupportedTimezones" [bfPlaceholder]="'Timezone'" bfSelect="time_zone" bfRender="time_zone"  (ngModelChange)="onTimezoneChanged($event)"></bf-dropdown>
+        <bf-dropdown class="full-width" [ngModel]="bfSelectedTimezone" [bfList]="bfSupportedTimezones" bfPlaceholder="Timezone" bfSelect="time_zone" bfRender="time_zone" [bfEmptyValue]="bfSupportedTimezones[0].time_zone" (ngModelChange)="onTimezoneChanged($event)"></bf-dropdown>
       </div>
 
       <div class="text-center timepicker-row d-flex flex-row justify-content-around px-1" *ngIf="(getFollowingValues$() | async) as followingValues">

@@ -85,13 +85,14 @@ export class BfTimePickerComponent implements OnInit, OnChanges {
     }
   }
 
-  public openTimePicker(timePicker: NgbDropdown) {
-    if (!this.isButtonDisabled() && !timePicker.isOpen()) {
-      timePicker.open();
+  // using custom toggle logic to prevent time-picker from opening, this is mainly due to the fact that we can't open the dropdown until we have supported timezones
+  public toggleTimePicker(timePicker: NgbDropdown) {
+    if (!this.isDisabled()) {
+      timePicker.toggle();
     }
   }
 
-  public isButtonDisabled() {
+  public isDisabled() {
     return this.bfIsDisabled || !this.bfSupportedTimezones;
   }
 
@@ -105,19 +106,21 @@ export class BfTimePickerComponent implements OnInit, OnChanges {
   }
 
   public onTimezoneChanged(currentTimezone: string): void {
-    const currentTime = this.getSuggestedTime().convertTZ(currentTimezone);
+    if (currentTimezone) {
+      const currentTime = this.getSuggestedTime().convertTZ(currentTimezone);
 
-    if (this.bfMinTime) {
-      this.bfMinTime = this.bfMinTime.convertTZ(currentTimezone);
+      if (this.bfMinTime) {
+        this.bfMinTime = this.bfMinTime.convertTZ(currentTimezone);
+      }
+
+      if (this.bfMaxTime) {
+        this.bfMaxTime = this.bfMaxTime.convertTZ(currentTimezone);
+      }
+
+      this.bfSelectedTimezone = currentTimezone;
+      this.updateSuggestedTime(currentTime);
+      this.bfSelectedTimezoneChange.emit(currentTimezone);
     }
-
-    if (this.bfMaxTime) {
-      this.bfMaxTime = this.bfMaxTime.convertTZ(currentTimezone);
-    }
-
-    this.bfSelectedTimezone = currentTimezone;
-    this.updateSuggestedTime(currentTime);
-    this.bfSelectedTimezoneChange.emit(currentTimezone);
   }
 
   public getSuggestedTime$(): Observable<Date> {
@@ -367,7 +370,12 @@ export class BfTimePickerComponent implements OnInit, OnChanges {
 
   private isChangeTheSame(change: SimpleChange): boolean {
     const { currentValue, previousValue } = change;
-    return currentValue.toUTCString() === previousValue.toUTCString();
+
+    if (previousValue) {
+      return currentValue.toUTCString() === previousValue.toUTCString();
+    }
+
+    return false;
   }
 
   private isUpdatingMinimumMinutesRequired(currentTime: Date, minimumTime: Date): boolean {

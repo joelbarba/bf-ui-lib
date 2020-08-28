@@ -23,7 +23,7 @@ export class BfTimePickerDemoComponent implements OnInit {
   public defaultStartDate: Date;
   public supportedTimezones: Array<{ country_code: string, time_zone: string }>;
   public instance2: string;
-
+  public instance3: string;
 
   public cssReset = `$optional_input_color : $optional-color;
 $focused_input_color  : $focused-color;
@@ -82,12 +82,23 @@ $disabled_input_color : $disabled-color;
     this.defaultTimezone = 'Europe/Dublin';
     this.instance2 = `
       <bf-time-picker
-        [bfSelectedTime]="${this.defaultStartDate}"
-        [bfMinTime]="${this.minTime}"
-        [bfMaxTime]="${this.maxTime}"
-        [bfDefaultTimezone]="${this.defaultTimezone}"
-        [bfSupportedTimezones]="${this.supportedTimezones}">
+        [bfSelectedTime]="defaultStartDate"
+        [bfMinTime]="minTime"
+        [bfMaxTime]="maxTime"
+        [bfDefaultTimezone]="defaultTimezone"
+        [bfSupportedTimezones]="supportedTimezones">
       </bf-time-picker>`;
+
+    this.instance3 = `
+      <bf-time-picker
+        [bfSelectedTime]="defaultStartDate"
+        [bfMinTime]="minTime"
+        [bfMaxTime]="maxTime"
+        [bfDefaultTimezone]="defaultTimezone"
+        [bfSupportedTimezones]="supportedTimezones"
+        [bfIsDisabled]="true">
+      </bf-time-picker>
+    `
   }
 }
 
@@ -97,6 +108,7 @@ export const BfTimePickerDoc = {
   uiType  : 'component',
   desc    : `Generates a ....`,
   api     : `
+    [bfLabel]: The label to apply to the component if necessary
     [bfSelectedTime]: The value that will recieve updates to date/time can supply default value
     [bfSelectedTimezone]: The value of the desired timezone
     [bfSupportedTimezones]: An list of supported timezones
@@ -109,6 +121,11 @@ export const BfTimePickerDoc = {
     (bfSelectedTimeChange): An event emitted when the selected time has been changed
     (bfSelectedTimezoneChange): An event emitted when the selected timezone has changed
   `,
-  instance: `<bf-time-picker [bfSelectedTimezone]="'Europe/Dublin'" [bfSupportedTimezones]="[{ country_code: null, time_zone: 'Europe/Dublin }, { country_code: null, time_zone: 'US/Arizona' }]"></bf-time-picker>`,
+  instance: `
+    <bf-time-picker
+      [bfSelectedTimezone]="'Europe/Dublin'"
+      [bfSupportedTimezones]="[{ country_code: null, time_zone: 'Europe/Dublin }, { country_code: null, time_zone: 'US/Arizona' }]">
+    </bf-time-picker>
+  `,
   demoComp: BfTimePickerDemoComponent
 };
