@@ -1,9 +1,11 @@
 <bf-label [bfText]="bfLabel"></bf-label>
-<div ngbDropdown [autoClose]="false" [placement]="bfPlacement" #timePickerDropdown="ngbDropdown">
+<div ngbDropdown autoClose="outside" [placement]="bfPlacement" #timePickerDropdown="ngbDropdown">
   <div class="input-group" ngbDropdownAnchor (click)="toggleTimePicker(timePickerDropdown)">
     <input type="text" class="form-control display-input" [ngModel]="getDisplayTime$() | async" disabled/>
-    <span class="input-group-btn">
-      <bf-btn bfIcon="icon-clock3" bfType="primary" [bfDisabled]="isDisabled()"></bf-btn>
+    <span class="input-group-append">
+      <button class="btn primary" [disabled]="isDisabled()">
+        <span class="icon-clock3"></span>
+      </button>
     </span>
   </div>
 

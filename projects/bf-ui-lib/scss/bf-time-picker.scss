@@ -17,6 +17,17 @@ bf-time-picker {
     cursor: pointer !important;
   }
 
+  .input-group-append {
+    button.primary {
+      color: $white;
+      background: $primary_color;
+
+      &:hover {
+        background: darken($primary_color, 3%);
+      }
+    }
+  }
+
   .dropdown-toggle:after {
     content: none;
   }

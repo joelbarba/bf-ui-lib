@@ -60,7 +60,7 @@ $disabled_input_color : $disabled-color;
         [(bfSelectedTimezone)]="selectedTimeZone"
         [bfSupportedTimezones]="supportedTimezones"
         [bfLocale]="locale"
-        [bfIsDisabled]=${this.compConf.isDisabled}${this.compConf.minTime !== null ? ' [bfMinTime]="' + this.compConf.minTime + '"' : ''}${this.compConf.maxTime !== null ? ' [bfMaxTime]="' + this.compConf.maxTime + '"' : ''}>
+        [bfDisabled]="${this.compConf.isDisabled}${this.compConf.minTime !== null ? ' [bfMinTime]="' + this.compConf.minTime + '"' : ''}${this.compConf.maxTime !== null ? ' [bfMaxTime]="' + this.compConf.maxTime + '"' : ''}">
       </bf-time-picker>`;
   };
 
@@ -96,7 +96,7 @@ $disabled_input_color : $disabled-color;
         [bfMaxTime]="maxTime"
         [bfDefaultTimezone]="defaultTimezone"
         [bfSupportedTimezones]="supportedTimezones"
-        [bfIsDisabled]="true">
+        [bfDisabled]="true">
       </bf-time-picker>
     `;
   }
@@ -113,7 +113,7 @@ export const BfTimePickerDoc = {
     [bfSelectedTimezone]: The value of the desired timezone
     [bfSupportedTimezones]: An list of supported timezones
     [bfLocale]: A locale to specify what localised formats to use. Default is 'en-IE'
-    [bfIsDisabled]: A flag to determine if the time-picker is disabled
+    [bfDisabled]: A flag to determine if the time-picker is disabled
     [bfMinTime]: The minimum allowable datetime
     [bfMaxTime]: The maximum allowable datetime
     [bfPlacement]: The position to render the dropdown container. Default value is 'bottom' see <a href="https://ng-bootstrap.github.io/#/components/dropdown/api">Angular Bootstap</a> for all possible values

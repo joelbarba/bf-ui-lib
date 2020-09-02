@@ -27,7 +27,7 @@ export class BfTimePickerComponent implements OnInit, OnChanges {
   @Input() bfSelectedTimezone: any; // the desired timezone
   @Input() bfSupportedTimezones: Array<SupportedTimezones>; // An array of supported timezones for an application
   @Input() bfLocale: string; // The locale to use for the date formats
-  @Input() bfIsDisabled: boolean; // if the input should be disabled
+  @Input() bfDisabled: boolean; // if the input should be disabled
   @Input() bfMinTime: Date; // The minimum allowed time
   @Input() bfMaxTime: Date; // the maxium allowed time
   @Input() bfPlacement = 'bottom'; // the position of the dropdown container default to bottom
@@ -93,7 +93,7 @@ export class BfTimePickerComponent implements OnInit, OnChanges {
   }
 
   public isDisabled() {
-    return this.bfIsDisabled || !this.bfSupportedTimezones;
+    return this.bfDisabled || !this.bfSupportedTimezones;
   }
 
   public onDateChanged(newDate: string) {
