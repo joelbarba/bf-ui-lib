@@ -112,7 +112,6 @@ export const BfTimePickerDoc = {
     [bfSelectedTime]: The value that will recieve updates to date/time can supply default value
     [bfSelectedTimezone]: The value of the desired timezone
     [bfSupportedTimezones]: An list of supported timezones
-    [bfLocale]: A locale to specify what localised formats to use. Default is 'en-IE'
     [bfDisabled]: A flag to determine if the time-picker is disabled
     [bfMinTime]: The minimum allowable datetime
     [bfMaxTime]: The maximum allowable datetime

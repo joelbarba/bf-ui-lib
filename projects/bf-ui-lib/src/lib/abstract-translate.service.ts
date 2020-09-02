@@ -4,9 +4,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 type doTranslateFn = (label ?: string) => string;
 type getFn = (label ?: string) => Observable<string>;
 export abstract class AbstractTranslateService {
-  public onLangChange$; // : BehaviorSubject<{ lang: '', translations: null }>;
+  public onLangChange$: BehaviorSubject<{ lang: string, translations: Array<any> }>; // : BehaviorSubject<{ lang: '', translations: null }>;
   abstract doTranslate: doTranslateFn;  // Synchronous translation
   abstract getLabel$: getFn;            // Async translation
+  public locale$: BehaviorSubject<string>; // BehaviorSubject<string>;
 }
 
 export class BfUILibTransService extends AbstractTranslateService {
@@ -20,6 +21,7 @@ export class BfUILibTransService extends AbstractTranslateService {
   // Async translation (returns an observable that emits the translated value of the label)
   public getLabel$ = (label ?: string, params?) => of(label);
 
+  public locale$ = new BehaviorSubject('en-IE');
 }
 
 

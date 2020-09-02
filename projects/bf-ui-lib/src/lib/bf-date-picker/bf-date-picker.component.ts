@@ -5,6 +5,8 @@ import {BfUILibTransService} from '../abstract-translate.service';
 import {NgbDateStruct, NgbDatepicker, NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
 import BfString from '../bf-prototypes/string.prototype';
 import {DatePipe} from '@angular/common';
+import { tap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -21,14 +23,13 @@ import {DatePipe} from '@angular/common';
     }
   ]
 })
-export class BfDatePickerComponent implements OnChanges, OnDestroy, ControlValueAccessor {
+export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
   private ngControl;  // Reference to the parent model controller
   public bfModel: NgbDateStruct; // Internal to hold the ngModel inside the wrapper
 
   @Input() bfLabel = '';
   @Input() bfRequired = false;
   @Input() bfDisabled = false;
-  @Input() bfLocale = 'en-IE';      // To format the date to display in the input.
   @Input() bfFormat = 'shortDate';  // Format to display the date
   @Input() bfHasClearBtn = false;   // Whether to add a clear button on the input
   @Input() bfMinDate: string;   // 'yyyy-mm-dd'
@@ -52,6 +53,9 @@ export class BfDatePickerComponent implements OnChanges, OnDestroy, ControlValue
   public ngbMinDate: NgbDateStruct = null;
   public ngbMaxDate: NgbDateStruct = null;
   public isTodayValid = true;         // Whether the min/max validation allows today as a valid option
+  public locale: string;
+
+  private localeSub$: Subscription;
 
   constructor(
     @Inject(BfUILibTransService) private translate: BfUILibTransService,
@@ -86,6 +90,15 @@ export class BfDatePickerComponent implements OnChanges, OnDestroy, ControlValue
     }
   };
 
+  ngOnInit() {
+    this.localeSub$ = this.translate.locale$.asObservable()
+      .pipe(
+        tap((locale: string) => {
+          this.locale = locale;
+        })
+      ).subscribe();
+  }
+
   ngOnChanges(changes: SimpleChanges) {
     if (!!changes.bfLocale) { this.onInternalModelChange(true); }
     if (!!changes.bfFormat) { this.onInternalModelChange(true); }
@@ -95,7 +108,9 @@ export class BfDatePickerComponent implements OnChanges, OnDestroy, ControlValue
     if (changes.hasOwnProperty('bfErrorPos') && this.bfErrorPos) { this.errorPosition = this.bfErrorPos; }
   }
 
-  ngOnDestroy() { }
+  ngOnDestroy() {
+    this.localeSub$.unsubscribe();
+  }
 
 
   // Convert incoming string to ngb  '2020-01-19' --> { day: 19, month: 1, year: 2020 }
@@ -154,7 +169,7 @@ export class BfDatePickerComponent implements OnChanges, OnDestroy, ControlValue
     if (!externalTrigger) { this.isPristine = false; }
 
     // https://angular.io/api/common/DatePipe
-    this.bfFormattedValue = new DatePipe(this.bfLocale || 'en-IE').transform(this.parseModelOut(this.bfModel), this.bfFormat) || '';
+    this.bfFormattedValue = new DatePipe(this.locale || 'en-IE').transform(this.parseModelOut(this.bfModel), this.bfFormat) || '';
 
     this.updateStatus();
     this.propagateModelUp(this.parseModelOut(this.bfModel), );

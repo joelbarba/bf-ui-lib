@@ -10,8 +10,9 @@ import { TestingModule } from '../../testing/testing-module';
 import { BfDropdownComponent } from '../bf-dropdown/bf-dropdown.component';
 import { BfBtnComponent } from '../bf-btn/bf-btn.component';
 import { BfLabelComponent } from '../bf-label/bf-label.component';
-import { BfTranslatePipe } from '../abstract-translate.service';
+import { BfTranslatePipe, BfUILibTransService } from '../abstract-translate.service';
 import { BfDate } from '../bf-prototypes/bf-prototypes';
+import { BfUILibTransStubService } from '../../testing/bf-ui-lib-trans-service-stub.service';
 
 // enable prototypes for test. Error is thrown when the global run is used this will be a temporary measure
 for (const proFn in BfDate) {
@@ -51,6 +52,9 @@ describe('BfTimePickerComponent', () => {
         BfLabelComponent,
         BfLabelComponent,
         BfTranslatePipe
+      ],
+      providers: [
+        { provide: BfUILibTransService, useClass: BfUILibTransStubService }
       ]
     })
     .compileComponents();
@@ -495,5 +499,10 @@ describe('BfTimePickerComponent', () => {
     updateFixture(fixture);
 
     expect(selectedTimeChangeSpy).toHaveBeenCalledWith(initialDate);
+  }));
+
+  it('should set the locale on init', fakeAsync(() => {
+    updateFixture(fixture);
+    expect(component.locale).toBe('en-IE');
   }));
 });

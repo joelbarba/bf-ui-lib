@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Output, ChangeDetectionStrategy, OnChanges, SimpleChanges, SimpleChange, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, ChangeDetectionStrategy, OnChanges, SimpleChanges, SimpleChange, EventEmitter, OnDestroy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map, filter, distinctUntilChanged } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { map, filter, distinctUntilChanged, tap } from 'rxjs/operators';
+import { BfUILibTransService } from '../abstract-translate.service';
 
 interface FollowingValues {
   hours: number;
@@ -21,12 +22,11 @@ interface SupportedTimezones {
   styleUrls: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BfTimePickerComponent implements OnInit, OnChanges {
+export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() bfLabel: string; // The label for the component
   @Input() bfSelectedTime: Date; // date/time object specifying the selected date/time
   @Input() bfSelectedTimezone: any; // the desired timezone
   @Input() bfSupportedTimezones: Array<SupportedTimezones>; // An array of supported timezones for an application
-  @Input() bfLocale: string; // The locale to use for the date formats
   @Input() bfDisabled: boolean; // if the input should be disabled
   @Input() bfMinTime: Date; // The minimum allowed time
   @Input() bfMaxTime: Date; // the maxium allowed time
@@ -35,15 +35,25 @@ export class BfTimePickerComponent implements OnInit, OnChanges {
   @Output() bfSelectedTimeChange: EventEmitter<Date> = new EventEmitter(); // An event emitted when the date/time has been updated
   @Output() bfSelectedTimezoneChange: EventEmitter<string> = new EventEmitter(); // An event emitted when the timezone has changed
 
+  public locale: string;
+
   // subject to hold the updated date/time
   private suggestedTime$: BehaviorSubject<Date>;
   private datePipe: DatePipe;
+  private localeSubcription$: Subscription;
 
-  constructor() { }
+  constructor(private translateService: BfUILibTransService) { }
 
   ngOnInit(): void {
     this.suggestedTime$ = new BehaviorSubject(this.bfSelectedTime || new Date());
-    this.datePipe = new DatePipe(this.bfLocale || 'en-IE');
+    this.localeSubcription$ = this.translateService.locale$.asObservable()
+      .pipe(
+        tap((locale: string) => {
+          this.locale = locale;
+          this.datePipe = new DatePipe(locale || 'en-IE');
+        })
+      )
+      .subscribe();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -83,6 +93,10 @@ export class BfTimePickerComponent implements OnInit, OnChanges {
         }
       }
     }
+  }
+
+  ngOnDestroy(): void {
+    this.localeSubcription$.unsubscribe();
   }
 
   // using custom toggle logic to prevent time-picker from opening, this is mainly due to the fact that we can't open the dropdown until we have supported timezones
