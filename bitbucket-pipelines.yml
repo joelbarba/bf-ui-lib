@@ -10,5 +10,6 @@ pipelines:
           - npm ci
           - npm run lint:ci
           - npm run test:ci
+          - npm run build_lib # used to ensure changes pass AOT
           # Commented out until the Docker issue is resolved
           # - npm run e2e:ci
