@@ -55,7 +55,7 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   public isTodayValid = true;         // Whether the min/max validation allows today as a valid option
   public locale: string;
 
-  private localeSub$: Subscription;
+  private localeSubscription$: Subscription;
 
   constructor(
     @Inject(BfUILibTransService) private translate: BfUILibTransService,
@@ -91,7 +91,7 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   };
 
   ngOnInit() {
-    this.localeSub$ = this.translate.locale$.asObservable()
+    this.localeSubscription$ = this.translate.locale$.asObservable()
       .pipe(
         tap((locale: string) => {
           this.locale = locale;
@@ -109,7 +109,7 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   }
 
   ngOnDestroy() {
-    this.localeSub$.unsubscribe();
+    this.localeSubscription$.unsubscribe();
   }
 
 

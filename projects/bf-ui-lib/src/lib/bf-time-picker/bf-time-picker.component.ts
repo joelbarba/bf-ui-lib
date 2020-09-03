@@ -151,9 +151,8 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
 
   public getDisplayTime$(): Observable<string> {
     return this.getSuggestedTime$().pipe(
-      map((value: Date) => {
-        return `${this.datePipe.transform(value, 'dd/MM/yyyy H:mm aa')} ${this.bfSelectedTimezone ? '- ' + this.bfSelectedTimezone : '' }`;
-      })
+      map((value: Date) => this.datePipe.transform(value, 'short')),
+      map((formattedDate: string) => `${formattedDate} ${this.bfSelectedTimezone ? '- ' + this.bfSelectedTimezone : '' }`)
     );
   }
 

@@ -10,9 +10,12 @@ import { TestingModule } from '../../testing/testing-module';
 import { BfDropdownComponent } from '../bf-dropdown/bf-dropdown.component';
 import { BfBtnComponent } from '../bf-btn/bf-btn.component';
 import { BfLabelComponent } from '../bf-label/bf-label.component';
-import { BfTranslatePipe, BfUILibTransService } from '../abstract-translate.service';
+import { BfTranslatePipe } from '../abstract-translate.service';
 import { BfDate } from '../bf-prototypes/bf-prototypes';
-import { BfUILibTransStubService } from '../../testing/bf-ui-lib-trans-service-stub.service';
+import localeEnIE from '@angular/common/locales/en-IE';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(localeEnIE, 'en-IE');
 
 // enable prototypes for test. Error is thrown when the global run is used this will be a temporary measure
 for (const proFn in BfDate) {
@@ -53,11 +56,7 @@ describe('BfTimePickerComponent', () => {
         BfLabelComponent,
         BfTranslatePipe
       ],
-      providers: [
-        { provide: BfUILibTransService, useClass: BfUILibTransStubService }
-      ]
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -104,7 +103,7 @@ describe('BfTimePickerComponent', () => {
     updateFixture(fixture);
 
     component.getDisplayTime$().subscribe(val => {
-      expect(val).toBe('24/08/2020 13:00 PM - Europe/Dublin');
+      expect(val).toBe('24/08/2020, 13:00 - Europe/Dublin');
     });
   }));
 

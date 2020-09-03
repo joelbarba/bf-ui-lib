@@ -163,6 +163,7 @@ $date-picker-valid-color     : $valid-color !default;`;
     if (this.compConf.errorPos)        { this.customCompCode += this.bsStr + `bfErrorPos="${this.compConf.errorPos}"`; }
 
     this.customCompCode += (`>` + this.brStr + `</bf-date-picker>`);
+    this.translateService.locale$.next(this.compConf.bfLocale);
   };
   public relink = () => {
     this.isCompLinked = false;

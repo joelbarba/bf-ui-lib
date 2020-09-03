@@ -5,6 +5,7 @@
 import { Component, OnInit } from '@angular/core';
 import { of, timer, Observable } from 'rxjs';
 import { map, flatMap, tap } from 'rxjs/operators';
+import { BfUILibTransService } from 'projects/bf-ui-lib/src/public_api';
 
 @Component({
   selector: 'app-bf-time-picker-demo',
@@ -43,15 +44,47 @@ $disabled_input_color : $disabled-color;
     <bf-time-picker
       [(bfSelectedTime)]="selectedTime"
       [(bfSelectedTimezone)]="selectedTimezone"
-      [bfSupportedTimezones]="supportedLocales"
-      [bfLocale]="locale">
+      [bfSupportedTimezones]="supportedLocales">
     </bf-time-picker>`;
 
   public compConf: any = {
     isDisabled: false,
     minTime: null,
-    maxTime: null
+    maxTime: null,
+    bfLocale: null
   };
+
+  public localesList = [
+    { code: 'zh-CN',  name: 'zh-CN' },
+    { code: 'zh-TW',  name: 'zh-TW' },
+    { code: 'da',     name: 'da' },
+    { code: 'nl',     name: 'nl' },
+    { code: 'en-CA',  name: 'English CA (en-CA)' },
+    { code: 'en-GB',  name: 'English GB (en-GB)' },
+    { code: 'en-IE',  name: 'English IE (en-IE)' },
+    { code: 'en-US',  name: 'English US (en-US)' },
+    { code: 'fi',     name: 'fi' },
+    { code: 'fr',     name: 'fr' },
+    { code: 'de',     name: 'de' },
+    { code: 'el',     name: 'el' },
+    { code: 'it',     name: 'it' },
+    { code: 'ja',     name: 'ja' },
+    { code: 'no',     name: 'no' },
+    { code: 'pl',     name: 'pl' },
+    { code: 'sv',     name: 'sv' },
+    { code: 'es-ES',  name: 'es-ES' },
+    { code: 'es-MX',  name: 'es-MX' },
+    { code: 'pt-PT',  name: 'pt-PT' },
+    { code: 'pt-BR',  name: 'pt-BR' },
+    { code: 'in',     name: 'in' },
+    { code: 'ar',     name: 'ar' },
+    { code: 'ru',     name: 'ru' },
+    { code: 'ms-SG',  name: 'ms-SG' },
+    { code: 'ms-MY',  name: 'ms-MY' },
+    { code: 'ms-ID',  name: 'ms-ID' },
+    { code: 'tr',     name: 'tr' },
+    { code: 'kr',     name: 'kr' }
+  ];
 
   public upComp = () => {
     this.customCompCode = `
@@ -59,14 +92,23 @@ $disabled_input_color : $disabled-color;
         [(bfSelectedTime)]="selectedTime"
         [(bfSelectedTimezone)]="selectedTimeZone"
         [bfSupportedTimezones]="supportedTimezones"
-        [bfLocale]="locale"
         [bfDisabled]="${this.compConf.isDisabled}${this.compConf.minTime !== null ? ' [bfMinTime]="' + this.compConf.minTime + '"' : ''}${this.compConf.maxTime !== null ? ' [bfMaxTime]="' + this.compConf.maxTime + '"' : ''}">
       </bf-time-picker>`;
+
+    this.translateService.locale$.next(this.compConf.bfLocale);
   };
 
-  constructor() { }
+  constructor(private translateService: BfUILibTransService) {}
 
   ngOnInit() {
+    this.translateService.locale$.asObservable()
+      .pipe(
+        tap((locale: string) => {
+          this.compConf.bfLocale = locale;
+        })
+      )
+      .subscribe();
+
     this.supportedTimezones = [
       'Europe/Budapest',
       'Europe/Dublin',

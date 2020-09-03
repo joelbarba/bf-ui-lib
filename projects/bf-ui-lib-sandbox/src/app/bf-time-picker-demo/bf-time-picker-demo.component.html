@@ -38,6 +38,18 @@
       </div>
 
       <div class="row marT15">
+        <div class="col-4 padT5">
+          <bf-dropdown class="full-width"
+                       [(ngModel)]="compConf.bfLocale"
+                       [bfList]="localesList" (ngModelChange)="upComp()"
+                       bfLabel="Locale"
+                       bfSelect="code"
+                       bfRender="name">
+          </bf-dropdown>
+        </div>
+      </div>
+
+      <div class="row marT15">
         <div class="col-5">
           <bf-time-picker bfLabel="Min Datetime" [(bfSelectedTime)]="compConf.minTime" [bfSelectedTimezone]="defaultTimezone" [bfSupportedTimezones]="supportedTimezones" (bfSelectedTimeChange)="upComp()"></bf-time-picker>
         </div>
