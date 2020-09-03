@@ -15,13 +15,15 @@ export class BfUILibTransService extends AbstractTranslateService {
   // To react on selected language changes (https://github.com/ngx-translate/core)
   public onLangChange$ = new BehaviorSubject({lang: '', translations: []});
 
+  // The locale of the user. Default to Irish
+  public locale$ = new BehaviorSubject('en-IE');
+
   // Synchronous translation
   public doTranslate = (label ?: string, params?): string => label;
 
   // Async translation (returns an observable that emits the translated value of the label)
   public getLabel$ = (label ?: string, params?) => of(label);
 
-  public locale$ = new BehaviorSubject('en-IE');
 }
 
 

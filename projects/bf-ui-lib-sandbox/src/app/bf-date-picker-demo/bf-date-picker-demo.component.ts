@@ -29,6 +29,8 @@ export class BfDatePickerDemoComponent implements OnInit {
                 bfMaxDate="2020-02-09">
 </bf-date-picker>`;
 
+public locale: string;
+
   public cssReset = `$date-picker-modal-day-color: #212529 !default; // default bootstrap $dropdown-color ;
 
 $date-picker-optional-color  : $optional-color !default;
@@ -170,8 +172,6 @@ $date-picker-valid-color     : $valid-color !default;`;
     setTimeout(() => this.isCompLinked = true);
   };
 
-  public locale: string;
-
   constructor(private translateService: BfUILibTransService) {
     this.translateService.locale$.asObservable()
       .pipe(
@@ -179,7 +179,7 @@ $date-picker-valid-color     : $valid-color !default;`;
           this.compConf.bfLocale = locale;
         })
       )
-      .subscribe()
+      .subscribe();
   }
 
   ngOnInit() { }
