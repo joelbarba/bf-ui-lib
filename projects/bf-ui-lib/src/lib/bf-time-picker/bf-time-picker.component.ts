@@ -96,7 +96,9 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.localeSubcription$.unsubscribe();
+    if (this.localeSubcription$) {
+      this.localeSubcription$.unsubscribe();
+    }
   }
 
   // using custom toggle logic to prevent time-picker from opening, this is mainly due to the fact that we can't open the dropdown until we have supported timezones
