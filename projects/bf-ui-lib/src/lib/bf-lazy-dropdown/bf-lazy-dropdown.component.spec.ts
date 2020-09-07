@@ -29,7 +29,7 @@ describe('BfLazyDropdownComponent', () => {
 
   describe('search()', () => {
     beforeEach(() => {
-      component.bfLazyLoad = () => Promise.resolve('Fake promise');
+      component.bfLazyLoad = () => Promise.resolve([]);
     });
 
     it('should not call expandList', () => {
