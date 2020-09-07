@@ -15,6 +15,7 @@ import {BfInputAsyncValidatorDemoComponent} from './bf-input-demo/ex2-async-vali
 import {BfInputControlsDemoComponent} from './bf-input-demo/ex3-controls/bf-input-controls-demo.component';
 import {BfInputAutofillDemoComponent} from './bf-input-demo/ex4-autofill/bf-input-autofill-demo.component';
 
+
 const routes: Routes = [
   { path: '', redirectTo: '/index', pathMatch: 'full' },
   { path: 'index',  component: IndexPageComponent },
@@ -28,6 +29,7 @@ const routes: Routes = [
 
   { path: docs.BfTextareaDoc.name,          component: docs.BfTextareaDoc.demoComp         },
   { path: docs.BfDropdownDoc.name,          component: docs.BfDropdownDoc.demoComp         },
+  { path: docs.BfLazyDropdownDoc.name,      component: docs.BfLazyDropdownDoc.demoComp     },
   { path: docs.BfAutocompleteDoc.name,      component: docs.BfAutocompleteDoc.demoComp     },
   { path: docs.BfMultiSelectorDoc.name,     component: docs.BfMultiSelectorDoc.demoComp    },
   { path: docs.BfSwitchDoc.name,            component: docs.BfSwitchDoc.demoComp           },

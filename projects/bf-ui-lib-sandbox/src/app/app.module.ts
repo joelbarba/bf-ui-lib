@@ -60,6 +60,7 @@ import {BfInputControlsDemoComponent} from './bf-input-demo/ex3-controls/bf-inpu
 import {BfInputAutofillDemoComponent} from './bf-input-demo/ex4-autofill/bf-input-autofill-demo.component';
 import { BfListCheckboxDemoComponent } from './bf-list-checkbox-demo/bf-list-checkbox-demo.component';
 import {BfListSelectionDemoComponent} from './bf-list-selection-demo/bf-list-selection-demo.component';
+import { BfLazyDropdownDemoComponent } from './bf-lazy-dropdown-demo/bf-lazy-dropdown-demo.component';
 
 
 @NgModule({
@@ -119,9 +120,10 @@ import {BfListSelectionDemoComponent} from './bf-list-selection-demo/bf-list-sel
     BfDndDemo6Component,
     BfListCheckboxDemoComponent,
     BfListSelectionDemoComponent,
+    BfLazyDropdownDemoComponent,
   ],
   entryComponents: [
-    BfNoDataComponent,
+    BfNoDataComponent, 
     BfModalDemoComponent
   ],
   imports: [

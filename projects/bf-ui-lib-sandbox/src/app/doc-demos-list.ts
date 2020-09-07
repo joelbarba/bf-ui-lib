@@ -36,3 +36,6 @@ export { BfSectionHeaderDoc } from './bf-section-header-demo/bf-section-header-d
 export { BfDndDemoDoc } from './bf-dnd-demo/bf-dnd-demo.component';
 export { BfListCheckboxDoc } from './bf-list-checkbox-demo/bf-list-checkbox-demo.component';
 export { BfListSelectionDoc } from './bf-list-selection-demo/bf-list-selection-demo.component';
+import { BfColorPickerDoc } from './bf-color-picker-demo/bf-color-picker-demo.component';
+export { BfLazyDropdownDoc } from './bf-lazy-dropdown-demo/bf-lazy-dropdown-demo.component';
+

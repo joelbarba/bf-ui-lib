@@ -57,3 +57,4 @@ export * from './lib/bf-modal-header/bf-modal-header.component';
 
 export * from './lib/bf-color-picker/bf-color-picker.component';
 export * from './lib/bf-list-checkbox/bf-list-checkbox.component';
+export * from './lib/bf-lazy-dropdown/bf-lazy-dropdown.component';

@@ -45,6 +45,7 @@ import { BfSectionHeaderComponent } from './bf-section-header/bf-section-header.
 import { BfRangeSliderComponent } from './bf-range-slider/bf-range-slider.component';
 import { BfModalHeaderComponent } from './bf-modal-header/bf-modal-header.component';
 import { BfListCheckboxComponent } from './bf-list-checkbox/bf-list-checkbox.component';
+import { BfLazyDropdownComponent } from './bf-lazy-dropdown/bf-lazy-dropdown.component';
 
 
 @NgModule({
@@ -82,6 +83,7 @@ import { BfListCheckboxComponent } from './bf-list-checkbox/bf-list-checkbox.com
     BfRangeSliderComponent,
     BfModalHeaderComponent,
     BfListCheckboxComponent,
+    BfLazyDropdownComponent,
   ],
   entryComponents: [
     BfConfirmComponent
@@ -104,6 +106,7 @@ import { BfListCheckboxComponent } from './bf-list-checkbox/bf-list-checkbox.com
   ],
   exports: [
     BfListCheckboxComponent,  // <--- New component
+    BfLazyDropdownComponent,
     BfColorPickerComponent,
     BfModalHeaderComponent,
     BfSectionHeaderComponent,
