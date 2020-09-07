@@ -21,62 +21,73 @@
     {{ errorText | getLabel$ | async }}
   </span>
 
-  <div class="input-group" (click)="!bfDisabled && dpRef.toggle()">
+  <div *ngIf="!bfIsInlineDatePicker">
+    <div class="input-group" (click)="!bfDisabled && dpRef.toggle()">
 
-    <!--Just for displaying options (model is held in the other input)-->
-    <input class="form-control" disabled="disabled" name="dpv"
-           [ngModel]="bfFormattedValue">
+      <!--Just for displaying options (model is held in the other input)-->
+      <input class="form-control" disabled="disabled" name="dpv"
+            [ngModel]="bfFormattedValue">
 
-    <div class="input-group-append" *ngIf="bfHasClearBtn" (click)="!bfDisabled && clearValue($event, dpRef)">
-      <button class="btn btn-outline-secondary clear-btn">
-        <span class="icon-cross"></span>
-      </button>
+      <div class="input-group-append" *ngIf="bfHasClearBtn" (click)="!bfDisabled && clearValue($event, dpRef)">
+        <button class="btn btn-outline-secondary clear-btn">
+          <span class="icon-cross"></span>
+        </button>
+      </div>
+
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button">
+          <span class="icon-calendar"></span>
+        </button>
+      </div>
     </div>
 
-    <div class="input-group-append">
-      <button class="btn btn-outline-secondary" type="button">
-        <span class="icon-calendar"></span>
-      </button>
-    </div>
+    <!-- Inline datepicker -->
+
+    <!--Internal input to hold the model-->
+    <input name="dp" class="hidden-input"
+    ngbDatepicker #dpRef="ngbDatepicker"
+    [(ngModel)]="bfModel" (ngModelChange)="onInternalModelChange()"
+    navigation="arrows"
+    [showWeekNumbers]="true"
+    [minDate]="ngbMinDate"
+    [maxDate]="ngbMaxDate"
+    [dayTemplate]="dayTemplate"
+    [footerTemplate]="bfDatePickerFooter" />
+
+    <!--Modal footer-->
+    <ng-template #bfDatePickerFooter>
+      <div class="bf-date-picker-modal-footer">
+        <bf-btn class="squash" bfType="primary"   bfText="view.common.today" (bfClick)="setToday($event, dpRef)" [bfDisabled]="!isTodayValid"></bf-btn>
+        <bf-btn class="squash" bfType="warning"   bfText="view.common.clear" (bfClick)="clearValue($event, dpRef)" [bfDisabled]="bfRequired"></bf-btn>
+        <bf-btn class="squash btn-cancel" bfType="secondary" bfText="view.common.close" (bfClick)="dpRef.close()"></bf-btn>
+      </div>
+    </ng-template>
   </div>
 
-  <!--Internal input to hold the model-->
-  <input name="dp" class="hidden-input"
-         ngbDatepicker #dpRef="ngbDatepicker"
-         [(ngModel)]="bfModel" (ngModelChange)="onInternalModelChange()"
-         [navigation]="'arrows'"
-         [showWeekNumbers]="true"
-         [minDate]="ngbMinDate"
-         [maxDate]="ngbMaxDate"
-         [dayTemplate]="dayTemplate"
-         [footerTemplate]="bfDatePickerFooter">
 
-  <!--<div>bfModel={{bfModel | json}}</div>-->
+  <div *ngIf="bfIsInlineDatePicker">
+    <ngb-datepicker
+      [(ngModel)]="bfModel"
+      navigation="arrows"
+      [showWeekNumbers]="true"
+      [minDate]="ngbMinDate"
+      [maxDate]="ngbMaxDate"
+      [dayTemplate]="dayTemplate"
+      (ngModelChange)="onInternalModelChange()"></ngb-datepicker>
+  </div>
 
   <!--Modal day in the calendar-->
   <ng-template #dayTemplate let-date
-               let-currentMonth="currentMonth"
-               let-selected="selected"
-               let-disabled="disabled"
-               let-today="today">
+  let-currentMonth="currentMonth"
+              let-selected="selected"
+              let-disabled="disabled"
+              let-today="today">
     <div class="bf-date-picker-day"
-         [class.other-month]="date.month !== currentMonth"
-         [class.is-today]="today"
-         [class.is-disabled]="disabled"
-         [class.is-selected]="selected">
+        [class.other-month]="date.month !== currentMonth"
+        [class.is-today]="today"
+        [class.is-disabled]="disabled"
+        [class.is-selected]="selected">
       {{ date.day }}
     </div>
   </ng-template>
-
-
-  <!--Modal footer-->
-  <ng-template #bfDatePickerFooter>
-    <div class="bf-date-picker-modal-footer">
-      <bf-btn class="squash" bfType="primary"   bfText="view.common.today" (bfClick)="setToday($event, dpRef)" [bfDisabled]="!isTodayValid"></bf-btn>
-      <bf-btn class="squash" bfType="warning"   bfText="view.common.clear" (bfClick)="clearValue($event, dpRef)" [bfDisabled]="bfRequired"></bf-btn>
-      <bf-btn class="squash btn-cancel" bfType="secondary" bfText="view.common.close" (bfClick)="dpRef.close()"></bf-btn>
-    </div>
-  </ng-template>
-
-
 </div>

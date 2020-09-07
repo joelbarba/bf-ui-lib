@@ -46,7 +46,6 @@ import { BfRangeSliderComponent } from './bf-range-slider/bf-range-slider.compon
 import { BfModalHeaderComponent } from './bf-modal-header/bf-modal-header.component';
 import { BfLazyDropdownComponent } from './bf-lazy-dropdown/bf-lazy-dropdown.component';
 
-
 @NgModule({
   declarations: [
     BfTranslatePipe,  // Internal
@@ -81,7 +80,7 @@ import { BfLazyDropdownComponent } from './bf-lazy-dropdown/bf-lazy-dropdown.com
     BfSectionHeaderComponent,
     BfRangeSliderComponent,
     BfModalHeaderComponent,
-    BfLazyDropdownComponent,
+    BfLazyDropdownComponent
   ],
   entryComponents: [
     BfConfirmComponent
@@ -138,7 +137,7 @@ import { BfLazyDropdownComponent } from './bf-lazy-dropdown/bf-lazy-dropdown.com
     BfRangeSliderComponent,
     BfGrowlModule,
     BfLoadingBarModule,
-    BfDnDModule,
+    BfDnDModule
   ]
 })
 export class BfUiLibModule {

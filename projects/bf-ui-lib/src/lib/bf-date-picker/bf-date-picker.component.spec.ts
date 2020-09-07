@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, flushMicrotasks } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbDatepickerModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -29,4 +29,9 @@ describe('BfDatePickerComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should set the locale on init', fakeAsync(() => {
+    flushMicrotasks();
+    expect(component.locale).toBe('en-IE');
+  }));
 });
