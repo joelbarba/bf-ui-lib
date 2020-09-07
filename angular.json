@@ -78,7 +78,11 @@
               "projects/bf-ui-lib-sandbox/src/styles.scss",
               "node_modules/spectrum-colorpicker/spectrum.css"
             ],
-            "stylePreprocessorOptions": { "includePaths": ["projects/bf-ui-lib-sandbox/src/scss"] },
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "projects/bf-ui-lib-sandbox/src/scss"
+              ]
+            },
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/spectrum-colorpicker/spectrum.js"
@@ -175,5 +179,8 @@
       }
     }
   },
-  "defaultProject": "bf-ui-lib"
+  "defaultProject": "bf-ui-lib",
+  "cli": {
+    "analytics": false
+  }
 }

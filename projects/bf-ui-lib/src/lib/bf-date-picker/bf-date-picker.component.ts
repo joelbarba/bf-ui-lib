@@ -109,7 +109,9 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   }
 
   ngOnDestroy() {
-    this.localeSubscription$.unsubscribe();
+    if (this.localeSubscription$) {
+      this.localeSubscription$.unsubscribe();
+    }
   }
 
 
