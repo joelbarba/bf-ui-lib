@@ -8,7 +8,7 @@ import { BfGrowlPopUpComponent } from './bf-growl-pop-up.component';
   exports: [BfGrowlPopUpComponent],
 })
 export class BfGrowlModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<BfGrowlModule> {
     return {
       ngModule: BfGrowlModule,
     };

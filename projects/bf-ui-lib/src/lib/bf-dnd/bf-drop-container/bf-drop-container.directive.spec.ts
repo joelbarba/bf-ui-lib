@@ -27,7 +27,7 @@ describe('bfDropContainerDirective', () => {
       providers: [BfDnDService]
     }).compileComponents();
 
-    bfDnD = TestBed.get(BfDnDService); // * inject service instance
+    bfDnD = TestBed.inject(BfDnDService); // * inject service instance
 
     fixture = TestBed.createComponent(HostComponent);
     component = fixture.componentInstance;
