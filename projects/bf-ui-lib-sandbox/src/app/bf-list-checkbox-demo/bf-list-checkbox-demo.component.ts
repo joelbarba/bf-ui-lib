@@ -10,6 +10,7 @@ export class BfListCheckboxDemoComponent implements OnInit {
   public desc = BfListCheckboxDoc.desc;
   public api = BfListCheckboxDoc.api;
   public instance = BfListCheckboxDoc.instance;
+  public sel;
 
 
   public instance1 = `<li class="list-header">
