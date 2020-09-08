@@ -61,6 +61,7 @@
             [bfErrorText]="compConf.tooltipText ? compConf.tooltipText : ''"
             [bfErrorPos]="compConf.errorPos"
 
+            [bfLocale]="compConf.bfLocale"
             [bfFormat]="compConf.bfFormat"
             [bfMinDate]="compConf.bfMinDate"
             [bfMaxDate]="compConf.bfMaxDate"
@@ -135,7 +136,7 @@
           <bf-dropdown class="full-width"
                        [(ngModel)]="compConf.bfLocale"
                        [bfList]="localesList" (ngModelChange)="upComp()"
-                       bfLabel="Locale"
+                       bfLabel="bfLocale"
                        bfSelect="code"
                        bfRender="name">
           </bf-dropdown>
@@ -144,7 +145,6 @@
 
       <!--Min / Max-->
       <div class="row marT15">
-        <div class="col-4"></div>
         <div class="col-4">
           <bf-date-picker bfLabel="bfMinDate"
                   [(ngModel)]="compConf.bfMinDate" (ngModelChange)="upComp()"
@@ -158,6 +158,15 @@
                   [bfHasClearBtn]="true"
                   [bfFormat]="compConf.bfFormat"
           ></bf-date-picker>
+        </div>
+        <div class="col-4">
+          <bf-dropdown class="full-width"
+                       [(ngModel)]="locale"
+                       [bfList]="localesList" (ngModelChange)="updateLocale($event)"
+                       bfLabel="locale$ (translate service)"
+                       bfSelect="code"
+                       bfRender="name">
+          </bf-dropdown>
         </div>
       </div>
 

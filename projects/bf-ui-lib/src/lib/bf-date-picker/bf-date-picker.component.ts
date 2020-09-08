@@ -2,10 +2,9 @@ import {Component, OnInit, Input, forwardRef, OnDestroy, OnChanges, SimpleChange
 import {Inject} from '@angular/core';
 import {ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {BfUILibTransService} from '../abstract-translate.service';
-import {NgbDateStruct, NgbDatepicker, NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDateStruct, NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
 import BfString from '../bf-prototypes/string.prototype';
 import {DatePipe} from '@angular/common';
-import { tap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
 
@@ -30,6 +29,7 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   @Input() bfLabel = '';
   @Input() bfRequired = false;
   @Input() bfDisabled = false;
+  @Input() bfLocale: string;        // To fix a format for the date to display (overrides translation.locale$)
   @Input() bfFormat = 'shortDate';  // Format to display the date
   @Input() bfHasClearBtn = false;   // Whether to add a clear button on the input
   @Input() bfMinDate: string;   // 'yyyy-mm-dd'
@@ -91,12 +91,12 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   };
 
   ngOnInit() {
-    this.localeSubscription$ = this.translate.locale$.asObservable()
-      .pipe(
-        tap((locale: string) => {
-          this.locale = locale;
-        })
-      ).subscribe();
+    if (this.translate.locale$) {
+      this.localeSubscription$ = this.translate.locale$.subscribe(locale => {
+        this.locale = locale;
+        this.onInternalModelChange(true);
+      });
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -171,7 +171,7 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
     if (!externalTrigger) { this.isPristine = false; }
 
     // https://angular.io/api/common/DatePipe
-    this.bfFormattedValue = new DatePipe(this.locale || 'en-IE').transform(this.parseModelOut(this.bfModel), this.bfFormat) || '';
+    this.bfFormattedValue = new DatePipe(this.bfLocale || this.locale || 'en-IE').transform(this.parseModelOut(this.bfModel), this.bfFormat) || '';
 
     this.updateStatus();
     this.propagateModelUp(this.parseModelOut(this.bfModel), );
