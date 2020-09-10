@@ -61,6 +61,7 @@
                      [bfErrorText]="conf.hasErrorText ? conf.bfErrorText : ''"
                      [bfErrorPos]="conf.errorPos"
                      [bfKeepSearch]="conf.bfKeepSearch"
+                     [bfHtmlRender]="conf.bfHtmlRender"
                      [bfFilterFn]="conf.hasFilterFn ? conf.bfFilterFn : null"
                      [bfCustomPlacementList]="conf.bfCustomPlacementList"
                      (bfOnLoaded)="myCtrl = $event"
@@ -210,9 +211,10 @@
 
       <div class="row marT15">
         <bf-checkbox class="col-2 padT10" bfLabel="bfKeepSearch" [(ngModel)]="conf.bfKeepSearch" (ngModelChange)="upComp()"></bf-checkbox>
+        <bf-checkbox class="col-2 padT10" bfLabel="bfHtmlRender" [(ngModel)]="conf.bfHtmlRender" (ngModelChange)="upComp()"></bf-checkbox>
         <bf-checkbox class="col-2 padT10" bfLabel="bfFilterFn" [(ngModel)]="conf.hasFilterFn" (ngModelChange)="upComp()"></bf-checkbox>
-        <div class="col-7 padT5" *ngIf="conf.hasFilterFn">
-          <pre style="background: aliceblue; padding: 5px 10px; margin-bottom: 0;">bfFilterFn: (list) => list.filter(item => item.id > 3)</pre>
+        <div class="col-6 padT5" *ngIf="conf.hasFilterFn">
+          <pre style="background: aliceblue; padding: 5px 10px; margin-bottom: 0;">bfFilterFn: (list) => list.filter(x => x.id > 3)</pre>
         </div>
       </div>
 

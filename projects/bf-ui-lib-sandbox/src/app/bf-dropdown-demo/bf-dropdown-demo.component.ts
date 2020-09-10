@@ -63,6 +63,10 @@ export class BfDropdownDemoComponent implements OnInit {
     { id: 22, username: 'shrykos',      email: 'shrykos@targaryen.com',      first_name: 'Shrykos',      last_name: 'Targaryen', icon: 'icon-earth2',        size: 'Small',  img: 'assets/language-flags/zh.png' },
     { id: 23, username: 'greyghost',    email: 'greyghost@targaryen.com',    first_name: 'Greyghost',    last_name: 'Targaryen', icon2: 'icon-menu3',        size: 'Medium', img2: 'assets/language-flags/ca.png' },
     { id: 24, username: 'sheepstealer', email: 'sheepstealer@targaryen.com', first_name: 'Sheepstealer', last_name: 'Targaryen', icon: 'icon-link',          size: 'Medium', img: 'assets/language-flags/de.png' },
+    { id: 25, username: 'test 1',       email: 'views.test_label' },
+    { id: 26, username: 'test 2',       email: 'views.xss_test' },
+    { id: 27, username: 'test 3',       email: 'views.green_thing' },
+    { id: 28, username: 'test 4',       email: 'This is <not> a bb code' },
   ];
   public myList4 = [
     { id:  1, name: 'first',  },
@@ -169,7 +173,7 @@ extCtrl$.next({ action: 'removeError', value: 'wrong' })`;
     hasImages: false, hasIcons: false,
 
     hasErrorText: false, bfErrorText: `this ain't good`, errorPos: null,
-    bfKeepSearch: false, hasFilterFn: false, bfFilterFn: (list) => list.filter(item => item.id > 3),
+    bfKeepSearch: false, bfHtmlRender: false, hasFilterFn: false, bfFilterFn: (list) => list.filter(item => item.id > 3),
     hasControls: false, bfCustomPlacementList: '',
 
     hasFullWidth: true, hasFlat: false,
@@ -221,6 +225,9 @@ extCtrl$.next({ action: 'removeError', value: 'wrong' })`;
     if (this.conf.bfCustomPlacementList === 'top' || this.conf.bfCustomPlacementList === 'bottom') {
       this.code += this.bsStr + `bfCustomPlacementList="${this.conf.bfCustomPlacementList}"`;
     }
+
+    if (this.conf.bfKeepSearch) { this.code += this.bsStr + `[bfKeepSearch]="true"`; }
+    if (this.conf.bfHtmlRender) { this.code += this.bsStr + `[bfHtmlRender]="true"`; }
 
     if (this.conf.hasControls) { this.code += this.bsStr + `(bfOnLoaded)="myCtrl = $event"`; }
 
@@ -316,6 +323,7 @@ export const BfDropdownDoc = {
 [bfErrorText]        : Custom error text (label) to display when invalid value.
 [bfErrorPos]         : Custom position where to display the error text. Values = ['top-right', 'bottom-left', 'bottom-right', 'none']. None will hide the error text.
 [bfKeepSearch]       : If false (default) resets the search string every time the list is expanded, removing the previous filter. If true, it keeps it.
+[bfHtmlRender]       : False by default. When true, displayed values can be rendered as html on the list (but not in the input)
 [bfFilterFn]         : Custom function to perform the list filtering. It should return a sub-array with the filtered items.
 [bfLoading]          : To show a loading spinner on the left button.
                        Either a boolean (true=show, false=hide), or a promise that will automatically show the spinner while not resolved,

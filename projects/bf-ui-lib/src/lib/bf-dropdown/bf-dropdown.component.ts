@@ -68,6 +68,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() extCtrl$: Observable<unknown>; // To trigger actions manually from an external observable (subject)
   @Input() bfFilterFn: (list: Array<any>, value: string) => Array<any>; // Custom function to perform the list filtering
   @Input() bfKeepSearch = false;  // false = resets the search string every time the list is expanded, removing the previous filter
+  @Input() bfHtmlRender = false;   // When true display values can be rendered as html on the list (but not in the input)
 
   @Output() bfOnLoaded = new EventEmitter<IbfDropdownCtrl>();         // Emitter to catch the moment when the component is ready (ngAfterViewInit)
   @Output() bfOnListExpanded = new EventEmitter<any>();   // The moment when the list expands (focus in)
@@ -707,6 +708,10 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   public setModelText = (value) => {
     if (!this.isModelEmpty || this.bfEmptyLabel) { // When item selected, show the rendered value on the input
       this.selModelText = value;
+
+      // If rendering html on the list, when selecting an item we need to strip out the html to display it into the input
+      if (this.bfHtmlRender) { this.selModelText = value.replace(/<.*?>/g, ''); }
+
       this.inputText = this.selModelText;
       this.inputPlaceholder = this.selModelText; // Keep it, so when expanding (and clear inputText) still display it
 

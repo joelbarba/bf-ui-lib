@@ -80,7 +80,8 @@
              (mousedown)="selectItem(item)">
           <img *ngIf="!!item?.$img"  class="option-row-image" [src]="item?.$img" [alt]="item?.$img">
           <span *ngIf="!!item?.$icon" class="option-row-icon" [ngClass]="item?.$icon"></span>
-          <span>{{item.$renderedText}}</span>
+          <span *ngIf="bfHtmlRender" [innerHTML]="item.$renderedText"></span>
+          <span *ngIf="!bfHtmlRender">{{item.$renderedText}}</span>
         </div>
 
       </div>
