@@ -25,7 +25,7 @@ export class BfListCheckboxComponent implements OnInit, OnChanges, OnDestroy {
     // If the actions panel is expanded, collapse it automatically when the selection changes
     if (this.selection) {
       if (!!this.sub) { this.sub.unsubscribe(); }
-      this.selection.onChange$.subscribe(_ => this.actionsExp = false);
+      this.sub = this.selection.onChange$.subscribe(_ => this.actionsExp = false);
     }
   }
 
