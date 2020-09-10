@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { BfUILibTransService } from 'projects/bf-ui-lib/src/public_api';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-bf-date-picker-demo',
@@ -26,6 +28,8 @@ export class BfDatePickerDemoComponent implements OnInit {
                 bfMinDate="2020-01-14"
                 bfMaxDate="2020-02-09">
 </bf-date-picker>`;
+
+  public locale = 'en-IE';
 
   public cssReset = `$date-picker-modal-day-color: #212529 !default; // default bootstrap $dropdown-color ;
 
@@ -167,13 +171,18 @@ $date-picker-valid-color     : $valid-color !default;`;
     setTimeout(() => this.isCompLinked = true);
   };
 
-
-  constructor() { }
+  constructor(private translateService: BfUILibTransService) {
+  }
 
   ngOnInit() { }
 
   public checkNewModel = (model) => {
     console.log('Selected date =', model);
+  }
+
+  public updateLocale(locale) {
+    this.translateService.locale$.next(locale);
+    this.upComp();
   }
 
 }
@@ -187,8 +196,8 @@ export const BfDatePickerDoc = {
 [bfLabel]       : Label of the input (automatically translated). If not provided, no label is displayed.
 [bfRequired]    : Whether the value is required
 [bfDisabled]    : Whether the value can be changed
+[bfLocale]      : In case of using a localized format, the locale to be used. It overrides the translations.locale$ value.
 [bfFormat]      : Format to display the date in the input. By default 'shortDate' (see https://angular.io/api/common/DatePipe#pre-defined-format-options)
-[bfLocale]      : In case of using a localized format, the locale to be used. By default 'en-IE'.
 [bfHasClearBtn] : (true/false) Whether to add a clear button on the input to reset the value
 [bfMinDate]     : Minimum date. String with standard format 'yyyy-mm-dd'.
 [bfMaxDate]     : Maximum date. String with standard format 'yyyy-mm-dd'.

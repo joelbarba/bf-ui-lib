@@ -47,7 +47,6 @@ import { BfModalHeaderComponent } from './bf-modal-header/bf-modal-header.compon
 import { BfListCheckboxComponent } from './bf-list-checkbox/bf-list-checkbox.component';
 import { BfLazyDropdownComponent } from './bf-lazy-dropdown/bf-lazy-dropdown.component';
 
-
 @NgModule({
   declarations: [
     BfTranslatePipe,  // Internal
@@ -86,10 +85,8 @@ import { BfLazyDropdownComponent } from './bf-lazy-dropdown/bf-lazy-dropdown.com
     BfLazyDropdownComponent,
   ],
   entryComponents: [
-    BfConfirmComponent
   ],
   imports: [
-    // BrowserModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -105,7 +102,7 @@ import { BfLazyDropdownComponent } from './bf-lazy-dropdown/bf-lazy-dropdown.com
     Ng5SliderModule,
   ],
   exports: [
-    BfListCheckboxComponent,  // <--- New component
+    BfListCheckboxComponent,
     BfLazyDropdownComponent,
     BfColorPickerComponent,
     BfModalHeaderComponent,
@@ -141,7 +138,7 @@ import { BfLazyDropdownComponent } from './bf-lazy-dropdown/bf-lazy-dropdown.com
     BfRangeSliderComponent,
     BfGrowlModule,
     BfLoadingBarModule,
-    BfDnDModule,
+    BfDnDModule
   ]
 })
 export class BfUiLibModule {
@@ -152,10 +149,7 @@ export class BfUiLibModule {
     }
   }
 
-  static forRoot(config): ModuleWithProviders {
-    // console.log('BfUiLibModule.forRoot()', new Date(), config.trans);
-
-
+  static forRoot(config): ModuleWithProviders<BfUiLibModule> {
     return {
       ngModule: BfUiLibModule,
       providers: [

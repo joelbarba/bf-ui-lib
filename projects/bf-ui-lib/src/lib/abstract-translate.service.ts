@@ -4,15 +4,19 @@ import { Pipe, PipeTransform } from '@angular/core';
 type doTranslateFn = (label ?: string) => string;
 type getFn = (label ?: string) => Observable<string>;
 export abstract class AbstractTranslateService {
-  public onLangChange$; // : BehaviorSubject<{ lang: '', translations: null }>;
+  public onLangChange$: Observable<{ lang: string, translations: Array<any> }>;
   abstract doTranslate: doTranslateFn;  // Synchronous translation
   abstract getLabel$: getFn;            // Async translation
+  public locale$: Observable<string>;
 }
 
 export class BfUILibTransService extends AbstractTranslateService {
 
   // To react on selected language changes (https://github.com/ngx-translate/core)
   public onLangChange$ = new BehaviorSubject({lang: '', translations: []});
+
+  // The locale of the user. Default to Irish
+  public locale$ = new BehaviorSubject('en-IE');
 
   // Synchronous translation
   public doTranslate = (label ?: string, params?): string => label;

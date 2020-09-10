@@ -136,7 +136,7 @@
           <bf-dropdown class="full-width"
                        [(ngModel)]="compConf.bfLocale"
                        [bfList]="localesList" (ngModelChange)="upComp()"
-                       bfLabel="Locale"
+                       bfLabel="bfLocale"
                        bfSelect="code"
                        bfRender="name">
           </bf-dropdown>
@@ -145,12 +145,10 @@
 
       <!--Min / Max-->
       <div class="row marT15">
-        <div class="col-4"></div>
         <div class="col-4">
           <bf-date-picker bfLabel="bfMinDate"
                   [(ngModel)]="compConf.bfMinDate" (ngModelChange)="upComp()"
                   [bfHasClearBtn]="true"
-                  [bfLocale]="compConf.bfLocale"
                   [bfFormat]="compConf.bfFormat"
           ></bf-date-picker>
         </div>
@@ -158,9 +156,17 @@
           <bf-date-picker bfLabel="bfMaxDate"
                   [(ngModel)]="compConf.bfMaxDate" (ngModelChange)="upComp()"
                   [bfHasClearBtn]="true"
-                  [bfLocale]="compConf.bfLocale"
                   [bfFormat]="compConf.bfFormat"
           ></bf-date-picker>
+        </div>
+        <div class="col-4">
+          <bf-dropdown class="full-width"
+                       [(ngModel)]="locale"
+                       [bfList]="localesList" (ngModelChange)="updateLocale($event)"
+                       bfLabel="locale$ (translate service)"
+                       bfSelect="code"
+                       bfRender="name">
+          </bf-dropdown>
         </div>
       </div>
 
@@ -199,8 +205,7 @@
 
   <div class="row">
     <div class="col-5">
-      <bf-date-picker bfLabel="My Date" [(ngModel)]="myDate3"
-                      [bfLocale]="bfTranslate.currentLocale">
+      <bf-date-picker bfLabel="My Date" [(ngModel)]="myDate3">
       </bf-date-picker>
     </div>
     <div class="col-7"> <pre>{{instance}}</pre> </div>
@@ -211,7 +216,6 @@
       <bf-date-picker [(ngModel)]="myDate3"
                       bfLabel="view.common.field_name3"
                       [bfRequired]="true"
-                      [bfLocale]="bfTranslate.currentLocale"
                       bfMinDate="2020-01-14"
                       bfMaxDate="2020-02-09">
       </bf-date-picker>

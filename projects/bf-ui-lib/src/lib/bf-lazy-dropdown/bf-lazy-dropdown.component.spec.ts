@@ -28,11 +28,13 @@ describe('BfLazyDropdownComponent', () => {
   });
 
   describe('search()', () => {
+    beforeEach(() => {
+      component.bfLazyLoad = () => Promise.resolve([]);
+    });
 
     it('should not call expandList', () => {
       spyOn(component, 'minLengthValid').and.returnValue(false);
       spyOn(component, 'expandList');
-
       expect(component.expandList).not.toHaveBeenCalled();
     });
 
@@ -40,12 +42,21 @@ describe('BfLazyDropdownComponent', () => {
       const event = 'test';
       spyOn(component, 'minLengthValid').and.returnValue(true);
       spyOn(component, 'expandList');
-      spyOn(component, 'apiSearch').and.returnValue(['test']);
-      spyOn(component, 'localSearch').and.returnValue(['test']);
       component.search(event);
       expect(component.expandList).toHaveBeenCalled();
     });
 
+  });
+
+  describe('setResult()', () => {
+    it('should set the results found', () => {
+      const list = [{label: 'lallero 0'}, {label: 'lallero 1'}, {label: 'lallero 2'}];
+      const searchParam = 'lallero';
+      component.setResult(list, searchParam, false);
+      expect(component.results.hasOwnProperty(searchParam)).toBe(true);
+      expect(component.results[searchParam]).toEqual(list);
+      expect(component.list).toEqual(list);
+    });
   });
 
   describe('minLengthValid()', () => {

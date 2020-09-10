@@ -8,7 +8,7 @@ import { BfLoadingBarComponent } from './bf-loading-bar.component';
   exports: [BfLoadingBarComponent],
 })
 export class BfLoadingBarModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<BfLoadingBarModule> {
     return {
       ngModule: BfLoadingBarModule,
     };
