@@ -46,7 +46,7 @@ export class BfListSelection {
     this.onChange$.next(this.ids);
   }
 
-  public toggleCheck = (id: string, value = !this.ids[id]) => {
+  public toggleCheck = (id: any, value = !this.ids[id]) => {
     if (value) {
       this.ids[id] = true;
     } else {
@@ -56,6 +56,6 @@ export class BfListSelection {
   };
 
   public togglePage = (value = !this.isPageChecked) => {
-    this.list.forEach(rate => this.toggleCheck(rate.id, value));
+    this.list.forEach(item => this.toggleCheck(item.id, value));
   };
 }

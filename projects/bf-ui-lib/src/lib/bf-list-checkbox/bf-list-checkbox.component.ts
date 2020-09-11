@@ -19,7 +19,7 @@ export class BfListCheckboxComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() { }
 
-  ngOnChanges() {
+  ngOnChanges(changes) {
     this.hasId = this.id !== undefined;
 
     // If the actions panel is expanded, collapse it automatically when the selection changes
