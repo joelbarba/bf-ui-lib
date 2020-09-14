@@ -165,7 +165,7 @@ export const BfTimePickerDoc = {
   instance: `
     <bf-time-picker
       [bfSelectedTimezone]="'Europe/Dublin'"
-      [bfSupportedTimezones]="[{ country_code: null, time_zone: 'Europe/Dublin }, { country_code: null, time_zone: 'US/Arizona' }]">
+      [bfSupportedTimezones]="[{ country_code: null, time_zone: 'Europe/Dublin' }, { country_code: null, time_zone: 'US/Arizona' }]">
     </bf-time-picker>
   `,
   demoComp: BfTimePickerDemoComponent
