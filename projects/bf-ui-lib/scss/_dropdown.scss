@@ -8,7 +8,7 @@ $dropdown-valid-color: $valid-color !default;
     color: $color;
   }
   .dropdown {
-    input.form-control {
+    .form-control {
       border-color: $color;
     }
 
@@ -45,7 +45,7 @@ $dropdown-valid-color: $valid-color !default;
   }
 }
 
-bf-dropdown, bf-lazy-dropdown {
+bf-dropdown, bf-lazy-dropdown, bf-multi-selector {
   .dropdown-form-group {
     display: inline-block;
     margin-bottom: 15px;
@@ -98,7 +98,7 @@ bf-dropdown, bf-lazy-dropdown {
       }
 
       // Input for the selected value
-      input.form-control {
+      .form-control {
         border: 1px solid $optional-color;
 
         &.has-image, &.has-icon {
@@ -157,7 +157,7 @@ bf-dropdown, bf-lazy-dropdown {
 
       &.is-expanded {
         &:not(.expand-upward) {
-          input.form-control {
+          .form-control {
             border-bottom-left-radius: 0;
             border-bottom: none;
           }
@@ -169,7 +169,7 @@ bf-dropdown, bf-lazy-dropdown {
         }
 
         &.expand-upward {
-          input.form-control {
+          .form-control {
             border-top-left-radius: 0;
             border-top: none;
           }
