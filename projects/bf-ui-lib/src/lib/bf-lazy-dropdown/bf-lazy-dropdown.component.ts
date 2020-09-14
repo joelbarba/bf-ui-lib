@@ -262,7 +262,15 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnInit, On
   // Search and store new results coming from API BfLazyLoad
   apiSearch(searchParam, select = false, lazyItemFetch = false) {
     this.isLoading = true;
-    this.bfLazyLoad(searchParam, lazyItemFetch).then(res => this.setResult(res, searchParam, select));
+    this.bfLazyLoad(searchParam, lazyItemFetch).then(list => {
+      if (list) {
+        this.setResult(list, searchParam, select);
+      } else {
+        this.isExpanded = false;
+        this.isLoading = false;
+        this.isFocus = false;
+      }
+    });
   }
 
   setResult(list, searchParam, select) {
