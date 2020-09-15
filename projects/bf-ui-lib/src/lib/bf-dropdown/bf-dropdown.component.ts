@@ -46,6 +46,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfDisabled: unknown = false; // Whether the dropdown is disabled
   @Input() bfDisabledTip = '';    // If dropdown disabled, tooltip to display on hover (label)
   @Input() bfOrderBy = '';        // Field (or fields separated by ,). If prefixed by '-', desc order for the field
+  @Input() bfGroupBy = '';        // Group the elements of the list by this field
 
   @Input() bfLabel = '';          // Label to display above the dropdown
   @Input() bfTooltip = '';        // Add a badge next to the label with the tooltip to give more info
@@ -67,6 +68,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() extCtrl$: Observable<unknown>; // To trigger actions manually from an external observable (subject)
   @Input() bfFilterFn: (list: Array<any>, value: string) => Array<any>; // Custom function to perform the list filtering
   @Input() bfKeepSearch = false;  // false = resets the search string every time the list is expanded, removing the previous filter
+  @Input() bfHtmlRender = false;   // When true display values can be rendered as html on the list (but not in the input)
 
   @Output() bfOnLoaded = new EventEmitter<IbfDropdownCtrl>();         // Emitter to catch the moment when the component is ready (ngAfterViewInit)
   @Output() bfOnListExpanded = new EventEmitter<any>();   // The moment when the list expands (focus in)
@@ -196,7 +198,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     }
 
     // List generation (bfList --> extList)
-    if (changing('bfList') || changing('bfOrderBy') || changing('bfRender') || changing('bfRenderFn')) {
+    if (changing('bfList') || changing('bfOrderBy') || changing('bfGroupBy') || changing('bfRender') || changing('bfRenderFn')) {
       this.generateExtList();
 
       if (changing('bfList')) { // If the list changes, match the ngModel with the new list
@@ -336,21 +338,31 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     });
 
     // Order the list
-    if (this.bfOrderBy) {
-      const fields = this.bfOrderBy.split(',').map(field => field.trim()).reverse();
+    if (this.bfOrderBy || this.bfGroupBy) {
+      const fields = (this.bfOrderBy || '').split(',').map(field => field.trim()).reverse();
+      if (this.bfGroupBy) { fields.push(this.bfGroupBy); }  // If grouping, bfGroupBy has to be 1st order
       this.extList = this.extList.sort((itemA, itemB) => {
         let diff = 0;
         fields.forEach(field => {
-          if (field.charAt(0) === '-') {
-            if (itemA[field.slice(1)] < itemB[field.slice(1)]) { diff =  1; }
-            if (itemA[field.slice(1)] > itemB[field.slice(1)]) { diff = -1; }
-          } else {
-            if (itemA[field] < itemB[field]) { diff = -1; }
-            if (itemA[field] > itemB[field]) { diff =  1; }
-          }
+          if (field.charAt(0) === '-') { field = field.slice(1); }
+          const valueA = itemA[field] !== undefined ? itemA[field] : '';
+          const valueB = itemB[field] !== undefined ? itemB[field] : '';
+          if (valueA < valueB) { diff = -1; }
+          if (valueA > valueB) { diff =  1; }
         });
         return diff;
       });
+    }
+
+    // Add .$groupHeader to the first item of every group
+    if (this.bfGroupBy) {
+      let lastHeader = '';
+      for (const item of this.extList) {
+        if (item[this.bfGroupBy] !== lastHeader) {
+          item.$groupHeader = item[this.bfGroupBy];
+          lastHeader = item.$groupHeader;
+        }
+      }
     }
 
     this.setEmptyOption(); // Set Empty option
@@ -600,6 +612,12 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
       });
       this.emptyItem.$isMatch = true; // Fix empty option as always visible
     }
+
+    if (this.bfGroupBy) { // If grouping, hide headers that have no matches
+      this.extList.filter(i => !!i.$groupHeader).forEach(item => {
+        item.$hideHeader = !this.extList.filter(gi => gi.$isMatch && gi[this.bfGroupBy] === item[this.bfGroupBy]).length;
+      });
+    }
   };
 
 
@@ -618,23 +636,10 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
           })[0];
         }
 
-      } else {  // Full object match
+      } else {  // Full object match (without $ props)
         matchItem = this.extList.filter(item => {
-          const oriItem = dCopy(item);
-          delete oriItem.$index;
-          delete oriItem.$label;
-          delete oriItem.$renderedText;
-          delete oriItem.$isMatch;
-          delete oriItem.$img;
-          delete oriItem.$icon;
-
-
-          // Stringify comparison is quite bad. TODO: Add a better object compare here
-          // Ideas:
-          // https://lodash.com/docs/4.17.11#isEqual
-          // https://www.npmjs.com/package/is-equal
-          // https://www.npmjs.com/package/fast-equals
-          return !!oriItem && (JSON.stringify(oriItem) === JSON.stringify(value));
+          const oriItem = dCopy(BfObject.keyFilter.call(item, (val, key) => key.slice(0,1) !== '$'));
+          return !!oriItem && BfObject.isEqualTo.call(oriItem, value);
         })[0];
       }
     }
@@ -671,13 +676,9 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
     } else {
       if (!this.bfSelect) {
-        const extModel = dCopy(selObj);  // Select full object
-        delete extModel.$index;
-        delete extModel.$label;
-        delete extModel.$renderedText;
-        delete extModel.$isMatch;
-        delete extModel.$img;
-        delete extModel.$icon;
+        // extModel = selObject without $ prefixed props
+        const extModel = dCopy(BfObject.keyFilter.call(selObj, (val, key) => key.slice(0,1) !== '$'));
+
         modelUp = this.bfList.find(item => JSON.stringify(item) === JSON.stringify(extModel));
 
       } else {
@@ -707,6 +708,10 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   public setModelText = (value) => {
     if (!this.isModelEmpty || this.bfEmptyLabel) { // When item selected, show the rendered value on the input
       this.selModelText = value;
+
+      // If rendering html on the list, when selecting an item we need to strip out the html to display it into the input
+      if (this.bfHtmlRender) { this.selModelText = value.replace(/<.*?>/g, ''); }
+
       this.inputText = this.selModelText;
       this.inputPlaceholder = this.selModelText; // Keep it, so when expanding (and clear inputText) still display it
 

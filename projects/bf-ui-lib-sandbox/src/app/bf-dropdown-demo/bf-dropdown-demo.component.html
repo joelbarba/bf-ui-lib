@@ -39,7 +39,8 @@
                      [class.flat]="conf.hasFlat"
                      [(ngModel)]="selObj10" #bfDropdownRef="ngModel"
                      [bfList]="dList"
-                     [bfOrderBy]="conf.hasOrder ? conf.bfOrderBy: null"
+                     [bfOrderBy]="conf.hasOrder ? conf.bfOrderBy : null"
+                     [bfGroupBy]="conf.hasGroupBy ? 'size' : null"
                      [bfSelect]="(conf.hasSelect && !!conf.selectField) ? conf.selectField : null"
                      [bfRender]="(conf.hasRender ? conf.renderExp : null)"
                      [bfRenderFn]="(conf.hasRenderFn ? renderFn : null)"
@@ -60,6 +61,7 @@
                      [bfErrorText]="conf.hasErrorText ? conf.bfErrorText : ''"
                      [bfErrorPos]="conf.errorPos"
                      [bfKeepSearch]="conf.bfKeepSearch"
+                     [bfHtmlRender]="conf.bfHtmlRender"
                      [bfFilterFn]="conf.hasFilterFn ? conf.bfFilterFn : null"
                      [bfCustomPlacementList]="conf.bfCustomPlacementList"
                      (bfOnLoaded)="myCtrl = $event"
@@ -123,7 +125,7 @@
       <!--bfSelect-->
       <div class="row marT15">
         <bf-checkbox class="col-2 padT5" bfLabel="bfSelect" [(ngModel)]="conf.hasSelect" (ngModelChange)="upComp()" bfTooltipPos="left" bfTooltip="The field of the object to be set in the ngModel when selected. If empty, the whole object is set to ngModel."></bf-checkbox>
-        <div class="col-3 padT5 padB15">
+        <div class="col-2 padT5 padB15">
           <select [disabled]="!conf.hasSelect" [(ngModel)]="conf.selectField" (ngModelChange)="upComp()">
             <option value="id">id</option>
             <option value="username">username</option>
@@ -133,7 +135,9 @@
           </select>
         </div>
         <bf-checkbox class="col-2 padT5" bfLabel="bfOrderBy" [(ngModel)]="conf.hasOrder" (ngModelChange)="upComp()"></bf-checkbox>
-        <bf-input class="col-5" [bfDisabled]="!conf.hasOrder" [(ngModel)]="conf.bfOrderBy" (ngModelChange)="upComp()"></bf-input>
+        <bf-input class="col-3" [bfDisabled]="!conf.hasOrder" [(ngModel)]="conf.bfOrderBy" (ngModelChange)="upComp()"></bf-input>
+
+        <bf-checkbox class="col-2 offset-1 padT5" bfLabel="bfGroupBy" [(ngModel)]="conf.hasGroupBy" (ngModelChange)="upComp()"></bf-checkbox>
       </div>
 
       <!--bfRender-->
@@ -207,9 +211,10 @@
 
       <div class="row marT15">
         <bf-checkbox class="col-2 padT10" bfLabel="bfKeepSearch" [(ngModel)]="conf.bfKeepSearch" (ngModelChange)="upComp()"></bf-checkbox>
+        <bf-checkbox class="col-2 padT10" bfLabel="bfHtmlRender" [(ngModel)]="conf.bfHtmlRender" (ngModelChange)="upComp()"></bf-checkbox>
         <bf-checkbox class="col-2 padT10" bfLabel="bfFilterFn" [(ngModel)]="conf.hasFilterFn" (ngModelChange)="upComp()"></bf-checkbox>
-        <div class="col-7 padT5" *ngIf="conf.hasFilterFn">
-          <pre style="background: aliceblue; padding: 5px 10px; margin-bottom: 0;">bfFilterFn: (list) => list.filter(item => item.id > 3)</pre>
+        <div class="col-6 padT5" *ngIf="conf.hasFilterFn">
+          <pre style="background: aliceblue; padding: 5px 10px; margin-bottom: 0;">bfFilterFn: (list) => list.filter(x => x.id > 3)</pre>
         </div>
       </div>
 
