@@ -628,7 +628,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     if (value !== null && value !== undefined) {
       if (!!this.bfSelect) {
         if (this.bfSelect.indexOf(',') === -1) {  // Single prop
-          matchItem = this.extList.getByProp(this.bfSelect, value);
+          matchItem = BfArray.getByProp.call(this.extList, this.bfSelect, value);
 
         } else { // Multiple prop match
           matchItem = this.extList.filter(item => {
