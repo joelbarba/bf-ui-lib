@@ -67,17 +67,23 @@
     </div>
 
     <div class="list-container" [class.list-upward]="expandUpward" *ngIf="isExpanded" #listContainer>
-      <div *ngFor="let item of extList" class="option-row" #optionRow
-           [class.selected]="bfModel === item"
-           [class.candidate]="bfCandidate === item"
-           [hidden]="!item.$isMatch"
-           (mouseenter)="!ignoreHover && (bfCandidate = item)"
-           (mouseleave)="!ignoreHover && (bfCandidate = null)"
-           (mousedown)="selectItem(item)">
-        <img *ngIf="!!item?.$img"  class="option-row-image" [src]="item?.$img" [alt]="item?.$img">
-        <span *ngIf="!!item?.$icon" class="option-row-icon" [ngClass]="item?.$icon"></span>
-        <span>{{item.$renderedText}}</span>
-<!--        {{option.$isMatch}} - {{option.$renderedText}}-->
+      <div *ngFor="let item of extList" class="option-wrapper">
+        <div *ngIf="item.$groupHeader && !item.$hideHeader" class="group-header">{{item.$groupHeader}}</div>
+
+        <div class="option-row" #optionRow
+             [class.selected]="bfModel === item"
+             [class.candidate]="bfCandidate === item"
+             [class.group-pad]="!!bfGroupBy && !!item[bfGroupBy]"
+             [hidden]="!item.$isMatch"
+             (mouseenter)="!ignoreHover && (bfCandidate = item)"
+             (mouseleave)="!ignoreHover && (bfCandidate = null)"
+             (mousedown)="selectItem(item)">
+          <img *ngIf="!!item?.$img"  class="option-row-image" [src]="item?.$img" [alt]="item?.$img">
+          <span *ngIf="!!item?.$icon" class="option-row-icon" [ngClass]="item?.$icon"></span>
+          <span *ngIf="bfHtmlRender" [innerHTML]="item.$renderedText"></span>
+          <span *ngIf="!bfHtmlRender">{{item.$renderedText}}</span>
+        </div>
+
       </div>
     </div>
   </div>

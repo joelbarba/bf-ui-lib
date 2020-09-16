@@ -223,25 +223,30 @@ bf-dropdown, bf-lazy-dropdown {
           border-bottom-color: rgba($optional-color, 0.5);
         }
 
+        // Adjust the first / last rows (remove 1px line between)
+        .option-wrapper:first-child .option-row { min-height: 37px; margin-top: 0; }
+        .option-wrapper:last-child  .option-row { min-height: 37px; margin-bottom: 0; }
+
+        .group-header {
+          padding: 4px 10px;
+          font-weight: bold;
+          margin: 1px 0;
+          min-height: 36px;
+          max-height: 72px;
+          display: flex;
+          align-items: center;
+        }
+
         .option-row {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
           padding: 4px 10px;
           margin: 1px 0;
           min-height: 36px;
           max-height: 72px;
 
-          &:last-child {
-            min-height: 37px;
-            margin-bottom: 0;
-          }
-
-          &:first-child {
-            min-height: 37px;
-            margin-top: 0;
-          }
-
-          display: flex;
-          align-items: center;
-          cursor: pointer;
+          &.group-pad { padding-left: 20px; }
 
           &.selected {
             font-weight: 700;

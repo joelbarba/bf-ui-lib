@@ -40,29 +40,33 @@ export class BfDropdownDemoComponent implements OnInit {
   ];
   public myList3 = [
     { id:  0, username: 'joel.barba',   email: 'joel@barba.com', first_name: 'Joel', last_name: 'Barba', icon: 'icon-smile2', img: 'assets/language-flags/ca.png' },
-    { id:  2, username: 'syrax',        email: 'syrax@targaryen.com',        first_name: 'Syrax',        last_name: 'Targaryen', icon: 'icon-home',          img: 'assets/language-flags/de.png' },
-    { id:  3, username: 'vermithor',    email: 'vermithor@targaryen.com',    first_name: 'Vermithor',    last_name: 'Targaryen', icon: 'icon-office',        img: 'assets/language-flags/ja.png' },
-    { id:  4, username: 'caraxes',      email: 'caraxes@targaryen.com',      first_name: 'Caraxes',      last_name: 'Targaryen', icon: 'icon-thumbs-up',     img3: 'assets/language-flags/cn.png' },
-    { id:  5, username: 'silverwing',   email: 'silverwing@targaryen.com',   first_name: 'Silverwing',   last_name: 'Targaryen', icon: 'icon-phone2',        img: 'assets/language-flags/da.png' },
-    { id:  6, username: 'sunfyre',      email: 'sunfyre@targaryen.com',      first_name: 'Sunfyre',      last_name: 'Targaryen', icon: 'icon-bell2',         img: 'assets/language-flags/cat.png' },
-    { id:  7, username: 'vhagar',       email: 'vhagar@targaryen.com',       first_name: 'Vhagar',       last_name: 'Targaryen', icon: 'icon-user',          img: 'assets/language-flags/el.png' },
-    { id:  8, username: 'tessarion',    email: 'tessarion@targaryen.com',    first_name: 'Tessarion',    last_name: 'Targaryen', icon: 'icon-users',         img: 'assets/language-flags/es.png' },
-    { id:  9, username: 'cannibal',     email: 'cannibal@targaryen.com',     first_name: 'Cannibal',     last_name: 'Targaryen', icon: 'icon-lock',          img: 'assets/language-flags/fi.png' },
-    { id: 10, username: 'meraxes',      email: 'meraxes@targaryen.com',      first_name: 'Meraxes',      last_name: 'Targaryen', icon: 'icon-teapot',        img: 'assets/language-flags/fr.png' },
-    { id: 11, username: 'balerion',     email: 'balerion@targaryen.com',     first_name: 'Balerion',     last_name: 'Targaryen', icon: 'icon-plus',          img: 'assets/language-flags/gb.png' },
-    { id: 12, username: 'quicksilver',  email: 'quicksilver@targaryen.com',  first_name: 'Quicksilver',  last_name: 'Targaryen', icon: 'icon-minus',         img: 'assets/language-flags/ie.png' },
-    { id: 13, username: 'dreamfyre',    email: 'dreamfyre@targaryen.com',    first_name: 'Dreamfyre',    last_name: 'Targaryen', icon: 'icon-notification2', img: 'assets/language-flags/it.png' },
-    { id: 14, username: 'meleys',       email: 'meleys@targaryen.com',       first_name: 'Meleys',       last_name: 'Targaryen', icon: 'icon-warning2',      img: 'assets/language-flags/ja.png' },
-    { id: 15, username: 'seasmoke',     email: 'seasmoke@targaryen.com',     first_name: 'Seasmoke',     last_name: 'Targaryen', icon: 'icon-checkmark',     img: 'assets/language-flags/nl.png' },
-    { id: 16, username: 'vermax',       email: 'vermax@targaryen.com',       first_name: 'Vermax',       last_name: 'Targaryen', icon: 'icon-rocket',        img: 'assets/language-flags/no.png' },
-    { id: 17, username: 'arrax',        email: 'arrax@targaryen.com',        first_name: 'Arrax',        last_name: 'Targaryen', icon: 'icon-bin',           img: 'assets/language-flags/pl.png' },
-    { id: 18, username: 'tyraxes',      email: 'tyraxes@targaryen.com',      first_name: 'Tyraxes',      last_name: 'Targaryen', icon: 'icon-shield',        img: 'assets/language-flags/pt.png' },
-    { id: 19, username: 'moondancer',   email: 'moondancer@targaryen.com',   first_name: 'Moondancer',   last_name: 'Targaryen', icon: 'icon-switch',        img: 'assets/language-flags/sv.png' },
-    { id: 20, username: 'stormcloud',   email: 'stormcloud@targaryen.com',   first_name: 'Stormcloud',   last_name: 'Targaryen', icon: 'icon-list',          img: 'assets/language-flags/tw.png' },
-    { id: 21, username: 'morghul',      email: 'morghul@targaryen.com',      first_name: 'Morghul',      last_name: 'Targaryen', icon: 'icon-tree6',         img: 'assets/language-flags/us.png' },
-    { id: 22, username: 'shrykos',      email: 'shrykos@targaryen.com',      first_name: 'Shrykos',      last_name: 'Targaryen', icon: 'icon-earth2',        img: 'assets/language-flags/zh.png' },
-    { id: 23, username: 'greyghost',    email: 'greyghost@targaryen.com',    first_name: 'Greyghost',    last_name: 'Targaryen', icon2: 'icon-menu3',        img2: 'assets/language-flags/ca.png' },
-    { id: 24, username: 'sheepstealer', email: 'sheepstealer@targaryen.com', first_name: 'Sheepstealer', last_name: 'Targaryen', icon: 'icon-link',          img: 'assets/language-flags/de.png' },
+    { id:  2, username: 'syrax',        email: 'syrax@targaryen.com',        first_name: 'Syrax',        last_name: 'Targaryen', icon: 'icon-home',          size: 'Medium', img: 'assets/language-flags/de.png' },
+    { id:  3, username: 'vermithor',    email: 'vermithor@targaryen.com',    first_name: 'Vermithor',    last_name: 'Targaryen', icon: 'icon-office',        size: 'Large',  img: 'assets/language-flags/ja.png' },
+    { id:  4, username: 'caraxes',      email: 'caraxes@targaryen.com',      first_name: 'Caraxes',      last_name: 'Targaryen', icon: 'icon-thumbs-up',     size: 'Medium', img3: 'assets/language-flags/cn.png' },
+    { id:  5, username: 'silverwing',   email: 'silverwing@targaryen.com',   first_name: 'Silverwing',   last_name: 'Targaryen', icon: 'icon-phone2',        size: 'Medium', img: 'assets/language-flags/da.png' },
+    { id:  6, username: 'sunfyre',      email: 'sunfyre@targaryen.com',      first_name: 'Sunfyre',      last_name: 'Targaryen', icon: 'icon-bell2',         size: 'Medium', img: 'assets/language-flags/cat.png' },
+    { id:  7, username: 'vhagar',       email: 'vhagar@targaryen.com',       first_name: 'Vhagar',       last_name: 'Targaryen', icon: 'icon-user',          size: 'Large',  img: 'assets/language-flags/el.png' },
+    { id:  8, username: 'tessarion',    email: 'tessarion@targaryen.com',    first_name: 'Tessarion',    last_name: 'Targaryen', icon: 'icon-users',         size: 'Medium', img: 'assets/language-flags/es.png' },
+    { id:  9, username: 'cannibal',     email: 'cannibal@targaryen.com',     first_name: 'Cannibal',     last_name: 'Targaryen', icon: 'icon-lock',          size: 'Medium', img: 'assets/language-flags/fi.png' },
+    { id: 10, username: 'meraxes',      email: 'meraxes@targaryen.com',      first_name: 'Meraxes',      last_name: 'Targaryen', icon: 'icon-teapot',        size: 'Large',  img: 'assets/language-flags/fr.png' },
+    { id: 11, username: 'balerion',     email: 'balerion@targaryen.com',     first_name: 'Balerion',     last_name: 'Targaryen', icon: 'icon-plus',          size: 'Large',  img: 'assets/language-flags/gb.png' },
+    { id: 12, username: 'quicksilver',  email: 'quicksilver@targaryen.com',  first_name: 'Quicksilver',  last_name: 'Targaryen', icon: 'icon-minus',         size: 'Medium', img: 'assets/language-flags/ie.png' },
+    { id: 13, username: 'dreamfyre',    email: 'dreamfyre@targaryen.com',    first_name: 'Dreamfyre',    last_name: 'Targaryen', icon: 'icon-notification2', size: 'Large',  img: 'assets/language-flags/it.png' },
+    { id: 14, username: 'meleys',       email: 'meleys@targaryen.com',       first_name: 'Meleys',       last_name: 'Targaryen', icon: 'icon-warning2',      size: 'Medium', img: 'assets/language-flags/ja.png' },
+    { id: 15, username: 'seasmoke',     email: 'seasmoke@targaryen.com',     first_name: 'Seasmoke',     last_name: 'Targaryen', icon: 'icon-checkmark',     size: 'Medium', img: 'assets/language-flags/nl.png' },
+    { id: 16, username: 'vermax',       email: 'vermax@targaryen.com',       first_name: 'Vermax',       last_name: 'Targaryen', icon: 'icon-rocket',        size: 'Medium', img: 'assets/language-flags/no.png' },
+    { id: 17, username: 'arrax',        email: 'arrax@targaryen.com',        first_name: 'Arrax',        last_name: 'Targaryen', icon: 'icon-bin',           size: 'Small',  img: 'assets/language-flags/pl.png' },
+    { id: 18, username: 'tyraxes',      email: 'tyraxes@targaryen.com',      first_name: 'Tyraxes',      last_name: 'Targaryen', icon: 'icon-shield',        size: 'Medium', img: 'assets/language-flags/pt.png' },
+    { id: 19, username: 'moondancer',   email: 'moondancer@targaryen.com',   first_name: 'Moondancer',   last_name: 'Targaryen', icon: 'icon-switch',        size: 'Small',  img: 'assets/language-flags/sv.png' },
+    { id: 20, username: 'stormcloud',   email: 'stormcloud@targaryen.com',   first_name: 'Stormcloud',   last_name: 'Targaryen', icon: 'icon-list',          size: 'Medium', img: 'assets/language-flags/tw.png' },
+    { id: 21, username: 'morghul',      email: 'morghul@targaryen.com',      first_name: 'Morghul',      last_name: 'Targaryen', icon: 'icon-tree6',         size: 'Small',  img: 'assets/language-flags/us.png' },
+    { id: 22, username: 'shrykos',      email: 'shrykos@targaryen.com',      first_name: 'Shrykos',      last_name: 'Targaryen', icon: 'icon-earth2',        size: 'Small',  img: 'assets/language-flags/zh.png' },
+    { id: 23, username: 'greyghost',    email: 'greyghost@targaryen.com',    first_name: 'Greyghost',    last_name: 'Targaryen', icon2: 'icon-menu3',        size: 'Medium', img2: 'assets/language-flags/ca.png' },
+    { id: 24, username: 'sheepstealer', email: 'sheepstealer@targaryen.com', first_name: 'Sheepstealer', last_name: 'Targaryen', icon: 'icon-link',          size: 'Medium', img: 'assets/language-flags/de.png' },
+    { id: 25, username: 'test 1',       email: 'views.test_label' },
+    { id: 26, username: 'test 2',       email: 'views.xss_test' },
+    { id: 27, username: 'test 3',       email: 'views.green_thing' },
+    { id: 28, username: 'test 4',       email: 'This is <not> a bb code' },
   ];
   public myList4 = [
     { id:  1, name: 'first',  },
@@ -158,7 +162,7 @@ extCtrl$.next({ action: 'removeError', value: 'wrong' })`;
     isLoading: false, isLoadingWithPromise: false, bfLoadingPromise: null,
     isErrorOnPristine: false,
     hasSelect: true,  selectField: 'username',
-    hasOrder: false, bfOrderBy: 'last_name, -username',
+    hasOrder: false, bfOrderBy: 'last_name, -username', hasGroupBy: false,
     hasRender: true,  hasRenderFn: false, renderExp: `email`, renderLabel: false,
 
     hasLabel: true,   labelText: 'view.common.field_name',
@@ -169,7 +173,7 @@ extCtrl$.next({ action: 'removeError', value: 'wrong' })`;
     hasImages: false, hasIcons: false,
 
     hasErrorText: false, bfErrorText: `this ain't good`, errorPos: null,
-    bfKeepSearch: false, hasFilterFn: false, bfFilterFn: (list) => list.filter(item => item.id > 3),
+    bfKeepSearch: false, bfHtmlRender: false, hasFilterFn: false, bfFilterFn: (list) => list.filter(item => item.id > 3),
     hasControls: false, bfCustomPlacementList: '',
 
     hasFullWidth: true, hasFlat: false,
@@ -196,7 +200,8 @@ extCtrl$.next({ action: 'removeError', value: 'wrong' })`;
       if (!!this.conf.tooltipBody) { this.code += this.bsStr + `bfTooltipBody="${this.conf.tooltipBody}"`; }
     }
 
-    if (this.conf.hasOrder)  { this.code += this.bsStr + `bfOrderBy="${this.conf.bfOrderBy}"`; }
+    if (this.conf.hasOrder)   { this.code += this.bsStr + `bfOrderBy="${this.conf.bfOrderBy}"`; }
+    if (this.conf.hasGroupBy) { this.code += this.bsStr + `bfGroupBy="size"`; }
     if (this.conf.isLoading) {
       if (this.conf.isLoadingWithPromise) {
         this.code += this.bsStr + `bfLoading="myPromise"`;
@@ -220,6 +225,9 @@ extCtrl$.next({ action: 'removeError', value: 'wrong' })`;
     if (this.conf.bfCustomPlacementList === 'top' || this.conf.bfCustomPlacementList === 'bottom') {
       this.code += this.bsStr + `bfCustomPlacementList="${this.conf.bfCustomPlacementList}"`;
     }
+
+    if (this.conf.bfKeepSearch) { this.code += this.bsStr + `[bfKeepSearch]="true"`; }
+    if (this.conf.bfHtmlRender) { this.code += this.bsStr + `[bfHtmlRender]="true"`; }
 
     if (this.conf.hasControls) { this.code += this.bsStr + `(bfOnLoaded)="myCtrl = $event"`; }
 
@@ -315,6 +323,7 @@ export const BfDropdownDoc = {
 [bfErrorText]        : Custom error text (label) to display when invalid value.
 [bfErrorPos]         : Custom position where to display the error text. Values = ['top-right', 'bottom-left', 'bottom-right', 'none']. None will hide the error text.
 [bfKeepSearch]       : If false (default) resets the search string every time the list is expanded, removing the previous filter. If true, it keeps it.
+[bfHtmlRender]       : False by default. When true, displayed values can be rendered as html on the list (but not in the input)
 [bfFilterFn]         : Custom function to perform the list filtering. It should return a sub-array with the filtered items.
 [bfLoading]          : To show a loading spinner on the left button.
                        Either a boolean (true=show, false=hide), or a promise that will automatically show the spinner while not resolved,

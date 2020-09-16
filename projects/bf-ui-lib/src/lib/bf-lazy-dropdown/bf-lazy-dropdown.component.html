@@ -53,7 +53,7 @@
     <div class="list-container" #listContainer
          *ngIf="isExpanded"
          [class.list-upward]="expandUpward">
-      <div *ngFor="let item of list" class="option-row" #optionRow
+      <div *ngFor="let item of list" class="option-wrapper option-row" #optionRow
            [class.selected]="bfModel === item"
            [class.candidate]="bfCandidate === item"
            (mouseenter)="!ignoreHover$ && (bfCandidate = item)"

@@ -117,6 +117,7 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.pending'              : 'Pending',
     'view.common.no_data_to_show' : 'No Data',
     'views.test_label': 'p1 = {{p1}} ### Test & test2 & test3 [b] AAA BBB [/b]',
+    'views.xss_test': '<script deferred>alert("XSS Attack");</script>',
     'view.voicemails.no_voicemails_title': 'No Voicemails yet',
     'view.voicemails.no_voicemails': 'Please click on the button above to check your Mailbox settings.',
     'view.common.today': 'Today',
@@ -133,6 +134,7 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.actions': 'Actions',
     'views.lazy_dropdown.label': 'Search an email',
     'views.lazy_dropdown.placeholder': 'Search user email',
+    'views.green_thing': 'This is <span class="green">GREEN!</span>',
   };
 
   public transDictCAT = {
@@ -189,7 +191,21 @@ export class BfTranslateService extends BfUILibTransService {
   public onLangChange$ = new BehaviorSubject({ lang: '', translations: null });
   public currLang: string;
 
-
+  // BB Codes replacement
+  private formatSearch =  [
+    /\[b\](.*?)\[\/b\]/ig,
+    /\[i\](.*?)\[\/i\]/ig,
+    /\[u\](.*?)\[\/u\]/ig,
+    /\[br\]/ig,
+    /\[br\/\]/ig,
+  ];
+  private formatReplace = [
+    '<strong>$1</strong>',
+    '<em>$1</em>',
+    '<span style="text-decoration: underline;">$1</span>',
+    '<br/>',
+    '<br/>'
+  ];
 
 
   constructor() {
@@ -204,7 +220,7 @@ export class BfTranslateService extends BfUILibTransService {
       // text = text.replace(new RegExp('{{' + key + '}}', 'gi'), value);
       // text = text.replace(this.transRegExps[label], value + '');
     }
-    return text;
+    return this.parseBBCodes(text);
   };
 
   public getLabel$ = (label ?: string, params = {}): Observable<string> => {
@@ -216,7 +232,7 @@ export class BfTranslateService extends BfUILibTransService {
           // text = text.replace(new RegExp('{{' + key + '}}', 'gi'), value);
           // text = text.replace(this.transRegExps[label], value + '');
         }
-        return text;
+        return this.parseBBCodes(text);
       })
     );
   };
@@ -235,6 +251,19 @@ export class BfTranslateService extends BfUILibTransService {
       this.onLangChange$.next({ lang: newLang, translations: this.transDict });
       this.transDict$.next(this.transDict);
     }
+  }
+
+
+  // Mock the interpolation for BB Codes
+  private parseBBCodes = (value) => {
+    if (!!value && typeof value === 'string') {
+      for (let i = 0; i < this.formatSearch.length; i++) {
+        if (value.match(this.formatSearch[i])) {
+          value = value.replace(this.formatSearch[i], this.formatReplace[i]);
+        }
+      }
+    }
+    return value;
   }
 }
 
