@@ -5,6 +5,7 @@ import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { map, filter, distinctUntilChanged, tap } from 'rxjs/operators';
 import { BfUILibTransService } from '../abstract-translate.service';
+import { BfDate } from '../bf-prototypes/bf-prototypes';
 
 interface FollowingValues {
   hours: number;
@@ -123,14 +124,14 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
 
   public onTimezoneChanged(currentTimezone: string): void {
     if (currentTimezone) {
-      const currentTime = this.getSuggestedTime().convertTZ(currentTimezone);
+      const currentTime = BfDate.convertTZ.call(this.getSuggestedTime(), currentTimezone);
 
       if (this.bfMinTime) {
-        this.bfMinTime = this.bfMinTime.convertTZ(currentTimezone);
+        this.bfMinTime = BfDate.convertTZ.call(this.bfMinTime, currentTimezone);
       }
 
       if (this.bfMaxTime) {
-        this.bfMaxTime = this.bfMaxTime.convertTZ(currentTimezone);
+        this.bfMaxTime = BfDate.convertTZ.call(this.bfMaxTime, currentTimezone);
       }
 
       this.bfSelectedTimezone = currentTimezone;
@@ -216,7 +217,7 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
 
     if (updatedHours > 23) {
       updatedHours = 0;
-      timeToUpdate.addDays(1);
+      BfDate.addDays.call(timeToUpdate, 1);
       timeToUpdate.setHours(updatedHours);
     }
 
@@ -245,7 +246,7 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
 
     if (updatedHour < 0) {
       updatedHour = 23;
-      timeToUpdate.addDays(- 1);
+      BfDate.addDays.call(timeToUpdate, - 1);
       timeToUpdate.setHours(updatedHour);
     }
 
