@@ -17,13 +17,6 @@ import { registerLocaleData } from '@angular/common';
 
 registerLocaleData(localeEnIE, 'en-IE');
 
-// enable prototypes for test. Error is thrown when the global run is used this will be a temporary measure
-for (const proFn in BfDate) {
-  if (BfDate.hasOwnProperty(proFn)) {
-    Date.prototype[proFn] = BfDate[proFn];
-  }
-}
-
 const assertDate = (value: Date, valueToTest: Date): boolean => {
   return value.toUTCString() === valueToTest.toUTCString();
 };
