@@ -107,6 +107,7 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnInit, On
   private ctrlObject; // Object to expose control methods externally
 
   public ignoreHover$ = new BehaviorSubject<boolean>(false); // When scrolling with the arrow keys, ignore mouse hover
+  public ignoreHover;
   public arrowScroll$ = new Subject();
   public listHeight; // Computed height of the expanded listContainer
   public allRows; // Reference to the optionRows.toArray() html elements array
@@ -187,6 +188,9 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnInit, On
         debounceTime(100),
         takeUntil(this.destroyed$))
       .subscribe(() => this.ignoreHover$.next(false));
+
+    // (ignoreHover$ | async) can't be used inside (mouseenter), (mouseleave)
+    this.ignoreHover$.subscribe((ignoreHover) => this.ignoreHover = ignoreHover);
 
     // Controller object
     this.ctrlObject = {

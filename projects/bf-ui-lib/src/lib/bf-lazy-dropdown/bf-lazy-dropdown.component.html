@@ -56,8 +56,8 @@
       <div *ngFor="let item of list" class="option-wrapper option-row" #optionRow
            [class.selected]="bfModel === item"
            [class.candidate]="bfCandidate === item"
-           (mouseenter)="!ignoreHover$ && (bfCandidate = item)"
-           (mouseleave)="!ignoreHover$ && (bfCandidate = null)"
+           (mouseenter)="!ignoreHover && (bfCandidate = item)"
+           (mouseleave)="!ignoreHover && (bfCandidate = null)"
            (mousedown)="selectItem(item)">
         <span>{{item.$renderedText}}</span>
       </div>
