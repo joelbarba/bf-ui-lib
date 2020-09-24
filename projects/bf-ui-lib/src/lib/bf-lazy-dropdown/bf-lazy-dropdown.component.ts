@@ -246,7 +246,11 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnInit, On
   // triggered when ngModelChange
   search(event : string) {
     if (!this.minLengthValid()) {
-      if (!this.inputText.length) { this.propagateModelUp(null); }
+      if (!this.inputText.length) {
+        this.propagateModelUp(null);
+      }
+      this.isExpanded = false;
+      this.isLoading = false;
       return;
     }
 
