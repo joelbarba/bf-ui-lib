@@ -5,14 +5,15 @@ import {
   forwardRef,
   HostListener,
   Input,
-  OnChanges,
+  OnChanges, OnDestroy,
   OnInit, Output,
   ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Observable, of } from 'rxjs';
+import {BehaviorSubject, Observable, of, Subject, Subscription} from 'rxjs';
 import { BfUILibTransService } from '../abstract-translate.service';
 import { Patterns } from '../patterns';
+import {debounceTime, takeUntil} from 'rxjs/operators';
 
 
 /****
@@ -66,7 +67,7 @@ import { Patterns } from '../patterns';
     }
   ]
 })
-export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, OnChanges {
+export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
   @Input() ngModel: string;
   @Input() bfList: Array<string>;    // List of options (array of strings)
   @Input() bfRequired = false; // Whether the model is required (can't be empty)
@@ -89,7 +90,13 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   ngControl;  // Reference to the external formControl
 
   list;
-  navigatedItem; // Retain the navigated item
+  bfCandidate; // Pointer to a extList item that might be selected next but not yet (hovering / arrow scrolling)
+  ignoreHover;
+  ignoreHover$ = new BehaviorSubject<boolean>(false); // When scrolling with the arrow keys, ignore mouse hover
+  arrowScroll$ = new Subject();
+  subs: {[ key: string]: Subscription } = {};  // Subscriptions holder
+  destroyed$: Subject<boolean> = new Subject<boolean>();
+
   isInvalid = false;   // If the model holds an invalid option
   isFocus = false;     // Whether the input is focused
 
@@ -129,6 +136,24 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   ngOnInit() {
     this.setPattern();
+
+    // Give the browser .1s to scroll and avoid the mouseenter selecting a different item while using arrows up/down
+    this.subs.scrollSub$ = this.arrowScroll$
+      .pipe(
+        debounceTime(100),
+        takeUntil(this.destroyed$))
+      .subscribe(() => this.ignoreHover$.next(false));
+
+    // (ignoreHover$ | async) can't be used inside (mouseenter), (mouseleave)
+    this.ignoreHover$.subscribe((ignoreHover) => this.ignoreHover = ignoreHover);
+
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next(true);
+    this.destroyed$.unsubscribe();
+
+    Object.values(this.subs).forEach(sub => sub.unsubscribe());
   }
 
   initList() {
@@ -161,17 +186,21 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   // On input focus out -> Collapse the select list
   collapse() {
     this.isFocus = false;
-    this.navigatedItem = null;
-    this.setPlaceholder(this.navigatedItem);
+    this.bfCandidate = null;
+    this.setPlaceholder(null);
   }
 
   navigate(index, list, key) {
+    if (!this.isExpanded()) return;
+
     const nextIndex = {
       ArrowUp: (index > 0) ? index - 1 : list.length - 1,
       ArrowDown: (index >= 0 && index < list.length - 1) ? index + 1 : 0
     }[key];
-    this.navigatedItem = list[nextIndex];
-    this.setPlaceholder(this.navigatedItem);
+    this.bfCandidate = list[nextIndex];
+    this.arrowScroll$.next();
+    this.ignoreHover$.next(true);
+    this.setPlaceholder(this.bfCandidate);
 
     if (this.listContainer.nativeElement.children[0]) {
       this.listContainer.nativeElement.scrollTop = nextIndex * this.listContainer.nativeElement.children[0].clientHeight;
@@ -179,25 +208,22 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   confirm() {
-    if (this.navigatedItem) {
-      this.setValidity(true);
-      this.updateModel(this.navigatedItem);
-      this.bfSelect.emit(this.navigatedItem);
-      this.navigatedItem = null;
+    if (this.bfCandidate) {
+      this.select(this.bfCandidate);
     } else {
       if (!!this.ngModel) {
         this.bfSelect.emit(this.ngModel);
       }
     }
     this.autocompleteInput.nativeElement.blur();
-    this.setPlaceholder(null);
     this.collapse();
   }
 
   // React on key events (on the input)
   triggerKey(event) {
     const visibleList = this.list;
-    const index = visibleList.indexOf(this.navigatedItem);
+
+    const index = visibleList.indexOf(this.bfCandidate);
 
     const keyFunctions = {
       Tab: () => { this.collapse(); },
@@ -207,7 +233,9 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
       Enter: () => { this.confirm(); }
     };
 
-    if (keyFunctions[event.key]) { keyFunctions[event.key](); }
+    if (keyFunctions[event.key]) {
+      keyFunctions[event.key]();
+    }
   }
 
   setPlaceholder(value?: string) {
@@ -222,8 +250,8 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   select(value) {
-    this.updateModel(value);
     this.setValidity(true);
+    this.updateModel(value);
     this.filter();
     this.bfSelect.emit(value);
   }
@@ -269,16 +297,12 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
     return this.setValidity(true);
   }
 
-  isHighlighted(value) {
-    return (!!this.ngModel && this.ngModel === value) || (!!this.navigatedItem && this.navigatedItem === value);
-  }
-
   // Select an item from extList to bfModel, and propagate ngModel up
   updateModel(value) {
+    this.ngModel = value;
     this.setPlaceholder(null);
     this.propagateModelUp(value);
   }
-
 
   // ------- ControlValueAccessor -----
 
