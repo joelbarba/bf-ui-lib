@@ -110,15 +110,18 @@ bf-autocomplete {
             padding: 0 10px 0 0;
             font-size: 100%;
           }
+
           &.selected {
             font-weight: 700;
             color: $white;
             background: $dropdown-selection-bg
           }
-          &:hover:not(.empty-row) {
+
+          &.candidate {
             background: $dropdown-selection-hover;
             color: $white;
           }
+
           // Optional image / icon into the input (left)
           .option-row-image, .option-row-icon {
             width: 18px;

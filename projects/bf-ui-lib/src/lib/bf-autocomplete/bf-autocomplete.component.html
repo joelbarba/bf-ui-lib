@@ -21,7 +21,7 @@
 
       <input type="text" class="form-control" #autocompleteInput
              [(ngModel)]="ngModel" (ngModelChange)="typing(ngModel)"
-             [placeholder]="navigatedItem || (bfPlaceholderTrans$ | async)"
+             [placeholder]="bfPlaceholderTrans$ | async"
              [disabled]="bfDisabled"
              (focusin)="expand()"
              (blur)="updateModel(ngModel)"
@@ -46,7 +46,10 @@
 
     <div class="list-container" #listContainer>
       <div *ngFor="let item of list" class="option-row {{item}}"
-           [class.selected]="isHighlighted(item)"
+           [class.selected]="ngModel === item"
+           [class.candidate]="bfCandidate === item"
+           (mouseenter)="!ignoreHover && (bfCandidate = item)"
+           (mouseleave)="!ignoreHover && (bfCandidate = null)"
            (mouseup)="select(item);">
         <span>{{item}}</span>
       </div>
