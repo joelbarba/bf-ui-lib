@@ -146,6 +146,7 @@ describe('BfAutocompleteComponent', () => {
 
   describe('navigate', () => {
     beforeEach(() => {
+      component.isFocus = true;
       component.list = ['a', 'b', 'c', 'd'];
       component.ngModel = 'c';
       // @ts-ignore
@@ -154,12 +155,12 @@ describe('BfAutocompleteComponent', () => {
 
     it('should navigate upward', () => {
       component.navigate(2, component.list, 'ArrowUp');
-      expect(component.navigatedItem).toBe('b');
+      expect(component.bfCandidate).toBe('b');
     });
 
     it('should navigate downward', () => {
       component.navigate(2, component.list, 'ArrowDown');
-      expect(component.navigatedItem).toBe('d');
+      expect(component.bfCandidate).toBe('d');
     });
   });
 
