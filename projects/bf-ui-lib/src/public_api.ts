@@ -57,4 +57,5 @@ export * from './lib/bf-time-picker/bf-time-picker.component';
 export * from './lib/show/show.component';
 
 export * from './lib/bf-color-picker/bf-color-picker.component';
+export * from './lib/bf-list-checkbox/bf-list-checkbox.component';
 export * from './lib/bf-lazy-dropdown/bf-lazy-dropdown.component';

@@ -58,6 +58,8 @@ import {BfInputValidatorsDemoComponent} from './bf-input-demo/ex1-validators/bf-
 import {BfInputAsyncValidatorDemoComponent} from './bf-input-demo/ex2-async-validation/bf-input-async-validator-demo.component';
 import {BfInputControlsDemoComponent} from './bf-input-demo/ex3-controls/bf-input-controls-demo.component';
 import {BfInputAutofillDemoComponent} from './bf-input-demo/ex4-autofill/bf-input-autofill-demo.component';
+import { BfListCheckboxDemoComponent } from './bf-list-checkbox-demo/bf-list-checkbox-demo.component';
+import {BfListSelectionDemoComponent} from './bf-list-selection-demo/bf-list-selection-demo.component';
 import { BfLazyDropdownDemoComponent } from './bf-lazy-dropdown-demo/bf-lazy-dropdown-demo.component';
 
 
@@ -116,6 +118,8 @@ import { BfLazyDropdownDemoComponent } from './bf-lazy-dropdown-demo/bf-lazy-dro
     BfDndDemo4Component,
     BfDndDemo5Component,
     BfDndDemo6Component,
+    BfListCheckboxDemoComponent,
+    BfListSelectionDemoComponent,
     BfLazyDropdownDemoComponent,
   ],
   entryComponents: [
@@ -129,7 +133,8 @@ import { BfLazyDropdownDemoComponent } from './bf-lazy-dropdown-demo/bf-lazy-dro
     NgbDatepickerModule,
     FormsModule,
     ReactiveFormsModule,
-    BfUiLibModule.forRoot({ trans: {
+    BfUiLibModule.forRoot({
+      trans: {
         useExisting: BfTranslateService
       }
     }),
@@ -138,7 +143,7 @@ import { BfLazyDropdownDemoComponent } from './bf-lazy-dropdown-demo/bf-lazy-dro
         provide: TranslateLoader,
         useClass: BfTranslateLoader
       }
-    })
+    }),
   ],
   bootstrap: [AppComponent]
 })

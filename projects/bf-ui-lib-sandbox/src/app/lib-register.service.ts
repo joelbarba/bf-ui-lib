@@ -23,6 +23,7 @@ export const compList = [
   docs.BfProgressBarDoc,
   docs.BfListHeaderColDoc,
   docs.BfListPaginatorDoc,
+  docs.BfListCheckboxDoc,
   docs.BfListPlaceholderDoc,
   docs.BfPagePlaceholderDoc,
   docs.BfNoDataDoc,
@@ -37,10 +38,10 @@ export const compList = [
   docs.BfConfirmDoc,
   docs.BfPrototypesDoc,
   docs.BfListHandlerDoc,
+  docs.BfListSelectionDoc,
   docs.BfPromiseDoc,
   docs.BfDeferDoc,
 ];
-
 
 
 /* {

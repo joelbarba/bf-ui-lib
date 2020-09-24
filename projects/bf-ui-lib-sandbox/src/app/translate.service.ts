@@ -131,6 +131,7 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.description': 'Description',
     'view.common.error.invalid_option': 'Invalid Option',
     'views.dropdown.placeholder': '--- Select Item ---',
+    'view.common.actions': 'Actions',
     'views.lazy_dropdown.label': 'Search an email',
     'views.lazy_dropdown.placeholder': 'Search user email',
     'views.green_thing': 'This is <span class="green">GREEN!</span>',
@@ -183,6 +184,7 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.description': 'Descripción',
     'view.common.error.invalid_option': 'Opció incorrecta',
     'views.dropdown.placeholder': '--- Tria Quelcom ---',
+    'view.common.actions': 'Accions',
   };
 
   public transDict$ = new BehaviorSubject(this.transDict);

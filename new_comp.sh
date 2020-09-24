@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
+
 # Check git status
-isClean=`git status | grep "nothing to commit, working directory clean" | wc -l`
-if [ "$isClean" = "0" ]; then
+if output=$(git status --porcelain) && [[ -z "$output" ]]; then
+    echo "Git repository clean"
+else
     echo ""
     git status
     echo ""

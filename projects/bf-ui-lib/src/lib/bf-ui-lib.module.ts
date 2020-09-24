@@ -44,6 +44,7 @@ import { Ng5SliderModule } from 'ng5-slider';
 import { BfSectionHeaderComponent } from './bf-section-header/bf-section-header.component';
 import { BfRangeSliderComponent } from './bf-range-slider/bf-range-slider.component';
 import { BfModalHeaderComponent } from './bf-modal-header/bf-modal-header.component';
+import { BfListCheckboxComponent } from './bf-list-checkbox/bf-list-checkbox.component';
 import { BfLazyDropdownComponent } from './bf-lazy-dropdown/bf-lazy-dropdown.component';
 
 @NgModule({
@@ -80,7 +81,8 @@ import { BfLazyDropdownComponent } from './bf-lazy-dropdown/bf-lazy-dropdown.com
     BfSectionHeaderComponent,
     BfRangeSliderComponent,
     BfModalHeaderComponent,
-    BfLazyDropdownComponent
+    BfListCheckboxComponent,
+    BfLazyDropdownComponent,
   ],
   entryComponents: [
   ],
@@ -100,6 +102,7 @@ import { BfLazyDropdownComponent } from './bf-lazy-dropdown/bf-lazy-dropdown.com
     Ng5SliderModule,
   ],
   exports: [
+    BfListCheckboxComponent,
     BfLazyDropdownComponent,
     BfColorPickerComponent,
     BfModalHeaderComponent,

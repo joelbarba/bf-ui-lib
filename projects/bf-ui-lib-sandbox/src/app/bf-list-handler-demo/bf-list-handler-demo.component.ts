@@ -197,7 +197,6 @@ this.myList.orderList = (list: Array<any>, orderFields: Array<string>, orderReve
     private router: Router,
   ) {
 
-    console.log('new BfListHandler', new Date());
     const queryParams = {
       '~username': 'ver',
       '~email': 'silverwing@blackfire.co',
@@ -211,46 +210,46 @@ this.myList.orderList = (list: Array<any>, orderFields: Array<string>, orderReve
       rowsPerPage   : 5,
     }, queryParams);
 
-    // this.bpList  = new BfListHandler({
-    //   listName      : 'backend-pagination-list',
-    //   filterFields  : ['username', 'email'],
-    //   orderFields   : ['id', 'username'],
-    //   orderReverse  : false,
-    //   rowsPerPage   : 5,
-    //   backendPagination : (slimFilter: any, fullFilter: any) => {
-    //
-    //     // this.mockBEFilter(slimFilter).then((data: any) => {
-    //     //   this.bpList.load(data.users, data.count);
-    //     // });
-    //
-    //     return this.mockBEFilter(slimFilter).then((data: any) => {
-    //       return { list: data.users, count: data.count };
-    //     });
-    //   },
-    // }, this.route.snapshot.queryParams);
+    this.bpList  = new BfListHandler({
+      listName      : 'backend-pagination-list',
+      filterFields  : ['username', 'email'],
+      orderFields   : ['id', 'username'],
+      orderReverse  : false,
+      rowsPerPage   : 5,
+      backendPagination : (slimFilter: any, fullFilter: any) => {
+
+        // this.mockBEFilter(slimFilter).then((data: any) => {
+        //   this.bpList.load(data.users, data.count);
+        // });
+
+        return this.mockBEFilter(slimFilter).then((data: any) => {
+          return { list: data.users, count: data.count };
+        });
+      },
+    }, this.route.snapshot.queryParams);
 
 
-    // this.bpList.onFiltersChange$.subscribe((filterObj: any) => {
-    //   const { filters, filterText } = filterObj;
-    //
-    //   // Replace the empty values by null, to stripe them out the url
-    //   Object.keys(filters).forEach(n => {
-    //     if (filters[n] === '' || filters[n] === undefined) { filters[n] = null; }
-    //   });
-    //
-    //   this.router.navigate([], {
-    //     relativeTo: this.route,
-    //     queryParams: filters,
-    //     replaceUrl: true,
-    //     queryParamsHandling: 'merge',
-    //   });
-    // });
+    this.bpList.onFiltersChange$.subscribe((filterObj: any) => {
+      const { filters, filterText } = filterObj;
+
+      // Replace the empty values by null, to stripe them out the url
+      Object.keys(filters).forEach(n => {
+        if (filters[n] === '' || filters[n] === undefined) { filters[n] = null; }
+      });
+
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: filters,
+        replaceUrl: true,
+        queryParamsHandling: 'merge',
+      });
+    });
   }
 
   ngOnInit() {
-    // this.bpList.fetchPage().then(data => {
-    //   console.log('FIRST PAGE LOADED', data);
-    // });
+    this.bpList.fetchPage().then(data => {
+      console.log('FIRST PAGE LOADED', data);
+    });
 
     // this.myList.subscribeTo(this.loader$);
 
@@ -261,7 +260,7 @@ this.myList.orderList = (list: Array<any>, orderFields: Array<string>, orderReve
 
   ngOnDestroy() {
     this.myList.destroy();
-    // this.bpList.destroy();
+    this.bpList.destroy();
   }
 
   asyncLoad(backend = false) {
@@ -272,11 +271,11 @@ this.myList.orderList = (list: Array<any>, orderFields: Array<string>, orderReve
       }, 4000);
 
     } else {
-      // this.bpList.loadingStatus = 4;
-      // setTimeout(() => {
-      //   const data = this.getRandomData();
-      //   this.bpList.load(data.slice(0, this.bpList.rowsPerPage), Math.trunc(Math.random() * 50));
-      // }, 4000);
+      this.bpList.loadingStatus = 4;
+      setTimeout(() => {
+        const data = this.getRandomData();
+        this.bpList.load(data.slice(0, this.bpList.rowsPerPage), Math.trunc(Math.random() * 50));
+      }, 4000);
     }
   }
 
@@ -307,9 +306,9 @@ this.myList.orderList = (list: Array<any>, orderFields: Array<string>, orderReve
   };
 
   clearFilters() {
-    // this.bpList.filters.username = null;
-    // this.bpList.filters.email = null;
-    // this.bpList.goToPage(1);
+    this.bpList.filters.username = null;
+    this.bpList.filters.email = null;
+    this.bpList.goToPage(1);
   }
 
   // Mock a backend side paginated list request
@@ -341,7 +340,7 @@ this.myList.orderList = (list: Array<any>, orderFields: Array<string>, orderReve
             if (valA !== valB) { return (valA > valB ? reVal : -reVal); }
           }
           return reVal;
-      });
+        });
 
       const users = usersQuery.dCopy().splice(backFilter.offset, backFilter.limit);
 
