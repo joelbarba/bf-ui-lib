@@ -25,6 +25,7 @@ export * from './lib/bf-confirm/bf-confirm.service';
 export * from './lib/bf-promise/bf-promise';
 export * from './lib/bf-defer/bf-defer';
 export * from './lib/bf-list-handler/bf-list-handler';
+export * from './lib/bf-list-selection/bf-list-selection';
 
 export * from './lib/bf-autocomplete/bf-autocomplete.component';
 export * from './lib/bf-btn/bf-btn.component';
