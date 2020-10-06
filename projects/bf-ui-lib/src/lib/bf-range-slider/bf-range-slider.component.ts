@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input, OnChanges, OnInit } from '@angular/core';
+import {Component, EventEmitter, forwardRef, Input, Output, OnChanges, OnInit} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {BfSliderComponent} from '../bf-slider/bf-slider.component';
 import {Options} from 'ng5-slider';
@@ -27,6 +27,9 @@ export class BfRangeSliderComponent extends BfSliderComponent implements Control
 
   @Input() ngModel : BfRangeSliderValues;
   @Input() bfShowOuterSection = false;
+
+  @Output() bfMinOnChange = new EventEmitter<any>();
+  @Output() bfMaxOnChange = new EventEmitter<any>();
 
   constructor() {
     super();
@@ -58,6 +61,12 @@ export class BfRangeSliderComponent extends BfSliderComponent implements Control
     } else {
       this.ngModel = value;
     }
+  }
+
+  slideChange(value) {
+    this.ngModel.min = value.value;
+    this.ngModel.max = value.highValue;
+    this.propagateModelUp(this.ngModel);
   }
 
   public propagateModelUp = (_: any) => {};

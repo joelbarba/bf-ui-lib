@@ -27,29 +27,29 @@ $slider_color_primary : $primary_color !default;`;
 
   public slider1 = { min: 40, max: 60 };
   public slider1Options: any = { start: 0, end: 100, step: 5, showTicks: true, showTicksValues: true, tickStep: 10, tickValueStep: 20, maxLimit: 85, minLimit: 15 };
-  public instance1Obj = `valueOptions = { 
-  start: 0, 
-  end: 100, 
-  step: 5, 
+  public instance1Obj = `valueOptions = {
+  start: 0,
+  end: 100,
+  step: 5,
   showTicks: true,
   showTicksValues: true,
-  tickStep: 10, 
+  tickStep: 10,
   tickValueStep: 20,
-  maxLimit: 85, 
-  minLimit: 15 
+  maxLimit: 85,
+  minLimit: 15
 }`;
 
   public slider2 = { min: 40, max: 60};
   public slider2Options: any = { start: 0, end: 100, showTicks: true, tickStep: 10, maxRange: 60, minRange: 20 };
-  public instance2Obj = `valueOptions = { 
-  start: 0, 
-  end: 100, 
-  showTicks: true, 
+  public instance2Obj = `valueOptions = {
+  start: 0,
+  end: 100,
+  showTicks: true,
   tickStep: 10,
   maxRange: 60,
   minRange: 20
 }`;
-  public instance2 = `<bf-range-slider [(ngModel)]="slider2" 
+  public instance2 = `<bf-range-slider [(ngModel)]="slider2"
                  [bfOptions]="slider2Options">
 </bf-range-slider>`;
 
@@ -65,8 +65,8 @@ $slider_color_primary : $primary_color !default;`;
       return value;
   }
 }`;
-  public instance3 = `<bf-range-slider [(ngModel)]="slider3" 
-                 [bfOptions]="slider3Options" 
+  public instance3 = `<bf-range-slider [(ngModel)]="slider3"
+                 [bfOptions]="slider3Options"
                  [bfCustomSliderLabel]="customLabel">
 </bf-range-slider>`;
 
@@ -77,14 +77,14 @@ $slider_color_primary : $primary_color !default;`;
   public sliderOptions: any = { start: 0, end: 150, showTicks: true, showTicksValues: true, tickStep: 25 };
 
   public sliderModelCode = `myVal = {
-  min: ${this.valueSlider.min}, 
-  max: ${this.valueSlider.max} 
+  min: ${this.valueSlider.min},
+  max: ${this.valueSlider.max}
 }`;
   public sliderOptionsCode = `sliderOptions = {
-  start: 0, 
-  end: 150, 
-  showTicks: true, 
-  showTicksValues: true, 
+  start: 0,
+  end: 150,
+  showTicks: true,
+  showTicksValues: true,
   tickStep: 25
 }`;
 
@@ -127,15 +127,13 @@ $slider_color_primary : $primary_color !default;`;
   };
 
   public upSliders = () => {
-    this.sliderModelCode = `myVal = {
-  min: ${this.valueSlider.min}, 
-  max: ${this.valueSlider.max} 
-}`;
+    this.sliderModelCode = `ngModel.min = ${this.valueSlider.min}
+ngModel.max = ${this.valueSlider.max}`;
     this.sliderOptionsCode = `sliderOptions = {
-  start: 0, 
-  end: 150, 
-  showTicks: true, 
-  showTicksValues: true, 
+  start: 0,
+  end: 150,
+  showTicks: true,
+  showTicksValues: true,
   tickStep: 25
 }`;
   };
@@ -172,7 +170,7 @@ export const BfRangeSliderDoc = {
                           min: (Number) - low value of the range,
                           max: (Number) - high value of the range
                         }
-[bfOptions]          : The Config options for the Slider: 
+[bfOptions]          : The Config options for the Slider:
                        {
                          start        : Initial range
                          end          : Final range
@@ -191,12 +189,15 @@ export const BfRangeSliderDoc = {
                        }
 [bfCustomSliderLabel]: [method] = (value: number, label LabelType: LabelType): string => return (The label to be shown as a label on the range)
 [bfDisabled]         : Whether the slider is disabled or not
-[bfShowOuterSection] : Set to true to change the bar color to left/right bars            
+[bfShowOuterSection] : Set to true to change the bar color to left/right bars
 [bfLabel]            : Label of the input (automatically translated). If not provided, no label is displayed.
 [bfLabelTooltips]    : If label provided, adds a info badge with a tooltip (automatically translated)
-[bfLabelTooltipPos]  : Position of the tooltip (top by default)`,
+[bfLabelTooltipPos]  : Position of the tooltip (top by default)
+
+(bfMinOnChange)      : Trigger when min value has been changed
+(bfMaxOnChange)      : Trigger when max value has been changed`,
   instance: `<bf-range-slider [(ngModel)]="value"
-                 bfLabel="Test 1" 
+                 bfLabel="Test 1"
                  [bfOptions]="valueOptions">
 </bf-range-slider>`,
   demoComp: BfRangeSliderDemoComponent
