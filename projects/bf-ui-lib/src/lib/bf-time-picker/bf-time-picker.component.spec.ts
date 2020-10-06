@@ -11,7 +11,6 @@ import { BfDropdownComponent } from '../bf-dropdown/bf-dropdown.component';
 import { BfBtnComponent } from '../bf-btn/bf-btn.component';
 import { BfLabelComponent } from '../bf-label/bf-label.component';
 import { BfTranslatePipe } from '../abstract-translate.service';
-import { BfDate } from '../bf-prototypes/bf-prototypes';
 import localeEnIE from '@angular/common/locales/en-IE';
 import { registerLocaleData } from '@angular/common';
 
@@ -55,6 +54,7 @@ describe('BfTimePickerComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BfTimePickerComponent);
     component = fixture.componentInstance;
+    component.bfMinTime = new Date('2020-08-23');
   });
 
   it('should create', () => {
@@ -222,6 +222,8 @@ describe('BfTimePickerComponent', () => {
 
   it('should fetch the before/after hours/minutes from the current time', fakeAsync(() => {
     component.bfSelectedTime = new Date('August 24 2020 13:30');
+    component.bfMinTime = new Date('August 24 2020 12:30');
+
     updateFixture(fixture);
 
     component.getFollowingValues$().subscribe(followingValues => {
@@ -237,7 +239,9 @@ describe('BfTimePickerComponent', () => {
 
   it('should return null for following values after the current time if the follwing time is greater than the max time limit', fakeAsync(() => {
     component.bfSelectedTime = new Date('August 24 2020 13:30');
-    component.bfMaxTime = new Date('August 24 2020 14:30');
+    component.bfMaxTime = new Date('August 24 2020 13:30');
+    component.bfMinTime = new Date('August 24 2020 12:30');
+
     updateFixture(fixture);
 
     component.getFollowingValues$().subscribe(followingValues => {
@@ -253,7 +257,9 @@ describe('BfTimePickerComponent', () => {
 
   it('should return null for following values before the current time if the follwing time is less than the min time limit', fakeAsync(() => {
     component.bfSelectedTime = new Date('August 24 2020 13:30');
-    component.bfMinTime = new Date('August 24 2020 12:30');
+    component.bfMinTime = new Date('August 24 2020 13:30');
+    component.bfMaxTime = new Date('August 24 2020 15:30');
+
     updateFixture(fixture);
 
     component.getFollowingValues$().subscribe(followingValues => {
@@ -348,7 +354,7 @@ describe('BfTimePickerComponent', () => {
 
   it('should update the minutes to meet minium threshold if below when hour decreses', fakeAsync(() => {
     const initialDate = new Date('August 24 2020 13:28');
-    const minDate = new Date('August 24 2020 11:30');
+    const minDate = new Date('August 24 2020 12:30');
     const expectedDate = new Date('August 24 2020 12:30');
 
     component.bfSelectedTime = initialDate;
@@ -364,7 +370,7 @@ describe('BfTimePickerComponent', () => {
 
   it('should update the minutes to meet the maximum threshold if below when hour decreases', fakeAsync(() => {
     const initialDate = new Date('August 24 2020 13:38');
-    const maxDate = new Date('August 24 2020 15:30');
+    const maxDate = new Date('August 24 2020 14:30');
     const expectedDate = new Date('August 24 2020 14:30');
 
     component.bfSelectedTime = initialDate;
@@ -457,8 +463,9 @@ describe('BfTimePickerComponent', () => {
   }));
 
   it('should revert any changes made to the datetime if the cancel button is pressed', fakeAsync(() => {
-    const updatedDate = new Date('2020-08-25');
-    const initialDate = new Date('2020-08-24');
+    const updatedDate = new Date('August 25 2020');
+    const initialDate = new Date('August 24 2020');
+
     component.bfSelectedTime = initialDate;
     fixture.detectChanges();
 
@@ -472,7 +479,7 @@ describe('BfTimePickerComponent', () => {
     expect(isBfSelectedUnChanged).toBeTruthy();
 
     component.onCancel({ close: () => {} } as NgbDropdown);
-    updateFixture(fixture);
+    tick();
 
     const doesSubjectContainOriginalValue = assertDate(component.getSuggestedTime(), initialDate);
     const isBfSelectedUnChangedAfterCancel = assertDate(component.bfSelectedTime, initialDate);

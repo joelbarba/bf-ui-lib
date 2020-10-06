@@ -46,6 +46,9 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
   constructor(private translateService: BfUILibTransService) { }
 
   ngOnInit(): void {
+    if (!this.bfMinTime) {
+      this.bfMinTime = new Date();
+    }
     this.suggestedTime$ = new BehaviorSubject(this.bfSelectedTime || new Date());
     this.localeSubcription$ = this.translateService.locale$.asObservable()
       .pipe(
@@ -119,23 +122,19 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
 
     updatedDate.setHours(currentTime.getHours());
     updatedDate.setMinutes(currentTime.getMinutes());
-    this.updateSuggestedTime(updatedDate);
+
+    if (this.isTimeGreaterThanMaximumLimit(updatedDate, this.bfMaxTime)) {
+      this.updateSuggestedTime(this.bfMaxTime);
+    } else if (this.isTimeLessThanMinimumLimit(updatedDate, this.bfMinTime)) {
+      this.updateSuggestedTime(this.bfMinTime);
+    } else {
+      this.updateSuggestedTime(updatedDate);
+    }
   }
 
   public onTimezoneChanged(currentTimezone: string): void {
     if (currentTimezone) {
-      const currentTime = BfDate.convertTZ.call(this.getSuggestedTime(), currentTimezone);
-
-      if (this.bfMinTime) {
-        this.bfMinTime = BfDate.convertTZ.call(this.bfMinTime, currentTimezone);
-      }
-
-      if (this.bfMaxTime) {
-        this.bfMaxTime = BfDate.convertTZ.call(this.bfMaxTime, currentTimezone);
-      }
-
       this.bfSelectedTimezone = currentTimezone;
-      this.updateSuggestedTime(currentTime);
       this.bfSelectedTimezoneChange.emit(currentTimezone);
     }
   }
@@ -211,24 +210,26 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
    */
   public incrementHours(currentTime: Date = null): void {
     const timeToUpdate = this.getDateCopy(currentTime || this.getSuggestedTime());
-    const currentHour = timeToUpdate.getHours();
 
-    let updatedHours = currentHour + 1;
+    if (!this.isTimeEqualToMax(timeToUpdate, this.bfMaxTime)) {
+      const currentHour = timeToUpdate.getHours();
 
-    if (updatedHours > 23) {
-      updatedHours = 0;
-      BfDate.addDays.call(timeToUpdate, 1);
+      let updatedHours = currentHour + 1;
+
+      if (updatedHours > 23) {
+        updatedHours = 0;
+        BfDate.addDays.call(timeToUpdate, 1);
+        timeToUpdate.setHours(updatedHours);
+      }
+
       timeToUpdate.setHours(updatedHours);
-    }
 
-    timeToUpdate.setHours(updatedHours);
-
-    if (!this.isTimeGreaterThanMaximumLimit(timeToUpdate)) {
-      // if we increase an hour we need to check if the minute value is valid if not a call to update the minutes will be made
+      // if we increase the hour to the max limit we need to check if the minute value is valid if not a call to update the minutes will be made
       if (this.isUpdatingMaximumMinutesRequired(timeToUpdate, this.bfMaxTime)) {
         timeToUpdate.setMinutes(this.bfMaxTime.getMinutes());
         this.incrementMinutes(timeToUpdate);
       }
+
       this.updateSuggestedTime(timeToUpdate);
       return;
     }
@@ -240,24 +241,26 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
    */
   public decrementHours(currentTime: Date = null): void {
     const timeToUpdate = this.getDateCopy(currentTime || this.getSuggestedTime());
-    const currentHour = timeToUpdate.getHours();
 
-    let updatedHour = currentHour - 1;
+    if (!this.isTimeEqualToMin(timeToUpdate, this.bfMinTime)) {
+      const currentHour = timeToUpdate.getHours();
 
-    if (updatedHour < 0) {
-      updatedHour = 23;
-      BfDate.addDays.call(timeToUpdate, - 1);
+      let updatedHour = currentHour - 1;
+
+      if (updatedHour < 0) {
+        updatedHour = 23;
+        BfDate.addDays.call(timeToUpdate, - 1);
+        timeToUpdate.setHours(updatedHour);
+      }
+
       timeToUpdate.setHours(updatedHour);
-    }
 
-    timeToUpdate.setHours(updatedHour);
-
-    if (!this.isTimeLessThanMinimumLimit(timeToUpdate)) {
-      // if we drop an hour we need to check if the minute value is valid if not a call to update the minutes will be made
+      // if we drop the hour to the minimum limit we need to check if the minute value is valid if not a call to update the minutes will be made
       if (this.isUpdatingMinimumMinutesRequired(timeToUpdate, this.bfMinTime)) {
         timeToUpdate.setMinutes(this.bfMinTime.getMinutes());
         this.decrementMinutes(timeToUpdate);
       }
+
       this.updateSuggestedTime(timeToUpdate);
       return;
     }
@@ -265,36 +268,42 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
 
   public incrementMinutes(currentTime: Date = null): void {
     const timeToUpdate = this.getDateCopy(currentTime || this.getSuggestedTime());
-    const currentMinutes = timeToUpdate.getMinutes();
-    const updateMinutes = currentMinutes + 1;
 
-    if (updateMinutes > 59) {
-      timeToUpdate.setMinutes(0);
-      this.incrementHours(timeToUpdate); // update the time with the current updated minutes
-    } else {
-      timeToUpdate.setMinutes(updateMinutes);
+    if (!this.isTimeEqualToMax(timeToUpdate, this.bfMaxTime)) {
+      const currentMinutes = timeToUpdate.getMinutes();
+      const updateMinutes = currentMinutes + 1;
 
-      if (!this.isTimeGreaterThanMaximumLimit(timeToUpdate)) {
-        this.updateSuggestedTime(timeToUpdate);
-        return;
+      if (updateMinutes > 59) {
+        timeToUpdate.setMinutes(0);
+        this.incrementHours(timeToUpdate); // update the time with the current updated minutes
+      } else {
+        timeToUpdate.setMinutes(updateMinutes);
+
+        if (!this.isTimeGreaterThanMaximumLimit(timeToUpdate)) {
+          this.updateSuggestedTime(timeToUpdate);
+          return;
+        }
       }
     }
   }
 
   public decrementMinutes(currentTime: Date = null): void {
     const timeToUpdate = this.getDateCopy(currentTime || this.getSuggestedTime());
-    const currentMinutes = timeToUpdate.getMinutes();
-    const updatedMinutes = currentMinutes - 1;
 
-    if (updatedMinutes < 0) {
-      timeToUpdate.setMinutes(59);
-      this.decrementHours(timeToUpdate); // update the time with the current updated minutes
-    } else {
-      timeToUpdate.setMinutes(updatedMinutes);
+    if (!this.isTimeEqualToMin(timeToUpdate, this.bfMinTime)) {
+      const currentMinutes = timeToUpdate.getMinutes();
+      const updatedMinutes = currentMinutes - 1;
 
-      if (!this.isTimeLessThanMinimumLimit(timeToUpdate)) {
-        this.updateSuggestedTime(timeToUpdate);
-        return;
+      if (updatedMinutes < 0) {
+        timeToUpdate.setMinutes(59);
+        this.decrementHours(timeToUpdate); // update the time with the current updated minutes
+      } else {
+        timeToUpdate.setMinutes(updatedMinutes);
+
+        if (!this.isTimeLessThanMinimumLimit(timeToUpdate)) {
+          this.updateSuggestedTime(timeToUpdate);
+          return;
+        }
       }
     }
   }
@@ -335,23 +344,40 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
           timeToTestBefore.setHours(hoursBefore);
           timeToTestBefore.setMinutes(minutesBefore);
 
-          const returnValues = {
-            before: { hours: null, minutes: null },
-            after: { hours: null, minutes: null }
-          };
-
-          const isGreaterThanMax = this.isTimeGreaterThanMaximumLimit(timeToTestAfter);
-          const isLessThanMin = this.isTimeLessThanMinimumLimit(timeToTestBefore);
-
-          returnValues.before = isLessThanMin
-            ? returnValues.before
-            : { hours: hoursBefore, minutes: minutesBefore };
-
-          returnValues.after = isGreaterThanMax
-            ? returnValues.after
-            : { hours: hoursAfter, minutes: minutesAfter };
-
-          return returnValues;
+          if (this.isTimeEqualToMin(date, this.bfMinTime)) {
+            return {
+              before: {
+                hours: null,
+                minutes: null
+              },
+              after: {
+                hours: this.getHoursAfter(timeToTestAfter, this.bfMaxTime),
+                minutes: this.getMinutesAfter(timeToTestAfter, this.bfMaxTime)
+              }
+            };
+          } else if (this.isTimeEqualToMax(date, this.bfMaxTime)) {
+            return {
+              before: {
+                hours: this.getHoursBefore(timeToTestBefore, this.bfMinTime),
+                minutes: this.getMinutesBefore(timeToTestBefore, this.bfMinTime)
+              },
+              after: {
+                hours: null,
+                minutes: null
+              }
+            };
+          } else {
+            return {
+              before: {
+                hours: this.getHoursBefore(timeToTestBefore, this.bfMinTime),
+                minutes: this.getMinutesBefore(timeToTestBefore, this.bfMinTime)
+              },
+              after: {
+                hours: this.getHoursAfter(timeToTestAfter, this.bfMaxTime),
+                minutes: this.getMinutesAfter(timeToTestAfter, this.bfMaxTime)
+              }
+            };
+          }
         })
       );
   }
@@ -364,9 +390,74 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
     return value < 10 ? `0${value}` : `${value}`;
   }
 
+  private removeSecondsFromDate(date: Date): Date {
+    return BfDate.truncMin.call(date);
+  }
+
+  private getHoursBefore(timeToTest: Date, minTime: Date): number {
+    if (!!minTime) {
+      const isDateLessThanMin = this.isTimeLessThanMinimumLimit(timeToTest, minTime);
+      const isHoursLessThanMin = timeToTest.getHours() < minTime.getHours() ;
+      return isDateLessThanMin && isHoursLessThanMin ? null : timeToTest.getHours();
+    }
+
+    return timeToTest.getHours();
+  }
+
+  private getMinutesBefore(timeToTest: Date, minTime: Date): number {
+    if (!!minTime) {
+      const isDateLessThanMin = this.isTimeLessThanMinimumLimit(timeToTest, minTime);
+      // check if the minutes is in the minimum range including the hour value
+      const isMinutesLessThanMin = timeToTest.getMinutes() < minTime.getMinutes() && this.getHoursBefore(timeToTest, minTime) === null;
+
+      return isDateLessThanMin && isMinutesLessThanMin ? null : timeToTest.getMinutes();
+    }
+
+    return timeToTest.getMinutes();
+  }
+
+  private getHoursAfter(timeToTest: Date, maxTime: Date): number {
+    if (!!maxTime) {
+      const isTimeGreaterThanMax = this.isTimeGreaterThanMaximumLimit(timeToTest, maxTime);
+      const isHoursGreaterThanMax = timeToTest.getHours() > maxTime.getHours();
+      return isTimeGreaterThanMax && isHoursGreaterThanMax ? null : timeToTest.getHours();
+    }
+
+    return timeToTest.getHours();
+  }
+
+  private getMinutesAfter(timeToTest: Date, maxTime: Date): number {
+    if (!!maxTime) {
+      const isCurrentTimeGreaterThanMax = this.isTimeGreaterThanMaximumLimit(timeToTest, maxTime);
+      // check if the minutes is in the maxium range including the hour value
+      const isMinutesGreaterThanMax = timeToTest.getMinutes() > maxTime.getMinutes() && this.getHoursAfter(timeToTest, maxTime) === null;
+
+      return isCurrentTimeGreaterThanMax && isMinutesGreaterThanMax ? null : timeToTest.getMinutes();
+    }
+
+    return timeToTest.getMinutes();
+  }
+
+  private isTimeEqualToMax(currentTime: Date, maxTime: Date): boolean {
+    if (!!maxTime) {
+      return this.removeSecondsFromDate(currentTime).toUTCString() === this.removeSecondsFromDate(maxTime).toUTCString();
+    }
+
+    return false;
+  }
+
+  private isTimeEqualToMin(currentTime: Date, minTime: Date): boolean {
+    if (!!minTime) {
+      return this.removeSecondsFromDate(currentTime).toUTCString() === this.removeSecondsFromDate(minTime).toUTCString();
+    }
+
+    return false;
+  }
+
   private isTimeLessThanMinimumLimit(dateTimeToUpdate: Date, minimumTime: Date = this.bfMinTime): boolean {
     if (!!minimumTime) {
-      return dateTimeToUpdate < minimumTime;
+      const isLessThan = this.removeSecondsFromDate(dateTimeToUpdate) < this.removeSecondsFromDate(minimumTime);
+      return isLessThan;
     }
 
     return false;
@@ -374,7 +465,7 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
 
   private isTimeGreaterThanMaximumLimit(dateTimeToUpdate: Date, maximumTime: Date = this.bfMaxTime): boolean {
     if (!!maximumTime) {
-      return dateTimeToUpdate > maximumTime;
+      return this.removeSecondsFromDate(dateTimeToUpdate) > this.removeSecondsFromDate(maximumTime);
     }
 
     return false;
@@ -397,7 +488,7 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
   private isUpdatingMinimumMinutesRequired(currentTime: Date, minimumTime: Date): boolean {
     if (!!minimumTime) {
       return currentTime.getMinutes() < minimumTime.getMinutes()
-        && currentTime.getHours() - 1 === minimumTime.getHours();
+        && currentTime.getHours() === minimumTime.getHours();
     }
 
     return false;
@@ -406,7 +497,7 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
   private isUpdatingMaximumMinutesRequired(currentTime: Date, maximumTime: Date): boolean {
     if (!!maximumTime) {
       return currentTime.getMinutes() > maximumTime.getMinutes()
-        && currentTime.getHours() + 1 === maximumTime.getHours();
+        && currentTime.getHours() === maximumTime.getHours();
     }
 
     return false;

@@ -3,9 +3,9 @@
 
 
 import { Component, OnInit } from '@angular/core';
-import { of, timer, Observable } from 'rxjs';
-import { map, flatMap, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { BfUILibTransService } from 'projects/bf-ui-lib/src/public_api';
+import BfDate from '../../../../bf-ui-lib/src/lib/bf-prototypes/date.prototype';
 
 @Component({
   selector: 'app-bf-time-picker-demo',
@@ -117,14 +117,14 @@ $disabled_input_color : $disabled-color;
     ].map(timezone => ({ country_code: null, time_zone: timezone }));
 
     this.defaultStartDate = new Date();
-    this.defaultStartDate.addHours(1);
 
-    this.maxTime.addDays(2);
-    this.minTime.addHours(-2);
+    BfDate.addDays.call(this.maxTime, 2);
+    BfDate.addHours.call(this.minTime, 2);
+
     this.defaultTimezone = 'Europe/Dublin';
     this.instance2 = `
       <bf-time-picker
-        [bfSelectedTime]="defaultStartDate"
+        [(bfSelectedTime)]="defaultStartDate"
         [bfMinTime]="minTime"
         [bfMaxTime]="maxTime"
         [bfDefaultTimezone]="defaultTimezone"
@@ -133,7 +133,7 @@ $disabled_input_color : $disabled-color;
 
     this.instance3 = `
       <bf-time-picker
-        [bfSelectedTime]="defaultStartDate"
+        [(bfSelectedTime)]="defaultStartDate"
         [bfMinTime]="minTime"
         [bfMaxTime]="maxTime"
         [bfDefaultTimezone]="defaultTimezone"
@@ -151,11 +151,11 @@ export const BfTimePickerDoc = {
   desc    : `Generates a ....`,
   api     : `
     [bfLabel]: The label to apply to the component if necessary
-    [bfSelectedTime]: The value that will recieve updates to date/time can supply default value
-    [bfSelectedTimezone]: The value of the desired timezone
+    [(bfSelectedTime)]: The value that will recieve updates to date/time can supply default value
+    [(bfSelectedTimezone)]: The value of the desired timezone
     [bfSupportedTimezones]: An list of supported timezones
     [bfDisabled]: A flag to determine if the time-picker is disabled
-    [bfMinTime]: The minimum allowable datetime
+    [bfMinTime]: The minimum allowable datetime, if no minimum time is specified it will be set as now
     [bfMaxTime]: The maximum allowable datetime
     [bfPlacement]: The position to render the dropdown container. Default value is 'bottom' see <a href="https://ng-bootstrap.github.io/#/components/dropdown/api">Angular Bootstap</a> for all possible values
 

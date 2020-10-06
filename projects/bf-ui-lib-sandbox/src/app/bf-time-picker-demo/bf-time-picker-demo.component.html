@@ -19,7 +19,7 @@
       <h5 class="marB25">bf-time-picker Customizations:</h5>
       <bf-time-picker
         [bfSelectedTime]="defaultStartDate"
-        [bfSelectedTimezone]="defaultTimezone"
+        [(bfSelectedTimezone)]="defaultTimezone"
         [bfSupportedTimezones]="supportedTimezones"
         [bfDisabled]="compConf.isDisabled"
         [bfMinTime]="compConf.minTime"
@@ -51,13 +51,13 @@
 
       <div class="row marT15">
         <div class="col-5">
-          <bf-time-picker bfLabel="Min Datetime" [(bfSelectedTime)]="compConf.minTime" [bfSelectedTimezone]="defaultTimezone" [bfSupportedTimezones]="supportedTimezones" (bfSelectedTimeChange)="upComp()"></bf-time-picker>
+          <bf-time-picker bfLabel="Min Datetime" [(bfSelectedTime)]="compConf.minTime" [(bfSelectedTimezone)]="defaultTimezone" [bfSupportedTimezones]="supportedTimezones" [bfMaxTime]="compConf.maxTime" (bfSelectedTimeChange)="upComp()"></bf-time-picker>
         </div>
       </div>
 
       <div class="row marT15">
         <div class="col-5">
-          <bf-time-picker bfLabel="Max Datetime" [(bfSelectedTime)]="compConf.maxTime" [bfSelectedTimezone]="defaultTimezone" [bfSupportedTimezones]="supportedTimezones" (bfSelectedTimeChange)="upComp()" ></bf-time-picker>
+          <bf-time-picker bfLabel="Max Datetime" [(bfSelectedTime)]="compConf.maxTime" [(bfSelectedTimezone)]="defaultTimezone" [bfSupportedTimezones]="supportedTimezones" [bfMinTime]="compConf.minTime" (bfSelectedTimeChange)="upComp()" ></bf-time-picker>
         </div>
       </div>
     </div>

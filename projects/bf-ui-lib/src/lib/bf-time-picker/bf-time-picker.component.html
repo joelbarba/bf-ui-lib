@@ -1,4 +1,5 @@
 <bf-label [bfText]="bfLabel"></bf-label>
+min: {{bfMinTime}}
 <div ngbDropdown autoClose="outside" [placement]="bfPlacement" #timePickerDropdown="ngbDropdown">
   <div class="input-group" ngbDropdownAnchor (click)="toggleTimePicker(timePickerDropdown)">
     <input type="text" class="form-control display-input" [ngModel]="getDisplayTime$() | async"disabled/>
@@ -33,8 +34,8 @@
 
         <div class="arrows">
           <div class="d-flex flex-column arrows-right">
-            <bf-btn class="arrow-btn" bfType="primary" bfIcon="icon-arrow-up3" (click)="incrementHours()" [bfDisabled]="!followingValues.after.hours"></bf-btn>
-            <bf-btn class="arrow-btn" bfType="primary" bfIcon="icon-arrow-down3" (click)="decrementHours()" [bfDisabled]="!followingValues.before.hours"></bf-btn>
+            <bf-btn class="arrow-btn" bfType="primary" bfIcon="icon-arrow-up3" (bfClick)="incrementHours()" [bfDisabled]="followingValues.after.hours === null"></bf-btn>
+            <bf-btn class="arrow-btn" bfType="primary" bfIcon="icon-arrow-down3" (bfClick)="decrementHours()" [bfDisabled]="followingValues.before.hours === null"></bf-btn>
           </div>
         </div>
 
@@ -61,8 +62,8 @@
 
         <div class="arrows">
           <div class="d-flex flex-column arrows-left">
-            <bf-btn class="arrow-btn" bfType="primary" bfIcon="icon-arrow-up3" (click)="incrementMinutes()" [bfDisabled]="!followingValues.after.minutes"></bf-btn>
-            <bf-btn class="arrow-btn" bfType="primary" bfIcon="icon-arrow-down3" (click)="decrementMinutes()" [bfDisabled]="!followingValues.before.minutes"></bf-btn>
+            <bf-btn class="arrow-btn" bfType="primary" bfIcon="icon-arrow-up3" (bfClick)="incrementMinutes()" [bfDisabled]="followingValues.after.minutes === null"></bf-btn>
+            <bf-btn class="arrow-btn" bfType="primary" bfIcon="icon-arrow-down3" (bfClick)="decrementMinutes()" [bfDisabled]="followingValues.before.minutes === null"></bf-btn>
           </div>
         </div>
       </div>
