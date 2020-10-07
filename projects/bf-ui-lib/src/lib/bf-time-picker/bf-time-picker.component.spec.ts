@@ -12,7 +12,7 @@ import { BfBtnComponent } from '../bf-btn/bf-btn.component';
 import { BfLabelComponent } from '../bf-label/bf-label.component';
 import { BfTranslatePipe } from '../abstract-translate.service';
 import localeEnIE from '@angular/common/locales/en-IE';
-import { registerLocaleData } from '@angular/common';
+import {registerLocaleData} from '@angular/common';
 
 registerLocaleData(localeEnIE, 'en-IE');
 
@@ -494,7 +494,10 @@ describe('BfTimePickerComponent', () => {
     component.bfSelectedTime = initialDate;
     fixture.detectChanges();
 
-    component.onSave({ close: () => {} } as NgbDropdown);
+    component.closeTimePicker({ close: () => {
+      component.onOpenChange(false); // calling onOpenChange as this will simulate the dropdown behaviour
+    } } as NgbDropdown);
+
     updateFixture(fixture);
 
     expect(selectedTimeChangeSpy).toHaveBeenCalledWith(initialDate);

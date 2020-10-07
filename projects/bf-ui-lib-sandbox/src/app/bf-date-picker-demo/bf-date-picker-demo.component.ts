@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { BfUILibTransService } from 'projects/bf-ui-lib/src/public_api';
-import { tap } from 'rxjs/operators';
+import {Component, OnInit} from '@angular/core';
+import {BfUILibTransService} from 'projects/bf-ui-lib/src/public_api';
 
 @Component({
   selector: 'app-bf-date-picker-demo',

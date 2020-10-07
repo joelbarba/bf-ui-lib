@@ -144,15 +144,6 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
       if (!Number.isNaN(day)) { modelOut.day = +day; }
     }
 
-    // Validate date
-    // const date1 = new Date(this.parseModelOut(modelOut));
-    // if (modelOut.day !== date1.getDate() ||
-    //     modelOut.month !== (date1.getMonth() + 1) ||
-    //     modelOut.year !== date1.getFullYear()) {
-    //   console.warn('Invalid date', modelOut);
-    //   return null;
-    // }
-
     return modelOut;
   };
 
