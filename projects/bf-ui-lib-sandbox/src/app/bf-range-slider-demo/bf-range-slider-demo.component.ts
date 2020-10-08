@@ -76,10 +76,9 @@ $slider_color_primary : $primary_color !default;`;
   public valueSlider = { min: 30, max: 100 };
   public sliderOptions: any = { start: 0, end: 150, showTicks: true, showTicksValues: true, tickStep: 25 };
 
-  public sliderModelCode = `myVal = {
-  min: ${this.valueSlider.min},
-  max: ${this.valueSlider.max}
-}`;
+  public sliderModelCode = `
+    ngModel.min = ${this.valueSlider.min}
+    ngModel.max = ${this.valueSlider.max}`;
   public sliderOptionsCode = `sliderOptions = {
   start: 0,
   end: 150,
@@ -127,8 +126,9 @@ $slider_color_primary : $primary_color !default;`;
   };
 
   public upSliders = () => {
-    this.sliderModelCode = `ngModel.min = ${this.valueSlider.min}
-ngModel.max = ${this.valueSlider.max}`;
+    this.sliderModelCode = `
+    ngModel.min = ${this.valueSlider.min}
+    ngModel.max = ${this.valueSlider.max}`;
     this.sliderOptionsCode = `sliderOptions = {
   start: 0,
   end: 150,
@@ -192,10 +192,7 @@ export const BfRangeSliderDoc = {
 [bfShowOuterSection] : Set to true to change the bar color to left/right bars
 [bfLabel]            : Label of the input (automatically translated). If not provided, no label is displayed.
 [bfLabelTooltips]    : If label provided, adds a info badge with a tooltip (automatically translated)
-[bfLabelTooltipPos]  : Position of the tooltip (top by default)
-
-(bfMinOnChange)      : Trigger when min value has been changed
-(bfMaxOnChange)      : Trigger when max value has been changed`,
+[bfLabelTooltipPos]  : Position of the tooltip (top by default)`,
   instance: `<bf-range-slider [(ngModel)]="value"
                  bfLabel="Test 1"
                  [bfOptions]="valueOptions">

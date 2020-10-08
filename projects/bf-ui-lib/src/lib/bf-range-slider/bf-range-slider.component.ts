@@ -28,9 +28,6 @@ export class BfRangeSliderComponent extends BfSliderComponent implements Control
   @Input() ngModel : BfRangeSliderValues;
   @Input() bfShowOuterSection = false;
 
-  @Output() bfMinOnChange = new EventEmitter<any>();
-  @Output() bfMaxOnChange = new EventEmitter<any>();
-
   constructor() {
     super();
   }

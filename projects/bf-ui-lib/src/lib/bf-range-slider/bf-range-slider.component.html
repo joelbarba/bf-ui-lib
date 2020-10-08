@@ -8,7 +8,5 @@
             [(value)]="ngModel.min"
             [(highValue)]="ngModel.max"
             [options]="sliderOptions"
-            (userChange)="slideChange($event)"
-            (valueChange)="bfMinOnChange.emit($event)"
-            (highValueChange)="bfMaxOnChange.emit($event)">
+            (userChange)="slideChange($event)">
 </ng5-slider>
