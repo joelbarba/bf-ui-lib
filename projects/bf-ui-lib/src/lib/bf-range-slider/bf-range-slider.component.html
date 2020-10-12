@@ -7,5 +7,6 @@
 <ng5-slider [class.showOuterSelection]="bfShowOuterSection"
             [(value)]="ngModel.min"
             [(highValue)]="ngModel.max"
-            [options]="sliderOptions">
+            [options]="sliderOptions"
+            (userChange)="slideChange($event)">
 </ng5-slider>
