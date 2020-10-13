@@ -306,8 +306,7 @@ export const BfMultiSelectorDoc = {
 [bfDisabled]         : Whether the selector is disabled or not
 [bfDisabledTip]      : Text with the tooltip to display on hover when the input is disabled
 
-[bfPlaceholder]      : Placeholder to show when no value is selected. If bfEmptyLabel has a custom label, this is never shown.
-[bfEmptyLabel]       : By default the empty option shows the "view.common.empty" label. To display a different label, add it here.
+[bfPlaceholder]      : Placeholder to show when no value is selected.
 [bfEmptyValue]       : By default the empty option sets "null" value to the ngModel. To set a different value, add it here.
 [bfErrorOnPristine]  : If true, errors will be shown in pristine state too (by default pristine shows always as valid, even if it's not).
 [bfErrorText]        : Custom error text (label) to display when invalid value.
