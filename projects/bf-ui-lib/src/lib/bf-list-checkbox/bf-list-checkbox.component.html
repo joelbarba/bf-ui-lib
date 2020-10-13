@@ -1,13 +1,13 @@
 <!--Single item selector-->
 <bf-checkbox *ngIf="!!hasId" class="flat"
              [ngModel]="selection?.ids[id]"
-             (ngModelChange)="selection?.toggleCheck(id)">
+             (ngModelChange)="selection?.toggleCheck(id); change.emit({ id: id, value: $event })">
 </bf-checkbox>
 
 <!--Full page selector-->
 <bf-checkbox *ngIf="!hasId" class="revert flat"
              [ngModel]="selection?.isPageChecked"
-             (ngModelChange)="selection?.togglePage()">
+             (ngModelChange)="selection?.togglePage(); change.emit({ value: $event })">
 </bf-checkbox>
 
 <!--Actions header-->
