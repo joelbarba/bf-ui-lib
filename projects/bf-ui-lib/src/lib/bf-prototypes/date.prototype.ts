@@ -35,10 +35,10 @@ BfDate.toUTC = function() {
  *              The object returned is a JS date with the time at the specified timezone, still represented in the current timezone.
  * @example dateVar.convertTZ('America/New_York')
  */
-BfDate.convertTZ = function(locale = 'default', desTZ = 'Europe/Dublin'): Date {
+BfDate.convertTZ = function(desTZ = 'Europe/Dublin', locale = 'default'): Date {
   if (!!this && this instanceof Date) {
     // 'en-US' hardcoded, new Date() can read the format. The only purpose is change the timezone and not the format.
-    const timeStr = this.toLocaleString('en-US', { timeZone: desTZ });
+    const timeStr = this.toLocaleString(locale, { timeZone: desTZ });
     const transfDate = new Date(timeStr);
     this.setTime(transfDate);
     return this;
