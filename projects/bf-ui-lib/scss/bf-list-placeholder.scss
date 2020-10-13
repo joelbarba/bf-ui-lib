@@ -1,29 +1,34 @@
+@mixin loading-animation {
+  background: #f6f7f8;
+  background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+  background-size: 800px 104px;
+
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+
+  -webkit-animation-name: placeHolderShimmer;
+  -moz-animation-name: placeHolderShimmer;
+  -o-animation-name: placeHolderShimmer;
+  animation-name: placeHolderShimmer;
+
+  @keyframes placeHolderShimmer {
+    0% { background-position: -468px 0 }
+    100% { background-position:  468px 0 }
+  }
+}
+
 bf-list-placeholder {
   ul.table-list li.list-header { min-height: 52px; }
 
   .fake-row-placeholder {
     list-style: none;
     .placeholder-text {
-      background: #f6f7f8;
-      background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
-      background-size: 800px 104px;
+      @include loading-animation;
       height: 20px;
       position: relative;
 
-      animation-duration: 1s;
-      animation-fill-mode: forwards;
-      animation-iteration-count: infinite;
-      animation-timing-function: linear;
-
-      -webkit-animation-name: placeHolderShimmer;
-      -moz-animation-name: placeHolderShimmer;
-      -o-animation-name: placeHolderShimmer;
-      animation-name: placeHolderShimmer;
-
-      @keyframes placeHolderShimmer {
-          0% { background-position: -468px 0 }
-        100% { background-position:  468px 0 }
-      }
     }
     &.fake-button-template .placeholder-text {
       margin: 0;
@@ -40,8 +45,13 @@ bf-list-placeholder {
     &.line-8 { .placeholder-text { width: 80%; } }
     &.line-9 { .placeholder-text { width: 90%; } }
   }
-}
 
+  .fake-tile-placeholder {
+    width: 100%;
+    height: 500px;
+    @include loading-animation;
+  }
+}
 
 // .overlay-text {
 //   text-align: center;
@@ -55,7 +65,7 @@ bf-list-placeholder {
 //       animation: three-dot-ani 1s;
 //       animation-iteration-count: infinite;
 //       content: "";
-//       @keyframes three-dot-ani {        
+//       @keyframes three-dot-ani {
 //         0%    { content: ""; }
 //         25%   { content: "."; }
 //         50%   { content: ".."; }
