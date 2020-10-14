@@ -2,14 +2,14 @@
   <bf-label [bfText]="bfLabel"></bf-label>
   <div class="dual-checkbox-container">
     <bf-checkbox
-      class="block"
+      class="bf-dc--yes block"
       [bfLabel]="bfLabelOptionOne"
       [(ngModel)]="checkboxes.yes"
       (ngModelChange)="onChange('yes')"
       [bfDisabled]="bfDisabled"
     ></bf-checkbox>
     <bf-checkbox
-      class="block"
+      class="bf-dc--no block"
       [bfLabel]="bfLabelOptionTwo"
       [(ngModel)]="checkboxes.no"
       (ngModelChange)="onChange('no')"
