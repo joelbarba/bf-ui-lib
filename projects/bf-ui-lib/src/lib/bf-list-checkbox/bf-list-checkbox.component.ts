@@ -10,6 +10,7 @@ export class BfListCheckboxComponent implements OnInit, OnChanges, OnDestroy {
   @Input() id: string;
   @Input() actions: [{ id?, label: string, disabled?: boolean, fn?: (sel?: BfListSelection) => void }];
   @Output() actionClick = new EventEmitter<any>();
+  @Output() change = new EventEmitter<any>();
 
   private sub;
   public hasId = false;

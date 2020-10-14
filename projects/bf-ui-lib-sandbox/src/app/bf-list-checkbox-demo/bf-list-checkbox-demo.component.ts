@@ -53,6 +53,7 @@ export const BfListCheckboxDoc = {
                     disabled ?: boolean --> To disable the action
                     fn       ?: (sel?: BfListSelection) => void }]  --> Callback function when the action is clicked
 
+(change)      : Emits the value on change
 (actionClick) : Apart from the callback function, you can also use this emitter to react to action clicks.   
 `,
   instance: `<bf-list-checkbox></bf-list-checkbox>`,
