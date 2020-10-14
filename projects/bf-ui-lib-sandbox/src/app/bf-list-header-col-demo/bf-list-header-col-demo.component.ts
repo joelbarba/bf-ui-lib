@@ -42,7 +42,7 @@ export class BfListHeaderColDemoComponent implements OnInit {
   <ul class="list-unstyled table-list">
     <li class="list-header">
       <bf-list-header-col class="col-2" colTitle="Username"   fieldName="username"   [orderConf]="usersList.orderConf"></bf-list-header-col>
-      <bf-list-header-col class="col-3" colTitle="Email"      fieldName="email"      [orderConf]="usersList.orderConf"></bf-list-header-col>
+      <bf-list-header-col class="col-3" bfTooltip="Email" colTitle="Email"      fieldName="email"      [orderConf]="usersList.orderConf"></bf-list-header-col>
       <bf-list-header-col class="col-2" colTitle="First Name"></bf-list-header-col>
       <bf-list-header-col class="col-2" colTitle="Last Name"></bf-list-header-col>
     </li>
@@ -98,6 +98,8 @@ export const BfListHeaderColDoc = {
              - field: string -> Name of the current column the list is ordered by
              - reversed: boolean -> Whether the current order is asc or desc
              - setField: Function -> To call when the header is clicked to reorder the list. It accepts the field name
+[bfTooltip]: If more context is required for a column header tooltip text can be provided and it will render to the left of the header
+[bfTooltipPos]: The position the tooltip should render default is top
 (bfOnChange): Event to spread up the reorder event`,
   instance: `<bf-list-header-col></bf-list-header-col>`,
   demoComp: BfListHeaderColDemoComponent
