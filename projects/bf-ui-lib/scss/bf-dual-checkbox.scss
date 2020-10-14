@@ -1,7 +1,14 @@
 bf-dual-checkbox {
-  &.block bf-checkbox { display: block; }
+  .dual-checkbox-container { 
+    display: flex;
+    flex-wrap: wrap;
+  }
 
-  &.block bf-checkbox:not(.block) + bf-checkbox:not(.block) {
-    margin-left: 0;
+  &.block .dual-checkbox-container { 
+    flex-direction: column;
+  }
+
+  bf-checkbox:not(:last-child) {
+    margin-right: 15px; 
   }
 }
