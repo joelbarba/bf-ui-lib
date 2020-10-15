@@ -25,6 +25,7 @@ export class BfDualCheckboxDemoComponent implements OnInit {
     ngModelValue: this.ngModelValue,
     isDisabled: false,
     isClassBlock: false,
+    isClassFlat: false,
     labelOne: 'view.common.yes',
     labelTwo: 'view.common.no'
   };
