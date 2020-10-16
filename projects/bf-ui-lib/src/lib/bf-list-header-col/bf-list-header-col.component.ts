@@ -1,4 +1,5 @@
 import {Component, OnInit, Input, Output, EventEmitter, OnChanges} from '@angular/core';
+import { Observable } from 'rxjs';
 import {BfUILibTransService} from '../abstract-translate.service';
 
 interface IOrderConf {
@@ -17,9 +18,13 @@ export class BfListHeaderColComponent implements OnInit, OnChanges {
   @Input() colTitle: string = null;
   @Input() fieldName: string = null;
   @Input() orderConf: IOrderConf;
+  @Input() bfTooltip: string;
+  @Input() bfTooltipPos = 'top';
+
   @Output() bfOnChange = new EventEmitter<IOrderConf>();
 
   public colTitle$;
+  public bfTooltipTrans$: Observable<string>;
 
   constructor(private translate: BfUILibTransService) {}
 
@@ -28,7 +33,9 @@ export class BfListHeaderColComponent implements OnInit, OnChanges {
     if (changes.colTitle) { this.colTitle$ = this.translate.getLabel$(this.colTitle); }
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.bfTooltipTrans$ = this.translate.getLabel$(this.bfTooltip);
+  }
 
   clickOrder = () => {
     if (!!this.orderConf && !!this.orderConf.setField && typeof this.orderConf.setField === 'function') {
