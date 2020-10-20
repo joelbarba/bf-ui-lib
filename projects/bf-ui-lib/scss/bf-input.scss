@@ -95,8 +95,9 @@ bf-input {
 
       // When numeric input with error, hide the arrows on the right
       input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-      input[type=number] { -moz-appearance:textfield; }
+      // input[type=number] { appearance: textfield; } // Firefox crashes, hence taking it outside .is-error
     }
+    input[type=number] { appearance: textfield; } // HACK Firefox will never show the spin buttons
 
 
     // Expose an animation when autofill is triggered, to be hooked up in JS through 'animationstart' event
