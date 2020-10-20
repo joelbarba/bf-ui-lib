@@ -12,7 +12,7 @@
       <h5 class="marB25">Customized Dual Checkbox:</h5>
       <div class="padB25">
         <bf-dual-checkbox
-          [ngClass]="{'block' : !!compConf.isClassBlock}"
+          [ngClass]="{'block' : !!compConf.isClassBlock, 'flat' : !!compConf.isClassFlat}"
           [bfLabel]="compConf.bfLabel"
           [bfLabelOptionOne]="compConf.labelOne"
           [bfLabelOptionTwo]="compConf.labelTwo"
@@ -41,6 +41,8 @@
         <bf-checkbox  class="block" bfLabel="Disabled" [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()"></bf-checkbox>
         <!--Block class-->
         <bf-checkbox class="block" bfLabel="Display as Block" [(ngModel)]="compConf.isClassBlock" (ngModelChange)="upComp()"></bf-checkbox>
+        <!-- Flat class -->
+        <bf-checkbox class="block" bfLabel="Display as Flat" [(ngModel)]="compConf.isClassFlat" (ngModelChange)="upComp()"></bf-checkbox>
         </div>
         <!--Labels-->
         <div class="col-6">

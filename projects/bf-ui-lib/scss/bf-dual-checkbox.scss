@@ -8,6 +8,10 @@ bf-dual-checkbox {
     flex-direction: column;
   }
 
+  &:not(.flat) bf-label{
+    margin-bottom: 10px;
+  }
+
   bf-checkbox:not(:last-child) {
     margin-right: 15px; 
   }
