@@ -7,6 +7,7 @@ import BfObject from '../bf-prototypes/object.prototype';
 import {BfUILibTransService} from '../abstract-translate.service';
 import {dCopy} from '../bf-prototypes/deep-copy';
 import { IbfDropdownCtrl } from '../bf-dropdown/bf-dropdown.component';
+import {isEqualTo} from '../bf-prototypes/deep-equal';
 
 
 @Component({
@@ -68,6 +69,7 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnInit, O
 
   public ngControl; // Reference to the external formControl
   public bfModel = [];   // Internal model, to hold the selected objects of the list
+  private prevModel;
   private externallyProvidedValueArrLength = -1; // Match lengths of externally provided value array with bfModel
 
   public inputPlaceholder = '';   // Text on the input placeholder
@@ -707,7 +709,10 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnInit, O
     });
 
     // TODO check if the removed condition in this commit was absolutely necessary
-    this.propagateModelUp(modelUp); // This triggers NG_VALIDATORS -> validate()
+    if (!isEqualTo(this.prevModel, modelUp)) {
+      this.propagateModelUp(modelUp); // This triggers NG_VALIDATORS -> validate()
+      this.prevModel = modelUp;
+    }
 
   };
 
