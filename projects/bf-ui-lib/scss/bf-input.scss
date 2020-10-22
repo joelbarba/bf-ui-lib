@@ -97,7 +97,7 @@ bf-input {
       input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
       // input[type=number] { appearance: textfield; } // Firefox crashes, hence taking it outside .is-error
     }
-    input[type=number] { appearance: textfield; } // HACK Firefox will never show the spin buttons
+    input[type=number] { -moz-appearance: textfield; } // HACK Firefox will never show the spin buttons
 
 
     // Expose an animation when autofill is triggered, to be hooked up in JS through 'animationstart' event
@@ -222,5 +222,5 @@ bf-input .bf-input-form-group {
   }
 
 
-  input.form-control:focus { box-shadow: none; }  // Remove it from Bootstrap
+  input.form-control { box-shadow: none; }  // Remove it from Bootstrap
 }
