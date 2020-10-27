@@ -23,6 +23,7 @@ export class BfListPlaceholderDemoComponent implements OnInit {
   <bf-list-placeholder [bfColumns]="[5, 3, 2]" bfRows="4"></bf-list-placeholder>
 </ul>
 `;
+  public instance3 = `<bf-list-placeholder bfType="tile"></bf-list-placeholder>`;
 
   constructor() { }
 
