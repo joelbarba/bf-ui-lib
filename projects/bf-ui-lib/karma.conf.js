@@ -1,6 +1,15 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
+const { COVERAGE_LIMIT_STATEMENTS, COVERAGE_LIMIT_BRANCHES, COVERAGE_LIMIT_LINES, COVERAGE_LIMIT_FUNCTIONS } = process.env;
+
+const coverageThresholdLimits = {
+  statements: COVERAGE_LIMIT_STATEMENTS || 46,
+  branches: COVERAGE_LIMIT_BRANCHES || 23,
+  lines: COVERAGE_LIMIT_LINES || 50,
+  functions: COVERAGE_LIMIT_FUNCTIONS || 37
+};
+
 module.exports = function (config) {
   config.set({
     basePath: '',
@@ -18,14 +27,14 @@ module.exports = function (config) {
     },
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, '../../coverage/bf-ui-lib'),
-      reports: ['html', 'lcovonly'],
+      reports: ['html', 'lcovonly', 'json-summary'],
       fixWebpackSourcePaths: true,
       thresholds: {
         global: {
-          statements: 46,
-          branches: 23,
-          lines: 50,
-          functions: 37
+          statements: coverageThresholdLimits.statements,
+          branches: coverageThresholdLimits.branches,
+          lines: coverageThresholdLimits.lines,
+          functions: coverageThresholdLimits.functions
         }
       }
     },
