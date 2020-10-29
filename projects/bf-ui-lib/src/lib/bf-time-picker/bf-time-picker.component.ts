@@ -50,14 +50,10 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
       this.bfMinTime = new Date();
     }
     this.suggestedTime$ = new BehaviorSubject(this.bfSelectedTime || new Date());
-    this.localeSubcription$ = this.translateService.locale$.asObservable()
-      .pipe(
-        tap((locale: string) => {
-          this.locale = locale;
-          this.datePipe = new DatePipe(locale || 'en-IE');
-        })
-      )
-      .subscribe();
+    this.localeSubcription$ = this.translateService.locale$.subscribe((locale) => {
+      this.locale = locale;
+      this.datePipe = new DatePipe(locale || 'en-IE');
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
