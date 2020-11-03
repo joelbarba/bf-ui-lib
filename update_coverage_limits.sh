@@ -38,6 +38,7 @@ update_bitbucket_env_vars() {
 
 get_coverage_limits_from_file
 
+# to get UUID values go to the repoistory variable page and on bitbucket and inspect the network calls
 update_bitbucket_env_vars "COVERAGE_LIMIT_LINES" ${bash_limits[0]} "%7B1eea3706-4e21-4c8d-bdfd-8a67ad399801%7D"
 update_bitbucket_env_vars "COVERAGE_LIMIT_STATEMENTS" ${bash_limits[1]} "%7B9dfe9bbd-2739-4ec5-8e12-79d016a2faf9%7D"
 update_bitbucket_env_vars "COVERAGE_LIMIT_FUNCTIONS" ${bash_limits[2]} "%7B869d33c3-588f-4098-b76b-743d9b5fec31%7D"

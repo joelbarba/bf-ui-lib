@@ -4,10 +4,10 @@
 const { COVERAGE_LIMIT_STATEMENTS, COVERAGE_LIMIT_BRANCHES, COVERAGE_LIMIT_LINES, COVERAGE_LIMIT_FUNCTIONS } = process.env;
 
 const coverageThresholdLimits = {
-  statements: COVERAGE_LIMIT_STATEMENTS || 46,
-  branches: COVERAGE_LIMIT_BRANCHES || 23,
-  lines: COVERAGE_LIMIT_LINES || 50,
-  functions: COVERAGE_LIMIT_FUNCTIONS || 37
+  statements: COVERAGE_LIMIT_STATEMENTS || 0,
+  branches: COVERAGE_LIMIT_BRANCHES || 0,
+  lines: COVERAGE_LIMIT_LINES || 0,
+  functions: COVERAGE_LIMIT_FUNCTIONS || 0
 };
 
 module.exports = function (config) {
