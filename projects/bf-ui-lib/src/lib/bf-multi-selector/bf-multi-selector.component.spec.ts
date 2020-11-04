@@ -305,5 +305,52 @@ describe('BfMultiSelectorComponent', () => {
         expect(error).toBeNull();
       }));
     });
+
+
+    it('should persist items across multiple lists', fakeAsync(() => {
+
+      comp.bfKeepSelection = true;
+      comp.bfUniqueByProperty = 'id';
+      // No items selected
+      expect(getSelectedItemsText().length).toEqual(0);
+      expect(getOptionRows().length).toBe(2);
+
+      // Click the first dropdown item
+      getOptionRowsDe()[0].triggerEventHandler('mousedown', {});
+      detectChanges();
+
+      comp.bfList = [
+        {
+          id: 3,
+          username: 'andrew.byrne',
+          email: 'andrew@byrne.com',
+          first_name: 'Andrew',
+          last_name: 'Byrne'
+        },
+        {
+          id: 1,
+          username: 'deb.mallya',
+          email: 'deb@mallya.com',
+          first_name: 'Deb',
+          last_name: 'Mallya'
+        }
+      ];
+      comp.ngOnChanges({
+        bfList: newChange(comp.bfList)
+      });
+      tick();
+      detectChanges();
+
+      // Click the first dropdown item
+      getOptionRowsDe()[0].triggerEventHandler('mousedown', {});
+      detectChanges();
+
+      // Selected item should show up as selected
+      expect(getSelectedItemsText()).toEqual(['joel@barba.com', 'andrew@byrne.com']);
+      // Selected item should be removed from the dropdown
+      expect(getOptionRows().length).toBe(1);
+
+    }));
+
   });
 });
