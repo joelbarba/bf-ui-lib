@@ -56,6 +56,8 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnInit, O
   @Input() extCtrl$: Observable<unknown>; // To trigger actions manually from an external observable (subject)
   @Input() bfFilterFn: (list: Array<any>, value: string) => Array<any>; // Custom function to perform the list filtering
   @Input() bfKeepSearch = false;  // false = resets the search string every time the list is expanded, removing the previous filter
+  @Input() bfKeepSelection = false; // retain the selected values if the list changes
+  @Input() bfUniqueByProperty: string; // filter the list by this property - if the same item appears in several lists we don't show it if it's already selected
 
   @Output() bfOnLoaded = new EventEmitter<IbfDropdownCtrl>();         // Emitter to catch the moment when the component is ready (ngAfterViewInit)
   @Output() bfOnListExpanded = new EventEmitter<any>();   // The moment when the list expands (focus in)
@@ -189,10 +191,11 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnInit, O
     // List generation (bfList --> extList)
     if (changing('bfList') || changing('bfOrderBy') || changing('bfRender') || changing('bfRenderFn')) {
       this.generateExtList();
-
       if (changing('bfList')) { // If the list changes, match the ngModel with the new list
         setTimeout(() => {
-          this.matchSelection(this.ngControl ? this.ngControl.value : this.bfModel);
+          if(!this.bfKeepSelection){
+            this.matchSelection(this.ngControl ? this.ngControl.value : this.bfModel);
+          }
           if (this.bfKeepSearch && this.isExpanded) { setTimeout(() => this.inputText = this.searchTxt); }
           if (this.ngControl) {
             this.ngControl.updateValueAndValidity();
@@ -381,7 +384,13 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnInit, O
   public generateVisibleExtList = () => {
     // Filter options list based on the already selected values
     this.visibleExtList = this.extList.filter(item => {
-      const isItemNotInSelection = !this.bfModel.some(value => item.$index === value.$index);
+      let isItemNotInSelection;
+      if(this.bfKeepSelection){
+        // Don't match objects by index if more than one list - items can have the same index so they won't appear in multiple lists
+        isItemNotInSelection = !this.bfModel.some(value => item[this.bfUniqueByProperty] === value[this.bfUniqueByProperty]);
+      }else {
+        isItemNotInSelection = !this.bfModel.some(value => item.$index === value.$index);
+      }
       return isItemNotInSelection;
     });
   }
@@ -645,7 +654,10 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnInit, O
     }
 
     // FIXME does it need a "no-match"? If so, how to implement?
-    this.bfModel = [];
+    // Don't clear the model when the list changes if we keep the selected items
+    if(!this.bfKeepSelection){
+      this.bfModel = [];
+    }
     if (matchItems.length) {
       matchItems.forEach(item => this.selectItem(item));
     } else {
@@ -678,17 +690,21 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnInit, O
 
     if (!this.bfModel.length) {
       modelUp = this.bfEmptyValue; // If no values selected, return [] (or the empty value)
-
     } else {
-      // Filter selected items from bfList and set modelUp
-      modelUp = this.bfList.filter(item => {
-        const isItemFound = this.bfModel.some(decoratedValue => {
-          const { $index, $label, $renderedText, $isMatch, $img, $icon, ...mainValue } = decoratedValue;
-          const isItemSelected = JSON.stringify(item) === JSON.stringify(mainValue);
-          return isItemSelected;
+      // Don't change the model if we're keeping the selection
+      if(this.bfKeepSelection){
+        modelUp = this.bfModel;
+      } else {
+        // Filter selected items from bfList and set modelUp
+        modelUp = this.bfList.filter(item => {
+          const isItemFound = this.bfModel.some(decoratedValue => {
+            const { $index, $label, $renderedText, $isMatch, $img, $icon, ...mainValue } = decoratedValue;
+            const isItemSelected = JSON.stringify(item) === JSON.stringify(mainValue);
+            return isItemSelected;
+          });
+          return isItemFound;
         });
-        return isItemFound;
-      });
+      }
 
       // In case only particular props have to be selected from the option objects
       if (this.bfSelect) {

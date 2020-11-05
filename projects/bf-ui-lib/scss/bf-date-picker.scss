@@ -5,6 +5,7 @@ $date-picker-required-color  : $required-color !default;
 $date-picker-invalid-color   : $invalid-color !default;
 $date-picker-valid-color     : $valid-color !default;
 $date-picker-modal-day-color: #212529 !default; // default bootstrap $dropdown-color ;
+$date-picker-input-color : #495057 !default; // default bootstrap $input-color ;
 
 
 
@@ -21,6 +22,10 @@ bf-date-picker {
       cursor: pointer;
       color: $date-picker-disabled-color;   // Mock always disabled input
       border: 1px solid $date-picker-optional-color;
+      &.enabled { // Mock enabled although it's not
+        color: $date-picker-input-color;
+        background: white;
+      }
     }
 
     .input-group {
