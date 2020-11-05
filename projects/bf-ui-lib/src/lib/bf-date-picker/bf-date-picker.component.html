@@ -25,7 +25,7 @@
     <div class="input-group" (click)="!bfDisabled && dpRef.toggle()">
 
       <!--Just for displaying options (model is held in the other input)-->
-      <input class="form-control" disabled="disabled" name="dpv"
+      <input class="form-control" disabled="disabled" [class.enabled]="!bfDisabled" name="dpv"
             [ngModel]="bfFormattedValue">
 
       <div class="input-group-append" *ngIf="bfHasClearBtn" (click)="!bfDisabled && clearValue($event, dpRef)">
