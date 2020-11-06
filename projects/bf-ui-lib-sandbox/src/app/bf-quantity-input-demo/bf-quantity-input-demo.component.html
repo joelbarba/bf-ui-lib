@@ -65,68 +65,73 @@
   <div class="whiteBg">
     <div class="row">
       <div class="col-4 marB15">
-        <h5 class="marB25">bfQuantityInput customization:</h5>
+        <h5 class="marB25">Customization:</h5>
         <div class="padB30">
-          <bf-quantity-input
-            [(ngModel)]="custom.object.value"
-            [name]="custom.object.name"
-            [class]="custom.config.hasMode ? custom.object.mode: null"
-            [bfDisabled]="custom.object.disable"
-            [bfMinVal]="custom.config.hasMinValue ? custom.object.minValue : null"
-            [bfMaxVal]="custom.config.hasMaxValue ? custom.object.maxValue : null">
+          <bf-quantity-input name="text-component"
+                             [(ngModel)]="conf.value"
+                             [bfLabel]="conf.hasLabel ? conf.bfLabel : ''"
+                             [ngClass]="conf.hasMode && conf.mode ? conf.mode: ''"
+                             [bfDisabled]="conf.bfDisabled"
+                             [bfMinVal]="conf.hasMinValue ? conf.minValue : null"
+                             [bfMaxVal]="conf.hasMaxValue ? conf.maxValue : null"
+                             [bfTooltip]="(conf.hasTooltip ? conf.tooltipText : null)"
+                             [bfTooltipPos]="(conf.tooltipPos || 'top')"
+                             [bfTooltipBody]="conf.tooltipBody">
           </bf-quantity-input>
         </div>
+        <p>Value: {{conf.value}}</p>
         <div class="code-box pad15">
-          <pre>{{custom.componentView}}</pre>
-          <br>
-          <pre>Value: {{custom.object.value}}</pre>
+          <pre>{{code}}</pre>
         </div>
       </div>
 
-      <div class="col-8">
-        <div class="row marT15">
-          <div class="col-3 padT5">
-            <bf-checkbox [(ngModel)]="custom.object.disable" (ngModelChange)="custom.buildComponentView();"
-                         bfLabel="Is Disabled"></bf-checkbox>
-          </div>
+      <div class="col-8 padL30">
+        <div class="row padT20">
+          <bf-checkbox class="col-3 padT5" bfLabel="bfDisabled" [(ngModel)]="conf.bfDisabled" (ngModelChange)="upComp()"></bf-checkbox>
+          <bf-checkbox class="col-3 padT5" bfLabel="Specific fit css" [(ngModel)]="conf.hasMode" (ngModelChange)="upComp()"></bf-checkbox>
+          <bf-dropdown class="col-6"
+                       [(ngModel)]="conf.mode"
+                       (ngModelChange)="upComp()"
+                       [bfList]="conf.modeOptions"
+                       [bfDisabled]="!conf.hasMode"
+                       bfSelect="text"
+                       bfRender="text">
+          </bf-dropdown>
         </div>
 
-        <div class="row marT15">
-          <div class="col-4 padT5">
-            <bf-checkbox [(ngModel)]="custom.config.hasMinValue" (ngModelChange)="custom.buildComponentView()"
-                         bfLabel="Has minimum value"></bf-checkbox>
-          </div>
-          <div class="col-8" style="margin-bottom: -5px;">
-            <bf-input [(ngModel)]="custom.object.minValue" (ngModelChange)="custom.buildComponentView()"
-                      [bfDisabled]="!custom.config.hasMinValue"></bf-input>
-          </div>
+        <!--Label-->
+        <div class="row">
+          <bf-checkbox class="col-3 padT5" bfLabel="bfLabel" [(ngModel)]="conf.hasLabel" (ngModelChange)="upComp()"></bf-checkbox>
+          <bf-input class="col-9" style="margin-bottom: -5px;" [(ngModel)]="conf.bfLabel" (ngModelChange)="upComp()" [bfDisabled]="!conf.hasLabel"></bf-input>
         </div>
 
-        <div class="row marT15">
-          <div class="col-4 padT5">
-            <bf-checkbox [(ngModel)]="custom.config.hasMaxValue" (ngModelChange)="custom.buildComponentView()"
-                         bfLabel="Has maximum value"></bf-checkbox>
-          </div>
-          <div class="col-8" style="margin-bottom: -5px;">
-            <bf-input [(ngModel)]="custom.object.maxValue" (ngModelChange)="custom.buildComponentView()"
-                      [bfDisabled]="!custom.config.hasMaxValue"></bf-input>
-          </div>
+        <!--Tooltip-->
+        <div class="row">
+          <bf-checkbox class="col-3 padT5" bfLabel="bfTooltip" [(ngModel)]="conf.hasTooltip" (ngModelChange)="upComp()"></bf-checkbox>
+          <bf-input class="col-9" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipText" (ngModelChange)="upComp()"></bf-input>
+          <div class="col-3"></div>
+          <bf-dropdown class="col-5" bfLabel="bfTooltipPos" [bfDisabled]="!conf.hasTooltip"
+                       [(ngModel)]="conf.tooltipPos" (ngModelChange)="upComp()"
+                       [bfList]="[{ id: 'top', text: 'top' }, { id: 'right', text: 'right' }, { id: 'bottom', text: 'bottom' }, { id: 'left', text: 'left' }]"
+                       bfRender="text" bfSelect="id">
+          </bf-dropdown>
+          <bf-dropdown class="col-4" bfLabel="bfTooltipBody" [bfDisabled]="!conf.hasTooltip"
+                       [(ngModel)]="conf.tooltipBody" (ngModelChange)="upComp()"
+                       [bfList]="[{ id: 'true', text: 'true' }, { id: 'false', text: 'false' }]" bfRender="text" bfSelect="id">
+          </bf-dropdown>
         </div>
 
+        <!--Min / Max-->
         <div class="row marT15">
-          <div class="col-4 padT5">
-            <bf-checkbox [(ngModel)]="custom.config.hasMode" (ngModelChange)="custom.buildComponentView()"
-                         bfLabel="Has specific mode"></bf-checkbox>
-          </div>
-          <div class="col-8" style="margin-bottom: -5px;">
-            <bf-dropdown [(ngModel)]="custom.object.mode"
-                         (ngModelChange)="custom.buildComponentView()"
-                         [bfList]="custom.config.modeOptions"
-                         [bfDisabled]="!custom.config.hasMode"
-                         bfSelect="text"
-                         bfRender="text"></bf-dropdown>
-          </div>
+          <bf-checkbox class="col-3 padT5" bfLabel="bfMinVal" [(ngModel)]="conf.hasMinValue" (ngModelChange)="upComp()"></bf-checkbox>
+          <bf-input class="col-3" [(ngModel)]="conf.minValue" [bfDisabled]="!conf.hasMinValue" (ngModelChange)="upComp()"></bf-input>
+
+          <div class="col-12"></div>
+
+          <bf-checkbox class="col-3 padT5" bfLabel="bfMaxVal" [(ngModel)]="conf.hasMaxValue" (ngModelChange)="upComp()"></bf-checkbox>
+          <bf-input class="col-3" [(ngModel)]="conf.maxValue" [bfDisabled]="!conf.hasMaxValue" (ngModelChange)="upComp()"></bf-input>
         </div>
+
       </div>
 
     </div>

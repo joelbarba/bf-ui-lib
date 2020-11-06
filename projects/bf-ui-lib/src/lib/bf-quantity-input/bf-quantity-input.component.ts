@@ -1,5 +1,7 @@
 import {Component, forwardRef, Input, OnChanges, OnInit} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {Observable, of} from 'rxjs';
+import {BfUILibTransService} from '../abstract-translate.service';
 
 @Component({
   selector: 'bf-quantity-input',
@@ -15,15 +17,27 @@ export class BfQuantityInputComponent implements OnInit, OnChanges, ControlValue
   @Input() bfMinVal;
   @Input() bfMaxVal;
   @Input() bfDisabled = false;
+  @Input() bfLabel = '';
+  @Input() bfTooltip = '';
+  @Input() bfTooltipPos = 'top';
+  @Input() bfTooltipBody = true;
 
   public bfModel = 0; // internal value
   public previousValue = 0; // keep last value to rollback when invalid
   public decBtnEnabled = true;
   public incBtnEnabled = true;
 
-  constructor() {}
+  public bfLabelTrans$: Observable<string> = of('');        // Translated text for the label
+  public bfTooltipTrans$: Observable<string> = of('');      // Translated text for the tooltip
+
+  constructor(
+    private translate: BfUILibTransService,
+  ) {}
 
   ngOnChanges(changes) {
+    if (changes.hasOwnProperty('bfLabel'))   { this.bfLabelTrans$   = this.translate.getLabel$(this.bfLabel); }
+    if (changes.hasOwnProperty('bfTooltip')) { this.bfTooltipTrans$ = this.translate.getLabel$(this.bfTooltip); }
+
     if (changes.hasOwnProperty('bfMinVal')) { this.bfMinVal = this.checkRangeValue(this.bfMinVal); }
     if (changes.hasOwnProperty('bfMaxVal')) { this.bfMaxVal = this.checkRangeValue(this.bfMaxVal); }
 

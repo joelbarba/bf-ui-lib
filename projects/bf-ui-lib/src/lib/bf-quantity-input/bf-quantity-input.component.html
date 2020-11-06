@@ -1,3 +1,12 @@
+<label *ngIf="!!bfLabel">
+  <span class="info-badge" *ngIf="!!bfTooltip"
+        [ngbTooltip]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
+        [container]="(bfTooltipBody ? 'body' : '')">
+    <span class="icon-info"></span>
+  </span>
+  <span>{{bfLabelTrans$ | async}}</span>:
+</label>
+
 <div class="quantity-controller">
   <div class="quantity-controller-box left" [class.blocked]="!decBtnEnabled"
        (click)="decBtnEnabled && modelChange(bfModel - 1)">
