@@ -13,7 +13,7 @@ convert_jq_array_to_bash() {
   # iterate over the jq array and add an item to the bash array
   for limit in $(echo "$json_limits" | jq -r '.[]');
   do
-    bash_limits+=($limit)
+    bash_limits+=(`node -e "console.log(Math.floor($limit))"`)
   done
 }
 
