@@ -135,6 +135,13 @@ export class BfTranslateService extends BfUILibTransService {
     'views.lazy_dropdown.label': 'Search an email',
     'views.lazy_dropdown.placeholder': 'Search user email',
     'views.green_thing': 'This is <span class="green">GREEN!</span>',
+    'view.common.view': 'View',
+    'view.common.previous': 'Previous',
+    'view.common.next': 'Next',
+    'view.common.download': 'Download',
+    'view.common.upload': 'Upload',
+    'view.common.resetFilters': 'Reset Filters',
+    'view.common.refresh': 'Refresh',
   };
 
   public transDictCAT = {
@@ -185,6 +192,12 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.error.invalid_option': 'Opció incorrecta',
     'views.dropdown.placeholder': '--- Tria Quelcom ---',
     'view.common.actions': 'Accions',
+    'view.common.view': 'Oita',
+    'view.common.previous': 'Següent',
+    'view.common.next': 'Anterior',
+    'view.common.download': 'Descarrega',
+    'view.common.upload': 'Carrega',
+    'view.common.refresh': 'Refresca',
   };
 
   public transDict$ = new BehaviorSubject(this.transDict);

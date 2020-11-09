@@ -22,16 +22,21 @@ $btn-icon-width: 40px;    // Size of the button when only icon
   .bf-btn { color: $text-color !important; }
 }
 
+// Coloring
+bf-btn {
+  @each $color, $value in $bf-ui-lib-colors {
+    .disabled-tooltip .#{$color} { @include btn-color-mixin($value); }  // from btnClass <- bfType
+
+    // Force host css class over internal bfType
+    &.#{$color} .disabled-tooltip button { @include btn-color-mixin($value); }
+  }
+}
+
 bf-btn {
   display: inline-block;
 
   .disabled-tooltip {
     display: inline-block;
-
-    // Apply color classes
-    @each $color, $value in $bf-ui-lib-colors {
-      .#{$color} { @include btn-color-mixin($value); }
-    }
 
     .bf-btn {
       display: flex;
