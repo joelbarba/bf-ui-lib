@@ -6,6 +6,15 @@ $quantity-input-blocked-btn: darken($primary_color, 8%) !default;
 
 
 bf-quantity-input {
+  label {
+    font-weight: 700;
+    margin-bottom: 2px;
+    .info-badge {
+      display: inline-block;
+      margin-right: 7px;
+      cursor: pointer;
+    }
+  }
 
   &.large .quantity-controller {
     height: 40px;

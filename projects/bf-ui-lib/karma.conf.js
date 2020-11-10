@@ -27,7 +27,7 @@ module.exports = function (config) {
     },
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, '../../coverage/bf-ui-lib'),
-      reports: ['html', 'lcovonly', 'json-summary'],
+      reports: ['html', 'lcovonly', 'json-summary', 'text-summary'],
       fixWebpackSourcePaths: true,
       thresholds: {
         global: {

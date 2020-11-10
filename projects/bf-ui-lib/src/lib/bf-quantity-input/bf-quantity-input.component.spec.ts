@@ -3,6 +3,7 @@ import { FormControlDirective, FormsModule } from '@angular/forms';
 
 import { BfQuantityInputComponent } from './bf-quantity-input.component';
 import { TestingModule } from '../../testing/testing-module';
+import {SimpleChange} from '@angular/core';
 
 describe('BfQuantityInputComponent', () => {
   let component: BfQuantityInputComponent;
@@ -24,5 +25,12 @@ describe('BfQuantityInputComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should display a label', () => {
+    component.bfLabel = 'Test';
+    component.ngOnChanges({ bfLabel: new SimpleChange(null, 'Test', true) });
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('label span').textContent).toEqual('Test');
   });
 });
