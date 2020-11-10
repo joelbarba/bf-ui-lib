@@ -24,13 +24,12 @@ If the property "bfText" is defined, it generates a button with both text and ic
     <bf-btn class="block squash"
             (bfClick)="asyncClick()"
             [bfAsyncPromise]="blockPr"
-            bfAsyncGroup="me2"
             bfText="Async Click 1"
             bfIcon="icon-arrow-right3"
     ></bf-btn>
     <bf-btn class="block" (bfClick)="asyncClick()" bfText="Async Click 2"></bf-btn>
     <bf-btn class="block" (bfClick)="asyncClick()" bfText="Async Click 3"></bf-btn>
-    <bf-btn class="block" (bfClick)="asyncClick()" bfText="Async Click 4 (me)" bfAsyncGroup="me"></bf-btn>
+    <bf-btn class="block" (bfClick)="asyncClick()" bfText="Async Click 4 (me)"></bf-btn>
     <bf-btn class="block" (bfClick)="asyncClick()" bfText="Async Click 5"></bf-btn>
   </div>
   <div class="col-5">
@@ -64,6 +63,12 @@ If the property "bfText" is defined, it generates a button with both text and ic
                 [class.full-width]="btnConf.hasFullWidth"
                 [class.squash]="btnConf.hasSquash"
                 [class.ellipsis]="btnConf.hasEllipsis"
+                [class.primary]="btnConf.cssPrimary"
+                [class.secondary]="btnConf.cssSecondary"
+                [class.tertiary]="btnConf.cssTertiary"
+                [class.quaternary]="btnConf.cssQuaternary"
+                [class.extra]="btnConf.cssExtra"
+                [class.warning]="btnConf.cssWarning"
                 [bfIconPos]="btnConf.iconPos"
                 [bfText]="(btnConf.hasText ? btnConf.btnText : null)"
                 [bfType]="(btnConf.hasType ? btnConf.btnType : null)"
@@ -89,26 +94,26 @@ If the property "bfText" is defined, it generates a button with both text and ic
     <div class="col-7">
 
       <div class="row">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="btnConf.hasText" (ngModelChange)="upBtn()" bfLabel="Has Text"></bf-checkbox> </div>
+        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="btnConf.hasText" (ngModelChange)="upBtn()" bfLabel="bfText"></bf-checkbox> </div>
         <div class="col-10" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="btnConf.btnText" (ngModelChange)="upBtn()" [bfDisabled]="!btnConf.hasText"></bf-input> </div>
       </div>
 
       <div class="row">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="btnConf.hasType" (ngModelChange)="upBtn()" bfLabel="Has Type"></bf-checkbox> </div>
+        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="btnConf.hasType" (ngModelChange)="upBtn()" bfLabel="bfType"></bf-checkbox> </div>
         <div class="col-5" *ngIf="btnConf.hasType">
           <bf-dropdown [(ngModel)]="btnConf.btnType" (ngModelChange)="upBtn()" [bfList]="btnTypes" bfRender="text" bfSelect="id" [bfRequired]="true"> </bf-dropdown>
         </div>
         <div class="col-5 padT5">
-          <bf-checkbox [(ngModel)]="btnConf.hasToggle" (ngModelChange)="upBtn()" bfLabel="Is Toggle"></bf-checkbox>
+          <bf-checkbox [(ngModel)]="btnConf.hasToggle" (ngModelChange)="upBtn()" bfLabel="[(bfToggle)]"></bf-checkbox>
         </div>
       </div>
 
       <div class="row marT15">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="btnConf.hasIcon" (ngModelChange)="upBtn()" bfLabel="Custom Icon"></bf-checkbox> </div>
+        <div class="col-2 padT15"> <bf-checkbox [(ngModel)]="btnConf.hasIcon" (ngModelChange)="upBtn()" bfLabel="bfIcon"></bf-checkbox> </div>
         <div class="col-5">
-          <bf-dropdown *ngIf="btnConf.hasIcon" bfLabel="bfIcon" class="full-width"
+          <bf-dropdown bfLabel="bfIcon" class="full-width"
                        [(ngModel)]="btnConf.btnIcon" (ngModelChange)="upBtn()"
-                       [bfList]="btnIcons" bfRender="icon" bfSelect="icon" [bfRequired]="false">
+                       [bfList]="btnIcons" bfRender="icon" bfSelect="icon" [bfRequired]="false" [bfDisabled]="!btnConf.hasIcon">
           </bf-dropdown>
         </div>
         <div class="col-5">
@@ -119,7 +124,7 @@ If the property "bfText" is defined, it generates a button with both text and ic
       </div>
 
       <div class="row marT15">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="btnConf.isDisabled" (ngModelChange)="upBtn()" bfLabel="Is Disabled"></bf-checkbox> </div>
+        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="btnConf.isDisabled" (ngModelChange)="upBtn()" bfLabel="bfDisabled"></bf-checkbox> </div>
         <div class="col-10">
           <bf-input class="flat" [(ngModel)]="btnConf.btnDisabledTip" bfPlaceholder="This button is disabled because..." (ngModelChange)="upBtn()"></bf-input>
         </div>
@@ -139,13 +144,23 @@ If the property "bfText" is defined, it generates a button with both text and ic
         </div>
       </div>
 
+      <!--Css-->
       <div class="row marT15">
         <div class="col-12 padT5">
+          <bf-label class="marR15" bfText="CSS Classes"></bf-label>
           <bf-checkbox [(ngModel)]="btnConf.hasFullWidth" (ngModelChange)="upBtn()" bfLabel="Full Width"></bf-checkbox>
           <bf-checkbox [(ngModel)]="btnConf.hasEllipsis" (ngModelChange)="upBtn()" bfLabel="Ellipsis"></bf-checkbox>
           <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasSquash" (ngModelChange)="upBtn()" bfLabel="Squash"></bf-checkbox>
           <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasAsync1" (ngModelChange)="upBtn()" bfLabel="Async 1"></bf-checkbox>
           <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasAsync2" (ngModelChange)="upBtn()" bfLabel="Async 2"></bf-checkbox>
+        </div>
+        <div class="col-12 padT15" style="padding-left: 113px;">
+          <bf-checkbox bfLabel="primary"    [(ngModel)]="btnConf.cssPrimary"    (ngModelChange)="upBtn()"></bf-checkbox>
+          <bf-checkbox bfLabel="secondary"  [(ngModel)]="btnConf.cssSecondary"  (ngModelChange)="upBtn()"></bf-checkbox>
+          <bf-checkbox bfLabel="tertiary"   [(ngModel)]="btnConf.cssTertiary"   (ngModelChange)="upBtn()"></bf-checkbox>
+          <bf-checkbox bfLabel="quaternary" [(ngModel)]="btnConf.cssQuaternary" (ngModelChange)="upBtn()"></bf-checkbox>
+          <bf-checkbox bfLabel="extra"      [(ngModel)]="btnConf.cssExtra"      (ngModelChange)="upBtn()"></bf-checkbox>
+          <bf-checkbox bfLabel="warning"    [(ngModel)]="btnConf.cssWarning"    (ngModelChange)="upBtn()"></bf-checkbox>
         </div>
       </div>
 
@@ -183,27 +198,27 @@ If the property "bfText" is defined, it generates a button with both text and ic
 
 
 <!--Examples-->
-<h5 class="mt-4">Examples:</h5>
+<h5 class="mt-4">Custom bfTypes:</h5>
 <div class="row" *ngIf="true">
   <div class="col-12 examples-table">
 
-    <div class="row">
-      <div class="col-3">
-        <bf-btn bfType="edit" (bfClick)="(count = count + 'a')"></bf-btn>
-        {{count}}
-      </div>
-      <div class="col-9"> <pre>{{instance}}</pre> </div>
+    <!--<div class="row">-->
+    <!--  <div class="col-3">-->
+    <!--    <bf-btn bfType="edit" (bfClick)="(count = count + 'a')"></bf-btn>-->
+    <!--    {{count}}-->
+    <!--  </div>-->
+    <!--  <div class="col-9"> <pre>{{instance}}</pre> </div>-->
 
-      <!-- <div class="col-4"> Simple instance with no text only icon (small version) </div> -->
-    </div>
+    <!--  &lt;!&ndash; <div class="col-4"> Simple instance with no text only icon (small version) </div> &ndash;&gt;-->
+    <!--</div>-->
 
-    <div class="row">
-      <div class="col-3" style="display: block">
-        <bf-btn bfText="Add User"  (bfClick)="(count = count + 'x')" [bfDisabled]="false"></bf-btn>
-        <bf-btn bfText="Save User" (bfClick)="(count = count + 'x')" [bfDisabled]="true"></bf-btn>
-      </div>
-      <div class="col-9"> <pre>{{instance2}}</pre> </div>
-    </div>
+    <!--<div class="row">-->
+    <!--  <div class="col-3" style="display: block">-->
+    <!--    <bf-btn bfText="Add User"  (bfClick)="(count = count + 'x')" [bfDisabled]="false"></bf-btn>-->
+    <!--    <bf-btn bfText="Save User" (bfClick)="(count = count + 'x')" [bfDisabled]="true"></bf-btn>-->
+    <!--  </div>-->
+    <!--  <div class="col-9"> <pre>{{instance2}}</pre> </div>-->
+    <!--</div>-->
 
     <!--<div class="row">-->
       <!--<div class="col-3">-->
@@ -230,25 +245,63 @@ If the property "bfText" is defined, it generates a button with both text and ic
     <!--</div>-->
 
     <div class="row">
-      <div class="col-3" style="display: block">
-        <bf-btn bfText="Primary"    bfType="primary"    bfIcon="icon-arrow-right3"></bf-btn>
-        <bf-btn bfText="Secondary"  bfType="secondary"  bfIcon="icon-plus"></bf-btn>
-        <bf-btn bfText="Tertiary"   bfType="tertiary"   bfIcon="icon-pencil"></bf-btn>
-        <bf-btn bfText="Quaternary" bfType="quaternary" bfIcon="icon-blocked"></bf-btn>
-        <bf-btn bfText="Warning"    bfType="warning"    bfIcon="icon-cross"></bf-btn>
-        <bf-btn bfText="Extra"      bfType="extra"      bfIcon="icon-arrow-down3"></bf-btn>
-      </div>
-      <div class="col-9"> <pre>{{instance5}}</pre> </div>
+      <div class="col-2"><bf-btn bfType="search">     </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('search')}}</pre></div>
+      <div class="col-2"><bf-btn bfType="search-icon"></bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('search-icon')}}</pre></div>
+      <div class="col-2"><bf-btn bfType="add">        </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('add')}}</pre></div>
+      <div class="col-2"><bf-btn bfType="add-icon">   </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('add-icon')}}</pre></div>
+
+      <div class="col-2"><bf-btn bfType="edit">       </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('edit')}}</pre></div>
+      <div class="col-2"><bf-btn bfType="edit-icon">  </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('edit-icon')}}</pre></div>
+      <div class="col-2"><bf-btn bfType="save">       </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('save')}}</pre></div>
+      <div class="col-2"><bf-btn bfType="save-icon">  </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('save-icon')}}</pre></div>
+
+      <div class="col-2"><bf-btn bfType="delete">     </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('delete')}}</pre></div>
+      <div class="col-2"><bf-btn bfType="delete-icon"></bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('delete-icon')}}</pre></div>
+      <div class="col-2"><bf-btn bfType="view">       </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('view')}}</pre></div>
+      <div class="col-2"><bf-btn bfType="view-icon">  </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('view-icon')}}</pre></div>
+
+      <div class="col-2"><bf-btn bfType="cancel">     </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('cancel')}}</pre></div>
+      <div class="col-2"><bf-btn bfType="cancel-icon"></bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('cancel-icon')}}</pre></div>
+      <div class="col-2"><bf-btn bfType="update">     </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('update')}}</pre></div>
+      <div class="col-2"><bf-btn bfType="update-icon"></bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('update-icon')}}</pre></div>
+
+      <div class="col-2"><bf-btn bfType="upload">       </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('upload')}}</pre></div>
+      <div class="col-2"><bf-btn bfType="upload-icon">  </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('upload-icon')}}</pre></div>
+      <div class="col-2"><bf-btn bfType="download">     </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('download')}}</pre></div>
+      <div class="col-2"><bf-btn bfType="download-icon"></bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('download-icon')}}</pre></div>
+
+      <div class="col-2"><bf-btn bfType="reset">        </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('reset')}}</pre></div>
+      <div class="col-2"><bf-btn bfType="reset-icon">   </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('reset-icon')}}</pre></div>
+      <div class="col-2"><bf-btn bfType="refresh">      </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('refresh')}}</pre></div>
+      <div class="col-2"><bf-btn bfType="refresh-icon"> </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('refresh-icon')}}</pre></div>
+
+      <div class="col-2"><bf-btn bfType="next">         </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('next')}}</pre></div>
+      <div class="col-2"><bf-btn bfType="expand">       </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('expand')}}</pre></div>
+      <div class="col-2"><bf-btn bfType="prev">         </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('prev')}}</pre></div>
+      <div class="col-2"><bf-btn bfType="collapse">     </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('collapse')}}</pre></div>
+
+      <div class="col-2"><bf-btn bfType="back" bfText="Back to ..."></bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('back')}}</pre></div>
+      <div class="col-2"><bf-btn bfType="back">         </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('back')}}</pre></div>
+
+      <div class="col-2"><bf-btn bfType="copy">         </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('copy')}}</pre></div>
+      <div class="col-2"><bf-btn bfType="menu">         </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('menu')}}</pre></div>
+
+      <!--<div class="col-2"><bf-btn bfType="primary"     bfText="primary">    </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('primary')}}</pre></div>-->
+      <!--<div class="col-2"><bf-btn bfType="secondary"   bfText="secondary">  </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('secondary')}}</pre></div>-->
+      <!--<div class="col-2"><bf-btn bfType="tertiary"    bfText="tertiary">   </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('tertiary')}}</pre></div>-->
+      <!--<div class="col-2"><bf-btn bfType="quaternary"  bfText="quaternary"> </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('quaternary')}}</pre></div>-->
+      <!--<div class="col-2"><bf-btn bfType="warning"     bfText="warning">    </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('warning')}}</pre></div>-->
+      <!--<div class="col-2"><bf-btn bfType="extra"       bfText="extra">      </bf-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('extra')}}</pre></div>-->
     </div>
 
 
-    <div class="row">
-      <div class="col-3" style="display: block">
-        <bf-btn bfText="Simple Tooltip" bfTooltip="Hello World"></bf-btn>
-        <bf-btn bfText="Better tooltip" bfTooltip="Hey" bfTooltipPos="left" [bfTooltipBody]="true"></bf-btn>
-      </div>
-      <div class="col-9"> <pre>{{instance6}}</pre> </div>
-    </div>
+    <!--<div class="row">-->
+    <!--  <div class="col-3" style="display: block">-->
+    <!--    <bf-btn bfText="Simple Tooltip" bfTooltip="Hello World"></bf-btn>-->
+    <!--    <bf-btn bfText="Better tooltip" bfTooltip="Hey" bfTooltipPos="left" [bfTooltipBody]="true"></bf-btn>-->
+    <!--  </div>-->
+    <!--  <div class="col-9"> <pre>{{instance6}}</pre> </div>-->
+    <!--</div>-->
   </div>
 </div>
 

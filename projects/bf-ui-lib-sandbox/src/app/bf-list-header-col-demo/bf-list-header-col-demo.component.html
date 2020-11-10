@@ -20,14 +20,16 @@
       <bf-list-header-col class="col-2" colTitle="view.common.username"   fieldName="username"   [orderConf]="orderConf"></bf-list-header-col>
       <bf-list-header-col class="col-3" bfTooltip="view.common.email" colTitle="view.common.email"      fieldName="email"      [orderConf]="orderConf"></bf-list-header-col>
       <bf-list-header-col class="col-2" bfTooltip="First name is unordered" colTitle="First Name"></bf-list-header-col>
-      <bf-list-header-col class="col-2" colTitle="Last Name"></bf-list-header-col>
+      <!--<bf-list-header-col class="col-2" colTitle="Last Name"></bf-list-header-col>-->
+      <bf-list-header-col class="col-2 center" colTitle="Status" [orderConf]="orderConf"></bf-list-header-col>
     </li>
 
     <li class="list-row" *ngFor="let userItem of usersList">
       <div class="col-2">{{userItem.username}}</div>
       <div class="col-3">{{userItem.email}}</div>
       <div class="col-2">{{userItem.first_name}}</div>
-      <div class="col-2">{{userItem.last_name}}</div>
+      <!--<div class="col-2">{{userItem.last_name}}</div>-->
+      <bf-status-badge class="col-2" [bfStatus]="0"></bf-status-badge>
       <div class="col-3 text-right">
         <bf-btn bfType="delete" (bfClick)="userItem.$remove()"></bf-btn>
         <bf-btn bfType="edit"   (bfClick)="userItem.$save({ username: 'new value' })"></bf-btn>
@@ -39,4 +41,11 @@
 
 </div>
 
-<div class="col-12 mt-5">.</div>
+<!--Applicable classes -->
+<div class="row">
+  <div class="col-12">
+    <hr>
+    <h5 class="mt-4">Applicable classes:</h5>
+    <p>class="<b>center</b>" to center the text</p>
+  </div>
+</div>
