@@ -26,4 +26,39 @@ describe('BfBtnComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  const checkType = (bfType, css, icon, text) => {
+    component.bfType = bfType;
+    const changes = {
+      bfType: {
+        previousValue: undefined,
+        currentValue: bfType,
+        firstChange: true,
+      }
+    };
+    component.ngOnChanges(changes);
+    expect(component.btnClass).toEqual(css);
+    expect(component.typeIcon).toEqual(icon);
+    expect(component.textLabel).toEqual(text);
+  };
+
+
+  it('should set custom bfType', () => {
+    checkType('search',   'primary',    'icon-search',         'view.common.search');
+    checkType('edit',     'primary',    'icon-pencil',         'view.common.edit');
+    checkType('save',     'primary',    'icon-arrow-right3',   'view.common.save');
+    checkType('update',   'primary',    'icon-arrow-right3',   'views.common.update');
+    checkType('add',      'primary',    'icon-plus',           'view.common.add');
+    checkType('delete',   'tertiary',   'icon-bin',            'view.common.delete');
+    checkType('cancel',   'secondary',  'icon-blocked',        'view.common.cancel');
+    checkType('view',     'primary',    'icon-eye',            'view.common.view');
+    checkType('prev',     'quaternary', 'icon-arrow-left6',    'view.common.previous');
+    checkType('next',     'primary',    'icon-arrow-right3',   'view.common.next');
+    checkType('download', 'primary',    'icon-download52',     'view.common.download');
+    checkType('upload',   'primary',    'icon-upload5',        'view.common.upload');
+    checkType('reset',    'secondary',  'icon-blocked',        'view.common.resetFilters');
+    checkType('refresh',  'primary',    'icon-loop2',          'view.common.refresh');
+  });
+
 });
+

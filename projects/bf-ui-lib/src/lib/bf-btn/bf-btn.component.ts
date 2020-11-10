@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { BfUILibTransService } from '../abstract-translate.service';
+import {BfArray} from '../bf-prototypes/bf-prototypes';
 
 @Component({
   selector: 'bf-btn',
@@ -46,22 +47,32 @@ export class BfBtnComponent implements OnInit, OnChanges {
     if (changes.hasOwnProperty('bfType')) {
       if (!!this.bfType) { this.btnClass = this.bfType; }
       let typeText = '';
+      const onlyIcon = BfArray.getLast.call((this.bfType || '').split('-')) === 'icon';
+      const bfType = (this.bfType || '').split('-icon')[0]; // Remove -icon suffix
 
-      if (this.bfType === 'search')   { this.btnClass = 'primary';   this.typeIcon = 'icon-search';       typeText = 'view.common.search';  }
-      if (this.bfType === 'edit')     { this.btnClass = 'primary';   this.typeIcon = 'icon-pencil';       typeText = 'view.common.edit';    }
-      if (this.bfType === 'save')     { this.btnClass = 'primary';   this.typeIcon = 'icon-arrow-right3'; typeText = 'view.common.save';    }
-      if (this.bfType === 'update')   { this.btnClass = 'primary';   this.typeIcon = 'icon-arrow-right3'; typeText = 'views.common.update'; }
-      if (this.bfType === 'add')      { this.btnClass = 'primary';   this.typeIcon = 'icon-plus';         typeText = 'view.common.add';     }
-      if (this.bfType === 'delete')   { this.btnClass = 'tertiary';  this.typeIcon = 'icon-bin';        typeText = 'view.common.delete';  }
-      if (this.bfType === 'cancel')   { this.btnClass = 'secondary'; this.typeIcon = 'icon-blocked';      typeText = 'view.common.cancel';  }
-      if (this.bfType === 'expand')   { this.btnClass = 'secondary'; this.typeIcon = 'icon-arrow-down3'; }
-      if (this.bfType === 'collapse') { this.btnClass = 'secondary'; this.typeIcon = 'icon-arrow-up3'; }
+      if (bfType === 'search')   { this.btnClass = 'primary';    this.typeIcon = 'icon-search';         typeText = 'view.common.search';  }
+      if (bfType === 'edit')     { this.btnClass = 'primary';    this.typeIcon = 'icon-pencil';         typeText = 'view.common.edit';    }
+      if (bfType === 'save')     { this.btnClass = 'primary';    this.typeIcon = 'icon-arrow-right3';   typeText = 'view.common.save';    }
+      if (bfType === 'update')   { this.btnClass = 'primary';    this.typeIcon = 'icon-arrow-right3';   typeText = 'views.common.update'; }
+      if (bfType === 'add')      { this.btnClass = 'primary';    this.typeIcon = 'icon-plus';           typeText = 'view.common.add';     }
+      if (bfType === 'delete')   { this.btnClass = 'tertiary';   this.typeIcon = 'icon-bin';            typeText = 'view.common.delete';  }
+      if (bfType === 'cancel')   { this.btnClass = 'secondary';  this.typeIcon = 'icon-blocked';        typeText = 'view.common.cancel';  }
+      if (bfType === 'view')     { this.btnClass = 'primary';    this.typeIcon = 'icon-eye';            typeText = 'view.common.view'; }
+      if (bfType === 'prev')     { this.btnClass = 'quaternary'; this.typeIcon = 'icon-arrow-left6';    typeText = 'view.common.previous'; }
+      if (bfType === 'next')     { this.btnClass = 'primary';    this.typeIcon = 'icon-arrow-right3';   typeText = 'view.common.next'; }
+      if (bfType === 'download') { this.btnClass = 'primary';    this.typeIcon = 'icon-download52';     typeText = 'view.common.download'; }
+      if (bfType === 'upload')   { this.btnClass = 'primary';    this.typeIcon = 'icon-upload5';        typeText = 'view.common.upload'; }
+      if (bfType === 'reset')    { this.btnClass = 'secondary';  this.typeIcon = 'icon-blocked';        typeText = 'view.common.resetFilters'; }
+      if (bfType === 'refresh')  { this.btnClass = 'primary';    this.typeIcon = 'icon-loop2';          typeText = 'view.common.refresh'; }
 
-      if (this.bfType === 'delete-icon') { this.btnClass = 'tertiary';  this.typeIcon = 'icon-bin';  }
-      if (this.bfType === 'edit-icon')   { this.btnClass = 'primary';   this.typeIcon = 'icon-pencil'; }
-      if (this.bfType === 'view-icon')   { this.btnClass = 'primary';   this.typeIcon = 'icon-eye';    }
+      if (bfType === 'expand')   { this.btnClass = 'secondary'; this.typeIcon = 'icon-arrow-down3'; }
+      if (bfType === 'collapse') { this.btnClass = 'secondary'; this.typeIcon = 'icon-arrow-up3'; }
+      if (bfType === 'copy')     { this.btnClass = 'secondary'; this.typeIcon = 'icon-files-empty'; }
+      if (bfType === 'menu')     { this.btnClass = 'secondary'; this.typeIcon = 'icon-menu5'; }
 
-      if (!this.bfText) {
+      if (this.bfType === 'back') { this.btnClass = 'primary'; this.typeIcon = 'icon-undo2'; this.bfIconPos = 'left'; }
+
+      if (!this.bfText && !onlyIcon) {
         this.textLabel = typeText;
         this.bfTextTrans$ = this.translate.getLabel$(this.textLabel);
       }

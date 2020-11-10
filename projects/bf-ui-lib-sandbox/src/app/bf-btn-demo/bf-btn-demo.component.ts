@@ -64,17 +64,29 @@ public toggleExample = `<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>`;
   public customBtnCode = '<bf-btn (bfClick)="myFunc($event)"></bf-btn>';
   public btnTypes = [
     { id: 'search',       text: 'search',       icon: 'icon-search' },
-    { id: 'edit',         text: 'edit',         icon: 'icon-pencil' },
-    { id: 'edit-icon',    text: 'edit-icon',    icon: 'icon-pencil' },
-    { id: 'save',         text: 'save',         icon: 'icon-arrow-right3' },
-    { id: 'update',       text: 'update',       icon: 'icon-arrow-right3' },
     { id: 'add',          text: 'add',          icon: 'icon-plus' },
+    { id: 'edit',         text: 'edit',         icon: 'icon-pencil' },
+    { id: 'save',         text: 'save',         icon: 'icon-arrow-right3' },
+
     { id: 'delete',       text: 'delete',       icon: 'icon-bin' },
-    { id: 'delete-icon',  text: 'delete-icon',  icon: 'icon-bin' },
+    { id: 'view',         text: 'view',         icon: 'icon-eye' },
+    { id: 'update',       text: 'update',       icon: 'icon-arrow-right3' },
     { id: 'cancel',       text: 'cancel',       icon: 'icon-blocked' },
-    { id: 'view-icon',    text: 'view-icon',    icon: 'icon-eye' },
+
+    { id: 'upload',       text: 'upload',       icon: 'icon-upload5' },
+    { id: 'download',     text: 'download',     icon: 'icon-download52' },
+    { id: 'reset',        text: 'reset',        icon: 'icon-blocked' },
+    { id: 'refresh',      text: 'refresh',      icon: 'icon-loop2' },
+
+    { id: 'next',         text: 'next',         icon: 'icon-arrow-right3' },
+    { id: 'prev',         text: 'prev',         icon: 'icon-arrow-left6' },
     { id: 'expand',       text: 'expand',       icon: 'icon-arrow-down3' },
     { id: 'collapse',     text: 'collapse',     icon: 'icon-arrow-up3' },
+
+    { id: 'back',         text: 'back',         icon: 'icon-undo2' },
+    { id: 'copy',         text: 'copy',         icon: 'icon-files-empty' },
+    { id: 'menu',         text: 'menu',         icon: 'icon-menu5' },
+
     { id: 'primary',      text: 'primary',    },
     { id: 'secondary',    text: 'secondary',  },
     { id: 'tertiary',     text: 'tertiary',   },
@@ -82,6 +94,7 @@ public toggleExample = `<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>`;
     { id: 'warning',      text: 'warning',    },
     { id: 'extra',        text: 'extra',      },
   ];
+
   public btnIcons = [
     { icon: 'icon-pencil'        },
     { icon: 'icon-eye'           },
@@ -146,6 +159,7 @@ public toggleExample = `<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>`;
     hasTooltip: false, btnTooltip: 'Hello World', btnTooltipPos: null, btnTooltipBody: false,
     btnDisabledTip: '',
     hasToggle: false, toggleValue: undefined,
+    cssPrimary: false, cssSecondary: false, cssTertiary: false, cssQuaternary: false, cssExtra: false, cssWarning: false,
   };
   public res;
   public asyncClickFunc(param1, param2) {
@@ -159,8 +173,14 @@ public toggleExample = `<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>`;
 
     let btnClasses = '';
     if (this.btnConf.hasFullWidth) { btnClasses = 'full-width'; }
-    if (this.btnConf.hasSquash) { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'squash'; }
-    if (this.btnConf.hasEllipsis) { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'ellipsis'; }
+    if (this.btnConf.hasSquash)     { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'squash'; }
+    if (this.btnConf.hasEllipsis)   { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'ellipsis'; }
+    if (this.btnConf.cssPrimary)    { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'Primary'; }
+    if (this.btnConf.cssSecondary)  { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'Secondary'; }
+    if (this.btnConf.cssTertiary)   { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'Tertiary'; }
+    if (this.btnConf.cssQuaternary) { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'Quaternary'; }
+    if (this.btnConf.cssExtra)      { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'Extra'; }
+    if (this.btnConf.cssWarning)    { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'Warning'; }
     if (!!btnClasses) {
       this.customBtnCode += `class="${btnClasses}"` + this.bsStr;
     }
@@ -208,6 +228,8 @@ public toggleExample = `<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>`;
     this.upBtn();
   }
 
+  public getBtnInst = (bfType) => `<bf-btn bfType="${bfType}"></bf-btn>`;
+
   public asyncClick() {
     return this.blockPr = new Promise((resolve) => {
       setTimeout(() => {
@@ -229,7 +251,7 @@ export const BfBtnDoc = {
 [bfAsyncPromise] : For async tasks, promise to block all buttons until the task is completed.
 [bfAsyncClick]   : Click callback function. Instead of using the (bfClick) output, it is also possible to pass a callback function. The return promise is automatically caught.
 [bfText]         : Text of the button
-[bfType]         : Class of the button [primary, secondary, tertiary, quaternary, warning, extra] or predefined type [search, add, save, edit, delete, cancel, expand, collapse]
+[bfType]         : Customized type for the button. It predefines the color, icon and text (for some). In case of using just the icon version, suffix it with '-icon'.
 [bfIcon]         : Icon of the button (icomoon class)
 [bfIconPos]      : Position of the icon (left / right)
 [bfDisabled]     : True=Button is disabled, False=Enabled
