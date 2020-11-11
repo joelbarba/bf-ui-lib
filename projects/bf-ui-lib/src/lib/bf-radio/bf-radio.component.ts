@@ -16,6 +16,7 @@ export class BfRadioComponent implements OnChanges, ControlValueAccessor, Valida
   @Input() bfRadioGroup = 'radio-group';
   @Input() bfTooltip = '';
   @Input() bfTooltipPos = 'top';
+  @Input() bfIcon = '';
 
 
   private _value: string;
