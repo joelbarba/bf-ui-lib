@@ -26,6 +26,7 @@ export class BfRadioComponent implements ControlValueAccessor, OnInit, OnChanges
   @Input() bfTooltip = '';
   @Input() bfTooltipPos = 'top';
   @Input() bfTooltipBody = true;
+  @Input() bfIcon = '';
 
 
   public bfLabelTrans$ = of('');        // Translated text for the button
