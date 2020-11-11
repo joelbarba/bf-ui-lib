@@ -40,7 +40,6 @@ export class BfRadioComponent implements OnChanges, ControlValueAccessor, Valida
   get bfModel(): string { return this._bfModel; }
 
 
-  isDisabled: boolean;
   isFocussed: boolean;
   bfLabelTrans$: Observable<string>;    // Translated text for the button
   bfTooltipTrans$: Observable<string>;  // Translated text for the tooltip
@@ -107,7 +106,7 @@ export class BfRadioComponent implements OnChanges, ControlValueAccessor, Valida
   writeValue(value: any): void { this.bfModel = value; }
   registerOnChange(fn: (_: any) => void): void { this._onChange = fn; }
   registerOnTouched(fn: () => void): void { this._onTouched = fn; }
-  setDisabledState(isDisabled: boolean): void { this.isDisabled = isDisabled; }
+  setDisabledState(isDisabled: boolean): void { this.bfDisabled = isDisabled; }
 
   // ------- Validator -----
   validate({ value }: AbstractControl): ValidationErrors {
