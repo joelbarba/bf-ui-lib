@@ -9,7 +9,6 @@ import { Component, OnInit } from '@angular/core';
   public desc = BfRadioDoc.desc;
   public api = BfRadioDoc.api;
   public instance = BfRadioDoc.instance;
-  public myOp = '1';
 
   public instance2 = `<bf-radio [(ngModel)]="myVariable" bfLabel="Option 1" bfValue="1"></bf-radio>
 <bf-radio [(ngModel)]="myVariable" bfLabel="Option 2" bfValue="2"></bf-radio>
