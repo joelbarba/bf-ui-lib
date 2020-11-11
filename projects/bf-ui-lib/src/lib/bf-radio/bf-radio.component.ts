@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, HostBinding, HostListener, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { BfUILibTransService } from '../abstract-translate.service';
@@ -45,7 +45,7 @@ export class BfRadioComponent implements OnChanges, ControlValueAccessor, Valida
 
   private _toBoolean = (v: any) => `${v}` === 'true';
   private _onChange = (_: any) => { };
-  onTouched = () => { };
+  private _onTouched = () => { };
 
 
   constructor(
@@ -60,19 +60,46 @@ export class BfRadioComponent implements OnChanges, ControlValueAccessor, Valida
   onChange(value: any) {
     this.bfModel = value;
     this._onChange(value);
-    this.onTouched();
+    this._onTouched();
   }
 
 
 
-  // ********************************
-  // Custom form control code - START
-  // ********************************
+  // *************
+  // Accessibility
+  // *************
+
+  // Tab into/out of focus
+  @HostBinding('attr.tabindex')
+  get tabindex() {
+    return 0;
+  }
+  @HostListener('blur')
+  onBlur() {
+    this._onTouched();
+  }
+
+  // Select with click or space bar
+  @HostListener('click')
+  @HostListener('keyup.space')
+  onSelect() {
+    this.onChange(this.bfValue);
+  }
+  @HostListener('keydown.space', ['$event'])
+  stopPageScroll(event: KeyboardEvent) {
+    event.preventDefault();
+  }
+
+
+
+  // ************************
+  // Custom form control code
+  // ************************
 
   // ------- ControlValueAccessor -----
   writeValue(value: any): void { this.bfModel = value; }
   registerOnChange(fn: (_: any) => void): void { this._onChange = fn; }
-  registerOnTouched(fn: () => void): void { this.onTouched = fn; }
+  registerOnTouched(fn: () => void): void { this._onTouched = fn; }
   setDisabledState(isDisabled: boolean): void { this.isDisabled = isDisabled; }
 
   // ------- Validator -----
@@ -80,8 +107,4 @@ export class BfRadioComponent implements OnChanges, ControlValueAccessor, Valida
     const isControlEmpty = value === undefined || value === null || value === '';
     return this.bfRequired && isControlEmpty ? { required: true } : null;
   }
-
-  // ******************************
-  // Custom form control code - END
-  // ******************************
 }
