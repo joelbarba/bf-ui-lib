@@ -40,6 +40,7 @@ export class BfRadioComponent implements OnChanges, ControlValueAccessor, Valida
 
 
   isDisabled: boolean;
+  isFocussed: boolean;
   bfLabelTrans$: Observable<string>;    // Translated text for the button
   bfTooltipTrans$: Observable<string>;  // Translated text for the tooltip
 
@@ -72,11 +73,16 @@ export class BfRadioComponent implements OnChanges, ControlValueAccessor, Valida
   // Tab into/out of focus
   @HostBinding('attr.tabindex')
   get tabindex() {
-    return 0;
+    return this.bfDisabled ? -1 : 0;
+  }
+  @HostListener('focus')
+  onFocus() {
+    this.isFocussed = true;
   }
   @HostListener('blur')
   onBlur() {
     this._onTouched();
+    this.isFocussed = false;
   }
 
   // Select with click or space bar
