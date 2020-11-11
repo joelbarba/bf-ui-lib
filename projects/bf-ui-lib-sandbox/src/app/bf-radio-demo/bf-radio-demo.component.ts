@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-bf-radio-demo',
-  templateUrl: './bf-radio-demo.component.html',
-  styleUrls: ['./bf-radio-demo.component.scss']
+  templateUrl: 'bf-radio-demo.component.html',
+  styleUrls: ['bf-radio-demo.component.scss']
 })export class BfRadioDemoComponent implements OnInit {
   public name = BfRadioDoc.name;
   public desc = BfRadioDoc.desc;
@@ -40,7 +40,7 @@ $radio-check-color: $white !default;`;
     value: '1',
     labelText: 'view.common.name',
     hasGroup: false, groupValue: 'radio-group-1',
-    isRequired: false, isDisabled: true,
+    isRequired: true, isDisabled: false,
     hasTooltip: false, tooltipText: 'view.tooltip.message', tooltipPos: null, tooltipBody: 'true',
     isClassBlock: false,
   };
@@ -50,13 +50,13 @@ $radio-check-color: $white !default;`;
     this.customCompCode += this.bsStr + `bfValue="${this.compConf.value}"`;
     this.customCompCode += this.bsStr + `bfLabel="${this.compConf.labelText}"`;
     if (this.compConf.hasGroup) { this.customCompCode += this.bsStr + `bfRadioGroup="${this.compConf.groupValue}"`; }
-    if (this.compConf.isRequired) { this.customCompCode += this.bsStr + `bfRequired="true"`; }
-    if (this.compConf.isDisabled) { this.customCompCode += this.bsStr + `bfDisabled="true"`; }
+    if (this.compConf.isRequired) { this.customCompCode += this.bsStr + `bfRequired=true`; }
+    if (this.compConf.isDisabled) { this.customCompCode += this.bsStr + `bfDisabled=true`; }
 
     if (this.compConf.hasTooltip) {
       this.customCompCode += this.bsStr + `bfTooltip="${this.compConf.tooltipText}"`;
       if (!!this.compConf.tooltipPos)  { this.customCompCode += this.bsStr + `bfTooltipPos="${this.compConf.tooltipPos}"`; }
-      if (!!this.compConf.tooltipBody) { this.customCompCode += this.bsStr + `bfTooltipBody="${this.compConf.tooltipBody}"`; }
+      if (!!this.compConf.tooltipBody) { this.customCompCode += this.bsStr + `bfTooltipBody=${this.compConf.tooltipBody}`; }
     }
 
     this.customCompCode += (`>` + this.brStr + `</bf-radio>`);
