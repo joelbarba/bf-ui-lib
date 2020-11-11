@@ -45,7 +45,7 @@ export class BfRadioComponent implements OnChanges, ControlValueAccessor, Valida
 
   private _toBoolean = (v: any) => `${v}` === 'true';
   private _onChange = (_: any) => { };
-  private _onTouched = () => { };
+  onTouched = () => { };
 
 
   constructor(
@@ -60,7 +60,7 @@ export class BfRadioComponent implements OnChanges, ControlValueAccessor, Valida
   onChange(value: any) {
     this.bfModel = value;
     this._onChange(value);
-    this._onTouched();
+    this.onTouched();
   }
 
 
@@ -72,7 +72,7 @@ export class BfRadioComponent implements OnChanges, ControlValueAccessor, Valida
   // ------- ControlValueAccessor -----
   writeValue(value: any): void { this.bfModel = value; }
   registerOnChange(fn: (_: any) => void): void { this._onChange = fn; }
-  registerOnTouched(fn: () => void): void { this._onTouched = fn; }
+  registerOnTouched(fn: () => void): void { this.onTouched = fn; }
   setDisabledState(isDisabled: boolean): void { this.isDisabled = isDisabled; }
 
   // ------- Validator -----

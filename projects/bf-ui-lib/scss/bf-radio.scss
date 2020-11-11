@@ -17,6 +17,10 @@ bf-radio {
     display: inline-block;
     margin: 0;
 
+    &:focus {
+      outline: none;
+    }
+
     label {
       display: inline-flex;
       padding: 0; // Override ".radio label" from bootstrap
