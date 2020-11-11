@@ -14,9 +14,9 @@ import { Component, OnInit } from '@angular/core';
 <bf-radio [(ngModel)]="myVariable" bfLabel="Option 2" bfValue="2"></bf-radio>
 <bf-radio [(ngModel)]="myVariable" bfLabel="Option 3" bfValue="3"></bf-radio>`;
 
-  public instance3 = `<bf-radio [(ngModel)]="myVariable" bfLabel="Option 1" bfValue="1" bfRequired="true"></bf-radio>
-<bf-radio [(ngModel)]="myVariable" bfLabel="Option 2" bfValue="2" bfRequired="true"></bf-radio>
-<bf-radio [(ngModel)]="myVariable" bfLabel="Option 3" bfValue="3" bfRequired="true"></bf-radio>`;
+  public instance3 = `<bf-radio [(ngModel)]="myVariable" bfLabel="Option 1" bfValue="1" bfRequired=true></bf-radio>
+<bf-radio [(ngModel)]="myVariable" bfLabel="Option 2" bfValue="2" bfRequired=true></bf-radio>
+<bf-radio [(ngModel)]="myVariable" bfLabel="Option 3" bfValue="3" bfRequired=true></bf-radio>`;
 
 
   public cssReset = `$radio-color: $text-color !default;  // Default radio background color (when not required)
