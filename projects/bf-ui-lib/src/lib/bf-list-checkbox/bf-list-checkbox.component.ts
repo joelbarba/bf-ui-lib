@@ -8,6 +8,7 @@ import {BfListSelection} from '../bf-list-selection/bf-list-selection';
 export class BfListCheckboxComponent implements OnInit, OnChanges, OnDestroy {
   @Input() selection: BfListSelection;
   @Input() id: string;
+  @Input() bfDisabled = false;
   @Input() actions: [{ id?, label: string, disabled?: boolean, fn?: (sel?: BfListSelection) => void }];
   @Output() actionClick = new EventEmitter<any>();
   @Output() change = new EventEmitter<any>();
