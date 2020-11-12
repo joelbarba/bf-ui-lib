@@ -1,60 +1,116 @@
-import {Component, OnInit, Input, forwardRef, OnChanges} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {of} from 'rxjs';
-import {BfUILibTransService} from '../abstract-translate.service';
+import { Component, HostBinding, HostListener, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { BfUILibTransService } from '../abstract-translate.service';
 
 @Component({
   selector: 'bf-radio',
-  templateUrl: './bf-radio.component.html',
-  styleUrls: [],
-  // encapsulation: ViewEncapsulation.None,
+  templateUrl: 'bf-radio.component.html',
   providers: [
-    {
-      provide: NG_VALUE_ACCESSOR, multi: true,
-      useExisting: forwardRef(() => BfRadioComponent),
-    }
-  ]
+    { provide: NG_VALUE_ACCESSOR, useExisting: BfRadioComponent, multi: true, },
+    { provide: NG_VALIDATORS, useExisting: BfRadioComponent, multi: true, },
+  ],
 })
-// export class BfCheckboxComponent implements OnInit {
-export class BfRadioComponent implements ControlValueAccessor, OnInit, OnChanges {
-  public bfModel = false;
+export class BfRadioComponent implements OnChanges, ControlValueAccessor, Validator {
   @Input() bfLabel = '';
-  @Input() bfValue: string = null;
   @Input() bfRadioGroup = 'radio-group';
-  @Input() bfDisabled = false;
-  @Input() bfRequired = false;
   @Input() bfTooltip = '';
   @Input() bfTooltipPos = 'top';
-  @Input() bfTooltipBody = true;
   @Input() bfIcon = '';
 
 
-  public bfLabelTrans$ = of('');        // Translated text for the button
-  public bfTooltipTrans$ = of('');  // Translated text for the tooltip
+  private _value: string;
+  @Input() set bfValue(v: string) { this._value = `${v}`; }
+  get bfValue(): string { return this._value; }
+
+  private _bfDisabled = false;
+  @Input() set bfDisabled(v: boolean) { this._bfDisabled = this._toBoolean(v); }
+  get bfDisabled(): boolean { return this._bfDisabled; }
+
+  private _bfRequired = false;
+  @Input() set bfRequired(v: boolean) { this._bfRequired = this._toBoolean(v); }
+  get bfRequired(): boolean { return this._bfRequired; }
+
+  private _bfTooltipBody = false;
+  @Input() set bfTooltipBody(v: boolean) { this._bfTooltipBody = this._toBoolean(v); }
+  get bfTooltipBody(): boolean { return this._bfTooltipBody; }
+
+  private _bfModel: string;
+  set bfModel(v: string) { this._bfModel = `${v}`; }
+  get bfModel(): string { return this._bfModel; }
+
+
+  isFocussed: boolean;
+  bfLabelTrans$: Observable<string>;    // Translated text for the button
+  bfTooltipTrans$: Observable<string>;  // Translated text for the tooltip
+
+  private _toBoolean = (v: any) => `${v}` === 'true';
+  private _onChange = (_: any) => { };
+  private _onTouched = () => { };
+
 
   constructor(
-    private translate: BfUILibTransService,
+    private _translate: BfUILibTransService,
   ) { }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.bfLabel) { this.bfLabelTrans$ = this._translate.getLabel$(this.bfLabel); }
+    if (changes.bfTooltip) { this.bfTooltipTrans$ = this._translate.getLabel$(this.bfTooltip); }
+  }
+
+  onChange(value: any) {
+    this.bfModel = value;
+    this._onChange(value);
+    this._onTouched();
+  }
+
+
+
+  // *************
+  // Accessibility
+  // *************
+
+  // Tab into/out of focus
+  @HostBinding('attr.tabindex')
+  get tabindex() {
+    return this.bfDisabled ? -1 : 0;
+  }
+  @HostListener('focus')
+  onFocus() {
+    this.isFocussed = true;
+  }
+  @HostListener('blur')
+  onBlur() {
+    this._onTouched();
+    this.isFocussed = false;
+  }
+
+  // Select with click or space bar
+  @HostListener('click')
+  @HostListener('keyup.space')
+  onSelect() {
+    this.onChange(this.bfValue);
+  }
+  @HostListener('keydown.space', ['$event'])
+  stopPageScroll(event: KeyboardEvent) {
+    event.preventDefault();
+  }
+
+
+
+  // ************************
+  // Custom form control code
+  // ************************
+
   // ------- ControlValueAccessor -----
-  writeValue(value: any) {
-    this.bfModel = value;
-  }
-  public propagateModelUp = (_: any) => {}; // This is just to avoid type error (it's overwritten on register)
-  registerOnChange(fn) { this.propagateModelUp = fn; }
-  registerOnTouched(fn) { }
+  writeValue(value: any): void { this.bfModel = value; }
+  registerOnChange(fn: (_: any) => void): void { this._onChange = fn; }
+  registerOnTouched(fn: () => void): void { this._onTouched = fn; }
+  setDisabledState(isDisabled: boolean): void { this.bfDisabled = isDisabled; }
 
-
-  ngOnInit() {}
-
-  onChange(value) {
-    this.bfModel = value;
-    this.propagateModelUp(value);
-    // this.bfModelChange.emit(value);
-  }
-
-  ngOnChanges(change) {
-    if (change.hasOwnProperty('bfLabel'))   { this.bfLabelTrans$ = this.translate.getLabel$(this.bfLabel); }
-    if (change.hasOwnProperty('bfTooltip')) { this.bfTooltipTrans$ = this.translate.getLabel$(this.bfTooltip); }
+  // ------- Validator -----
+  validate({ value }: AbstractControl): ValidationErrors {
+    const isControlEmpty = value === undefined || value === null || value === '';
+    return this.bfRequired && isControlEmpty ? { required: true } : null;
   }
 }

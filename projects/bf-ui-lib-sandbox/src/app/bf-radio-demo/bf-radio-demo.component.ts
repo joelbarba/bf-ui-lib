@@ -2,22 +2,21 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-bf-radio-demo',
-  templateUrl: './bf-radio-demo.component.html',
-  styleUrls: ['./bf-radio-demo.component.scss']
+  templateUrl: 'bf-radio-demo.component.html',
+  styleUrls: ['bf-radio-demo.component.scss']
 })export class BfRadioDemoComponent implements OnInit {
   public name = BfRadioDoc.name;
   public desc = BfRadioDoc.desc;
   public api = BfRadioDoc.api;
   public instance = BfRadioDoc.instance;
-  public myOp = '1';
 
-  public instance2 = `<bf-radio [(ngModel)]="myVariable" bfLabel="Option 1" bfValue="1"></bf-radio>
-<bf-radio [(ngModel)]="myVariable" bfLabel="Option 2" bfValue="2"></bf-radio>
-<bf-radio [(ngModel)]="myVariable" bfLabel="Option 3" bfValue="3"></bf-radio>`;
+  public instance2 = `<bf-radio [(ngModel)]="myVariable" bfLabel="Option 1" bfValue="1" bfIcon="icon-home"></bf-radio>
+<bf-radio [(ngModel)]="myVariable" bfLabel="Option 2" bfValue="2" bfIcon="icon-home"></bf-radio>
+<bf-radio [(ngModel)]="myVariable" bfLabel="Option 3" bfValue="3" bfIcon="icon-home"></bf-radio>`;
 
-  public instance3 = `<bf-radio [(ngModel)]="myVariable" bfLabel="Option 1" bfValue="1" bfRequired="true"></bf-radio>
-<bf-radio [(ngModel)]="myVariable" bfLabel="Option 2" bfValue="2" bfRequired="true"></bf-radio>
-<bf-radio [(ngModel)]="myVariable" bfLabel="Option 3" bfValue="3" bfRequired="true"></bf-radio>`;
+  public instance3 = `<bf-radio [(ngModel)]="myVariable" bfLabel="Option 1" bfValue="1" bfIcon="icon-home" bfRequired=true></bf-radio>
+<bf-radio [(ngModel)]="myVariable" bfLabel="Option 2" bfValue="2" bfIcon="icon-home" bfRequired=true></bf-radio>
+<bf-radio [(ngModel)]="myVariable" bfLabel="Option 3" bfValue="3" bfIcon="icon-home" bfRequired=true></bf-radio>`;
 
 
   public cssReset = `$radio-color: $text-color !default;  // Default radio background color (when not required)
@@ -71,7 +70,7 @@ $radio-check-color: $white !default;`;
     value: '1',
     labelText: 'view.common.name',
     hasGroup: false, groupValue: 'radio-group-1',
-    isRequired: false, isDisabled: true,
+    isRequired: true, isDisabled: false,
     hasTooltip: false, tooltipText: 'view.tooltip.message', tooltipPos: null, tooltipBody: 'true',
     isClassBlock: false,
     hasIcon: false, icon: 'icon-home',
@@ -82,13 +81,13 @@ $radio-check-color: $white !default;`;
     this.customCompCode += this.bsStr + `bfValue="${this.compConf.value}"`;
     this.customCompCode += this.bsStr + `bfLabel="${this.compConf.labelText}"`;
     if (this.compConf.hasGroup) { this.customCompCode += this.bsStr + `bfRadioGroup="${this.compConf.groupValue}"`; }
-    if (this.compConf.isRequired) { this.customCompCode += this.bsStr + `bfRequired="true"`; }
-    if (this.compConf.isDisabled) { this.customCompCode += this.bsStr + `bfDisabled="true"`; }
+    if (this.compConf.isRequired) { this.customCompCode += this.bsStr + `bfRequired=true`; }
+    if (this.compConf.isDisabled) { this.customCompCode += this.bsStr + `bfDisabled=true`; }
 
     if (this.compConf.hasTooltip) {
       this.customCompCode += this.bsStr + `bfTooltip="${this.compConf.tooltipText}"`;
       if (!!this.compConf.tooltipPos)  { this.customCompCode += this.bsStr + `bfTooltipPos="${this.compConf.tooltipPos}"`; }
-      if (!!this.compConf.tooltipBody) { this.customCompCode += this.bsStr + `bfTooltipBody="${this.compConf.tooltipBody}"`; }
+      if (!!this.compConf.tooltipBody) { this.customCompCode += this.bsStr + `bfTooltipBody=${this.compConf.tooltipBody}`; }
     }
 
     if (this.compConf.hasIcon) {
