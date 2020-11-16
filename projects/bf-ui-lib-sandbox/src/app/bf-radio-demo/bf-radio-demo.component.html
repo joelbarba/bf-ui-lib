@@ -28,25 +28,29 @@ is unique, and when a radio is selected the rest are automatically unselected.<b
     <div class="col-5 marB15">
       <h5 class="marB0">BfRadio Customization:</h5>
       <div class="d-flex justify-content-between">
-        <bf-radio class="padT25"
-                  [class.block]="compConf.isClassBlock"
-                  [style.background]="compConf.isClassBlock ? 'lightgray' : 'white'"
-                  [(ngModel)]="myVariable"
-                  [bfValue]="compConf.value"
-                  [bfLabel]="compConf.labelText"
-                  [bfRadioGroup]="compConf.hasGroup?compConf.groupValue:''"
-                  [bfDisabled]="compConf.isDisabled"
-                  [bfRequired]="compConf.isRequired"
-                  [bfTooltip]="(compConf.hasTooltip ? compConf.tooltipText : null)"
-                  [bfTooltipPos]="(compConf.tooltipPos || 'top')"
-                  [bfTooltipBody]="compConf.tooltipBody"
-        ></bf-radio>
+        <form #form="ngForm" class="padT25">
+          <bf-radio [class.block]="compConf.isClassBlock"
+                    [style.background]="compConf.isClassBlock ? 'lightgray' : 'white'"
+                    [(ngModel)]="myVariable" name="radio"
+                    [bfValue]="compConf.value"
+                    [bfLabel]="compConf.labelText"
+                    [bfRadioGroup]="compConf.hasGroup?compConf.groupValue:''"
+                    [bfDisabled]="compConf.isDisabled"
+                    [bfRequired]="compConf.isRequired"
+                    [bfTooltip]="(compConf.hasTooltip ? compConf.tooltipText : null)"
+                    [bfTooltipPos]="(compConf.tooltipPos || 'top')"
+                    [bfTooltipBody]="compConf.tooltipBody"
+                    [bfIcon]="compConf.hasIcon && compConf.icon"
+          ></bf-radio>
+        </form>
         <div class="d-print-inline-flex">
           <bf-input [(ngModel)]="myVariable" bfLabel="myVariable"></bf-input>
         </div>
       </div>
-
-<!--      <div>myOp={{myOp}}</div>-->
+      <div class="marB15">
+        <div>touched: {{form.controls.radio?.touched}}</div>
+        <div *ngIf="form.controls.radio?.errors">errors: {{form.controls.radio?.errors | json}}</div>
+      </div>
 
       <div class="padT5">
         <div class="code-box pad15">
@@ -103,9 +107,19 @@ is unique, and when a radio is selected the rest are automatically unselected.<b
         </div>
       </div>
 
+      <!--Icon-->
+      <div class="row marT10">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasIcon" (ngModelChange)="upComp()" bfLabel="Has Icon"></bf-checkbox> </div>
+        <bf-dropdown class="col-9 full-width"
+                     [bfDisabled]="!compConf.hasIcon"
+                     [(ngModel)]="compConf.icon" (ngModelChange)="upComp()"
+                     [bfList]="icons" bfRender="icon" bfSelect="icon" [bfRequired]="false" class="flat">
+        </bf-dropdown>
+      </div>
+
       <!--Classes-->
-      <div class="row padT10">
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isClassBlock" (ngModelChange)="upComp()" bfLabel="block"></bf-checkbox> </div>
+      <div class="row padT5">
+        <div class="col-3"> <bf-checkbox [(ngModel)]="compConf.isClassBlock" (ngModelChange)="upComp()" bfLabel="block"></bf-checkbox> </div>
         <!--<div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasColon" (ngModelChange)="upComp()" bfLabel="colon"></bf-checkbox> </div>-->
       </div>
 
@@ -132,25 +146,25 @@ is unique, and when a radio is selected the rest are automatically unselected.<b
 <!--  </div>-->
 
   <div class="row">
-    <div class="col-5 ">
+    <div class="col-5">
       <div class="d-flex justify-content-between">
-        <bf-radio [(ngModel)]="myVariable" bfLabel="Option 1" bfValue="1"></bf-radio>
-        <bf-radio [(ngModel)]="myVariable" bfLabel="Option 2" bfValue="2"></bf-radio>
-        <bf-radio [(ngModel)]="myVariable" bfLabel="Option 3" bfValue="3"></bf-radio>
+        <bf-radio [(ngModel)]="myVariable" bfLabel="Option 1" bfValue="1" bfIcon="icon-home"></bf-radio>
+        <bf-radio [(ngModel)]="myVariable" bfLabel="Option 2" bfValue="2" bfIcon="icon-home"></bf-radio>
+        <bf-radio [(ngModel)]="myVariable" bfLabel="Option 3" bfValue="3" bfIcon="icon-home"></bf-radio>
       </div>
     </div>
-    <div class="col-7 code-box"> <pre>{{instance2}}</pre> </div>
+    <div class="col code-box"> <pre>{{instance2}}</pre> </div>
   </div>
 
   <div class="row">
     <div class="col-5">
       <h4 class="d-flex justify-content-between">
-        <bf-radio [(ngModel)]="myOp" bfLabel="Option 1" bfValue="100" bfRequired="true"></bf-radio>
-        <bf-radio [(ngModel)]="myOp" bfLabel="Option 2" bfValue="200" bfRequired="true"></bf-radio>
-        <bf-radio [(ngModel)]="myOp" bfLabel="Option 3" bfValue="300" bfRequired="true"></bf-radio>
+        <bf-radio [(ngModel)]="myVariable" bfLabel="Option 1" bfValue="1" bfIcon="icon-home" bfRequired=true></bf-radio>
+        <bf-radio [(ngModel)]="myVariable" bfLabel="Option 2" bfValue="2" bfIcon="icon-home" bfRequired=true></bf-radio>
+        <bf-radio [(ngModel)]="myVariable" bfLabel="Option 3" bfValue="3" bfIcon="icon-home" bfRequired=true></bf-radio>
       </h4>
     </div>
-    <div class="col-7 code-box"> <pre>{{instance3}}</pre> </div>
+    <div class="col code-box"> <pre>{{instance3}}</pre> </div>
   </div>
 
 </div>
@@ -169,13 +183,13 @@ is unique, and when a radio is selected the rest are automatically unselected.<b
     <pre class="marT10">{{ blockExample }}</pre>
   </div>
   <div class="col-6">
-    <bf-radio bfLabel="Inline radio 1"></bf-radio>
-    <bf-radio bfLabel="Inline radio 2"></bf-radio>
-    <bf-radio bfLabel="Inline radio 3"></bf-radio>
+    <bf-radio bfLabel="Inline radio 1" [(ngModel)]="myVariable" bfValue="1"></bf-radio>
+    <bf-radio bfLabel="Inline radio 2" [(ngModel)]="myVariable" bfValue="2"></bf-radio>
+    <bf-radio bfLabel="Inline radio 3" [(ngModel)]="myVariable" bfValue="3"></bf-radio>
     <hr>
-    <bf-radio class="block" bfLabel="Block radio 4"></bf-radio>
-    <bf-radio class="block" bfLabel="Block radio 5"></bf-radio>
-    <bf-radio class="block" bfLabel="Block radio 6"></bf-radio>
+    <bf-radio class="block" bfLabel="Block radio 4" [(ngModel)]="myVariable" bfValue="1"></bf-radio>
+    <bf-radio class="block" bfLabel="Block radio 5" [(ngModel)]="myVariable" bfValue="2"></bf-radio>
+    <bf-radio class="block" bfLabel="Block radio 6" [(ngModel)]="myVariable" bfValue="3"></bf-radio>
   </div>
 </div>
 

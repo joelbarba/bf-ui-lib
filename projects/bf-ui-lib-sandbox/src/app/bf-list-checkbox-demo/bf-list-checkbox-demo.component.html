@@ -27,11 +27,14 @@
     </div>
   </div>
 
-
+  <div class="col-12 padB10">
+    <bf-switch [(ngModel)]="isCheckboxDisabled" bfLabel="Disable Title">
+    </bf-switch>
+  </div>
   <div class="col-6">
     <ul class="list-unstyled table-list">
       <li class="list-header">
-        <bf-list-checkbox [selection]="sel"></bf-list-checkbox>
+        <bf-list-checkbox [selection]="sel" [bfDisabled]="isCheckboxDisabled"></bf-list-checkbox>
         <bf-list-header-col class="col-7"  colTitle="Username"></bf-list-header-col>
       </li>
     </ul>

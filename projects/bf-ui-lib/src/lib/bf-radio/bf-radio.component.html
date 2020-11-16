@@ -1,15 +1,10 @@
-<div class="radio"
-     [ngbTooltip]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
-     [container]="(bfTooltipBody ? 'body' : '')">
-  <label>
-    <input type="radio"
-           [value]="bfValue"
-           [name]="bfRadioGroup"
-           [ngModel]="bfModel"
-           (ngModelChange)="onChange($event)"
-           [disabled]="bfDisabled"
-           [required]="bfRequired">
-    <span class="radio-box icon-checkmark3"></span>
-    <span class="radio-text" [class.has-text]="!!bfLabel">{{bfLabelTrans$ | async}}</span>
-  </label>
+<div class="radio" [ngbTooltip]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
+  [container]="(bfTooltipBody ? 'body' : '')">
+  <input type="radio" [value]="bfValue" [name]="bfRadioGroup" [ngModel]="bfModel" (ngModelChange)="onChange($event)"
+    [disabled]="bfDisabled" [required]="bfRequired">
+  <span class="radio-box icon-checkmark3"></span>
+  <span class="radio-label">
+    <span [class]="bfIcon" *ngIf="bfIcon"></span>
+    <span *ngIf="bfLabel">{{bfLabelTrans$ | async}}</span>
+  </span>
 </div>
