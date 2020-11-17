@@ -176,7 +176,7 @@ extCtrl$.next({ action: 'removeError', value: 'wrong' })`;
     bfKeepSearch: false, bfHtmlRender: false, hasFilterFn: false, bfFilterFn: (list) => list.filter(item => item.id > 3),
     hasControls: false, bfCustomPlacementList: '',
 
-    hasFullWidth: true, hasFlat: false,
+    hasFullWidth: true, hasFlat: false, extraBtn: false,
   };
   public upComp = () => {
     if (this.conf.isLoading) { this.conf.isLoadingWithPromise = false; }
@@ -184,7 +184,8 @@ extCtrl$.next({ action: 'removeError', value: 'wrong' })`;
     this.code = `<bf-dropdown `;
     let compClasses = '';
     if (this.conf.hasFullWidth) { compClasses = 'full-width'; }
-    if (this.conf.hasFlat) { compClasses += (compClasses ? ', ' : '') + 'flat'; }
+    if (this.conf.hasFlat) { compClasses += (compClasses ? ' ' : '') + 'flat'; }
+    if (this.conf.extraBtn) { compClasses += (compClasses ? ' ' : '') + 'extra-btn'; }
     if (!!compClasses) { this.code += `class="${compClasses}"` + this.bsStr; }
     this.code += `[(ngModel)]="val"` + this.bsStr;
     this.code += `[bfList]="myList"`;
@@ -232,6 +233,8 @@ extCtrl$.next({ action: 'removeError', value: 'wrong' })`;
     if (this.conf.hasControls) { this.code += this.bsStr + `(bfOnLoaded)="myCtrl = $event"`; }
 
     this.code += (`>` + this.brStr + `</bf-dropdown>`);
+
+    if (this.conf.extraBtn) { this.code += this.brStr + `<bf-btn bfType="add-icon"></bf-btn>`; }
 
     if (this.conf.hasControls) {
       this.code += this.brStr + this.brStr + `public myCtrl: IbfDropdownCtrl;`;

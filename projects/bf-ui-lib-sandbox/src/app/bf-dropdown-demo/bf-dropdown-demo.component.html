@@ -37,6 +37,7 @@
 
         <bf-dropdown [class.full-width]="conf.hasFullWidth" style="max-width: 450px;"
                      [class.flat]="conf.hasFlat"
+                     [class.extra-btn]="conf.extraBtn"
                      [(ngModel)]="selObj10" #bfDropdownRef="ngModel"
                      [bfList]="dList"
                      [bfOrderBy]="conf.hasOrder ? conf.bfOrderBy : null"
@@ -67,6 +68,7 @@
                      (bfOnLoaded)="myCtrl = $event"
         >
         </bf-dropdown>
+        <bf-btn *ngIf="conf.extraBtn" bfType="add-icon"></bf-btn>
       </div>
 
       <div class="padT30">
@@ -267,6 +269,7 @@
       <div class="row marT15">
         <bf-checkbox class="col-2 padT5" bfLabel="CSS 'flat'" [(ngModel)]="conf.hasFlat" (ngModelChange)="upComp()"></bf-checkbox>
         <bf-checkbox class="col-3 padT5" bfLabel="CSS 'full-width'" [(ngModel)]="conf.hasFullWidth" (ngModelChange)="upComp()"></bf-checkbox>
+        <bf-checkbox class="col-3 padT5" bfLabel="CSS 'extra-btn'"  [(ngModel)]="conf.extraBtn" (ngModelChange)="upComp()"></bf-checkbox>
       </div>
 
     </div>
