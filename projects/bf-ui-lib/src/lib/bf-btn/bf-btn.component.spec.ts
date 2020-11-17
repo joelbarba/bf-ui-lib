@@ -46,7 +46,7 @@ describe('BfBtnComponent', () => {
   it('should set custom bfType', () => {
     checkType('search',   'primary',    'icon-search',         'view.common.search');
     checkType('edit',     'primary',    'icon-pencil',         'view.common.edit');
-    checkType('save',     'primary',    'icon-arrow-right3',   'view.common.save');
+    checkType('save',     'primary',    'icon-checkmark3',   'view.common.save');
     checkType('update',   'primary',    'icon-arrow-right3',   'views.common.update');
     checkType('add',      'primary',    'icon-plus',           'view.common.add');
     checkType('delete',   'tertiary',   'icon-bin',            'view.common.delete');
