@@ -1,6 +1,8 @@
 import {Component, Inject, Injectable, OnInit} from '@angular/core';
 import {BfTranslateService} from './translate.service';
 
+import * as pack from './../../../bf-ui-lib/package.json';
+console.log(`Running version ${pack.version} ---> @blueface_npm/bf-ui-lib@${pack.version}`);
 
 @Component({
   selector: 'app-root',
