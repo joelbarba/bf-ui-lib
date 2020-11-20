@@ -52,7 +52,7 @@ export class BfBtnComponent implements OnInit, OnChanges {
 
       if (bfType === 'search')   { this.btnClass = 'primary';    this.typeIcon = 'icon-search';         typeText = 'view.common.search';  }
       if (bfType === 'edit')     { this.btnClass = 'primary';    this.typeIcon = 'icon-pencil';         typeText = 'view.common.edit';    }
-      if (bfType === 'save')     { this.btnClass = 'primary';    this.typeIcon = 'icon-arrow-right3';   typeText = 'view.common.save';    }
+      if (bfType === 'save')     { this.btnClass = 'primary';    this.typeIcon = 'icon-checkmark3';   typeText = 'view.common.save';    }
       if (bfType === 'update')   { this.btnClass = 'primary';    this.typeIcon = 'icon-arrow-right3';   typeText = 'views.common.update'; }
       if (bfType === 'add')      { this.btnClass = 'primary';    this.typeIcon = 'icon-plus';           typeText = 'view.common.add';     }
       if (bfType === 'delete')   { this.btnClass = 'tertiary';   this.typeIcon = 'icon-bin';            typeText = 'view.common.delete';  }
