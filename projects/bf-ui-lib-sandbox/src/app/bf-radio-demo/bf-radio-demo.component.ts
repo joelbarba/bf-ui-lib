@@ -22,12 +22,12 @@ import { Component, OnInit } from '@angular/core';
   public cssReset = `$radio-color: $text-color !default;  // Default radio background color (when not required)
 $radio-check-color: $white !default;`;
 
-  public blockExample = `<bf-checkbox bfLabel="Inline check 1"></bf-checkbox>
-<bf-checkbox bfLabel="Inline check 2"></bf-checkbox>
-<bf-checkbox bfLabel="Inline check 3"></bf-checkbox>
-<bf-checkbox class="block" bfLabel="Block check 4"></bf-checkbox>
-<bf-checkbox class="block" bfLabel="Block check 5"></bf-checkbox>
-<bf-checkbox class="block" bfLabel="Block check 6"></bf-checkbox>`;
+  public blockExample = `<bf-radio bfLabel="Inline check 1"></bf-radio>
+<bf-radio bfLabel="Inline check 2"></bf-radio>
+<bf-radio bfLabel="Inline check 3"></bf-radio>
+<bf-radio bfLabel="Block check 4" class="block"></bf-radio>
+<bf-radio bfLabel="Block check 5" class="block"></bf-radio>
+<bf-radio bfLabel="Block check 6" class="block"></bf-radio>`;
 
 
   public icons = [
