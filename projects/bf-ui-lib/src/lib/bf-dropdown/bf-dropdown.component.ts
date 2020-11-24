@@ -62,6 +62,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfErrorText: string;   // Custom error text (label) to display when invalid value
   @Input() bfCustomPlacementList: 'top' | 'bottom';   // To force the direction the list is expanded.
                                                       // By default this is automatic based on the position on the window
+  @Input() bfAutoCollapse = true; // If false, the dropdown does not collapse on focus out
 
   @Input() bfLoading: boolean | Promise<any> | Observable<boolean>;  // To display the loading animation on the expand button
 
@@ -533,12 +534,14 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   // On input focus out -> Collapse the select list
   public collapseList = () => {
-    this.isFocus = false;
-    setTimeout(() => {
-      this.isExpanded = false;
-      this.inputText = this.selModelText; // Take back the selected text
-      this.bfOnListCollapsed.emit();
-    }, 100);
+    if (this.bfAutoCollapse) {
+      this.isFocus = false;
+      setTimeout(() => {
+        this.isExpanded = false;
+        this.inputText = this.selModelText; // Take back the selected text
+        this.bfOnListCollapsed.emit();
+      }, 100);
+    }
   };
 
 

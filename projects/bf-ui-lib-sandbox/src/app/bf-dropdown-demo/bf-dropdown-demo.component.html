@@ -63,6 +63,7 @@
                      [bfErrorPos]="conf.errorPos"
                      [bfKeepSearch]="conf.bfKeepSearch"
                      [bfHtmlRender]="conf.bfHtmlRender"
+                     [bfAutoCollapse]="conf.bfAutoCollapse"
                      [bfFilterFn]="conf.hasFilterFn ? conf.bfFilterFn : null"
                      [bfCustomPlacementList]="conf.bfCustomPlacementList"
                      (bfOnLoaded)="myCtrl = $event"
@@ -218,6 +219,10 @@
         <div class="col-6 padT5" *ngIf="conf.hasFilterFn">
           <pre style="background: aliceblue; padding: 5px 10px; margin-bottom: 0;">bfFilterFn: (list) => list.filter(x => x.id > 3)</pre>
         </div>
+      </div>
+
+      <div class="row marT15">
+        <bf-checkbox class="col-2 padT10" bfLabel="bfAutoCollapse" [(ngModel)]="conf.bfAutoCollapse" (ngModelChange)="upComp()"></bf-checkbox>
       </div>
 
       <!--bfErrorText + bfError Pos-->
