@@ -170,13 +170,13 @@ extCtrl$.next({ action: 'removeError', value: 'wrong' })`;
     hasPlaceholder: true, bfPlaceholder: 'views.dropdown.placeholder',
     hasEmptyLabel: false, customEmptyLabel: 'view.common.all',
     hasEmptyValue: false, customEmptyValue: 'everything',
-    hasImages: false, hasIcons: false,
+    hasImages: false, hasIcons: false, bfAutoCollapse: true,
 
     hasErrorText: false, bfErrorText: `this ain't good`, errorPos: null,
     bfKeepSearch: false, bfHtmlRender: false, hasFilterFn: false, bfFilterFn: (list) => list.filter(item => item.id > 3),
     hasControls: false, bfCustomPlacementList: '',
 
-    hasFullWidth: true, hasFlat: false,
+    hasFullWidth: true, hasFlat: false, extraBtn: false,
   };
   public upComp = () => {
     if (this.conf.isLoading) { this.conf.isLoadingWithPromise = false; }
@@ -184,7 +184,8 @@ extCtrl$.next({ action: 'removeError', value: 'wrong' })`;
     this.code = `<bf-dropdown `;
     let compClasses = '';
     if (this.conf.hasFullWidth) { compClasses = 'full-width'; }
-    if (this.conf.hasFlat) { compClasses += (compClasses ? ', ' : '') + 'flat'; }
+    if (this.conf.hasFlat) { compClasses += (compClasses ? ' ' : '') + 'flat'; }
+    if (this.conf.extraBtn) { compClasses += (compClasses ? ' ' : '') + 'extra-btn'; }
     if (!!compClasses) { this.code += `class="${compClasses}"` + this.bsStr; }
     this.code += `[(ngModel)]="val"` + this.bsStr;
     this.code += `[bfList]="myList"`;
@@ -232,6 +233,8 @@ extCtrl$.next({ action: 'removeError', value: 'wrong' })`;
     if (this.conf.hasControls) { this.code += this.bsStr + `(bfOnLoaded)="myCtrl = $event"`; }
 
     this.code += (`>` + this.brStr + `</bf-dropdown>`);
+
+    if (this.conf.extraBtn) { this.code += this.brStr + `<bf-btn bfType="add-icon"></bf-btn>`; }
 
     if (this.conf.hasControls) {
       this.code += this.brStr + this.brStr + `public myCtrl: IbfDropdownCtrl;`;
@@ -324,6 +327,7 @@ export const BfDropdownDoc = {
 [bfErrorPos]         : Custom position where to display the error text. Values = ['top-right', 'bottom-left', 'bottom-right', 'none']. None will hide the error text.
 [bfKeepSearch]       : If false (default) resets the search string every time the list is expanded, removing the previous filter. If true, it keeps it.
 [bfHtmlRender]       : False by default. When true, displayed values can be rendered as html on the list (but not in the input)
+[bfAutoCollapse]     : True by default. When false, the list does not collapse automatically on focus out (only on button click).
 [bfFilterFn]         : Custom function to perform the list filtering. It should return a sub-array with the filtered items.
 [bfLoading]          : To show a loading spinner on the left button.
                        Either a boolean (true=show, false=hide), or a promise that will automatically show the spinner while not resolved,
