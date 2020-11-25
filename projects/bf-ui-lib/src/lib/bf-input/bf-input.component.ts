@@ -342,8 +342,11 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   public parseModelChange = (value) => {
     // console.log('parseModelChange', value);
     if (this.bfType === 'number') { // Number type conversion
-      value = value && value !== 0 ? Number(value) : null;
+      if (value && value !== '') {
+        value = value !== 0 ? Number(value) : value;
+      }
     }
+
     this.bfBeforeChange.emit({ currentValue: this.bfModel, nextValue: value });
     this.bfModel = value;
     this.propagateModelUp(this.bfModel);

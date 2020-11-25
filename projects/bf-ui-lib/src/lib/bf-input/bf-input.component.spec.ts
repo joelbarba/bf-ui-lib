@@ -26,4 +26,17 @@ describe('BfInputComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('parseModelChange', () => {
+    it('should not attempt to convert value to a number if value is an empty string', () => {
+      // SPL-4078: when '-' or 'e' characters are input they are being represented as an empty string until accompanied by a number
+      component.bfType = 'number';
+      fixture.detectChanges();
+
+      component.parseModelChange('');
+      fixture.detectChanges();
+
+      expect(component.bfModel).toBe('');
+    });
+  });
 });
