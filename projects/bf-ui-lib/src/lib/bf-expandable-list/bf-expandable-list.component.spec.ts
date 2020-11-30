@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BfExpandableListComponent } from './bf-expandable-list.component';
 
-fdescribe('BfExpandableListComponent', () => {
+describe('BfExpandableListComponent', () => {
   let component: BfExpandableListComponent;
   let fixture: ComponentFixture<BfExpandableListComponent>;
 
