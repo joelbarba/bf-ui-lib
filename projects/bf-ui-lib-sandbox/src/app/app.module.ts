@@ -63,7 +63,7 @@ import {BfListSelectionDemoComponent} from './bf-list-selection-demo/bf-list-sel
 import { BfLazyDropdownDemoComponent } from './bf-lazy-dropdown-demo/bf-lazy-dropdown-demo.component';
 import { BfCollapseDemoComponent } from './bf-collapse-demo/bf-collapse-demo.component';
 import { BfExpandableListDemoComponent } from './bf-expandable-list-demo/bf-expandable-list-demo.component';
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
 @NgModule({
