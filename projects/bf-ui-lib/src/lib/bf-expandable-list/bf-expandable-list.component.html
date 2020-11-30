@@ -3,6 +3,7 @@
     <span [innerHTML]="firstItem"></span>
     <button class="list-btn" [show]="isCollapsed && !!expList.length" (click)="isCollapsed = false">
       (+{{expList.length}})
+      <span class="icon-arrow-down5"></span>
     </button>
   </li>
 </ul>
