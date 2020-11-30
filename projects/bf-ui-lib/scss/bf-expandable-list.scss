@@ -1,0 +1,17 @@
+bf-expandable-list {
+  ul {
+    padding-left: 0;
+    list-style: none;
+    margin: 0;
+  }
+
+  .list-btn {
+    cursor: pointer;
+    //font-weight: bold;
+    color: $text-color;
+    margin-left: 10px;
+    border: none;
+    background: transparent;
+    padding: 0 5px;
+  }
+}

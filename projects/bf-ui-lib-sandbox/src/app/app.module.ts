@@ -61,6 +61,9 @@ import {BfInputAutofillDemoComponent} from './bf-input-demo/ex4-autofill/bf-inpu
 import { BfListCheckboxDemoComponent } from './bf-list-checkbox-demo/bf-list-checkbox-demo.component';
 import {BfListSelectionDemoComponent} from './bf-list-selection-demo/bf-list-selection-demo.component';
 import { BfLazyDropdownDemoComponent } from './bf-lazy-dropdown-demo/bf-lazy-dropdown-demo.component';
+import { BfCollapseDemoComponent } from './bf-collapse-demo/bf-collapse-demo.component';
+import { BfExpandableListDemoComponent } from './bf-expandable-list-demo/bf-expandable-list-demo.component';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 
 @NgModule({
@@ -121,6 +124,8 @@ import { BfLazyDropdownDemoComponent } from './bf-lazy-dropdown-demo/bf-lazy-dro
     BfListCheckboxDemoComponent,
     BfListSelectionDemoComponent,
     BfLazyDropdownDemoComponent,
+    BfCollapseDemoComponent,
+    BfExpandableListDemoComponent,
   ],
   entryComponents: [
     BfNoDataComponent, 
@@ -133,6 +138,7 @@ import { BfLazyDropdownDemoComponent } from './bf-lazy-dropdown-demo/bf-lazy-dro
     NgbDatepickerModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
     BfUiLibModule.forRoot({
       trans: {
         useExisting: BfTranslateService
