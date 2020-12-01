@@ -22,6 +22,10 @@ bf-list-paginator {
           min-width: 35px;
         }
 
+        &:focus {
+          outline: 5px dashed hotpink;
+        }
+
         // Colors
         border-color: $page_border_color;
         color: $page_color;

@@ -48,6 +48,7 @@ import { BfListCheckboxComponent } from './bf-list-checkbox/bf-list-checkbox.com
 import { BfLazyDropdownComponent } from './bf-lazy-dropdown/bf-lazy-dropdown.component';
 import { BfCollapseComponent } from './bf-collapse/bf-collapse.component';
 import { BfExpandableListComponent } from './bf-expandable-list/bf-expandable-list.component';
+import { BfListController } from './bf-list-controller/bf-list-controller.directive';
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import { BfExpandableListComponent } from './bf-expandable-list/bf-expandable-li
     BfLazyDropdownComponent,
     BfCollapseComponent,
     BfExpandableListComponent,
+    BfListController
   ],
   entryComponents: [
   ],
@@ -144,7 +146,8 @@ import { BfExpandableListComponent } from './bf-expandable-list/bf-expandable-li
     BfRangeSliderComponent,
     BfGrowlModule,
     BfLoadingBarModule,
-    BfDnDModule
+    BfDnDModule,
+    BfListController
   ]
 })
 export class BfUiLibModule {

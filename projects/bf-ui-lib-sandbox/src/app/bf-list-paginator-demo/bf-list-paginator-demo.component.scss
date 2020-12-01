@@ -2,3 +2,7 @@
   max-width: 100px;
   display: inline-block;
 }
+
+.list-item:focus {
+  outline: 1px dashed hotpink;
+}

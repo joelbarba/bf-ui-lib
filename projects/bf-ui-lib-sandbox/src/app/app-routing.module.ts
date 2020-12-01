@@ -15,7 +15,6 @@ import {BfInputAsyncValidatorDemoComponent} from './bf-input-demo/ex2-async-vali
 import {BfInputControlsDemoComponent} from './bf-input-demo/ex3-controls/bf-input-controls-demo.component';
 import {BfInputAutofillDemoComponent} from './bf-input-demo/ex4-autofill/bf-input-autofill-demo.component';
 
-
 const routes: Routes = [
   { path: '', redirectTo: '/index', pathMatch: 'full' },
   { path: 'index',  component: IndexPageComponent },
@@ -74,6 +73,7 @@ const routes: Routes = [
 
   { path: docs.BfListHandlerDoc.name,       component: docs.BfListHandlerDoc.demoComp      },
   { path: 'list-test',                      component: BfListHandlerTestComponent          },
+  { path: docs.ListControllerDoc.name,       component: docs.ListControllerDoc.demoComp      },
 
   { path: 'lazy-loading-test',
     loadChildren: () => import('projects/bf-ui-lib-sandbox/src/app/bf-lazy-loaded-module/bf-lazy-loaded.module')

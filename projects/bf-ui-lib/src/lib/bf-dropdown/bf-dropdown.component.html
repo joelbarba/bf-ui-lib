@@ -37,7 +37,7 @@
   </span>
 
 
-  <div class="dropdown" [class.is-expanded]="isExpanded" [class.expand-upward]="expandUpward">
+  <div class="dropdown" [class.is-expanded]="isExpanded" [class.expand-upward]="expandUpward" role="listbox">
     <div class="input-group"
          [disableTooltip]="!bfDisabled || !bfDisabledTip"
          [ngbTooltip]="bfDisabledTipTrans$ | async">
@@ -67,7 +67,7 @@
     </div>
 
     <div class="list-container" [class.list-upward]="expandUpward" *ngIf="isExpanded" #listContainer>
-      <div *ngFor="let item of extList" class="option-wrapper">
+      <div *ngFor="let item of extList; let idx = index" class="option-wrapper">
         <div *ngIf="item.$groupHeader && !item.$hideHeader" class="group-header">{{item.$groupHeader}}</div>
 
         <div class="option-row" #optionRow
@@ -78,10 +78,11 @@
              (mouseenter)="!ignoreHover && (bfCandidate = item)"
              (mouseleave)="!ignoreHover && (bfCandidate = null)"
              (mousedown)="selectItem(item)">
+          <div class="sr-only" id="{{'item_'+ idx}}" role="option">Test</div>
           <img *ngIf="!!item?.$img"  class="option-row-image" [src]="item?.$img" [alt]="item?.$img">
           <span *ngIf="!!item?.$icon" class="option-row-icon" [ngClass]="item?.$icon"></span>
-          <span *ngIf="bfHtmlRender" [innerHTML]="item.$renderedText"></span>
-          <span *ngIf="!bfHtmlRender">{{item.$renderedText}}</span>
+          <span *ngIf="bfHtmlRender" [innerHTML]="item.$renderedText" [attr.aria-labelledby]="'item_' + idx"></span>
+          <span *ngIf="!bfHtmlRender" [attr.aria-labelledby]="'item_' + idx">{{item.$renderedText}}</span>
         </div>
 
       </div>

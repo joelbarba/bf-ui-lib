@@ -64,6 +64,7 @@ import { BfLazyDropdownDemoComponent } from './bf-lazy-dropdown-demo/bf-lazy-dro
 import { BfCollapseDemoComponent } from './bf-collapse-demo/bf-collapse-demo.component';
 import { BfExpandableListDemoComponent } from './bf-expandable-list-demo/bf-expandable-list-demo.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { ListControllerDemo } from './bf-list-controller-demo/bf-list-controller-demo.component';
 
 
 @NgModule({
@@ -126,9 +127,10 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     BfLazyDropdownDemoComponent,
     BfCollapseDemoComponent,
     BfExpandableListDemoComponent,
+    ListControllerDemo
   ],
   entryComponents: [
-    BfNoDataComponent, 
+    BfNoDataComponent,
     BfModalDemoComponent
   ],
   imports: [

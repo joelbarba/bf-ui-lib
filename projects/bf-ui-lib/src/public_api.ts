@@ -62,3 +62,5 @@ export * from './lib/bf-list-checkbox/bf-list-checkbox.component';
 export * from './lib/bf-lazy-dropdown/bf-lazy-dropdown.component';
 export * from './lib/bf-collapse/bf-collapse.component';
 export * from './lib/bf-expandable-list/bf-expandable-list.component';
+
+export * from './lib/bf-list-controller/bf-list-controller.directive';
