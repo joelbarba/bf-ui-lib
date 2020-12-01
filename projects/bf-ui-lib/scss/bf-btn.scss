@@ -96,8 +96,6 @@ bf-btn {
       // Special size for icon buttons
       &.small-btn .btn-icon-section { width: $btn-icon-width; }
 
-      &:focus { outline: none; }
-
       &:hover:not(:disabled) {
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
       }
