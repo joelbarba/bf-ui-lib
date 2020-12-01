@@ -647,7 +647,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
       }
     }
 
-    if (!!value && this.extList.indexOf(matchItem) === -1) { // In case of "no match"
+    if (!!value && value !== this.bfEmptyValue && this.extList.indexOf(matchItem) === -1) { // In case of "no match"
       this.bfModel = value;
       this.isModelEmpty = false;
       this.setModelText((typeof value === 'string') ? value : '');  // Show the invalid value (if string)
