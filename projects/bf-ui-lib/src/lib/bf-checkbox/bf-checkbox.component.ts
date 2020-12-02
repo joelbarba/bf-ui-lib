@@ -25,6 +25,7 @@ export class BfCheckboxComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfTooltip = '';
   @Input() bfTooltipPos = 'top';
   @Input() bfTooltipBody = true;
+  @Input() bfImg: string;
 
   public bfLabelText$ = of('');     // Translated text for the label
   public bfTooltipTrans$ = of('');  // Translated text for the tooltip

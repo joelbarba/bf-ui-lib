@@ -4,6 +4,7 @@
   <label>
     <input type="checkbox" [ngModel]="bfModel" (ngModelChange)="onChange($event)" [disabled]="bfDisabled">
     <span class="check-box icon-checkmark3"></span>
+    <img  class="check-img" *ngIf="!!bfImg" [src]="bfImg" alt="{{ bfLabelText$ | async }}">
     <span class="check-text" [class.has-text]="!!bfLabel">{{bfLabelText$ | async}}</span>
   </label>
 </div>
