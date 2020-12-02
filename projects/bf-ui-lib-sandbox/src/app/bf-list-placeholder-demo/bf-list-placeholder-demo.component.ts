@@ -10,6 +10,7 @@ export class BfListPlaceholderDemoComponent implements OnInit {
   public desc = BfListPlaceholderDoc.desc;
   public api = BfListPlaceholderDoc.api;
   public instance = BfListPlaceholderDoc.instance;
+  public link = true;
 
   public instance2 =
 `<ul class="list-unstyled table-list">
@@ -25,9 +26,36 @@ export class BfListPlaceholderDemoComponent implements OnInit {
 `;
   public instance3 = `<bf-list-placeholder bfType="tile"></bf-list-placeholder>`;
 
+  public brStr = `
+`;
+  public bsStr = `
+                    `;
+  public code = ``;
+  public conf = {
+    bfRows: 8, cssClass: 'four-columns',
+    rowOps: Array.from(Array(23).keys()).map(i => ({id: i+1}))
+  };
+
+  public upCode = () => {
+    this.code = `<bf-list-placeholder bfType="cards"`;
+
+    if (this.conf.cssClass !== 'four-columns') {
+      this.code += ` class="${this.conf.cssClass}"`;
+    }
+    if (this.conf.bfRows !== 8) {
+      this.code += this.bsStr + ` bfRows="${this.conf.bfRows}"`;
+    }
+
+    this.code += (`>` + this.brStr + `</bf-list-placeholder>`);
+    this.link = false;
+    setTimeout(() => this.link = true);
+  }
+
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.upCode();
+  }
 
 }
 
