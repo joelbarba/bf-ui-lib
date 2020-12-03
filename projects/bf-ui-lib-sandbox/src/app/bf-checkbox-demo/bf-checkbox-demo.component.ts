@@ -108,6 +108,7 @@ export const BfCheckboxDoc = {
   desc    : `Generates a button.`,
   api     : `[(ngModel)]     : The ngModel directive is linked to the inner <input>, so that can be used as a form element with ngForm (status is propagated).
 [bfLabel]       : Text of the label (optional)
+[bfImg]         : Url of the image to display on the item (optional)
 [bfDisabled]    : Boolean value to disable (true) the input
 [bfTooltip]     : If set, an info bullet will be added before the label, with a tooltip of the text
 [bfTooltipPos]  : Position of the tooltip (top by default)

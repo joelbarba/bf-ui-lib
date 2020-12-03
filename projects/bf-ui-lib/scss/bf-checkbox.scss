@@ -44,9 +44,10 @@ bf-checkbox {
     margin: 0;
 
     label {
-      display: inline-flex;
+      display: flex;
       padding: 0; // Override ".checkbox label" from bootstrap
       margin-bottom: 0;
+      align-items: center;
 
       // Text next to the box
       span.check-text {
@@ -56,6 +57,10 @@ bf-checkbox {
         text-align: left;
         cursor: pointer;
         &.has-text { margin-left: 10px; }
+      }
+
+      .check-img{
+        margin-left: 10px;
       }
 
       input[type='checkbox'] {
