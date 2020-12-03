@@ -27,3 +27,21 @@
 </div>
 
 <div *ngIf="bfType === 'tile'" class="fake-tile-placeholder"></div>
+
+<div *ngIf="bfType === 'cards'" class="fake-cards-list list-unstyled">
+  <div *ngFor="let fakeCard of fakeRows" class="card-wrapper">
+    <div class="card-placeholder">
+    <div class="upper-image"></div>
+    <div class="upper-button"></div>
+    <div class="upper-line1"></div>
+    <div class="upper-line2"></div>
+    <div class="upper-line3"></div>
+    <div class="upper-line4"></div>
+    <div class="upper-line5"></div>
+    <div class="mid"></div>
+    <div class="bottom-line1"></div>
+    <div class="bottom-line2"></div>
+    <div class="bottom-line3"></div>
+    </div>
+  </div>
+</div>
