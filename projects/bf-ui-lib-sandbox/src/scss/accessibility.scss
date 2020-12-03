@@ -1,0 +1,34 @@
+@mixin focus-visible {
+  outline: 1px solid white;
+  border: 1px solid $primary_color;
+  box-shadow: none;
+}
+
+// disable focus style when CLICKING on an element
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}
+
+// This class is added by the focus-visible package
+.focus-visible{
+  @include focus-visible()
+}
+
+// Every focusable element
+bf-btn .bf-btn {
+  &:focus {
+    @include focus-visible()
+  }
+}
+
+bf-input .bf-input-form-group .form-control {
+  &:focus{
+    @include focus-visible()
+  }
+}
+
+bf-dropdown .dropdown-form-group .form-control{
+  &:focus{
+    @include focus-visible()
+  }
+}
