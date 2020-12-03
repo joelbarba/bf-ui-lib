@@ -15,4 +15,8 @@ export class A11yFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  clickButton() {
+    console.log('click button');
+  }
+
 }

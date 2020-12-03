@@ -8,6 +8,7 @@
           (click)="btnClick($event)"
           [ngClass]="btnClass"
           [class.small-btn]="!textLabel"
+          [tabIndex]="bfDisableFocus ? '-1': '0'"
           [disabled]="bfDisabled || isLoading"
           [ngbTooltip]="bfTooltipTrans$ | async"
           [placement]="bfTooltipPos"
