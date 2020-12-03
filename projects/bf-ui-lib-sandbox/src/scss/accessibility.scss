@@ -1,12 +1,13 @@
 @mixin focus-visible {
-  outline: 1px solid white;
-  border: 1px solid $primary_color;
+  border: 1px solid white;
+  outline: 1px solid $primary_color;
   box-shadow: none;
 }
 
 // disable focus style when CLICKING on an element
 .js-focus-visible :focus:not(.focus-visible) {
   outline: none;
+  border: none;
 }
 
 // This class is added by the focus-visible package
