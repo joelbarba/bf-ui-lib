@@ -12,11 +12,18 @@
               (bfClick)="clickButton()"></bf-btn>
 
       <bf-btn class="col-3"
+              bfText="Toggle Me"
+              bfType="save"
+              bfTooltip="TOOL TIP"
+              (bfClick)="toggle = !toggle"
+              [bfToggle]="toggle"></bf-btn>
+
+      <bf-btn class="col-3"
               bfText="Disable Tab"
               bfType="save"
               bfTooltip="TOOL TIP"
               (bfClick)="clickButton()"
-              [bfDisableFocus]="true"></bf-btn>
+              [bfTabIndex]="-1"></bf-btn>
 
     </div>
 

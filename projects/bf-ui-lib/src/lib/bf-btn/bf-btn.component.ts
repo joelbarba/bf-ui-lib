@@ -21,7 +21,7 @@ export class BfBtnComponent implements OnInit, OnChanges {
   @Input() bfTooltipPos   = 'top';
   @Input() bfTooltipBody  = true;
   @Input() bfDisabledTip  = '';
-  @Input() bfDisableFocus = false;
+  @Input() bfTabIndex = 0;
   @Input() bfToggle = false;
   @Output() bfToggleChange = new EventEmitter<boolean>();
 

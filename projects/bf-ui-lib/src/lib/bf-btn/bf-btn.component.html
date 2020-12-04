@@ -6,9 +6,10 @@
 
   <button class="bf-btn"
           (click)="btnClick($event)"
+          [attr.aria-pressed]="bfToggle"
           [ngClass]="btnClass"
           [class.small-btn]="!textLabel"
-          [tabIndex]="bfDisableFocus ? '-1': '0'"
+          [tabIndex]="bfTabIndex"
           [disabled]="bfDisabled || isLoading"
           [ngbTooltip]="bfTooltipTrans$ | async"
           [placement]="bfTooltipPos"
