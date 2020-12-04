@@ -6,7 +6,8 @@
 
   <button class="bf-btn"
           (click)="btnClick($event)"
-          [attr.aria-pressed]="bfToggle"
+          [attr.aria-pressed]="isToggle ? bfToggle : null"
+          [attr.aria-label]="bfAriaLabel"
           [ngClass]="btnClass"
           [class.small-btn]="!textLabel"
           [tabIndex]="bfTabIndex"

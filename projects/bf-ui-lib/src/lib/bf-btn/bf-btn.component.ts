@@ -23,6 +23,7 @@ export class BfBtnComponent implements OnInit, OnChanges {
   @Input() bfDisabledTip  = '';
   @Input() bfTabIndex = 0;
   @Input() bfToggle = false;
+  @Input() bfAriaLabel;
   @Output() bfToggleChange = new EventEmitter<boolean>();
 
   public btnClass = 'primary';

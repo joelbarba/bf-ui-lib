@@ -5,23 +5,23 @@
 
     <div class="row marB20">
 
-      <bf-btn class="col-3"
-              bfText="Click Me"
+      <bf-btn bfText="Click Me"
               bfType="save"
-              bfTooltip="TOOL TIP"
+              bfAriaLabel="Something happens when clicked"
+              bfTooltip="tooltip"
               (bfClick)="clickButton()"></bf-btn>
 
-      <bf-btn class="col-3"
-              bfText="Toggle Me"
-              bfType="save"
-              bfTooltip="TOOL TIP"
-              (bfClick)="toggle = !toggle"
-              [bfToggle]="toggle"></bf-btn>
+      <bf-btn bfText="Toggle Me"
+              (bfClick)="buttonClicked = !buttonClicked"
+              [bfToggle]="buttonClicked"></bf-btn>
 
-      <bf-btn class="col-3"
-              bfText="Disable Tab"
+      <bf-btn bfIcon="icon-eye"
+              bfTooltip="Preview"
+              bfAriaLabel="Click to see Preview"
+              [bfTooltipPos]="'left'"></bf-btn>
+
+      <bf-btn bfText="Disable Tab"
               bfType="save"
-              bfTooltip="TOOL TIP"
               (bfClick)="clickButton()"
               [bfTabIndex]="-1"></bf-btn>
 
