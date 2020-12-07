@@ -38,4 +38,5 @@ export { BfListCheckboxDoc } from './bf-list-checkbox-demo/bf-list-checkbox-demo
 export { BfListSelectionDoc } from './bf-list-selection-demo/bf-list-selection-demo.component';
 import { BfColorPickerDoc } from './bf-color-picker-demo/bf-color-picker-demo.component';
 export { BfLazyDropdownDoc } from './bf-lazy-dropdown-demo/bf-lazy-dropdown-demo.component';
-
+export { BfExpandableListDoc } from './bf-expandable-list-demo/bf-expandable-list-demo.component';
+export { BfCollapseDoc } from './bf-collapse-demo/bf-collapse-demo.component';

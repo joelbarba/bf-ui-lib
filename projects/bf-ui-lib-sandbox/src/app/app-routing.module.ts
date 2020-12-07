@@ -61,6 +61,8 @@ const routes: Routes = [
   { path: docs.BfListSelectionDoc.name,     component: docs.BfListSelectionDoc.demoComp    },
   { path: docs.BfPromiseDoc.name,           component: docs.BfPromiseDoc.demoComp          },
   { path: docs.BfDeferDoc.name,             component: docs.BfDeferDoc.demoComp            },
+  { path: docs.BfCollapseDoc.name,          component: docs.BfCollapseDoc.demoComp         },
+  { path: docs.BfExpandableListDoc.name,    component: docs.BfExpandableListDoc.demoComp   },
 
   { path: docs.BfDndDemoDoc.name,           component: docs.BfDndDemoDoc.demoComp          },
   { path: 'BfDnD/example1',                 component: BfDndDemo1Component                 },

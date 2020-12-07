@@ -31,6 +31,8 @@ export const compList = [
   docs.BfSectionHeaderDoc,
   docs.BfModalHeaderDoc,
   docs.BfColorPickerDoc,
+  docs.BfExpandableListDoc,
+  docs.BfCollapseDoc,
   docs.ShowDoc,
   docs.BfGrowlDoc,
   docs.BfLoadingBarDoc,
