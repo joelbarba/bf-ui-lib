@@ -23,7 +23,7 @@ export class A11yFormComponent implements OnInit {
   }
 
   public asyncClick() {
-    this.bfAsyncAriaLabel = 'Fetching Data'
+    this.bfAsyncAriaLabel = 'Fetching Data';
     return this.blockPr = new Promise((resolve) => {
       setTimeout(() => {
         resolve();
