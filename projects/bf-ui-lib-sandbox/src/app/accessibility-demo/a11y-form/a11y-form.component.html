@@ -7,8 +7,7 @@
 
       <bf-btn bfText="Click Me"
               bfType="save"
-              bfAriaLabel="Something happens when clicked"
-              bfTooltip="tooltip"
+              bfAriaLabel="This is an aria label"
               (bfClick)="clickButton()"></bf-btn>
 
       <bf-btn bfText="Toggle Me"
@@ -17,14 +16,18 @@
 
       <bf-btn bfIcon="icon-eye"
               bfTooltip="Preview"
-              bfAriaLabel="Click to see Preview"
               [bfTooltipPos]="'left'"></bf-btn>
+
+      <bf-btn (bfClick)="asyncClick()"
+              [bfAsyncPromise]="blockPr"
+              [bfAriaLabel]="bfAsyncAriaLabel"
+              bfText="Async Click"
+              bfIcon="icon-arrow-right3"></bf-btn>
 
       <bf-btn bfText="Disable Tab"
               bfType="save"
               (bfClick)="clickButton()"
               [bfTabIndex]="-1"></bf-btn>
-
     </div>
 
     <div class="row align-items-center">
