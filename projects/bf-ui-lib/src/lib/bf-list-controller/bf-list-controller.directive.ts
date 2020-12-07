@@ -1,9 +1,9 @@
-import { AfterViewInit, Directive, ElementRef, HostListener, Input } from "@angular/core";
+import { AfterViewInit, Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
   selector: '[bfListController]'
 })
-export class BfListController implements AfterViewInit {
+export class BfListControllerDirective implements AfterViewInit {
   /** A string to define the list item class */
   @Input() listItemClass: string;
 

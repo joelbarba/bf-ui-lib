@@ -1,12 +1,12 @@
-import { Component, DebugElement } from "@angular/core";
+import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { BfListController } from './bf-list-controller.directive';
+import { BfListControllerDirective } from './bf-list-controller.directive';
 
 const triggerKeyEvent = (fixture: ComponentFixture<DemoComponent>, element: HTMLElement, key: string) => {
   element.dispatchEvent(new KeyboardEvent('keydown', { key, cancelable: true, bubbles: true }));
   fixture.detectChanges();
-}
+};
 
 describe('BfListController', () => {
   let fixture: ComponentFixture<DemoComponent>;
@@ -15,12 +15,12 @@ describe('BfListController', () => {
   beforeEach(() => {
     fixture = TestBed.configureTestingModule({
       declarations: [
-        BfListController,
+        BfListControllerDirective,
         DemoComponent
       ]
     }).createComponent(DemoComponent);
 
-    list = fixture.debugElement.query(By.directive(BfListController));
+    list = fixture.debugElement.query(By.directive(BfListControllerDirective));
     fixture.detectChanges();
   });
 
@@ -83,12 +83,12 @@ describe('BfListController', () => {
 });
 
 @Component({
-  selector: 'app-demo',
+  selector: 'bf-demo',
   template: `
-    <ul bfListController listItemClass="list-item">
-      <li class="list-item"> One </li>
-      <li class="list-item"> Two </li>
-      <li class="list-item"> Three </li>
+    <ul bfListController listItemClass='list-item'>
+      <li class='list-item'> One </li>
+      <li class='list-item'> Two </li>
+      <li class='list-item'> Three </li>
     </ul>
   `
 })

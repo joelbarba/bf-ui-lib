@@ -1,10 +1,10 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-list-controller-demo',
   templateUrl: './bf-list-controller-demo.component.html'
 })
-export class ListControllerDemo {
+export class ListControllerDemoComponent {
   public name = ListControllerDoc.name;
   public desc = ListControllerDoc.desc;
   public api = ListControllerDoc.api;
