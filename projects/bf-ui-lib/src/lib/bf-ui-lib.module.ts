@@ -48,7 +48,7 @@ import { BfListCheckboxComponent } from './bf-list-checkbox/bf-list-checkbox.com
 import { BfLazyDropdownComponent } from './bf-lazy-dropdown/bf-lazy-dropdown.component';
 import { BfCollapseComponent } from './bf-collapse/bf-collapse.component';
 import { BfExpandableListComponent } from './bf-expandable-list/bf-expandable-list.component';
-import { BfListController } from './bf-list-controller/bf-list-controller.directive';
+import { BfListControllerDirective } from './bf-list-controller/bf-list-controller.directive';
 
 @NgModule({
   declarations: [
@@ -88,7 +88,7 @@ import { BfListController } from './bf-list-controller/bf-list-controller.direct
     BfLazyDropdownComponent,
     BfCollapseComponent,
     BfExpandableListComponent,
-    BfListController
+    BfListControllerDirective
   ],
   entryComponents: [
   ],
@@ -147,7 +147,7 @@ import { BfListController } from './bf-list-controller/bf-list-controller.direct
     BfGrowlModule,
     BfLoadingBarModule,
     BfDnDModule,
-    BfListController
+    BfListControllerDirective
   ]
 })
 export class BfUiLibModule {
