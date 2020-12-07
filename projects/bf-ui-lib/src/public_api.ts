@@ -60,3 +60,5 @@ export * from './lib/show/show.component';
 export * from './lib/bf-color-picker/bf-color-picker.component';
 export * from './lib/bf-list-checkbox/bf-list-checkbox.component';
 export * from './lib/bf-lazy-dropdown/bf-lazy-dropdown.component';
+export * from './lib/bf-collapse/bf-collapse.component';
+export * from './lib/bf-expandable-list/bf-expandable-list.component';

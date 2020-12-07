@@ -65,6 +65,9 @@ import { AccessibilityDemoComponent } from './accessibility-demo/accessibility-d
 import { A11yFormComponent } from './accessibility-demo/a11y-form/a11y-form.component';
 import { A11yListComponent } from './accessibility-demo/a11y-list/a11y-list.component';
 import { A11yTabsComponent } from './accessibility-demo/a11y-tabs/a11y-tabs.component';
+import { BfCollapseDemoComponent } from './bf-collapse-demo/bf-collapse-demo.component';
+import { BfExpandableListDemoComponent } from './bf-expandable-list-demo/bf-expandable-list-demo.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -129,9 +132,11 @@ import { A11yTabsComponent } from './accessibility-demo/a11y-tabs/a11y-tabs.comp
     A11yFormComponent,
     A11yListComponent,
     A11yTabsComponent,
+    BfCollapseDemoComponent,
+    BfExpandableListDemoComponent,
   ],
   entryComponents: [
-    BfNoDataComponent, 
+    BfNoDataComponent,
     BfModalDemoComponent
   ],
   imports: [
@@ -141,6 +146,7 @@ import { A11yTabsComponent } from './accessibility-demo/a11y-tabs/a11y-tabs.comp
     NgbDatepickerModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
     BfUiLibModule.forRoot({
       trans: {
         useExisting: BfTranslateService
