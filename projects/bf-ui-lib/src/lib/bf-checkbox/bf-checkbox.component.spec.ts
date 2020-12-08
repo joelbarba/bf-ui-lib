@@ -26,4 +26,13 @@ describe('BfCheckboxComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should toggle on key press', () => {
+    component.bfModel = false;
+    component.keyPressed({code: 'Enter'});
+    expect(component.bfModel).toBe(true);
+    component.keyPressed({code: 'Space'});
+    expect(component.bfModel).toBe(false);
+  });
+
 });
