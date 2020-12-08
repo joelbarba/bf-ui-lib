@@ -3,7 +3,6 @@
      [placement]="bfTooltipPos"
      [container]="(bfTooltipBody ? 'body' : '')">
   <label [attr.aria-label]="bfLabelText$ | async"
-         [attr.aria-describedby]="bfTooltipTrans$ | async"
          [attr.aria-checked]="bfModel"
          role="checkbox"
          [tabIndex]="bfTabIndex"
