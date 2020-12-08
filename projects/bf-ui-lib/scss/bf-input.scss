@@ -46,7 +46,6 @@ bf-input {
     input.form-control {
       height: 34px;
       font-size: 14px;
-      &:focus { outline: 0; }
     }
 
     .input-wrapper {
@@ -172,7 +171,7 @@ bf-input .bf-input-form-group {
   }
   input.form-control {
     border: 1px solid $input-optional-color;
-    &:focus { border-color: $input-focused-color; }
+    // &:focus { border-color: $input-focused-color; }
 
     //&::-webkit-input-placeholder { color: $input-optional-color; } /* WebKit, Blink, Edge */
     //&:-moz-placeholder           { color: $input-optional-color; opacity:  1; } /* Mozilla Firefox 4 to 18 */

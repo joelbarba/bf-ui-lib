@@ -13,5 +13,8 @@
         <span class="element-name">{{ compItem.name }}</span>
       </div>
     </li>
+    <li routerLink="/accessibility">
+      <div class="menu-item" [ngClass]="{ 'active': activeRoute === '/accessibility' }">Accessibility</div>
+    </li>
   </ul>
 </div>
