@@ -13,25 +13,19 @@ export class BfListControllerDirective implements AfterViewInit {
 
   @HostListener('keydown', ['$event'])
   onKeyPress(event: any) {
-    if (event.key === 'ArrowLeft') {
+    const { key } = event;
+
+    if (this.isPreviousKeyPressed(key)) {
       this.focusPreviousElement(event.target);
     }
 
-    if (event.key === 'ArrowRight') {
-      this.focusNextElement(event.target);
-    }
-
-    if (event.key === 'ArrowUp') {
-      this.focusPreviousElement(event.target);
-    }
-
-    if (event.key === 'ArrowDown') {
+    if (this.isNextKeyPressed(key)) {
       this.focusNextElement(event.target);
     }
   }
 
   @HostListener('focus', ['$event.target'])
-  onFocus(_event: FocusEvent) {
+  onFocus() {
     this.setTabIndex(this.el.nativeElement, -1);
     this.getCurrentItem(this.listItems).focus();
   }
@@ -51,7 +45,7 @@ export class BfListControllerDirective implements AfterViewInit {
 
     if (nextElement) {
       this.setTabIndex(currentElement, -1);
-      this.setTabIndex(currentElement.nextElementSibling, 0);
+      this.setTabIndex(nextElement, 0);
       nextElement.focus();
     }
   }
@@ -61,7 +55,7 @@ export class BfListControllerDirective implements AfterViewInit {
 
     if (previousElement) {
       this.setTabIndex(currentElement, -1);
-      this.setTabIndex(currentElement.previousElementSibling, 0);
+      this.setTabIndex(previousElement, 0);
       previousElement.focus();
     }
   }
@@ -81,5 +75,13 @@ export class BfListControllerDirective implements AfterViewInit {
 
   private getCurrentItem(elements: Array<HTMLElement>): HTMLElement {
     return elements.find(element => element.getAttribute('tabindex') === '0') || elements[0];
+  }
+
+  private isPreviousKeyPressed(key: string): boolean {
+    return key === 'ArrowLeft' || key === 'ArrowUp';
+  }
+
+  private isNextKeyPressed(key: string): boolean {
+    return key === 'ArrowRight' || key === 'ArrowDown';
   }
 }
