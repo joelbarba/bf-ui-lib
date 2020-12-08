@@ -1,0 +1,30 @@
+<h3>Form Demo</h3>
+
+<div class="whiteBg">
+  <form class="row">
+
+    <bf-input class="col-3" name="first_name"
+              bfLabel="First Name"
+              [(ngModel)]="item.first_name">
+    </bf-input>
+
+    <bf-checkbox class="col-3" name="is-checked"
+                 bfLabel="Is Checked"
+                 [(ngModel)]="item.isChecked">
+    </bf-checkbox>
+
+    <bf-btn class="col-3" bfText="Click Me" bfType="save"></bf-btn>
+
+    <bf-dropdown class="col-3" name="list-selection"
+                 bfLabel="List Selection"
+                 [bfList]="list"
+                 [(ngModel)]="item.listSelection">
+    </bf-dropdown>
+
+    <bf-date-picker class="col-3" name="birth"
+                    bfLabel="Birth Day"
+                    [(ngModel)]="item.birth">
+    </bf-date-picker>
+
+  </form>
+</div>

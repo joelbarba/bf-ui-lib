@@ -22,7 +22,8 @@
           },
           "scripts": [
             "node_modules/jquery/dist/jquery.min.js",
-            "node_modules/spectrum-colorpicker/spectrum.js"
+            "node_modules/spectrum-colorpicker/spectrum.js",
+            "node_modules/focus-visible/dist/focus-visible.min.js"
           ]
         },
         "test": {
@@ -85,7 +86,8 @@
             },
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/spectrum-colorpicker/spectrum.js"
+              "node_modules/spectrum-colorpicker/spectrum.js",
+              "node_modules/focus-visible/dist/focus-visible.min.js"
             ],
             "aot": true
           },

@@ -61,11 +61,14 @@ import {BfInputAutofillDemoComponent} from './bf-input-demo/ex4-autofill/bf-inpu
 import { BfListCheckboxDemoComponent } from './bf-list-checkbox-demo/bf-list-checkbox-demo.component';
 import {BfListSelectionDemoComponent} from './bf-list-selection-demo/bf-list-selection-demo.component';
 import { BfLazyDropdownDemoComponent } from './bf-lazy-dropdown-demo/bf-lazy-dropdown-demo.component';
+import { AccessibilityDemoComponent } from './accessibility-demo/accessibility-demo.component';
+import { A11yFormComponent } from './accessibility-demo/a11y-form/a11y-form.component';
+import { A11yListComponent } from './accessibility-demo/a11y-list/a11y-list.component';
+import { A11yTabsComponent } from './accessibility-demo/a11y-tabs/a11y-tabs.component';
 import { BfCollapseDemoComponent } from './bf-collapse-demo/bf-collapse-demo.component';
 import { BfExpandableListDemoComponent } from './bf-expandable-list-demo/bf-expandable-list-demo.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { ListControllerDemo } from './bf-list-controller-demo/bf-list-controller-demo.component';
-
+import { ListControllerDemoComponent } from './bf-list-controller-demo/bf-list-controller-demo.component';
 
 @NgModule({
   declarations: [
@@ -125,9 +128,13 @@ import { ListControllerDemo } from './bf-list-controller-demo/bf-list-controller
     BfListCheckboxDemoComponent,
     BfListSelectionDemoComponent,
     BfLazyDropdownDemoComponent,
+    AccessibilityDemoComponent,
+    A11yFormComponent,
+    A11yListComponent,
+    A11yTabsComponent,
     BfCollapseDemoComponent,
     BfExpandableListDemoComponent,
-    ListControllerDemo
+    ListControllerDemoComponent
   ],
   entryComponents: [
     BfNoDataComponent,
