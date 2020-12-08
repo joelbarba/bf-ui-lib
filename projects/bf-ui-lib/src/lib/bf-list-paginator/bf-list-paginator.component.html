@@ -1,17 +1,17 @@
 <div class="bf-list-paginator">
-  <div class="page-buttons" bfListController listItemClass="page-btn" tabindex="0">
+  <div class="page-buttons">
 
     <!--<div *ngIf="bfTopArrows" class="page-btn prev-btn" (click)="goToFirst()">‹‹</div>-->
     <!--<div *ngIf="bfTopArrows" class="page-btn next-btn disabled" (click)="goToLast()">››</div>-->
 
-    <div role="button" class="page-btn prev-btn" (click)="bfCtrl.currentPage > 1 && goToPrev()"
+    <div class="page-btn prev-btn" (click)="bfCtrl.currentPage > 1 && goToPrev()"
          [class.disabled]="bfCtrl.currentPage === 1">‹</div>
 
-    <div role="button" class="page-btn num-btn" *ngFor="let listBtn of listBtns"
+    <div class="page-btn num-btn" *ngFor="let listBtn of listBtns"
          [class.current]="bfCtrl.currentPage === listBtn.pageNum"
          [class.disabled]="!listBtn.pageNum"
          (click)="!!listBtn.pageNum && goToPage(listBtn.pageNum)">{{ listBtn.pageNum || '...' }}</div>
-    <div role="button" class="page-btn next-btn" (click)="bfCtrl.currentPage < bfCtrl.totalPages && goToNext()"
+    <div class="page-btn next-btn" (click)="bfCtrl.currentPage < bfCtrl.totalPages && goToNext()"
          [class.disabled]="bfCtrl.currentPage === bfCtrl.totalPages">›</div>
 
   </div>
