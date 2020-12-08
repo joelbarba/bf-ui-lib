@@ -36,37 +36,37 @@
         <!--</div>-->
 
         <bf-dropdown [class.full-width]="conf.hasFullWidth" style="max-width: 450px;"
-                     [class.flat]="conf.hasFlat"
-                     [class.extra-btn]="conf.extraBtn"
-                     [(ngModel)]="selObj10" #bfDropdownRef="ngModel"
-                     [bfList]="dList"
-                     [bfOrderBy]="conf.hasOrder ? conf.bfOrderBy : null"
-                     [bfGroupBy]="conf.hasGroupBy ? 'size' : null"
-                     [bfSelect]="(conf.hasSelect && !!conf.selectField) ? conf.selectField : null"
-                     [bfRender]="(conf.hasRender ? conf.renderExp : null)"
-                     [bfRenderFn]="(conf.hasRenderFn ? renderFn : null)"
+                      [class.flat]="conf.hasFlat"
+                      [class.extra-btn]="conf.extraBtn"
+                      [(ngModel)]="selObj10" #bfDropdownRef="ngModel"
+                      [bfList]="dList"
+                      [bfOrderBy]="conf.hasOrder ? conf.bfOrderBy : null"
+                      [bfGroupBy]="conf.hasGroupBy ? 'size' : null"
+                      [bfSelect]="(conf.hasSelect && !!conf.selectField) ? conf.selectField : null"
+                      [bfRender]="(conf.hasRender ? conf.renderExp : null)"
+                      [bfRenderFn]="(conf.hasRenderFn ? renderFn : null)"
 
-                     [bfPlaceholder]="conf.hasPlaceholder ? conf.bfPlaceholder : null"
-                     [bfEmptyLabel]="conf.hasEmptyLabel ? conf.customEmptyLabel : null"
-                     [bfEmptyValue]="conf.hasEmptyValue ? conf.customEmptyValue : null"
+                      [bfPlaceholder]="conf.hasPlaceholder ? conf.bfPlaceholder : null"
+                      [bfEmptyLabel]="conf.hasEmptyLabel ? conf.customEmptyLabel : null"
+                      [bfEmptyValue]="conf.hasEmptyValue ? conf.customEmptyValue : null"
 
-                     [bfRequired]="conf.isRequired"
-                     [bfDisabled]="conf.isDisabled"
-                     [bfDisabledTip]="conf.isDisabled ? conf.disabledTip: null"
-                     [bfLoading]="conf.isLoadingWithPromise ? conf.bfLoadingPromise : conf.isLoading"
-                     [bfErrorOnPristine]="conf.isErrorOnPristine"
-                     [bfLabel]="(conf.hasLabel ? conf.labelText : '')"
-                     [bfTooltip]="(conf.hasLabel && conf.hasTooltip ? conf.tooltipText : null)"
-                     [bfTooltipPos]="(conf.hasLabel && conf.tooltipPos || 'top')"
-                     [bfTooltipBody]="conf.hasLabel && conf.tooltipBody"
-                     [bfErrorText]="conf.hasErrorText ? conf.bfErrorText : ''"
-                     [bfErrorPos]="conf.errorPos"
-                     [bfKeepSearch]="conf.bfKeepSearch"
-                     [bfHtmlRender]="conf.bfHtmlRender"
-                     [bfAutoCollapse]="conf.bfAutoCollapse"
-                     [bfFilterFn]="conf.hasFilterFn ? conf.bfFilterFn : null"
-                     [bfCustomPlacementList]="conf.bfCustomPlacementList"
-                     (bfOnLoaded)="myCtrl = $event"
+                      [bfRequired]="conf.isRequired"
+                      [bfDisabled]="conf.isDisabled"
+                      [bfDisabledTip]="conf.isDisabled ? conf.disabledTip: null"
+                      [bfLoading]="conf.isLoadingWithPromise ? conf.bfLoadingPromise : conf.isLoading"
+                      [bfErrorOnPristine]="conf.isErrorOnPristine"
+                      [bfLabel]="(conf.hasLabel ? conf.labelText : '')"
+                      [bfTooltip]="(conf.hasLabel && conf.hasTooltip ? conf.tooltipText : null)"
+                      [bfTooltipPos]="(conf.hasLabel && conf.tooltipPos || 'top')"
+                      [bfTooltipBody]="conf.hasLabel && conf.tooltipBody"
+                      [bfErrorText]="conf.hasErrorText ? conf.bfErrorText : ''"
+                      [bfErrorPos]="conf.errorPos"
+                      [bfKeepSearch]="conf.bfKeepSearch"
+                      [bfHtmlRender]="conf.bfHtmlRender"
+                      [bfAutoCollapse]="conf.bfAutoCollapse"
+                      [bfFilterFn]="conf.hasFilterFn ? conf.bfFilterFn : null"
+                      [bfCustomPlacementList]="conf.bfCustomPlacementList"
+                      (bfOnLoaded)="myCtrl = $event"
         >
         </bf-dropdown>
         <bf-btn *ngIf="conf.extraBtn" bfType="add-icon"></bf-btn>
@@ -146,7 +146,7 @@
       <!--bfRender-->
       <div class="row marT5">
         <bf-checkbox class="col-2 padT5" bfLabel="bfRender" bfTooltipPos="left" bfTooltip="How to display every item on the list. It can be either a field of the object or a translation label"
-                     [(ngModel)]="conf.hasRender" (ngModelChange)="conf.hasRenderFn = false; upComp()">
+                      [(ngModel)]="conf.hasRender" (ngModelChange)="conf.hasRenderFn = false; upComp()">
         </bf-checkbox>
         <bf-input class="col-3 flat" [bfDisabled]="!conf.hasRender" [(ngModel)]="conf.renderExp"
                   bfPlaceholder="field to display..." (ngModelChange)="upComp()">
@@ -157,13 +157,13 @@
           <pre *ngIf="conf.renderExp !== 'views.item_number'" style="background: aliceblue; padding: 5px 10px; margin-bottom: 0;">bfRender="id", "username", "email", "first_name" ...</pre>
         </div>
         <bf-checkbox class="col-1 padT10" bfLabel="" [(ngModel)]="conf.renderLabel" bfTooltip="Render a translation label instead"
-                     (ngModelChange)="(conf.renderLabel ? conf.renderExp = 'views.item_number' : conf.renderExp = 'email'); upComp()">
+                      (ngModelChange)="(conf.renderLabel ? conf.renderExp = 'views.item_number' : conf.renderExp = 'email'); upComp()">
         </bf-checkbox>
 
         <div class="col-12 padT10"></div>
 
         <bf-checkbox class="col-2 padT5" bfLabel="bfRenderFn" bfTooltipPos="left" bfTooltip="If bfRender is not enough, use this function to determine how to render every item on the list"
-                     [(ngModel)]="conf.hasRenderFn" (ngModelChange)="conf.hasRender = false; upComp()">
+                      [(ngModel)]="conf.hasRenderFn" (ngModelChange)="conf.hasRender = false; upComp()">
         </bf-checkbox>
         <div class="col-10" *ngIf="conf.hasRenderFn && !conf.hasRender">
           <pre style="background: aliceblue; padding: 5px 10px; margin-bottom: 0;">{{renderFnStr}}</pre>
@@ -173,7 +173,7 @@
       <!--Empty label + Empty Value-->
       <div class="row marT15">
         <bf-checkbox class="col-2 padT5" bfLabel="bfPlaceholder" bfTooltipPos="left" bfTooltip="To be displayed when 'Empty' option selected (only if no bfEmptyLabel)"
-                     [(ngModel)]="conf.hasPlaceholder" (ngModelChange)="upComp()">
+                      [(ngModel)]="conf.hasPlaceholder" (ngModelChange)="upComp()">
         </bf-checkbox>
         <bf-input class="col-4 marB15 flat" [bfDisabled]="!conf.hasPlaceholder || conf.hasEmptyLabel" [(ngModel)]="conf.bfPlaceholder" (ngModelChange)="upComp()"></bf-input>
         <div class="col-6 padT5">
@@ -181,12 +181,12 @@
         </div>
 
         <bf-checkbox class="col-2 padT5" bfLabel="bfEmptyLabel" bfTooltipPos="left" bfTooltip="To be displayed instead of 'Empty' (null) on both the list and the input"
-                     [(ngModel)]="conf.hasEmptyLabel" (ngModelChange)="upComp()">
+                      [(ngModel)]="conf.hasEmptyLabel" (ngModelChange)="upComp()">
         </bf-checkbox>
         <bf-input class="col-4 flat" [bfDisabled]="!conf.hasEmptyLabel" [(ngModel)]="conf.customEmptyLabel" (ngModelChange)="upComp()"></bf-input>
 
         <bf-checkbox class="col-2 block padT5" bfLabel="bfEmptyValue" bfTooltip="Value to be set to ngModel when empty option selected (default=null)"
-                     [(ngModel)]="conf.hasEmptyValue" (ngModelChange)="upComp()">
+                      [(ngModel)]="conf.hasEmptyValue" (ngModelChange)="upComp()">
         </bf-checkbox>
         <bf-input class="col-4 flat" [bfDisabled]="!conf.hasEmptyValue" [(ngModel)]="conf.customEmptyValue" (ngModelChange)="upComp()"></bf-input>
       </div>
@@ -301,15 +301,15 @@
   <div class="col-3" *ngIf="isLinked">
 
     <bf-dropdown class="full-width" #dropdown1="ngModel"
-                 name="single-sel-test"
-                 [(ngModel)]="selObj7"
-                 [bfList]="myList2"
-                 [bfRequired]="conf.isRequired"
-                 [bfDisabled]="conf.isDisabled"
-                 [bfErrorOnPristine]="conf.isErrorOnPristine"
-                 bfSelect="username"
-                 bfLabel="Single Field Selection"
-                 bfRender="username">
+                  name="single-sel-test"
+                  [(ngModel)]="selObj7"
+                  [bfList]="myList2"
+                  [bfRequired]="conf.isRequired"
+                  [bfDisabled]="conf.isDisabled"
+                  [bfErrorOnPristine]="conf.isErrorOnPristine"
+                  bfSelect="username"
+                  bfLabel="Single Field Selection"
+                  bfRender="username">
     </bf-dropdown>
     Selected Model = {{selObj7 | json}}
     <hr>
@@ -324,12 +324,12 @@
 
   <div class="col-8" *ngIf="isLinked">
     <bf-dropdown class="full-width" #dropdown2="ngModel"
-                 [(ngModel)]="selObj6"
-                 [bfList]="myList"
-                 [bfRequired]="conf.isRequired"
-                 [bfDisabled]="conf.isDisabled"
-                 [bfErrorOnPristine]="conf.isErrorOnPristine"
-                 bfLabel="Full Object Selection">
+                  [(ngModel)]="selObj6"
+                  [bfList]="myList"
+                  [bfRequired]="conf.isRequired"
+                  [bfDisabled]="conf.isDisabled"
+                  [bfErrorOnPristine]="conf.isErrorOnPristine"
+                  bfLabel="Full Object Selection">
     </bf-dropdown>
     Selected Model = {{selObj6 | json}}
 
@@ -382,9 +382,9 @@
       </div>
       <div class="marT15">
         <bf-dropdown bfLabel="Example Dropdown 1"
-                     [(ngModel)]="selObj9"
-                     [bfList]="myList"
-                     (bfOnLoaded)="myCtrl2 = $event">
+                      [(ngModel)]="selObj9"
+                      [bfList]="myList"
+                      (bfOnLoaded)="myCtrl2 = $event">
         </bf-dropdown>
       </div>
       <div class="marT10">
@@ -413,9 +413,9 @@
       </div>
       <div class="marT15">
         <bf-dropdown bfLabel="Example Dropdown 2"
-                     [(ngModel)]="selObj8"
-                     [bfList]="myList"
-                     [extCtrl$]="extCtrl$">
+                      [(ngModel)]="selObj8"
+                      [bfList]="myList"
+                      [extCtrl$]="extCtrl$">
         </bf-dropdown>
       </div>
       <div class="marT10">
@@ -452,14 +452,14 @@
   <div class="col-3" *ngIf="true">
     <div class="marB15"><i>Loading with boolean:</i></div>
     <bf-dropdown class=""
-                 [(ngModel)]="selObj2"
-                 [bfList]="asyncList1"
-                 [bfRequired]="true"
-                 bfLabel="view.common.field_name"
-                 [bfLoading]="isLoading"
-                 [bfErrorOnPristine]="true"
-                 bfSelect="id"
-                 bfRender="email">
+                  [(ngModel)]="selObj2"
+                  [bfList]="asyncList1"
+                  [bfRequired]="true"
+                  bfLabel="view.common.field_name"
+                  [bfLoading]="isLoading"
+                  [bfErrorOnPristine]="true"
+                  bfSelect="id"
+                  bfRender="email">
     </bf-dropdown>
     <bf-btn bfText="[bfLoading]=true" (bfClick)="isLoading = true" [bfDisabled]="isLoading"></bf-btn>
     <bf-btn bfText="[bfLoading]=false" (bfClick)="asyncList1 = myList; isLoading = false" [bfDisabled]="!isLoading"></bf-btn>
@@ -469,14 +469,14 @@
   <div class="col-3" *ngIf="true">
     <div class="marB15"><i>Loading with a promise:</i></div>
     <bf-dropdown class=""
-                 [(ngModel)]="selObj2"
-                 [bfList]="asyncList2"
-                 [bfRequired]="true"
-                 bfLabel="view.common.field_name"
-                 [bfLoading]="loadingPromise"
-                 [bfErrorOnPristine]="true"
-                 bfSelect="id"
-                 bfRender="email">
+                  [(ngModel)]="selObj2"
+                  [bfList]="asyncList2"
+                  [bfRequired]="true"
+                  bfLabel="view.common.field_name"
+                  [bfLoading]="loadingPromise"
+                  [bfErrorOnPristine]="true"
+                  bfSelect="id"
+                  bfRender="email">
     </bf-dropdown>
     <bf-btn bfIcon="icon-spinner11" bfText="5 sec Promise" (bfClick)="reloadPromise()"></bf-btn>
     ngModel={{selObj2 | json}}
@@ -485,15 +485,15 @@
   <div class="col-3" *ngIf="true">
     <div class="marB15"><i>Loading with a promise + manual [bfDisabled]:</i></div>
     <bf-dropdown class=""
-                 [(ngModel)]="selObj2"
-                 [bfList]="asyncList2"
-                 [bfRequired]="true"
-                 bfLabel="view.common.field_name"
-                 [bfLoading]="loadingPromise"
-                 [bfDisabled]="isDisabled"
-                 [bfErrorOnPristine]="true"
-                 bfSelect="id"
-                 bfRender="email">
+                  [(ngModel)]="selObj2"
+                  [bfList]="asyncList2"
+                  [bfRequired]="true"
+                  bfLabel="view.common.field_name"
+                  [bfLoading]="loadingPromise"
+                  [bfDisabled]="isDisabled"
+                  [bfErrorOnPristine]="true"
+                  bfSelect="id"
+                  bfRender="email">
     </bf-dropdown>
     <bf-switch bfLabel="bfDisabled" [(ngModel)]="isDisabled"></bf-switch>
     ngModel={{selObj2 | json}}
@@ -502,14 +502,14 @@
   <div class="col-3" *ngIf="true">
     <div class="marB15"><i>Loading with an observable:</i></div>
     <bf-dropdown class=""
-                 [(ngModel)]="selObj2"
-                 [bfList]="asyncList3"
-                 [bfRequired]="true"
-                 bfLabel="view.common.field_name"
-                 [bfLoading]="isLoading$"
-                 [bfErrorOnPristine]="true"
-                 bfSelect="id"
-                 bfRender="email">
+                  [(ngModel)]="selObj2"
+                  [bfList]="asyncList3"
+                  [bfRequired]="true"
+                  bfLabel="view.common.field_name"
+                  [bfLoading]="isLoading$"
+                  [bfErrorOnPristine]="true"
+                  bfSelect="id"
+                  bfRender="email">
     </bf-dropdown>
     <bf-btn bfText=".next(true)" (bfClick)="isLoading$.next(true)"></bf-btn>
     <bf-btn bfText=".next(false)" (bfClick)="isLoading$.next(false)"></bf-btn>
@@ -563,4 +563,5 @@
     <pre class="padL30">{{ cssReset }}</pre>
   </div>
 </div>
+
 

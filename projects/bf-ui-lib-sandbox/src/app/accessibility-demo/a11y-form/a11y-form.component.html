@@ -91,12 +91,14 @@
                    [(ngModel)]="item.isChecked">
       </bf-checkbox>
 
-      <bf-dropdown class="col-3"
+      <bf-dropdown-a11y class="col-3"
                    name="list-selection"
                    bfLabel="List Selection"
+                   bfListBoxId="listBox"
+                   bfInputId="inputId"
                    [bfList]="list"
                    [(ngModel)]="item.listSelection">
-      </bf-dropdown>
+      </bf-dropdown-a11y>
     </div>
   </form>
 </div>
