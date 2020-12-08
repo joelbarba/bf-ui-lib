@@ -60,5 +60,17 @@ describe('BfBtnComponent', () => {
     checkType('refresh',  'primary',    'icon-loop2',          'view.common.refresh');
   });
 
+
+  it('should toggle the button', () => {
+    component.bfToggle = false;
+    component.isToggle = true;
+    component.btnClick({});
+    expect(component.bfToggle).toBe(true);
+    expect(component.btnIcon).toBe('icon-arrow-up3');
+    component.btnClick({});
+    expect(component.bfToggle).toBe(false);
+    expect(component.btnIcon).toBe('icon-arrow-down3');
+  });
+
 });
 

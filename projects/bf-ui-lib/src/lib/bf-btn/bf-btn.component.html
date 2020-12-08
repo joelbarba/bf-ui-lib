@@ -3,11 +3,13 @@
      [disableTooltip]="!bfDisabled"
      [ngbTooltip]="bfDisabledTipTrans$ | async"
      [placement]="bfTooltipPos">
-
   <button class="bf-btn"
           (click)="btnClick($event)"
+          [attr.aria-pressed]="isToggle ? bfToggle : null"
+          [attr.aria-label]="bfAriaLabel"
           [ngClass]="btnClass"
           [class.small-btn]="!textLabel"
+          [tabIndex]="bfTabIndex"
           [disabled]="bfDisabled || isLoading"
           [ngbTooltip]="bfTooltipTrans$ | async"
           [placement]="bfTooltipPos"

@@ -257,6 +257,7 @@ export const BfBtnDoc = {
 [bfDisabled]     : True=Button is disabled, False=Enabled
 [bfTooltip]      : If label provided, adds a tooltip on the button (automatically translated)
 [bfTooltipPos]   : Position of the tooltip (top by default)
+[bfTabIndex]     : Set to -1 removes button from tab order - this is necessary when the button is in a table and should only be accessed by arrow-key navigation
 [bfTooltipBody]  : Whether the tooltip is append to the body (default true) or next the the html element (false). The parent container may affect the visibility of the tooltip
 [bfDisabledTip]  : Tooltip text to be displayed when the button is disabled (useful to give tips about why it's disabled)
 [(bfToggle)]     : Boolean flag to use the button as a toggle. Logic is held internally (also default arrow icons)

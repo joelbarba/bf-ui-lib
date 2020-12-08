@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { BfUILibTransService } from '../abstract-translate.service';
 import {BfArray} from '../bf-prototypes/bf-prototypes';
@@ -21,8 +21,9 @@ export class BfBtnComponent implements OnInit, OnChanges {
   @Input() bfTooltipPos   = 'top';
   @Input() bfTooltipBody  = true;
   @Input() bfDisabledTip  = '';
-
+  @Input() bfTabIndex = 0;
   @Input() bfToggle = false;
+  @Input() bfAriaLabel;
   @Output() bfToggleChange = new EventEmitter<boolean>();
 
   public btnClass = 'primary';
@@ -39,6 +40,7 @@ export class BfBtnComponent implements OnInit, OnChanges {
 
   constructor(
     private translate: BfUILibTransService,
+    public elementRef: ElementRef
   ) { }
 
   ngOnChanges(changes) {
