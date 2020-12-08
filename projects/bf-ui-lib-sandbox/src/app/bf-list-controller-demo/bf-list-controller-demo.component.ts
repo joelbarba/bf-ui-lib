@@ -22,5 +22,5 @@ export const ListControllerDoc = {
         <li class="list-item" >Three</li>
         <li class="list-item">Four</li>
   </ul>`,
-  demoComp: ListControllerDemo
+  demoComp: ListControllerDemoComponent
 };
