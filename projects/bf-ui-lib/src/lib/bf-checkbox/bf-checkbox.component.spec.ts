@@ -30,7 +30,7 @@ describe('BfCheckboxComponent', () => {
   it('should toggle on key press', () => {
     component.bfModel = false;
     const event = new KeyboardEvent('keypress',{
-      key: 'Space'
+      code: 'Space'
     });
     component.keyPressed(event);
     expect(component.bfModel).toBe(true);
