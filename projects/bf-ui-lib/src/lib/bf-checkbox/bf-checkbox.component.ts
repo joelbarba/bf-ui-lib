@@ -58,6 +58,7 @@ export class BfCheckboxComponent implements ControlValueAccessor, OnInit, OnChan
 
   keyPressed(evt){
     if(evt.code === 'Enter' || evt.code === 'Space'){
+      evt.preventDefault();
       this.bfModel = !this.bfModel;
       this.onChange(this.bfModel);
     }
