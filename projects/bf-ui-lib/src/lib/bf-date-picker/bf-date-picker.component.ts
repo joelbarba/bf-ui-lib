@@ -54,6 +54,7 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   public ngbMaxDate: NgbDateStruct = null;
   public isTodayValid = true;         // Whether the min/max validation allows today as a valid option
   public locale: string;
+  public clearButtonText: string;
 
   private localeSubscription$: Subscription;
 
@@ -91,6 +92,7 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   };
 
   ngOnInit() {
+    this.clearButtonText = this.translate.doTranslate('view.common.clear');
     if (this.translate.locale$) {
       this.localeSubscription$ = this.translate.locale$.subscribe(locale => {
         this.locale = locale;

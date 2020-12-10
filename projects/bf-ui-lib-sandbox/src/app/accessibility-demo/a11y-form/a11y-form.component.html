@@ -30,17 +30,24 @@
               [bfTabIndex]="-1"></bf-btn>
     </div>
 
-
     <div class="row">
-      <bf-date-picker name="birth" class="mr-2"
+      <bf-date-picker name="birth"
+                      class="mr-2"
                       bfLabel="Birth Day"
                       [bfIsInlineDatePicker]="true"
                       [(ngModel)]="item.birth">
       </bf-date-picker>
 
       <bf-date-picker name="birth"
+                      class="mr-2"
                       bfLabel="Birth Day"
                       [bfIsInlineDatePicker]="false"
+                      [(ngModel)]="item.birth">
+      </bf-date-picker>
+
+      <bf-date-picker name="birth"
+                      bfLabel="Birth Day"
+                      [bfHasClearBtn]="true"
                       [(ngModel)]="item.birth">
       </bf-date-picker>
     </div>
