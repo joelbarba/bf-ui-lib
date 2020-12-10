@@ -1,6 +1,6 @@
 @mixin focus-visible {
-  border: 2px solid white !important;
-  outline: 2px solid $primary_color !important;
+  border: 1px solid white !important;
+  outline: 1px solid $primary_color !important;
   box-shadow: none !important;
   border-radius: none !important;
 }
