@@ -15,21 +15,9 @@
   @include focus-visible()
 }
 
-// Every focusable element
+
 bf-btn .bf-btn {
   &:focus {
-    @include focus-visible()
-  }
-}
-
-bf-input .bf-input-form-group .form-control {
-  &:focus{
-    @include focus-visible()
-  }
-}
-
-bf-dropdown .dropdown-form-group .form-control{
-  &:focus{
     @include focus-visible()
   }
 }
