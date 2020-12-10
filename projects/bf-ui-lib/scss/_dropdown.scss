@@ -110,6 +110,10 @@ bf-dropdown, bf-lazy-dropdown, bf-multi-selector {
         height: 34px;
         font-size: 14px;
         border-right: none;
+        &:focus {
+          outline: 0;
+          box-shadow: none; // Remove it from Bootstrap
+        }
 
       }
 
@@ -339,9 +343,9 @@ bf-dropdown, bf-lazy-dropdown, bf-multi-selector {
       @include dropdown-status-color($required-color);
     }
 
-    // &.is-focus {
-    //   @include dropdown-status-color($focused-color);
-    // }
+    &.is-focus {
+      @include dropdown-status-color($focused-color);
+    }
 
     &.is-error {
       @include dropdown-status-color($invalid-color);

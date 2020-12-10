@@ -31,11 +31,28 @@
     </div>
 
     <div class="row align-items-center">
-      <bf-input class="col-3"
+      <bf-input class="mr-2"
                 name="first_name"
                 bfLabel="First Name"
                 [(ngModel)]="item.first_name">
       </bf-input>
+
+      <bf-input class="mr-2"
+                name="second_name"
+                bfLabel="Second Name"
+                [bfRequired]="true"
+                [(ngModel)]="item.second_name">
+      </bf-input>
+
+      <bf-input name="first_name"
+                bfLabel="First Name"
+                [bfDisabled]="true"
+                [(ngModel)]="item.first_name">
+      </bf-input>
+
+    </div>
+
+    <div class="row align-items-center">
 
       <bf-checkbox class="col-3"
                    name="is-checked"
