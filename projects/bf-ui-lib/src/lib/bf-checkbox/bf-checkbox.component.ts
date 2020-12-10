@@ -26,6 +26,8 @@ export class BfCheckboxComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfTooltipPos = 'top';
   @Input() bfTooltipBody = true;
   @Input() bfImg: string;
+  @Input() bfTabIndex = 0;
+  @Input() bfAriaLabel: string;
 
   public bfLabelText$ = of('');     // Translated text for the label
   public bfTooltipTrans$ = of('');  // Translated text for the tooltip
@@ -52,6 +54,14 @@ export class BfCheckboxComponent implements ControlValueAccessor, OnInit, OnChan
     this.bfModel = value;
     this.propagateModelUp(value);
     // this.bfModelChange.emit(value);
+  }
+
+  keyPressed(evt: KeyboardEvent){
+    if(evt.code === 'Space'){
+      evt.preventDefault();
+      this.bfModel = !this.bfModel;
+      this.onChange(this.bfModel);
+    }
   }
 
 }
