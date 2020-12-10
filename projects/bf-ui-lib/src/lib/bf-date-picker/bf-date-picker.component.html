@@ -26,6 +26,9 @@
 
   <div *ngIf="!bfIsInlineDatePicker">
     <div class="input-group"
+         tabindex="0"
+         [attr.aria-label]="bfLabel"
+         (keydown.enter)="!bfDisabled && enterClicked($event, dpRef)"
          (click)="!bfDisabled && dpRef.toggle()">
 
       <!--Just for displaying options (model is held in the other input)-->
@@ -37,15 +40,17 @@
 
       <div class="input-group-append"
            *ngIf="bfHasClearBtn"
-           (click)="!bfDisabled && clearValue($event, dpRef)">
-        <button class="btn btn-outline-secondary clear-btn" [attr.aria-label]="clearButtonText">
+           (click)="!bfDisabled && clearValue($event, dpRef)"
+           (keydown.enter)="!bfDisabled && clearValue($event, dpRef)">
+        <button class="btn btn-outline-secondary clear-btn"
+                [attr.aria-label]="clearButtonText">
           <span class="icon-cross"></span>
         </button>
       </div>
 
       <div class="input-group-append">
         <button class="btn btn-outline-secondary"
-                [attr.aria-label]="bfLabel"
+                tabindex="-1"
                 type="button">
           <span class="icon-calendar"></span>
         </button>

@@ -234,4 +234,12 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
     dpRef.close();
   }
 
+
+  public enterClicked = ($event: KeyboardEvent, dpRef: NgbInputDatepicker) => {
+    if(!dpRef.isOpen()){
+      dpRef.open();
+    }
+    $event.stopPropagation();
+  }
+
 }
