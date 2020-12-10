@@ -30,6 +30,21 @@
               [bfTabIndex]="-1"></bf-btn>
     </div>
 
+
+    <div class="row">
+      <bf-date-picker name="birth" class="mr-2"
+                      bfLabel="Birth Day"
+                      [bfIsInlineDatePicker]="true"
+                      [(ngModel)]="item.birth">
+      </bf-date-picker>
+
+      <bf-date-picker name="birth"
+                      bfLabel="Birth Day"
+                      [bfIsInlineDatePicker]="false"
+                      [(ngModel)]="item.birth">
+      </bf-date-picker>
+    </div>
+
     <div class="row align-items-center">
       <bf-input class="col-3"
                 name="first_name"
@@ -49,13 +64,6 @@
                    [bfList]="list"
                    [(ngModel)]="item.listSelection">
       </bf-dropdown>
-
-      <bf-date-picker class="col-3 no-min-width"
-                      name="birth"
-                      bfLabel="Birth Day"
-                      [(ngModel)]="item.birth">
-      </bf-date-picker>
-
     </div>
   </form>
 </div>

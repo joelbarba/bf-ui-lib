@@ -210,7 +210,8 @@ bf-date-picker {
       .ngb-dp-day {
         width: auto;
         height: auto;
-        &:focus { outline: 0; }
+        // &:focus { border: 2px solid red; }
+        .focus-visible { border: 2px solid blue; }
         .bf-date-picker-day {
           font-size: 12px;
           font-weight: bold;
@@ -222,6 +223,7 @@ bf-date-picker {
 
           border: 2px solid transparent;
           &:hover { border-color: $primary_color; }
+
 
           // Selected day
           &.is-selected { border-color: $primary_color; }
