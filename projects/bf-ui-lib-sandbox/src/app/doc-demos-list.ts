@@ -40,3 +40,4 @@ import { BfColorPickerDoc } from './bf-color-picker-demo/bf-color-picker-demo.co
 export { BfLazyDropdownDoc } from './bf-lazy-dropdown-demo/bf-lazy-dropdown-demo.component';
 export { BfExpandableListDoc } from './bf-expandable-list-demo/bf-expandable-list-demo.component';
 export { BfCollapseDoc } from './bf-collapse-demo/bf-collapse-demo.component';
+export { ListControllerDoc } from './bf-list-controller-demo/bf-list-controller-demo.component';

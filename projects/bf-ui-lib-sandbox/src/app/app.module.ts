@@ -67,8 +67,8 @@ import { A11yListComponent } from './accessibility-demo/a11y-list/a11y-list.comp
 import { A11yTabsComponent } from './accessibility-demo/a11y-tabs/a11y-tabs.component';
 import { BfCollapseDemoComponent } from './bf-collapse-demo/bf-collapse-demo.component';
 import { BfExpandableListDemoComponent } from './bf-expandable-list-demo/bf-expandable-list-demo.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { ListControllerDemoComponent } from './bf-list-controller-demo/bf-list-controller-demo.component';
 
 @NgModule({
   declarations: [
@@ -134,6 +134,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     A11yTabsComponent,
     BfCollapseDemoComponent,
     BfExpandableListDemoComponent,
+    ListControllerDemoComponent
   ],
   entryComponents: [
     BfNoDataComponent,
