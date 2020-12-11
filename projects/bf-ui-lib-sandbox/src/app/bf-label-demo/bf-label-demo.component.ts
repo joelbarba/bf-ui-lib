@@ -26,7 +26,7 @@ export class BfLabelDemoComponent implements OnInit {
   public instance5 = `<bf-label class="no-bold" bfText="No Bold Label"></bf-label>`;
   public instance6 = `<bf-label class="no-colon" bfText="No Colon Label"></bf-label>
 <bf-label class="colon value-inline" bfValue="Colon with no label"></bf-label>`;
-
+  public instance7 = `<bf-label bfText="I have the value clickable" (bfClick)="valueClickedExample()"></bf-label>`;
   public bfHtmlStructure =
 `<label class="is-required">
   <span class="info-badge" [ngbTooltip]="bfTooltip" [placement]="bfTooltipPos" triggers="hover" container="body">
@@ -130,8 +130,9 @@ export class BfLabelDemoComponent implements OnInit {
     this.customCompCode += (`>` + this.brStr + `</bf-label>`);
   }
 
-
-
+  valueClickedExample(value) {
+    alert('You clicked the label value' + value);
+  }
 
   constructor(
     private translate: BfTranslateService,
