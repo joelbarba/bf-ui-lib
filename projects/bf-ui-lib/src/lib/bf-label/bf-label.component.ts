@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {BfUILibTransService} from '../abstract-translate.service';
 import {Observable, of} from 'rxjs';
 
@@ -15,6 +15,7 @@ export class BfLabelComponent implements OnInit, OnChanges {
   @Input() bfTooltip = '';
   @Input() bfTooltipPos = 'top';
   @Input() bfTooltipBody = true;
+  @Output() bfClick = new EventEmitter<any>();
 
   public bfTextTrans$: Observable<string> = of('');        // Translated text for the label
   public bfValueTrans$: Observable<string> = of('');       // Translated text for the value
@@ -29,6 +30,12 @@ export class BfLabelComponent implements OnInit, OnChanges {
     if (change.hasOwnProperty('bfText'))    { this.bfTextTrans$    = this.translate.getLabel$(this.bfText); }
     if (change.hasOwnProperty('bfTooltip')) { this.bfTooltipTrans$ = this.translate.getLabel$(this.bfTooltip); }
     if (change.hasOwnProperty('bfValue'))   { this.bfValueTrans$   = this.translate.getLabel$(this.bfValue); }
+  }
+
+  valueEvent() {
+    if(!!this.bfClick) {
+      this.bfClick.emit();
+    }
   }
 
 }
