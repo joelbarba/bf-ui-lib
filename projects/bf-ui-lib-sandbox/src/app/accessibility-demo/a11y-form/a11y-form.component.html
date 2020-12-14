@@ -46,10 +46,18 @@
       </bf-date-picker>
 
       <bf-date-picker name="birth"
+                      class="mr-2"
                       bfLabel="Birth Day"
                       [bfHasClearBtn]="true"
                       [(ngModel)]="item.birth">
       </bf-date-picker>
+
+      <bf-date-picker name="birth"
+                      bfLabel="Birth Day"
+                      [bfDisabled]="true"
+                      [(ngModel)]="item.birth">
+      </bf-date-picker>
+
     </div>
 
     <div class="row align-items-center">

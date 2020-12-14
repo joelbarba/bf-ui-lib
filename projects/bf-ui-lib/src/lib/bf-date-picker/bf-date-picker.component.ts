@@ -6,6 +6,7 @@ import {NgbDateStruct, NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
 import BfString from '../bf-prototypes/string.prototype';
 import {DatePipe} from '@angular/common';
 import { Subscription } from 'rxjs';
+import { ReturnStatement } from '@angular/compiler';
 
 
 @Component({
@@ -218,6 +219,7 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
 
   // Click on "X" button to clear the value (turn it null)
   public clearValue = ($event, dpRef) => {
+    if(this.bfDisabled)return;
     this.bfModel = null;
     this.onInternalModelChange();
 
@@ -235,7 +237,8 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   }
 
 
-  public enterClicked = ($event: KeyboardEvent, dpRef: NgbInputDatepicker) => {
+  public onEnterPressed = ($event: KeyboardEvent, dpRef: NgbInputDatepicker) => {
+    if(this.bfDisabled)return;
     if(!dpRef.isOpen()){
       dpRef.open();
     }
