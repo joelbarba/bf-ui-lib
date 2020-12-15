@@ -6,6 +6,7 @@ import {NgbDateStruct, NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
 import BfString from '../bf-prototypes/string.prototype';
 import {DatePipe} from '@angular/common';
 import { Subscription } from 'rxjs';
+import { ReturnStatement } from '@angular/compiler';
 
 
 @Component({
@@ -54,6 +55,7 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   public ngbMaxDate: NgbDateStruct = null;
   public isTodayValid = true;         // Whether the min/max validation allows today as a valid option
   public locale: string;
+  public clearButtonText: string;
 
   private localeSubscription$: Subscription;
 
@@ -91,6 +93,7 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   };
 
   ngOnInit() {
+    this.clearButtonText = this.translate.doTranslate('view.common.clear');
     if (this.translate.locale$) {
       this.localeSubscription$ = this.translate.locale$.subscribe(locale => {
         this.locale = locale;
@@ -216,6 +219,7 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
 
   // Click on "X" button to clear the value (turn it null)
   public clearValue = ($event, dpRef) => {
+    if(this.bfDisabled)return;
     this.bfModel = null;
     this.onInternalModelChange();
 
@@ -230,6 +234,15 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
     this.bfModel = { year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() };
     this.onInternalModelChange();
     dpRef.close();
+  }
+
+
+  public onEnterPressed = ($event: KeyboardEvent, dpRef: NgbInputDatepicker) => {
+    if(this.bfDisabled)return;
+    if(!dpRef.isOpen()){
+      dpRef.open();
+    }
+    $event.stopPropagation();
   }
 
 }
