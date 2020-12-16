@@ -57,8 +57,8 @@ export class BfCheckboxComponent implements ControlValueAccessor, OnInit, OnChan
   }
 
   keyPressed(evt: KeyboardEvent){
-    if(evt.code === 'Space'){
-      evt.preventDefault();
+    evt.preventDefault();
+    if(evt.code === 'Space' && !this.bfDisabled){
       this.bfModel = !this.bfModel;
       this.onChange(this.bfModel);
     }
