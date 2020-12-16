@@ -89,7 +89,9 @@ export class BfRadioComponent implements OnChanges, ControlValueAccessor, Valida
   @HostListener('click')
   @HostListener('keyup.space')
   onSelect() {
-    this.onChange(this.bfValue);
+    if (!this.bfDisabled) {
+      this.onChange(this.bfValue);
+    }
   }
   @HostListener('keydown.space', ['$event'])
   stopPageScroll(event: KeyboardEvent) {
