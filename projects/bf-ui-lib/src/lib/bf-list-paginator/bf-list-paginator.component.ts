@@ -1,4 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, OnChanges, Output, DoCheck} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, OnChanges, Output, DoCheck, ElementRef } from '@angular/core';
+import { BfTranslateService } from 'projects/bf-ui-lib-sandbox/src/app/translate.service';
 import {Observable} from 'rxjs';
 
 interface IBfCtrl {
@@ -44,7 +45,7 @@ export class BfListPaginatorComponent implements OnInit, OnChanges, DoCheck {
   public listLength = 0;  // Keep the previous list length to recalculate pages (internal default function)
   public renderSubs;      // Subscription to the bfCtrl.render$
 
-  constructor() { }
+  constructor(private translate: BfTranslateService, private element: ElementRef) { }
 
   ngOnChanges(changes) {
     if (changes.hasOwnProperty('bfCtrl') || changes.hasOwnProperty('bfMaxButtons')) {
@@ -139,8 +140,6 @@ export class BfListPaginatorComponent implements OnInit, OnChanges, DoCheck {
     this.listBtns = [];
     const totalMax = (this.bfMaxButtons * 2) + 1; // Total number of buttons to display
 
-
-
     if (totalMax === 1) { // [x]
       this.listBtns.push({ pageNum: this.bfCtrl.currentPage });
     }
@@ -195,5 +194,66 @@ export class BfListPaginatorComponent implements OnInit, OnChanges, DoCheck {
     };
   };
 
+  isOnFirstPage(): boolean {
+    return this.bfCtrl.currentPage === 1;
+  }
 
+  isOnLastPage(): boolean {
+    return this.bfCtrl.currentPage === this.bfCtrl.totalPages;
+  }
+
+  isCurrentItem(currentPage:number, pageNumber: number): boolean {
+    return currentPage === pageNumber;
+  }
+
+  getTranslatedAriaLabel(label: string, params: any = {}): string {
+    return this.translate.doTranslate(label, params);
+  }
+
+  getPageButtonAriaLabel(pageNumber: string): string {
+    if (pageNumber !== null) {
+      return this.getTranslatedAriaLabel('aria.list_paginator.go_to_page', { page: pageNumber, maxPages: this.bfCtrl.totalPages })
+    }
+
+    return '';
+  }
+
+  previousPageClicked(event: KeyboardEvent): void {
+    if (this.isActionKeyPressed(event.key)) {
+      event.preventDefault();
+      this.goToPrev();
+      this.refocusList();
+    }
+  }
+
+  nextPageClicked(event: KeyboardEvent): void {
+    if (this.isActionKeyPressed(event.key)) {
+      event.preventDefault();
+      this.goToNext();
+      this.refocusList();
+    }
+  }
+
+  goToPageClicked(event: KeyboardEvent, pageNum: number): void {
+    if (this.isActionKeyPressed(event.key)) {
+      event.preventDefault();
+      this.goToPage(pageNum);
+      this.refocusList();
+    }
+  }
+
+  private isActionKeyPressed(eventKey: string): boolean {
+    return eventKey === 'Space' || eventKey === 'Enter';
+  }
+
+  private refocusList(): void {
+    setTimeout(() => {
+      const buttonList = this.element.nativeElement.querySelectorAll('.page-btn');
+      const selectedButton: any = Array.from(buttonList).find((element: HTMLElement) => element.getAttribute('tabindex') === '0');
+
+      if (selectedButton) {
+        selectedButton.focus();
+      }
+    });
+  }
 }

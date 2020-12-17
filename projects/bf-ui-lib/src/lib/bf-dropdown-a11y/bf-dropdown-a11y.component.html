@@ -42,7 +42,6 @@
       <input [id]="bfInputId" type="text" class="form-control" #dropdownInput
              [(ngModel)]="inputText" (ngModelChange)="inputType($event)"
              aria-autocomplete="list"
-
              [class.has-image]="!!bfModel?.$img"
              [class.has-icon]="!!bfModel?.$icon"
              [placeholder]="inputPlaceholder"

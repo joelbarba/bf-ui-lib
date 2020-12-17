@@ -1,11 +1,13 @@
-import { AfterViewInit, Directive, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { AfterViewChecked, Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
   selector: '[bfListController]'
 })
-export class BfListControllerDirective implements AfterViewInit {
+export class BfListControllerDirective implements AfterViewChecked {
   /** A string to define the list item class */
   @Input() listItemClass: string;
+  /** A string to define the class of selected items so it can set initial focus to the element */
+  @Input() listItemSelectedClass: string;
 
   private listItems: Array<HTMLElement>;
 
@@ -32,13 +34,13 @@ export class BfListControllerDirective implements AfterViewInit {
     this.getCurrentItem(this.listItems).focus();
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewChecked(): void {
     this.listItems = this.getListItems(this.listItemClass);
 
     this.listItems.forEach((item, index) => {
-      index === 0
-        ? this.setInitialElement(item)
-        : this.setTabIndex(item, -1);
+      this.listItemSelectedClass
+        ? this.setTabIndexesForElements(item.classList.contains(this.listItemSelectedClass), item)
+        : this.setTabIndexesForElements(index === 0, item);
     });
   }
 
@@ -46,9 +48,11 @@ export class BfListControllerDirective implements AfterViewInit {
     const nextElement: HTMLElement = currentElement.nextElementSibling as HTMLElement;
 
     if (nextElement) {
-      this.setTabIndex(currentElement, -1);
-      this.setTabIndex(nextElement, 0);
-      nextElement.focus();
+      if (this.isElementEnabled(nextElement)) {
+        this.updateCurrentFocus(currentElement, nextElement);
+      } else {
+        this.focusNextElement(nextElement);
+      }
     }
   }
 
@@ -56,9 +60,11 @@ export class BfListControllerDirective implements AfterViewInit {
     const previousElement: HTMLElement = currentElement.previousElementSibling as HTMLElement;
 
     if (previousElement) {
-      this.setTabIndex(currentElement, -1);
-      this.setTabIndex(previousElement, 0);
-      previousElement.focus();
+      if (this.isElementEnabled(previousElement)) {
+        this.updateCurrentFocus(currentElement, previousElement);
+      } else {
+        this.focusPreviousElement(previousElement);
+      }
     }
   }
 
@@ -85,5 +91,22 @@ export class BfListControllerDirective implements AfterViewInit {
 
   private isNextKeyPressed(key: string): boolean {
     return key === 'ArrowRight' || key === 'ArrowDown';
+  }
+
+  private updateCurrentFocus(currentElement: HTMLElement, nextElement: HTMLElement): void {
+    this.setTabIndex(currentElement, -1);
+    this.setTabIndex(nextElement, 0);
+    nextElement.focus();
+  }
+
+  private isElementEnabled(element: HTMLElement): boolean {
+    const disabledValue = element.getAttribute('disabled');
+    return disabledValue === 'false' || disabledValue === null;
+  }
+
+  private setTabIndexesForElements(isFocused: boolean, element: HTMLElement): void {
+    isFocused
+      ? this.setInitialElement(element)
+      : this.setTabIndex(element, -1);
   }
 }
