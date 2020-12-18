@@ -64,41 +64,47 @@ export class BfRadioComponent implements OnChanges, ControlValueAccessor, Valida
     this._onTouched();
   }
 
-
-
   // *************
   // Accessibility
   // *************
-
-  // Tab into/out of focus
   @HostBinding('attr.tabindex')
-  get tabindex() {
+  get tabindex(): number {
     return this.bfDisabled ? -1 : 0;
   }
-  @HostListener('focus')
-  onFocus() {
-    this.isFocussed = true;
+
+  @HostBinding('attr.role')
+  get role(): string {
+    return 'radio';
   }
+
+  @HostBinding('attr.aria-checked')
+  get isChecked() {
+    return this.bfValue === this.bfModel;
+  }
+
+  @HostListener('focus')
+  onFocus(): void {
+    this.onChange(this.bfValue);
+  }
+
   @HostListener('blur')
-  onBlur() {
+  onBlur(): void {
     this._onTouched();
-    this.isFocussed = false;
   }
 
   // Select with click or space bar
   @HostListener('click')
   @HostListener('keyup.space')
-  onSelect() {
+  onSelect(): void {
     if (!this.bfDisabled) {
       this.onChange(this.bfValue);
     }
   }
+
   @HostListener('keydown.space', ['$event'])
-  stopPageScroll(event: KeyboardEvent) {
+  stopPageScroll(event: KeyboardEvent): void {
     event.preventDefault();
   }
-
-
 
   // ************************
   // Custom form control code
