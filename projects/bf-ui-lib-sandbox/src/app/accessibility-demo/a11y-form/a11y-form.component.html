@@ -84,6 +84,15 @@
 
     <div class="row align-items-center">
 
+      <bf-dropdown-a11y class="col-3"
+                   name="list-selection"
+                   bfLabel="List Selection"
+                   bfListBoxId="listBox"
+                   bfInputId="inputId"
+                   [bfList]="list"
+                   [(ngModel)]="item.listSelection">
+      </bf-dropdown-a11y>
+
       <bf-checkbox class="col-3"
                    name="is-checked"
                    bfLabel="Checkbox"
@@ -99,14 +108,6 @@
                    [(ngModel)]="item.isChecked">
       </bf-checkbox>
 
-      <bf-dropdown-a11y class="col-3"
-                   name="list-selection"
-                   bfLabel="List Selection"
-                   bfListBoxId="listBox"
-                   bfInputId="inputId"
-                   [bfList]="list"
-                   [(ngModel)]="item.listSelection">
-      </bf-dropdown-a11y>
     </div>
   </form>
 </div>
