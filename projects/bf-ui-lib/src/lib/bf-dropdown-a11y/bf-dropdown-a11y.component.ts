@@ -117,7 +117,7 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
     $isMatch: true,
     $img: null,
     $icon: null,
-    $activeId: ''
+    $activeId: '',
   };
 
   public bfLabelTrans$ = of('');         // Translated text for the label
@@ -482,12 +482,6 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
     return result;
   };
 
-  // ------------------------------------
-
-
-
-
-
   // Focus on input (deferring it to next cycle)
   public deferExpand = () => {
     setTimeout(() => this.elInput.nativeElement.focus());
@@ -553,6 +547,8 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
     }
 
     if (event.key === 'Enter') {
+      event.preventDefault();
+
       if (!this.isExpanded) {
         this.expandList();
       } else {
@@ -618,10 +614,6 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
       });
     }
   };
-
-  public alert(value: string) {
-    alert(value);
-  }
 
   // Given an external object/value, find and select the match on the internal list
   public matchSelection = (value) => {
@@ -701,7 +693,6 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
     if (!writeValue || writeValue.value !== modelUp) {
       this.propagateModelUp(modelUp); // This triggers NG_VALIDATORS -> validate()
     }
-
   };
 
   // Determine how to display the selected option on the input

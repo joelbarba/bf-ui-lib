@@ -90,7 +90,7 @@
           [class.selected]="isSelected(item)"
           [class.group-pad]="!!bfGroupBy && !!item[bfGroupBy]">
           <img *ngIf="!!item?.$img"  class="option-row-image" [src]="item?.$img" alt="">
-          <span *ngIf="!!item?.$icon" class="option-row-icon" [ngClass]="item?.$icon"></span>
+          <span *ngIf="!!item?.$icon" class="option-row-icon" [ngClass]="item?.$icon" aria-hidden></span>
           <span *ngIf="bfHtmlRender" [innerHTML]="item.$renderedText"></span>
           <span *ngIf="!bfHtmlRender">{{item.$renderedText}}</span>
         </div>
