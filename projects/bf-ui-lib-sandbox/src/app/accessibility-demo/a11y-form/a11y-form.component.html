@@ -91,6 +91,14 @@
                    [(ngModel)]="item.isChecked">
       </bf-checkbox>
 
+      <bf-checkbox class="col-3"
+                   name="is-checked"
+                   bfLabel="Disabeld"
+                   bfTooltip="checkbox disabled"
+                   [bfDisabled]="true"
+                   [(ngModel)]="item.isChecked">
+      </bf-checkbox>
+
       <bf-dropdown-a11y class="col-3"
                    name="list-selection"
                    bfLabel="List Selection"
