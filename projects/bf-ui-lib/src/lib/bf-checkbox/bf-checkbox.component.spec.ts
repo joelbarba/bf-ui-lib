@@ -38,4 +38,15 @@ describe('BfCheckboxComponent', () => {
     expect(component.bfModel).toBe(false);
   });
 
+  it('shouldn\'t toggle if disabled', () => {
+    component.bfModel = false;
+    component.bfDisabled = true;
+    const event = new KeyboardEvent('keypress',{
+      code: 'Space'
+    });
+    component.keyPressed(event);
+    expect(component.bfModel).toBe(false);
+  });
+
+
 });
