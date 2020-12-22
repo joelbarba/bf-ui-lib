@@ -1,0 +1,104 @@
+<div class="form-group dropdown-form-group"
+     [class.is-required]="bfRequired"
+     [class.is-disabled]="bfDisabled"
+     [class.is-focus]="isFocus || isExpanded"
+     [class.is-error]="showError">
+
+  <label *ngIf="!!bfLabel" [class.is-required]="bfRequired" [for]="bfInputId">
+    <span class="info-badge" *ngIf="!!bfTooltip"
+         [ngbTooltip]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
+         [container]="(bfTooltipBody ? 'body' : '')">
+      <span class="icon-info"></span>
+    </span>
+    <span>{{bfLabelTrans$ | async}}</span>:
+    <span *ngIf="bfRequired" class="asterisk">*</span>
+  </label>
+
+  <!--Error Message-->
+  <span *ngIf="showError && errorPosition !== 'none'"
+        class="dropdown-error-text"
+        [class.pull-up]="!bfLabel"
+        [class.default]="errorPosition === 'default'"
+        [class.top-right]="errorPosition === 'top-right'"
+        [class.bottom-left]="errorPosition === 'bottom-left'"
+        [class.bottom-right]="errorPosition === 'bottom-right'">
+    {{errorTextTrans$ | async}}
+  </span>
+
+
+  <div
+    class="dropdown"
+    [class.is-expanded]="isExpanded"
+    [class.expand-upward]="expandUpward">
+
+    <div class="input-group"
+         [disableTooltip]="!bfDisabled || !bfDisabledTip"
+         [ngbTooltip]="bfDisabledTipTrans$ | async"
+         [attr.aria-owns]="bfListboxId"
+         [attr.aria-expanded]="isExpanded"
+         role="combobox"
+         aria-haspopup="listbox">
+
+      <input [id]="bfInputId" type="text" class="form-control" #dropdownInput
+             [(ngModel)]="inputText" (ngModelChange)="inputType($event)"
+             aria-autocomplete="list"
+
+             [class.has-image]="!!bfModel?.$img"
+             [class.has-icon]="!!bfModel?.$icon"
+             [placeholder]="inputPlaceholder"
+             [disabled]="bfDisabled"
+             [attr.aria-controls]="bfListboxId"
+             [attr.aria-activedescendant]="getActiveDecendant()"
+             (focusin)="expandList()"
+             (focusout)="collapseList()"
+             (keyup)="triggerKey($event)">
+
+      <img *ngIf="!!bfModel?.$img" class="input-image" [class.fade]="isExpanded" [src]="bfModel?.$img" alt="bfModel?.$img">
+
+      <span *ngIf="bfModel?.$icon && !bfModel?.$img" class="input-icon" [class.fade]="isExpanded"
+            [ngClass]="bfModel?.$icon">
+      </span>
+
+      <div class="input-group-append" (click)="!bfDisabled && onInputBtnClick()">
+        <button class="btn btn-outline-secondary" [disabled]="bfDisabled ? 'true' : ''" tabIndex="-1">
+          <span [hidden]="isLoading" [ngClass]="(isExpanded && expandUpward) ? 'icon-arrow-up22' : 'icon-arrow-down22'"></span>
+          <!--<span [hidden]="!isLoading" class="icon-loop32 loading"></span>-->
+          <span [hidden]="!isLoading" class="loading"></span>
+        </button>
+      </div>
+    </div>
+
+    <ul
+      [id]="bfListboxId"
+      role="listbox"
+      class="list-container"
+      [class.list-upward]="expandUpward"
+      [show]="isExpanded"
+      #listContainer>
+      <li
+        *ngFor="let item of extList | isMatch"
+        class="option-wrapper"
+        role="option"
+        [id]="item.$activeId"
+        [attr.aria-selected]="isActiveDecendant(item.$activeId)"
+        (click)="selectItem(item)"
+        #optionRow>
+        <div *ngIf="item.$groupHeader && !item.$hideHeader" class="group-header" role="presentation"></div>
+        <div
+          class="option-row"
+          [class.candidate]="isActiveDecendant(item.$activeId)"
+          [class.selected]="isSelected(item)"
+          [class.group-pad]="!!bfGroupBy && !!item[bfGroupBy]">
+          <img *ngIf="!!item?.$img"  class="option-row-image" [src]="item?.$img" alt="">
+          <span *ngIf="!!item?.$icon" class="option-row-icon" [ngClass]="item?.$icon" aria-hidden></span>
+          <span *ngIf="bfHtmlRender" [innerHTML]="item.$renderedText"></span>
+          <span *ngIf="!bfHtmlRender">{{item.$renderedText}}</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+
+
+</div>
+

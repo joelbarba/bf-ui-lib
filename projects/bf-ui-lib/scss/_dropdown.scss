@@ -45,7 +45,7 @@ $dropdown-valid-color: $valid-color !default;
   }
 }
 
-bf-dropdown, bf-lazy-dropdown, bf-multi-selector {
+bf-dropdown, bf-lazy-dropdown, bf-multi-selector, bf-dropdown-a11y {
   .dropdown-form-group {
     display: inline-block;
     margin-bottom: 15px;
@@ -364,7 +364,7 @@ bf-dropdown, bf-lazy-dropdown, bf-multi-selector {
 
 
 // Style extra button combination (bf-dropdown + bf-btn)
-bf-dropdown.extra-btn {
+bf-dropdown.extra-btn, bf-dropdown-a11y.extra-btn {
   &.full-width .dropdown-form-group { width: calc(100% - 37px); }
   button {
     border-top-right-radius: 0;
@@ -390,4 +390,19 @@ bf-dropdown.extra-btn {
     }
   }
   &.flat + bf-btn { margin-bottom: 0; }
+}
+
+bf-dropdown-a11y {
+  .option-wrapper {
+    :hover {
+      background: $dropdown-selection-hover;
+      color: $white;
+    }
+  }
+
+  .dropdown {
+    .list-container {
+      margin-bottom: 0; // with the change to ul brings a margin causing a gap when expanding upwards
+    }
+  }
 }

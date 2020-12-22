@@ -24,7 +24,7 @@ export class A11yFormComponent implements OnInit {
 
   public asyncClick() {
     this.bfAsyncAriaLabel = 'Fetching Data';
-    return this.blockPr = new Promise((resolve) => {
+    return this.blockPr = new Promise<void>((resolve) => {
       setTimeout(() => {
         resolve();
         this.bfAsyncAriaLabel = null;

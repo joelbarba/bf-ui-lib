@@ -49,6 +49,8 @@ import { BfLazyDropdownComponent } from './bf-lazy-dropdown/bf-lazy-dropdown.com
 import { BfCollapseComponent } from './bf-collapse/bf-collapse.component';
 import { BfExpandableListComponent } from './bf-expandable-list/bf-expandable-list.component';
 import { BfListControllerDirective } from './bf-list-controller/bf-list-controller.directive';
+import { BfDropdownA11yComponent } from './bf-dropdown-a11y/bf-dropdown-a11y.component';
+import { BfDropdownA11yPipe } from './bf-dropdown-a11y/bf-dropdown-a11y.pipe';
 
 @NgModule({
   declarations: [
@@ -88,7 +90,9 @@ import { BfListControllerDirective } from './bf-list-controller/bf-list-controll
     BfLazyDropdownComponent,
     BfCollapseComponent,
     BfExpandableListComponent,
-    BfListControllerDirective
+    BfListControllerDirective,
+    BfDropdownA11yComponent,
+    BfDropdownA11yPipe // Internal
   ],
   entryComponents: [
   ],
@@ -147,7 +151,8 @@ import { BfListControllerDirective } from './bf-list-controller/bf-list-controll
     BfGrowlModule,
     BfLoadingBarModule,
     BfDnDModule,
-    BfListControllerDirective
+    BfListControllerDirective,
+    BfDropdownA11yComponent
   ]
 })
 export class BfUiLibModule {
