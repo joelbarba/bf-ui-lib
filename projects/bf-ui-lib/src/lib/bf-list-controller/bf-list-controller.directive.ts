@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
 @Directive({
   selector: '[bfListController]'
@@ -16,10 +16,12 @@ export class BfListControllerDirective implements AfterViewInit {
     const { key } = event;
 
     if (this.isPreviousKeyPressed(key)) {
+      event.preventDefault();
       this.focusPreviousElement(event.target);
     }
 
     if (this.isNextKeyPressed(key)) {
+      event.preventDefault();
       this.focusNextElement(event.target);
     }
   }
