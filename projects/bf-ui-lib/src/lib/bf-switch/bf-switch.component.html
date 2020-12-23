@@ -6,8 +6,17 @@
   </bf-label>
 </div>
 <div class="bf-switch"
+     role="switch"
      [class.is-disabled]="bfDisabled"
-     (click)="onSwitch()">
+     [attr.aria-label]="bfLabel"
+     [attr.aria-checked]="bfModel"
+     [ngbTooltip]="bfTooltip"
+      #tooltip="ngbTooltip"
+      triggers="manual"
+     [tabindex]="bfTabIndex"
+     (click)="onSwitch()"
+     (keyup)="onKeyUp($event)"
+     (keydown)="onKeyDown($event)">
   <div class="switch-bar"></div>
   <div class="switch-lever" [class.is-off]="!bfModel" [class.is-on]="bfModel"></div>
   <div class="switch-value">

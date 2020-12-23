@@ -1,7 +1,8 @@
-import {Component, forwardRef, Inject, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, forwardRef, Inject, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {BfUILibTransService} from '../abstract-translate.service';
 import {Observable, of} from 'rxjs';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'bf-switch',
@@ -26,12 +27,14 @@ export class BfSwitchComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() bfTooltip: string;
   @Input() bfTooltipPos = 'top';
   @Input() bfTooltipBody: boolean;
+  @Input() bfTabIndex = 0;
+
+  @ViewChild('tooltip') tooltip: NgbTooltip;
 
   public bfModel = false; // Internal holding of the ngModel
 
   public bfOnText$: Observable<string> = of(''); // Translated text for the ON label
   public bfOffText$: Observable<string> = of(''); // Translated text for the OFF label
-
   constructor(
     @Inject(BfUILibTransService) private translate: BfUILibTransService,
   ) {
@@ -65,5 +68,24 @@ export class BfSwitchComponent implements ControlValueAccessor, OnInit, OnChange
       this.propagateModelUp(this.bfModel);
     }
   }
+
+  onKeyUp = ($event) => {
+    if($event.code === 'Tab' && this.bfTooltip){
+      this.tooltip.open();
+    }
+    if($event.code === 'Space'){
+      $event.preventDefault();
+      this.onSwitch();
+    }
+  };
+
+  onKeyDown = ($event) => {
+    if($event.code === 'Tab' && this.bfTooltip){
+      this.tooltip.close();
+    }
+    if($event.code === 'Space'){
+      $event.preventDefault();
+    }
+  };
 
 }
