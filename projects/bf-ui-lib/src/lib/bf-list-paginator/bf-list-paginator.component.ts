@@ -212,7 +212,7 @@ export class BfListPaginatorComponent implements OnInit, OnChanges, DoCheck {
 
   getPageButtonAriaLabel(pageNumber: string): string {
     if (pageNumber !== null) {
-      return this.getTranslatedAriaLabel('aria.list_paginator.go_to_page', { page: pageNumber, maxPages: this.bfCtrl.totalPages })
+      return this.getTranslatedAriaLabel('aria.list_paginator.go_to_page', { page: pageNumber, maxPages: this.bfCtrl.totalPages });
     }
 
     return '';
