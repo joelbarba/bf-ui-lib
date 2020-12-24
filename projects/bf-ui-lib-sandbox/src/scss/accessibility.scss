@@ -21,7 +21,8 @@ button.focus-visible,
 bf-checkbox label.focus-visible,
 bf-date-picker.focus-visible > input,
 bf-btn.focus-visible,
-bf-radio.focus-visible {
+bf-radio.focus-visible,
+bf-list-paginator.focus-visible {
   @include focus-visible()
 }
 
