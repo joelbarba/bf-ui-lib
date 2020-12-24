@@ -1,4 +1,6 @@
-<div *ngIf="!!bfLabel" class="switch-label" [class.horizontal]="bfLabelPos=='left'">
+<div *ngIf="!!bfLabel"
+     class="switch-label"
+     [class.horizontal]="bfLabelPos=='left'">
   <bf-label [bfText]="bfLabel"
             [bfTooltip]="bfTooltip"
             [bfTooltipPos]="bfTooltipPos"
@@ -10,21 +12,27 @@
      [class.is-disabled]="bfDisabled"
      [attr.aria-label]="bfLabel"
      [attr.aria-checked]="bfModel"
+     [attr.aria-describedby]="bfTooltip"
      [ngbTooltip]="bfTooltip"
-      #tooltip="ngbTooltip"
-      triggers="manual"
+     #tooltip="ngbTooltip"
+     triggers="manual"
      [tabindex]="bfTabIndex"
      (click)="onSwitch()"
      (keyup)="onKeyUp($event)"
      (keydown)="onKeyDown($event)">
   <div class="switch-bar"></div>
-  <div class="switch-lever" [class.is-off]="!bfModel" [class.is-on]="bfModel"></div>
+  <div class="switch-lever"
+       [class.is-off]="!bfModel"
+       [class.is-on]="bfModel"></div>
   <div class="switch-value">
-    <span [hidden]="!bfModel" class="bf-switch-on-text">{{bfOnText$ | async}}</span>
-    <span [hidden]="bfModel" class="bf-switch-off-text">{{bfOffText$ | async}}</span>
+    <span [hidden]="!bfModel"
+          class="bf-switch-on-text">{{bfOnText$ | async}}</span>
+    <span [hidden]="bfModel"
+          class="bf-switch-off-text">{{bfOffText$ | async}}</span>
   </div>
 
-  <input type="checkbox" class="switch-input"
+  <input type="checkbox"
+         class="switch-input"
          [ngModel]="bfModel"
          [disabled]="bfDisabled">
 </div>
