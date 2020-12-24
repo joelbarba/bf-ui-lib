@@ -36,12 +36,17 @@ export class BfListControllerDirective implements AfterViewChecked {
 
   ngAfterViewChecked(): void {
     this.listItems = this.getListItems(this.listItemClass);
+    const elementWithTabIndex = this.listItems.find(item => item.tabIndex === 0);
 
-    this.listItems.forEach((item, index) => {
-      this.listItemSelectedClass
-        ? this.setTabIndexesForElements(item.classList.contains(this.listItemSelectedClass), item)
-        : this.setTabIndexesForElements(index === 0, item);
-    });
+    if (elementWithTabIndex) {
+      this.setTabIndexesForElements(true, elementWithTabIndex);
+    } else {
+      this.listItems.forEach((item, index) => {
+        this.listItemSelectedClass
+          ? this.setTabIndexesForElements(item.classList.contains(this.listItemSelectedClass), item)
+          : this.setTabIndexesForElements(index === 0, item);
+      });
+    }
   }
 
   private focusNextElement(currentElement: HTMLElement): void {

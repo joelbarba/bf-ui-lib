@@ -8,7 +8,7 @@ const triggerKeyEvent = (fixture: ComponentFixture<DemoComponent>, element: HTML
   fixture.detectChanges();
 };
 
-fdescribe('BfListController', () => {
+describe('BfListController', () => {
   let fixture: ComponentFixture<DemoComponent>;
   let list: DebugElement;
 
