@@ -31,8 +31,8 @@ fdescribe('BfSwitchComponent', () => {
 
   describe('onKeyUp()', () => {
     it('should show and announce the tooltip on tab in', () => {
-      let openTooltipSpy = spyOn(component.tooltip, 'open');
-      let announceForScreenReadersSpy = spyOn(component, 'announceForScreenReaders');
+      const openTooltipSpy = spyOn(component.tooltip, 'open');
+      const announceForScreenReadersSpy = spyOn(component, 'announceForScreenReaders');
 
       component.bfTooltip = 'This is a tooltip';
       const event = new KeyboardEvent('keypress', {
@@ -55,7 +55,7 @@ fdescribe('BfSwitchComponent', () => {
 
   describe('onKeyDown()', () => {
     it('should close the tooltip on tab out', () => {
-      let closeTooltipSpy = spyOn(component.tooltip, 'close');
+      const closeTooltipSpy = spyOn(component.tooltip, 'close');
       const event = new KeyboardEvent('keypress', {
         code: 'Tab'
       });
