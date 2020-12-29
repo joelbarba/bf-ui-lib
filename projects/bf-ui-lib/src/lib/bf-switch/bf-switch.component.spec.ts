@@ -59,10 +59,9 @@ describe('BfSwitchComponent', () => {
       const event = new KeyboardEvent('keypress', {
         code: 'Tab'
       });
+      component.bfTooltip = 'This is a tooltip';
       component.onKeyDown(event);
       expect(closeTooltipSpy).toHaveBeenCalled();
     });
   });
-
-
 });
