@@ -3,6 +3,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {BfUILibTransService} from '../abstract-translate.service';
 import {Observable, of} from 'rxjs';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'bf-switch',
@@ -37,6 +38,7 @@ export class BfSwitchComponent implements ControlValueAccessor, OnInit, OnChange
   public bfOffText$: Observable<string> = of(''); // Translated text for the OFF label
   constructor(
     @Inject(BfUILibTransService) private translate: BfUILibTransService,
+    private liveAnnouncer: LiveAnnouncer
   ) {
     this.bfOnText$ = this.translate.getLabel$(this.bfOnText);
     this.bfOffText$ = this.translate.getLabel$(this.bfOffText);
@@ -71,6 +73,7 @@ export class BfSwitchComponent implements ControlValueAccessor, OnInit, OnChange
 
   onKeyUp = ($event) => {
     if($event.code === 'Tab' && this.bfTooltip){
+      this.liveAnnouncer.announce(this.bfTooltip);
       this.tooltip.open();
     }
     if($event.code === 'Space'){
