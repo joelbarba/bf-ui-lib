@@ -6,7 +6,7 @@ import { BfSwitchComponent } from './bf-switch.component';
 import { TestingModule } from '../../testing/testing-module';
 import { BfLabelComponent } from '../bf-label/bf-label.component';
 
-fdescribe('BfSwitchComponent', () => {
+describe('BfSwitchComponent', () => {
   let component: BfSwitchComponent;
   let fixture: ComponentFixture<BfSwitchComponent>;
 
