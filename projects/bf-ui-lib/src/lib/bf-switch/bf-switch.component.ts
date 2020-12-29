@@ -73,8 +73,8 @@ export class BfSwitchComponent implements ControlValueAccessor, OnInit, OnChange
 
   onKeyUp = ($event) => {
     if($event.code === 'Tab' && this.bfTooltip){
-      this.liveAnnouncer.announce(this.bfTooltip);
       this.tooltip.open();
+      this.announceForScreenReaders();
     }
     if($event.code === 'Space'){
       $event.preventDefault();
@@ -90,5 +90,10 @@ export class BfSwitchComponent implements ControlValueAccessor, OnInit, OnChange
       $event.preventDefault();
     }
   };
+
+  announceForScreenReaders() {
+    const tooltipTranslation = this.translate.doTranslate(this.bfTooltip);
+    this.liveAnnouncer.announce(tooltipTranslation);
+  }
 
 }
