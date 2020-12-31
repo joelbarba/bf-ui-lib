@@ -1,7 +1,7 @@
-import {Component, forwardRef, Inject, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {BfUILibTransService} from '../abstract-translate.service';
-import {Observable, of} from 'rxjs';
+import { Component, forwardRef, Inject, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { BfUILibTransService } from '../abstract-translate.service';
+import { Observable, of } from 'rxjs';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 
@@ -50,7 +50,7 @@ export class BfSwitchComponent implements ControlValueAccessor, OnInit, OnChange
   writeValue(value: any) {
     this.bfModel = !!value;
   }
-  public propagateModelUp = (_: boolean) => {}; // This is just to avoid type error (it's overwritten on register)
+  public propagateModelUp = (_: boolean) => { }; // This is just to avoid type error (it's overwritten on register)
   registerOnChange(fn) { this.propagateModelUp = fn; }
   registerOnTouched(fn) { }
 
@@ -60,33 +60,33 @@ export class BfSwitchComponent implements ControlValueAccessor, OnInit, OnChange
   ngOnInit() { }
 
   ngOnChanges(change) {
-    if (change.hasOwnProperty('bfOnText'))  { this.bfOnText$  = this.translate.getLabel$(this.bfOnText);  }
+    if (change.hasOwnProperty('bfOnText')) { this.bfOnText$ = this.translate.getLabel$(this.bfOnText); }
     if (change.hasOwnProperty('bfOffText')) { this.bfOffText$ = this.translate.getLabel$(this.bfOffText); }
   }
 
-  public onSwitch = () => {
+  public onSwitch() {
     if (!this.bfDisabled) {
       this.bfModel = !this.bfModel;
       this.propagateModelUp(this.bfModel);
     }
   }
 
-  onKeyUp = ($event) => {
-    if($event.code === 'Tab' && this.bfTooltip){
+  onKeyUp($event) {
+    if ($event.code === 'Tab' && this.bfTooltip) {
       this.tooltip.open();
       this.announceForScreenReaders();
     }
-    if($event.code === 'Space'){
+    if ($event.code === 'Space') {
       $event.preventDefault();
       this.onSwitch();
     }
   };
 
-  onKeyDown = ($event) => {
-    if($event.code === 'Tab' && this.bfTooltip){
+  onKeyDown($event) {
+    if ($event.code === 'Tab' && this.bfTooltip) {
       this.tooltip.close();
     }
-    if($event.code === 'Space'){
+    if ($event.code === 'Space') {
       $event.preventDefault();
     }
   };
