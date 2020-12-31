@@ -1,4 +1,5 @@
 import {Injectable, NgZone} from '@angular/core';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { BfUILibTransService} from '../abstract-translate.service';
 import { BehaviorSubject } from 'rxjs';
 
@@ -9,14 +10,17 @@ export class BfGrowlService {
   constructor(
     private ngZone: NgZone,
     private translate: BfUILibTransService,
+    private liveAnnouncer: LiveAnnouncer
   ) { }
 
   public success(text: string, labelParams = {}, timeOut = 2000) {
     this.pushMsg({ text, timeOut, labelParams, msgType: 'success', msgIcon: 'icon-checkmark' });
+    this.announceForScreenreaders(text, labelParams);
   }
 
   public error(text: string, labelParams = {}, timeOut = 2000) {
     this.pushMsg({ text, timeOut, labelParams, msgType: 'error', msgIcon: 'icon-warning2' });
+    this.announceForScreenreaders(text, labelParams);
   }
 
   // Push a message into the queue
@@ -63,6 +67,11 @@ export class BfGrowlService {
         this.ngZone.run(callback);
       }, time);
     });
+  }
+
+  private announceForScreenreaders(text: string, params: any): void {
+    const translatedString = this.translate.doTranslate(text, params);
+    this.liveAnnouncer.announce(translatedString);
   }
 
 }
