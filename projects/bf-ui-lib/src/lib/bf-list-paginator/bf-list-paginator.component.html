@@ -1,30 +1,33 @@
 <div class="bf-list-paginator">
-  <div class="page-buttons">
+  <nav role="navigation">
+    <ul class="page-buttons" bfListController listItemClass="page-btn" listItemSelectedClass="current">
 
-    <!--<div *ngIf="bfTopArrows" class="page-btn prev-btn" (click)="goToFirst()">‹‹</div>-->
-    <!--<div *ngIf="bfTopArrows" class="page-btn next-btn disabled" (click)="goToLast()">››</div>-->
+      <li role="button" class="page-btn prev-btn" (keydown)="previousPageClicked($event)" (click)="goToPrev()"
+          [class.disabled]="isOnFirstPage()" [attr.aria-label]="getTranslatedAriaLabel('aria.list_paginator.previous_page')" [attr.disabled]="isOnFirstPage()">‹</li>
 
-    <div class="page-btn prev-btn" (click)="bfCtrl.currentPage > 1 && goToPrev()"
-         [class.disabled]="bfCtrl.currentPage === 1">‹</div>
+      <li role="button" class="page-btn num-btn" *ngFor="let listBtn of listBtns"
+          [attr.aria-label]="getPageButtonAriaLabel(listBtn.pageNum)"
+          [class.current]="isCurrentItem(bfCtrl.currentPage, listBtn.pageNum)"
+          [class.disabled]="!listBtn.pageNum"
+          [attr.disabled]="!listBtn.pageNum"
+          [attr.aria-selected]="isCurrentItem(bfCtrl.currentPage, listBtn.pageNum)"
+          (click)="goToPage(listBtn.pageNum)"
+          (keydown)="goToPageClicked($event, listBtn.pageNum)">{{ listBtn.pageNum || '...' }}</li>
 
-    <div class="page-btn num-btn" *ngFor="let listBtn of listBtns"
-         [class.current]="bfCtrl.currentPage === listBtn.pageNum"
-         [class.disabled]="!listBtn.pageNum"
-         (click)="!!listBtn.pageNum && goToPage(listBtn.pageNum)">{{ listBtn.pageNum || '...' }}</div>
-    <div class="page-btn next-btn" (click)="bfCtrl.currentPage < bfCtrl.totalPages && goToNext()"
-         [class.disabled]="bfCtrl.currentPage === bfCtrl.totalPages">›</div>
-
-  </div>
-
+      <li role="button" class="page-btn next-btn" [attr.aria-label]="getTranslatedAriaLabel('aria.list_paginator.next_page')" (keydown)="nextPageClicked($event)" (click)="goToNext()"
+          [class.disabled]="isOnLastPage()" [attr.disabled]="isOnLastPage()">›</li>
+    </ul>
+  </nav>
   <div *ngIf="bfShowSelector" class="page-num-selector text-right">
-    <bf-dropdown class="flat"
+    <bf-dropdown-a11y
+                 class="flat"
                  [bfList]="bfCtrl.maxRowsPerPageList"
                  [(ngModel)]="bfCtrl.rowsPerPage"
                  (ngModelChange)="changeRowsPerPage($event)"
                  bfSelect="num"
                  bfRender="label"
                  [bfRequired]="true">
-    </bf-dropdown>
+    </bf-dropdown-a11y>
   </div>
 </div>
 

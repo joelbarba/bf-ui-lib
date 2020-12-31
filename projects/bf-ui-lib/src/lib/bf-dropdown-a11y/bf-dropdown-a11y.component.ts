@@ -136,7 +136,7 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
   public listHeight; // Computed height of the expanded listContainer
   public allRows; // Reference to the optionRows.toArray() html elements array
   public searchTxt = '';
-  private activeDecendent = '';
+  private activeDecendent: string;
 
 
   @ViewChild('dropdownInput', { static: false }) elInput: ElementRef<HTMLInputElement>;
@@ -296,7 +296,15 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
 
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (!this.bfInputId) {
+      this.bfInputId = this.generateUniqueId('inputId');
+    }
+
+    if (!this.bfListboxId) {
+      this.bfListboxId = this.generateUniqueId('listBoxId');
+    }
+  }
 
   ngAfterViewInit() {
     this.bfOnLoaded.emit({ ...this.ctrlObject }); // Expose all control methods
@@ -376,6 +384,9 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
 
     this.setEmptyOption(); // Set Empty option
     this.renderExtList(); // Set $renderedText
+
+    // set initial active decendant
+    this.setActiveDecendant(this.extList[0].$activeId);
   };
 
   // Add or remove the "Empty" option to the extList
@@ -518,8 +529,11 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
       if (this.optionRows && this.listContainer) {
         this.allRows = this.optionRows.toArray();
         this.listHeight = this.listContainer.nativeElement.getBoundingClientRect().height;
+
         const selectedEl = this.allRows.find(el => this.isActiveDecendant(el.nativeElement.id));
-        this.scrollItemIntoView(selectedEl);
+        if (selectedEl) {
+          this.scrollItemIntoView(selectedEl);
+        }
       }
     });
 
@@ -590,10 +604,6 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
   public filterList = (value) => {
     if (!this.isExpanded) {
       this.expandList();
-    }
-
-    if (value.length > 0) {
-      this.setActiveDecendant(this.listContainer.nativeElement.children.item(0).id); // reset active decedant after list is updated
     }
 
     if (this.bfFilterFn) {
@@ -734,7 +744,7 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
   }
 
   private getCurrentElement(options: HTMLCollection): any {
-    const currentElement = Array.from(options).find((element) => element.id === this.getActiveDecendant());
+    const currentElement = Array.from(options).find((element) => this.isActiveDecendant(element.id));
     return currentElement;
   }
 
@@ -787,5 +797,10 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
         this.listContainer.nativeElement.scrollTo({ top: scrollTop + posY + 5 + clientHeight - this.listHeight, behavior: 'auto' });
       }
     }
+  }
+
+  private generateUniqueId(component: string): string {
+    const hexString = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    return `${component}-${hexString}`;
   }
 }
