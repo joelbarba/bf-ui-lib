@@ -12,6 +12,9 @@ interface IOrderConf {
 @Component({
   selector: 'bf-list-header-col',
   templateUrl: './bf-list-header-col.component.html',
+  host: {
+    'role': 'columnheader'
+  },
   styleUrls: []
 })
 export class BfListHeaderColComponent implements OnInit, OnChanges {
