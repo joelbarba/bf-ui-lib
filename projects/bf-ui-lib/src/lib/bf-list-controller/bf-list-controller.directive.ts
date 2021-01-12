@@ -28,7 +28,7 @@ export class BfListControllerDirective implements AfterViewChecked {
     }
   }
 
-  @HostListener('focus', ['$event.target'])
+  @HostListener('focus')
   onFocus() {
     this.setTabIndex(this.el.nativeElement, -1);
     this.getCurrentItem(this.listItems).focus();
