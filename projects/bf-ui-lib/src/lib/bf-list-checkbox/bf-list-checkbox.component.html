@@ -1,5 +1,6 @@
 <!--Single item selector-->
 <bf-checkbox *ngIf="!!hasId" class="flat"
+             bfTabIndex="-1"
              [ngModel]="selection?.ids[id]"
              [bfDisabled]="bfDisabled"
              (ngModelChange)="selection?.toggleCheck(id); change.emit({ id: id, value: $event })">
@@ -7,6 +8,7 @@
 
 <!--Full page selector-->
 <bf-checkbox *ngIf="!hasId" class="revert flat"
+             bfTabIndex="-1"
              [ngModel]="selection?.isPageChecked"
              [bfDisabled]="bfDisabled"
              (ngModelChange)="selection?.togglePage(); change.emit({ value: $event })">
