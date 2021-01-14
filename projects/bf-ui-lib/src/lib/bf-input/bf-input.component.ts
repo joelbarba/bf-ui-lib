@@ -7,6 +7,7 @@ import {Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Patterns} from '../patterns';
 import {BfDefer} from '../bf-defer/bf-defer';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 export interface IbfInputCtrl {
   getControl  ?: { _: FormControl };
@@ -102,8 +103,8 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   @Output() bfBeforeChange = new EventEmitter<any>();       // Emitter to catch the next value before it is set
 
   @Input() extCtrl$: Observable<any>; // To trigger actions manually from an external observable (subject)
-
-
+  @Input() inputId: string;
+  @Input() bfPatternLabel: string; // used to give a hint to fill out regexp patterns, added to the label
 
   public autocomplete = 'off';
   public bfLabelTrans$ = of('');        // Translated text for the label
@@ -114,6 +115,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   public errTxtRequired$ = of('');      // Default error text for required
   public errTxtMinLen$ = of('');        // Default error text for minlength
   public errTxtMaxLen$ = of('');        // Default error text for maxlength
+  public bfPatternLabelTrans = '';      // Default value for the bfPatternLabel
 
   // Status of the bfInput. Pristine will be valid even if the value is wrong (unless bfErrorOnPristine)
   public status: 'valid' | 'error' | 'loading' = 'valid';  // pristine, valid, error, loading
@@ -141,11 +143,12 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
     }
   }
 
-
+  private currentErrorMessage: { label: string, params?: any };
 
   constructor(
     private translate: BfUILibTransService,
     private elementRef: ElementRef,
+    private liveAnnouncer: LiveAnnouncer
     // public ngControl: NgControl
   ) {
     // ngControl.valueAccessor = this;
@@ -153,7 +156,6 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
     this.errTxtRequired$ = this.translate.getLabel$('view.common.required_field');
     this.errTxtMinLen$ = this.translate.getLabel$('view.common.invalid_min_length');
     this.errTxtMaxLen$ = this.translate.getLabel$('view.common.invalid_max_length');
-
 
     const updateCtrl = () => { if (this.ngControl) { this.ngControl.updateValueAndValidity(); }};
     this.ctrlObject = {
@@ -250,6 +252,12 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
       this.elementRef.nativeElement.querySelector('input').addEventListener('animationstart', ($event) => { this.bfOnAutofill.emit($event); });
       this.elementRef.nativeElement.querySelector('input').addEventListener('webkitAnimationStart', ($event) => { this.bfOnAutofill.emit($event); });
     }
+
+    if (!this.inputId) {
+      this.inputId = this.generateUniqueId('input');
+    }
+
+    this.bfPatternLabelTrans = this.translate.doTranslate(this.bfPatternLabel);
   }
 
   ngAfterViewInit() {
@@ -367,24 +375,37 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
         if (!this.bfErrorText) {
           const errors = this.ngControl.errors;
           this.errorTextTrans$ = this.translate.getLabel$('view.common.invalid_value', errors);
+          this.setCurrentErrorMessage({ label: 'view.common.invalid_value', params: errors  });
 
           if (errors.required) {
             this.errorTextTrans$ = this.errTxtRequired$;
+            this.liveAnnouncer.announce(this.translate.doTranslate('view.common.required_field'));
+            this.setCurrentErrorMessage({ label: 'view.common.required_field'  });
           }
           if (errors.minlength) {
             this.errorTextTrans$ = this.translate.getLabel$('view.common.invalid_min_length', { min: this.inputCtrl.errors.minlength.requiredLength });
+            this.liveAnnouncer.announce(this.translate.doTranslate('view.common.invalid_min_length', { min: this.inputCtrl.errors.minlength.requiredLength }));
+            this.setCurrentErrorMessage({ label: 'view.common.invalid_min_length', params: { min: this.inputCtrl.errors.minlength.requiredLength }});
           }
           if (errors.maxlength) {
             this.errorTextTrans$ = this.translate.getLabel$('view.common.invalid_max_length', { max: this.inputCtrl.errors.maxlength.requiredLength });
+            this.liveAnnouncer.announce(this.translate.doTranslate('view.common.invalid_max_length', { max: this.inputCtrl.errors.maxlength.requiredLength }));
+            this.setCurrentErrorMessage({ label: 'view.common.invalid_max_length', params: { max: this.inputCtrl.errors.maxlength.requiredLength }});
           }
           if (errors.pattern) {
             this.errorTextTrans$ = this.translate.getLabel$('view.common.invalid_pattern');
+            this.liveAnnouncer.announce(this.translate.doTranslate('view.common.invalid_pattern'));
+            this.setCurrentErrorMessage({ label: 'view.common.invalid_pattern' });
           }
           if (errors.label) {
             this.errorTextTrans$ = this.translate.getLabel$(errors.label, errors);
+            this.liveAnnouncer.announce(this.translate.doTranslate(errors.label, errors));
+            this.setCurrentErrorMessage({ label: errors.label, params: errors });
           }
           if (!!this.manualError && this.manualError.label) {
             this.errorTextTrans$ = this.translate.getLabel$(this.manualError.label, this.manualError);
+            this.liveAnnouncer.announce(this.translate.doTranslate(this.manualError.label, this.manualError));
+            this.setCurrentErrorMessage({ label: this.manualError.label, params: this.manualError });
           }
         }
       }
@@ -394,6 +415,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
         if (!this.inputCtrl.pristine || this.bfErrorOnPristine) {
           this.displayIcon = this.bfIcon || this.bfValidIcon;
         }
+        this.liveAnnouncer.clear();
       }
 
       this.isPristine = this.inputCtrl.pristine;
@@ -415,5 +437,23 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
     if (event.key === 'Enter') { this.bfOnEnter.emit(event); }
     if (event.key === 'Enter' && event.ctrlKey) { this.bfOnCtrlEnter.emit(event); }
     this.bfOnKeyDown.emit(event);
+  }
+
+  public onFocus(): void {
+    this.isFocus = true;
+
+    if (this.currentErrorMessage) {
+      const { label, params } = this.currentErrorMessage;
+      this.liveAnnouncer.announce(this.translate.doTranslate(label, params));
+    }
+  }
+
+  private setCurrentErrorMessage(errorData: { label: string, params?: any }): void {
+    this.currentErrorMessage = errorData;
+  }
+
+  private generateUniqueId(component: string): string {
+    const hexString = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    return `${component}-${hexString}`;
   }
 }

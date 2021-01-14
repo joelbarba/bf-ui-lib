@@ -10,14 +10,15 @@
      [class.error-top]="errorPosition === 'bottom-right'"
      [class.error-bottom]="errorPosition === 'bottom-left' || errorPosition === 'bottom-right'">
 
-  <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
+  <label *ngIf="!!bfLabel" [class.is-required]="bfRequired" [for]="inputId">
     <span class="info-badge" *ngIf="!!bfTooltip"
          [ngbTooltip]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
          [container]="(bfTooltipBody ? 'body' : '')">
       <span class="icon-info"></span>
     </span>
-    <span>{{bfLabelTrans$ | async}}</span>:
-    <span *ngIf="bfRequired" class="asterisk">*</span>
+    <span> {{bfLabelTrans$ | async}} </span>:
+    <span *ngIf="bfRequired" class="asterisk" aria-hidden="true">*</span>
+    <span *ngIf="bfPatternLabel" class="sr-only">{{ bfPatternLabelTrans }}</span>
   </label>
 
   <span *ngIf="status === 'error' && errorPosition !== 'none'" class="bf-input-error-text"
@@ -50,6 +51,10 @@
     </div>
 
     <input class="form-control" name="bfInput" #ngInputRef="ngModel"
+           [id]="inputId"
+           [attr.aria-required]="bfRequired"
+           [attr.aria-valuemin]="bfMinlength"
+           [attr.aria-valuemax]="bfMaxlength"
            [ngModel]="bfModel" (ngModelChange)="parseModelChange($event)"
            [disabled]="bfDisabled"
            title=""
@@ -61,7 +66,7 @@
            [pattern]="bfPattern"
 
            [placeholder]="bfPlaceholderTrans$ | async"
-           (focusin)="isFocus=true"
+           (focusin)="onFocus()"
            (focusout)="isFocus=false"
            [type]="bfType"
            (keydown)="triggerKey($event)"
