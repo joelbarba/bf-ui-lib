@@ -11,7 +11,7 @@
       <span class="icon-info"></span>
     </span>
     <span>{{bfLabelTrans$ | async}}</span>:
-    <span *ngIf="bfRequired" class="asterisk">*</span>
+    <span *ngIf="bfRequired" class="asterisk" aria-hidden="true">*</span>
   </label>
 
   <!--Error Message-->
@@ -36,6 +36,7 @@
          [ngbTooltip]="bfDisabledTipTrans$ | async"
          [attr.aria-owns]="bfListboxId"
          [attr.aria-expanded]="isExpanded"
+         [attr.aria-required]="bfRequired"
          role="combobox"
          aria-haspopup="listbox">
 
