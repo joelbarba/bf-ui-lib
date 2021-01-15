@@ -17,7 +17,7 @@ export class BfRadioComponent implements OnChanges, ControlValueAccessor, Valida
   @Input() bfTooltip = '';
   @Input() bfTooltipPos = 'top';
   @Input() bfIcon = '';
-
+  @Input() a11yOn = false; // flag to be used until all radio groups in the portal have been refactored to be spec compliant
 
   private _value: string;
   @Input() set bfValue(v: string) { this._value = `${v}`; }
@@ -84,7 +84,9 @@ export class BfRadioComponent implements OnChanges, ControlValueAccessor, Valida
 
   @HostListener('focus')
   onFocus(): void {
-    this.onChange(this.bfValue);
+    if (this.a11yOn) {
+      this.onChange(this.bfValue);
+    }
   }
 
   @HostListener('blur')
@@ -96,7 +98,7 @@ export class BfRadioComponent implements OnChanges, ControlValueAccessor, Valida
   @HostListener('click')
   @HostListener('keyup.space')
   onSelect(): void {
-    if (!this.bfDisabled) {
+    if (!this.bfDisabled && !this.a11yOn) {
       this.onChange(this.bfValue);
     }
   }

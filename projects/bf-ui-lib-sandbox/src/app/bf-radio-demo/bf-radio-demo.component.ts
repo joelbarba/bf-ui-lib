@@ -10,24 +10,39 @@ import { Component, OnInit } from '@angular/core';
   public api = BfRadioDoc.api;
   public instance = BfRadioDoc.instance;
 
-  public instance2 = `<bf-radio [(ngModel)]="myVariable" bfLabel="Option 1" bfValue="1" bfIcon="icon-home"></bf-radio>
-<bf-radio [(ngModel)]="myVariable" bfLabel="Option 2" bfValue="2" bfIcon="icon-home"></bf-radio>
-<bf-radio [(ngModel)]="myVariable" bfLabel="Option 3" bfValue="3" bfIcon="icon-home"></bf-radio>`;
+  public instance2 = `
+  <div class="d-flex justify-content-between" role="radiogroup">
+    <bf-radio class="radio-btns" [(ngModel)]="myVariable" bfLabel="Option 1" bfValue="1" bfIcon="icon-home"></bf-radio>
+    <bf-radio class="radio-btns" [(ngModel)]="myVariable" bfLabel="Option 2" bfValue="2" bfIcon="icon-home"></bf-radio>
+    <bf-radio class="radio-btns" [(ngModel)]="myVariable" bfLabel="Option 3" bfValue="3" bfIcon="icon-home"></bf-radio>
+  </div>
+  `;
 
-  public instance3 = `<bf-radio [(ngModel)]="myVariable" bfLabel="Option 1" bfValue="1" bfIcon="icon-home" bfRequired=true></bf-radio>
-<bf-radio [(ngModel)]="myVariable" bfLabel="Option 2" bfValue="2" bfIcon="icon-home" bfRequired=true></bf-radio>
-<bf-radio [(ngModel)]="myVariable" bfLabel="Option 3" bfValue="3" bfIcon="icon-home" bfRequired=true></bf-radio>`;
+  public instance3 = `
+  <h4 role="radiogroup" class="d-flex justify-content-between" bfListController listItemClass="radio-btns"> <!-- accessibility enabled -->
+    <bf-radio class="radio-btns" [(ngModel)]="myVariable" bfLabel="Option 1" bfValue="1" bfIcon="icon-home" [bfRequired]=true [a11yOn]="true"></bf-radio>
+    <bf-radio class="radio-btns" [(ngModel)]="myVariable" bfLabel="Option 2" bfValue="2" bfIcon="icon-home" [bfRequired]=true [a11yOn]="true"></bf-radio>
+    <bf-radio class="radio-btns" [(ngModel)]="myVariable" bfLabel="Option 3" bfValue="3" bfIcon="icon-home" [bfRequired]=true [a11yOn]="true"></bf-radio>
+  </h4>
+  `;
 
 
   public cssReset = `$radio-color: $text-color !default;  // Default radio background color (when not required)
 $radio-check-color: $white !default;`;
 
-  public blockExample = `<bf-radio bfLabel="Inline check 1"></bf-radio>
-<bf-radio bfLabel="Inline check 2"></bf-radio>
-<bf-radio bfLabel="Inline check 3"></bf-radio>
-<bf-radio bfLabel="Block check 4" class="block"></bf-radio>
-<bf-radio bfLabel="Block check 5" class="block"></bf-radio>
-<bf-radio bfLabel="Block check 6" class="block"></bf-radio>`;
+  public blockExample = `
+  <div role="radiogroup">
+    <bf-radio class="radio-btns" bfLabel="Inline radio 1" [(ngModel)]="myVariable" bfValue="1"></bf-radio>
+    <bf-radio class="radio-btns" bfLabel="Inline radio 2" [(ngModel)]="myVariable" bfValue="2"></bf-radio>
+    <bf-radio class="radio-btns" bfLabel="Inline radio 3" [(ngModel)]="myVariable" bfValue="3"></bf-radio>
+  </div>
+  <hr>
+  <div role="radiogroup" bfListController listItemClass="block"> <!-- accessibility enabled -->
+    <bf-radio class="block" bfLabel="Block radio 4" [(ngModel)]="myVariable" bfValue="1" [a11yOn]="true"></bf-radio>
+    <bf-radio class="block" bfLabel="Block radio 5" [(ngModel)]="myVariable" bfValue="2" [a11yOn]="true"></bf-radio>
+    <bf-radio class="block" bfLabel="Block radio 6" [(ngModel)]="myVariable" bfValue="3" [a11yOn]="true"></bf-radio>
+  </div>
+  `;
 
 
   public icons = [

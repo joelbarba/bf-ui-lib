@@ -148,7 +148,7 @@ is unique, and when a radio is selected the rest are automatically unselected.<b
 
   <div class="row">
     <div class="col-5">
-      <div class="d-flex justify-content-between" role="radiogroup" bfListController listItemClass="radio-btns">
+      <div class="d-flex justify-content-between" role="radiogroup">
         <bf-radio class="radio-btns" [(ngModel)]="myVariable" bfLabel="Option 1" bfValue="1" bfIcon="icon-home"></bf-radio>
         <bf-radio class="radio-btns" [(ngModel)]="myVariable" bfLabel="Option 2" bfValue="2" bfIcon="icon-home"></bf-radio>
         <bf-radio class="radio-btns" [(ngModel)]="myVariable" bfLabel="Option 3" bfValue="3" bfIcon="icon-home"></bf-radio>
@@ -160,9 +160,9 @@ is unique, and when a radio is selected the rest are automatically unselected.<b
   <div class="row">
     <div class="col-5">
       <h4 role="radiogroup" class="d-flex justify-content-between" bfListController listItemClass="radio-btns">
-        <bf-radio class="radio-btns" [(ngModel)]="myVariable" bfLabel="Option 1" bfValue="1" bfIcon="icon-home" bfRequired=true></bf-radio>
-        <bf-radio class="radio-btns" [(ngModel)]="myVariable" bfLabel="Option 2" bfValue="2" bfIcon="icon-home" bfRequired=true></bf-radio>
-        <bf-radio class="radio-btns" [(ngModel)]="myVariable" bfLabel="Option 3" bfValue="3" bfIcon="icon-home" bfRequired=true></bf-radio>
+        <bf-radio class="radio-btns" [(ngModel)]="myVariable" bfLabel="Option 1" bfValue="1" bfIcon="icon-home" [bfRequired]=true [a11yOn]="true"></bf-radio>
+        <bf-radio class="radio-btns" [(ngModel)]="myVariable" bfLabel="Option 2" bfValue="2" bfIcon="icon-home" [bfRequired]=true [a11yOn]="true"></bf-radio>
+        <bf-radio class="radio-btns" [(ngModel)]="myVariable" bfLabel="Option 3" bfValue="3" bfIcon="icon-home" [bfRequired]=true [a11yOn]="true"></bf-radio>
       </h4>
     </div>
     <div class="col code-box"> <pre>{{instance3}}</pre> </div>
@@ -184,16 +184,16 @@ is unique, and when a radio is selected the rest are automatically unselected.<b
     <pre class="marT10">{{ blockExample }}</pre>
   </div>
   <div class="col-6">
-    <div role="radiogroup" bfListController listItemClass="radio-btns">
+    <div role="radiogroup">
       <bf-radio class="radio-btns" bfLabel="Inline radio 1" [(ngModel)]="myVariable" bfValue="1"></bf-radio>
       <bf-radio class="radio-btns" bfLabel="Inline radio 2" [(ngModel)]="myVariable" bfValue="2"></bf-radio>
       <bf-radio class="radio-btns" bfLabel="Inline radio 3" [(ngModel)]="myVariable" bfValue="3"></bf-radio>
     </div>
     <hr>
     <div role="radiogroup" bfListController listItemClass="block">
-      <bf-radio class="block" bfLabel="Block radio 4" [(ngModel)]="myVariable" bfValue="1"></bf-radio>
-      <bf-radio class="block" bfLabel="Block radio 5" [(ngModel)]="myVariable" bfValue="2"></bf-radio>
-      <bf-radio class="block" bfLabel="Block radio 6" [(ngModel)]="myVariable" bfValue="3"></bf-radio>
+      <bf-radio class="block" bfLabel="Block radio 4" [(ngModel)]="myVariable" bfValue="1" [a11yOn]="true"></bf-radio>
+      <bf-radio class="block" bfLabel="Block radio 5" [(ngModel)]="myVariable" bfValue="2" [a11yOn]="true"></bf-radio>
+      <bf-radio class="block" bfLabel="Block radio 6" [(ngModel)]="myVariable" bfValue="3" [a11yOn]="true"></bf-radio>
     </div>
   </div>
 </div>
