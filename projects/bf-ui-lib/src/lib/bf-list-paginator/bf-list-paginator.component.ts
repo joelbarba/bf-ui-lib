@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, OnChanges, Output, DoCheck, ElementRef } from '@angular/core';
 import {Observable} from 'rxjs';
-import {BfUILibTransService} from '../abstract-translate.service';
+import { BfUILibTransService } from '../abstract-translate.service';
 
 interface IBfCtrl {
   goToPage: (pageNum: number) => void;
@@ -45,7 +45,7 @@ export class BfListPaginatorComponent implements OnInit, OnChanges, DoCheck {
   public listLength = 0;  // Keep the previous list length to recalculate pages (internal default function)
   public renderSubs;      // Subscription to the bfCtrl.render$
 
-  constructor( private translate: BfUILibTransService, private element: ElementRef) { }
+  constructor(private translate: BfUILibTransService, private element: ElementRef) { }
 
   ngOnChanges(changes) {
     if (changes.hasOwnProperty('bfCtrl') || changes.hasOwnProperty('bfMaxButtons')) {
