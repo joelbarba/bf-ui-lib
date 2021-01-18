@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter, OnChanges, ElementRef, HostListener} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, OnChanges, ElementRef, HostListener, HostBinding} from '@angular/core';
 import { Observable } from 'rxjs';
 import {BfUILibTransService} from '../abstract-translate.service';
 
@@ -12,9 +12,6 @@ interface IOrderConf {
 @Component({
   selector: 'bf-list-header-col',
   templateUrl: './bf-list-header-col.component.html',
-  host: {
-    role: 'columnheader'
-  },
   styleUrls: []
 })
 export class BfListHeaderColComponent implements OnInit, OnChanges {
@@ -28,6 +25,7 @@ export class BfListHeaderColComponent implements OnInit, OnChanges {
   public colTitle$;
   public bfTooltipTrans$: Observable<string>;
 
+  @HostBinding('attr.role') role = 'columnheader';
   @HostListener('keydown.enter')
   onKeyDown() {
      this.clickOrder();
