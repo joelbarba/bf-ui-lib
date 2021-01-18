@@ -13,7 +13,7 @@ interface IOrderConf {
   selector: 'bf-list-header-col',
   templateUrl: './bf-list-header-col.component.html',
   host: {
-    'role': 'columnheader'
+    role: 'columnheader'
   },
   styleUrls: []
 })
@@ -23,15 +23,15 @@ export class BfListHeaderColComponent implements OnInit, OnChanges {
   @Input() orderConf: IOrderConf;
   @Input() bfTooltip: string;
   @Input() bfTooltipPos = 'top';
-
   @Output() bfOnChange = new EventEmitter<IOrderConf>();
+
+  public colTitle$;
+  public bfTooltipTrans$: Observable<string>;
 
   @HostListener('keydown.enter')
   onKeyDown() {
      this.clickOrder();
   }
-  public colTitle$;
-  public bfTooltipTrans$: Observable<string>;
 
   constructor(private translate: BfUILibTransService, public elementRef: ElementRef) {}
 
