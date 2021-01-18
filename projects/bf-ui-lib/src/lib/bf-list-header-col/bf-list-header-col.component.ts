@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter, OnChanges, ElementRef, HostListener, HostBinding} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, OnChanges} from '@angular/core';
 import { Observable } from 'rxjs';
 import {BfUILibTransService} from '../abstract-translate.service';
 
@@ -20,18 +20,13 @@ export class BfListHeaderColComponent implements OnInit, OnChanges {
   @Input() orderConf: IOrderConf;
   @Input() bfTooltip: string;
   @Input() bfTooltipPos = 'top';
+
   @Output() bfOnChange = new EventEmitter<IOrderConf>();
 
   public colTitle$;
   public bfTooltipTrans$: Observable<string>;
 
-  @HostBinding('attr.role') role = 'columnheader';
-  @HostListener('keydown.enter')
-  onKeyDown() {
-     this.clickOrder();
-  }
-
-  constructor(private translate: BfUILibTransService, public elementRef: ElementRef) {}
+  constructor(private translate: BfUILibTransService) {}
 
   ngOnChanges(changes) {
     if (changes.orderConf) { this.orderConf.fields = this.orderConf.fields || []; }

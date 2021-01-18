@@ -145,7 +145,7 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
 
   constructor(
     private translate: BfUILibTransService,
-    private elementRef: ElementRef
+    private htmlEl: ElementRef,
   ) {
 
     // Rerender the list labels on language change
@@ -510,8 +510,8 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
   // On input focus in -> Expand the select list
   public expandList = () => {
     // If the dropdown is to close to the bottom of the window, expand it upward so the list doesn't fall off
-    if (this.elementRef && !this.bfCustomPlacementList) {
-      const renderedShadowRect = this.elementRef.nativeElement.getBoundingClientRect();
+    if (this.htmlEl && !this.bfCustomPlacementList) {
+      const renderedShadowRect = this.htmlEl.nativeElement.getBoundingClientRect();
       this.expandUpward = (window.innerHeight - renderedShadowRect.bottom) < 350;
 
     } else { // Force the direction the list is expanded towards
