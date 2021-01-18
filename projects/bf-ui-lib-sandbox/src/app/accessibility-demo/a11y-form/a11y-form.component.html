@@ -60,7 +60,8 @@
 
     </div>
 
-    <div class="row align-items-center">
+    <!-- Commenting out for now because we haven't done any work on inputs yet -->
+    <!-- <div class="row align-items-center">
       <bf-input class="mr-2"
                 name="first_name"
                 bfLabel="First Name"
@@ -79,35 +80,62 @@
                 [bfDisabled]="true"
                 [(ngModel)]="item.first_name">
       </bf-input>
-
-    </div>
+    </div> -->
 
     <div class="row align-items-center">
 
-      <bf-dropdown-a11y class="col-3"
-                   name="list-selection"
-                   bfLabel="List Selection"
-                   bfListBoxId="listBox"
-                   bfInputId="inputId"
-                   [bfList]="list"
-                   [(ngModel)]="item.listSelection">
+      <bf-dropdown-a11y class="mr-2"
+                        name="list-selection"
+                        bfLabel="List Selection"
+                        bfListBoxId="listBox"
+                        bfInputId="inputId"
+                        [bfList]="list"
+                        [(ngModel)]="item.listSelection">
       </bf-dropdown-a11y>
 
-      <bf-checkbox class="col-3"
+      <bf-checkbox class="mr-2"
                    name="is-checked"
                    bfLabel="Checkbox"
                    bfTooltip="checkbox tooltip"
                    [(ngModel)]="item.isChecked">
       </bf-checkbox>
 
-      <bf-checkbox class="col-3"
-                   name="is-checked"
+      <bf-checkbox name="is-checked"
                    bfLabel="Disabeld"
                    bfTooltip="checkbox disabled"
                    [bfDisabled]="true"
                    [(ngModel)]="item.isChecked">
       </bf-checkbox>
 
+    </div>
+
+
+    <div class="row align-items-center">
+      <bf-switch class="mr-2"
+                 [(ngModel)]="switchValue"
+                 bfLabel="Disabled Switch"
+                 name="disabled_switch"
+                 bfOnText="Yes"
+                 bfOffText="No"
+                 [bfDisabled]="true"
+                 bfTooltip="This is a disabled tooltip">
+      </bf-switch>
+
+      <bf-switch class="mr-2"
+                 [(ngModel)]="switchValue"
+                 bfLabel="Switch With Tooltip"
+                 name="switch"
+                 bfOnText="Yes"
+                 bfOffText="No"
+                 bfTooltip="This is a switch tooltip">
+      </bf-switch>
+
+      <bf-switch [(ngModel)]="switchValue"
+                 bfLabel="Switch Without Tooltip"
+                 name="switch"
+                 bfOnText="Yes"
+                 bfOffText="No">
+      </bf-switch>
     </div>
   </form>
 </div>

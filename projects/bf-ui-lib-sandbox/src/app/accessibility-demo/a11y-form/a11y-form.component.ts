@@ -12,7 +12,7 @@ export class A11yFormComponent implements OnInit {
   public buttonClicked = false;
   public blockPr;
   public bfAsyncAriaLabel;
-
+  public switchValue = false;
   constructor() { }
 
   ngOnInit(): void {

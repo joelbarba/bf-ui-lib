@@ -72,7 +72,7 @@ export class BfBtnComponent implements OnInit, OnChanges {
       if (bfType === 'copy')     { this.btnClass = 'secondary'; this.typeIcon = 'icon-files-empty'; }
       if (bfType === 'menu')     { this.btnClass = 'secondary'; this.typeIcon = 'icon-menu5'; }
 
-      if (this.bfType === 'back') { this.btnClass = 'primary'; this.typeIcon = 'icon-undo2'; this.bfIconPos = 'left'; }
+      if (this.bfType === 'back') { this.btnClass = 'secondary'; this.typeIcon = 'icon-undo2'; this.bfIconPos = 'left'; }
 
       if (!this.bfText && !onlyIcon) {
         this.textLabel = typeText;

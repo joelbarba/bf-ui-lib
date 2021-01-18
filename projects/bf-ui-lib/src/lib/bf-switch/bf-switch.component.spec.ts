@@ -10,6 +10,7 @@ describe('BfSwitchComponent', () => {
   let component: BfSwitchComponent;
   let fixture: ComponentFixture<BfSwitchComponent>;
 
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ BfSwitchComponent, BfLabelComponent ],
@@ -26,5 +27,41 @@ describe('BfSwitchComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('onKeyUp()', () => {
+    it('should show and announce the tooltip on tab in', () => {
+      const openTooltipSpy = spyOn(component.tooltip, 'open');
+      const announceForScreenReadersSpy = spyOn(component, 'announceForScreenReaders');
+
+      component.bfTooltip = 'This is a tooltip';
+      const event = new KeyboardEvent('keypress', {
+        code: 'Tab'
+      });
+      component.onKeyUp(event);
+      expect(openTooltipSpy).toHaveBeenCalled();
+      expect(announceForScreenReadersSpy).toHaveBeenCalled();
+    });
+  });
+
+  it('should toggle the value on space', () => {
+    component.bfModel = false;
+    const event = new KeyboardEvent('keypress', {
+      code: 'Space'
+    });
+    component.onKeyUp(event);
+    expect(component.bfModel).toBeTrue();
+  });
+
+  describe('onKeyDown()', () => {
+    it('should close the tooltip on tab out', () => {
+      const closeTooltipSpy = spyOn(component.tooltip, 'close');
+      const event = new KeyboardEvent('keypress', {
+        code: 'Tab'
+      });
+      component.bfTooltip = 'This is a tooltip';
+      component.onKeyDown(event);
+      expect(closeTooltipSpy).toHaveBeenCalled();
+    });
   });
 });
