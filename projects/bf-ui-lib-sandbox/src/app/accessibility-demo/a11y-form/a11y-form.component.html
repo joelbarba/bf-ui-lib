@@ -60,11 +60,12 @@
 
     </div>
 
-    <!-- Commenting out for now because we haven't done any work on inputs yet -->
-    <!-- <div class="row align-items-center">
+
+    <div class="row align-items-center">
       <bf-input class="mr-2"
                 name="first_name"
                 bfLabel="First Name"
+                [bfMaxlength]="10"
                 [(ngModel)]="item.first_name">
       </bf-input>
 
@@ -72,15 +73,24 @@
                 name="second_name"
                 bfLabel="Second Name"
                 [bfRequired]="true"
+                [bfMinlength]="3"
                 [(ngModel)]="item.second_name">
       </bf-input>
 
       <bf-input name="first_name"
+                class="mr-2"
                 bfLabel="First Name"
                 [bfDisabled]="true"
                 [(ngModel)]="item.first_name">
       </bf-input>
-    </div> -->
+
+      <bf-input name="sun_weight"
+                bfLabel="Weight of the sun"
+                bfPattern="[-]?\d{0,8}(\.\d{1,2})?"
+                bfPatternLabel="Please enter a decimal value"
+                [(ngModel)]="item.sun_weight">
+      </bf-input>
+    </div>
 
     <div class="row align-items-center">
 
@@ -89,6 +99,8 @@
                         bfLabel="List Selection"
                         bfListBoxId="listBox"
                         bfInputId="inputId"
+                        [bfRequired]="true"
+                        bfErrorText="There's a snake in my boots"
                         [bfList]="list"
                         [(ngModel)]="item.listSelection">
       </bf-dropdown-a11y>
@@ -106,7 +118,7 @@
                    [bfDisabled]="true"
                    [(ngModel)]="item.isChecked">
       </bf-checkbox>
-
+      <bf-btn bfText="listbox === null" bfType="primary" (bfClick)="item.listSelection = null"></bf-btn>
     </div>
 
 

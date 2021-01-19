@@ -4,6 +4,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { BfInputComponent } from './bf-input.component';
 import { TestingModule } from '../../testing/testing-module';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 describe('BfInputComponent', () => {
   let component: BfInputComponent;
@@ -12,6 +13,7 @@ describe('BfInputComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ BfInputComponent ],
+      providers: [ LiveAnnouncer ],
       imports: [ TestingModule, FormsModule, NgbTooltipModule ],
     })
     .compileComponents();
@@ -38,5 +40,27 @@ describe('BfInputComponent', () => {
 
       expect(component.bfModel).toBe('');
     });
+  });
+
+  describe('onFocus', () => {
+    it('should make a call to liveAnnouncer if error message is present', () => {
+      const announcerSpy = spyOn(TestBed.inject(LiveAnnouncer), 'announce').and.callThrough();
+      component.setCurrentErrorMessage({ label: 'There is an error' });
+      fixture.detectChanges();
+
+      component.onFocus();
+
+      expect(announcerSpy).toHaveBeenCalledWith('There is an error');
+    });
+
+    it('should not make a call to liveAnnouncer if no error message is present', () => {
+      const announcerSpy = spyOn(TestBed.inject(LiveAnnouncer), 'announce').and.callThrough();
+      fixture.detectChanges();
+
+      component.onFocus();
+
+      expect(announcerSpy).not.toHaveBeenCalledWith('There is an error');
+    });
+
   });
 });
