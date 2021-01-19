@@ -69,7 +69,9 @@ export class BfRadioComponent implements OnChanges, ControlValueAccessor, Valida
   // *************
   @HostBinding('attr.tabindex')
   get tabindex(): number {
-    return this.bfDisabled ? -1 : 0;
+    if (!this.a11yOn) {
+      return this.bfDisabled ? -1 : 0;
+    }
   }
 
   @HostBinding('attr.role')

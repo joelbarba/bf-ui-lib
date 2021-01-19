@@ -31,10 +31,10 @@ import { Component, OnInit } from '@angular/core';
 $radio-check-color: $white !default;`;
 
   public blockExample = `
-  <div role="radiogroup">
-    <bf-radio class="radio-btns" bfLabel="Inline radio 1" [(ngModel)]="myVariable" bfValue="1"></bf-radio>
-    <bf-radio class="radio-btns" bfLabel="Inline radio 2" [(ngModel)]="myVariable" bfValue="2"></bf-radio>
-    <bf-radio class="radio-btns" bfLabel="Inline radio 3" [(ngModel)]="myVariable" bfValue="3"></bf-radio>
+  <div role="radiogroup" bfListController listItemClass="radio-btns"> <!-- accessibility enabled -->
+    <bf-radio class="radio-btns" bfLabel="Inline radio 1" [(ngModel)]="myVariable" bfValue="1" [a11yOn]="true"></bf-radio>
+    <bf-radio class="radio-btns" bfLabel="Inline radio 2" [(ngModel)]="myVariable" bfValue="2" [a11yOn]="true"></bf-radio>
+    <bf-radio class="radio-btns" bfLabel="Inline radio 3" [(ngModel)]="myVariable" bfValue="3" [a11yOn]="true"></bf-radio>
   </div>
   <hr>
   <div role="radiogroup" bfListController listItemClass="block"> <!-- accessibility enabled -->
