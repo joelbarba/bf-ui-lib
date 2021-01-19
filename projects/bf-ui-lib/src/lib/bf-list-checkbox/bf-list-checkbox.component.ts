@@ -1,11 +1,11 @@
-import {Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
 import {BfListSelection} from '../bf-list-selection/bf-list-selection';
 
 @Component({
   selector: 'bf-list-checkbox',
   templateUrl: './bf-list-checkbox.component.html',
 })
-export class BfListCheckboxComponent implements OnChanges, OnDestroy {
+export class BfListCheckboxComponent implements OnInit, OnChanges, OnDestroy {
   @Input() selection: BfListSelection;
   @Input() id: string;
   @Input() bfDisabled = false;
@@ -17,7 +17,9 @@ export class BfListCheckboxComponent implements OnChanges, OnDestroy {
   public hasId = false;
   public actionsExp = false;
 
-  constructor(public elementRef: ElementRef) { }
+  constructor() { }
+
+  ngOnInit() { }
 
   ngOnChanges(changes) {
     this.hasId = this.id !== undefined;
