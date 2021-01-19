@@ -7,6 +7,7 @@ import {isObservable, Observable, of, Subject, Subscription} from 'rxjs';
 import {BfUILibTransService} from '../abstract-translate.service';
 import {dCopy} from '../bf-prototypes/deep-copy';
 import {debounceTime} from 'rxjs/operators';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 // The control object (bfOnLoaded) emits
 export interface IbfDropdownA11yCtrl {
@@ -139,7 +140,7 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
   public allRows; // Reference to the optionRows.toArray() html elements array
   public searchTxt = '';
   private activeDecendent: string;
-
+  private currentErrorMessage: string;
 
   @ViewChild('dropdownInput', { static: false }) elInput: ElementRef<HTMLInputElement>;
   @ViewChild('listContainer', { static: false }) listContainer: ElementRef<HTMLInputElement>;
@@ -148,6 +149,7 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
   constructor(
     private translate: BfUILibTransService,
     private elementRef: ElementRef,
+    private liveAnnouncer: LiveAnnouncer
   ) {
 
     // Rerender the list labels on language change
@@ -484,12 +486,25 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
     // Determine the error to display
     if (this.isInvalid) {
       let errLabel = 'view.common.invalid_value';
-      if (this.errors.emptyRequired) { result = { error: 'required' }; errLabel = 'view.common.required_field'; }
-      if (this.errors.noMatch)       { result = { error: 'no match' }; errLabel = 'view.common.error.invalid_option'; }
-      if (this.errors.manualErr)     { result = { error: this.errors.manualErr }; errLabel = this.errors.manualErr; }
+      if (this.errors.emptyRequired) {
+        result = { error: 'required' };
+        errLabel = 'view.common.required_field';
+      }
+      if (this.errors.noMatch) {
+        result = { error: 'no match' };
+        errLabel = 'view.common.error.invalid_option';
+      }
+
+      if (this.errors.manualErr) {
+        result = { error: this.errors.manualErr };
+        errLabel = this.errors.manualErr;      }
 
       this.errorTextTrans$ = this.translate.getLabel$(this.bfErrorText || errLabel);
+      this.setCurrentErrorText(this.bfErrorText || errLabel);
+      this.annouceError();
       if (this.bfErrorText === 'none') { this.errorTextTrans$ = of(''); }
+    } else {
+      this.liveAnnouncer.clear();
     }
 
     return result;
@@ -511,6 +526,7 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
 
   // On input focus in -> Expand the select list
   public expandList = () => {
+    this.annouceError();
     // If the dropdown is to close to the bottom of the window, expand it upward so the list doesn't fall off
     if (this.elementRef && !this.bfCustomPlacementList) {
       const renderedShadowRect = this.elementRef.nativeElement.getBoundingClientRect();
@@ -804,5 +820,15 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
   private generateUniqueId(component: string): string {
     const hexString = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
     return `${component}-${hexString}`;
+  }
+
+  private annouceError() {
+    if (this.isInvalid) {
+      this.liveAnnouncer.announce(this.translate.doTranslate(this.currentErrorMessage));
+    }
+  }
+
+  private setCurrentErrorText(errorText: string) {
+    this.currentErrorMessage = errorText;
   }
 }

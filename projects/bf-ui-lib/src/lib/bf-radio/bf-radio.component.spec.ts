@@ -66,4 +66,10 @@ describe('BfRadioComponent', () => {
       expect(comp).toBeTruthy();
     });
   });
+
+  describe('tabindex', () => {
+    it('should set a tabindex value of the a11y features are disabled', () => {
+      expect(radioBtn.tabIndex).toEqual(0);
+    });
+  });
 });
