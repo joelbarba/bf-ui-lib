@@ -448,7 +448,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
     }
   }
 
-  private setCurrentErrorMessage(errorData: { label: string, params?: any }): void {
+  public setCurrentErrorMessage(errorData: { label: string, params?: any }): void {
     this.currentErrorMessage = errorData;
   }
 
