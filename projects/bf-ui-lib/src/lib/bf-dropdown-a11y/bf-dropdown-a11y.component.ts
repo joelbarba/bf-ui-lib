@@ -145,7 +145,7 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
 
   constructor(
     private translate: BfUILibTransService,
-    private htmlEl: ElementRef,
+    private elementRef: ElementRef,
   ) {
 
     // Rerender the list labels on language change

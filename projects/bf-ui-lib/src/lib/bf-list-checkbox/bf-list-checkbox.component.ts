@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
 import {BfListSelection} from '../bf-list-selection/bf-list-selection';
 
 @Component({
@@ -17,7 +17,7 @@ export class BfListCheckboxComponent implements OnInit, OnChanges, OnDestroy {
   public hasId = false;
   public actionsExp = false;
 
-  constructor() { }
+  constructor(public elementRef: ElementRef) { }
 
   ngOnInit() { }
 
