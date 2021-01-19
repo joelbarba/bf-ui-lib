@@ -48,6 +48,7 @@
              [disabled]="bfDisabled"
              [attr.aria-controls]="bfListboxId"
              [attr.aria-activedescendant]="getActiveDecendant()"
+             [tabindex]="bfTabIndex"
              (focusin)="expandList()"
              (focusout)="collapseList()"
              (keyup)="triggerKey($event)">

@@ -26,7 +26,9 @@ bf-date-picker.focus-visible > input,
 bf-btn.focus-visible,
 bf-radio.focus-visible,
 bf-status-badge.focus-visible,
-bf-list-paginator.focus-visible {
+bf-list-header-col.focus-visible,
+bf-list-checkbox.focus-visible,
+bf-list-paginator .focus-visible {
   @include focus-visible()
 }
 

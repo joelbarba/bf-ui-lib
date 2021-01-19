@@ -26,6 +26,7 @@
 
   <div class="actions-list" [class.expanded]="actionsExp">
     <div *ngFor="let action of actions" (click)="clickAction(action)"
+        [tabindex]="actionsExp ? 0 : -1"
          class="action-row" [class.disabled]="action.disabled">
       <span>{{action.label | getLabel$ | async }}</span>
     </div>
