@@ -59,7 +59,7 @@ describe('BfInputComponent', () => {
 
       component.onFocus();
 
-      expect(announcerSpy).toHaveBeenCalledWith('There is an error');
+      expect(announcerSpy).not.toHaveBeenCalledWith('There is an error');
     });
 
   });
