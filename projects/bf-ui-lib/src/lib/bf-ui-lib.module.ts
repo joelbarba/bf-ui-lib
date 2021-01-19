@@ -51,6 +51,7 @@ import { BfExpandableListComponent } from './bf-expandable-list/bf-expandable-li
 import { BfListControllerDirective } from './bf-list-controller/bf-list-controller.directive';
 import { BfDropdownA11yComponent } from './bf-dropdown-a11y/bf-dropdown-a11y.component';
 import { BfDropdownA11yPipe } from './bf-dropdown-a11y/bf-dropdown-a11y.pipe';
+import { BfIntersectionObserverDirective } from './bf-intersection-observer/bf-intersection-observer.directive';
 
 @NgModule({
   declarations: [
@@ -92,7 +93,8 @@ import { BfDropdownA11yPipe } from './bf-dropdown-a11y/bf-dropdown-a11y.pipe';
     BfExpandableListComponent,
     BfListControllerDirective,
     BfDropdownA11yComponent,
-    BfDropdownA11yPipe // Internal
+    BfDropdownA11yPipe, // Internal
+    BfIntersectionObserverDirective,
   ],
   entryComponents: [
   ],
@@ -152,7 +154,8 @@ import { BfDropdownA11yPipe } from './bf-dropdown-a11y/bf-dropdown-a11y.pipe';
     BfLoadingBarModule,
     BfDnDModule,
     BfListControllerDirective,
-    BfDropdownA11yComponent
+    BfDropdownA11yComponent,
+    BfIntersectionObserverDirective,
   ]
 })
 export class BfUiLibModule {

@@ -69,6 +69,7 @@ import { BfCollapseDemoComponent } from './bf-collapse-demo/bf-collapse-demo.com
 import { BfExpandableListDemoComponent } from './bf-expandable-list-demo/bf-expandable-list-demo.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ListControllerDemoComponent } from './bf-list-controller-demo/bf-list-controller-demo.component';
+import { BfIntersectionObserverDemoComponent } from './bf-intersection-observer-demo/bf-intersection-observer-demo.component';
 
 @NgModule({
   declarations: [
@@ -134,7 +135,8 @@ import { ListControllerDemoComponent } from './bf-list-controller-demo/bf-list-c
     A11yTabsComponent,
     BfCollapseDemoComponent,
     BfExpandableListDemoComponent,
-    ListControllerDemoComponent
+    ListControllerDemoComponent,
+    BfIntersectionObserverDemoComponent,
   ],
   entryComponents: [
     BfNoDataComponent,
