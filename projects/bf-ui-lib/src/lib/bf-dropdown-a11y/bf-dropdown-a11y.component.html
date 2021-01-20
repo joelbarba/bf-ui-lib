@@ -49,6 +49,7 @@
              [disabled]="bfDisabled"
              [attr.aria-controls]="bfListboxId"
              [attr.aria-activedescendant]="getActiveDecendant()"
+             [tabindex]="bfTabIndex"
              (focusin)="expandList()"
              (focusout)="collapseList()"
              (keyup)="triggerKey($event)">
@@ -81,7 +82,7 @@
         role="option"
         [id]="item.$activeId"
         [attr.aria-selected]="isActiveDecendant(item.$activeId)"
-        (click)="selectItem(item)"
+        (mousedown)="selectItem(item)"
         #optionRow>
         <div *ngIf="item.$groupHeader && !item.$hideHeader" class="group-header" role="presentation"></div>
         <div

@@ -72,6 +72,8 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
   @Input() bfKeepSearch = false;  // false = resets the search string every time the list is expanded, removing the previous filter
   @Input() bfHtmlRender = false;   // When true display values can be rendered as html on the list (but not in the input)
 
+  @Input() bfTabIndex = 0;
+
   // accessibility inputs
   @Input() bfInputId: string;
   @Input() bfListboxId: string;
@@ -146,7 +148,7 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
 
   constructor(
     private translate: BfUILibTransService,
-    private htmlEl: ElementRef,
+    private elementRef: ElementRef,
     private liveAnnouncer: LiveAnnouncer
   ) {
 
@@ -526,8 +528,8 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
   public expandList = () => {
     this.annouceError();
     // If the dropdown is to close to the bottom of the window, expand it upward so the list doesn't fall off
-    if (this.htmlEl && !this.bfCustomPlacementList) {
-      const renderedShadowRect = this.htmlEl.nativeElement.getBoundingClientRect();
+    if (this.elementRef && !this.bfCustomPlacementList) {
+      const renderedShadowRect = this.elementRef.nativeElement.getBoundingClientRect();
       this.expandUpward = (window.innerHeight - renderedShadowRect.bottom) < 350;
 
     } else { // Force the direction the list is expanded towards

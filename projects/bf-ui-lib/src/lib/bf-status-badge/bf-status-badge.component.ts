@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnChanges, OnInit} from '@angular/core';
 import {BfUILibTransService} from '../abstract-translate.service';
 import {Observable, of} from 'rxjs';
 
@@ -38,7 +38,7 @@ export class BfStatusBadgeComponent implements OnInit, OnChanges {
   public bfStatusCss: ColorSet = {};
   public bfCurrentColor = '';
 
-  constructor(private translate: BfUILibTransService) { }
+  constructor(private translate: BfUILibTransService, public elementRef: ElementRef) { }
 
   ngOnInit() {
     this.setStatus(this.bfStatus);
