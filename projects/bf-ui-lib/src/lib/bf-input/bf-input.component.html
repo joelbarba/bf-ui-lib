@@ -55,6 +55,7 @@
            [attr.aria-required]="bfRequired"
            [attr.aria-valuemin]="bfMinlength"
            [attr.aria-valuemax]="bfMaxlength"
+           attr.aria-label="{{ bfAriaLabel | getLabel$ | async }}"
            [ngModel]="bfModel" (ngModelChange)="parseModelChange($event)"
            [disabled]="bfDisabled"
            title=""
