@@ -142,6 +142,7 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.upload': 'Upload',
     'view.common.resetFilters': 'Reset Filters',
     'view.common.refresh': 'Refresh',
+    'view.switch.a11y-test-tooltip': ' This is a switch tooltip'
   };
 
   public transDictCAT = {
