@@ -43,7 +43,8 @@ export const compList = [
   docs.BfListSelectionDoc,
   docs.BfPromiseDoc,
   docs.BfDeferDoc,
-  docs.ListControllerDoc
+  docs.ListControllerDoc,
+  docs.BfIntersectionObserverDoc,
 ];
 
 

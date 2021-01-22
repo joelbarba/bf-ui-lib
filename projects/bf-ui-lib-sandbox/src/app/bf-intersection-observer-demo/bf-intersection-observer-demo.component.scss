@@ -1,0 +1,71 @@
+@import "variables";
+
+.demo-container {
+  height: 500px;
+  overflow-y: scroll;
+}
+
+.demo-card {
+  box-sizing: content-box;
+  height: 100px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid $grey;
+  background: #eee;
+  font-size: 2rem;
+  color: $text-color;
+  text-shadow: 2px 2px 0 #eee;
+}
+
+.intersecting {
+  &-card {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: 1px solid $grey;
+
+    &:not(:last-child) {
+      border-right-width: 0;
+    }
+
+    &.intersecting {
+      background: rgba($secondary_color, 20%);
+      border-color: $secondary_color;
+      color: $white;
+    }
+
+    &.fully-visible {
+      background: rgba($primary_color, 20%);
+      border-color: $primary_color;
+      color: $white;
+    }
+  }
+
+  &-summary {
+    display: flex;
+    flex-direction: row;
+    height: 4rem;
+  }
+}
+
+.summary-square {
+  width: 2rem;
+  height: 21px;
+  content: '';
+  border: 1px solid $grey;
+  margin-right: .3rem;
+
+  &.partial {
+    background: rgba($secondary_color, 20%);
+  }
+
+  &.full {
+    background: rgba($primary_color, 20%);
+  }
+}

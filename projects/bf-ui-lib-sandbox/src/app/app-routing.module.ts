@@ -63,6 +63,7 @@ const routes: Routes = [
   { path: docs.BfDeferDoc.name,             component: docs.BfDeferDoc.demoComp            },
   { path: docs.BfCollapseDoc.name,          component: docs.BfCollapseDoc.demoComp         },
   { path: docs.BfExpandableListDoc.name,    component: docs.BfExpandableListDoc.demoComp   },
+  { path: docs.BfIntersectionObserverDoc.name, component: docs.BfIntersectionObserverDoc.demoComp },
 
   { path: docs.BfDndDemoDoc.name,           component: docs.BfDndDemoDoc.demoComp          },
   { path: 'BfDnD/example1',                 component: BfDndDemo1Component                 },

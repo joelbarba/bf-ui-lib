@@ -1,0 +1,48 @@
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+
+<div class="row">
+  <div class="col-3">
+    <div class="whiteBg">
+      <div class="text-center">Scroll on this panel:</div>
+      <div class="demo-container" #container>
+        <div *ngFor="let entry of lastEntries; trackBy: trackByIndex; let i = index">
+          <div class="demo-card"
+               bfIntersectionObserver
+               [root]="container"
+               [threshold]="[ 0, 1 ]"
+               [debounce]="50"
+               rootMargin="15px"
+               (visibilityChange)="onVisibilityChange(i, $event)">
+            <span>{{ i }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-9">
+    <div class="whiteBg">
+      <div class="d-flex flex-row align-items-start">
+        <div class="summary-square full"></div> <label>Fully visible</label>
+        <div class="mx-3"></div>
+        <div class="summary-square partial"></div> <label>Partially visible</label>
+      </div>
+      <div class="intersecting-summary">
+        <div class="intersecting-card"
+             *ngFor="let entry of lastEntries; trackBy: trackByIndex; let i = index"
+             [class.intersecting]="entry?.isIntersecting"
+             [class.fully-visible]="entry?.intersectionRatio === 1">
+          <span>{{ i }}</span>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <h3>Example</h3>
+        <pre>{{ instance }}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+

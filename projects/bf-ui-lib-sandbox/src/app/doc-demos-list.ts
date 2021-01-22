@@ -41,3 +41,4 @@ export { BfLazyDropdownDoc } from './bf-lazy-dropdown-demo/bf-lazy-dropdown-demo
 export { BfExpandableListDoc } from './bf-expandable-list-demo/bf-expandable-list-demo.component';
 export { BfCollapseDoc } from './bf-collapse-demo/bf-collapse-demo.component';
 export { ListControllerDoc } from './bf-list-controller-demo/bf-list-controller-demo.component';
+export { BfIntersectionObserverDoc } from './bf-intersection-observer-demo/bf-intersection-observer-demo.component';
