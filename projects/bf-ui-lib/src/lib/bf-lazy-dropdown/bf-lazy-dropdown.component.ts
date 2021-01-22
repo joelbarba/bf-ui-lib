@@ -416,7 +416,7 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnInit, On
   // On input focus in -> Expand the select list
   public expandList = () => {
     this.isFocus = true;
-    if (this.inputText.length < this.bfMinSearchLength) {
+    if (!this.inputText || this.inputText.length < this.bfMinSearchLength) {
       return;
     }
 
