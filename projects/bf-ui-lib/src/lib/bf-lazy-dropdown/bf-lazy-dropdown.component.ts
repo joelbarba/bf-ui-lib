@@ -76,7 +76,7 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnInit, On
 
   public destroyed$: Subject<boolean> = new Subject<boolean>();
 
-  public inputText = '';          // Text on the input (ngModel)
+  public inputText = null;          // Text on the input (ngModel)
   public bfCandidate; // Pointer to a extList item that might be selected next but not yet (hovering / arrow scrolling)
 
   public isInvalid = false;   // If the model holds an invalid option
@@ -126,7 +126,7 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnInit, On
 
     if (changing('ngModel') && !changes['ngModel'].currentValue) {
       this.bfModel = null;
-      this.inputText = '';
+      this.inputText = null;
     }
 
     // External control via extCtrl$
@@ -242,7 +242,7 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnInit, On
   }
 
   minLengthValid() {
-    const valid = this.inputText.length >= this.bfMinSearchLength;
+    const valid = !!this.inputText && this.inputText.length >= this.bfMinSearchLength;
     if (!valid) { this.list = []; }
     return valid;
   }
@@ -250,7 +250,7 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnInit, On
   // triggered when ngModelChange
   search(event : string) {
     if (!this.minLengthValid()) {
-      if (!this.inputText.length) {
+      if (this.inputText !== null && !this.inputText.length) {
         this.propagateModelUp(null);
       }
       this.isExpanded = false;

@@ -56,6 +56,7 @@ export class BfLazyDropdownDemoComponent implements OnInit {
   public isLinked = true;
   public selObj;
   public selObjExample1;
+  public selObjExample2;
   public lazyItemExample1;
   public myCtrl: IbfLazyDropdownCtrl;
   public bfSelectOptions = [
@@ -95,6 +96,13 @@ $disabled_input_color : $disabled-color;
              `;
   public code = ``;
 
+  public instance2 = `<bf-lazy-dropdown [(ngModel)]="selObjExample2"
+    [bfLazyLoad]="fakeLoadData"
+    [bfRequired]="true"
+  bfRender="email"
+  bfLabel="LazyLoadedItem"
+    ></bf-lazy-dropdown>
+`;
   public conf = {
     isRequired: false,
     isDisabled: false, disabledTip: '',
