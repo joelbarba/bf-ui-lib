@@ -36,7 +36,7 @@ export interface IbfDropdownA11yCtrl {
     }
   ]
 })
-export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, OnChanges, AfterViewInit, OnDestroy {
+export class BfDropdownA11yComponent implements ControlValueAccessor, OnChanges, AfterViewInit, OnDestroy {
   @Input() bfList: Array<any>;    // List of options (array of objects)
   @Input() bfRender = '';         // How to display every option on the expanded list
   @Input() bfRenderFn;            // Function to be called to render the list items (when bfRender is not enough)
@@ -75,8 +75,6 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
   @Input() bfTabIndex = 0;
 
   // accessibility inputs
-  @Input() bfInputId: string;
-  @Input() bfListboxId: string;
   @Input() bfAriaLabel: string;
 
   @Output() bfOnLoaded = new EventEmitter<IbfDropdownA11yCtrl>();         // Emitter to catch the moment when the component is ready (ngAfterViewInit)
@@ -140,6 +138,9 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
   public listHeight; // Computed height of the expanded listContainer
   public allRows; // Reference to the optionRows.toArray() html elements array
   public searchTxt = '';
+  public bfInputId = this.generateUniqueId('inputId');
+  public bfListboxId = this.generateUniqueId('listBoxId');
+
   private activeDecendent: string;
   private currentErrorMessage: string;
 
@@ -299,16 +300,6 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
       if (!this.isBfDisabledPresent) { this.bfDisabled = !!this.bfLoading; }
     }
 
-  }
-
-  ngOnInit() {
-    if (!this.bfInputId) {
-      this.bfInputId = this.generateUniqueId('inputId');
-    }
-
-    if (!this.bfListboxId) {
-      this.bfListboxId = this.generateUniqueId('listBoxId');
-    }
   }
 
   ngAfterViewInit() {
