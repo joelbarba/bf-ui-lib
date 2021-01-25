@@ -5,6 +5,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { BfInputComponent } from './bf-input.component';
 import { TestingModule } from '../../testing/testing-module';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { BfTranslatePipe } from '../abstract-translate.service';
 
 describe('BfInputComponent', () => {
   let component: BfInputComponent;
@@ -12,7 +13,7 @@ describe('BfInputComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BfInputComponent ],
+      declarations: [ BfInputComponent, BfTranslatePipe ],
       providers: [ LiveAnnouncer ],
       imports: [ TestingModule, FormsModule, NgbTooltipModule ],
     })

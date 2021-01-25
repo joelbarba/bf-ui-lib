@@ -77,6 +77,7 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
   // accessibility inputs
   @Input() bfInputId: string;
   @Input() bfListboxId: string;
+  @Input() bfAriaLabel: string;
 
   @Output() bfOnLoaded = new EventEmitter<IbfDropdownA11yCtrl>();         // Emitter to catch the moment when the component is ready (ngAfterViewInit)
   @Output() bfOnListExpanded = new EventEmitter<any>();   // The moment when the list expands (focus in)

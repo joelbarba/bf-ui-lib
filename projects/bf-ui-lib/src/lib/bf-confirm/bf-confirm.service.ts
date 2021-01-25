@@ -12,7 +12,7 @@ export class BfConfirmService {
   public open = (options: IConfirmOptions = {}) => {
 
     // https://ng-bootstrap.github.io/#/components/modal/api
-    const modalRef = this.modal.open(BfConfirmComponent, { windowClass: 'modal-confirmation' });
+    const modalRef = this.modal.open(BfConfirmComponent, { windowClass: 'modal-confirmation', ariaLabelledBy: 'modal-header-title', ariaDescribedBy: 'modal-text' });
     modalRef.componentInstance.options = options;
     return modalRef.result;
 

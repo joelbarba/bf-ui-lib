@@ -1,6 +1,6 @@
 <bf-modal-header [bfTitle]="conf.title" (bfClose)="activeModal.dismiss('close')"></bf-modal-header>
 <div class="modal-body">
-  <div class="row">
+  <div class="row" id="modal-text">
     <div class="col-12">
       <p>{{trans.text$ | async}}</p>
     </div>

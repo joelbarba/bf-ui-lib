@@ -49,6 +49,7 @@
              [disabled]="bfDisabled"
              [attr.aria-controls]="bfListboxId"
              [attr.aria-activedescendant]="getActiveDecendant()"
+             attr.aria-label="{{ bfAriaLabel | getLabel$ | async }}"
              [tabindex]="bfTabIndex"
              (focusin)="expandList()"
              (focusout)="collapseList()"
