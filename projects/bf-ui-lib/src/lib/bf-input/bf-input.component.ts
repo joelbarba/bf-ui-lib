@@ -105,6 +105,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   @Input() extCtrl$: Observable<any>; // To trigger actions manually from an external observable (subject)
   @Input() inputId: string;
   @Input() bfPatternLabel: string; // used to give a hint to fill out regexp patterns, added to the label
+  @Input() bfAriaLabel: string;
 
   public autocomplete = 'off';
   public bfLabelTrans$ = of('');        // Translated text for the label
