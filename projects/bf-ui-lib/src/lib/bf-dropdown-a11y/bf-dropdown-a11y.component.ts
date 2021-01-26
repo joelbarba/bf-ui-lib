@@ -571,6 +571,7 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnChanges,
     }
 
     if (event.key === 'Enter') {
+      event.preventDefault();
 
       if (!this.isExpanded) {
         this.expandList();
