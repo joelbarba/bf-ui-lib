@@ -10,7 +10,7 @@
 <div class="bf-switch"
      role="switch"
      [class.is-disabled]="bfDisabled"
-     [attr.aria-label]="bfLabel"
+     [attr.aria-label]="bfLabelTrans$ | async"
      [attr.aria-checked]="bfModel"
      [attr.aria-describedby]="bfTooltip"
      [ngbTooltip]="bfTooltipTrans$ | async"

@@ -37,6 +37,7 @@ export class BfSwitchComponent implements ControlValueAccessor, OnInit, OnChange
   public bfOnText$: Observable<string> = of(''); // Translated text for the ON label
   public bfOffText$: Observable<string> = of(''); // Translated text for the OFF label
   public bfTooltipTrans$: Observable<string> = of('');
+  public bfLabelTrans$: Observable<string> = of('');
 
   constructor(
     @Inject(BfUILibTransService) private translate: BfUILibTransService,
@@ -66,6 +67,8 @@ export class BfSwitchComponent implements ControlValueAccessor, OnInit, OnChange
     if (change.hasOwnProperty('bfOnText')) { this.bfOnText$ = this.translate.getLabel$(this.bfOnText); }
     if (change.hasOwnProperty('bfOffText')) { this.bfOffText$ = this.translate.getLabel$(this.bfOffText); }
     if (change.hasOwnProperty('bfTooltip')) { this.bfTooltipTrans$ = this.translate.getLabel$(this.bfTooltip); }
+    if (change.hasOwnProperty('bfLabel')) { this.bfLabelTrans$ = this.translate.getLabel$(this.bfLabel); }
+
   }
 
   public onSwitch() {
