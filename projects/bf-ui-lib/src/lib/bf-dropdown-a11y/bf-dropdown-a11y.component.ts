@@ -382,7 +382,9 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnChanges,
     this.renderExtList(); // Set $renderedText
 
     // set initial active decendant
-    this.setActiveDecendant(this.extList[0].$activeId);
+    if (this.extList[0]) {
+      this.setActiveDecendant(this.extList[0].$activeId);
+    }
   };
 
   // Add or remove the "Empty" option to the extList
