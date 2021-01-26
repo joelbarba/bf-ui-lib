@@ -77,7 +77,7 @@
       <!--Label-->
       <div class="row padT15">
         <bf-checkbox class="col-3 padT5" bfLabel="bfLabel" [(ngModel)]="compConf.hasLabel" (ngModelChange)="upComp()"></bf-checkbox>
-        <bf-input class="col-6" style="margin-bottom: -5px;" [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasLabel"></bf-input>
+        <bf-input class="col-6" style="margin-bottom: -5px;" [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasLabel" bfAriaLabel="This is labled with aria"></bf-input>
         <div class="col-3" style="margin-top: -25px;">
           <bf-dropdown bfLabel="bfType" [(ngModel)]="compConf.inputType" (ngModelChange)="upComp()"
                        [bfList]="compConf.inputTypes" bfRender="text" bfSelect="id" [bfRequired]="true">

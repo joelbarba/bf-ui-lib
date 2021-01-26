@@ -105,6 +105,17 @@
                         [(ngModel)]="item.listSelection">
       </bf-dropdown-a11y>
 
+      <bf-dropdown-a11y class="mr-2"
+                        name="list-selection"
+                        bfAriaLabel="Aria List Selection"
+                        bfListBoxId="listBox"
+                        bfInputId="inputId"
+                        [bfRequired]="true"
+                        bfErrorText="There's a snake in my boots"
+                        [bfList]="list"
+                        [(ngModel)]="item.listSelection">
+      </bf-dropdown-a11y>
+
       <bf-checkbox class="mr-2"
                    name="is-checked"
                    bfLabel="Checkbox"
@@ -139,7 +150,7 @@
                  name="switch"
                  bfOnText="Yes"
                  bfOffText="No"
-                 bfTooltip="This is a switch tooltip">
+                 bfTooltip="view.switch.a11y-test-tooltip">
       </bf-switch>
 
       <bf-switch [(ngModel)]="switchValue"
