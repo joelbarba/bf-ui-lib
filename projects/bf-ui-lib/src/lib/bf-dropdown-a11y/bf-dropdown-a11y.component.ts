@@ -536,14 +536,20 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnChanges,
     this.inputText = this.bfKeepSearch ? this.searchTxt : '';  // Reset the search string
     this.filterList(this.inputText);
 
+    // if we have an existing value update active decendant to that item
+    if (this.bfModel) {
+      const selectedItem = this.extList.find(this.isSelected.bind(this));
+      this.setActiveDecendant(selectedItem.$activeId);
+    }
+
     // If the selected element is down in the list, auto scroll so it's immediately visible
     setTimeout(() => {
       if (this.optionRows && this.listContainer) {
         this.allRows = this.optionRows.toArray();
         this.listHeight = this.listContainer.nativeElement.getBoundingClientRect().height;
-
         const selectedEl = this.allRows.find(el => this.isActiveDecendant(el.nativeElement.id));
         if (selectedEl) {
+          this.setActiveDecendant(selectedEl.nativeElement.id);
           this.scrollItemIntoView(selectedEl);
         }
       }
