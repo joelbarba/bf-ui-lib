@@ -1,9 +1,20 @@
-import { Component, OnInit, Input, Output, ChangeDetectionStrategy, OnChanges, SimpleChanges, SimpleChange, EventEmitter, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChange,
+  SimpleChanges,
+} from '@angular/core';
 import { DatePipe } from '@angular/common';
 
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { map, filter, distinctUntilChanged, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { BfUILibTransService } from '../abstract-translate.service';
 import { BfDate } from '../bf-prototypes/bf-prototypes';
 
@@ -41,7 +52,13 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
   // subject to hold the updated date/time
   private suggestedTime$: BehaviorSubject<Date>;
   private datePipe: DatePipe;
-  private localeSubcription$: Subscription;
+  private localeSubscription$: Subscription;
+
+  public currentMinutes$: Observable<string>;
+  public currentHour$: Observable<string>;
+  public displayTime$: Observable<string>;
+  public followingValues$: Observable<{ before: FollowingValues, after: FollowingValues }>;
+  public formattedTimeString$: Observable<string>;
 
   constructor(private translateService: BfUILibTransService) { }
 
@@ -50,10 +67,16 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
       this.bfMinTime = new Date();
     }
     this.suggestedTime$ = new BehaviorSubject(this.bfSelectedTime || new Date());
-    this.localeSubcription$ = this.translateService.locale$.subscribe((locale) => {
+    this.localeSubscription$ = this.translateService.locale$.subscribe((locale) => {
       this.locale = locale;
       this.datePipe = new DatePipe(locale || 'en-IE');
     });
+
+    this.currentMinutes$ = this.getCurrentMinutes$();
+    this.currentHour$ = this.getCurrentHour$();
+    this.displayTime$ = this.getDisplayTime$();
+    this.followingValues$ = this.getFollowingValues$();
+    this.formattedTimeString$ = this.getFormattedTimeString$();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -96,8 +119,8 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.localeSubcription$) {
-      this.localeSubcription$.unsubscribe();
+    if (this.localeSubscription$) {
+      this.localeSubscription$.unsubscribe();
     }
   }
 
@@ -160,7 +183,8 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
       filter(date => date !== undefined),
       map((date: Date) => {
         return this.datePipe.transform(date, 'yyyy-MM-dd');
-      })
+      }),
+      distinctUntilChanged(),
     );
   }
 
