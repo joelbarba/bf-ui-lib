@@ -1,7 +1,7 @@
 <bf-label [bfText]="bfLabel"></bf-label>
 <div ngbDropdown autoClose="outside" [placement]="bfPlacement" #timePickerDropdown="ngbDropdown" (openChange)="onOpenChange($event)">
   <div class="input-group" ngbDropdownAnchor (click)="toggleTimePicker(timePickerDropdown)">
-    <input type="text" class="form-control display-input" [ngModel]="getDisplayTime$() | async"disabled/>
+    <input type="text" class="form-control display-input" [ngModel]="displayTime$ | async" disabled/>
     <span class="input-group-append">
       <button class="btn primary" [disabled]="isDisabled()">
         <span class="icon-clock3"></span>
@@ -13,7 +13,7 @@
     <div class="row uib-datepicker-popup">
       <div class="card card-body card-sm pl-2">
         <bf-date-picker
-          [ngModel]="getFormattedTimeString$() | async"
+          [ngModel]="formattedTimeString$ | async"
           (ngModelChange)="onDateChanged($event)"
           [bfIsInlineDatePicker]="true"
           [bfMinDate]="formatDate(bfMinTime)"
@@ -29,7 +29,7 @@
         <bf-dropdown class="full-width" [ngModel]="bfSelectedTimezone" [bfList]="bfSupportedTimezones" bfPlaceholder="Timezone" bfSelect="time_zone" bfRender="time_zone" (ngModelChange)="onTimezoneChanged($event)" bfRequired="true"></bf-dropdown>
       </div>
 
-      <div class="text-center timepicker-row d-flex flex-row justify-content-around px-1" *ngIf="(getFollowingValues$() | async) as followingValues">
+      <div class="text-center timepicker-row d-flex flex-row justify-content-around px-1" *ngIf="(followingValues$ | async) as followingValues">
 
         <div class="arrows">
           <div class="d-flex flex-column arrows-right">
@@ -42,7 +42,7 @@
           <!-- Hours -->
           <div class=" bf-scrollable" (wheel)="onMouseWheelHours($event)">
             <h3 class="t-after">{{displayFollowingTimeValues(followingValues.after.hours)}}</h3>
-            <h2 *ngIf="(getCurrentHour$() | async) as currentHour">{{currentHour}}</h2>
+            <h2 *ngIf="(currentHour$ | async) as currentHour">{{currentHour}}</h2>
             <h3 class="t-before">{{displayFollowingTimeValues(followingValues.before.hours)}}</h3>
           </div>
 
@@ -53,7 +53,7 @@
           <!-- Minutes -->
           <div class="bf-scrollable" (wheel)="onMouseWheelMinutes($event)">
             <h3 class="t-after">{{displayFollowingTimeValues(followingValues.after.minutes)}}</h3>
-            <h2>{{getCurrentMinutes$() | async}}</h2>
+            <h2>{{currentMinutes$ | async}}</h2>
             <h3 class="t-before">{{displayFollowingTimeValues(followingValues.before.minutes)}}</h3>
           </div>
 
