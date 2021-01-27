@@ -537,8 +537,9 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnChanges,
     this.filterList(this.inputText);
 
     // if we have an existing value update active decendant to that item
-    if (this.bfModel) {
-      const selectedItem = this.extList.find(this.isSelected.bind(this));
+    const selectedItem = this.extList.find(this.isSelected.bind(this));
+
+    if (selectedItem) {
       this.setActiveDecendant(selectedItem.$activeId);
     }
 
