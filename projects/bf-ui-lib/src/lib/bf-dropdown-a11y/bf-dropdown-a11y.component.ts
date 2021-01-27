@@ -588,6 +588,7 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnChanges,
     }
 
     if (event.key === 'ArrowDown') {
+      event.preventDefault();
       const currentElement = this.getCurrentElement(this.listContainer.nativeElement.children);
 
       if (currentElement) {
@@ -597,6 +598,7 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnChanges,
     }
 
     if (event.key === 'ArrowUp') {
+      event.preventDefault();
       const currentElement = this.getCurrentElement(this.listContainer.nativeElement.children);
 
       if (currentElement) {
@@ -621,7 +623,6 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnChanges,
     if (this.bfFilterFn) {
       const fList = this.bfFilterFn(this.extList, value);
       this.extList.forEach(item => item.$isMatch = !!fList.find(e => e.$index === item.$index));
-
     } else {
       const patternVal = value.toLowerCase();
       this.extList.forEach(item => {
@@ -634,6 +635,14 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnChanges,
       this.extList.filter(i => !!i.$groupHeader).forEach(item => {
         item.$hideHeader = !this.extList.filter(gi => gi.$isMatch && gi[this.bfGroupBy] === item[this.bfGroupBy]).length;
       });
+    }
+
+    if (value.length > 0) {
+      const firstElement = this.extList.find(item => item.$isMatch);
+
+      if (firstElement) {
+        this.setActiveDecendant(firstElement.$activeId);
+      }
     }
   };
 
@@ -817,7 +826,7 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnChanges,
   }
 
   private annouceError() {
-    if (this.isInvalid) {
+    if (this.isInvalid && this.showError) {
       this.liveAnnouncer.announce(this.translate.doTranslate(this.currentErrorMessage));
     }
   }
