@@ -514,7 +514,8 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
   private isUpdatingMinimumMinutesRequired(currentTime: Date, minimumTime: Date): boolean {
     if (!!minimumTime) {
       return currentTime.getMinutes() < minimumTime.getMinutes()
-        && currentTime.getHours() === minimumTime.getHours();
+        && currentTime.getHours() === minimumTime.getHours()
+        && currentTime.toDateString() === minimumTime.toDateString();
     }
 
     return false;
@@ -523,7 +524,8 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
   private isUpdatingMaximumMinutesRequired(currentTime: Date, maximumTime: Date): boolean {
     if (!!maximumTime) {
       return currentTime.getMinutes() > maximumTime.getMinutes()
-        && currentTime.getHours() === maximumTime.getHours();
+        && currentTime.getHours() === maximumTime.getHours()
+        && currentTime.toDateString() === maximumTime.toDateString();
     }
 
     return false;
