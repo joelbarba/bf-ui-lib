@@ -137,10 +137,14 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
 
   public onDateChanged(newDate: string) {
     const currentTime = this.getSuggestedTime();
-    const updatedDate = new Date(newDate);
-
-    updatedDate.setHours(currentTime.getHours());
-    updatedDate.setMinutes(currentTime.getMinutes());
+    let updatedDate: Date;
+    if (newDate?.match(/^\d{4}-\d{2}-\d{2}$/)) {
+      const [ year, month, date ] = newDate.split('-').map((part) => parseInt(part));
+      // /!\ REMEMBER /!\ months are zero-based (BECAUSE WHY NOT)
+      updatedDate = new Date(year, month - 1, date, currentTime.getHours(), currentTime.getMinutes(), 0, 0);
+    } else {
+      updatedDate = new Date(currentTime);
+    }
 
     if (this.isTimeGreaterThanMaximumLimit(updatedDate, this.bfMaxTime)) {
       this.updateSuggestedTime(this.bfMaxTime);
