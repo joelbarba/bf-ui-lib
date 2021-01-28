@@ -36,7 +36,7 @@ export interface IbfDropdownA11yCtrl {
     }
   ]
 })
-export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, OnChanges, AfterViewInit, OnDestroy {
+export class BfDropdownA11yComponent implements ControlValueAccessor, OnChanges, AfterViewInit, OnDestroy {
   @Input() bfList: Array<any>;    // List of options (array of objects)
   @Input() bfRender = '';         // How to display every option on the expanded list
   @Input() bfRenderFn;            // Function to be called to render the list items (when bfRender is not enough)
@@ -75,8 +75,6 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
   @Input() bfTabIndex = 0;
 
   // accessibility inputs
-  @Input() bfInputId: string;
-  @Input() bfListboxId: string;
   @Input() bfAriaLabel: string;
 
   @Output() bfOnLoaded = new EventEmitter<IbfDropdownA11yCtrl>();         // Emitter to catch the moment when the component is ready (ngAfterViewInit)
@@ -140,6 +138,9 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
   public listHeight; // Computed height of the expanded listContainer
   public allRows; // Reference to the optionRows.toArray() html elements array
   public searchTxt = '';
+  public bfInputId = this.generateUniqueId('inputId');
+  public bfListboxId = this.generateUniqueId('listBoxId');
+
   private activeDecendent: string;
   private currentErrorMessage: string;
 
@@ -301,16 +302,6 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
 
   }
 
-  ngOnInit() {
-    if (!this.bfInputId) {
-      this.bfInputId = this.generateUniqueId('inputId');
-    }
-
-    if (!this.bfListboxId) {
-      this.bfListboxId = this.generateUniqueId('listBoxId');
-    }
-  }
-
   ngAfterViewInit() {
     this.bfOnLoaded.emit({ ...this.ctrlObject }); // Expose all control methods
   }
@@ -391,7 +382,9 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
     this.renderExtList(); // Set $renderedText
 
     // set initial active decendant
-    this.setActiveDecendant(this.extList[0].$activeId);
+    if (this.extList[0]) {
+      this.setActiveDecendant(this.extList[0].$activeId);
+    }
   };
 
   // Add or remove the "Empty" option to the extList
@@ -543,14 +536,21 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
     this.inputText = this.bfKeepSearch ? this.searchTxt : '';  // Reset the search string
     this.filterList(this.inputText);
 
+    // if we have an existing value update active decendant to that item
+    const selectedItem = this.extList.find(this.isSelected.bind(this));
+
+    if (selectedItem) {
+      this.setActiveDecendant(selectedItem.$activeId);
+    }
+
     // If the selected element is down in the list, auto scroll so it's immediately visible
     setTimeout(() => {
       if (this.optionRows && this.listContainer) {
         this.allRows = this.optionRows.toArray();
         this.listHeight = this.listContainer.nativeElement.getBoundingClientRect().height;
-
         const selectedEl = this.allRows.find(el => this.isActiveDecendant(el.nativeElement.id));
         if (selectedEl) {
+          this.setActiveDecendant(selectedEl.nativeElement.id);
           this.scrollItemIntoView(selectedEl);
         }
       }
@@ -595,6 +595,7 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
     }
 
     if (event.key === 'ArrowDown') {
+      event.preventDefault();
       const currentElement = this.getCurrentElement(this.listContainer.nativeElement.children);
 
       if (currentElement) {
@@ -604,6 +605,7 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
     }
 
     if (event.key === 'ArrowUp') {
+      event.preventDefault();
       const currentElement = this.getCurrentElement(this.listContainer.nativeElement.children);
 
       if (currentElement) {
@@ -628,7 +630,6 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
     if (this.bfFilterFn) {
       const fList = this.bfFilterFn(this.extList, value);
       this.extList.forEach(item => item.$isMatch = !!fList.find(e => e.$index === item.$index));
-
     } else {
       const patternVal = value.toLowerCase();
       this.extList.forEach(item => {
@@ -641,6 +642,14 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
       this.extList.filter(i => !!i.$groupHeader).forEach(item => {
         item.$hideHeader = !this.extList.filter(gi => gi.$isMatch && gi[this.bfGroupBy] === item[this.bfGroupBy]).length;
       });
+    }
+
+    if (value.length > 0) {
+      const firstElement = this.extList.find(item => item.$isMatch);
+
+      if (firstElement) {
+        this.setActiveDecendant(firstElement.$activeId);
+      }
     }
   };
 
@@ -824,7 +833,7 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnInit, On
   }
 
   private annouceError() {
-    if (this.isInvalid) {
+    if (this.isInvalid && this.showError) {
       this.liveAnnouncer.announce(this.translate.doTranslate(this.currentErrorMessage));
     }
   }
