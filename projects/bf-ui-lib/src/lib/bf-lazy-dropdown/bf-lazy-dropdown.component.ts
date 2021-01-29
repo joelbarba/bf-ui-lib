@@ -251,6 +251,7 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnInit, On
   search(event : string) {
     if (!this.minLengthValid()) {
       if (this.inputText !== null && !this.inputText.length) {
+        this.bfModel = null;
         this.propagateModelUp(null);
       }
       this.isExpanded = false;
