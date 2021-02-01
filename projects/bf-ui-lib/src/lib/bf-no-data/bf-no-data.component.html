@@ -1,9 +1,18 @@
 <div class="no-data-bg" *ngIf="!bfIsPlaceholder">
-  <div>{{bfMessage | getLabel$ | async}}</div>
+  <p tabindex="0" [attr.aria-label]="bfMessage | getLabel$ | async"
+  >{{ bfMessage | getLabel$ | async }}</p>
 </div>
 
 <div class="empty-placeholder" *ngIf="bfIsPlaceholder">
   <div *ngIf="!!bfIcon" [class]="bfIcon"></div>
-  <div class="empty-title"        *ngIf="!!bfTitle">{{bfTitle | getLabel$ | async}}</div>
-  <div class="empty-description"  *ngIf="!!bfDescription">{{bfDescription | getLabel$ | async}}</div>
+  <p class="empty-title"
+    *ngIf="!!bfTitle"
+    tabindex="0"
+    [attr.aria-label]="bfTitle | getLabel$ | async"
+  >{{ bfTitle | getLabel$ | async }}</p>
+  <p class="empty-description"
+    *ngIf="!!bfDescription"
+    tabindex="0"
+    [attr.aria-label]="bfDescription | getLabel$ | async"
+  >{{ bfDescription | getLabel$ | async }}</p>
 </div>
