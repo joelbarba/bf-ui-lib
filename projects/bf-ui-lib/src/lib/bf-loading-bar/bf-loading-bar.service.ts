@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { BfPromise } from '../bf-promise/bf-promise';
 import Debug from 'debug';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+
 const debugBar = Debug('bfUiLib:bfLoadingBar');
 
 /*******************************************************************************************************************
@@ -41,6 +43,8 @@ export interface ILoadingOptions {
   showSpinner: boolean;    // Whether the show the center spinner
   spinnerType: 'circular' | 'blueface';  // The type of the spinner to display
   showLogs: boolean;       // Debug flag - If on, console logs will be prompted
+  ariaLoadingMessage?: string;     // The message to be read out by assitive technology while loading
+  ariaCompleteMessage?: string;    // The message to be read out by assitive technology once loading is complete
 }
 
 @Injectable({ providedIn: 'root' })
@@ -51,7 +55,8 @@ export class BfLoadingBarService {
     showSpinner : false,
     delayTime   : 0,
     spinnerType : 'circular',
-    showLogs    : false
+    showLogs    : false,
+    ariaLoadingMessage: 'Loading',
   };
   public options: Partial<ILoadingOptions>;
 
@@ -61,7 +66,7 @@ export class BfLoadingBarService {
   public waitingQueue: Array<Promise<any>> = []; // Stack of waiting promises
   public delayPromise;  // This is to wait for the delay to prompt the loader
 
-  constructor() {
+  constructor(private liveannouncer: LiveAnnouncer) {
     this.options = { ...this.defaultOptions };
   }
 
@@ -109,9 +114,17 @@ export class BfLoadingBarService {
   private setStatus = (newStatus: ILoadingStatus) => {
     this.status = newStatus;
     this.status$.next(this.status);
-    if (this.status === ILoadingStatus.Off) { debugBar('LOADING BAR: Off', (new Date()).getSeconds(), (new Date()).getMilliseconds()); }
     if (this.status === ILoadingStatus.Running) { debugBar('LOADING BAR: Running', (new Date()).getSeconds(), (new Date()).getMilliseconds()); }
-    if (this.status === ILoadingStatus.Displayed) { debugBar('LOADING BAR: Displayed', (new Date()).getSeconds(), (new Date()).getMilliseconds()); }
+
+    if (this.status === ILoadingStatus.Off) {
+      debugBar('LOADING BAR: Off', (new Date()).getSeconds(), (new Date()).getMilliseconds());
+      this.announceMessage(this.options.ariaCompleteMessage);
+    }
+
+    if (this.status === ILoadingStatus.Displayed) {
+      debugBar('LOADING BAR: Displayed', (new Date()).getSeconds(), (new Date()).getMilliseconds());
+      this.announceMessage(this.options.ariaLoadingMessage);
+    }
   };
 
   // When a promise in the queue is resolve / reject
@@ -131,4 +144,10 @@ export class BfLoadingBarService {
       }
     }
   };
+
+  private announceMessage(message: string): void {
+    if (message !== undefined) {
+      this.liveannouncer.announce(message, 'polite');
+    }
+  }
 }
