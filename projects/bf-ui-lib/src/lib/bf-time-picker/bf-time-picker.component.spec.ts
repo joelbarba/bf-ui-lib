@@ -190,17 +190,30 @@ describe('BfTimePickerComponent', () => {
     expect(isDateTheSame).toBeTruthy();
   }));
 
-  it('should update the suggestedTime$ when the date picker has been updated', fakeAsync(() => {
-    const updatedDate = new Date('2020-08-25');
-    component.bfSelectedTime = new Date('2020-08-24');
-    fixture.detectChanges();
+  describe('onDateChanged()', () => {
+    it('should update the suggestedTime$ when the date picker has been updated', fakeAsync(() => {
+      const updatedDate = new Date('2020-08-25');
+      component.bfSelectedTime = new Date('2020-08-24');
+      fixture.detectChanges();
 
-    component.onDateChanged('2020-08-25');
-    updateFixture(fixture);
+      component.onDateChanged('2020-08-25');
+      updateFixture(fixture);
 
-    const isDateTheSame = assertDate(component.getSuggestedTime(), updatedDate);
-    expect(isDateTheSame).toBeTruthy();
-  }));
+      const isDateTheSame = assertDate(component.getSuggestedTime(), updatedDate);
+      expect(isDateTheSame).toBeTruthy();
+    }));
+
+    it('should handle null values', () => {
+      component.bfSelectedTime = new Date();
+      fixture.detectChanges();
+
+      component.onDateChanged('not-a-date');
+      assertDate(component.getSuggestedTime(), new Date());
+
+      component.onDateChanged(undefined);
+      assertDate(component.getSuggestedTime(), new Date());
+    });
+  });
 
   it('should fetch the current hour', fakeAsync(() => {
     component.bfSelectedTime = new Date('August 24 2020 13:30');
