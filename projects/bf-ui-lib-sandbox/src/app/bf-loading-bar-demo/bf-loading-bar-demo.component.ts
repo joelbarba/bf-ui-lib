@@ -42,6 +42,7 @@ this.loadingBar.config({
   showBar     : false,
   showSpinner : true,
   spinnerType : 'blueface',
+  ariaCompleteMessage : 'Complete'
 });`;
 
   public example2 = `this.loadingBar.run();
@@ -61,7 +62,8 @@ this.loadingBar.run(myPromise, { blockScreen: false }).then(() => {
     showBar     : false,
     showSpinner : true,
     spinnerType : 'blueface',
-    showLogs    : true
+    showLogs    : true,
+    ariaCompleteMessage: 'Complete'
   };
   public testLog = '';
   public elapsedTime = 0;
