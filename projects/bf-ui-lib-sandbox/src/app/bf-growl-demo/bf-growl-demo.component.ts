@@ -65,6 +65,13 @@ $growl-error-bg: $warning_color !default;`;
     this.growl.success(`views.test_label`);
   }
 
+  multiExample() {
+    this.growl.success('This is the first growl message, I hope it is long enough');
+
+    setTimeout(() => {
+      this.growl.success('This is the second message that should be read out');
+    }, 4000); // simulating passage of time
+  }
 }
 
 
@@ -77,7 +84,7 @@ export const BfGrowlDoc = {
   desc    : `Growl Module to push notifications on the screen`,
   api     : `growl.success(text) : Pushes a successful notification
 growl.error(text)   : Pushes a warning notification
-growl.pushMsg(msg)  : Pushes a custom message with custom parameters. 
+growl.pushMsg(msg)  : Pushes a custom message with custom parameters.
                       msg object contains: "text", "timeOut", "msgType" (success/error), "msgIcon" properties`,
   instance: `<bf-growl-pop-up>`,
   demoComp: BfGrowlDemoComponent
