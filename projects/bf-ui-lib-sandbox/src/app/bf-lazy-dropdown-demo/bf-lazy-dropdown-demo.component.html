@@ -207,6 +207,7 @@
       <br/>
       <bf-lazy-dropdown [(ngModel)]="selObjExample1"
                         [bfLazyLoad]="fakeLoadData"
+                        [bfRequired]="true"
                         [bfLazyLoadItem]="lazyItemExample1"
                         bfRender="email"
                         bfLabel="LazyLoadedItem"
@@ -216,6 +217,27 @@
       <pre>{{instance}}</pre>
       <br/>
       <pre>ngModel = {{selObjExample1 | json}}</pre>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-5">
+      bfRequired on init - No error if pristine
+      <div class="code-box pad15">
+        <pre>ngModel = {{selObjExample2 | json}}</pre>
+      </div>
+      <br/>
+      <bf-lazy-dropdown [(ngModel)]="selObjExample2"
+                        [bfLazyLoad]="fakeLoadData"
+                        [bfRequired]="true"
+                        bfRender="email"
+                        bfLabel="LazyLoadedItem"
+      ></bf-lazy-dropdown>
+    </div>
+    <div class="col-7 code-box">
+      <pre>{{instance2}}</pre>
+      <br/>
+      <pre>ngModel = {{selObjExample2 | json}}</pre>
     </div>
   </div>
 
