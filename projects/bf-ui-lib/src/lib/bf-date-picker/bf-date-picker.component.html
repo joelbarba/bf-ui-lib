@@ -27,7 +27,7 @@
   <div *ngIf="!bfIsInlineDatePicker">
     <div class="input-group"
          tabindex="0"
-         [attr.aria-label]="bfLabel"
+         [attr.aria-label]="bfLabelTrans$ | async"
          (keydown.enter)="onEnterPressed($event, dpRef)"
          (click)="!bfDisabled && dpRef.toggle()">
 
