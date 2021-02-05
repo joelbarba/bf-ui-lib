@@ -615,6 +615,8 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnChanges,
     }
   };
 
+
+
   public inputType = (value) => {
     this.searchTxt = value;
     this.bfOnTyping.emit(value);
@@ -765,6 +767,14 @@ export class BfDropdownA11yComponent implements ControlValueAccessor, OnChanges,
 
   public isActiveDecendant(id: string): boolean {
     return this.getActiveDecendant() === id;
+  }
+
+  public setItemActive(event: MouseEvent) {
+    let activeId = null;
+    if (!!event) {
+      activeId = (event.target as HTMLElement).getAttribute('id');
+    }
+    this.setActiveDecendant(activeId);
   }
 
   private setActiveDecendant(id: string) {
