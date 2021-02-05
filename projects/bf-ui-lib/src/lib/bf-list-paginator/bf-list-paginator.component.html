@@ -1,6 +1,6 @@
 <div class="bf-list-paginator">
   <nav role="navigation">
-    <ul class="page-buttons p-0" bfListController listItemClass="page-btn" listItemSelectedClass="current">
+    <ul class="page-buttons p-0 m-0" bfListController listItemClass="page-btn" listItemSelectedClass="current">
 
       <li role="button" class="page-btn prev-btn" (keydown)="previousPageClicked($event)" (click)="goToPrev()"
           [class.disabled]="isOnFirstPage()" [attr.aria-label]="getTranslatedAriaLabel('aria.list_paginator.previous_page')" [attr.disabled]="isOnFirstPage()">‹</li>
