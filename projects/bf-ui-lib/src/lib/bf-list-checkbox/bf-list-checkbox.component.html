@@ -24,10 +24,16 @@
         [class.icon-arrow-down3]="!actionsExp">
   </span>
 
-  <div class="actions-list" [class.expanded]="actionsExp">
-    <div *ngFor="let action of actions" (click)="clickAction(action)"
-        [tabindex]="actionsExp ? 0 : -1"
-         class="action-row" [class.disabled]="action.disabled">
+  <div #actionList class="actions-list" [class.expanded]="actionsExp" [attr.aria-expanded]="actionsExp" [attr.tabIndex]="getActionListTabIndex()" (keydown)="actionListKeyEvents($event)">
+    <div
+      role="button"
+      *ngFor="let action of actions; let i = index"
+      class="action-row"
+      [class.disabled]="action.disabled"
+      [attr.aria-disabled]="action.disabled"
+      (click)="clickAction(action)"
+      (keydown)="onKeyDown($event, action)"
+    >
       <span>{{action.label | getLabel$ | async }}</span>
     </div>
   </div>
