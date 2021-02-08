@@ -1,9 +1,9 @@
 <div class="no-data-bg" *ngIf="!bfIsPlaceholder" role="region" aria-live="assertive"  aria-relevant="additions text">
-  <p [attr.aria-label]="bfMessage | getLabel$ | async">{{ bfMessage | getLabel$ | async }}</p>
+  <p class="m-0" [attr.aria-label]="bfMessage | getLabel$ | async">{{ bfMessage | getLabel$ | async }}</p>
 </div>
 
 <div class="empty-placeholder" *ngIf="bfIsPlaceholder" aria-live="assertive" aria-relevant="additions text">
   <div aria-hidden="true" *ngIf="!!bfIcon" [class]="bfIcon"></div>
-  <p class="empty-title" *ngIf="!!bfTitle" [attr.aria-label]="bfTitle | getLabel$ | async" >{{ bfTitle | getLabel$ | async }}</p>
-  <p class="empty-description" *ngIf="!!bfDescription" [attr.aria-label]="bfDescription | getLabel$ | async">{{ bfDescription | getLabel$ | async }}</p>
+  <p class="empty-title mb-0" *ngIf="!!bfTitle" [attr.aria-label]="bfTitle | getLabel$ | async" >{{ bfTitle | getLabel$ | async }}</p>
+  <p class="empty-description mb-0" *ngIf="!!bfDescription" [attr.aria-label]="bfDescription | getLabel$ | async">{{ bfDescription | getLabel$ | async }}</p>
 </div>
