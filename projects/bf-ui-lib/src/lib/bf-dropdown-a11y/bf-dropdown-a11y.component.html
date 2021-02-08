@@ -83,6 +83,8 @@
         role="option"
         [id]="item.$activeId"
         [attr.aria-selected]="isActiveDecendant(item.$activeId)"
+        (mouseenter)="setItemActive($event)"
+        (mouseleave)="setItemActive(null)"
         (mousedown)="selectItem(item)"
         #optionRow>
         <div *ngIf="item.$groupHeader && !item.$hideHeader" class="group-header" role="presentation"></div>
@@ -99,8 +101,6 @@
       </li>
     </ul>
   </div>
-
-
 
 </div>
 

@@ -393,13 +393,6 @@ bf-dropdown.extra-btn, bf-dropdown-a11y.extra-btn {
 }
 
 bf-dropdown-a11y {
-  .option-wrapper {
-    :hover {
-      background: $dropdown-selection-hover;
-      color: $white;
-    }
-  }
-
   .dropdown {
     .list-container {
       margin-bottom: 0; // with the change to ul brings a margin causing a gap when expanding upwards
