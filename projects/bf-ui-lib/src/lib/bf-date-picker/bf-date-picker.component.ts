@@ -5,7 +5,7 @@ import {BfUILibTransService} from '../abstract-translate.service';
 import {NgbDateStruct, NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
 import BfString from '../bf-prototypes/string.prototype';
 import {DatePipe} from '@angular/common';
-import { Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { ReturnStatement } from '@angular/compiler';
 
 
@@ -58,6 +58,7 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   public clearButtonText: string;
 
   private localeSubscription$: Subscription;
+  public bfLabelTrans$: Observable<string> = of('');
 
   constructor(
     @Inject(BfUILibTransService) private translate: BfUILibTransService,
@@ -109,6 +110,8 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
     if (!!changes.hasOwnProperty('bfMaxDate')) { this.ngbMaxDate = this.parseModelIn(this.bfMaxDate); this.updateStatus(); }
 
     if (changes.hasOwnProperty('bfErrorPos') && this.bfErrorPos) { this.errorPosition = this.bfErrorPos; }
+
+    if (changes.hasOwnProperty('bfLabel')) { this.bfLabelTrans$ = this.translate.getLabel$(this.bfLabel); }
   }
 
   ngOnDestroy() {
