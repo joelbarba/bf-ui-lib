@@ -1,6 +1,6 @@
-import {Injectable, NgZone} from '@angular/core';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { BfUILibTransService} from '../abstract-translate.service';
+import { Injectable, NgZone } from '@angular/core';
+import { AriaLivePoliteness, LiveAnnouncer } from '@angular/cdk/a11y';
+import { BfUILibTransService } from '../abstract-translate.service';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -13,12 +13,12 @@ export class BfGrowlService {
     private liveAnnouncer: LiveAnnouncer
   ) { }
 
-  public success(text: string, labelParams = {}, timeOut = 2000) {
+  public success(text: string, labelParams = {}, timeOut = 2000, politeness: AriaLivePoliteness = 'assertive') {
     this.pushMsg({ text, timeOut, labelParams, msgType: 'success', msgIcon: 'icon-checkmark' });
     this.announceForScreenreaders(text, labelParams);
   }
 
-  public error(text: string, labelParams = {}, timeOut = 2000) {
+  public error(text: string, labelParams = {}, timeOut = 2000, politeness: AriaLivePoliteness = 'assertive') {
     this.pushMsg({ text, timeOut, labelParams, msgType: 'error', msgIcon: 'icon-warning2' });
     this.announceForScreenreaders(text, labelParams);
   }
@@ -69,9 +69,8 @@ export class BfGrowlService {
     });
   }
 
-  private announceForScreenreaders(text: string, params: any): void {
+  private announceForScreenreaders(text: string, params: any, politeness: AriaLivePoliteness = 'assertive'): void {
     const translatedString = this.translate.doTranslate(text, params);
-    this.liveAnnouncer.announce(translatedString);
+    this.liveAnnouncer.announce(translatedString, politeness);
   }
-
 }
