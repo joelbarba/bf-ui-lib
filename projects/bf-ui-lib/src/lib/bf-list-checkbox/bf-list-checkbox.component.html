@@ -17,7 +17,7 @@
 <!--Actions header-->
 <div *ngIf="!hasId && !!actions" class="actions-header list-header-col-title" [class.disabled]="!selection?.count">
   <span class="actions-text" (click)="selection.count && (actionsExp = !actionsExp)">
-    {{'(' + selection.count + ') ' + ('view.common.actions' | getLabel$ | async ) }}
+    {{'(' + selection?.count + ') ' + ('view.common.actions' | getLabel$ | async ) }}
   </span>
   <span class="actions-arrow" (click)="selection.count && (actionsExp = !actionsExp)"
         [class.icon-arrow-up3]="actionsExp"

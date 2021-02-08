@@ -7,7 +7,12 @@ import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {BfListHandler} from '../bf-list-handler/bf-list-handler';
 import {BfListSelection} from '../bf-list-selection/bf-list-selection';
 import {SimpleChange} from '@angular/core';
+import { BfTranslatePipe } from '../abstract-translate.service';
 
+const triggerKeyEvent = (fixture: ComponentFixture<BfListCheckboxComponent>, element: HTMLElement, key: string) => {
+  element.dispatchEvent(new KeyboardEvent('keydown', { key, cancelable: true, bubbles: true }));
+  fixture.detectChanges();
+};
 
 describe('BfListCheckboxComponent', () => {
   let component: BfListCheckboxComponent;
@@ -34,6 +39,7 @@ describe('BfListCheckboxComponent', () => {
       declarations: [
         BfListCheckboxComponent,
         BfCheckboxComponent,
+        BfTranslatePipe
       ],
     }).compileComponents();
   }));
@@ -92,5 +98,23 @@ describe('BfListCheckboxComponent', () => {
     expect(mySel.getSelection()).toEqual([]);
   });
 
+  it('should collapse the list when esc key is pressed', () => {
+    component.actions = [{ label: 'Test' }];
+    component.actionsExp = true;
+    fixture.detectChanges();
 
+    expect(component.actionsExp).toBe(true);
+
+    triggerKeyEvent(fixture, fixture.nativeElement.querySelector('.actions-list'), 'Escape');
+    expect(component.actionsExp).toBe(false);
+  });
+
+  it('should return the appropiate tabindex', () => {
+    expect(component.getActionListTabIndex()).toBe(-1);
+
+    component.actionsExp = true;
+    fixture.detectChanges();
+
+    expect(component.getActionListTabIndex()).toBe(0);
+  });
 });

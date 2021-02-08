@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {BfListSelection} from '../bf-list-selection/bf-list-selection';
 
 @Component({
@@ -13,7 +13,7 @@ export class BfListCheckboxComponent implements OnInit, OnChanges, OnDestroy {
   @Output() actionClick = new EventEmitter<any>();
   @Output() change = new EventEmitter<any>();
 
-  @ViewChild('actionList') actionList: any;
+  @ViewChild('actionList', { read: ElementRef, static: false }) actionList: ElementRef;
 
   private sub;
   public hasId = false;
@@ -90,10 +90,6 @@ export class BfListCheckboxComponent implements OnInit, OnChanges, OnDestroy {
 
   public getActionListTabIndex(): number {
     return this.isExpanded() ? 0 : -1;
-  }
-
-  public getActiveDecendant() {
-    return 'action-0';
   }
 
   public actionListKeyEvents(event: KeyboardEvent): void {
