@@ -16,7 +16,7 @@
          [container]="(bfTooltipBody ? 'body' : '')">
       <span class="icon-info"></span>
     </span>
-    <span> {{bfLabelTrans$ | async}} </span>:
+    <span>{{bfLabelTrans$ | async}}</span>:
     <span *ngIf="bfRequired" class="asterisk" aria-hidden="true">*</span>
     <span *ngIf="bfPatternLabel" class="sr-only">{{ bfPatternLabelTrans }}</span>
   </label>
