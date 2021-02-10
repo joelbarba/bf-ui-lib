@@ -26,7 +26,8 @@
                  (ngModelChange)="changeRowsPerPage($event)"
                  bfSelect="num"
                  bfRender="label"
-                 [bfRequired]="true">
+                 [bfRequired]="true"
+                 [bfAriaLabel]="'view.common.page_selector' | getLabel$ | async">
     </bf-dropdown-a11y>
   </div>
 </div>
