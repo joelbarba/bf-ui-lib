@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BfListSelection } from 'projects/bf-ui-lib/src/public_api';
 
 @Component({
   selector: 'app-bf-list-checkbox-demo',
@@ -33,11 +34,15 @@ export class BfListCheckboxDemoComponent implements OnInit {
   <div class="col-2">...</div>
 </li>`;
 
+  public actions = [];
 
   constructor() { }
 
   ngOnInit() {
-
+    this.actions = [
+      { id: 'alala', label: 'test', disabled: false },
+      { id: 'alaldsadsaa', label: 'tesdsadsadsat', disabled: false },
+    ];
   }
 
 }
