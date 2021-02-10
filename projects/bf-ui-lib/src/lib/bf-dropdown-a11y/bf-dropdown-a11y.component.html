@@ -76,6 +76,7 @@
       class="list-container"
       [class.list-upward]="expandUpward"
       [show]="isExpanded"
+      [attr.aria-hidden]="!isExpanded"
       #listContainer>
       <li
         *ngFor="let item of extList | isMatch"
