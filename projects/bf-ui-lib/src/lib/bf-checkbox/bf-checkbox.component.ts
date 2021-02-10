@@ -1,6 +1,6 @@
 import {Component, OnInit, Input, forwardRef, OnChanges} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {BfUILibTransService} from '../abstract-translate.service';
 
 @Component({
@@ -64,4 +64,11 @@ export class BfCheckboxComponent implements ControlValueAccessor, OnInit, OnChan
     }
   }
 
+  public getAriaLabel(): Observable<string> {
+    if (this.bfTooltip.length > 0) {
+      return this.bfTooltipTrans$;
+    }
+
+    return this.translate.getLabel$(this.bfAriaLabel);
+  }
 }

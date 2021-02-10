@@ -3,7 +3,8 @@
              bfTabIndex="-1"
              [ngModel]="selection?.ids[id]"
              [bfDisabled]="bfDisabled"
-             (ngModelChange)="selection?.toggleCheck(id); change.emit({ id: id, value: $event })">
+             (ngModelChange)="selection?.toggleCheck(id); change.emit({ id: id, value: $event })"
+             bfAriaLabel="view.common.row_select_aria">
 </bf-checkbox>
 
 <!--Full page selector-->
@@ -11,7 +12,8 @@
              bfTabIndex="-1"
              [ngModel]="selection?.isPageChecked"
              [bfDisabled]="bfDisabled"
-             (ngModelChange)="selection?.togglePage(); change.emit({ value: $event })">
+             (ngModelChange)="selection?.togglePage(); change.emit({ value: $event })"
+             bfAriaLabel="view.common.list_checkbox_aria_label">
 </bf-checkbox>
 
 <!--Actions header-->

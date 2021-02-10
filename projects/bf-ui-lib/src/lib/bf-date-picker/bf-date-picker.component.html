@@ -6,6 +6,7 @@
      [class.is-error]="!isPristine && status === 'error'">
 
   <bf-label *ngIf="!!bfLabel"
+            [bfForElementId]="inputId"
             [bfText]="bfLabel"
             [bfRequired]="bfRequired"
             [bfTooltip]="bfTooltip"
@@ -36,7 +37,8 @@
              disabled="disabled"
              [class.enabled]="!bfDisabled"
              name="dpv"
-             [ngModel]="bfFormattedValue">
+             [ngModel]="bfFormattedValue"
+             [id]="inputId">
 
       <div class="input-group-append"
            *ngIf="bfHasClearBtn"
@@ -51,7 +53,8 @@
       <div class="input-group-append">
         <button class="btn btn-outline-secondary"
                 tabindex="-1"
-                type="button">
+                type="button"
+                [attr.aria-label]="bfLabelTrans$ | async">
           <span class="icon-calendar"></span>
         </button>
       </div>

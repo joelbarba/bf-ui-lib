@@ -1,4 +1,4 @@
-import { Component, forwardRef, Inject, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Component, forwardRef, HostBinding, Inject, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BfUILibTransService } from '../abstract-translate.service';
 import { Observable, of } from 'rxjs';
@@ -81,6 +81,7 @@ export class BfSwitchComponent implements ControlValueAccessor, OnInit, OnChange
   onKeyUp($event) {
     if ($event.code === 'Tab' && this.bfTooltip) {
       this.tooltip.open();
+      // TODO dynamically assign aria-describedby to the tooltip element rather then screen announcer
       this.announceForScreenReaders();
     }
     if ($event.code === 'Space') {
