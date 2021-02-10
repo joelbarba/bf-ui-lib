@@ -7,6 +7,7 @@ import BfString from '../bf-prototypes/string.prototype';
 import {DatePipe} from '@angular/common';
 import { Observable, of, Subscription } from 'rxjs';
 import { ReturnStatement } from '@angular/compiler';
+import { generateId } from '../generate-id';
 
 
 @Component({
@@ -56,6 +57,7 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   public isTodayValid = true;         // Whether the min/max validation allows today as a valid option
   public locale: string;
   public clearButtonText: string;
+  public inputId: string = generateId(4);
 
   private localeSubscription$: Subscription;
   public bfLabelTrans$: Observable<string> = of('');

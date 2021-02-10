@@ -2,8 +2,7 @@
      [ngbTooltip]="bfTooltipTrans$ | async"
      [placement]="bfTooltipPos"
      [container]="(bfTooltipBody ? 'body' : '')">
-  <label [attr.aria-label]="bfLabelText$ | async"
-         [attr.aria-checked]="bfModel"
+  <label [attr.aria-checked]="bfModel"
          role="checkbox"
          [tabIndex]="bfTabIndex"
          (keydown)="keyPressed($event)">
@@ -18,6 +17,7 @@
          alt="{{ bfLabelText$ | async }}">
     <span class="check-text"
           [class.has-text]="!!bfLabel">{{bfLabelText$ | async}}</span>
+    <span *ngIf="this.bfLabel.length === 0" class="sr-only">{{getAriaLabel() | async}}</span>
   </label>
 </div>
 
