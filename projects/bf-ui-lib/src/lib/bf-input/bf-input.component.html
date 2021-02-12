@@ -71,7 +71,9 @@
            (focusout)="isFocus=false"
            [type]="bfType"
            (keydown)="triggerKey($event)"
-           [autocomplete]="autocomplete"/>
+           [autocomplete]="autocomplete"
+           (blur)="bfOnBlur.emit()"
+    />
 
     <div class="input-group-append" *ngIf="!!bfRightBtnIcon || !!bfRightBtnText"
          (click)="bfRightBtnClick.emit($event)">
