@@ -31,6 +31,18 @@ describe('BfInputComponent', () => {
   });
 
   describe('parseModelChange', () => {
+    it('should pass a string as-is', () => {
+      component.bfType = 'text';
+      component.parseModelChange('1234');
+      expect(component.bfModel).toBe('1234');
+    });
+
+    it('should parse numbers', () => {
+      component.bfType = 'number';
+      component.parseModelChange('1234');
+      expect(component.bfModel).toBe(1234);
+    });
+
     it('should not attempt to convert value to a number if value is an empty string', () => {
       // SPL-4078: when '-' or 'e' characters are input they are being represented as an empty string until accompanied by a number
       component.bfType = 'number';
