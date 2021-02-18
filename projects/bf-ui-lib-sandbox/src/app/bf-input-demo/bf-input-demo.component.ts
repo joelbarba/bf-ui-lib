@@ -249,6 +249,8 @@ export const BfInputDoc = {
 (bfOnEsc)         : Triggered when keys Esc is pressed.
 (bfOnEnter)       : Triggered when key Enter is pressed.
 (bfOnCtrlEnter)   : Triggered when keys Ctrl + Enter are pressed.
+(bfOnBlur)        : Triggered by the native blur event
+(bfOnFocus)       : Triggered by the native focus event
 `,
   instance: `<bf-input></bf-input>`,
   demoComp: BfInputDemoComponent
