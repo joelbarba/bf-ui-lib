@@ -322,6 +322,7 @@ export const BfDropdownDoc = {
 [bfPlaceholder]      : Placeholder to show when no value is selected. If bfEmptyLabel has a custom label, this is never shown.
 [bfEmptyLabel]       : By default the empty option shows the "view.common.empty" label. To display a different label, add it here.
 [bfEmptyValue]       : By default the empty option sets "null" value to the ngModel. To set a different value, add it here.
+[bfLoadingPlaceholder] : Value to be displayed in the input in case of no match (if undefined, ngModel is rendered)
 [bfErrorOnPristine]  : If true, errors will be shown in pristine state too (by default pristine shows always as valid, even if it's not).
 [bfErrorText]        : Custom error text (label) to display when invalid value.
 [bfErrorPos]         : Custom position where to display the error text. Values = ['top-right', 'bottom-left', 'bottom-right', 'none']. None will hide the error text.

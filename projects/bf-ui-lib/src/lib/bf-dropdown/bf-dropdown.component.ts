@@ -57,6 +57,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfEmptyLabel;    // Text of the emptyItem option (no label = 'Empty')
   @Input() bfEmptyValue: any = null;  // By default the empty option sets a "null" value to the ngModel.
                                       // You can add a custom value here to be set when the empty option is selected
+  @Input() bfLoadingPlaceholder;      // Value to be displayed in case of no match (if undefined, ngModel is rendered)
   @Input() bfErrorOnPristine = false; // If true, errors will be shown in initial state too (by default pristine shows as valid always)
   @Input() bfErrorPos: 'default' | 'top-right' | 'bottom-left' | 'bottom-right' | 'none' = 'default'; // Position of the error text
   @Input() bfErrorText: string;   // Custom error text (label) to display when invalid value
@@ -650,7 +651,11 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     if (!!value && value !== this.bfEmptyValue && this.extList.indexOf(matchItem) === -1) { // In case of "no match"
       this.bfModel = value;
       this.isModelEmpty = false;
-      this.setModelText((typeof value === 'string') ? value : '');  // Show the invalid value (if string)
+      if (this.bfLoadingPlaceholder !== undefined) {
+        this.setModelText(this.bfLoadingPlaceholder); // Show temporary value
+      } else {
+        this.setModelText((typeof value === 'string') ? value : '');  // Show the invalid value (if string)
+      }
 
     } else {
       this.selectItem(matchItem, { value }); // select valid match
