@@ -67,6 +67,8 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   @Input() bfRightBtnIcon: string;  // Icon to show into a button on the right of the input (append addon)
   @Input() bfLeftBtnText: string;   // Text to show into a button on the left of the input (prepend addon)
   @Input() bfRightBtnText: string;  // Text to show into a button on the left of the input (append addon)
+  @Input() bfLeftBtnTooltip: string;  // Tooltip for the button on the left
+  @Input() bfRightBtnTooltip: string; // Tooltip  for the button on the right
 
   @Input() bfAutoFocus = false; // If true, once input linked to the view is automatically focused
   @Input() bfAutocomplete = false; // If true, once the input is clicked, the previous value will be suggested
@@ -459,5 +461,10 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   private generateUniqueId(component: string): string {
     const hexString = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
     return `${component}-${hexString}`;
+  }
+
+  public refreshTooltip = (btnTip) => {
+    btnTip.close();
+    setTimeout(() => btnTip.open());
   }
 }
