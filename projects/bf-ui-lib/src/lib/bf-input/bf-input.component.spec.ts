@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -76,4 +76,14 @@ describe('BfInputComponent', () => {
     });
 
   });
+
+  it('should refresh the addon tooltip', fakeAsync(() => {
+    const fakeFn = { open: () => {}, close: () => {} };
+    spyOn(fakeFn, 'open');
+    spyOn(fakeFn, 'close');
+    component.refreshTooltip(fakeFn);
+    expect(fakeFn.close).toHaveBeenCalled();
+    tick();
+    expect(fakeFn.open).toHaveBeenCalled();
+  }));
 });
