@@ -43,7 +43,10 @@
        [ngbTooltip]="bfDisabledTipTrans$ | async">
 
     <div class="input-group-prepend" *ngIf="!!bfLeftBtnIcon || !!bfLeftBtnText"
-         (click)="bfLeftBtnClick.emit($event)">
+         (click)="bfLeftBtnClick.emit($event); refreshTooltip(btnTipL)"
+         #btnTipL="ngbTooltip" [ngbTooltip]="bfLeftBtnTooltip | getLabel$ | async"
+         autoClose="inside" placement="left" container="body">
+
       <button class="btn btn-outline-secondary" tabIndex="-1">
         <div [class]="bfLeftBtnIcon" [hidden]="!bfLeftBtnIcon"></div>
         <div [hidden]="!bfLeftBtnText">{{bfLeftBtnText}}</div>
@@ -76,7 +79,10 @@
     />
 
     <div class="input-group-append" *ngIf="!!bfRightBtnIcon || !!bfRightBtnText"
-         (click)="bfRightBtnClick.emit($event)">
+         (click)="bfRightBtnClick.emit($event); refreshTooltip(btnTipR)"
+         #btnTipR="ngbTooltip" [ngbTooltip]="bfRightBtnTooltip | getLabel$ | async"
+         autoClose="inside" placement="right" container="body">
+
       <button class="btn btn-outline-secondary" tabIndex="-1">
         <div [class]="bfRightBtnIcon" [hidden]="!bfRightBtnIcon"></div>
         <div [hidden]="!bfRightBtnText">{{bfRightBtnText}}</div>

@@ -20,6 +20,7 @@ export class BfInputDemoComponent implements OnInit, AfterViewInit {
   public myVariable4: any;
   public myVariable5: any;
   public bfModel: any;
+  public tipOn = false;
   public isLinked = true;
 
   constructor(
@@ -121,7 +122,6 @@ $input-valid-color     : $valid-color !default;`;
     hasLeftBtn: false, leftBtnIcon: 'icon-plus', hasLeftBtnText: false, leftBtnText: '$',
     hasRightBtn: false, rightBtnIcon: 'icon-eye', hasRightBtnText: false, rightBtnText: 'view.common.yes',
 
-    hasBtnListener: false,
     hasKeyDown: false,
     hasKeyEsc: false,
     hasKeyEnter: false,
@@ -130,6 +130,11 @@ $input-valid-color     : $valid-color !default;`;
 
     hasOnLoad: false,
     hasBeforeChange: false,
+
+    bfLeftBtnClick: false,
+    bfRightBtnClick: false,
+    bfLeftBtnTooltip: '',
+    bfRightBtnTooltip: '',
   };
 
 
@@ -183,10 +188,10 @@ $input-valid-color     : $valid-color !default;`;
     if (this.compConf.hasRightBtnText && this.compConf.rightBtnText) { this.customCompCode += this.bsStr + `bfRightBtnText="${this.compConf.rightBtnText}"`; }
     if (this.compConf.hasRightBtn && this.compConf.rightBtnIcon)     { this.customCompCode += this.bsStr + `bfRightBtnIcon="${this.compConf.rightBtnIcon}"`; }
 
-    if (this.compConf.hasBtnListener) {
-      if (this.compConf.hasLeftBtnText || this.compConf.hasLeftBtn) { this.customCompCode += this.bsStr + `(bfLeftBtnClick)="onClickFn()"`; }
-      if (this.compConf.hasRightBtnText || this.compConf.hasRightBtn) { this.customCompCode += this.bsStr + `(bfRightBtnClick)="onClickFn()"`; }
-    }
+    if (this.compConf.bfLeftBtnClick) { this.customCompCode += this.bsStr + `(bfLeftBtnClick)="onClickFn()"`; }
+    if (this.compConf.bfRightBtnClick) { this.customCompCode += this.bsStr + `(bfRightBtnClick)="onClickFn()"`; }
+    if (this.compConf.bfLeftBtnTooltip) { this.customCompCode += this.bsStr + `bfLeftBtnTooltip="${this.compConf.bfLeftBtnTooltip}"`; }
+    if (this.compConf.bfRightBtnTooltip) { this.customCompCode += this.bsStr + `bfRightBtnTooltip="${this.compConf.bfRightBtnTooltip}"`; }
 
     if (this.compConf.hasKeyDown) { this.customCompCode += this.bsStr + `(bfOnKeyDown)="onClickFn($event)"`; }
     if (this.compConf.hasKeyEsc)  { this.customCompCode += this.bsStr + `(bfOnEsc)="onClickFn($event)"`; }
@@ -238,19 +243,25 @@ export const BfInputDoc = {
 [bfErrorText]       : Custom error text (label) to display when invalid value
 [bfErrorPos]        : Custom position where to display the error text. Values = ['top-right', 'bottom-left', 'bottom-right', 'none']. None will hide the error text.
 
+[bfLeftBtnIcon]     : Icon to display in a button on the left side of the input (append addon)
+[bfLeftBtnText]     : Text to display in a button on the left side of the input (append addon)
+[bfLeftBtnTooltip]  : Tooltip to show on the left addon button
+(bfLeftBtnClick)    : To listen to left addon button clicks
+
+[bfRightBtnIcon]    : Icon to display in a button on the right side of the input (append addon)
+[bfRightBtnText]    : Text to display in a button on the right side of the input (append addon)
+[bfRightBtnTooltip] : Tooltip to show on the right addon button
+(bfRightBtnClick)   : To listen to right addon button clicks
+
 (bfOnLoaded)        : Emitter to catch the moment when the component is ready (ngAfterViewInit)
 (bfBeforeChange)    : Emitter to catch the next value before it is set. It returns both (currentValue, nextValue)
-(bfLeftBtnClick)  : To listen to left addon button clicks
-[bfRightBtnIcon]  : Icon to display in a button on the right side of the input (append addon)
-[bfRightBtnText]  : Text to display in a button on the right side of the input (append addon)
-(bfRightBtnClick) : To listen to right addon button clicks
-(bfOnAutofill)    : To listen to a browser autofill event. It emits every time the browser autofills the input value
-(bfOnKeyDown)     : Triggered when a key is pressed on the textarea
-(bfOnEsc)         : Triggered when keys Esc is pressed.
-(bfOnEnter)       : Triggered when key Enter is pressed.
-(bfOnCtrlEnter)   : Triggered when keys Ctrl + Enter are pressed.
-(bfOnBlur)        : Triggered by the native blur event
-(bfOnFocus)       : Triggered by the native focus event
+(bfOnAutofill)      : To listen to a browser autofill event. It emits every time the browser autofills the input value
+(bfOnKeyDown)       : Triggered when a key is pressed on the textarea
+(bfOnEsc)           : Triggered when keys Esc is pressed.
+(bfOnEnter)         : Triggered when key Enter is pressed.
+(bfOnCtrlEnter)     : Triggered when keys Ctrl + Enter are pressed.
+(bfOnBlur)          : Triggered by the native blur event
+(bfOnFocus)         : Triggered by the native focus event
 `,
   instance: `<bf-input></bf-input>`,
   demoComp: BfInputDemoComponent

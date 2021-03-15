@@ -48,11 +48,13 @@
                   [bfAutoFocus]="compConf.hasAutoFocus"
                   [bfLeftBtnText]="(compConf.hasLeftBtnText ? compConf.leftBtnText : '')"
                   [bfLeftBtnIcon]="(compConf.hasLeftBtn ? compConf.leftBtnIcon : '')"
-                  (bfLeftBtnClick)="compConf.hasBtnListener && growl.success('Left addon button click')"
+                  (bfLeftBtnClick)="compConf.bfLeftBtnClick && growl.success('Left addon button click')"
+                  [bfLeftBtnTooltip]="compConf.bfLeftBtnTooltip"
 
                   [bfRightBtnText]="(compConf.hasRightBtnText ? compConf.rightBtnText : '')"
                   [bfRightBtnIcon]="(compConf.hasRightBtn ? compConf.rightBtnIcon : '')"
-                  (bfRightBtnClick)="compConf.hasBtnListener && growl.success('Right addon button click')"
+                  (bfRightBtnClick)="tipOn = !tipOn"
+                  [bfRightBtnTooltip]="tipOn ? 'view.tooltip.message' : compConf.bfRightBtnTooltip"
 
                   (bfOnKeyDown)="compConf.hasKeyDown && growl.success('Key Down -> ' + $event.key)"
                   (bfOnEsc)="compConf.hasKeyEsc && growl.success('ESC key was pressed')"
@@ -157,11 +159,26 @@
 
             <bf-checkbox class="col-3 padT5" bfLabel="bfRightBtnText" [(ngModel)]="compConf.hasRightBtnText" (ngModelChange)="upComp()"></bf-checkbox>
             <bf-input class="col-3" [bfDisabled]="!compConf.hasRightBtnText" [(ngModel)]="compConf.rightBtnText" (ngModelChange)="upComp()"></bf-input>
-
-
-            <bf-checkbox class="col-12" bfLabel="(bfLeftBtnClick) | (bfRightBtnClick)" [(ngModel)]="compConf.hasBtnListener" (ngModelChange)="upComp()"
-                         [bfDisabled]="!compConf.hasLeftBtnText && !compConf.hasLeftBtn && !compConf.hasRightBtnText && !compConf.hasRightBtn">
+          </div>
+          <div class="row marT10">
+            <bf-checkbox class="col-6" bfLabel="(bfLeftBtnClick)" [(ngModel)]="compConf.bfLeftBtnClick" (ngModelChange)="upComp()"
+                         [show]="compConf.hasLeftBtnText || compConf.hasLeftBtn">
             </bf-checkbox>
+            <bf-checkbox class="col-6" bfLabel="(bfRightBtnClick)" [(ngModel)]="compConf.bfRightBtnClick" (ngModelChange)="upComp()"
+                         [class.offset-6]="!compConf.hasLeftBtnText && !compConf.hasLeftBtn"
+                         [show]="compConf.hasRightBtnText || compConf.hasRightBtn">
+            </bf-checkbox>
+          </div>
+          <div class="row marT10">
+            <bf-input class="col-6" bfPlaceholder="[bfLeftBtnTooltip]"
+                      [show]="compConf.hasLeftBtnText || compConf.hasLeftBtn"
+                      [(ngModel)]="compConf.bfLeftBtnTooltip" (ngModelChange)="upComp()">
+            </bf-input>
+            <bf-input class="col-6" bfPlaceholder="[bfRightBtnTooltip]"
+                      [class.offset-6]="!compConf.hasLeftBtnText && !compConf.hasLeftBtn"
+                      [show]="compConf.hasRightBtnText || compConf.hasRightBtn"
+                      [(ngModel)]="compConf.bfRightBtnTooltip" (ngModelChange)="upComp()">
+            </bf-input>
           </div>
         </div>
       </div>
