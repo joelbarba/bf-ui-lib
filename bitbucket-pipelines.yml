@@ -24,3 +24,24 @@ pipelines:
           - npm run test:ci
           - ./update_coverage_limits.sh
           - npm run build_lib
+
+  custom:
+    publish-lib:
+      - variables:
+          # [required] semver parameter to bump to a new version ['patch', 'minor', 'major']
+          - name: version_bump
+
+      - step:
+          name: Publish
+          script:
+            - printf "//`node -p \"require('url').parse(process.env.NPM_REGISTRY_URL || 'https://registry.npmjs.org').host\"`/:_authToken=${NPM_TOKEN}\nregistry=${NPM_REGISTRY_URL:-https://registry.npmjs.org}\n" >> ~/.npmrc
+            - npm ci
+            - npm run lint:ci
+            - npm run test:ci
+            - npm run prepare:lib
+            - declare -x LIB_VERSION=$(jq -r '.version' projects/bf-ui-lib/package.json)
+            - npm publish ./dist/bf-ui-lib/blueface_npm-bf-ui-lib-$(echo $LIB_VERSION).tgz
+            - git add .
+            - git commit -m "Publishing bf-ui-lib version $LIB_VERSION [skip CI]"
+            - git push && git push --tags
+
