@@ -15,6 +15,7 @@ export class BfLabelComponent implements OnInit, OnChanges {
   @Input() bfTooltip = '';
   @Input() bfValueTooltip = '';
   @Input() bfTooltipPos = 'top';
+  @Input() bfValueTooltipPos = 'top';
   @Input() bfTooltipBody = true;
   @Input() bfForElementId: string; // The element that the label should describe
   @Output() bfClick = new EventEmitter<any>();

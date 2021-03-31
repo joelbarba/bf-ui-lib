@@ -9,5 +9,5 @@
   <span class="asterisk" [hidden]="!(bfTextTrans$ | async)" *ngIf="bfRequired">*</span>
 </label>
 <div class="label-value" *ngIf="!!bfValue">
-  <span [ngbTooltip]="bfValueTooltipTrans$ | async" (click)="valueEvent()">{{bfValueTrans$ | async}}</span>
+  <span [ngbTooltip]="bfValueTooltipTrans$ | async" [placement]="bfValueTooltipPos" (click)="valueEvent()">{{bfValueTrans$ | async}}</span>
 </div>
