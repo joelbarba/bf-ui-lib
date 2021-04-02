@@ -564,4 +564,43 @@
   </div>
 </div>
 
+<div class="row marT40">
+  <div class="col-12">
+    <h3 class="marB20">Accessibility</h3>
 
+    <section>
+      <h4> Keyboard controls </h4>
+
+      <dl class="marB20">
+        <dt>up/down arrows</dt>
+        <dd>Moves visual focus to the previous/next item in the list. List selection is wrapped so focus will move to first/last item when reaching the end/start of the list</dd>
+
+        <dt>ESC</dt>
+        <dd>Closes the listbox if opened</dd>
+
+        <dt>ENTER</dt>
+        <dd>Selects the visually focused element if listbox is opened, otherwise opens listbox</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h4>Screen reader support</h4>
+      <p>The screen reader should read out the following</p>
+
+      <dl>
+        <dt>Dropdown recieves focus (in no order)</dt>
+        <dl>
+          <ul>
+            <li>Combox expanded</li>
+            <li>Label of the input</li>
+            <li>Currently selected item</li>
+            <li>Errors (If present)</li>
+          </ul>
+        </dl>
+
+        <dt>List item receives visual focus</dt>
+        <dd>"list-item" selected x of total</dd>
+      </dl>
+    </section>
+  </div>
+</div>

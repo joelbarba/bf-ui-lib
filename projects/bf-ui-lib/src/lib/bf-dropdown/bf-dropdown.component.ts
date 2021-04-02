@@ -7,6 +7,7 @@ import {isObservable, Observable, of, Subject, Subscription} from 'rxjs';
 import {BfUILibTransService} from '../abstract-translate.service';
 import {dCopy} from '../bf-prototypes/deep-copy';
 import {debounceTime} from 'rxjs/operators';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 // The control object (bfOnLoaded) emits
 export interface IbfDropdownCtrl {
@@ -35,7 +36,7 @@ export interface IbfDropdownCtrl {
     }
   ]
 })
-export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChanges, AfterViewInit, OnDestroy {
+export class BfDropdownComponent implements ControlValueAccessor, OnChanges, AfterViewInit, OnDestroy {
   @Input() bfList: Array<any>;    // List of options (array of objects)
   @Input() bfRender = '';         // How to display every option on the expanded list
   @Input() bfRenderFn;            // Function to be called to render the list items (when bfRender is not enough)
@@ -57,7 +58,9 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfEmptyLabel;    // Text of the emptyItem option (no label = 'Empty')
   @Input() bfEmptyValue: any = null;  // By default the empty option sets a "null" value to the ngModel.
                                       // You can add a custom value here to be set when the empty option is selected
+
   @Input() bfLoadingPlaceholder;      // Value to be displayed in case of no match (if undefined, ngModel is rendered)
+
   @Input() bfErrorOnPristine = false; // If true, errors will be shown in initial state too (by default pristine shows as valid always)
   @Input() bfErrorPos: 'default' | 'top-right' | 'bottom-left' | 'bottom-right' | 'none' = 'default'; // Position of the error text
   @Input() bfErrorText: string;   // Custom error text (label) to display when invalid value
@@ -71,6 +74,11 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   @Input() bfFilterFn: (list: Array<any>, value: string) => Array<any>; // Custom function to perform the list filtering
   @Input() bfKeepSearch = false;  // false = resets the search string every time the list is expanded, removing the previous filter
   @Input() bfHtmlRender = false;   // When true display values can be rendered as html on the list (but not in the input)
+
+  @Input() bfTabIndex = 0;
+
+  // accessibility inputs
+  @Input() bfAriaLabel: string;
 
   @Output() bfOnLoaded = new EventEmitter<IbfDropdownCtrl>();         // Emitter to catch the moment when the component is ready (ngAfterViewInit)
   @Output() bfOnListExpanded = new EventEmitter<any>();   // The moment when the list expands (focus in)
@@ -114,6 +122,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     $isMatch: true,
     $img: null,
     $icon: null,
+    $activeId: '',
   };
 
   public bfLabelTrans$ = of('');         // Translated text for the label
@@ -132,6 +141,11 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
   public listHeight; // Computed height of the expanded listContainer
   public allRows; // Reference to the optionRows.toArray() html elements array
   public searchTxt = '';
+  public bfInputId = this.generateUniqueId('inputId');
+  public bfListboxId = this.generateUniqueId('listBoxId');
+
+  private activeDecendent: string;
+  private currentErrorMessage: string;
 
   @ViewChild('dropdownInput', { static: false }) elInput: ElementRef<HTMLInputElement>;
   @ViewChild('listContainer', { static: false }) listContainer: ElementRef<HTMLInputElement>;
@@ -139,7 +153,8 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   constructor(
     private translate: BfUILibTransService,
-    private htmlEl: ElementRef,
+    private elementRef: ElementRef,
+    private liveAnnouncer: LiveAnnouncer
   ) {
 
     // Rerender the list labels on language change
@@ -290,8 +305,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   }
 
-  ngOnInit() {}
-
   ngAfterViewInit() {
     this.bfOnLoaded.emit({ ...this.ctrlObject }); // Expose all control methods
   }
@@ -337,6 +350,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
       item.$isMatch = true;   // filter none by default
       item.$img = item[this.bfRenderImg] || null;
       item.$icon = item[this.bfRenderIco] || null;
+      item.$activeId = `${this.bfListboxId}-item-${ind + 1}`; // used to determine aria-activedecendant
     });
 
     // Order the list
@@ -369,6 +383,11 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
     this.setEmptyOption(); // Set Empty option
     this.renderExtList(); // Set $renderedText
+
+    // set initial active decendant
+    if (this.extList[0]) {
+      this.setActiveDecendant(this.extList[0].$activeId);
+    }
   };
 
   // Add or remove the "Empty" option to the extList
@@ -376,6 +395,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     if (!this.bfRequired) { // If not required, the list should have "Empty" option
       if (!this.extList.find(item => item.$index === this.emptyItem.$index)) {
         this.emptyItem.$renderedText = this.translate.doTranslate(this.emptyItem.$label);
+        this.emptyItem.$activeId = `${this.bfListboxId}-item-0`;
         this.extList.unshift(this.emptyItem);  // Add it if not there yet
       }
     } else { // If required, the list shall not have "Empty" option
@@ -463,22 +483,29 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     // Determine the error to display
     if (this.isInvalid) {
       let errLabel = 'view.common.invalid_value';
-      if (this.errors.emptyRequired) { result = { error: 'required' }; errLabel = 'view.common.required_field'; }
-      if (this.errors.noMatch)       { result = { error: 'no match' }; errLabel = 'view.common.error.invalid_option'; }
-      if (this.errors.manualErr)     { result = { error: this.errors.manualErr }; errLabel = this.errors.manualErr; }
+      if (this.errors.emptyRequired) {
+        result = { error: 'required' };
+        errLabel = 'view.common.required_field';
+      }
+      if (this.errors.noMatch) {
+        result = { error: 'no match' };
+        errLabel = 'view.common.error.invalid_option';
+      }
+
+      if (this.errors.manualErr) {
+        result = { error: this.errors.manualErr };
+        errLabel = this.errors.manualErr;      }
 
       this.errorTextTrans$ = this.translate.getLabel$(this.bfErrorText || errLabel);
+      this.setCurrentErrorText(this.bfErrorText || errLabel);
+      this.annouceError();
       if (this.bfErrorText === 'none') { this.errorTextTrans$ = of(''); }
+    } else {
+      this.liveAnnouncer.clear();
     }
 
     return result;
   };
-
-  // ------------------------------------
-
-
-
-
 
   // Focus on input (deferring it to next cycle)
   public deferExpand = () => {
@@ -496,10 +523,10 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   // On input focus in -> Expand the select list
   public expandList = () => {
-
+    this.annouceError();
     // If the dropdown is to close to the bottom of the window, expand it upward so the list doesn't fall off
-    if (this.htmlEl && !this.bfCustomPlacementList) {
-      const renderedShadowRect = this.htmlEl.nativeElement.getBoundingClientRect();
+    if (this.elementRef && !this.bfCustomPlacementList) {
+      const renderedShadowRect = this.elementRef.nativeElement.getBoundingClientRect();
       this.expandUpward = (window.innerHeight - renderedShadowRect.bottom) < 350;
 
     } else { // Force the direction the list is expanded towards
@@ -512,20 +539,22 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     this.inputText = this.bfKeepSearch ? this.searchTxt : '';  // Reset the search string
     this.filterList(this.inputText);
 
+    // if we have an existing value update active decendant to that item
+    const selectedItem = this.extList.find(this.isSelected.bind(this));
+
+    if (selectedItem) {
+      this.setActiveDecendant(selectedItem.$activeId);
+    }
+
     // If the selected element is down in the list, auto scroll so it's immediately visible
     setTimeout(() => {
       if (this.optionRows && this.listContainer) {
         this.allRows = this.optionRows.toArray();
         this.listHeight = this.listContainer.nativeElement.getBoundingClientRect().height;
-        const selectedEl = this.allRows.find(el => el.nativeElement.classList.contains('selected'));
+        const selectedEl = this.allRows.find(el => this.isActiveDecendant(el.nativeElement.id));
         if (selectedEl) {
-          const offsetTop = selectedEl.nativeElement.offsetTop;
-          const clientHeight = selectedEl.nativeElement.clientHeight;
-          const scrollTop = this.listContainer.nativeElement.scrollTop;
-          const posY = offsetTop - scrollTop;
-          if (posY + clientHeight > this.listHeight) { // Scroll down
-            this.listContainer.nativeElement.scrollTo({ top: scrollTop + posY - 15, behavior: 'auto' });
-          }
+          this.setActiveDecendant(selectedEl.nativeElement.id);
+          this.scrollItemIntoView(selectedEl);
         }
       }
     });
@@ -545,56 +574,50 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     }
   };
 
-
   // React on key events (on the input)
-  public triggerKey = (event) => {
-    if (event.key === 'Escape' && this.isExpanded) { this.elInput.nativeElement.blur(); } // make it lose the focus
-
-    // Use bfCandidate as a temporary pointer to the highlighted item on the list while moving up/down with arrows
-    if (!this.bfCandidate) { this.bfCandidate = this.bfModel; }
-    const visibleList = this.extList.filter(item => item.$isMatch);
-    const ind = visibleList.indexOf(this.bfCandidate);
-
-    if (event.key === 'ArrowDown') {
-      const nextInd = (ind >= 0 && ind < visibleList.length - 1) ? ind + 1 : 0;
-      this.bfCandidate = visibleList[nextInd];
-      this.ignoreHover = true;
-      this.arrowScroll$.next();
-    }
-    if (event.key === 'ArrowUp') {
-      const nextInd = (ind > 0) ? ind - 1 : visibleList.length - 1;
-      this.bfCandidate = visibleList[nextInd];
-      this.ignoreHover = true;
-      this.arrowScroll$.next();
+  public triggerKey = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      this.isExpanded = false;
+      this.inputText = this.selModelText; // Take back the selected text
+      this.bfOnListCollapsed.emit();
     }
 
     if (event.key === 'Enter') {
-      this.selectItem(this.bfCandidate);
-      this.elInput.nativeElement.blur();
+      event.preventDefault();
+
+      if (!this.isExpanded) {
+        this.expandList();
+      } else {
+        const activeItemIndex = this.allRows.findIndex((element) => element.nativeElement.id === this.getActiveDecendant());
+        const itemToSelect = this.extList[activeItemIndex];
+        this.selectItem(itemToSelect);
+
+        this.isExpanded = false;
+        this.bfOnListCollapsed.emit();
+      }
     }
 
-    // Wait for the css classes to be applied on the view
-    // If the candidate falls out of the scrolling window, auto scroll so it gets back in
-    setTimeout(() => {
-      if (this.allRows && this.listContainer) {
-        const candidateEl = this.allRows.find(el => el.nativeElement.classList.contains('candidate'));
-        if (candidateEl) {
-          const offsetTop = candidateEl.nativeElement.offsetTop;
-          const clientHeight = candidateEl.nativeElement.clientHeight;
-          const scrollTop = this.listContainer.nativeElement.scrollTop;
-          const posY = offsetTop - scrollTop;
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      const currentElement = this.getCurrentElement(this.listContainer.nativeElement.children);
 
-          if (posY < 0) { // Scroll up
-            this.listContainer.nativeElement.scrollTo({ top: scrollTop + posY - 5, behavior: 'auto' });
-          }
-          if (posY + clientHeight > this.listHeight) { // Scroll down
-            this.listContainer.nativeElement.scrollTo({ top: scrollTop + posY + 5 + clientHeight - this.listHeight, behavior: 'auto' });
-          }
-        }
+      if (currentElement) {
+        const selectedElement = this.onNextItemFocused(currentElement);
+        this.scrollItemIntoView(selectedElement);
       }
-    });
+    }
 
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      const currentElement = this.getCurrentElement(this.listContainer.nativeElement.children);
+
+      if (currentElement) {
+        const selectedElement = this.onPreviousItemFocused(currentElement);
+        this.scrollItemIntoView(selectedElement);
+      }
+    }
   };
+
 
 
   public inputType = (value) => {
@@ -605,10 +628,13 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
 
   // Filter the list to display according to the input text
   public filterList = (value) => {
+    if (!this.isExpanded) {
+      this.expandList();
+    }
+
     if (this.bfFilterFn) {
       const fList = this.bfFilterFn(this.extList, value);
       this.extList.forEach(item => item.$isMatch = !!fList.find(e => e.$index === item.$index));
-
     } else {
       const patternVal = value.toLowerCase();
       this.extList.forEach(item => {
@@ -622,8 +648,15 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
         item.$hideHeader = !this.extList.filter(gi => gi.$isMatch && gi[this.bfGroupBy] === item[this.bfGroupBy]).length;
       });
     }
-  };
 
+    if (value.length > 0) {
+      const firstElement = this.extList.find(item => item.$isMatch);
+
+      if (firstElement) {
+        this.setActiveDecendant(firstElement.$activeId);
+      }
+    }
+  };
 
   // Given an external object/value, find and select the match on the internal list
   public matchSelection = (value) => {
@@ -698,7 +731,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
       }
     }
 
-    // console.log(new Date(), 'propagateModelUp', selModel);
     this.bfBeforeChange.emit({
       // currentValue: this.ngControl.value,  // TODO: find a better way
       nextValue: modelUp
@@ -708,9 +740,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     if (!writeValue || writeValue.value !== modelUp) {
       this.propagateModelUp(modelUp); // This triggers NG_VALIDATORS -> validate()
     }
-
   };
-
 
   // Determine how to display the selected option on the input
   public setModelText = (value) => {
@@ -730,4 +760,102 @@ export class BfDropdownComponent implements ControlValueAccessor, OnInit, OnChan
     }
   };
 
+  public getOptionId(index): string {
+    return `${this.bfListboxId}-item-${index}`;
+  }
+
+  public isSelected(item: any): boolean {
+    return item === this.bfModel;
+  }
+
+  public getActiveDecendant(): string {
+    return this.activeDecendent || this.getOptionId(0);
+  }
+
+  public isActiveDecendant(id: string): boolean {
+    return this.getActiveDecendant() === id;
+  }
+
+  public setItemActive(event: MouseEvent) {
+    let activeId = null;
+    if (!!event) {
+      activeId = (event.target as HTMLElement).getAttribute('id');
+    }
+    this.setActiveDecendant(activeId);
+  }
+
+  private setActiveDecendant(id: string) {
+    this.activeDecendent = id;
+  }
+
+  private getCurrentElement(options: HTMLCollection): any {
+    const currentElement = Array.from(options).find((element) => this.isActiveDecendant(element.id));
+    return currentElement;
+  }
+
+  private onNextItemFocused(currentElement): HTMLElement {
+    const nextElement = currentElement.nextElementSibling;
+
+    if (nextElement) {
+      this.setActiveDecendant(nextElement.id);
+      return nextElement;
+    } else {
+      return this.selectFirstListItem();
+    }
+  }
+
+  private onPreviousItemFocused(currentElement: any): HTMLElement {
+    const previousElement = currentElement.previousElementSibling;
+
+    if (previousElement) {
+      this.setActiveDecendant(previousElement.id);
+      return previousElement;
+    } else {
+      return this.selectLastListItem();
+    }
+  }
+
+  private selectFirstListItem(): HTMLElement {
+    const firstElement = this.listContainer.nativeElement.children.item(0);
+    this.setActiveDecendant(firstElement.id);
+    return firstElement as HTMLElement;
+  }
+
+  private selectLastListItem(): HTMLElement {
+    const listItems = this.listContainer.nativeElement.children;
+    const lastElement = listItems.item(listItems.length - 1);
+    this.setActiveDecendant(lastElement.id);
+    return lastElement as HTMLElement;
+  }
+
+  private scrollItemIntoView(selectedElement: HTMLElement): void {
+    if (selectedElement) {
+      const offsetTop = selectedElement.offsetTop;
+      const clientHeight = selectedElement.clientHeight;
+      const scrollTop = this.listContainer.nativeElement.scrollTop;
+      const posY = offsetTop - scrollTop;
+
+      if (posY < 0) { // Scroll up
+        this.listContainer.nativeElement.scrollTo({ top: scrollTop + posY - 5, behavior: 'auto' });
+      }
+      if (posY + clientHeight > this.listHeight) { // Scroll down
+        this.listContainer.nativeElement.scrollTo({ top: scrollTop + posY + 5 + clientHeight - this.listHeight, behavior: 'auto' });
+      }
+    }
+  }
+
+  private generateUniqueId(component: string): string {
+    const hexString = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    return `${component}-${hexString}`;
+  }
+
+  private annouceError() {
+    if (this.isInvalid && this.showError) {
+      this.liveAnnouncer.announce(this.translate.doTranslate(this.currentErrorMessage));
+    }
+  }
+
+  private setCurrentErrorText(errorText: string) {
+    this.currentErrorMessage = errorText;
+  }
 }
