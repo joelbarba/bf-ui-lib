@@ -136,8 +136,6 @@ $disabled_input_color : $disabled-color;
         [(bfSelectedTime)]="defaultStartDate"
         [bfMinTime]="minTime"
         [bfMaxTime]="maxTime"
-        [bfDefaultTimezone]="defaultTimezone"
-        [bfSupportedTimezones]="supportedTimezones"
         [bfDisabled]="true">
       </bf-time-picker>
     `;
