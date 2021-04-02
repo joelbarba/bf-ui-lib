@@ -126,13 +126,11 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
 
   // using custom toggle logic to prevent time-picker from opening, this is mainly due to the fact that we can't open the dropdown until we have supported timezones
   public toggleTimePicker(timePicker: NgbDropdown) {
-    if (!this.isDisabled()) {
-      timePicker.toggle();
-    }
+    timePicker.toggle();
   }
 
   public isDisabled() {
-    return this.bfDisabled || !this.bfSupportedTimezones;
+    return this.bfDisabled;
   }
 
   public onDateChanged(newDate: string) {
