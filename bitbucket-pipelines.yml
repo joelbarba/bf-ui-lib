@@ -42,6 +42,6 @@ pipelines:
             - declare -x LIB_VERSION=$(jq -r '.version' projects/bf-ui-lib/package.json)
             - npm publish ./dist/bf-ui-lib/blueface_npm-bf-ui-lib-$(echo $LIB_VERSION).tgz
             - git add .
-            - git commit -m "Publishing bf-ui-lib version $LIB_VERSION [skip CI]"
+            - git commit -m "Publishing bf-ui-lib version $LIB_VERSION [skip ci]"
             - git push && git push --tags
 
