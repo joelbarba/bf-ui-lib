@@ -16,9 +16,11 @@
     "copy_md": "cp ./README.md ./dist/bf-ui-lib/",
     "copy_styles": "cp -r ./projects/bf-ui-lib/scss ./dist/bf-ui-lib/scss",
     "version_up": "cd ./projects/bf-ui-lib && npm version patch",
+    "version_bump:ci": "cd ./projects/bf-ui-lib && npm version $version_bump",
     "npm_pack": "cd dist/bf-ui-lib && npm pack",
-    "pack_all": "npm run build_lib && npm run copy_md  &&  npm run copy_styles  &&  npm run npm_pack",
-    "publish": "npm run version_up && npm run pack_all &&  npm publish ./dist/bf-ui-lib/bf-ui-lib-$(npm view ./projects/bf-ui-lib version).tgz",
+    "pack_all": "npm run build_lib && npm run copy_md && npm run copy_styles && npm run npm_pack",
+    "publish": "npm run version_up && npm run pack_all && npm publish ./dist/bf-ui-lib/bf-ui-lib-$(npm view ./projects/bf-ui-lib version).tgz",
+    "prepare:lib": "npm run version_bump:ci && npm run pack_all",
     "build_doc": "ng build bf-ui-lib-sandbox --deployUrl=bf-ui-lib-doc/ --base-href '/bf-ui-lib-doc'"
   },
   "private": false,

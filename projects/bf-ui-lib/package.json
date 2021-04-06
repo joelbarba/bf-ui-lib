@@ -16,5 +16,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://joelbarba@bitbucket.org/bluefacedevs/bf-ui-lib.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "restricted"
   }
 }
