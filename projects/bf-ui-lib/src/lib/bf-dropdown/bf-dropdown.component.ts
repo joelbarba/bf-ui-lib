@@ -784,7 +784,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
     this.setActiveDecendant(activeId);
   }
 
-  private setActiveDecendant(id: string) {
+  public setActiveDecendant(id: string) {
     this.activeDecendent = id;
   }
 
