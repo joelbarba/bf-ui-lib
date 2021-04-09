@@ -25,7 +25,9 @@ export class BfDualCheckboxComponent implements ControlValueAccessor, OnInit, On
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.warn('*** Deprecation Warning ***\n Please consult with UX on an alternative component as this may be removed in a future release');
+  }
 
   ngOnChanges() {}
 
