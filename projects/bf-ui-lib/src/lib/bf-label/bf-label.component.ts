@@ -13,7 +13,9 @@ export class BfLabelComponent implements OnInit, OnChanges {
   @Input() bfRequired = false;
   @Input() bfValue = '';
   @Input() bfTooltip = '';
+  @Input() bfValueTooltip = '';
   @Input() bfTooltipPos = 'top';
+  @Input() bfValueTooltipPos = 'top';
   @Input() bfTooltipBody = true;
   @Input() bfForElementId: string; // The element that the label should describe
   @Output() bfClick = new EventEmitter<any>();
@@ -21,6 +23,7 @@ export class BfLabelComponent implements OnInit, OnChanges {
   public bfTextTrans$: Observable<string> = of('');        // Translated text for the label
   public bfValueTrans$: Observable<string> = of('');       // Translated text for the value
   public bfTooltipTrans$: Observable<string> = of('');     // Translated text for the tooltip of the label
+  public bfValueTooltipTrans$: Observable<string> = of('');     // Translated text for the tooltip of the value
 
   constructor(private translate: BfUILibTransService) {
   }
@@ -31,6 +34,7 @@ export class BfLabelComponent implements OnInit, OnChanges {
     if (change.hasOwnProperty('bfText'))    { this.bfTextTrans$    = this.translate.getLabel$(this.bfText); }
     if (change.hasOwnProperty('bfTooltip')) { this.bfTooltipTrans$ = this.translate.getLabel$(this.bfTooltip); }
     if (change.hasOwnProperty('bfValue'))   { this.bfValueTrans$   = this.translate.getLabel$(this.bfValue); }
+    if (change.hasOwnProperty('bfValueTooltip'))   { this.bfValueTooltipTrans$   = this.translate.getLabel$(this.bfValueTooltip); }
   }
 
   valueEvent() {

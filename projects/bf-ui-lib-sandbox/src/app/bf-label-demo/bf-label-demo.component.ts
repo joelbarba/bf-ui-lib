@@ -27,6 +27,7 @@ export class BfLabelDemoComponent implements OnInit {
   public instance6 = `<bf-label class="no-colon" bfText="No Colon Label"></bf-label>
 <bf-label class="colon value-inline" bfValue="Colon with no label"></bf-label>`;
   public instance7 = `<bf-label bfText="I have the value clickable" (bfClick)="valueClickedExample()"></bf-label>`;
+  public instance8 = `<bf-label bfText="I have value" bfValue="I have tooltip" bfValueTooltip="I'm the tooltip"></bf-label>`;
   public bfHtmlStructure =
 `<label class="is-required">
   <span class="info-badge" [ngbTooltip]="bfTooltip" [placement]="bfTooltipPos" triggers="hover" container="body">
