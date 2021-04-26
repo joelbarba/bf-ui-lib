@@ -334,6 +334,8 @@ export const BfDropdownDoc = {
                        Either a boolean (true=show, false=hide), or a promise that will automatically show the spinner while not resolved,
                        or an observable that emits a boolean (true=loading, false=loaded)
 [bfCustomPlacementList] : By default the list expands up/down depending on its position on the screen. To force it: 'top' | 'bottom'.
+[bfTabIndex]            : A tabindex to provide to the element, default is 0. If this element needs to be removed from the accessibility tree supply a value of -1
+[bfAriaLabel]           : If no label is supplied or it does not provide enough contextual information a value can be passed to the aria-label attribute.
 
 [extCtrl$]           : Observable to trigger actions. Its .next() should emit an object with "action"/"value"
 (bfOnLoaded)         : Emitter to catch the moment when the component is ready. It also emits the control object.

@@ -75,9 +75,9 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
   @Input() bfKeepSearch = false;  // false = resets the search string every time the list is expanded, removing the previous filter
   @Input() bfHtmlRender = false;   // When true display values can be rendered as html on the list (but not in the input)
 
-  @Input() bfTabIndex = 0;
 
   // accessibility inputs
+  @Input() bfTabIndex = 0;
   @Input() bfAriaLabel: string;
 
   @Output() bfOnLoaded = new EventEmitter<IbfDropdownCtrl>();         // Emitter to catch the moment when the component is ready (ngAfterViewInit)
@@ -554,7 +554,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
         const selectedEl = this.allRows.find(el => this.isActiveDecendant(el.nativeElement.id));
         if (selectedEl) {
           this.setActiveDecendant(selectedEl.nativeElement.id);
-          this.scrollItemIntoView(selectedEl);
+          this.scrollItemIntoView(selectedEl.nativeElement);
         }
       }
     });
