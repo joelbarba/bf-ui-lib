@@ -36,6 +36,10 @@
         [class.bf-icon-error]="status === 'error'">
   </span>
 
+  <img *ngIf="bfImage" class="bf-input-inner-image"
+        [class.icon-space]="displayIcon"
+        [src]="bfImage" [alt]="bfImage"/>
+
   <div class="input-wrapper"
        [class.has-autofill-detection]="hasAutofillDetection"
        [class.input-group]="!!bfLeftBtnIcon || !!bfRightBtnIcon || !!bfLeftBtnText || !!bfRightBtnText"

@@ -92,6 +92,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   @Input() bfInvalidIcon = 'icon-warning22'; // Icon to show when the value is dirty and invalid (by default icon-warning22)
   @Input() bfErrorOnPristine = false; // If true, errors will be shown in pristine state too (by default pristine shows as valid always)
 
+  @Input() bfImage;
 
   @Output() bfLeftBtnClick = new EventEmitter<any>();   // Emitter for left addon button
   @Output() bfRightBtnClick = new EventEmitter<any>();  // Emitter for right addon button
