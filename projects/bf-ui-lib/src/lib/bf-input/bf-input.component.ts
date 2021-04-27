@@ -93,6 +93,8 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   @Input() bfErrorOnPristine = false; // If true, errors will be shown in pristine state too (by default pristine shows as valid always)
 
   @Input() bfImage;
+  @Input() BfImageAltText = '';
+  @Input() bfImageHidden = true;
 
   @Output() bfLeftBtnClick = new EventEmitter<any>();   // Emitter for left addon button
   @Output() bfRightBtnClick = new EventEmitter<any>();  // Emitter for right addon button

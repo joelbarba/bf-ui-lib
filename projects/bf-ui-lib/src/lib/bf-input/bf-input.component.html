@@ -38,7 +38,8 @@
 
   <img *ngIf="bfImage" class="bf-input-inner-image"
         [class.icon-space]="displayIcon"
-        [src]="bfImage" [alt]="bfImage"/>
+        [attr.aria-hidden]="bfImageHidden"
+        [src]="bfImage" [alt]="BfImageAltText"/>
 
   <div class="input-wrapper"
        [class.has-autofill-detection]="hasAutofillDetection"
