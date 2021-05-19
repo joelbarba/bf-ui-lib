@@ -53,4 +53,10 @@ describe('BfDropdownComponent', () => {
     component.setActiveDecendant('testListBox-item-0');
     expect(component.getActiveDecendant()).toBe('testListBox-item-0');
   });
+
+  it('should set the current error text', () => {
+    component.setCurrentErrorText(`There's a snake in my boots`);
+    fixture.detectChanges();
+    expect(component.currentErrorMessage).toBe(`There's a snake in my boots`);
+  });
 });

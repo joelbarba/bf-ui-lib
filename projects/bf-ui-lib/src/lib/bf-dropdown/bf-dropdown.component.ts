@@ -145,7 +145,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
   public bfListboxId = this.generateUniqueId('listBoxId');
 
   private activeDecendent: string;
-  private currentErrorMessage: string;
+  public currentErrorMessage: string;
 
   @ViewChild('dropdownInput', { static: false }) elInput: ElementRef<HTMLInputElement>;
   @ViewChild('listContainer', { static: false }) listContainer: ElementRef<HTMLInputElement>;
@@ -788,6 +788,10 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
     this.activeDecendent = id;
   }
 
+  public setCurrentErrorText(errorText: string) {
+    this.currentErrorMessage = errorText;
+  }
+
   private getCurrentElement(options: HTMLCollection): any {
     const currentElement = Array.from(options).find((element) => this.isActiveDecendant(element.id));
     return currentElement;
@@ -853,9 +857,5 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
     if (this.isInvalid && this.showError) {
       this.liveAnnouncer.announce(this.translate.doTranslate(this.currentErrorMessage));
     }
-  }
-
-  private setCurrentErrorText(errorText: string) {
-    this.currentErrorMessage = errorText;
   }
 }
