@@ -29,6 +29,23 @@ bf-input {
       }
     }
 
+    .bf-input-inner-image {
+      position: absolute;
+      display: block;
+      z-index: 2;
+      top: initial;
+      height: 36px;
+      bottom: 0;
+      right: 0;
+      padding: 10px;
+      font-size: 14px;
+      text-align: center;
+      pointer-events: none;
+      &.icon-space {
+        right: 25px;
+      }
+    }
+
     label {
       font-weight: 700;
       margin-bottom: 2px;

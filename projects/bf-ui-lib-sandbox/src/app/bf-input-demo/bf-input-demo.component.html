@@ -40,6 +40,7 @@
                   [bfDisabled]="compConf.isDisabled"
 
                   [bfIcon]="(compConf.hasIcon ? compConf.inputIcon : '')"
+                  [bfImage]="(compConf.hasImage ? compConf.inputImage : '')"
                   [bfType]="compConf.inputType"
                   [bfTooltip]="(compConf.hasTooltip ? compConf.inputTooltip : null)"
                   [bfTooltipPos]="(compConf.inputTooltipPos || 'top')"
@@ -115,6 +116,16 @@
                      [bfList]="btnIcons" bfRender="icon" bfSelect="icon" [bfRequired]="false">
         </bf-dropdown>
         <span class="col-3 padT5 text-info">bfIcon="loading" --> Spinner</span>
+      </div>
+
+      <!--Image-->
+      <div class="row marT15">
+        <bf-checkbox class="col-3 padT5" bfLabel="bfImage" [(ngModel)]="compConf.hasImage" (ngModelChange)="upComp()"></bf-checkbox>
+        <bf-dropdown class="col-4 full-width"
+                     [bfDisabled]="!compConf.hasImage"
+                     [(ngModel)]="compConf.inputImage" (ngModelChange)="upComp()"
+                     [bfList]="btnImages" bfRender="name" bfSelect="img" [bfRequired]="false">
+        </bf-dropdown>
       </div>
 
       <div class="row marT5">
@@ -196,7 +207,6 @@
 
   </div>
 </div>
-
 
 <div class="marT30" *ngIf="true">
 
