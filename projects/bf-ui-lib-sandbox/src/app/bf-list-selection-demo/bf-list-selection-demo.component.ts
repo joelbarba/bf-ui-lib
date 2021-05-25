@@ -196,6 +196,7 @@ resetSel() ................ Empties the current selection.
 refresh() ................. Updates the selection (page selection checkbox).
 toggleCheck(id, value?) ... Selects/deselects the given ID. If value is provided, true=selects, false=deselects. 
 togglePage(value?) ........ Selects/deselects all the items of the current page. If value is provided, true=selects all, false=deselects all.
+isSelectable(item?) ....... Determines if an item of the list is selectable (for page selection). Default: isSelectable = (item) => true. 
 `,
   instance: `mySel = new BfListSelection(this.myList);`,
   demoComp: BfListSelectionDemoComponent

@@ -41,7 +41,8 @@ export class BfListSelection {
   public isChecked = (id) => !!this.ids[id];
   public resetSel = () => { this.ids = {}; this.refresh(); };
   public refresh = () => {
-    this.isPageChecked = this.list && this.list.length && this.list.every(item => this.ids[item.id]);
+    const fList = this.list?.filter(item => this.isSelectable(item)) || [];
+    this.isPageChecked = fList.length && fList.every(item => this.ids[item.id]);
     this.count = Object.keys(this.ids).length;
     this.onChange$.next(this.ids);
   }
@@ -56,6 +57,8 @@ export class BfListSelection {
   };
 
   public togglePage = (value = !this.isPageChecked) => {
-    this.list.forEach(item => this.toggleCheck(item.id, value));
+    this.list.filter(item => this.isSelectable(item)).forEach(item => this.toggleCheck(item.id, value));
   };
+
+  public isSelectable = (item) => true;
 }
