@@ -49,8 +49,7 @@ import { BfLazyDropdownComponent } from './bf-lazy-dropdown/bf-lazy-dropdown.com
 import { BfCollapseComponent } from './bf-collapse/bf-collapse.component';
 import { BfExpandableListComponent } from './bf-expandable-list/bf-expandable-list.component';
 import { BfListControllerDirective } from './bf-list-controller/bf-list-controller.directive';
-import { BfDropdownA11yComponent } from './bf-dropdown-a11y/bf-dropdown-a11y.component';
-import { BfDropdownA11yPipe } from './bf-dropdown-a11y/bf-dropdown-a11y.pipe';
+import { BfDropdownA11yPipe } from './bf-dropdown/bf-dropdown-a11y.pipe';
 import { BfIntersectionObserverDirective } from './bf-intersection-observer/bf-intersection-observer.directive';
 
 @NgModule({
@@ -92,7 +91,6 @@ import { BfIntersectionObserverDirective } from './bf-intersection-observer/bf-i
     BfCollapseComponent,
     BfExpandableListComponent,
     BfListControllerDirective,
-    BfDropdownA11yComponent,
     BfDropdownA11yPipe, // Internal
     BfIntersectionObserverDirective,
   ],
@@ -154,7 +152,6 @@ import { BfIntersectionObserverDirective } from './bf-intersection-observer/bf-i
     BfLoadingBarModule,
     BfDnDModule,
     BfListControllerDirective,
-    BfDropdownA11yComponent,
     BfIntersectionObserverDirective,
   ]
 })

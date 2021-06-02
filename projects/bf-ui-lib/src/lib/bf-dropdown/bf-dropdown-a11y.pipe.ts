@@ -6,6 +6,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class BfDropdownA11yPipe implements PipeTransform {
   public transform(list: Array<any>): Array<any> {
-    return list.filter((item) => item.$isMatch);
+    return list?.filter((item) => item.$isMatch) || [];
   }
 }

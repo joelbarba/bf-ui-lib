@@ -19,7 +19,7 @@
     </ul>
   </nav>
   <div *ngIf="bfShowSelector" class="page-num-selector text-right">
-    <bf-dropdown-a11y
+    <bf-dropdown
                  class="flat"
                  [bfList]="bfCtrl.maxRowsPerPageList"
                  [(ngModel)]="bfCtrl.rowsPerPage"
@@ -28,7 +28,7 @@
                  bfRender="label"
                  [bfRequired]="true"
                  [bfAriaLabel]="'view.common.page_selector' | getLabel$ | async">
-    </bf-dropdown-a11y>
+    </bf-dropdown>
   </div>
 </div>
 
