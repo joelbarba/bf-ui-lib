@@ -17,7 +17,7 @@ export class BfProgressBarComponent implements OnInit, OnChanges {
 
   bfUsedLabel$: Observable<string> = of('');
   bfLeftLabel$: Observable<string> = of('');
-  
+
   constructor(private translate: BfUILibTransService) { }
 
   ngOnInit() { }
