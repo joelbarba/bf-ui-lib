@@ -25,7 +25,7 @@ export class BfProgressBarDemoComponent implements OnInit {
   [bfValue]="1299"
   [bfTotal]="2048"
   [bfUsedLabel]="\'view.minutes_used\'" // {{value}} minutes used
-  [bfLeftLabel]="\'view.minutes_left\'"> // {{leftValue}} minutes left
+  [bfLeftLabel]="\'view.less_than_minute\'">
 </bf-progress-bar>`;
 
   public custom = {
