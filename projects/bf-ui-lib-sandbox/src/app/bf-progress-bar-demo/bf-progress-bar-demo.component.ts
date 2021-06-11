@@ -25,7 +25,7 @@ export class BfProgressBarDemoComponent implements OnInit {
   [bfValue]="1299"
   [bfTotal]="2048"
   [bfUsedLabel]="\'view.minutes_used\'" // {{value}} minutes used
-  [bfLeftLabel]="\'view.less_than_minute\'">
+  [bfLeftLabel]="\'view.less_than_minute\'"> // less than a minute
 </bf-progress-bar>`;
 
   public custom = {
@@ -83,11 +83,14 @@ export const BfProgressBarDoc = {
   [bfTotal]: maximum value that can be reached
   [bfValue]: actual value
   [bfUsedLabel]: translation for the label below the component on the left and have the value as binding {{value}}
-  [bfLeftLabel]: translation for the label below the component on the right and have the missing value as binding {{leftValue}}
+  [bfLeftLabel]: translation for the label below the component on the right and have the missing value as binding {{value}}
 
   For example: [bfUsedLabel]="'view.subscriptions.minutes_used'" -> {{value}} minutes used
-               [bfLeftLabel]="'view.subscriptions.minutes_left'" -> {{leftValue}} minutes left
+               [bfLeftLabel]="'view.subscriptions.minutes_left'" -> {{value}} minutes left
 
+  If you want to display a label without the values you might do a translation key without the value binding:
+  [bfLeftLabel]="'view.subscriptions.less_than_minute'" -> less than a minute
+  
   If you want to display only the values you might do a translation key with inside just the binding in this way:
   [bfUsedLabel]="'view.subscriptions.value_used'" -> {{value}}`,
   demoComp: BfProgressBarDemoComponent
