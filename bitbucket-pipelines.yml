@@ -3,7 +3,6 @@ image: circleci/node:12-browsers
 pipelines:
   default:
     - step:
-        name: Build and Test
         script:
           # Generates a .npmrc file configured for installing private modules
           # Taken from https://bitbucket.org/benjamincoe/private-modules-demo/src/master/bitbucket-pipelines.yml
@@ -12,6 +11,8 @@ pipelines:
           - npm run lint:ci
           - npm run test:ci
           - npm run build_lib # used to ensure changes pass AOT
+          # Commented out until the Docker issue is resolved
+          # - npm run e2e:ci
 
   branches:
     master:
@@ -41,6 +42,8 @@ pipelines:
             - npm run prepare:lib
             - declare -x LIB_VERSION=$(jq -r '.version' projects/bf-ui-lib/package.json)
             - npm publish ./dist/bf-ui-lib/blueface_npm-bf-ui-lib-$(echo $LIB_VERSION).tgz
+            - declare -x TOKEN=$(curl -s -X POST -u "${OAUTH_CLIENT_ID}:${OAUTH_CLIENT_SECRET}" https://bitbucket.org/site/oauth2/access_token -d grant_type=client_credentials | jq --raw-output '.access_token')
+            - git remote set-url origin "https://x-token-auth:${TOKEN}@bitbucket.org/bluefacedevs/bf-ui-lib"
             - git add .
             - git commit -m "Publishing bf-ui-lib version $LIB_VERSION [skip ci]"
             - git push && git push --tags
