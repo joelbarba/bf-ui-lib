@@ -501,21 +501,6 @@ describe('BfTimePickerComponent', () => {
     expect(doesSubjectContainOriginalValue).toBeTruthy();
   }));
 
-  it('should emit an event when onSave is called', fakeAsync(() => {
-    const selectedTimeChangeSpy = spyOn(component.bfSelectedTimeChange, 'emit').and.callFake(() => {});
-    const initialDate = new Date('2020-08-24');
-    component.bfSelectedTime = initialDate;
-    fixture.detectChanges();
-
-    component.closeTimePicker({ close: () => {
-      component.onOpenChange(false); // calling onOpenChange as this will simulate the dropdown behaviour
-    } } as NgbDropdown);
-
-    updateFixture(fixture);
-
-    expect(selectedTimeChangeSpy).toHaveBeenCalledWith(initialDate);
-  }));
-
   it('should set the locale on init', fakeAsync(() => {
     updateFixture(fixture);
     expect(component.locale).toBe('en-IE');
