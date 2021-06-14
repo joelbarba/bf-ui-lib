@@ -1,5 +1,5 @@
 <bf-label [bfText]="bfLabel"></bf-label>
-<div ngbDropdown autoClose="outside" [placement]="bfPlacement" #timePickerDropdown="ngbDropdown" (openChange)="onOpenChange($event)">
+<div ngbDropdown autoClose="outside" [placement]="bfPlacement" #timePickerDropdown="ngbDropdown">
   <div class="input-group" ngbDropdownAnchor (click)="toggleTimePicker(timePickerDropdown)">
     <input type="text" class="form-control display-input" [ngModel]="displayTime$ | async" disabled/>
     <span class="input-group-append">
