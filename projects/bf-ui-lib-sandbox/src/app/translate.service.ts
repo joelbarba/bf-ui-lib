@@ -143,7 +143,9 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.resetFilters': 'Reset Filters',
     'view.common.refresh': 'Refresh',
     'view.switch.a11y-test-tooltip': ' This is a switch tooltip',
-    'view.date-picker.aria-label': 'Birth day'
+    'view.date-picker.aria-label': 'Birth day',
+    'view.minutes_used': '{{value}} minutes used',
+    'view.less_than_minute': 'less than a minute left'
   };
 
   public transDictCAT = {

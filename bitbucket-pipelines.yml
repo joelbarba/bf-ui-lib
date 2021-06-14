@@ -17,6 +17,7 @@ pipelines:
   branches:
     master:
     - step:
+        name: Build and Test
         script:
           - printf "//`node -p \"require('url').parse(process.env.NPM_REGISTRY_URL || 'https://registry.npmjs.org').host\"`/:_authToken=${NPM_TOKEN}\nregistry=${NPM_REGISTRY_URL:-https://registry.npmjs.org}\n" >> ~/.npmrc
           - npm ci
@@ -47,4 +48,11 @@ pipelines:
             - git commit -m "Publishing bf-ui-lib version $LIB_VERSION [skip ci]"
             - git push && git push --tags
 
-
+    whitesource-scan:
+      - step:
+          name: Whitesource Scan
+          script:
+          - printf "//`node -p \"require('url').parse(process.env.NPM_REGISTRY_URL || 'https://registry.npmjs.org').host\"`/:_authToken=${NPM_TOKEN}\nregistry=${NPM_REGISTRY_URL:-https://registry.npmjs.org}\n" >> ~/.npmrc
+          - sed -i 's/{npmToken}/'"$NPM_TOKEN"'/' wss-unified-agent.config
+          - sed -i 's/{whitesourceToken}/'"$WHITESOURCE_API_TOKEN"'/' wss-unified-agent.config
+          - pipe: WhitesourceSoftware/whitesource-scan:1.3.0
