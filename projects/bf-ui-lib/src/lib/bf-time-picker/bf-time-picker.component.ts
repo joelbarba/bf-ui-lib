@@ -339,15 +339,9 @@ export class BfTimePickerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public closeTimePicker(timePickerDropdown: NgbDropdown): void {
+    this.bfSelectedTimeChange.emit(this.getSuggestedTime());
     timePickerDropdown.close();
   }
-
-  // public onOpenChange(isDropdownOpen: boolean): void {
-  //   if (!isDropdownOpen) {
-  //     this.bfSelectedTime = this.getSuggestedTime();
-  //     this.bfSelectedTimeChange.emit(this.bfSelectedTime);
-  //   }
-  // }
 
   public formatDate(date: Date): string {
     return date ? this.datePipe.transform(date, 'yyyy-MM-dd') : '';
