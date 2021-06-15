@@ -1,6 +1,6 @@
-import {Component, forwardRef, Input, OnChanges, OnInit} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {Options} from 'ng5-slider';
+import { Component, EventEmitter, forwardRef, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Options } from 'ng5-slider';
 
 interface BfRangeSliderValues {
   min: number;
@@ -35,7 +35,6 @@ interface BfSliderOption {
   ]
 })
 export class BfSliderComponent implements ControlValueAccessor, OnInit, OnChanges {
-
   public sliderOptions: Options = {
     animate: false,
     floor: null,
@@ -53,6 +52,7 @@ export class BfSliderComponent implements ControlValueAccessor, OnInit, OnChange
     minLimit: null
   };
 
+  @Input() sliderValue: number;
   @Input() ngModel: number | BfRangeSliderValues;
   @Input() bfOptions: BfSliderOption;
 
@@ -64,10 +64,14 @@ export class BfSliderComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() bfCustomSliderLabel: any;
   // TODO this must be in the bf-range-slider
   // @Input() bfShowOuterSection = false;
+  @Output() sliderValueChange: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 
   ngOnInit() {
+    if (!this.ngModel) {
+      this.ngModel = this.sliderValue;
+    }
     this.optionsRebuild();
   }
 
@@ -80,10 +84,15 @@ export class BfSliderComponent implements ControlValueAccessor, OnInit, OnChange
       this.bfCustomSliderLabel = changes.bfCustomSliderLabel.currentValue;
       this.optionsRebuild();
     }
+    if(changes.ngModel) {
+      this.ngModel = changes.ngModel.currentValue;
+    }
   }
 
-  onChange() {
+  onChange(newValue) {
     this.propagateModelUp(this.ngModel);
+    this.sliderValue = newValue;
+    this.sliderValueChange.emit(newValue);
   }
 
   // ------- ControlValueAccessor -----

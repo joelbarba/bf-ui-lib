@@ -2,13 +2,14 @@
 // BfSlider = 'BfBtn'
 
 
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import {LabelType} from 'ng5-slider';
 
 @Component({
   selector: 'app-bf-slider-demo',
   templateUrl: './bf-slider-demo.component.html',
-  styleUrls: ['./bf-slider-demo.component.scss']
+  styleUrls: ['./bf-slider-demo.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BfSliderDemoComponent implements OnInit {
   public name = BfSliderDoc.name;
@@ -25,22 +26,22 @@ $slider_color_primary: $primary_color !default;`;
   public slider1 = 50;
   public slider1Options = { start: 10, end: 20, step: 2, showTicks: true, showTicksValues: true };
   public instance1Obj = `valueOptions = {
-  start: 10, 
-  end: 20, 
-  step: 2, 
+  start: 10,
+  end: 20,
+  step: 2,
   showTicks: true,
   showTicksValues: true
 }`;
 
   public slider2;
   public slider2Options = { start: 20, end: 120, showTicks: true, showTicksValues: true, tickStep: 10, tickValueStep: 20 };
-  public instance2Obj = `valueOptions = { 
-  start: 20, 
-  end: 120, 
+  public instance2Obj = `valueOptions = {
+  start: 20,
+  end: 120,
   showTicks: true
-  showTicksValues: true, 
-  tickStep: 10, 
-  tickValueStep: 20 
+  showTicksValues: true,
+  tickStep: 10,
+  tickValueStep: 20
 }`;
   public instance2 = `<bf-slider [(ngModel)]="value"
            [(bfHighValue)]="valueHigh"
@@ -49,14 +50,14 @@ $slider_color_primary: $primary_color !default;`;
 
   public slider3 = 15;
   public slider3Options = { start: 0, end: 100, showTicks: true, tickArray: [5, 10, 15, 25, 40, 65, 100], maxLimit: 60, showSelectionBar: true, showTicksValues: true };
-  public instance3Obj = `valueOptions = { 
-  start: 0, 
-  end: 100, 
+  public instance3Obj = `valueOptions = {
+  start: 0,
+  end: 100,
   showTicks: true
   tickArray: [5,10,15,25,40,65,100],
   maxLimit: 60,
   showSelectionBar: true,
-  showTicksValues: true 
+  showTicksValues: true
 }`;
   public instance3 = `<bf-slider [(ngModel)]="value"
            [bfOptions]="valueOptions">
@@ -153,10 +154,11 @@ $slider_color_primary: $primary_color !default;`;
 
 
 
-  constructor() { }
+  constructor(private cdRef: ChangeDetectorRef) { }
 
-  ngOnInit() { }
-
+  ngOnInit() {
+    // this.cdRef.detectChanges();
+  }
 }
 
 
@@ -165,7 +167,7 @@ export const BfSliderDoc = {
   uiType  : 'component',
   desc    : `Generates a slider component`,
   api     : `[(ngModel)]         : The ngModel directive is linked as value on the Slider
-[bfOptions]          : The Config options for the Slider: 
+[bfOptions]          : The Config options for the Slider:
                        {
                          start        : Initial range
                          end          : Final range
@@ -182,12 +184,12 @@ export const BfSliderDoc = {
                        }
 [bfCustomSliderLabel]: [method] = (value: number, label LabelType: LabelType): string => return (The label to be shown as a label on the range)
 [bfDisabled]         : Whether the slider is disabled or not
-             
+
 [bfLabel]            : Label of the input (automatically translated). If not provided, no label is displayed.
 [bfLabelTooltips]    : If label provided, adds a info badge with a tooltip (automatically translated)
 [bfLabelTooltipPos]  : Position of the tooltip (top by default)`,
-  instance: `<bf-slider [(ngModel)]="value" 
-           bfLabel="Test 1" 
+  instance: `<bf-slider [(ngModel)]="value"
+           bfLabel="Test 1"
            [bfOptions]="valueOptions">
 </bf-slider>`,
   demoComp: BfSliderDemoComponent
