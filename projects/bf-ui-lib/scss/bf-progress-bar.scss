@@ -12,8 +12,10 @@ bf-progress-bar .bf-progress-bar {
     color: $progress-bar-color;
     .progress-bar {
       text-align: right;
-      padding-right: 0.5rem;
       background-color: $progress-bar-bg;
+      span {
+        padding-right: 0.5rem;
+      }
     }
   }
 
@@ -21,9 +23,13 @@ bf-progress-bar .bf-progress-bar {
   .left-label { color: $progress-bar-left-label; }
 
   .percentage-outside {
-    span {
-      margin-left: calc(100% + 0.5rem);
-      color: $progress-bar-per-outside;
+    .progress-bar {
+      overflow: visible;
+      span {
+        margin-left: calc(100% + 0.5rem);
+        color: $progress-bar-per-outside;
+        padding-right: 0rem;
+      }
     }
   }
 
