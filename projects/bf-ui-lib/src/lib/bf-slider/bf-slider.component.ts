@@ -1,6 +1,6 @@
 import { Component, EventEmitter, forwardRef, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Options } from 'ng5-slider';
+import { Options, PointerType } from 'ng5-slider';
 
 interface BfRangeSliderValues {
   min: number;
@@ -89,10 +89,17 @@ export class BfSliderComponent implements ControlValueAccessor, OnInit, OnChange
     }
   }
 
-  onChange(newValue) {
+  onChange() {
     this.propagateModelUp(this.ngModel);
-    this.sliderValue = newValue;
-    this.sliderValueChange.emit(newValue);
+  }
+
+  // update the value after the user has finished moving the slider or is controlled via the keyboard
+  onChangeEnd(userChange: { pointerType: PointerType, value: number }) {
+    const { value } = userChange;
+    this.ngModel = value;
+    this.sliderValue = value;
+    this.propagateModelUp(this.ngModel);
+    this.sliderValueChange.emit(value);
   }
 
   // ------- ControlValueAccessor -----
@@ -126,5 +133,4 @@ export class BfSliderComponent implements ControlValueAccessor, OnInit, OnChange
 
     this.sliderOptions = newOption;
   }
-
 }

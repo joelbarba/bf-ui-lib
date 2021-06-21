@@ -2,7 +2,7 @@
 // BfSlider = 'BfBtn'
 
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {LabelType} from 'ng5-slider';
 
 @Component({
@@ -11,7 +11,7 @@ import {LabelType} from 'ng5-slider';
   styleUrls: ['./bf-slider-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BfSliderDemoComponent implements OnInit {
+export class BfSliderDemoComponent {
   public name = BfSliderDoc.name;
   public desc = BfSliderDoc.desc;
   public api = BfSliderDoc.api;
@@ -154,11 +154,7 @@ $slider_color_primary: $primary_color !default;`;
 
 
 
-  constructor(private cdRef: ChangeDetectorRef) { }
-
-  ngOnInit() {
-    // this.cdRef.detectChanges();
-  }
+  constructor() { }
 }
 
 

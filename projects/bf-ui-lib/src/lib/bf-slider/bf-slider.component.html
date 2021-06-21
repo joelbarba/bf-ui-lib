@@ -4,8 +4,10 @@
             [bfTooltipPos]="bfLabelTooltipPos">
   </bf-label>
 </div>
-<ng5-slider [(value)]="ngModel"
+<ng5-slider
+            [(value)]="ngModel"
             [options]="sliderOptions"
-            (valueChange)="onChange($event)">
+            (valueChange)="onChange()"
+            (userChangeEnd)="onChangeEnd($event)">
 </ng5-slider>
 
