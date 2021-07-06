@@ -98,7 +98,7 @@
         (mouseleave)="setItemActive(null)"
         (mousedown)="selectItem(item)"
         #optionRow>
-        <div *ngIf="item.$groupHeader && !item.$hideHeader" class="group-header" role="presentation"></div>
+        <div *ngIf="item.$groupHeader && !item.$hideHeader" class="group-header" role="presentation">{{ item.$groupHeader }}</div>
         <div
           class="option-row"
           [class.candidate]="isActiveDecendant(item.$activeId)"
