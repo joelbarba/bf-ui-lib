@@ -204,6 +204,7 @@ export const BfDatePickerDoc = {
 [bfTooltipPos]  : Position of the tooltip (top by default)
 [bfTooltipBody] : Whether the tooltip is append to the body (default true) or not (false)
 [bfErrorText]   : Custom error text (label) to display when invalid value
+[bfPlacement]   : A string or array of strings to determine position of the datepicker dropdown default to 'bottom' full list of values can be found here - https://ng-bootstrap.github.io/#/components/datepicker/api
 [bfErrorPos]    : Custom position where to display the error text. Values = ['top-right', 'bottom-left', 'bottom-right', 'none']. None will hide the error text.`,
   instance: `<bf-date-picker bfLabel="My Date" [(ngModel)]="myDate"
                 [bfLocale]="bfTranslate.currentLocale">

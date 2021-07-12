@@ -8,6 +8,7 @@ import {DatePipe} from '@angular/common';
 import { Observable, of, Subscription } from 'rxjs';
 import { ReturnStatement } from '@angular/compiler';
 import { generateId } from '../generate-id';
+import { PlacementArray } from '@ng-bootstrap/ng-bootstrap/util/positioning';
 
 
 @Component({
@@ -44,6 +45,7 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
   @Input() bfErrorPos = 'top-right';  // top-right, bottom-left, bottom-right
   @Input() bfErrorText: string;       // Error text to display when invalid value
   @Input() bfIsInlineDatePicker: boolean; // flag to determine if the date-picker should be inline or not
+  @Input() bfPlacement: PlacementArray = 'bottom-left'; // string or array of strings to determine dropdown placement, defaults to bottom
 
   @ViewChild('dpRef', { static: true }) datePickerRef: NgbInputDatepicker;
 
