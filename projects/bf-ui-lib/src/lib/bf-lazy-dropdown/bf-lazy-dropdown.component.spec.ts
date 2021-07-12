@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { BfLazyDropdownComponent } from './bf-lazy-dropdown.component';
 import {TestingModule} from '../../testing/testing-module';
@@ -9,7 +9,7 @@ describe('BfLazyDropdownComponent', () => {
   let component: BfLazyDropdownComponent;
   let fixture: ComponentFixture<BfLazyDropdownComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ BfLazyDropdownComponent ],
       imports: [ TestingModule, FormsModule, NgbTooltipModule ],

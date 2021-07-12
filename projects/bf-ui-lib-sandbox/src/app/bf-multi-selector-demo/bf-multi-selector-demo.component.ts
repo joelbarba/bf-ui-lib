@@ -276,7 +276,7 @@ extCtrl$.next({ action: 'removeError', value: 'wrong' })`;
 
   public reloadPromise = () => {
     this.loadingPromise = new Promise(resolve => {
-      setTimeout(() => { this.asyncList2 = this.myList; resolve(); }, 5000);
+      setTimeout(() => { this.asyncList2 = this.myList; resolve({}); }, 5000);
     });
   };
 }

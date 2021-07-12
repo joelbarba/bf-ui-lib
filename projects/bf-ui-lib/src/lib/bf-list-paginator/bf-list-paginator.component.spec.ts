@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -11,7 +11,7 @@ xdescribe('BfListPaginatorComponent', () => {
   let component: BfListPaginatorComponent;
   let fixture: ComponentFixture<BfListPaginatorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ BfListPaginatorComponent, BfDropdownComponent ],
       imports: [ TestingModule, FormsModule, NgbTooltipModule ],

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { BfListPlaceholderComponent } from './bf-list-placeholder.component';
 
@@ -6,7 +6,7 @@ describe('BfListPlaceholderComponent', () => {
   let component: BfListPlaceholderComponent;
   let fixture: ComponentFixture<BfListPlaceholderComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ BfListPlaceholderComponent ]
     })

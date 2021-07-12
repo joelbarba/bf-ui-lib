@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbActiveModal, NgbModalModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { BfConfirmComponent } from './bf-confirm.component';
@@ -10,7 +10,7 @@ describe('BfConfirmComponent', () => {
   let component: BfConfirmComponent;
   let fixture: ComponentFixture<BfConfirmComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       declarations: [ BfConfirmComponent, BfBtnComponent ],

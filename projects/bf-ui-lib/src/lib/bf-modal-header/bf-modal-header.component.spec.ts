@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { BfModalHeaderComponent } from './bf-modal-header.component';
 import { BfTranslatePipe, BfUILibTransService } from '../abstract-translate.service';
@@ -9,7 +9,7 @@ describe('BfModalHeaderComponent', () => {
   let component: BfModalHeaderComponent;
   let fixture: ComponentFixture<BfModalHeaderComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ BfModalHeaderComponent, BfTranslatePipe ],
       providers: [{ provide: BfUILibTransService, useClass: BfUILibTransStubService}]

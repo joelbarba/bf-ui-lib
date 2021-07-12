@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { BfRangeSliderComponent } from './bf-range-slider.component';
 import {BfLabelComponent} from '../bf-label/bf-label.component';
@@ -9,7 +9,7 @@ describe('BfRangeSliderComponent', () => {
   let component: BfRangeSliderComponent;
   let fixture: ComponentFixture<BfRangeSliderComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ BfRangeSliderComponent, BfLabelComponent ],
       imports: [ Ng5SliderModule, NgbTooltipModule ]

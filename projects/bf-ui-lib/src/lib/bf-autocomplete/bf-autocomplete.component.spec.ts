@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { BfAutocompleteComponent } from './bf-autocomplete.component';
 import { BfLabelComponent } from '../bf-label/bf-label.component';
@@ -11,7 +11,7 @@ describe('BfAutocompleteComponent', () => {
   let component: BfAutocompleteComponent;
   let fixture: ComponentFixture<BfAutocompleteComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [BfAutocompleteComponent, BfLabelComponent],
       imports: [TestingModule, FormsModule, NgbTooltipModule],

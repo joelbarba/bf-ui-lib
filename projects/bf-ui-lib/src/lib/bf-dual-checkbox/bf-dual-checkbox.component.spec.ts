@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -12,7 +12,7 @@ describe('BfDualCheckboxComponent', () => {
   let fixture: ComponentFixture<BfDualCheckboxComponent>;
   let propagateModelSpy;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ BfDualCheckboxComponent, BfCheckboxComponent, BfLabelComponent ],
       imports: [ TestingModule, FormsModule, NgbTooltipModule ],
