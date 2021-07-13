@@ -63,7 +63,8 @@
              [tabindex]="bfTabIndex"
              (focusin)="expandList()"
              (focusout)="collapseList()"
-             (keydown)="triggerKey($event)">
+             (keydown)="triggerKey($event)"
+             [autocomplete]="bfAutocomplete">
 
       <img *ngIf="!!bfModel?.$img" class="input-image" [class.fade]="isExpanded" [src]="bfModel?.$img" alt="bfModel?.$img">
 
