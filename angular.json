@@ -73,7 +73,12 @@
             "tsConfig": "projects/bf-ui-lib-sandbox/tsconfig.app.json",
             "assets": [
               "projects/bf-ui-lib-sandbox/src/favicon.ico",
-              "projects/bf-ui-lib-sandbox/src/assets"
+              "projects/bf-ui-lib-sandbox/src/assets",
+              {
+                "glob": "_redirects",
+                "input": "src",
+                "output": "/"
+              }
             ],
             "styles": [
               "projects/bf-ui-lib-sandbox/src/styles.scss",
