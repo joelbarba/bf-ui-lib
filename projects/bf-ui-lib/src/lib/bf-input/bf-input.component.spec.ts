@@ -1,4 +1,4 @@
-import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -11,7 +11,7 @@ describe('BfInputComponent', () => {
   let component: BfInputComponent;
   let fixture: ComponentFixture<BfInputComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ BfInputComponent, BfTranslatePipe ],
       providers: [ LiveAnnouncer ],

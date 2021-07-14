@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, fakeAsync, flushMicrotasks } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbDatepickerModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -12,7 +12,7 @@ describe('BfDatePickerComponent', () => {
   let component: BfDatePickerComponent;
   let fixture: ComponentFixture<BfDatePickerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ BfDatePickerComponent, BfTranslatePipe, BfLabelComponent, BfBtnComponent ],
       imports: [ TestingModule, FormsModule, NgbDatepickerModule, NgbTooltipModule ],

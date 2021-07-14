@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { BfNoDataComponent } from './bf-no-data.component';
 import { BfTranslatePipe } from '../abstract-translate.service';
@@ -8,7 +8,7 @@ describe('BfNoDataComponent', () => {
   let component: BfNoDataComponent;
   let fixture: ComponentFixture<BfNoDataComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ BfNoDataComponent, BfTranslatePipe ],
       imports: [ TestingModule ],

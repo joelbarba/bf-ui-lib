@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { BfColorPickerComponent } from './bf-color-picker.component';
 
@@ -6,7 +6,7 @@ describe('BfColorPickerComponent', () => {
   let component: BfColorPickerComponent;
   let fixture: ComponentFixture<BfColorPickerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ BfColorPickerComponent ]
     })

@@ -233,7 +233,7 @@ public toggleExample = `<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>`;
   public asyncClick() {
     return this.blockPr = new Promise((resolve) => {
       setTimeout(() => {
-        resolve();
+        resolve({});
       }, 5000);
     });
   }

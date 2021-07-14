@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {BfCollapseComponent} from './bf-collapse.component';
 import {TestingModule} from '../../testing/testing-module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -13,7 +13,7 @@ describe('BfCollapseComponent', () => {
   let wrapperFixture: ComponentFixture<HostComponent>;
   let wrapper: HostComponent;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [HostComponent, BfCollapseComponent],
       imports: [TestingModule, BrowserAnimationsModule],

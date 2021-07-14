@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { BfPagePlaceholderComponent } from './bf-page-placeholder.component';
 import {TestingModule} from '../../testing/testing-module';
@@ -9,7 +9,7 @@ describe('BfPagePlaceholderComponent', () => {
   let component: BfPagePlaceholderComponent;
   let fixture: ComponentFixture<BfPagePlaceholderComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ BfPagePlaceholderComponent ],
       imports: [ TestingModule, FormsModule, NgbTooltipModule],

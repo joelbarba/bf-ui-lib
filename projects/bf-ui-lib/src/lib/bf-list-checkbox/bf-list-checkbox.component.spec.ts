@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BfListCheckboxComponent } from './bf-list-checkbox.component';
 import {TestingModule} from '../../testing/testing-module';
 import {BfCheckboxComponent} from '../bf-checkbox/bf-checkbox.component';
@@ -29,7 +29,7 @@ describe('BfListCheckboxComponent', () => {
     { id: '5', name: 'Fifth element' },
   ];
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         TestingModule,

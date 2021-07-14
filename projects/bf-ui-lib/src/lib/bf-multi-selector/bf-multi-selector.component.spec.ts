@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { FormsModule, FormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { DebugElement, SimpleChange } from '@angular/core';
@@ -35,7 +35,7 @@ describe('BfMultiSelectorComponent', () => {
   const getSelectedItemsText = () => getSelectedItemsTextDe().map(({ nativeElement }) => nativeElement as HTMLSpanElement).map(({ textContent }) => textContent.trim());
 
   // Setup test suite
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [BfMultiSelectorComponent],
       imports: [TestingModule, FormsModule, NgbTooltipModule],

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { BfLabelComponent } from './bf-label.component';
@@ -8,7 +8,7 @@ describe('BfLabelComponent', () => {
   let component: BfLabelComponent;
   let fixture: ComponentFixture<BfLabelComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ BfLabelComponent ],
       imports: [ TestingModule, NgbTooltipModule ],

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { BfProgressBarComponent } from './bf-progress-bar.component';
@@ -9,7 +9,7 @@ describe('BfProgressBarComponent', () => {
   let component: BfProgressBarComponent;
   let fixture: ComponentFixture<BfProgressBarComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ BfProgressBarComponent, BfTranslatePipe ],
       imports: [ TestingModule, NgbProgressbarModule ],

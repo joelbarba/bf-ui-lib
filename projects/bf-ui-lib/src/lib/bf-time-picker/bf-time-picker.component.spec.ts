@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, fakeAsync, flushMicrotasks, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks, tick, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { SimpleChange } from '@angular/core';
 
@@ -30,7 +30,7 @@ describe('BfTimePickerComponent', () => {
   let component: BfTimePickerComponent;
   let fixture: ComponentFixture<BfTimePickerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         TestingModule,

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { BfStatusBadgeComponent } from './bf-status-badge.component';
 import { TestingModule } from '../../testing/testing-module';
@@ -8,7 +8,7 @@ describe('BfStatusBadgeComponent', () => {
   let component: BfStatusBadgeComponent;
   let fixture: ComponentFixture<BfStatusBadgeComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ BfStatusBadgeComponent ],
       imports: [ TestingModule, NgbTooltipModule ],

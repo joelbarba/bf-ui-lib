@@ -15,7 +15,7 @@
       },
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/bf-ui-lib/tsconfig.lib.json",
             "project": "projects/bf-ui-lib/ng-package.json"
@@ -73,7 +73,12 @@
             "tsConfig": "projects/bf-ui-lib-sandbox/tsconfig.app.json",
             "assets": [
               "projects/bf-ui-lib-sandbox/src/favicon.ico",
-              "projects/bf-ui-lib-sandbox/src/assets"
+              "projects/bf-ui-lib-sandbox/src/assets",
+              {
+                "glob": "_redirects",
+                "input": "src",
+                "output": "/"
+              }
             ],
             "styles": [
               "projects/bf-ui-lib-sandbox/src/styles.scss",
@@ -102,7 +107,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
