@@ -83,6 +83,7 @@ export class BfListPaginatorComponent implements OnInit, OnChanges, DoCheck {
 
   // Change the current page
   public goToPage(pageNum) {
+    if(!pageNum && pageNum !== 0) { return; }
     this.bfCtrl.currentPage = pageNum;
     this.renderComponent();
     this.bfPageChange.emit(pageNum);
