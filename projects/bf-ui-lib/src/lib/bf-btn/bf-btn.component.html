@@ -12,6 +12,7 @@
           [tabIndex]="bfTabIndex"
           [disabled]="bfDisabled || isLoading"
           [ngbTooltip]="bfTooltipTrans$ | async"
+          [disableTooltip]="bfDisabled"
           [placement]="bfTooltipPos"
           [container]="(bfTooltipBody ? 'body' : '')">
 
