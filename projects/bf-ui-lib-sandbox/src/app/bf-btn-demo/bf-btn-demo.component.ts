@@ -158,8 +158,9 @@ public toggleExample = `<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>`;
     iconPos: 'right',
     hasTooltip: false, btnTooltip: 'Hello World', btnTooltipPos: null, btnTooltipBody: false,
     btnDisabledTip: '',
-    hasToggle: false, toggleValue: undefined,
+    hasToggle: false, toggleValue: undefined, cssRounded: false,
     cssPrimary: false, cssSecondary: false, cssTertiary: false, cssQuaternary: false, cssExtra: false, cssWarning: false,
+    cssInvPrimary: false, cssInvSecondary: false, cssInvTertiary: false, cssInvQuaternary: false,
   };
   public res;
   public asyncClickFunc(param1, param2) {
@@ -175,12 +176,16 @@ public toggleExample = `<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>`;
     if (this.btnConf.hasFullWidth) { btnClasses = 'full-width'; }
     if (this.btnConf.hasSquash)     { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'squash'; }
     if (this.btnConf.hasEllipsis)   { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'ellipsis'; }
-    if (this.btnConf.cssPrimary)    { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'Primary'; }
-    if (this.btnConf.cssSecondary)  { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'Secondary'; }
-    if (this.btnConf.cssTertiary)   { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'Tertiary'; }
-    if (this.btnConf.cssQuaternary) { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'Quaternary'; }
-    if (this.btnConf.cssExtra)      { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'Extra'; }
-    if (this.btnConf.cssWarning)    { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'Warning'; }
+    if (this.btnConf.cssRounded)    { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'rounded'; }
+    if (this.btnConf.cssPrimary)    { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'primary'; }
+    if (this.btnConf.cssSecondary)  { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'secondary'; }
+    if (this.btnConf.cssTertiary)   { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'tertiary'; }
+    if (this.btnConf.cssQuaternary) { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'quaternary'; }
+    if (this.btnConf.cssExtra)      { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'extra'; }
+    if (this.btnConf.cssInvPrimary)    { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'inverted-primary'; }
+    if (this.btnConf.cssInvSecondary)  { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'inverted-secondary'; }
+    if (this.btnConf.cssInvTertiary)   { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'inverted-tertiary'; }
+    if (this.btnConf.cssInvQuaternary) { if (!!btnClasses) { btnClasses += ' '; } btnClasses += 'inverted-quaternary'; }
     if (!!btnClasses) {
       this.customBtnCode += `class="${btnClasses}"` + this.bsStr;
     }
