@@ -141,6 +141,7 @@ bf-btn {
 
   // Styles to cut off the text (when having a max width on the button)
   &.ellipsis {
+    overflow: visible;
     max-width: 100%;
     .disabled-tooltip {
       max-width: 100%;
@@ -155,7 +156,18 @@ bf-btn {
     }
   }
 
+  &.inverted-primary    { @include custom-btn-color($white, $primary_color); }
+  &.inverted-secondary  { @include custom-btn-color($white, $secondary_color); }
+  &.inverted-tertiary   { @include custom-btn-color($white, $tertiary_color); }
+  &.inverted-quaternary { @include custom-btn-color($white, $quaternary_color); }
 
+  &.rounded {
+    border-radius: 25px !important;
+    button.bf-btn {
+      border-radius: 25px;
+      .btn-text-section { padding: 0 25px; }
+    }
+  }
 }
 
 

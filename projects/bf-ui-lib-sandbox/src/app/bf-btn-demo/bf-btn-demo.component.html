@@ -63,12 +63,17 @@ If the property "bfText" is defined, it generates a button with both text and ic
                 [class.full-width]="btnConf.hasFullWidth"
                 [class.squash]="btnConf.hasSquash"
                 [class.ellipsis]="btnConf.hasEllipsis"
+                [class.rounded]="btnConf.cssRounded"
                 [class.primary]="btnConf.cssPrimary"
                 [class.secondary]="btnConf.cssSecondary"
                 [class.tertiary]="btnConf.cssTertiary"
                 [class.quaternary]="btnConf.cssQuaternary"
                 [class.extra]="btnConf.cssExtra"
                 [class.warning]="btnConf.cssWarning"
+                [class.inverted-primary]="btnConf.cssInvPrimary"
+                [class.inverted-secondary]="btnConf.cssInvSecondary"
+                [class.inverted-tertiary]="btnConf.cssInvTertiary"
+                [class.inverted-quaternary]="btnConf.cssInvQuaternary"
                 [bfIconPos]="btnConf.iconPos"
                 [bfText]="(btnConf.hasText ? btnConf.btnText : null)"
                 [bfType]="(btnConf.hasType ? btnConf.btnType : null)"
@@ -148,11 +153,12 @@ If the property "bfText" is defined, it generates a button with both text and ic
       <div class="row marT15">
         <div class="col-12 padT5">
           <bf-label class="marR15" bfText="CSS Classes"></bf-label>
-          <bf-checkbox [(ngModel)]="btnConf.hasFullWidth" (ngModelChange)="upBtn()" bfLabel="Full Width"></bf-checkbox>
-          <bf-checkbox [(ngModel)]="btnConf.hasEllipsis" (ngModelChange)="upBtn()" bfLabel="Ellipsis"></bf-checkbox>
-          <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasSquash" (ngModelChange)="upBtn()" bfLabel="Squash"></bf-checkbox>
-          <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasAsync1" (ngModelChange)="upBtn()" bfLabel="Async 1"></bf-checkbox>
-          <bf-checkbox class="padL25" [(ngModel)]="btnConf.hasAsync2" (ngModelChange)="upBtn()" bfLabel="Async 2"></bf-checkbox>
+          <bf-checkbox [(ngModel)]="btnConf.hasFullWidth" (ngModelChange)="upBtn()" bfLabel="full-width"></bf-checkbox>
+          <bf-checkbox [(ngModel)]="btnConf.hasEllipsis" (ngModelChange)="upBtn()" bfLabel="ellipsis"></bf-checkbox>
+          <bf-checkbox [(ngModel)]="btnConf.hasSquash" (ngModelChange)="upBtn()" bfLabel="squash"></bf-checkbox>
+          <bf-checkbox class="padR40" [(ngModel)]="btnConf.cssRounded" (ngModelChange)="upBtn()" bfLabel="rounded"></bf-checkbox>
+          <bf-checkbox class="padL50" [(ngModel)]="btnConf.hasAsync1" (ngModelChange)="upBtn()" bfLabel="Async 1"></bf-checkbox>
+          <bf-checkbox [(ngModel)]="btnConf.hasAsync2" (ngModelChange)="upBtn()" bfLabel="Async 2"></bf-checkbox>
         </div>
         <div class="col-12 padT15" style="padding-left: 113px;">
           <bf-checkbox bfLabel="primary"    [(ngModel)]="btnConf.cssPrimary"    (ngModelChange)="upBtn()"></bf-checkbox>
@@ -161,6 +167,12 @@ If the property "bfText" is defined, it generates a button with both text and ic
           <bf-checkbox bfLabel="quaternary" [(ngModel)]="btnConf.cssQuaternary" (ngModelChange)="upBtn()"></bf-checkbox>
           <bf-checkbox bfLabel="extra"      [(ngModel)]="btnConf.cssExtra"      (ngModelChange)="upBtn()"></bf-checkbox>
           <bf-checkbox bfLabel="warning"    [(ngModel)]="btnConf.cssWarning"    (ngModelChange)="upBtn()"></bf-checkbox>
+        </div>
+        <div class="col-12 padT15" style="padding-left: 113px;">
+          <bf-checkbox bfLabel="inverted-primary"    [(ngModel)]="btnConf.cssInvPrimary"    (ngModelChange)="upBtn()"></bf-checkbox>
+          <bf-checkbox bfLabel="inverted-secondary"  [(ngModel)]="btnConf.cssInvSecondary"  (ngModelChange)="upBtn()"></bf-checkbox>
+          <bf-checkbox bfLabel="inverted-tertiary"   [(ngModel)]="btnConf.cssInvTertiary"   (ngModelChange)="upBtn()"></bf-checkbox>
+          <bf-checkbox bfLabel="inverted-quaternary" [(ngModel)]="btnConf.cssInvQuaternary" (ngModelChange)="upBtn()"></bf-checkbox>
         </div>
       </div>
 
