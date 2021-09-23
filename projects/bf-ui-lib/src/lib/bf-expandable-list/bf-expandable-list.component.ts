@@ -6,6 +6,7 @@ import {Component, Input, OnChanges, OnInit} from '@angular/core';
 })
 export class BfExpandableListComponent implements OnInit, OnChanges {
   @Input() bfList = [];
+  @Input() bfExpandText: string;    // Number to display on the expanding button (+N)
   public isCollapsed = true;
   public firstItem;
   public expList = [];

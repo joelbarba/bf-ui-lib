@@ -17,9 +17,10 @@
     <div class="col-6">
       <div class="code-box pad15"><pre>{{instance}}</pre></div>
       <div class="code-box pad15"><pre>myList: {{myList | json}}</pre></div>
+      <bf-input class="d-block marT15" [(ngModel)]="bfExpandText" bfLabel="bfExpandText"></bf-input>
     </div>
     <div class="col-6 padL50">
-      <bf-expandable-list [bfList]="myList"></bf-expandable-list>
+      <bf-expandable-list [bfList]="myList" [bfExpandText]="bfExpandText"></bf-expandable-list>
     </div>
   </div>
 </div>
