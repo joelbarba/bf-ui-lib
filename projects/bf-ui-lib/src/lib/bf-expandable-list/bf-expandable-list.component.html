@@ -2,7 +2,8 @@
   <li>
     <div class="list-txt" [innerHTML]="firstItem"></div>
     <button class="list-btn" [show]="isCollapsed && !!expList.length" (click)="isCollapsed = false">
-      (+{{expList.length}})
+      <span *ngIf="bfExpandText">{{bfExpandText}}</span>
+      <span *ngIf="!bfExpandText">(+{{expList.length}})</span>
       <span class="icon-arrow-down5"></span>
     </button>
   </li>

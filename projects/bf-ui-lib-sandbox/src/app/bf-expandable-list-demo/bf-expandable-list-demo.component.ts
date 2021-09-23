@@ -10,6 +10,7 @@ export class BfExpandableListDemoComponent implements OnInit {
   public desc = BfExpandableListDoc.desc;
   public api = BfExpandableListDoc.api;
   public instance = BfExpandableListDoc.instance;
+  public bfExpandText = '';
 
   data = [{id:'1', name:'Lagavulin 16'},{id:'2', name:'Dalwhinnie'},{id:'3', name:'Laphroaig 10'},{id:'4', name:'Glenmorange 12'},{id:'5', name:'Oban'},];
   // data = [{id:'1', name:'Lagavulin'},{id:'2', name:'Dalwhinnie'}];
@@ -29,7 +30,8 @@ export const BfExpandableListDoc = {
   name    : `bf-expandable-list`,
   uiType  : 'component',
   desc    : `Generates an expandable list`,
-  api     : `[bfList]: Array of strings to be displayed as a list. It can be html.`,
+  api     : `[bfList]: Array of strings to be displayed as a list. It can be html.
+             [bfExpandText]: Optional text to display on the expanding button.`,
   instance: `<bf-expandable-list [bfList]="myList"></bf-expandable-list>`,
   demoComp: BfExpandableListDemoComponent
 };
