@@ -54,7 +54,7 @@ export class BfBtnComponent implements OnInit, OnChanges {
 
       if (bfType === 'search')   { this.btnClass = 'primary';    this.typeIcon = 'icon-search';         typeText = 'view.common.search';  }
       if (bfType === 'edit')     { this.btnClass = 'primary';    this.typeIcon = 'icon-pencil';         typeText = 'view.common.edit';    }
-      if (bfType === 'save')     { this.btnClass = 'primary';    this.typeIcon = 'icon-checkmark3';   typeText = 'view.common.save';    }
+      if (bfType === 'save')     { this.btnClass = 'primary';    this.typeIcon = 'icon-checkmark3';     typeText = 'view.common.save';    }
       if (bfType === 'update')   { this.btnClass = 'primary';    this.typeIcon = 'icon-arrow-right3';   typeText = 'views.common.update'; }
       if (bfType === 'add')      { this.btnClass = 'primary';    this.typeIcon = 'icon-plus';           typeText = 'view.common.add';     }
       if (bfType === 'delete')   { this.btnClass = 'tertiary';   this.typeIcon = 'icon-bin';            typeText = 'view.common.delete';  }
@@ -66,6 +66,8 @@ export class BfBtnComponent implements OnInit, OnChanges {
       if (bfType === 'upload')   { this.btnClass = 'primary';    this.typeIcon = 'icon-upload5';        typeText = 'view.common.upload'; }
       if (bfType === 'reset')    { this.btnClass = 'secondary';  this.typeIcon = 'icon-blocked';        typeText = 'view.common.resetFilters'; }
       if (bfType === 'refresh')  { this.btnClass = 'primary';    this.typeIcon = 'icon-loop2';          typeText = 'view.common.refresh'; }
+      if (bfType === 'import')   { this.btnClass = 'primary';    this.typeIcon = 'icon-download52';     typeText = 'view.common.import'; }
+      if (bfType === 'export')   { this.btnClass = 'secondary';  this.typeIcon = 'icon-upload5';        typeText = 'view.common.export'; }
 
       if (bfType === 'expand')   { this.btnClass = 'secondary'; this.typeIcon = 'icon-arrow-down3'; }
       if (bfType === 'collapse') { this.btnClass = 'secondary'; this.typeIcon = 'icon-arrow-up3'; }

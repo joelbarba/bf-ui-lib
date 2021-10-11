@@ -145,7 +145,9 @@ export class BfTranslateService extends BfUILibTransService {
     'view.switch.a11y-test-tooltip': ' This is a switch tooltip',
     'view.date-picker.aria-label': 'Birth day',
     'view.minutes_used': '{{value}} minutes used',
-    'view.less_than_minute': 'less than a minute left'
+    'view.less_than_minute': 'less than a minute left',
+    'view.common.import': 'Import',
+    'view.common.export': 'Export',
   };
 
   public transDictCAT = {
