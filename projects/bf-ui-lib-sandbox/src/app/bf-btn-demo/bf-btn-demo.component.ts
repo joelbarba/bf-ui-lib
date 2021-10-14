@@ -77,6 +77,8 @@ public toggleExample = `<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>`;
     { id: 'download',     text: 'download',     icon: 'icon-download52' },
     { id: 'reset',        text: 'reset',        icon: 'icon-blocked' },
     { id: 'refresh',      text: 'refresh',      icon: 'icon-loop2' },
+    { id: 'import',       text: 'import',       icon: 'icon-download52' },
+    { id: 'export',       text: 'export',       icon: 'icon-upload5' },
 
     { id: 'next',         text: 'next',         icon: 'icon-arrow-right3' },
     { id: 'prev',         text: 'prev',         icon: 'icon-arrow-left6' },
