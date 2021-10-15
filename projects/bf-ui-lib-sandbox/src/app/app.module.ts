@@ -28,7 +28,7 @@ import { BfLoadingBarDemoComponent } from './bf-loading-bar-demo/bf-loading-bar-
 import { BfPromiseDemoComponent } from './bf-promise-demo/bf-promise-demo.component';
 import { BfDeferDemoComponent } from './bf-defer-demo/bf-defer-demo.component';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
-import { BfTimePickerDemoComponent } from './bf-time-picker-demo/bf-time-picker-demo.component';
+import { BfTimePickerDemoComponent } from './bf-dateTime-picker-demo/bf-dateTime-picker-demo.component';
 import { BfAutocompleteDemoComponent } from './bf-autocomplete-demo/bf-autocomplete-demo.component';
 import { BfMultiSelectorDemoComponent } from './bf-multi-selector-demo/bf-multi-selector-demo.component';
 import { BfProgressBarDemoComponent } from './bf-progress-bar-demo/bf-progress-bar-demo.component';
@@ -70,6 +70,7 @@ import { BfExpandableListDemoComponent } from './bf-expandable-list-demo/bf-expa
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ListControllerDemoComponent } from './bf-list-controller-demo/bf-list-controller-demo.component';
 import { BfIntersectionObserverDemoComponent } from './bf-intersection-observer-demo/bf-intersection-observer-demo.component';
+import { TimePickerDemoComponent } from './bf-time-picker-demo/bf-time-picker-demo.component';
 
 @NgModule({
   declarations: [
@@ -137,6 +138,7 @@ import { BfIntersectionObserverDemoComponent } from './bf-intersection-observer-
     BfExpandableListDemoComponent,
     ListControllerDemoComponent,
     BfIntersectionObserverDemoComponent,
+    TimePickerDemoComponent,
   ],
   entryComponents: [
     BfNoDataComponent,

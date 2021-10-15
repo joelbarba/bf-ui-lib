@@ -9,7 +9,7 @@ export { BfStatusBadgeDoc } from './bf-status-badge-demo/bf-status-badge-demo.co
 export { BfProgressBarDoc } from './bf-progress-bar-demo/bf-progress-bar-demo.component';
 export { BfMultiSelectorDoc } from './bf-multi-selector-demo/bf-multi-selector-demo.component';
 export { BfAutocompleteDoc } from './bf-autocomplete-demo/bf-autocomplete-demo.component';
-export { BfTimePickerDoc } from './bf-time-picker-demo/bf-time-picker-demo.component';
+export { BfDateTimePickerDoc } from './bf-dateTime-picker-demo/bf-dateTime-picker-demo.component';
 export { BfDeferDoc } from './bf-defer-demo/bf-defer-demo.component';
 export { BfPromiseDoc } from './bf-promise-demo/bf-promise-demo.component';
 export { BfLoadingBarDoc } from './bf-loading-bar-demo/bf-loading-bar-demo.component';
@@ -42,3 +42,4 @@ export { BfExpandableListDoc } from './bf-expandable-list-demo/bf-expandable-lis
 export { BfCollapseDoc } from './bf-collapse-demo/bf-collapse-demo.component';
 export { ListControllerDoc } from './bf-list-controller-demo/bf-list-controller-demo.component';
 export { BfIntersectionObserverDoc } from './bf-intersection-observer-demo/bf-intersection-observer-demo.component';
+export { BfTimePickerDoc } from './bf-time-picker-demo/bf-time-picker-demo.component';

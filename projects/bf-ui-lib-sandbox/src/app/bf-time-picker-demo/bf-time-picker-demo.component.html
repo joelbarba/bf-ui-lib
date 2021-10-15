@@ -1,13 +1,7 @@
 <h2>{{name}}</h2>
 <hr/>
 <p>
-  A component that enables the selection of a date/time for the desired timezone.
-  <br/>
-
-  This component is composed of <strong>bf-dropdown</strong>, <strong>bf-date-picker</strong> and the <a href="https://ng-bootstrap.github.io/#/components/dropdown/examples">Angular bootstrap dropdown</a>
-
-  <br/>
-  Please note that the locale and list of supported timezones will need to be suplied to the consuming application.
+  A component that enables the selection of a specified time.
 </p>
 
 <h5 class="mt-4">Parameters:</h5>
@@ -17,50 +11,44 @@
   <div class="row">
     <div class="col-5 marB15">
       <h5 class="marB25">bf-time-picker Customizations:</h5>
-      <bf-time-picker
-        [bfSelectedTime]="defaultStartDate"
-        [(bfSelectedTimezone)]="defaultTimezone"
-        [bfSupportedTimezones]="supportedTimezones"
-        [bfDisabled]="compConf.isDisabled"
-        [bfMinTime]="compConf.minTime"
-        [bfMaxTime]="compConf.maxTime">
-      </bf-time-picker>
+
       <div class="code-box pad15 marT15">
         <pre>{{customCompCode}}</pre>
       </div>
     </div>
+  </div>
 
-    <div class="col-6">
-      <div class="row marT15">
-        <div class="col-2 padT5">
-          <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox>
-        </div>
-      </div>
+  <div class="row marT15">
 
-      <div class="row marT15">
-        <div class="col-4 padT5">
-          <bf-dropdown class="full-width"
-                       [(ngModel)]="compConf.bfLocale"
-                       [bfList]="localesList" (ngModelChange)="upComp()"
-                       bfLabel="Locale"
-                       bfSelect="code"
-                       bfRender="name">
-          </bf-dropdown>
-        </div>
-      </div>
+      <bf-time-picker
+        class="col-3"
+        [(currentTime)]="compConf.currentTime"
+        [minimumTime]="minTime"
+        [maximumTime]="maxTime"
+        [formGroup]="exampleGroup"
+        controlName="basic-example"
+        controlLabel="Basic Example"
+        (currentTimeChange)="timeUpdated($event)"
+      ></bf-time-picker>
 
-      <div class="row marT15">
-        <div class="col-5">
-          <bf-time-picker bfLabel="Min Datetime" [(bfSelectedTime)]="compConf.minTime" [(bfSelectedTimezone)]="defaultTimezone" [bfSupportedTimezones]="supportedTimezones" [bfMaxTime]="compConf.maxTime" (bfSelectedTimeChange)="upComp()"></bf-time-picker>
-        </div>
-      </div>
+      <bf-time-picker
+        class="col-3"
+        [(currentTime)]="minTime"
+        [maximumTime]="maxTime"
+        [formGroup]="exampleGroup"
+        controlName="min-control"
+        controlLabel="Min Time"
+        (currentTimeChange)="timeUpdated($event)"
+      ></bf-time-picker>
 
-      <div class="row marT15">
-        <div class="col-5">
-          <bf-time-picker bfLabel="Max Datetime" [(bfSelectedTime)]="compConf.maxTime" [(bfSelectedTimezone)]="defaultTimezone" [bfSupportedTimezones]="supportedTimezones" [bfMinTime]="compConf.minTime" (bfSelectedTimeChange)="upComp()" ></bf-time-picker>
-        </div>
-      </div>
-    </div>
+      <bf-time-picker
+        [(currentTime)]="maxTime"
+        [minimumTime]="minTime"
+        [formGroup]="exampleGroup"
+        controlName="max-control"
+        controlLabel="Max Time"
+        (currentTimeChange)="timeUpdated($event)"
+    ></bf-time-picker>
   </div>
 </div>
 
@@ -70,48 +58,27 @@
   <div class="col-12 examples-table">
     <div class="row">
       <div class="col-5">
-        <bf-time-picker [bfSelectedTimezone]="'Europe/Dublin'" [bfSupportedTimezones]="[{ country_code: null, time_zone: 'Europe/Dublin' }, { country_code: null, time_zone: 'US/Arizona' }]"></bf-time-picker>
+        <bf-time-picker (currentTimeChange)="updateTime($event)" (timeChanged)="updateTimeString($event)"></bf-time-picker>
+        Struct: {{timeStructData | json}}<br/>
+        Time String: {{timeString}}
       </div>
       <div class="col-7">
         <div class="code-box">
-          <pre>{{instance}}</pre>
+          <pre class="p-3">{{instance}}</pre>
         </div>
       </div>
     </div>
 
     <div class="row">
       <div class="col-5">
-        <bf-time-picker
-          bfLabel="No timezone"
-          [(bfSelectedTime)]="defaultStartDate"
-          [bfMinTime]="minTime"
-          [bfMaxTime]="maxTime"
-        ></bf-time-picker>
+        <bf-time-picker class="pt-2" [showSpinners]="false"></bf-time-picker>
       </div>
       <div class="col-7">
         <div class="code-box">
-          <pre>{{instance2}}</pre>
+          <pre class="p-3">{{instance2}}</pre>
         </div>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-5">
-        <bf-time-picker
-          bfLabel="Disabled"
-          [(bfSelectedTime)]="defaultStartDate"
-          [(bfSelectedTimezone)]="defaultTimezone"
-          [bfMinTime]="minTime"
-          [bfMaxTime]="maxTime"
-          [bfSupportedTimezones]="supportedTimezones"
-          [bfDisabled]="true"
-        ></bf-time-picker>
-      </div>
-      <div class="col-7">
-        <div class="code-box">
-          <pre>{{instance3}}</pre>
-        </div>
-      </div>
-    </div>
   </div>
 </div>

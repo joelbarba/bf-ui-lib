@@ -29,7 +29,7 @@ import { BfDatePickerComponent } from './bf-date-picker/bf-date-picker.component
 import { BfListPaginatorComponent } from './bf-list-paginator/bf-list-paginator.component';
 import {CommonModule} from '@angular/common';
 import {BfTranslatePipe, BfUILibTransService} from './abstract-translate.service';
-import { BfTimePickerComponent } from './bf-time-picker/bf-time-picker.component';
+import { BfDateTimePickerComponent } from './bf-dateTime-picker/bf-dateTime-picker.component';
 import { BfAutocompleteComponent } from './bf-autocomplete/bf-autocomplete.component';
 import { BfMultiSelectorComponent } from './bf-multi-selector/bf-multi-selector.component';
 import { BfProgressBarComponent } from './bf-progress-bar/bf-progress-bar.component';
@@ -51,6 +51,7 @@ import { BfExpandableListComponent } from './bf-expandable-list/bf-expandable-li
 import { BfListControllerDirective } from './bf-list-controller/bf-list-controller.directive';
 import { BfDropdownA11yPipe } from './bf-dropdown/bf-dropdown-a11y.pipe';
 import { BfIntersectionObserverDirective } from './bf-intersection-observer/bf-intersection-observer.directive';
+import { BfTimePickerComponent } from './bf-time-picker/bf-time-picker.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,7 @@ import { BfIntersectionObserverDirective } from './bf-intersection-observer/bf-i
     BfRadioComponent,
     BfDatePickerComponent,
     BfListPaginatorComponent,
-    BfTimePickerComponent,
+    BfDateTimePickerComponent,
     BfAutocompleteComponent,
     BfMultiSelectorComponent,
     BfProgressBarComponent,
@@ -92,7 +93,7 @@ import { BfIntersectionObserverDirective } from './bf-intersection-observer/bf-i
     BfExpandableListComponent,
     BfListControllerDirective,
     BfDropdownA11yPipe, // Internal
-    BfIntersectionObserverDirective,
+    BfIntersectionObserverDirective, BfTimePickerComponent,
   ],
   entryComponents: [
   ],
@@ -112,6 +113,7 @@ import { BfIntersectionObserverDirective } from './bf-intersection-observer/bf-i
     Ng5SliderModule,
   ],
   exports: [
+    BfTimePickerComponent,  // <--- New component
     BfExpandableListComponent,  // <--- New component
     BfCollapseComponent,  // <--- New component
     BfListCheckboxComponent,
@@ -153,6 +155,7 @@ import { BfIntersectionObserverDirective } from './bf-intersection-observer/bf-i
     BfDnDModule,
     BfListControllerDirective,
     BfIntersectionObserverDirective,
+    BfDateTimePickerComponent
   ]
 })
 export class BfUiLibModule {

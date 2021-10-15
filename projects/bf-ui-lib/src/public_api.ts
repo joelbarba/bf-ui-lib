@@ -54,7 +54,7 @@ export * from './lib/bf-slider/bf-slider.component';
 export * from './lib/bf-status-badge/bf-status-badge.component';
 export * from './lib/bf-switch/bf-switch.component';
 export * from './lib/bf-textarea/bf-textarea.component';
-export * from './lib/bf-time-picker/bf-time-picker.component';
+export * from './lib/bf-dateTime-picker/bf-dateTime-picker.component';
 export * from './lib/show/show.component';
 
 export * from './lib/bf-color-picker/bf-color-picker.component';
@@ -64,3 +64,4 @@ export * from './lib/bf-collapse/bf-collapse.component';
 export * from './lib/bf-expandable-list/bf-expandable-list.component';
 
 export * from './lib/bf-list-controller/bf-list-controller.directive';
+export * from './lib/bf-time-picker/bf-time-picker.component';

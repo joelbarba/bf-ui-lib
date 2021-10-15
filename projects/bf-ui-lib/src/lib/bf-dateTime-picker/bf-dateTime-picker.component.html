@@ -1,0 +1,44 @@
+<bf-label [bfText]="bfLabel"></bf-label>
+<div ngbDropdown autoClose="outside" [placement]="bfPlacement" #timePickerDropdown="ngbDropdown">
+  <div class="input-group" ngbDropdownAnchor (click)="toggleTimePicker(timePickerDropdown)">
+    <input type="text" class="form-control display-input" [ngModel]="displayTime$ | async" disabled/>
+    <span class="input-group-append">
+      <button class="btn primary" [disabled]="isDisabled()">
+        <span class="icon-clock3"></span>
+      </button>
+    </span>
+  </div>
+
+  <div ngbDropdownMenu>
+    <div class="row uib-datepicker-popup">
+      <div class="card card-body card-sm pl-2">
+        <bf-date-picker
+          [ngModel]="formattedTimeString$ | async"
+          (ngModelChange)="onDateChanged($event)"
+          [bfIsInlineDatePicker]="true"
+          [bfMinDate]="formatDate(bfMinTime)"
+          [bfMaxDate]="formatDate(bfMaxTime)">
+        </bf-date-picker>
+      </div>
+    </div>
+
+    <div class="row temp-placeholder"></div>
+
+    <div class="card card-body card-sm time-wrapper">
+      <div class="px-2" *ngIf="bfSupportedTimezones">
+        <bf-dropdown class="full-width" [ngModel]="bfSelectedTimezone" [bfList]="bfSupportedTimezones" bfPlaceholder="Timezone" bfSelect="time_zone" bfRender="time_zone" (ngModelChange)="onTimezoneChanged($event)" bfRequired="true"></bf-dropdown>
+      </div>
+
+      <div class="d-flex justify-content-center" *ngIf="minTime">
+        <bf-time-picker [currentTime]="selectedTime" [minimumTime]="minTime" [maximumTime]="maxTime || null" [hideErrorMessages]="true" (timeChanged)="updateTime($event)"></bf-time-picker>
+      </div>
+
+    </div>
+
+    <div class="d-flex flex-row justify-content-end mt-3">
+      <bf-btn class="block" bfType="cancel" (click)="onCancel(timePickerDropdown)"></bf-btn>
+      <bf-btn class="ml-2" bfType="save" (click)="closeTimePicker(timePickerDropdown)" [bfDisabled]="isDateTimeValid"></bf-btn>
+    </div>
+  </div>
+</div>
+

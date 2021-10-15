@@ -1,7 +1,9 @@
+import { BfTimePickerDoc } from './bf-time-picker-demo/bf-time-picker-demo.component';
 import { BfLazyDropdownDoc } from './bf-lazy-dropdown-demo/bf-lazy-dropdown-demo.component';
 import { Injectable } from '@angular/core';
 import * as docs from './doc-demos-list';
 export const compList = [
+  BfTimePickerDoc,
   docs.BfBtnDoc,
   docs.BfLabelDoc,
   docs.BfInputDoc,

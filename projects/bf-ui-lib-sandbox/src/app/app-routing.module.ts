@@ -22,10 +22,10 @@ const routes: Routes = [
   { path: docs.BfBtnDoc.name,               component: docs.BfBtnDoc.demoComp              },
   { path: docs.BfLabelDoc.name,             component: docs.BfLabelDoc.demoComp            },
   { path: docs.BfInputDoc.name,             component: docs.BfInputDoc.demoComp            },
-  { path: 'bf-input/validators',      component: BfInputValidatorsDemoComponent      },
-  { path: 'bf-input/async-validator', component: BfInputAsyncValidatorDemoComponent  },
-  { path: 'bf-input/controls',        component: BfInputControlsDemoComponent  },
-  { path: 'bf-input/autofill',        component: BfInputAutofillDemoComponent  },
+  { path: 'bf-input/validators',      component: BfInputValidatorsDemoComponent            },
+  { path: 'bf-input/async-validator', component: BfInputAsyncValidatorDemoComponent        },
+  { path: 'bf-input/controls',        component: BfInputControlsDemoComponent              },
+  { path: 'bf-input/autofill',        component: BfInputAutofillDemoComponent              },
 
   { path: docs.BfTextareaDoc.name,          component: docs.BfTextareaDoc.demoComp         },
   { path: docs.BfDropdownDoc.name,          component: docs.BfDropdownDoc.demoComp         },
@@ -75,8 +75,9 @@ const routes: Routes = [
 
   { path: docs.BfListHandlerDoc.name,       component: docs.BfListHandlerDoc.demoComp      },
   { path: 'list-test',                      component: BfListHandlerTestComponent          },
-  { path: docs.ListControllerDoc.name,       component: docs.ListControllerDoc.demoComp      },
+  { path: docs.ListControllerDoc.name,      component: docs.ListControllerDoc.demoComp     },
   { path: 'accessibility',                  component: AccessibilityDemoComponent          },
+  { path: docs.BfTimePickerDoc.name,        component: docs.BfTimePickerDoc.demoComp       },
 
   { path: 'lazy-loading-test',
     loadChildren: () => import('projects/bf-ui-lib-sandbox/src/app/bf-lazy-loaded-module/bf-lazy-loaded.module')
