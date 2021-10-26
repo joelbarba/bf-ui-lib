@@ -16,15 +16,15 @@
 <div class="whiteBg">
   <div class="row">
     <div class="col-5 marB15">
-      <h5 class="marB25">bf-dateTime-picker Customizations:</h5>
-      <bf-dateTime-picker
+      <h5 class="marB25">bf-date-time-picker Customizations:</h5>
+      <bf-date-time-picker
         [bfSelectedTime]="defaultStartDate"
         [(bfSelectedTimezone)]="defaultTimezone"
         [bfSupportedTimezones]="supportedTimezones"
         [bfDisabled]="compConf.isDisabled"
         [bfMinTime]="compConf.minTime"
         [bfMaxTime]="compConf.maxTime">
-      </bf-dateTime-picker>
+      </bf-date-time-picker>
       <div class="code-box pad15 marT15">
         <pre>{{customCompCode}}</pre>
       </div>
@@ -51,13 +51,13 @@
 
       <div class="row marT15">
         <div class="col-5">
-          <bf-dateTime-picker bfLabel="Min Datetime" [(bfSelectedTime)]="compConf.minTime" [(bfSelectedTimezone)]="defaultTimezone" [bfSupportedTimezones]="supportedTimezones" [bfMaxTime]="compConf.maxTime" (bfSelectedTimeChange)="upComp()"></bf-dateTime-picker>
+          <bf-date-time-picker bfLabel="Min Datetime" [(bfSelectedTime)]="compConf.minTime" [(bfSelectedTimezone)]="defaultTimezone" [bfSupportedTimezones]="supportedTimezones" [bfMaxTime]="compConf.maxTime" (bfSelectedTimeChange)="upComp()"></bf-date-time-picker>
         </div>
       </div>
 
       <div class="row marT15">
         <div class="col-5">
-          <bf-dateTime-picker bfLabel="Max Datetime" [(bfSelectedTime)]="compConf.maxTime" [(bfSelectedTimezone)]="defaultTimezone" [bfSupportedTimezones]="supportedTimezones" [bfMinTime]="compConf.minTime" (bfSelectedTimeChange)="upComp()" ></bf-dateTime-picker>
+          <bf-date-time-picker bfLabel="Max Datetime" [(bfSelectedTime)]="compConf.maxTime" [(bfSelectedTimezone)]="defaultTimezone" [bfSupportedTimezones]="supportedTimezones" [bfMinTime]="compConf.minTime" (bfSelectedTimeChange)="upComp()" ></bf-date-time-picker>
         </div>
       </div>
     </div>
@@ -70,7 +70,7 @@
   <div class="col-12 examples-table">
     <div class="row">
       <div class="col-5">
-        <bf-dateTime-picker [bfSelectedTimezone]="'Europe/Dublin'" [bfSupportedTimezones]="[{ country_code: null, time_zone: 'Europe/Dublin' }, { country_code: null, time_zone: 'US/Arizona' }]"></bf-dateTime-picker>
+        <bf-date-time-picker [bfSelectedTimezone]="'Europe/Dublin'" [bfSupportedTimezones]="[{ country_code: null, time_zone: 'Europe/Dublin' }, { country_code: null, time_zone: 'US/Arizona' }]"></bf-date-time-picker>
       </div>
       <div class="col-7">
         <div class="code-box">
@@ -81,12 +81,12 @@
 
     <div class="row">
       <div class="col-5">
-        <bf-dateTime-picker
+        <bf-date-time-picker
           bfLabel="No timezone"
           [(bfSelectedTime)]="defaultStartDate"
           [bfMinTime]="minTime"
           [bfMaxTime]="maxTime"
-        ></bf-dateTime-picker>
+        ></bf-date-time-picker>
       </div>
       <div class="col-7">
         <div class="code-box">
@@ -97,7 +97,7 @@
 
     <div class="row">
       <div class="col-5">
-        <bf-dateTime-picker
+        <bf-date-time-picker
           bfLabel="Disabled"
           [(bfSelectedTime)]="defaultStartDate"
           [(bfSelectedTimezone)]="defaultTimezone"
@@ -105,7 +105,7 @@
           [bfMaxTime]="maxTime"
           [bfSupportedTimezones]="supportedTimezones"
           [bfDisabled]="true"
-        ></bf-dateTime-picker>
+        ></bf-date-time-picker>
       </div>
       <div class="col-7">
         <div class="code-box">

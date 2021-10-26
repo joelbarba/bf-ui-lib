@@ -24,7 +24,7 @@ interface SupportedTimezones {
 }
 
 @Component({
-  selector: 'bf-dateTime-picker',
+  selector: 'bf-date-time-picker',
   templateUrl: './bf-dateTime-picker.component.html',
   styleUrls: [],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -197,7 +197,6 @@ export class BfDateTimePickerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public closeTimePicker(timePickerDropdown: NgbDropdown): void {
-    console.log(this.getSuggestedTime());
     this.bfSelectedTimeChange.emit(this.getSuggestedTime());
     timePickerDropdown.close();
   }
@@ -206,10 +205,10 @@ export class BfDateTimePickerComponent implements OnInit, OnChanges, OnDestroy {
     return date ? this.datePipe.transform(date, 'yyyy-MM-dd') : '';
   }
 
-  updateTime(time: { model: NgbTimeStruct, value: string }): void {
+  updateTime(time: NgbTimeStruct): void {
     const updatedTime = this.getDateCopy(this.getSuggestedTime());
-    updatedTime.setHours(time.model.hour);
-    updatedTime.setMinutes(time.model.minute);
+    updatedTime.setHours(time.hour);
+    updatedTime.setMinutes(time.minute);
 
     this.updateSuggestedTime(updatedTime);
   }

@@ -1,4 +1,4 @@
-// bf-dateTime-picker = 'bf-btn'
+// bf-date-time-picker = 'bf-btn'
 // BfTimePicker = 'BfBtn'
 
 
@@ -8,7 +8,7 @@ import { BfUILibTransService } from 'projects/bf-ui-lib/src/public_api';
 import BfDate from '../../../../bf-ui-lib/src/lib/bf-prototypes/date.prototype';
 
 @Component({
-  selector: 'app-bf-dateTime-picker-demo',
+  selector: 'app-bf-date-time-picker-demo',
   templateUrl: './bf-dateTime-picker-demo.component.html',
   styleUrls: ['./bf-dateTime-picker-demo.component.scss']
 })
@@ -41,11 +41,11 @@ $disabled_input_color : $disabled-color;
   public brStr = `\n`;
   public bsStr = `\n             `;
   public customCompCode = `
-    <bf-dateTime-picker
+    <bf-date-time-picker
       [(bfSelectedTime)]="selectedTime"
       [(bfSelectedTimezone)]="selectedTimezone"
       [bfSupportedTimezones]="supportedLocales">
-    </bf-dateTime-picker>`;
+    </bf-date-time-picker>`;
 
   public compConf: any = {
     isDisabled: false,
@@ -88,12 +88,12 @@ $disabled_input_color : $disabled-color;
 
   public upComp = () => {
     this.customCompCode = `
-     <bf-dateTime-picker
+     <bf-date-time-picker
         [(bfSelectedTime)]="selectedTime"
         [(bfSelectedTimezone)]="selectedTimeZone"
         [bfSupportedTimezones]="supportedTimezones"
         [bfDisabled]="${this.compConf.isDisabled}${this.compConf.minTime !== null ? ' [bfMinTime]="' + this.compConf.minTime + '"' : ''}${this.compConf.maxTime !== null ? ' [bfMaxTime]="' + this.compConf.maxTime + '"' : ''}">
-      </bf-dateTime-picker>`;
+      </bf-date-time-picker>`;
 
     this.translateService.locale$.next(this.compConf.bfLocale);
   };
@@ -129,22 +129,22 @@ $disabled_input_color : $disabled-color;
         [bfMaxTime]="maxTime"
         [bfDefaultTimezone]="defaultTimezone"
         [bfSupportedTimezones]="supportedTimezones">
-      </bf-dateTime-picker>`;
+      </bf-date-time-picker>`;
 
     this.instance3 = `
-      <bf-dateTime-picker
+      <bf-date-time-picker
         [(bfSelectedTime)]="defaultStartDate"
         [bfMinTime]="minTime"
         [bfMaxTime]="maxTime"
         [bfDisabled]="true">
-      </bf-dateTime-picker>
+      </bf-date-time-picker>
     `;
   }
 }
 
 
 export const BfDateTimePickerDoc = {
-  name    : `bf-dateTime-picker`,
+  name    : `bf-date-time-picker`,
   uiType  : 'component',
   desc    : `Generates a ....`,
   api     : `
@@ -161,10 +161,10 @@ export const BfDateTimePickerDoc = {
     (bfSelectedTimezoneChange): An event emitted when the selected timezone has changed
   `,
   instance: `
-    <bf-dateTime-picker
+    <bf-date-time-picker
       [bfSelectedTimezone]="'Europe/Dublin'"
       [bfSupportedTimezones]="[{ country_code: null, time_zone: 'Europe/Dublin' }, { country_code: null, time_zone: 'US/Arizona' }]">
-    </bf-dateTime-picker>
+    </bf-date-time-picker>
   `,
   demoComp: BfTimePickerDemoComponent
 };

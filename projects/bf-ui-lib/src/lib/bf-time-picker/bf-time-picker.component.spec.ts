@@ -1,4 +1,6 @@
 import { fakeAsync, flush, TestBed } from '@angular/core/testing';
+import { TestingModule } from '../../testing/testing-module';
+import { BfUILibTransService } from '../abstract-translate.service';
 import { BfTimePickerComponent } from './bf-time-picker.component';
 
 describe('TimePickerComponent', () => {
@@ -7,7 +9,8 @@ describe('TimePickerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [ BfTimePickerComponent ]
+      providers: [ BfTimePickerComponent ],
+      imports: [ TestingModule ]
     });
   });
 
@@ -39,7 +42,7 @@ describe('TimePickerComponent', () => {
     expect(outputSpy).toHaveBeenCalledWith('11:45');
   }));
 
-  fdescribe('Validations', () => {
+  describe('Validations', () => {
     it('should return an error if the current time is less than the minimum', () => {
       component.minimumTime = { hour: 12, minute: 10, second: 0 };
       component.currentTime = { hour: 11, minute: 9, second: 0 };

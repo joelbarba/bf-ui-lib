@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
@@ -10,7 +10,7 @@ import { BfUILibTransService } from '../abstract-translate.service';
   templateUrl: './bf-time-picker.component.html',
   styleUrls: ['./bf-time-picker.component.scss']
 })
-export class BfTimePickerComponent implements OnInit, OnDestroy {
+export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges {
   /** A flag to determine if the is required validator is applied */
   @Input() isRequired = true;
   /** The initial time value if none is supplied it will default to the current time */
@@ -30,7 +30,7 @@ export class BfTimePickerComponent implements OnInit, OnDestroy {
   /** The id for the element */
   @Input() controlId: string;
   /** A flag to show/hide validation messages generated in the component bf-dateTime-picker is the only place set to true */
-  @Input() hideErrorMessage: boolean = false;
+  @Input() hideErrorMessage = false;
   /** An event that will send the current time struct and formatted string */
   @Output() timeChanged: EventEmitter<string> = new EventEmitter();
   /** An event that will return the current internal value of the time struct */
@@ -81,7 +81,7 @@ export class BfTimePickerComponent implements OnInit, OnDestroy {
     const { minimumTime, maximumTime } = changes;
 
     if (this._isNotFirstChange(minimumTime)) {
-      this.timePickerControl?.updateValueAndValidity()
+      this.timePickerControl?.updateValueAndValidity();
     }
 
     if (this._isNotFirstChange(maximumTime)) {
@@ -109,7 +109,7 @@ export class BfTimePickerComponent implements OnInit, OnDestroy {
   }
 
   get isRequiredError(): boolean {
-    return this.timePickerControl?.errors['required']
+    return this.timePickerControl?.errors['required'];
   }
 
   _timeUpdated(updatedTime: NgbTimeStruct): void {
@@ -124,7 +124,7 @@ export class BfTimePickerComponent implements OnInit, OnDestroy {
 
     if (minimumTime !== null) {
       this.minTimeErrorValidationTrans$ = this._bfTranslate.getLabel$('components.timepicker.min_time_error', { minTime: minimumTime });
-      validationFns.push(this._isCurrentTimeLessThanMinimum.bind(this))
+      validationFns.push(this._isCurrentTimeLessThanMinimum.bind(this));
     }
 
     if (maximumTime !== null) {
@@ -133,7 +133,7 @@ export class BfTimePickerComponent implements OnInit, OnDestroy {
     }
 
     if (this.isRequired) {
-      this.requiredErrorValidationTrans$ = this._bfTranslate.getLabel$('view.common.required_field')
+      this.requiredErrorValidationTrans$ = this._bfTranslate.getLabel$('view.common.required_field');
       validationFns.push(Validators.required);
     }
 
