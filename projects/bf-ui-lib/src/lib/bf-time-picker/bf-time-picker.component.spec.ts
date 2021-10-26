@@ -42,6 +42,15 @@ describe('TimePickerComponent', () => {
     expect(outputSpy).toHaveBeenCalledWith('11:45');
   }));
 
+  it('should convert internal NgbTimeStruct to a formatted string with padded zero', fakeAsync(() => {
+    component.currentTime = { hour: 9, minute: 45, second: 0 };
+    component.ngOnInit();
+    component.timePickerControl.updateValueAndValidity();
+    flush();
+
+    expect(outputSpy).toHaveBeenCalledWith('09:45');
+  }));
+
   describe('Validations', () => {
     it('should return an error if the current time is less than the minimum', () => {
       component.minimumTime = { hour: 12, minute: 10, second: 0 };
@@ -51,8 +60,8 @@ describe('TimePickerComponent', () => {
       component.timePickerControl.updateValueAndValidity();
 
       expect(component.timePickerControl.valid).toBe(false);
-      expect(component.timePickerControl.hasError('minTimeExceeded')).toBe(true);
-      expect(component.timePickerControl.hasError('maxTimeExceeded')).toBe(false);
+      expect(component.isTooEarly).toBe(true);
+      expect(component.isTooLate).toBe(false);
     });
 
     it('should return an error if the current time is greater than the maximum', () => {
@@ -63,8 +72,17 @@ describe('TimePickerComponent', () => {
       component.timePickerControl.updateValueAndValidity();
 
       expect(component.timePickerControl.valid).toBe(false);
-      expect(component.timePickerControl.hasError('minTimeExceeded')).toBe(false);
-      expect(component.timePickerControl.hasError('maxTimeExceeded')).toBe(true);
+      expect(component.isTooEarly).toBe(false);
+      expect(component.isTooLate).toBe(true);
+    });
+
+    it('should return a required error if there no value provided for the time picker', () => {
+      component.ngOnInit();
+      component.timePickerControl.setValue('');
+      component.timePickerControl.updateValueAndValidity();
+
+      expect(component.timePickerControl.valid).toBe(false);
+      expect(component.isRequired).toBe(true);
     });
 
     it('should return no errors if current time is between min and max times', () => {
@@ -76,8 +94,8 @@ describe('TimePickerComponent', () => {
       component.timePickerControl.updateValueAndValidity();
 
       expect(component.timePickerControl.valid).toBe(true);
-      expect(component.timePickerControl.hasError('minTimeExceeded')).toBe(false);
-      expect(component.timePickerControl.hasError('maxTimeExceeded')).toBe(false);
+      expect(component.isTooEarly).toBe(false);
+      expect(component.isTooLate).toBe(false);
     });
 
     it('should not return a formatted string if there are validation errors', fakeAsync(() => {
@@ -98,8 +116,98 @@ describe('TimePickerComponent', () => {
       component.timePickerControl.updateValueAndValidity();
 
       expect(component.timePickerControl.valid).toBe(true);
-      expect(component.timePickerControl.hasError('minTimeExceeded')).toBe(false);
-      expect(component.timePickerControl.hasError('maxTimeExceeded')).toBe(false);
+      expect(component.isTooEarly).toBe(false);
+      expect(component.isTooLate).toBe(false);
+    });
+  });
+
+  describe('onChanges', () => {
+    let updateSpy: jasmine.Spy;
+
+    beforeEach(() => {
+      component.ngOnInit();
+      updateSpy = spyOn(component.timePickerControl, 'updateValueAndValidity').and.callThrough();
+    });
+
+    it('should update the value if min value is updated', () => {
+      const changes = {
+        minimumTime: {
+          firstChange: false,
+          previousValue: { hour: 1, minute: 1, second: 0 },
+          currentValue: { hour: 2, minute: 2, second: 0 },
+          isFirstChange: () => false
+        }
+      };
+
+      component.ngOnChanges(changes);
+
+      expect(updateSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not update the value if min value is first change', () => {
+      const changes = {
+        minimumTime: {
+          firstChange: true,
+          previousValue: undefined,
+          currentValue: { hour: 2, minute: 2, second: 0 },
+          isFirstChange: () => true
+        }
+      };
+
+      component.ngOnChanges(changes);
+
+      expect(updateSpy).not.toHaveBeenCalledTimes(1);
+    });
+
+    it('should update the value if max value is updated', () => {
+      const changes = {
+        maximumTime: {
+          firstChange: false,
+          previousValue: { hour: 1, minute: 1, second: 0 },
+          currentValue: { hour: 2, minute: 2, second: 0 },
+          isFirstChange: () => false
+        }
+      };
+
+      component.ngOnChanges(changes);
+
+      expect(updateSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not update the value if max value is first change', () => {
+      const changes = {
+        maximumTime: {
+          firstChange: true,
+          previousValue: undefined,
+          currentValue: { hour: 2, minute: 2, second: 0 },
+          isFirstChange: () => true
+        }
+      };
+
+      component.ngOnChanges(changes);
+
+      expect(updateSpy).not.toHaveBeenCalledTimes(1);
+    });
+
+    it('should update the value if max and min value is updated', () => {
+      const changes = {
+        maximumTime: {
+          firstChange: false,
+          previousValue: { hour: 1, minute: 1, second: 0 },
+          currentValue: { hour: 20, minute: 2, second: 0 },
+          isFirstChange: () => false
+        },
+        minimumTime: {
+          firstChange: false,
+          previousValue: { hour: 1, minute: 1, second: 0 },
+          currentValue: { hour: 2, minute: 2, second: 0 },
+          isFirstChange: () => false
+        }
+      };
+
+      component.ngOnChanges(changes);
+
+      expect(updateSpy).toHaveBeenCalledTimes(2);
     });
   });
 });

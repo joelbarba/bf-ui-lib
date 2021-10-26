@@ -29,7 +29,7 @@ import { BfDatePickerComponent } from './bf-date-picker/bf-date-picker.component
 import { BfListPaginatorComponent } from './bf-list-paginator/bf-list-paginator.component';
 import {CommonModule} from '@angular/common';
 import {BfTranslatePipe, BfUILibTransService} from './abstract-translate.service';
-import { BfDateTimePickerComponent } from './bf-dateTime-picker/bf-dateTime-picker.component';
+import { BfDateTimePickerComponent } from './bf-date-time-picker/bf-date-time-picker.component';
 import { BfAutocompleteComponent } from './bf-autocomplete/bf-autocomplete.component';
 import { BfMultiSelectorComponent } from './bf-multi-selector/bf-multi-selector.component';
 import { BfProgressBarComponent } from './bf-progress-bar/bf-progress-bar.component';

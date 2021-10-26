@@ -1,0 +1,16 @@
+@import 'variables';
+
+ngb-timepicker {
+  button.btn-link {
+    color: $primary_color;
+
+    :focus, :hover {
+      color: $primary_color;
+    }
+
+    // override for a11y focus-visible
+    &:focus:not(:focus-visible) {
+      border: 1px solid transparent !important;
+    }
+  }
+}

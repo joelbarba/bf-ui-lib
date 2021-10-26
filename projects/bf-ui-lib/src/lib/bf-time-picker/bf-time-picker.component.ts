@@ -81,11 +81,11 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges {
     const { minimumTime, maximumTime } = changes;
 
     if (this._isNotFirstChange(minimumTime)) {
-      this.timePickerControl?.updateValueAndValidity();
+      this.timePickerControl.updateValueAndValidity();
     }
 
     if (this._isNotFirstChange(maximumTime)) {
-      this.timePickerControl?.updateValueAndValidity();
+      this.timePickerControl.updateValueAndValidity();
     }
   }
 
@@ -101,15 +101,15 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   get isTooEarly(): boolean {
-    return this.timePickerControl?.errors['minTimeExceeded'];
+    return this.timePickerControl.hasError('minTimeExceeded');
   }
 
   get isTooLate(): boolean {
-    return this.timePickerControl?.errors['maxTimeExceeded'];
+    return this.timePickerControl.hasError('maxTimeExceeded');
   }
 
   get isRequiredError(): boolean {
-    return this.timePickerControl?.errors['required'];
+    return this.timePickerControl.hasError('required');
   }
 
   _timeUpdated(updatedTime: NgbTimeStruct): void {

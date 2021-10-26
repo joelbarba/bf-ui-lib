@@ -4,7 +4,7 @@ import { SimpleChange } from '@angular/core';
 
 import { NgbDropdownModule, NgbDatepickerModule, NgbTooltipModule, NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 
-import { BfDateTimePickerComponent } from './bf-dateTime-picker.component';
+import { BfDateTimePickerComponent } from './bf-date-time-picker.component';
 import { BfDatePickerComponent } from '../bf-date-picker/bf-date-picker.component';
 import { TestingModule } from '../../testing/testing-module';
 import { BfDropdownComponent } from '../bf-dropdown/bf-dropdown.component';

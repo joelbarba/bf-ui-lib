@@ -25,7 +25,7 @@ interface SupportedTimezones {
 
 @Component({
   selector: 'bf-date-time-picker',
-  templateUrl: './bf-dateTime-picker.component.html',
+  templateUrl: './bf-date-time-picker.component.html',
   styleUrls: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
