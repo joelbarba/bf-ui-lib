@@ -1,4 +1,5 @@
 import { fakeAsync, flush, TestBed } from '@angular/core/testing';
+import { FormGroup } from '@angular/forms';
 import { TestingModule } from '../../testing/testing-module';
 import { BfUILibTransService } from '../abstract-translate.service';
 import { BfTimePickerComponent } from './bf-time-picker.component';
@@ -50,6 +51,22 @@ describe('TimePickerComponent', () => {
 
     expect(outputSpy).toHaveBeenCalledWith('09:45');
   }));
+
+  it('should return an error if the controlName input is not supplied for a formGroup', () => {
+    component.formGroup = new FormGroup({});
+
+    expect(() => {
+      component.ngOnInit();
+    }).toThrowError('If using a parent form group you must supply a control name!');
+  });
+
+  it('should add the control to the form group', () => {
+    component.formGroup = new FormGroup({});
+    component.controlName = 'test-control';
+    component.ngOnInit();
+
+    expect(component.formGroup.get('test-control')).toBeDefined();
+  });
 
   describe('Validations', () => {
     it('should return an error if the current time is less than the minimum', () => {

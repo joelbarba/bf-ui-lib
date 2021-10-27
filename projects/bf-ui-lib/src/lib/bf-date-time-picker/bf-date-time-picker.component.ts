@@ -221,7 +221,7 @@ export class BfDateTimePickerComponent implements OnInit, OnChanges, OnDestroy {
     };
   }
 
-  get isDateTimeValid(): boolean {
+  get isDateTimeInvalid(): boolean {
     return this.isTimeEqualToMin(this.getSuggestedTime(), this.bfMinTime)
       || this.isTimeEqualToMax(this.getSuggestedTime(), this.bfMaxTime);
   }

@@ -37,7 +37,7 @@
 
     <div class="d-flex flex-row justify-content-end mt-3">
       <bf-btn class="block" bfType="cancel" (click)="onCancel(timePickerDropdown)"></bf-btn>
-      <bf-btn class="ml-2" bfType="save" (click)="closeTimePicker(timePickerDropdown)" [bfDisabled]="isDateTimeValid"></bf-btn>
+      <bf-btn class="ml-2" bfType="save" (click)="closeTimePicker(timePickerDropdown)" [bfDisabled]="isDateTimeInvalid"></bf-btn>
     </div>
   </div>
 </div>

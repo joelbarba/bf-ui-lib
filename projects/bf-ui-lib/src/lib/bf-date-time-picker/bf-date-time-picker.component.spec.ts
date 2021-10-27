@@ -13,6 +13,7 @@ import { BfLabelComponent } from '../bf-label/bf-label.component';
 import { BfTranslatePipe } from '../abstract-translate.service';
 import localeEnIE from '@angular/common/locales/en-IE';
 import {registerLocaleData} from '@angular/common';
+import * as exp from 'constants';
 
 registerLocaleData(localeEnIE, 'en-IE');
 
@@ -244,5 +245,52 @@ describe('BfTimePickerComponent', () => {
   it('should set the locale on init', fakeAsync(() => {
     updateFixture(fixture);
     expect(component.locale).toBe('en-IE');
+  }));
+
+  it('should convert a date into a bootstrap time struct', () => {
+    const date = new Date();
+    date.setHours(16);
+    date.setMinutes(45);
+    date.setSeconds(0);
+
+    expect(component.convertDateToTimeStruct(date)).toEqual({ hour: 16, minute: 45, second: 0 });
+  });
+
+  it('should update the date with the correct time', fakeAsync(() => {
+    updateFixture(fixture);
+    component.updateTime({ hour: 16, minute: 45, second: 0 });
+    updateFixture(fixture);
+
+    component.getSuggestedTime$().subscribe(suggestedTime => {
+      const hour = suggestedTime.getHours();
+      const minute = suggestedTime.getMinutes();
+
+      expect(hour).toBe(16);
+      expect(minute).toBe(45);
+    });
+  }));
+
+  it('should return false if the suggested time is less than the minimum', fakeAsync(() => {
+    updateFixture(fixture);
+    const suggestedTime = new Date('August 25 2020 15:45');
+    component.bfMinTime = new Date('August 25 2020 16:45');
+    updateFixture(fixture);
+
+    component.updateSuggestedTime(suggestedTime);
+    updateFixture(fixture);
+
+    expect(component.isDateTimeInvalid).toBe(true);
+  }));
+
+  it('should return false if the suggested time is greater than the maximum', fakeAsync(() => {
+    updateFixture(fixture);
+    const suggestedTime = new Date('August 25 2020 17:45');
+    component.bfMaxTime = new Date('August 25 2020 16:45');
+    updateFixture(fixture);
+
+    component.updateSuggestedTime(suggestedTime);
+    updateFixture(fixture);
+
+    expect(component.isDateTimeInvalid).toBe(true);
   }));
 });

@@ -141,8 +141,8 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   _isCurrentTimeGreaterThanMax(currentTime: FormControl): ValidationErrors {
-    const isHoursGreater = currentTime.value?.hour > this.maximumTime.hour;
-    const isMinutesGreater = currentTime.value?.minute > this.maximumTime.minute && currentTime.value?.hour === this.maximumTime.hour;
+    const isHoursGreater = currentTime.value.hour > this.maximumTime.hour;
+    const isMinutesGreater = currentTime.value.minute > this.maximumTime.minute && currentTime.value?.hour === this.maximumTime.hour;
 
 
     return isMinutesGreater || isHoursGreater
@@ -152,7 +152,7 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges {
 
   _isCurrentTimeLessThanMinimum(currentTime: FormControl): ValidationErrors {
     const isHoursLess = currentTime.value.hour < this.minimumTime.hour;
-    const isMinutesLess = currentTime.value.minute < this.minimumTime.minute && currentTime.value?.hour === this.minimumTime.hour;
+    const isMinutesLess = currentTime.value.minute < this.minimumTime.minute && currentTime.value.hour === this.minimumTime.hour;
 
     return isMinutesLess || isHoursLess
       ? { minTimeExceeded: true }
