@@ -9,10 +9,10 @@ import BfDate from '../../../../bf-ui-lib/src/lib/bf-prototypes/date.prototype';
 
 @Component({
   selector: 'app-bf-date-time-picker-demo',
-  templateUrl: './bf-dateTime-picker-demo.component.html',
-  styleUrls: ['./bf-dateTime-picker-demo.component.scss']
+  templateUrl: './bf-date-time-picker-demo.component.html',
+  styleUrls: ['./bf-date-time-picker-demo.component.scss']
 })
-export class BfTimePickerDemoComponent implements OnInit {
+export class BfDateTimePickerDemoComponent implements OnInit {
   public name = BfDateTimePickerDoc.name;
   public desc = BfDateTimePickerDoc.desc;
   public api = BfDateTimePickerDoc.api;
@@ -166,5 +166,5 @@ export const BfDateTimePickerDoc = {
       [bfSupportedTimezones]="[{ country_code: null, time_zone: 'Europe/Dublin' }, { country_code: null, time_zone: 'US/Arizona' }]">
     </bf-date-time-picker>
   `,
-  demoComp: BfTimePickerDemoComponent
+  demoComp: BfDateTimePickerDemoComponent
 };

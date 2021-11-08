@@ -9,7 +9,7 @@ export { BfStatusBadgeDoc } from './bf-status-badge-demo/bf-status-badge-demo.co
 export { BfProgressBarDoc } from './bf-progress-bar-demo/bf-progress-bar-demo.component';
 export { BfMultiSelectorDoc } from './bf-multi-selector-demo/bf-multi-selector-demo.component';
 export { BfAutocompleteDoc } from './bf-autocomplete-demo/bf-autocomplete-demo.component';
-export { BfDateTimePickerDoc } from './bf-dateTime-picker-demo/bf-dateTime-picker-demo.component';
+export { BfDateTimePickerDoc } from './bf-date-time-picker-demo/bf-date-time-picker-demo.component';
 export { BfDeferDoc } from './bf-defer-demo/bf-defer-demo.component';
 export { BfPromiseDoc } from './bf-promise-demo/bf-promise-demo.component';
 export { BfLoadingBarDoc } from './bf-loading-bar-demo/bf-loading-bar-demo.component';

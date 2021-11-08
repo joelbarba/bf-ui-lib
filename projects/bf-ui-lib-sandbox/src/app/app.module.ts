@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import {InjectionToken, NgModule} from '@angular/core';
+import { NgModule} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -28,7 +28,7 @@ import { BfLoadingBarDemoComponent } from './bf-loading-bar-demo/bf-loading-bar-
 import { BfPromiseDemoComponent } from './bf-promise-demo/bf-promise-demo.component';
 import { BfDeferDemoComponent } from './bf-defer-demo/bf-defer-demo.component';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
-import { BfTimePickerDemoComponent } from './bf-dateTime-picker-demo/bf-dateTime-picker-demo.component';
+import { BfDateTimePickerDemoComponent } from './bf-date-time-picker-demo/bf-date-time-picker-demo.component';
 import { BfAutocompleteDemoComponent } from './bf-autocomplete-demo/bf-autocomplete-demo.component';
 import { BfMultiSelectorDemoComponent } from './bf-multi-selector-demo/bf-multi-selector-demo.component';
 import { BfProgressBarDemoComponent } from './bf-progress-bar-demo/bf-progress-bar-demo.component';
@@ -104,7 +104,7 @@ import { TimePickerDemoComponent } from './bf-time-picker-demo/bf-time-picker-de
     BfPromiseDemoComponent,
     BfDeferDemoComponent,
     BfListHandlerDemoComponent,
-    BfTimePickerDemoComponent,
+    BfDateTimePickerDemoComponent,
     BfAutocompleteDemoComponent,
     BfMultiSelectorDemoComponent,
     BfProgressBarDemoComponent,
