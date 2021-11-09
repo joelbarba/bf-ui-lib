@@ -132,12 +132,12 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges {
     const validationFns = [];
 
     if (minimumTime !== null) {
-      this.minTimeErrorValidationTrans$ = this._bfTranslate.getLabel$('components.timepicker.min_time_error', { minTime: minimumTime });
+      this.minTimeErrorValidationTrans$ = this._bfTranslate.getLabel$('components.timepicker.min_time_error', { minTime: this._stringifyTimeStruct(minimumTime) });
       validationFns.push(this._isCurrentTimeLessThanMinimum.bind(this));
     }
 
     if (maximumTime !== null) {
-      this.maxTimeErrorValidationTrans$ = this._bfTranslate.getLabel$('components.timepicker.min_time_error', { maxTime: maximumTime });
+      this.maxTimeErrorValidationTrans$ = this._bfTranslate.getLabel$('components.timepicker.max_time_error', { maxTime: this._stringifyTimeStruct(maximumTime) });
       validationFns.push(this._isCurrentTimeGreaterThanMax.bind(this));
     }
 
