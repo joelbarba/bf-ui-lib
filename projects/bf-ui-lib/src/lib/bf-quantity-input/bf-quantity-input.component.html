@@ -8,19 +8,37 @@
 </label>
 
 <div class="quantity-controller">
-  <div class="quantity-controller-box left" [class.blocked]="!decBtnEnabled"
-       (click)="decBtnEnabled && modelChange(bfModel - 1)">
+  <div
+    role="button"
+    tabindex="-1"
+    class="quantity-controller-box left"
+    [class.blocked]="!decBtnEnabled"
+    (click)="decrementValue(bfModel)">
     <span class="icon-minus"></span>
   </div>
 
   <div class="quantity-controller-center">
-    <input type="text" class="quantity-input"
-           [disabled]="bfDisabled" (wheel)="onMouseWheel($event)"
-           [(ngModel)]="bfModel" (ngModelChange)="modelChange($event)"/>
+    <input
+      type="number"
+      class="quantity-input"
+      tabindex="0"
+      [attr.aria-valuemin]="bfMinVal"
+      [attr.aria-valuemax]="bfMaxVal"
+      [disabled]="bfDisabled"
+      [(ngModel)]="bfModel"
+      (wheel)="onMouseWheel($event)"
+      (ngModelChange)="modelChange($event)" />
   </div>
 
-  <div class="quantity-controller-box right" [class.blocked]="!incBtnEnabled"
-       (click)="incBtnEnabled && modelChange(bfModel + 1)">
+  <div role="button"
+       tabindex="-1"
+       class="quantity-controller-box right"
+       [class.blocked]="!incBtnEnabled"
+       (click)="incrementValue(bfModel)">
     <span class="icon-plus"></span>
   </div>
+</div>
+
+<div class="error-container" *ngIf="bfErrorTrans$ | async as errorText" aria-live="assertive">
+  <p class="small form-text text-danger pt-3">{{errorText}}</p>
 </div>
