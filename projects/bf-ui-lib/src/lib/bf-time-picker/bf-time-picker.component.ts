@@ -81,8 +81,7 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges {
     const { minimumTime, maximumTime, currentTime } = changes;
 
     if (this._isNotFirstChange(currentTime)) {
-      this.currentTime = currentTime.currentValue;
-      this.timePickerControl.updateValueAndValidity();
+      this.timePickerControl.setValue(currentTime.currentValue);
     }
 
     if (this._isNotFirstChange(minimumTime)) {
