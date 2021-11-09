@@ -28,7 +28,6 @@
         [formGroup]="exampleGroup"
         controlName="basic-example"
         controlLabel="Basic Example"
-        (currentTimeChange)="timeUpdated($event)"
       ></bf-time-picker>
 
       <bf-time-picker
@@ -38,7 +37,6 @@
         [formGroup]="exampleGroup"
         controlName="min-control"
         controlLabel="Min Time"
-        (currentTimeChange)="timeUpdated($event)"
       ></bf-time-picker>
 
       <bf-time-picker
@@ -47,7 +45,6 @@
         [formGroup]="exampleGroup"
         controlName="max-control"
         controlLabel="Max Time"
-        (currentTimeChange)="timeUpdated($event)"
     ></bf-time-picker>
   </div>
 </div>
@@ -58,7 +55,7 @@
   <div class="col-12 examples-table">
     <div class="row">
       <div class="col-5">
-        <bf-time-picker (currentTimeChange)="updateTime($event)" (timeChanged)="updateTimeString($event)"></bf-time-picker>
+        <bf-time-picker [(currentTime)]="timeStructData" (timeChanged)="updateTimeString($event)"></bf-time-picker>
         Struct: {{timeStructData | json}}<br/>
         Time String: {{timeString}}
       </div>

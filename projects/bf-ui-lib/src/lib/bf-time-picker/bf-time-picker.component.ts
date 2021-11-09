@@ -118,6 +118,7 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges {
 
   _timeUpdated(updatedTime: NgbTimeStruct): void {
     if (this.timePickerControl.valid) {
+      this.currentTime = updatedTime;
       this.timeChanged.emit(this._stringifyTimeStruct(updatedTime));
       this.currentTimeChange.emit(updatedTime);
     }
