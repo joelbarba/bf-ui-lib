@@ -85,10 +85,14 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     if (this._isNotFirstChange(minimumTime)) {
+      this.timePickerControl.clearValidators();
+      this.timePickerControl.setValidators(this._getValidators(this.maximumTime, minimumTime.currentValue));
       this.timePickerControl.updateValueAndValidity();
     }
 
     if (this._isNotFirstChange(maximumTime)) {
+      this.timePickerControl.clearValidators();
+      this.timePickerControl.setValidators(this._getValidators(maximumTime.currentValue, this.minimumTime));
       this.timePickerControl.updateValueAndValidity();
     }
   }

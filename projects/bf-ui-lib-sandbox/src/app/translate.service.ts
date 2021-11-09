@@ -148,6 +148,8 @@ export class BfTranslateService extends BfUILibTransService {
     'view.less_than_minute': 'less than a minute left',
     'view.common.import': 'Import',
     'view.common.export': 'Export',
+    'components.timepicker.max_time_error': 'Time is greater than {{maxTime}}',
+    'components.timepicker.min_time_error': 'Time is less than {{minTime}}',
   };
 
   public transDictCAT = {
