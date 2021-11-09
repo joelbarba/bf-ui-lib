@@ -30,7 +30,7 @@
       </div>
 
       <div class="d-flex justify-content-center" *ngIf="minTime">
-        <bf-time-picker [currentTime]="selectedTime" [minimumTime]="minTime" [maximumTime]="maxTime || null" [hideErrorMessages]="true" (currentTimeChange)="updateTime($event)"></bf-time-picker>
+        <bf-time-picker [currentTime]="selectedTime" [minimumTime]="minTime" [maximumTime]="maxTime || null" [hideErrorMessage]="true" (currentTimeChange)="updateTime($event)"></bf-time-picker>
       </div>
 
     </div>

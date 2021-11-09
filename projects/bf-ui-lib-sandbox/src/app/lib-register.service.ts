@@ -45,6 +45,7 @@ export const compList = [
   docs.BfDeferDoc,
   docs.ListControllerDoc,
   docs.BfIntersectionObserverDoc,
+  docs.BfDateTimePickerDoc
 ];
 
 

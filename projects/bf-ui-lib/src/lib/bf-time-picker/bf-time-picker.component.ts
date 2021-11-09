@@ -100,6 +100,10 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges {
     };
   }
 
+  shouldShowErrorMessages(control: FormControl): boolean {
+    return !this.hideErrorMessage && !!control.errors;
+  }
+
   get isTooEarly(): boolean {
     return this.timePickerControl.hasError('minTimeExceeded');
   }

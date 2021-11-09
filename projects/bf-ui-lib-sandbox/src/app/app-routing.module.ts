@@ -39,6 +39,7 @@ const routes: Routes = [
   { path: docs.BfQuantityInputDoc.name,     component: docs.BfQuantityInputDoc.demoComp    },
   { path: docs.BfDatePickerDoc.name,        component: docs.BfDatePickerDoc.demoComp       },
   { path: docs.BfTimePickerDoc.name,        component: docs.BfTimePickerDoc.demoComp       },
+  { path: docs.BfDateTimePickerDoc.name,        component: docs.BfDateTimePickerDoc.demoComp       },
   { path: docs.BfSliderDoc.name,            component: docs.BfSliderDoc.demoComp           },
   { path: docs.BfRangeSliderDoc.name,       component: docs.BfRangeSliderDoc.demoComp      },
   { path: docs.BfColorPickerDoc.name,       component: docs.BfColorPickerDoc.demoComp      },

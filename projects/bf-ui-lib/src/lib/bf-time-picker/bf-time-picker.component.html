@@ -1,10 +1,10 @@
-<div class="form-group">
+<ng-container>
   <bf-label [bfText]="controlLabel" [bfForElementId]="controlId" [bfRequired]="isRequired"></bf-label>
   <ngb-timepicker [attr.id]="controlId" [formControl]="timePickerControl" [spinners]="showSpinners"></ngb-timepicker>
 
-  <div *ngIf="timePickerControl.errors" aria-live="assertive" class="small form-text text-danger">
+  <div *ngIf="shouldShowErrorMessages(timePickerControl)" aria-live="assertive" class="small form-text text-danger">
     <p *ngIf="isTooLate"> {{maxTimeErrorValidationTrans$ | async}} </p>
     <p *ngIf="isTooEarly"> {{minTimeErrorValidationTrans$ | async}} </p>
     <p *ngIf="isRequiredError"> {{requiredErrorValidationTrans$ | async}} </p>
   </div>
-</div>
+</ng-container>

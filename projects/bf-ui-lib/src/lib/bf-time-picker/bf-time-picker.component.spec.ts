@@ -68,6 +68,36 @@ describe('TimePickerComponent', () => {
     expect(component.formGroup.get('test-control')).toBeDefined();
   });
 
+  it('should hide error messages if hideMessages is set to true', () => {
+    component.hideErrorMessage = true;
+    component.minimumTime = { hour: 12, minute: 10, second: 0 };
+    component.currentTime = { hour: 11, minute: 9, second: 0 };
+
+    component.ngOnInit();
+    component.timePickerControl.updateValueAndValidity();
+
+    expect(component.shouldShowErrorMessages(component.timePickerControl)).toBeFalse();
+  });
+
+  it('should show error messages if hideMessages is set to false', () => {
+    component.hideErrorMessage = false;
+    component.minimumTime = { hour: 12, minute: 10, second: 0 };
+    component.currentTime = { hour: 11, minute: 9, second: 0 };
+
+    component.ngOnInit();
+    component.timePickerControl.updateValueAndValidity();
+
+    expect(component.shouldShowErrorMessages(component.timePickerControl)).toBeFalse();
+  });
+
+  it('should not show messages if no errors are present', () => {
+    component.hideErrorMessage = false;
+
+    component.ngOnInit();
+
+    expect(component.shouldShowErrorMessages(component.timePickerControl)).toBeFalse();
+  });
+
   describe('Validations', () => {
     it('should return an error if the current time is less than the minimum', () => {
       component.minimumTime = { hour: 12, minute: 10, second: 0 };
