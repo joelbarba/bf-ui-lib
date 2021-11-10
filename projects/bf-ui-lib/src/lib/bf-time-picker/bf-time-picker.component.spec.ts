@@ -1,7 +1,6 @@
 import { fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
 import { TestingModule } from '../../testing/testing-module';
-import { BfUILibTransService } from '../abstract-translate.service';
 import { BfTimePickerComponent } from './bf-time-picker.component';
 
 describe('TimePickerComponent', () => {
@@ -87,7 +86,7 @@ describe('TimePickerComponent', () => {
     component.ngOnInit();
     component.timePickerControl.updateValueAndValidity();
 
-    expect(component.shouldShowErrorMessages(component.timePickerControl)).toBeFalse();
+    expect(component.shouldShowErrorMessages(component.timePickerControl)).toBeTrue();
   });
 
   it('should not show messages if no errors are present', () => {
