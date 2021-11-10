@@ -188,7 +188,7 @@ export class DataTransferItemList {
 
 
   /**
-   * @see DataTransferItemList#add
+   * see DataTransferItemList#add
    */
   private typeTable: { [type: string]: boolean } = {};
 
@@ -367,7 +367,7 @@ type DataTransferItemKind = 'string' | 'file';
 
 
 /**
- * @see https://heycam.github.io/webidl/#invalidstateerror
+ * see https://heycam.github.io/webidl/#invalidstateerror
  */
 class InvalidStateError extends Error {
   constructor(message: string) {
@@ -384,7 +384,7 @@ class InvalidStateError extends Error {
 
 
 /**
- * @see https://heycam.github.io/webidl/#notsupportederror
+ * see https://heycam.github.io/webidl/#notsupportederror
  */
 class NotSupportedError extends Error {
   constructor(message: string) {

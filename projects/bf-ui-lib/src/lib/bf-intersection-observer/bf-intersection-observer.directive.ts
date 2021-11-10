@@ -23,7 +23,7 @@ export class BfIntersectionObserverDirective implements OnDestroy, OnInit {
    * The element that is used as the viewport for checking visibility of the target. Must be the ancestor of the target.
    * Defaults to the browser viewport if not specified or if null.
    *
-   * @see https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API for more information
+   * see https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API for more information
    */
   @Input() root: HTMLElement;
 
@@ -32,7 +32,7 @@ export class BfIntersectionObserverDirective implements OnDestroy, OnInit {
    * (top, right, bottom, left). The values can be percentages. This set of values serves to grow or shrink each side
    * of the root element's bounding box before computing intersections. Defaults to all zeros.
    *
-   * @see https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API for more information
+   * see https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API for more information
    */
   @Input() rootMargin = '0px';
 
@@ -43,7 +43,7 @@ export class BfIntersectionObserverDirective implements OnDestroy, OnInit {
    * the array [0, 0.25, 0.5, 0.75, 1]. The default is 0 (meaning as soon as even one pixel is visible, the callback
    * will be run). A value of 1.0 means that the threshold isn't considered passed until every pixel is visible.
    *
-   * @see https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API for more information
+   * see https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API for more information
    */
   @Input() threshold: number | number[];
 
