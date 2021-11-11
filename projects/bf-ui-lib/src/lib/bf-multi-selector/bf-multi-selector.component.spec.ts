@@ -96,6 +96,18 @@ describe('BfMultiSelectorComponent', () => {
     expect(getListContainer()).toBeTruthy();
   });
 
+  it('should open the dropdown list on the search button dclick', () => {
+    // Dropdown is closed
+    expect(getListContainerDe()).toBeNull();
+
+    // Click on search btn
+    debug.query(By.css('.input-group-append')).triggerEventHandler('click', {});
+    detectChanges();
+
+    // Dropdown is open
+    expect(getListContainer()).toBeTruthy();
+  });
+
   describe('dropdown list is populated and open', () => {
     let inputDe: DebugElement;
 
@@ -306,7 +318,6 @@ describe('BfMultiSelectorComponent', () => {
       }));
     });
 
-
     it('should persist items across multiple lists', fakeAsync(() => {
 
       comp.bfKeepSelection = true;
@@ -352,5 +363,59 @@ describe('BfMultiSelectorComponent', () => {
 
     }));
 
+  });
+
+  describe('placeholder only visible when no value is selected', () => {
+    let inputDe: DebugElement;
+
+    // Push new Inputs to the component and trigger ngOnChanges
+    beforeEach(fakeAsync(() => {
+      comp.bfPlaceholder = 'test';
+      comp.bfList = [
+        {
+          id: 0,
+          username: 'brennan.buitendag',
+          email: 'brennan@buitendag.com',
+          first_name: 'Brennan',
+          last_name: 'Buitendag'
+        }
+      ];
+
+      comp.ngOnChanges({
+        bfPlaceholder: newChange(comp.bfPlaceholder),
+        bfList: newChange(comp.bfList),
+      });
+
+      inputDe = debug.query(By.css('input'));
+      tick();
+      detectChanges();
+    }));
+
+    it('should have the placeholder set ', () => {
+      expect(inputDe.nativeElement.placeholder).toEqual('test');
+      expect(comp.renderedPlaceholder).toEqual('test');
+    });
+
+    it('should clear the placeholder after a value is selected', fakeAsync(() => {
+      comp.selectItem(comp.bfList[0]);
+      detectChanges();
+
+      expect(inputDe.nativeElement.placeholder).toEqual('');
+      expect(comp.renderedPlaceholder).toEqual('');
+    }));
+
+    it('should re-add the placeholder after a value is cleared', fakeAsync(() => {
+      comp.selectItem(comp.bfList[0]);
+      detectChanges();
+
+      expect(inputDe.nativeElement.placeholder).toEqual('');
+      expect(comp.renderedPlaceholder).toEqual('');
+
+      comp.deselectItem(comp.bfList[0]);
+      detectChanges();
+
+      expect(inputDe.nativeElement.placeholder).toEqual('test');
+      expect(comp.renderedPlaceholder).toEqual('test');
+    }));
   });
 });
