@@ -96,18 +96,6 @@ describe('BfMultiSelectorComponent', () => {
     expect(getListContainer()).toBeTruthy();
   });
 
-  it('should open the dropdown list on the search button dclick', () => {
-    // Dropdown is closed
-    expect(getListContainerDe()).toBeNull();
-
-    // Click on search btn
-    debug.query(By.css('.input-group-append')).triggerEventHandler('click', {});
-    detectChanges();
-
-    // Dropdown is open
-    expect(getListContainer()).toBeTruthy();
-  });
-
   describe('dropdown list is populated and open', () => {
     let inputDe: DebugElement;
 
