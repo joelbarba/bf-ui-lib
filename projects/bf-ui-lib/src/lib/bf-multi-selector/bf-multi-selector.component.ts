@@ -376,7 +376,7 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnInit, O
   // Update translation for empty options and placeholders
   public renderLabels = () => {
     this.emptyItem.$renderedText = this.translate.doTranslate(this.emptyItem.$label);
-    this.renderedPlaceholder = this.translate.doTranslate(this.bfPlaceholder);
+    this.renderedPlaceholder =  !!this.bfModel.length ? '' : this.translate.doTranslate(this.bfPlaceholder);
     this.setModelText();
   };
 
