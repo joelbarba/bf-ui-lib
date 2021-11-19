@@ -40,6 +40,9 @@ export class BfSwitchComponent implements ControlValueAccessor, OnInit, OnChange
   public bfTooltipTrans$: Observable<string> = of('');
   public bfLabelTrans$: Observable<string> = of('');
 
+  @HostBinding('class.horizontal')
+  public get labelHorizontal(): boolean { return this.bfLabelPos === 'left'; }
+
   constructor(
     @Inject(BfUILibTransService) private translate: BfUILibTransService,
     private liveAnnouncer: LiveAnnouncer

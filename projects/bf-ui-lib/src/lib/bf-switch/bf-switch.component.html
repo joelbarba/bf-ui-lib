@@ -1,12 +1,10 @@
-<div *ngIf="!!bfLabel"
-     [class.horizontal]="bfLabelPos=='left'"
-     class="switch-label">
-  <bf-label [bfText]="bfLabel"
-            [bfTooltipBody]="bfTooltipBody"
-            [bfTooltipPos]="bfTooltipPos"
-            [bfTooltip]="bfTooltip">
-  </bf-label>
-</div>
+<bf-label *ngIf="!!bfLabel"
+          [bfText]="bfLabel"
+          [bfTooltipBody]="bfTooltipBody"
+          [bfTooltipPos]="bfTooltipPos"
+          [bfTooltip]="bfTooltip"
+          class="switch-label">
+</bf-label>
 <div #tooltip="ngbTooltip"
      (click)="onSwitch()"
      (keydown)="onKeyDown($event)"
