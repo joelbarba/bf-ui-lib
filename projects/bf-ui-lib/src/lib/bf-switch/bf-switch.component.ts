@@ -22,6 +22,7 @@ export class BfSwitchComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() bfDisabled = false;
   @Input() bfOnText = 'scripts.common.directives.on_label';
   @Input() bfOffText = 'scripts.common.directives.off_label';
+  @Input() bfValueTextPos: 'left' | 'right' = 'right';
 
   @Input() bfLabel: string;
   @Input() bfLabelPos: 'top' | 'left' = 'top';

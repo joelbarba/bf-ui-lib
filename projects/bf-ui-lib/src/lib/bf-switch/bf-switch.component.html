@@ -1,37 +1,38 @@
 <div *ngIf="!!bfLabel"
-     class="switch-label"
-     [class.horizontal]="bfLabelPos=='left'">
+     [class.horizontal]="bfLabelPos=='left'"
+     class="switch-label">
   <bf-label [bfText]="bfLabel"
-            [bfTooltip]="bfTooltip"
+            [bfTooltipBody]="bfTooltipBody"
             [bfTooltipPos]="bfTooltipPos"
-            [bfTooltipBody]="bfTooltipBody">
+            [bfTooltip]="bfTooltip">
   </bf-label>
 </div>
-<div class="bf-switch"
-     role="switch"
-     [class.is-disabled]="bfDisabled"
-     [attr.aria-label]="bfLabelTrans$ | async"
-     [attr.aria-checked]="bfModel"
-     [ngbTooltip]="bfTooltipTrans$ | async"
-     #tooltip="ngbTooltip"
-     triggers="manual"
-     [tabindex]="bfTabIndex"
+<div #tooltip="ngbTooltip"
      (click)="onSwitch()"
+     (keydown)="onKeyDown($event)"
      (keyup)="onKeyUp($event)"
-     (keydown)="onKeyDown($event)">
-  <div class="switch-bar"></div>
-  <div class="switch-lever"
-       [class.is-off]="!bfModel"
-       [class.is-on]="bfModel"></div>
-  <div class="switch-value">
-    <span [hidden]="!bfModel"
-          class="bf-switch-on-text">{{bfOnText$ | async}}</span>
-    <span [hidden]="bfModel"
-          class="bf-switch-off-text">{{bfOffText$ | async}}</span>
+     [attr.aria-checked]="bfModel"
+     [attr.aria-label]="bfLabelTrans$ | async"
+     [class.is-disabled]="bfDisabled"
+     [ngbTooltip]="bfTooltipTrans$ | async"
+     [tabindex]="bfTabIndex"
+     class="bf-switch"
+     role="switch"
+     triggers="manual">
+  <div class="switch-container">
+    <div class="switch-bar"></div>
+    <div [class.is-off]="!bfModel"
+         [class.is-on]="bfModel"
+         class="switch-lever"
+    ></div>
+  </div>
+  <div [class.switch-value--left]="bfValueTextPos === 'left'" class="switch-value">
+    <span [hidden]="!bfModel" class="bf-switch-on-text">{{bfOnText$ | async}}</span>
+    <span [hidden]="bfModel" class="bf-switch-off-text">{{bfOffText$ | async}}</span>
   </div>
 
-  <input type="checkbox"
-         class="switch-input"
+  <input [disabled]="bfDisabled"
          [ngModel]="bfModel"
-         [disabled]="bfDisabled">
+         class="switch-input"
+         type="checkbox">
 </div>

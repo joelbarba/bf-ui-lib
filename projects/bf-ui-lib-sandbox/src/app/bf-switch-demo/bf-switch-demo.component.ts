@@ -59,10 +59,19 @@ $switch-color-off: $switch-lever-bg !default;`;
   ];
   public swCode = ``;
   public swConf = {
-    hasLabel: false, labelText: 'view.common.field_name2', labelPosLeft: false,
-    hasTooltip: false, btnTooltip: 'view.tooltip.message', btnTooltipPos: null, btnTooltipBody: false,
+    hasLabel: false,
+    labelText: 'view.common.field_name2',
+    labelPosLeft: false,
+    hasTooltip: false,
+    btnTooltip: 'view.tooltip.message',
+    btnTooltipPos: null,
+    btnTooltipBody: false,
     isDisabled: false,
-    hasOnText: false, hasOffText: false, onText: 'view.common.yes', offText: 'view.common.no'
+    hasOnText: false,
+    hasOffText: false,
+    valueTextPosLeft: false,
+    onText: 'view.common.yes',
+    offText: 'view.common.no'
   };
 
   public updateCustomSw = () => {
@@ -76,6 +85,7 @@ $switch-color-off: $switch-lever-bg !default;`;
       }
     }
 
+    if (this.swConf.valueTextPosLeft)  { this.swCode += this.bsStr + ` bfValueTextPos="left"`; }
     if (this.swConf.hasOnText)  { this.swCode += this.bsStr + ` bfOnText="${this.swConf.onText}"`; }
     if (this.swConf.hasOffText) { this.swCode += this.bsStr + ` bfOffText="${this.swConf.offText}"`; }
     if (this.swConf.isDisabled) { this.swCode += this.bsStr + `[bfDisabled]="true"`; }
