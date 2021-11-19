@@ -13,7 +13,6 @@ import { BfLabelComponent } from '../bf-label/bf-label.component';
 import { BfTranslatePipe } from '../abstract-translate.service';
 import localeEnIE from '@angular/common/locales/en-IE';
 import {registerLocaleData} from '@angular/common';
-import * as exp from 'constants';
 
 registerLocaleData(localeEnIE, 'en-IE');
 
@@ -101,7 +100,7 @@ describe('BfTimePickerComponent', () => {
     });
   }));
 
-  it('should update the selcted time', fakeAsync(() => {
+  it('should update the selected time', fakeAsync(() => {
     const selectedTime = new Date('2020-08-25');
     component.bfSelectedTime = new Date('2020-08-24');
     component.bfMinTime = new Date('2020-08-23');
@@ -270,27 +269,72 @@ describe('BfTimePickerComponent', () => {
     });
   }));
 
-  it('should return false if the suggested time is less than the minimum', fakeAsync(() => {
-    updateFixture(fixture);
-    const suggestedTime = new Date('August 25 2020 15:45');
-    component.bfMinTime = new Date('August 25 2020 16:45');
-    updateFixture(fixture);
+  describe('isDateTimeInvalid()', () => {
+    it('should return true if the suggested time is less than the minimum', fakeAsync(() => {
+      updateFixture(fixture);
+      const suggestedTime = new Date('August 25 2020 15:45');
+      component.bfMinTime = new Date('August 25 2020 16:45');
+      updateFixture(fixture);
 
-    component.updateSuggestedTime(suggestedTime);
-    updateFixture(fixture);
+      component.updateSuggestedTime(suggestedTime);
 
-    expect(component.isDateTimeInvalid).toBe(true);
-  }));
+      expect(component.isDateTimeInvalid).toBe(true);
+    }));
 
-  it('should return false if the suggested time is greater than the maximum', fakeAsync(() => {
-    updateFixture(fixture);
-    const suggestedTime = new Date('August 25 2020 17:45');
-    component.bfMaxTime = new Date('August 25 2020 16:45');
-    updateFixture(fixture);
+    it('should return false if the suggested time is the same as the minimum', fakeAsync(() => {
+      updateFixture(fixture);
+      const suggestedTime = new Date('August 25 2020 16:45');
+      component.bfMinTime = new Date('August 25 2020 16:45');
+      updateFixture(fixture);
 
-    component.updateSuggestedTime(suggestedTime);
-    updateFixture(fixture);
+      component.updateSuggestedTime(suggestedTime);
 
-    expect(component.isDateTimeInvalid).toBe(true);
-  }));
+      expect(component.isDateTimeInvalid).toBe(false);
+    }));
+
+    it('should return true if the suggested time is greater than the maximum', fakeAsync(() => {
+      updateFixture(fixture);
+      const suggestedTime = new Date('August 25 2020 17:45');
+      component.bfMaxTime = new Date('August 25 2020 16:45');
+      updateFixture(fixture);
+
+      component.updateSuggestedTime(suggestedTime);
+
+      expect(component.isDateTimeInvalid).toBe(true);
+    }));
+
+    it('should return false if the suggested time is the same as the maximum', fakeAsync(() => {
+      updateFixture(fixture);
+      const suggestedTime = new Date('August 25 2020 16:45');
+      component.bfMaxTime = new Date('August 25 2020 16:45');
+      updateFixture(fixture);
+
+      component.updateSuggestedTime(suggestedTime);
+
+      expect(component.isDateTimeInvalid).toBe(false);
+    }));
+  });
+
+  describe('getMinTime()', () => {
+    beforeEach(fakeAsync(() => {
+      updateFixture(fixture);
+      component.bfMinTime = new Date('August 25 2020 12:21:45');
+      component.updateSuggestedTime(new Date('August 25 2020 14:00'));
+    }));
+
+    it('should restrict to the selected minimum date', () => {
+      expect(component.getMinTime()).toEqual({ hour: 12, minute: 20, second: 0 });
+    });
+
+    it('should not restrict time if the selected date is after the minimum date', () => {
+      component.updateSuggestedTime(new Date('August 26 2020 14:00'));
+      expect(component.getMinTime()).toEqual({ hour: 0, minute: 0, second: 0 });
+    });
+
+    it('should default to allow any time', () => {
+      delete component.bfMinTime;
+      expect(component.getMinTime()).toEqual({ hour: 0, minute: 0, second: 0 });
+    });
+  });
+
 });
