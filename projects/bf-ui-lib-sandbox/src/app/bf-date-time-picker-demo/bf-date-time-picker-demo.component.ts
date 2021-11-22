@@ -89,11 +89,13 @@ $disabled_input_color : $disabled-color;
   public upComp = () => {
     this.customCompCode = `
      <bf-date-time-picker
-        [(bfSelectedTime)]="selectedTime"
-        [(bfSelectedTimezone)]="selectedTimeZone"
-        [bfSupportedTimezones]="supportedTimezones"
-        [bfDisabled]="${this.compConf.isDisabled}${this.compConf.minTime !== null ? ' [bfMinTime]="' + this.compConf.minTime + '"' : ''}${this.compConf.maxTime !== null ? ' [bfMaxTime]="' + this.compConf.maxTime + '"' : ''}">
-      </bf-date-time-picker>`;
+       [(bfSelectedTime)]="selectedTime"
+       [(bfSelectedTimezone)]="selectedTimeZone"
+       [bfSupportedTimezones]="supportedTimezones"
+       [bfDisabled]="${this.compConf.isDisabled}"
+       [bfMinTime]="${this.compConf.minTime}"
+       [bfMaxTime]="${this.compConf.maxTime}">
+     </bf-date-time-picker>`;
 
     this.translateService.locale$.next(this.compConf.bfLocale);
   };

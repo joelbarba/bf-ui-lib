@@ -23,6 +23,14 @@ interface SupportedTimezones {
   time_zone: string;
 }
 
+const NO_RESTRICTIONS: NgbTimeStruct = { hour: 0, minute: 0, second: 0 };
+
+function startOfDay(date: Date): Date {
+  const sod = new Date(date.getTime());
+  sod.setHours(0, 0, 0, 0);
+  return sod;
+}
+
 @Component({
   selector: 'bf-date-time-picker',
   templateUrl: './bf-date-time-picker.component.html',
@@ -60,11 +68,6 @@ export class BfDateTimePickerComponent implements OnInit, OnChanges, OnDestroy {
   constructor(private translateService: BfUILibTransService) { }
 
   ngOnInit(): void {
-    if (!this.bfMinTime) {
-      this.bfMinTime = new Date();
-      this.minTime = this.convertDateToTimeStruct(this.bfMinTime);
-    }
-
     this.suggestedTime$ = new BehaviorSubject(this.bfSelectedTime || new Date());
     this.localeSubscription$ = this.translateService.locale$.subscribe((locale) => {
       this.locale = locale;
@@ -97,7 +100,7 @@ export class BfDateTimePickerComponent implements OnInit, OnChanges, OnDestroy {
         const { currentValue } = bfMinTime;
 
         if (this.isTimeLessThanMinimumLimit(currentTime, currentValue)) {
-          this.minTime = this.convertDateToTimeStruct(currentValue);
+          this.minTime = this.getMinTime();
           this.updateSuggestedTime(currentValue);
         }
       }
@@ -142,6 +145,8 @@ export class BfDateTimePickerComponent implements OnInit, OnChanges, OnDestroy {
       updatedDate = new Date(currentTime);
     }
 
+    this.minTime = this.getMinTime(updatedDate);
+
     if (this.isTimeGreaterThanMaximumLimit(updatedDate, this.bfMaxTime)) {
       this.updateSuggestedTime(this.bfMaxTime);
     } else if (this.isTimeLessThanMinimumLimit(updatedDate, this.bfMinTime)) {
@@ -156,6 +161,19 @@ export class BfDateTimePickerComponent implements OnInit, OnChanges, OnDestroy {
       this.bfSelectedTimezone = currentTimezone;
       this.bfSelectedTimezoneChange.emit(currentTimezone);
     }
+  }
+
+  getMinTime(selectedDate = this.suggestedTime$.getValue()): NgbTimeStruct {
+    if (!this.bfMinTime) {
+      return NO_RESTRICTIONS;
+    }
+
+    const startOfSelectedDay = startOfDay(selectedDate).getTime();
+    const startOfMinDay = startOfDay(this.bfMinTime).getTime();
+
+    return startOfSelectedDay > startOfMinDay
+      ? NO_RESTRICTIONS
+      : { hour: this.bfMinTime.getHours(), minute: Math.max(this.bfMinTime.getMinutes() - 1, 0), second: 0 };
   }
 
   public getSuggestedTime$(): Observable<Date> {
@@ -232,7 +250,8 @@ export class BfDateTimePickerComponent implements OnInit, OnChanges, OnDestroy {
 
   private isTimeEqualToMax(currentTime: Date, maxTime: Date): boolean {
     if (!!maxTime) {
-      return this.removeSecondsFromDate(currentTime).toUTCString() <= this.removeSecondsFromDate(maxTime).toUTCString();
+      // Removing one ms because we want to allow selecting the current minute
+      return this.removeSecondsFromDate(currentTime).getTime() >= this.removeSecondsFromDate(maxTime).getTime() + 1;
     }
 
     return false;
@@ -240,7 +259,8 @@ export class BfDateTimePickerComponent implements OnInit, OnChanges, OnDestroy {
 
   private isTimeEqualToMin(currentTime: Date, minTime: Date): boolean {
     if (!!minTime) {
-      return this.removeSecondsFromDate(currentTime).toUTCString() <= this.removeSecondsFromDate(minTime).toUTCString();
+      // Removing one ms because we want to allow selecting the current minute
+      return this.removeSecondsFromDate(currentTime).getTime() <= this.removeSecondsFromDate(minTime).getTime() - 1;
     }
 
     return false;
@@ -271,7 +291,7 @@ export class BfDateTimePickerComponent implements OnInit, OnChanges, OnDestroy {
     const { currentValue, previousValue } = change;
 
     if (previousValue) {
-      return currentValue.toUTCString() === previousValue.toUTCString();
+      return currentValue.getTime() === previousValue.getTime();
     }
 
     return false;
