@@ -1,54 +1,71 @@
-
 <h2>{{name}}</h2>
 <hr/>
 <h5>{{desc}}</h5>
 
-<h5 class="mt-4">Parameters:</h5>
-<div class="col-12"><pre>{{api}}</pre></div>
+<!--<h5 class="mt-4">Parameters:</h5>-->
+<!--<div class="col-12"><pre>{{api}}</pre></div>-->
 
 
 <!--bf-lazy-dropdown Customization-->
 <div class="whiteBg">
   <div class="row">
     <div class="col-5 marB15">
+
+      <div>
+        <label for="cars">Choose a car:</label>
+        <select name="cars" id="cars">
+          <option value="volvo">Volvo</option>
+          <option value="saab">Saab</option>
+          <option value="mercedes">Mercedes</option>
+          <option value="audi">Audi</option>
+        </select>
+      </div>
+
       <h5 class="marB25">bf-lazy-dropdown Customization:</h5>
+      <!--<div style="min-height: 400px;"></div>-->
       <div>
         <div *ngIf="isLinked">
-          <div class="col-12 padL30 marB30" *ngIf="!!bfLazyDropdownRef" style="font-family: monospace;">
-            FromControl (ngModel):<br>
-            <div class="marL10">- bfLazyDropdownRef.value: <b>{{bfLazyDropdownRef.value | json}}</b></div>
-            <div class="marL10">- bfLazyDropdownRef.valid: <b [style.color]="bfLazyDropdownRef.valid ? '#28a745': '#dc3545'">{{bfLazyDropdownRef.valid | json}}</b></div>
-            <div class="marL10">- bfLazyDropdownRef.pristine: <b>{{bfLazyDropdownRef.pristine | json}}</b></div>
-            <div class="marL10">- bfLazyDropdownRef.errors: <b>{{bfLazyDropdownRef.errors | json}}</b></div>
-          </div>
+          <!--<div class="col-12 padL30 marB30" *ngIf="!!bfLazyDropdownRef" style="font-family: monospace;">-->
+          <!--  FromControl (ngModel):<br>-->
+          <!--  <div class="marL10">- bfLazyDropdownRef.value: <b>{{bfLazyDropdownRef.value | json}}</b></div>-->
+          <!--  <div class="marL10">- bfLazyDropdownRef.valid: <b [style.color]="bfLazyDropdownRef.valid ? '#28a745': '#dc3545'">{{bfLazyDropdownRef.valid | json}}</b></div>-->
+          <!--  <div class="marL10">- bfLazyDropdownRef.pristine: <b>{{bfLazyDropdownRef.pristine | json}}</b></div>-->
+          <!--  <div class="marL10">- bfLazyDropdownRef.errors: <b>{{bfLazyDropdownRef.errors | json}}</b></div>-->
+          <!--</div>-->
 
-          <bf-lazy-dropdown [class.full-width]="conf.hasFullWidth" style="max-width: 450px;"
-                       [class.flat]="conf.hasFlat"
-                       [(ngModel)]="selObj" #bfLazyDropdownRef="ngModel"
-                       [bfLazyLoad]="fakeLoadData"
-                       [bfSelect]="(conf.hasSelect && !!conf.selectField) ? conf.selectField : null"
-                       [bfRender]="(conf.hasRender ? conf.renderExp : null)"
-                       [bfRenderFn]="(conf.hasRenderFn ? renderFn : null)"
-                       [bfMinSearchLength]="2"
+          <bf-lazy-dropdown #bfLazyDropdownRef="ngModel" style="max-width: 450px;"
+                            [class.full-width]="conf.hasFullWidth"
+                            [class.flat]="conf.hasFlat"
+                            [(ngModel)]="selObj"
+                            [bfLazyLoadFn]="fakeLoadData"
+                            [bfFetchOnIni]="false"
+                            bfRender="reference"
 
-                       [bfPlaceholder]="conf.hasPlaceholder ? conf.bfPlaceholder : null"
-
-                       [bfRequired]="conf.isRequired"
-                       [bfDisabled]="conf.isDisabled"
-                       [bfDisabledTip]="conf.isDisabled ? conf.disabledTip: null"
-                       [bfErrorOnPristine]="conf.isErrorOnPristine"
-                       [bfLabel]="(conf.hasLabel ? conf.labelText : '')"
-                       [bfTooltip]="(conf.hasLabel && conf.hasTooltip ? conf.tooltipText : null)"
-                       [bfTooltipPos]="(conf.hasLabel && conf.tooltipPos || 'top')"
-                       [bfTooltipBody]="conf.hasLabel && conf.tooltipBody"
-                       [bfErrorText]="conf.hasErrorText ? conf.bfErrorText : ''"
-                       [bfErrorPos]="conf.errorPos"
-                       [bfCustomPlacementList]="conf.bfCustomPlacementList"
-                       (bfOnLoaded)="myCtrl = $event"
+                            [bfRequired]="conf.isRequired"
+                            [bfDisabled]="conf.isDisabled"
+                            [bfErrorOnPristine]="conf.isErrorOnPristine"
           >
           </bf-lazy-dropdown>
+
+                            <!--[bfMinSearchLength]="2"-->
+          <!--[bfSelect]="(conf.hasSelect && !!conf.selectField) ? conf.selectField : null"-->
+          <!--[bfRender]="(conf.hasRender ? conf.renderExp : null)"-->
+          <!--[bfRenderFn]="(conf.hasRenderFn ? renderFn : null)"-->
+
+          <!--[bfPlaceholder]="conf.hasPlaceholder ? conf.bfPlaceholder : null"-->
+          <!--[bfDisabledTip]="conf.isDisabled ? conf.disabledTip: null"-->
+          <!--[bfLabel]="(conf.hasLabel ? conf.labelText : '')"-->
+          <!--[bfTooltip]="(conf.hasLabel && conf.hasTooltip ? conf.tooltipText : null)"-->
+          <!--[bfTooltipPos]="(conf.hasLabel && conf.tooltipPos || 'top')"-->
+          <!--[bfTooltipBody]="conf.hasLabel && conf.tooltipBody"-->
+          <!--[bfErrorText]="conf.hasErrorText ? conf.bfErrorText : ''"-->
+          <!--[bfErrorPos]="conf.errorPos"-->
+          <!--[bfCustomPlacementList]="conf.bfCustomPlacementList"-->
+          <!--(bfOnLoaded)="myCtrl = $event"-->
+
+
         </div>
-        ngModel = {{selObj | json}}
+        <!--ngModel = {{selObj | json}}-->
       </div>
       <div>
         <div class="code-box pad15">
@@ -58,6 +75,7 @@
     </div>
 
     <div class="col-7">
+      selObj (ngModel) ={{selObj | json}}
 
       <div class="row marT15">
         <bf-checkbox class="col-2 block padT5" bfLabel="bfRequired" [(ngModel)]="conf.isRequired" (ngModelChange)="upComp()"></bf-checkbox>
@@ -188,6 +206,27 @@
         <bf-checkbox class="col-3 padT5" bfLabel="CSS 'full-width'" [(ngModel)]="conf.hasFullWidth" (ngModelChange)="upComp()"></bf-checkbox>
       </div>
 
+      <div class="row marT15">
+        <div class="col-9">
+          <bf-btn bfIcon="icon-loop32"  bfText="Relink" (bfClick)="reLink()"></bf-btn>
+          <bf-btn bfText="val=null" (bfClick)="selObj=null"></bf-btn>
+          <bf-btn bfText="val='AAAAA'" (bfClick)="selObj='AAAAA'"></bf-btn>
+          <bf-btn bfText="val='abc'" (bfClick)="selObj='abc'"></bf-btn>
+          <bf-btn bfText="val='BAP'" (bfClick)="selObj='BAP'"></bf-btn>
+        </div>
+
+        <bf-input [(ngModel)]="fakeTime" [bfRequired]="true" class="col-3"
+                  bfLabel="Fake webapi time">
+        </bf-input>
+        <div class="col-9">
+          <bf-btn bfText="val=Item AAAAA" (bfClick)="selObj=aValue"></bf-btn>
+          <bf-btn bfText="val=Item BAP" (bfClick)="selObj=bapValue"></bf-btn>
+          <bf-btn bfText="val=Item BLF0011" (bfClick)="selObj=blf0011"></bf-btn>
+        </div>
+      </div>
+
+
+
     </div>
 
   </div>
@@ -195,64 +234,64 @@
 
 <hr>
 
-<h5 class="mt-4">Examples:</h5>
-<div class="col-12 examples-table">
+<!--<h5 class="mt-4">Examples:</h5>-->
+<!--<div class="col-12 examples-table">-->
 
-  <div class="row">
-    <div class="col-5">
-      Lazy load item example
-      <div class="code-box pad15">
-        <pre>bfLazyLoadItem = {{lazyItemExample1 | json}}</pre>
-      </div>
-      <br/>
-      <bf-lazy-dropdown [(ngModel)]="selObjExample1"
-                        [bfLazyLoad]="fakeLoadData"
-                        [bfRequired]="true"
-                        [bfLazyLoadItem]="lazyItemExample1"
-                        bfRender="email"
-                        bfLabel="LazyLoadedItem"
-      ></bf-lazy-dropdown>
-    </div>
-    <div class="col-7 code-box">
-      <pre>{{instance}}</pre>
-      <br/>
-      <pre>ngModel = {{selObjExample1 | json}}</pre>
-    </div>
-  </div>
+<!--  <div class="row">-->
+<!--    <div class="col-5">-->
+<!--      Lazy load item example-->
+<!--      <div class="code-box pad15">-->
+<!--        <pre>bfLazyLoadItem = {{lazyItemExample1 | json}}</pre>-->
+<!--      </div>-->
+<!--      <br/>-->
+<!--      <bf-lazy-dropdown [(ngModel)]="selObjExample1"-->
+<!--                        [bfLazyLoad]="fakeLoadData"-->
+<!--                        [bfRequired]="true"-->
+<!--                        [bfLazyLoadItem]="lazyItemExample1"-->
+<!--                        bfRender="email"-->
+<!--                        bfLabel="LazyLoadedItem"-->
+<!--      ></bf-lazy-dropdown>-->
+<!--    </div>-->
+<!--    <div class="col-7 code-box">-->
+<!--      <pre>{{instance}}</pre>-->
+<!--      <br/>-->
+<!--      <pre>ngModel = {{selObjExample1 | json}}</pre>-->
+<!--    </div>-->
+<!--  </div>-->
 
-  <div class="row">
-    <div class="col-5">
-      bfRequired on init - No error if pristine
-      <div class="code-box pad15">
-        <pre>ngModel = {{selObjExample2 | json}}</pre>
-      </div>
-      <br/>
-      <bf-lazy-dropdown [(ngModel)]="selObjExample2"
-                        [bfLazyLoad]="fakeLoadData"
-                        [bfRequired]="true"
-                        bfRender="email"
-                        bfLabel="LazyLoadedItem"
-      ></bf-lazy-dropdown>
-    </div>
-    <div class="col-7 code-box">
-      <pre>{{instance2}}</pre>
-      <br/>
-      <pre>ngModel = {{selObjExample2 | json}}</pre>
-    </div>
-  </div>
+<!--  <div class="row">-->
+<!--    <div class="col-5">-->
+<!--      bfRequired on init - No error if pristine-->
+<!--      <div class="code-box pad15">-->
+<!--        <pre>ngModel = {{selObjExample2 | json}}</pre>-->
+<!--      </div>-->
+<!--      <br/>-->
+<!--      <bf-lazy-dropdown [(ngModel)]="selObjExample2"-->
+<!--                        [bfLazyLoad]="fakeLoadData"-->
+<!--                        [bfRequired]="true"-->
+<!--                        bfRender="email"-->
+<!--                        bfLabel="LazyLoadedItem"-->
+<!--      ></bf-lazy-dropdown>-->
+<!--    </div>-->
+<!--    <div class="col-7 code-box">-->
+<!--      <pre>{{instance2}}</pre>-->
+<!--      <br/>-->
+<!--      <pre>ngModel = {{selObjExample2 | json}}</pre>-->
+<!--    </div>-->
+<!--  </div>-->
 
-</div>
+<!--</div>-->
 
-<!--CSS Styling-->
-<div class="row marT40">
-  <div class="col-12">
-    <hr>
-    <h4>CSS Styling</h4>
-    <p>The encapsulated styles of the button use a default color. However, we may want to apply different colors externally (depending on the theme)
-      <br/>
-      To provide a color restyiling based on a SCSS theme you can apply the following rules on a css global level :
-    </p>
-    <pre>{{ cssReset }}</pre>
-  </div>
-</div>
+<!--&lt;!&ndash;CSS Styling&ndash;&gt;-->
+<!--<div class="row marT40">-->
+<!--  <div class="col-12">-->
+<!--    <hr>-->
+<!--    <h4>CSS Styling</h4>-->
+<!--    <p>The encapsulated styles of the button use a default color. However, we may want to apply different colors externally (depending on the theme)-->
+<!--      <br/>-->
+<!--      To provide a color restyiling based on a SCSS theme you can apply the following rules on a css global level :-->
+<!--    </p>-->
+<!--    <pre>{{ cssReset }}</pre>-->
+<!--  </div>-->
+<!--</div>-->
 

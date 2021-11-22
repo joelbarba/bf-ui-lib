@@ -1,6 +1,7 @@
 $dropdown-selection-bg: rgba($quaternary_color, 0.35) !default;
 $dropdown-selection-hover: $primary_color !default;
 $dropdown-valid-color: $valid-color !default;
+$dropdown-loading-bg: rgba($optional-color, 0.25) !default;
 
 // Changes the colors depending on the status
 @mixin dropdown-status-color($color) {
@@ -267,6 +268,21 @@ bf-dropdown, bf-lazy-dropdown, bf-multi-selector {
           }
         }
 
+        li.loading-more {
+          padding: 7.5px 10px 5px;
+          background: $dropdown-loading-bg;
+          span.loading {
+            animation: bfSpinAround 500ms infinite linear;
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid transparent;
+            border-top-color: $text-color;
+            border-left-color: $text-color;
+            border-radius: 100%;
+          }
+        }
+
       }
 
     }
@@ -364,7 +380,7 @@ bf-dropdown, bf-lazy-dropdown, bf-multi-selector {
 
 
 // Style extra button combination (bf-dropdown + bf-btn)
-bf-dropdown.extra-btn {
+bf-dropdown.extra-btn, bf-lazy-dropdown.extra-btn {
   &.full-width .dropdown-form-group { width: calc(100% - 37px); }
   button {
     border-top-right-radius: 0;
@@ -392,10 +408,20 @@ bf-dropdown.extra-btn {
   &.flat + bf-btn { margin-bottom: 0; }
 }
 
-bf-dropdown {
+bf-dropdown, bf-lazy-dropdown {
   .dropdown {
     .list-container {
       margin-bottom: 0; // with the change to ul brings a margin causing a gap when expanding upwards
     }
   }
+}
+
+bf-lazy-dropdown .clear-filter {
+  position: absolute;
+  color: $focused-color;
+  cursor: pointer;
+  z-index: 999;
+  top: 7px;
+  right: 40px;
+  span.icon-cross { font-size: 10px; }
 }

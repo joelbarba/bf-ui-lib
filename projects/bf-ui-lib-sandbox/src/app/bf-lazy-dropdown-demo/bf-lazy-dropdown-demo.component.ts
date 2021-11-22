@@ -1,7 +1,3 @@
-// bf-lazy-dropdown = 'bf-btn'
-// BfLazyDropdown = 'BfBtn'
-
-
 import { Component, OnInit } from '@angular/core';
 import {BfTranslateService} from '../translate.service';
 import {BfGrowlService} from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service';
@@ -107,7 +103,7 @@ $disabled_input_color : $disabled-color;
     isRequired: false,
     isDisabled: false, disabledTip: '',
     isLoading: false, isLoadingWithPromise: false,
-    isErrorOnPristine: false,
+    isErrorOnPristine: true,
     hasSelect: true,  selectField: 'username',
     hasRender: true,  hasRenderFn: false, renderExp: `email`, renderLabel: false,
 
@@ -166,13 +162,13 @@ $disabled_input_color : $disabled-color;
     }
   };
 
-  fakeLoadData = (filter) =>  {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const data = this.fakeList.filter(item => JSON.stringify(item).toLowerCase().includes(filter));
-        resolve(data);
-      }, 4000);
-    });
+  fakeTime = 2000;
+  fakeLoadData = ({ offset, filter }) => {
+    return Promise.reject('error AAA');
+    // return fakeWebApi({ offset, filter, limit: 10, timeout: this.fakeTime }).then((res: any) => {
+    //   // console.log(`returning (from filter ${filter}) products`, res.products.map(i => i.keyFilter('id,reference')));
+    //   return { ...res, items: res.products };
+    // });
   }
 
   fakeObservableData = () => {
@@ -182,10 +178,44 @@ $disabled_input_color : $disabled-color;
   ngOnInit() {
     this.lazyItemExample1 = this.fakeList[3];
     this.upComp();
+
+    // fakeWebApi({ offset:  0 }).then(d => console.log('0', d));
+    // fakeWebApi({ offset: 10 }).then(d => console.log('10', d));
+    // fakeWebApi({ offset: 20 }).then(d => console.log('20', d));
   }
 
   public renderFn = (item, ind) => {
     return this.bfTranslate.doTranslate('view.common.field_name') + ' ' + ind;
+  };
+
+  reLink() {
+    this.isLinked = false;
+    setTimeout(() => this.isLinked = true);
+  }
+
+  aValue = {
+    reference: 'AAAAA',
+    id: '38c82e47-f3be-47ae-950d-0758cd86c308',
+    description: 'aaaa',
+    country_code: 'IE',
+    active: false,
+    cost: 0,
+  };
+  bapValue = {
+    active       : true,
+    cost         : 0,
+    country_code : 'IE',
+    description  : 'This is a BAP. Its good (WL) 5555555',
+    id           : 'f209c1ef-ae0f-4825-8bd7-c2303ced874a',
+    reference    : 'BAP',
+  };
+  blf0011 = {
+    active       : false,
+    cost         : 0,
+    country_code : 'DE',
+    description  : 'BLF connect',
+    id           : '9496c533-1706-465a-888b-52878b450297',
+    reference    : 'BLF0011',
   };
 
 }
@@ -196,7 +226,7 @@ export const BfLazyDropdownDoc = {
   uiType  : 'component',
   desc    : `Generates a dropdown which by searching will call a function to retrieve a list`,
   api     : `*[(ngModel)]         : The model holding the value of the selected item.
-*[bfLazyLoad]        : Promise that will return the list of item to display
+*[bfLazyLoad]        : Function that returns a promise that will return the list of item to display
 [bfLazyLoadItem]     : it contains the item for which will be executed the first bfLazyLoad and it will be selected once retrieved
 [bfDebounce]         : Time to wait until execution of BfLazyLoad. Default: 300
 [bfMinSearchLength]  : Minimum length of text string to execute BfLazyLoad. Default: 3

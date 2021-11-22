@@ -150,6 +150,7 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.export': 'Export',
     'components.timepicker.max_time_error': 'Time is greater than {{maxTime}}',
     'components.timepicker.min_time_error': 'Time is less than {{minTime}}',
+    'views.dropdown.loading_more_items': 'Load more items...',
   };
 
   public transDictCAT = {
@@ -206,6 +207,7 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.download': 'Descarrega',
     'view.common.upload': 'Carrega',
     'view.common.refresh': 'Refresca',
+    'views.dropdown.loading_more_items': 'Carregant més dades...',
   };
 
   public transDict$ = new BehaviorSubject(this.transDict);
