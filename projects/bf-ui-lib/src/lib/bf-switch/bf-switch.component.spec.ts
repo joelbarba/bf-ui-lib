@@ -68,6 +68,9 @@ describe('BfSwitchComponent', () => {
     it('should default to value on the right', () => {
       expect(component.bfValueTextPos).toEqual('right');
 
+      const valueContainerDiv: HTMLDivElement = fixture.elementRef.nativeElement.getElementsByClassName('bf-switch')[0];
+      expect(valueContainerDiv.classList.contains('bf-switch--value-left')).toBeFalse();
+
       const valueDiv: HTMLDivElement = fixture.elementRef.nativeElement.getElementsByClassName('switch-value')[0];
       expect(valueDiv.classList.contains('switch-value--left')).toBeFalse();
     });
@@ -80,8 +83,10 @@ describe('BfSwitchComponent', () => {
       expect(component.bfValueTextPos).toEqual('left');
 
       const valueDiv: HTMLDivElement = fixture.elementRef.nativeElement.getElementsByClassName('switch-value--left')[0];
-
       expect(valueDiv).toBeDefined();
+
+      const valueContainerDiv: HTMLDivElement = fixture.elementRef.nativeElement.getElementsByClassName('bf-switch--value-left')[0];
+      expect(valueContainerDiv).toBeDefined();
     });
   });
 });
