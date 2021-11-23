@@ -75,8 +75,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
   @Input() bfKeepSearch = false;  // false = resets the search string every time the list is expanded, removing the previous filter
   @Input() bfHtmlRender = false;   // When true display values can be rendered as html on the list (but not in the input)
 
-  @Input() bfAutocomplete = 'on';
-
   // accessibility inputs
   @Input() bfTabIndex = 0;
   @Input() bfAriaLabel: string;
