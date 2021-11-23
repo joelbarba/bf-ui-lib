@@ -20,6 +20,7 @@
         <bf-switch [(ngModel)]="myValue"
                    [bfLabel]="(swConf.hasLabel ? swConf.labelText : '')"
                    [bfLabelPos]="(swConf.labelPosLeft ? 'left' : 'top')"
+                   [bfValueTextPos]="(swConf.valueTextPosLeft ? 'left' : 'right')"
                    [bfOnText]="(swConf.hasOnText ? swConf.onText : 'scripts.common.directives.on_label')"
                    [bfOffText]="(swConf.hasOffText ? swConf.offText : 'scripts.common.directives.off_label')"
                    [bfTooltip]="(swConf.hasTooltip ? swConf.btnTooltip : null)"
@@ -66,6 +67,7 @@
       </div>
 
       <div class="row marT20">
+        <div class="col-12"> <bf-checkbox [(ngModel)]="swConf.valueTextPosLeft" (ngModelChange)="updateCustomSw()" bfLabel="Value text on left"></bf-checkbox> </div>
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="swConf.hasOnText" (ngModelChange)="updateCustomSw()" bfLabel="Custom 'ON' Text"></bf-checkbox> </div>
         <div class="col-6" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="swConf.onText" (ngModelChange)="updateCustomSw()" [bfDisabled]="!swConf.hasOnText"></bf-input> </div>
       </div>
@@ -87,7 +89,7 @@
 <!--Examples-->
 <h5 class="mt-4">Examples:</h5>
 <div class="col-12 examples-table">
-  
+
   <div class="row">
     <div class="col-2">
       <bf-switch [(ngModel)]="myVal"></bf-switch>

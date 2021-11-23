@@ -22,6 +22,7 @@ export class BfSwitchComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() bfDisabled = false;
   @Input() bfOnText = 'scripts.common.directives.on_label';
   @Input() bfOffText = 'scripts.common.directives.off_label';
+  @Input() bfValueTextPos: 'left' | 'right' = 'right';
 
   @Input() bfLabel: string;
   @Input() bfLabelPos: 'top' | 'left' = 'top';
@@ -38,6 +39,9 @@ export class BfSwitchComponent implements ControlValueAccessor, OnInit, OnChange
   public bfOffText$: Observable<string> = of(''); // Translated text for the OFF label
   public bfTooltipTrans$: Observable<string> = of('');
   public bfLabelTrans$: Observable<string> = of('');
+
+  @HostBinding('class.horizontal')
+  public get labelHorizontal(): boolean { return this.bfLabelPos === 'left'; }
 
   constructor(
     @Inject(BfUILibTransService) private translate: BfUILibTransService,
