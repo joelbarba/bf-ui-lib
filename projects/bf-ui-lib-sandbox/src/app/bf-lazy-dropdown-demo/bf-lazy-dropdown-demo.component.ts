@@ -1,17 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {BfTranslateService} from '../translate.service';
 import {BfGrowlService} from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service';
-
-// The control object (bfOnLoaded) emits
-export interface IbfLazyDropdownCtrl {
-  expand      ?: { () };
-  collapse    ?: { () };
-  toggle      ?: { () };
-  type        ?: { (value: string) };
-  setPristine ?: { () };
-  removeError ?: { () };
-  addError    ?: { (err) };
-}
+import {data, fakeWebApi} from './fake-webapi';
+import {dCopy} from '../../../../bf-ui-lib/src/lib/bf-prototypes/bf-prototypes';
+import {IBfLazyDropdownCtrl} from '../../../../bf-ui-lib/src/lib/bf-lazy-dropdown/bf-lazy-dropdown.component';
 
 @Component({
   selector: 'app-bf-lazy-dropdown-demo',
@@ -23,200 +15,183 @@ export class BfLazyDropdownDemoComponent implements OnInit {
   public desc = BfLazyDropdownDoc.desc;
   public api = BfLazyDropdownDoc.api;
   public instance = BfLazyDropdownDoc.instance;
-  public fakeList = [
-    { id:  0, username: 'joel.barba',   email: 'joel@barba.com', first_name: 'Joel', last_name: 'Barba' },
-    { id:  2, username: 'syrax',        email: 'syrax@targaryen.com',        first_name: 'Syrax',        last_name: 'Targaryen' },
-    { id:  3, username: 'vermithor',    email: 'vermithor@targaryen.com',    first_name: 'Vermithor',    last_name: 'Targaryen' },
-    { id:  4, username: 'caraxes',      email: 'caraxes@targaryen.com',      first_name: 'Caraxes',      last_name: 'Targaryen' },
-    { id:  5, username: 'silverwing',   email: 'silverwing@targaryen.com',   first_name: 'Silverwing',   last_name: 'Targaryen' },
-    { id:  6, username: 'sunfyre',      email: 'sunfyre@targaryen.com',      first_name: 'Sunfyre',      last_name: 'Targaryen' },
-    { id:  7, username: 'vhagar',       email: 'vhagar@targaryen.com',       first_name: 'Vhagar',       last_name: 'Targaryen' },
-    { id:  8, username: 'tessarion',    email: 'tessarion@targaryen.com',    first_name: 'Tessarion',    last_name: 'Targaryen' },
-    { id:  9, username: 'cannibal',     email: 'cannibal@targaryen.com',     first_name: 'Cannibal',     last_name: 'Targaryen' },
-    { id: 10, username: 'meraxes',      email: 'meraxes@targaryen.com',      first_name: 'Meraxes',      last_name: 'Targaryen' },
-    { id: 11, username: 'balerion',     email: 'balerion@targaryen.com',     first_name: 'Balerion',     last_name: 'Targaryen' },
-    { id: 12, username: 'quicksilver',  email: 'quicksilver@targaryen.com',  first_name: 'Quicksilver',  last_name: 'Targaryen' },
-    { id: 13, username: 'dreamfyre',    email: 'dreamfyre@targaryen.com',    first_name: 'Dreamfyre',    last_name: 'Targaryen' },
-    { id: 14, username: 'meleys',       email: 'meleys@targaryen.com',       first_name: 'Meleys',       last_name: 'Targaryen' },
-    { id: 15, username: 'seasmoke',     email: 'seasmoke@targaryen.com',     first_name: 'Seasmoke',     last_name: 'Targaryen' },
-    { id: 16, username: 'vermax',       email: 'vermax@targaryen.com',       first_name: 'Vermax',       last_name: 'Targaryen' },
-    { id: 17, username: 'arrax',        email: 'arrax@targaryen.com',        first_name: 'Arrax',        last_name: 'Targaryen' },
-    { id: 18, username: 'tyraxes',      email: 'tyraxes@targaryen.com',      first_name: 'Tyraxes',      last_name: 'Targaryen' },
-    { id: 19, username: 'moondancer',   email: 'moondancer@targaryen.com',   first_name: 'Moondancer',   last_name: 'Targaryen' },
-    { id: 20, username: 'stormcloud',   email: 'stormcloud@targaryen.com',   first_name: 'Stormcloud',   last_name: 'Targaryen' },
-    { id: 21, username: 'morghul',      email: 'morghul@targaryen.com',      first_name: 'Morghul',      last_name: 'Targaryen' },
-    { id: 22, username: 'shrykos',      email: 'shrykos@targaryen.com',      first_name: 'Shrykos',      last_name: 'Targaryen' },
-    { id: 23, username: 'greyghost',    email: 'greyghost@targaryen.com',    first_name: 'Greyghost',    last_name: 'Targaryen' },
-    { id: 24, username: 'sheepstealer', email: 'sheepstealer@targaryen.com', first_name: 'Sheepstealer', last_name: 'Targaryen' },
-  ];
   public isLinked = true;
   public selObj;
-  public selObjExample1;
-  public selObjExample2;
-  public lazyItemExample1;
-  public myCtrl: IbfLazyDropdownCtrl;
+  public fakeTime = 2000;
+  public myCtrl: IBfLazyDropdownCtrl;
   public bfSelectOptions = [
     { value: 'id' },
-    { value: 'username' },
-    { value: 'email' },
-    { value: 'first_name' },
-    { value: 'last_name' },
+    { value: 'reference' },
+    { value: 'description' },
+    { value: 'active' },
+    { value: 'cost' },
+    { value: 'country_code' },
   ];
   public bfCustomPlacementList = [
-    { value: 'auto'},
     { value: 'top'},
     { value: 'bottom'},
   ];
-    constructor(
-    private bfTranslate: BfTranslateService,
-    public growl: BfGrowlService,
-  ) {}
 
-  renderFnStr = `renderFn = (item, ind) => bfTranslate.doTranslate('view.common.field_name') + ' ' + ind;`;
-  renderInfo = `'views.item_number_lazy': 'Item number {{id}} - {{first_name}}'`;
+  renderFnStr = `renderFn = (item, ind) => \`Rendered (\${ind}) -> \${item.reference}\`;`;
 
-  public cssReset = `$optional_input_color : $optional-color;
-$focused_input_color  : $focused-color;
-$required_input_color : $primary_color;
-$invalid_input_color  : $invalid-color;
-$valid_input_color    : $primary_color;
-$disabled_input_color : $disabled-color;
+  lazyLoadExample = `lazyLoadItems = ({ offset, filter, items, isPristine, status, ngModel }) => {
 
-.bf-lazy-dropdown-form-group {
-  ...
+  const qParams = { limit: 10, order_by: 'reference', offset };
+  if (filter) { qParams.reference = filter; }
+
+  return this.webApi.get('v1/products', qParams).then(data => {
+    return { count: data.count, items: data.products, /* override: true */ };
+  });
 }`;
+
+
+  public cssReset = `$dropdown-selection-bg    : rgba($quaternary_color, 0.35);
+$dropdown-selection-hover : $primary_color;
+$dropdown-valid-color     : $valid-color;
+$dropdown-loading-bg      : rgba($optional-color, 0.25);`;
 
   public brStr = `
 `;
   public bsStr = `
-             `;
-  public code = ``;
+                  `;
+  public code = '';
 
-  public instance2 = `<bf-lazy-dropdown [(ngModel)]="selObjExample2"
-    [bfLazyLoad]="fakeLoadData"
-    [bfRequired]="true"
-  bfRender="email"
-  bfLabel="LazyLoadedItem"
-    ></bf-lazy-dropdown>
-`;
+
+
+
   public conf = {
-    isRequired: false,
-    isDisabled: false, disabledTip: '',
-    isLoading: false, isLoadingWithPromise: false,
-    isErrorOnPristine: true,
-    hasSelect: true,  selectField: 'username',
-    hasRender: true,  hasRenderFn: false, renderExp: `email`, renderLabel: false,
+    isRequired: false,        isErrorOnPristine: false,   isDisabled: false,    disabledTip: '',
+    hasLabel: true,           bfLabel: 'views.lazy_dropdown.label',             bfAutoCollapse: true,
+    hasTooltip: false,        tooltipText: 'view.tooltip.message', tooltipPos: 'top', tooltipBody: true,
+    hasSelect: false,         selectField: 'id',          bfFetchOn: 'focus',
+    bfDebounce: '300',        bfMinSearchLength: '1',
+    hasRender: true,          bfRender: `reference`,      bfTranslate: false,   bfHtmlRender: false,
+    hasRenderFn: false,
+    hasPlaceholder: true,     bfPlaceholder: 'views.dropdown.placeholder',
+    hasEmptyLabel: false,     customEmptyLabel: 'view.common.all',
+    hasEmptyValue: false,     customEmptyValue: 'everything',
+    hasErrorText: false,      bfErrorText: `this ain't good`, errorPos: 'default',
+    hasLoadingLabel: false,   bfLoadingLabel: 'views.dropdown.loading_more_items',
+    hasNoMatchText: false,    bfNoMatchText: 'No Match Yet!',
+    bfCustomPlacementList: null,
+    hasFilterFn: false,
 
-    hasLabel: true,   labelText: 'views.lazy_dropdown.label',
-    hasTooltip: false, tooltipText: 'view.tooltip.message', tooltipPos: 'top', tooltipBody: true,
-    hasPlaceholder: true, bfPlaceholder: 'views.lazy_dropdown.placeholder',
-    hasImages: false, hasIcons: false,
-    hasErrorText: false, bfErrorText: `this ain't good`, errorPos: null,
-    hasControls: false, bfCustomPlacementList: 'bottom',
+    hasControls: false,
+    hasImages: false,       hasIcons: false,
 
-    hasFullWidth: true, hasFlat: false,
+    // css:
+    hasFullWidth: true, hasFlat: false, extraBtn: false,
   };
-  public upComp = () => {
-    if (this.conf.isLoading) { this.conf.isLoadingWithPromise = false; }
+  public upComp = (conf = this.conf) => {
+    const br = this.brStr;
+    const bs = this.bsStr;
 
-    this.code = `<bf-lazy-dropdown `;
+    let code = `<bf-lazy-dropdown `;
     let compClasses = '';
-    if (this.conf.hasFullWidth) { compClasses = 'full-width'; }
-    if (this.conf.hasFlat) { compClasses += (compClasses ? ', ' : '') + 'flat'; }
-    if (!!compClasses) { this.code += `class="${compClasses}"` + this.bsStr; }
-    this.code += `[(ngModel)]="val"` + this.bsStr;
-    this.code += `[bfList]="myList"`;
+    if (conf.hasFullWidth) { compClasses = 'full-width'; }
+    if (conf.hasFlat) { compClasses += (compClasses ? ' ' : '') + 'flat'; }
+    if (!!compClasses) { code += `class="${compClasses}"` + bs; }
 
-    if (this.conf.hasLabel)   { this.code += this.bsStr + `bfLabel="${this.conf.labelText}"`; }
-    if (this.conf.isErrorOnPristine) { this.code += this.bsStr + `[bfErrorOnPristine]="true"`; }
-    if (this.conf.isRequired) { this.code += this.bsStr + `[bfRequired]="true"`; }
-    if (this.conf.isDisabled) { this.code += this.bsStr + `[bfDisabled]="true"`; }
-    if (this.conf.disabledTip) { this.code += this.bsStr + `bfDisabledTip="${this.conf.disabledTip}"`; }
-    if (this.conf.hasTooltip) {
-      this.code += this.bsStr + `bfTooltip="${this.conf.tooltipText}"`;
-      if (!!this.conf.tooltipPos)  { this.code += this.bsStr + `bfTooltipPos="${this.conf.tooltipPos}"`; }
-      if (!!this.conf.tooltipBody) { this.code += this.bsStr + `bfTooltipBody="${this.conf.tooltipBody}"`; }
+    code += `[(ngModel)]="val"` + bs;
+    code += `[bfLazyLoadFn]="fetchItems"`;
+
+    if (conf.hasLabel)        { code += bs + `bfLabel="${conf.bfLabel}"`; }
+    if (conf.isRequired)      { code += bs + `[bfRequired]="true"`; }
+    if (conf.isDisabled)      { code += bs + `[bfDisabled]="true"`; }
+    if (conf.disabledTip)     { code += bs + `bfDisabledTip="${conf.disabledTip}"`; }
+    if (!conf.bfAutoCollapse) { code += bs + `bfAutoCollapse="false"`; }
+
+    if (conf.hasTooltip) {
+      code += bs + `bfTooltip="${conf.tooltipText}"`;
+      if (!!conf.tooltipPos)  { code += bs + `bfTooltipPos="${conf.tooltipPos}"`; }
+      if (!!conf.tooltipBody) { code += bs + `bfTooltipBody="${conf.tooltipBody}"`; }
     }
 
-    if (this.conf.hasSelect && !!this.conf.selectField) {
-      this.code += this.bsStr + `bfSelect="${this.conf.selectField}"`;
+    if (conf.hasSelect && !!conf.selectField) { code += bs + `bfSelect="${conf.selectField}"`; }
+    if (conf.bfFetchOn !== 'focus')     { code += bs + `bfFetchOn="${conf.bfFetchOn}"`; }
+    if (conf.bfDebounce !== '300')      { code += bs + `bfDebounce="${conf.bfDebounce}"`; }
+    if (conf.bfMinSearchLength !== '1') { code += bs + `bfMinSearchLength="${conf.bfMinSearchLength}"`; }
+
+    if (conf.hasRender)    { code += bs + `bfRender="${conf.bfRender}"`; }
+    if (conf.hasRenderFn)  { code += bs + `[bfRenderFn]="renderFn"`; }
+    if (conf.bfTranslate)  { code += bs + `[bfTranslate]="true"`; }
+    if (conf.bfHtmlRender) { code += bs + `[bfHtmlRender]="true"`; }
+
+    if (conf.hasPlaceholder) { code += bs + `bfPlaceholder="${conf.bfPlaceholder}"`; }
+    if (conf.hasEmptyLabel)  { code += bs + `bfEmptyLabel="${conf.customEmptyLabel}"`; }
+    if (conf.hasEmptyValue)  { code += bs + `bfEmptyValue="${conf.customEmptyValue}"`; }
+
+    if (conf.hasErrorText)           { code += bs + `bfErrorText="${conf.bfErrorText}"`; }
+    if (conf.errorPos !== 'default') { code += bs + `bfErrorPos="${conf.errorPos}"`; }
+    if (conf.isErrorOnPristine)      { code += bs + `[bfErrorOnPristine]="true"`; }
+
+    if (conf.hasLoadingLabel) { code += bs + `bfLoadingLabel="${conf.bfLoadingLabel}"`; }
+    if (conf.hasNoMatchText)  { code += bs + `bfNoMatchText="${conf.bfNoMatchText}"`; }
+
+    if (conf.bfCustomPlacementList === 'top' || conf.bfCustomPlacementList === 'bottom') {
+      code += bs + `bfCustomPlacementList="${conf.bfCustomPlacementList}"`;
     }
-    if (this.conf.hasRender)   { this.code += this.bsStr + `bfRender="${this.conf.renderExp}"`; }  // this.reLink(0); }
-    if (this.conf.hasRenderFn) { this.code += this.bsStr + `[bfRenderFn]="renderFn"`; } // this.reLink(0); }
 
-    if (this.conf.hasPlaceholder) { this.code += this.bsStr + `bfPlaceholder="${this.conf.bfPlaceholder}"`; }
-    if (this.conf.hasErrorText)   { this.code += this.bsStr + `bfErrorText="${this.conf.bfErrorText}"`; }
-    if (this.conf.errorPos)       { this.code += this.bsStr + `bfErrorPos="${this.conf.errorPos}"`; }
+    if (conf.hasControls) { code += bs + `(bfOnLoaded)="myCtrl = $event"`; }
 
-    if (this.conf.bfCustomPlacementList === 'top' || this.conf.bfCustomPlacementList === 'bottom') {
-      this.code += this.bsStr + `bfCustomPlacementList="${this.conf.bfCustomPlacementList}"`;
+    code += (`>` + br + `</bf-lazy-dropdown>`);
+
+    if (conf.hasControls) {
+      code += br + br + `public myCtrl: IBfLazyDropdownCtrl;`;
+      code += br + `myCtrl.clearList(); myCtrl.fetchItems();`;
     }
 
-    if (this.conf.hasControls) { this.code += this.bsStr + `(bfOnLoaded)="myCtrl = $event"`; }
-
-    this.code += (`>` + this.brStr + `</bf-lazy-dropdown>`);
-
-    if (this.conf.hasControls) {
-      this.code += this.brStr + this.brStr + `public myCtrl: IbfDropdownCtrl;`;
-      this.code += this.brStr + `myCtrl.toggle(); myCtrl.type('aaa');`;
-    }
+    this.code = code;
   };
 
-  fakeTime = 2000;
-  fakeLoadData = ({ offset, filter }) => {
-    return Promise.reject('error AAA');
-    // return fakeWebApi({ offset, filter, limit: 10, timeout: this.fakeTime }).then((res: any) => {
-    //   // console.log(`returning (from filter ${filter}) products`, res.products.map(i => i.keyFilter('id,reference')));
-    //   return { ...res, items: res.products };
-    // });
-  }
 
-  fakeObservableData = () => {
 
-  }
+  constructor(
+    private bfTranslate: BfTranslateService,
+    public growl: BfGrowlService,
+  ) {}
 
   ngOnInit() {
-    this.lazyItemExample1 = this.fakeList[3];
     this.upComp();
-
-    // fakeWebApi({ offset:  0 }).then(d => console.log('0', d));
-    // fakeWebApi({ offset: 10 }).then(d => console.log('10', d));
-    // fakeWebApi({ offset: 20 }).then(d => console.log('20', d));
   }
 
-  public renderFn = (item, ind) => {
-    return this.bfTranslate.doTranslate('view.common.field_name') + ' ' + ind;
-  };
+  log(name, value) { console.log(`${name} ----->`, value); }
+
+  fakeLoadData = ({ offset, filter, items, isPristine, status, ngModel }) => {
+    // return Promise.reject('error AAA');
+    // tslint:disable-next-line:variable-name
+    const filter_by = this.conf.bfRender || 'reference';
+    return fakeWebApi({ offset, filter, filter_by, limit: 10, timeout: this.fakeTime }).then((res: any) => {
+      const products = res.products.map(i => {
+        const item = { ...i };
+        if (!this.conf.hasIcons)  { delete item.icon; }
+        if (!this.conf.hasImages) { delete item.img; }
+        return item;
+      });
+      return { items: products, count: res.count, override: false };
+    });
+  }
+
+  renderFn = (item, ind) => `Rendered (${ind}) -> ${item.reference}`;
+  bfFilterFn = (list) => list.filter(item => item.cost > 0);
+
+  compLink() {
+    this.reLink();
+    this.upComp();
+  }
 
   reLink() {
     this.isLinked = false;
     setTimeout(() => this.isLinked = true);
   }
 
-  aValue = {
-    reference: 'AAAAA',
-    id: '38c82e47-f3be-47ae-950d-0758cd86c308',
-    description: 'aaaa',
-    country_code: 'IE',
-    active: false,
-    cost: 0,
-  };
-  bapValue = {
-    active       : true,
-    cost         : 0,
-    country_code : 'IE',
-    description  : 'This is a BAP. Its good (WL) 5555555',
-    id           : 'f209c1ef-ae0f-4825-8bd7-c2303ced874a',
-    reference    : 'BAP',
-  };
-  blf0011 = {
-    active       : false,
-    cost         : 0,
-    country_code : 'DE',
-    description  : 'BLF connect',
-    id           : '9496c533-1706-465a-888b-52878b450297',
-    reference    : 'BLF0011',
-  };
+  // To select objects of the list from outside the component
+  setModel(ref) {
+    this.selObj = dCopy(data.find(i => i.reference === ref));
+    if (!this.conf.hasIcons)  { delete this.selObj.icon; }
+    if (!this.conf.hasImages) { delete this.selObj.img; }
+  }
+
 
 }
 
@@ -224,37 +199,60 @@ $disabled_input_color : $disabled-color;
 export const BfLazyDropdownDoc = {
   name    : `bf-lazy-dropdown`,
   uiType  : 'component',
-  desc    : `Generates a dropdown which by searching will call a function to retrieve a list`,
-  api     : `*[(ngModel)]         : The model holding the value of the selected item.
-*[bfLazyLoad]        : Function that returns a promise that will return the list of item to display
-[bfLazyLoadItem]     : it contains the item for which will be executed the first bfLazyLoad and it will be selected once retrieved
-[bfDebounce]         : Time to wait until execution of BfLazyLoad. Default: 300
-[bfMinSearchLength]  : Minimum length of text string to execute BfLazyLoad. Default: 3
-[bfSelect]           : Field to be set to the ngModel once selected (property from loaded items). If empty, the full object is set.
-[bfRender]           : Field to display on the list (property from loaded items).
-                         It is the param sent to the bfLazyLoad to search the list.
-                         If empty, a row with all properties will be displayed.
+  desc    : `Generates a dropdown that loads its content asynchronously`,
+  api     : `*[(ngModel)]   : The model holding the value of the selected item.
+
+[bfLazyLoadFn] : Function to fetch the items on the list.
+                 It must return a promise that resolves with an object that has { items[], count: 99 }
+                 On its call, it passes the parameters: ({ offset, filter, items, isPristine, status, ngModel })
+
+[bfFetchOn]    : Determines how the fetch function is called. By default = 'focus'.
+                 'ini' -----> The first fetchItems() call is made once the component is initialized (ngInit)
+                 'focus' ---> The first fetchItems() call is made once the component is focused for the first time
+                 'filter' --> The first fetchItems() call is made once something is typed on the input
+
+[bfDebounce]         : On typing on the input, debounce time to trigger the search filter. Default = 300.
+[bfMinSearchLength]  : On typing on the input, min length of the text filter to trigger the search. Default = 1.
+[bfSelect]           : Field to be set to the ngModel once selected (property from items[]). If empty, the full object is set.
+[bfRender]           : Field to be displayed on the list of options representing every item (property from items[]).
 [bfRenderFn]         : Function to determine how to render the items of list. Called for every item and should return the string that will be displayed.
                        It overrides [bfRender]. The function is passed 'item' and 'index' parameters.
-[bfLabel]            : If provided, a <bf-label> is added above the selector with the given text
-[bfTooltip]          : If label provided, adds a info badge with a tooltip (automatically translated)
-[bfTooltipPos]       : Position of the tooltip (top by default)
-[bfTooltipBody]      : Whether the tooltip is append to the body (default true) or next the the html element (false). The parent container may affect the visibility of the tooltip
+
+[bfRenderImg]        : Name of the field containing the url of the image to display on the item ("img" by default)
+[bfRenderIcon]       : Name of the field containing the css class of the (icomoon) icon to display on the item ("icon" by default)
+[bfHtmlRender]       : When true, displayed values can be rendered as html on the list (but not in the input). Default = false.
+[bfTranslate]        : Whether to apply a translation on the values of the list before they are rendered. Default = true.
+
 [bfRequired]         : Whether the value is required. If not, and "Empty" option will be added a the top of the list
-[bfDisabled]         : Whether the selector is disabled or not
-[bfDisabledTip]      : Text with the tooltip to display on hover when the input is disabled
+[bfDisabled]         : Whether the selector is disabled or not.
+[bfDisabledTip]      : Text with the tooltip to display on hover when the input is disabled.
+[bfLabel]            : If provided, a <bf-label> is added above the selector with the given text.
+[bfTooltip]          : If label provided, adds a info badge with a tooltip (automatically translated).
+[bfTooltipPos]       : Position of the tooltip (top by default).
+[bfTooltipBody]      : Whether the tooltip is append to the body (default true) or next the the html element (false).
+[bfNoMatchText]      : Value to be displayed in the input in case of no match (if undefined, ngModel is rendered).
+[bfLoadingLabel]     : Label to display when loading more items. Default = 'views.dropdown.loading_more_items'. 
+
+[bfCustomPlacementList] : By default the list expands up/down depending on its position on the screen. To force it: 'top' | 'bottom'.
 
 [bfPlaceholder]      : Placeholder to show when no value is selected. If bfEmptyLabel has a custom label, this is never shown.
+[bfEmptyLabel]       : By default the empty option shows the "view.common.empty" label. To display a different label, add it here.
+[bfEmptyValue]       : By default the empty option sets "null" value to the ngModel. To set a different value, add it here.
 [bfErrorOnPristine]  : If true, errors will be shown in pristine state too (by default pristine shows always as valid, even if it's not).
 [bfErrorText]        : Custom error text (label) to display when invalid value.
 [bfErrorPos]         : Custom position where to display the error text. Values = ['top-right', 'bottom-left', 'bottom-right', 'none']. None will hide the error text.
-[bfCustomPlacementList] : By default the list expands up/down depending on its position on the screen. To force it: 'top' | 'bottom'.
+[bfFilterFn]         : When the list is completely loaded, function to perform a customized front-end filtering.
+[bfAutoCollapse]     : When false, the list does not collapse automatically on focus out (only on button click). Default = true.
+[bfAriaLabel]        : If no label is supplied or it does not provide enough contextual information a value can be passed to the aria-label attribute.
+[bfTabIndex]         : A tabindex to provide to the element. If this element needs to be removed from the accessibility tree supply a value of -1. Default = 0.
 
 [extCtrl$]           : Observable to trigger actions. Its .next() should emit an object with "action"/"value"
 (bfOnLoaded)         : Emitter to catch the moment when the component is ready. It also emits the control object.
-(bfBeforeChange)     : Emitter to catch the next value before it is set. It returns both (currentValue, nextValue)
 (bfOnListExpanded)   : Emitter to catch the moment when the list expands (focus in)
-(bfOnListCollapsed)  : Emitter to catch the moment when the list collapses (select or blur)`,
+(bfOnListCollapsed)  : Emitter to catch the moment when the list collapses (select or blur)
+(bfBeforeChange)     : Emitter to catch the next value before it is set. It returns both (currentValue, nextValue)
+(bfOnTyping)         : Emitter to catch when typing into the input\`,
+`,
   instance: `<bf-lazy-dropdown [(ngModel)]="selObjExample1"
                         [bfLazyLoad]="fakeLoadData"
                         [bfLazyLoadItem]="lazyItemExample1"

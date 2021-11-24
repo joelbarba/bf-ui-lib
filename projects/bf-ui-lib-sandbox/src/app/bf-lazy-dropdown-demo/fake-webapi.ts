@@ -1,10 +1,10 @@
 /**
  * Fakes the 'products' webApi with backed pagination
  */
-export const fakeWebApi = ({ filter = '', offset = 0, limit = 10, order_by = 'reference', timeout = 1000 }) => {
+export const fakeWebApi = ({ filter = '', filter_by = 'reference', offset = 0, limit = 10, order_by = 'reference', timeout = 1000 }) => {
   return new Promise(resolve => {
     const pattern = filter.toLowerCase();
-    const results = data.filter(i => !filter || i.reference.toLowerCase().indexOf(pattern) >= 0)
+    const results = data.filter(i => !filter || i[filter_by]?.toLowerCase().indexOf(pattern) >= 0)
                         .sort((a, b) => a[order_by] > b[order_by] ? 1 : -1);
 
     const products = results.slice(offset, offset + limit);
@@ -12,3337 +12,499 @@ export const fakeWebApi = ({ filter = '', offset = 0, limit = 10, order_by = 're
     // console.log('Fake WebApi request ---> offset = ', offset, 'filter = ', filter, 'count = ', results.length);
 
     setTimeout(() => {
-      // const count = results.length;
-      const count = filter ? results.length : 30;
+      // const count = filter ? results.length : 30;
+      const count = results.length;
       resolve({ products, count });
     }, timeout);
   });
 };
 
+export const data: any = [
+  { reference: '0003', id: '02d5c30d-31d3-4e60-8fef-450d90f54181', cost: 20, active: true, country_code: 'IT', description: '004' },
+  { reference: '002', id: '43ff417d-b111-4178-ab53-d47cd2260b7b', cost: 5.5, active: true, country_code: 'IT', description: 'view.common.field_name' },
+  { reference: '23I4IUU2O3U4OI', id: '2117ef4b-82df-40e9-84ae-9762b4999433', cost: 10, active: true, country_code: 'IE', description: 'Compulsive Talking Machine' },
+  { reference: '25BIZENTERPRISE', id: 'e156819e-08dd-4e76-8a97-f82bc5861c5e', cost: 60, active: true, country_code: 'IE', description: 'Business <b>Enterprise</b> 25 Plan' },
+  { reference: '25BIZENTERPRISE12', id: 'e883c364-7492-4b48-94aa-afba929bb1d7', cost: 600, active: true, country_code: 'IE', description: '12 Months of Business Enterprise 25 Plan' },
+  { reference: 'AAAAA', id: '38c82e47-f3be-47ae-950d-0758cd86c308', cost: 0, active: false, country_code: 'IE', description: 'aaaa' },
+  { reference: 'ADDITIONALLINE1', id: '92382416-4e47-42bc-a010-c6203dce6abb', cost: 10, active: false, country_code: 'IE', description: '1 Additional Line' },
+  { reference: 'ADDITIONALROOM', id: '89cd0dd2-a1d2-4709-8ea7-e79337fb0e24', cost: 10, active: true, country_code: 'IE', description: 'Additional Conference Room' },
+  { reference: 'ADMINISTRATIONFEE10', id: 'ebe71a1d-b556-45af-af2b-661b642d30b7', cost: 10, active: true, country_code: 'IE', description: 'Admin fee' },
+  { reference: 'ANEWPRODUCT', id: '953afb4f-96ae-4d37-9b57-a8293a092509', cost: 0, active: true, country_code: 'IE', description: 'A New Product' },
+  { reference: 'BAP', id: 'f209c1ef-ae0f-4825-8bd7-c2303ced874a', cost: 0, active: true, country_code: 'IE', description: 'This is a BAP. Its good (WL) 5555555' },
+  { reference: 'BFFBAS', id: '6c6f57fb-bde7-4321-8fc1-73a3f55f30e0', cost: 8.122, active: true, country_code: 'IE', description: '1 x Month of Freedom Basic' },
+  { reference: 'BLF000', id: 'c1c80c65-bf73-4a74-b850-e4aaaacca99f', cost: 0, active: true, country_code: 'US', description: 'Ukrain' },
+  { reference: 'BLF0000023', id: '3372174e-4100-427f-bbab-8316cec737f9', cost: 0, active: false, country_code: 'US', description: 'Ukjsdh' },
+  { reference: 'BLF00012', id: '0d042093-6f1c-457d-8ed5-d5ef155682b5', cost: 0, active: false, country_code: 'US', description: 'Ukjsdh' },
+  { reference: 'BLF00023', id: '2a058f7e-c7f1-46d4-b436-1a8c821dfd68', cost: 0, active: false, country_code: 'US', description: 'Ukjsdh' },
+  { reference: 'BLF0011', id: '9496c533-1706-465a-888b-52878b450297', cost: 0, active: false, country_code: 'DE', description: 'BLF connect' },
+  { reference: 'BLF002ANOTHERONE', id: 'b916b68d-2797-478b-8f4a-91dd4ecaff44', cost: 0, active: false, country_code: 'AU', description: 'Another test' },
+  { reference: 'BLF01TEST', id: 'b6fa5d18-89b7-4ab2-b791-76c2a63a6d11', cost: 0, active: true, country_code: 'IT', description: 'testing' },
+  { reference: 'BLF02TEST', id: 'cbd71bd7-9ee4-4964-87b5-fa9705d170c7', cost: 0, active: true, country_code: 'IE', description: 'testing default' },
+  { reference: 'BLF035', id: 'e030f6e5-4029-4cc8-9ea1-2fe274ca7f1d', cost: 0, active: true, country_code: 'US', description: 'Federal Universal Service Fund' },
+  { reference: 'BLF040', id: '45d4ef30-45e9-4175-850a-622a04997c1f', cost: 0, active: true, country_code: 'US', description: 'Goods And Services Tax (GST)' },
+  { reference: 'BLF051', id: 'ca5798ec-7151-4bb0-8ff3-6cb6775be628', cost: 0, active: true, country_code: 'US', description: 'Value Added Tax (VAT)' },
+  { reference: 'BLF059', id: '9096e1b2-dbf0-4e5b-915a-de984d327899', cost: 0, active: true, country_code: 'US', description: 'FUSF Recovery' },
+  { reference: 'BLF060', id: 'f8d05921-0f6c-45a9-883c-f4b77c2db1e4', cost: 0, active: true, country_code: 'US', description: 'Federal TRS Fund' },
+  { reference: 'BLF0MONTHPRODUCT', id: '5d22f239-0a9b-41ee-9c7b-bfc433cb525d', cost: 12.5, active: true, country_code: 'IE', description: '0 Month Product' },
+  { reference: 'BLF1', id: 'b5e80ddd-9246-4dfd-be37-270dd89df2c9', cost: 0, active: false, country_code: 'IE', description: '1' },
+  { reference: 'BLF1002', id: '1a99afc7-e06d-4348-9daa-f7013d443b91', cost: 0, active: false, country_code: 'FR', description: 'test' },
+  { reference: 'BLF1009', id: '2595a501-c7b5-4309-bf83-e6600266c806', cost: 0, active: true, country_code: 'IE', description: 'testing' },
+  { reference: 'BLF101', id: 'aa74d57a-3e0a-419d-8176-7ac7d2413454', cost: 0, active: true, country_code: 'US', description: 'State Sales Tax' },
+  { reference: 'BLF106', id: 'ab2de915-4cd5-49dc-85e7-256912bd8cd5', cost: 0, active: true, country_code: 'US', description: 'State 911 Tax' },
+  { reference: 'BLF107', id: 'f118087c-f3ae-421e-82ac-a584b7c9e111', cost: 0, active: true, country_code: 'US', description: 'Poison Control' },
+  { reference: 'BLF108', id: 'fe4f8f58-a05e-4560-83ab-4d830d4a273c', cost: 0, active: true, country_code: 'US', description: 'PUC Fee' },
+  { reference: 'BLF109', id: '50c6a45f-e1ad-4c62-91da-08a94b39dc83', cost: 0, active: true, country_code: 'US', description: 'Communicationsm Relay Systems Surcharge' },
+  // { reference: 'BLF110', id: '13786bc2-868c-4a6f-adb9-82ea1d5bc621', cost: 0, active: true, country_code: 'US', description: 'State License Tax' },
+  // { reference: 'BLF111', id: '4671f0fe-129f-458e-9b88-877f4791dd2e', cost: 0, active: true, country_code: 'US', description: 'State Consumption Tax' },
+  // { reference: 'BLF117', id: 'c7618f5a-2efb-42c5-82b1-3aafb60dd6e3', cost: 0, active: true, country_code: 'US', description: 'Misc. Surcharge 1' },
+  // { reference: 'BLF118', id: 'bac6da71-066a-4d88-80a1-e31cfd21d92f', cost: 0, active: true, country_code: 'US', description: 'Misc. Surcharge 2' },
+  // { reference: 'BLF119', id: '5e6bc99b-89a4-4884-a67e-202a7df65594', cost: 0, active: true, country_code: 'US', description: 'Misc. Surcharge 3' },
+  // { reference: 'BLF120', id: '778e1dd7-9e3f-4a1e-ad5e-0da3820bd668', cost: 0, active: true, country_code: 'US', description: 'Misc. Surcharge 4' },
+  // { reference: 'BLF122', id: '9fb11690-1fa9-4aed-913a-94b5e9969c83', cost: 0, active: true, country_code: 'US', description: 'Universal Lifeline Telephone Service Surcharge' },
+  // { reference: 'BLF123', id: '57d79740-1fda-4e66-8475-a57b4e18c8b8', cost: 0, active: true, country_code: 'US', description: 'State Franchise Fee' },
+  // { reference: 'BLF123233', id: 'c1f85b1a-9f2b-4914-be1f-226b445baef7', cost: 0, active: false, country_code: 'IE', description: 'Text' },
+  // { reference: 'BLF123445', id: '5690171e-e320-4591-951b-0e79943017fc', cost: 0, active: true, country_code: 'IE', description: 'Bluephone' },
+  // { reference: 'BLF12345', id: '71901290-3499-476b-aad7-a45057430e1b', cost: 0, active: false, country_code: 'IE', description: 'regression' },
+  // { reference: 'BLF123456', id: 'b2965604-adb1-4d8d-8f90-ba72e5d4ad7e', cost: 0, active: false, country_code: 'IT', description: 'test test test test' },
+  // { reference: 'BLF123456', id: '7c4a2fe2-4f79-4547-be1a-5c40ee2fea01', cost: 1.99, active: true, country_code: 'IE', description: 'NEWMOHINIPRODUCT' },
+  // { reference: 'BLF1234567', id: 'cc268867-13c2-414a-ac5a-5264759ba800', cost: 0, active: false, country_code: 'IE', description: 'TestProduct' },
+  // { reference: 'BLF1234567890', id: '32c90d78-c676-4125-9617-a5ca24b4d2b2', cost: 0, active: false, country_code: 'FR', description: '1234567890' },
+  // { reference: 'BLF1234567890', id: 'c1055e6a-ed95-45ae-bf0a-6f3d38aa6c88', cost: 0, active: false, country_code: 'AU', description: '1234567890' },
+  // { reference: 'BLF12345678901234567890', id: '38e6416f-1162-4c07-9494-2871900e83cb', cost: 0, active: false, country_code: 'FR', description: 'eeeh' },
+  // { reference: 'BLF12345678901234567890', id: '21f8e110-85f1-48b6-8cd4-d836a9101c16', cost: 0, active: true, country_code: 'IE', description: 'test WW' },
+  // { reference: 'BLF1234HG43H', id: 'e79d5612-2da5-4fc7-a223-c41b479135b3', cost: 0, active: true, country_code: 'ES', description: 'Migration' },
+  // { reference: 'BLF124', id: '9e6ae823-10b7-4fec-9d17-1526071e8a94', cost: 0, active: false, country_code: 'IE', description: 'RED PHONE' },
+  // { reference: 'BLF124', id: 'f86d6329-2138-42f5-8669-db88bf10aac9', cost: 0, active: true, country_code: 'US', description: 'Local Right-Of-Way Fee' },
+  // { reference: 'BLF126', id: '644b7cdc-1180-4a7b-8016-7cef1cda33f7', cost: 0, active: true, country_code: 'US', description: 'Universal Service Fund' },
+  // { reference: 'BLF127', id: '0648cfe3-d115-4c72-b003-dacade2669db', cost: 0, active: true, country_code: 'US', description: 'State Excise Tax' },
+  // { reference: 'BLF128', id: 'c4d4ada6-f3da-43e7-9f4e-dd65f31b0e45', cost: 0, active: true, country_code: 'US', description: 'State Gross Receipts Tax' },
+  // { reference: 'BLF129', id: '5d4f722d-4331-4fce-a7d5-05cd2d51348f', cost: 0, active: true, country_code: 'US', description: 'State Infrastructure Maintenance Fee' },
+  // { reference: 'BLF12MONTHPRODUCT', id: '6363f685-3bfb-4cf1-b871-3713c3b923a5', cost: 120, active: true, country_code: 'IE', description: '12 Month Product' },
+  // { reference: 'BLF133', id: '9181c403-ed9f-4641-a0af-d04d0e2fa176', cost: 0, active: true, country_code: 'US', description: 'Local 911 Surcharge' },
+  // { reference: 'BLF142', id: '0d4902c1-7860-4b25-b10d-30918db5d083', cost: 0, active: true, country_code: 'US', description: 'Provincial Sales Tax (PST)' },
+  // { reference: 'BLF144', id: '09150e26-6b0f-4174-a1ae-e6c93971b02a', cost: 0, active: true, country_code: 'US', description: 'State Lease/Rental Tax' },
+  // { reference: 'BLF149', id: 'd9f8d620-7f0b-49a9-ac3b-6c7b5c991c2d', cost: 0, active: true, country_code: 'US', description: 'State Utility Tax' },
+  // { reference: 'BLF150', id: 'f57ed3b9-e638-449f-9206-b1a0c15afe5a', cost: 0, active: true, country_code: 'US', description: 'State Business And Occupation Tax' },
+  // { reference: 'BLF18', id: '64b6739e-0ead-4666-bbd9-9ff06d97acef', cost: 0, active: false, country_code: 'IE', description: 'Test' },
+  // { reference: 'BLF18MONTHPRODUCT', id: '172739d3-040b-4a04-a31e-6bbe64003c45', cost: 0, active: true, country_code: 'IE', description: '18 Month Product' },
+  // { reference: 'BLF18MONTHPRODUCT2', id: '01c462d6-5e1e-4687-8964-6528c1eb54b8', cost: 0, active: true, country_code: 'IE', description: 'Test' },
+  // { reference: 'BLF2', id: 'cacc26e8-9c6e-4a6b-9d05-07ae47f25b6d', cost: 0, active: false, country_code: 'IE', description: 'my product' },
+  // { reference: 'BLF202', id: 'bbee8aae-1de5-4671-87ed-661d07cb6fd6', cost: 0, active: true, country_code: 'US', description: 'County Sales Tax' },
+  // { reference: 'BLF203', id: 'c108517a-6e5f-462a-8d33-ae3dab117857', cost: 0, active: true, country_code: 'US', description: 'County Local Sales Tax' },
+  // { reference: 'BLF204', id: '146edde9-27d5-4146-8a74-4d66fc789172', cost: 0, active: true, country_code: 'US', description: 'City Sales Tax' },
+  // { reference: 'BLF216', id: '5c2f5f20-de92-4402-8785-1820a5c22d84', cost: 0, active: true, country_code: 'US', description: 'Local Utility Users Tax' },
+  // { reference: 'BLF224', id: '482dd570-7db3-40d9-b07a-964457ea015c', cost: 0, active: true, country_code: 'US', description: 'Local Right-Of-Way Fee' },
+  // { reference: 'BLF233', id: '307354e3-2375-4470-b2f7-124d340cc877', cost: 0, active: true, country_code: 'US', description: 'Local 911 Surcharge' },
+  // { reference: 'BLF234', id: '9dd72bad-0a40-4722-ad72-af522ee22242', cost: 0, active: false, country_code: 'CA', description: '234' },
+  // { reference: 'BLF23423333FWS', id: '96053315-57e1-4406-8a44-c5c07b5c30bb', cost: 0, active: false, country_code: 'AU', description: 'sdfsdfdfvsdv' },
+  // { reference: 'BLF234234234', id: '8ef38cba-c73a-4019-83f4-2442663564ef', cost: 0, active: false, country_code: 'CA', description: '2342342' },
+  // { reference: 'BLF237', id: 'd579dce9-986d-4730-98c5-c096f8baf05f', cost: 0, active: true, country_code: 'US', description: 'Local Communicationsmunications Tax' },
+  // { reference: 'BLF238', id: '0a8ae610-cfef-4449-aff5-0c9d7a764c0e', cost: 0, active: true, country_code: 'US', description: 'Local License Tax' },
+  // { reference: 'BLF245', id: 'e5a9bf9a-a189-4da5-8ee7-5fac2c2cf133', cost: 0, active: true, country_code: 'US', description: 'County Lease/Rental Tax' },
+  // { reference: 'BLF24MONTHPRODUCT', id: '7c8113b2-2140-4de8-adfb-096081038a1a', cost: 0, active: true, country_code: 'IE', description: '24 Month Product' },
+  // { reference: 'BLF3', id: '10913041-ecc1-490d-81ec-c77a14948040', cost: 0, active: false, country_code: 'IE', description: 'my product 2' },
+  // { reference: 'BLF302', id: '36efcfd1-68af-41d8-963e-2e8b37370c06', cost: 0, active: true, country_code: 'US', description: 'County Sales Tax' },
+  // { reference: 'BLF304', id: '36dc07ec-93e7-40db-9fca-96c4d83b0153', cost: 0, active: true, country_code: 'US', description: 'City Sales Tax' },
+  // { reference: 'BLF305', id: 'f5064136-a697-4773-b4a6-d64fdb45809b', cost: 0, active: true, country_code: 'US', description: 'City Local Sales Tax' },
+  // { reference: 'BLF316', id: '89dca83a-d0f6-469b-a460-472740f3ea7e', cost: 0, active: true, country_code: 'US', description: 'Local Utility Users Tax' },
+  // { reference: 'BLF324', id: '832b9876-ceb6-477d-aaab-1555f437b68f', cost: 0, active: true, country_code: 'US', description: 'Local Right-Of-Way Fee' },
+  // { reference: 'BLF331', id: '2043d7b3-9628-4132-bc66-3ace9b10bba8', cost: 0, active: true, country_code: 'US', description: 'Local Business And Occupation Tax' },
+  // { reference: 'BLF332', id: '9a57237b-6712-41ce-841b-d076aa4f0b45', cost: 0, active: true, country_code: 'US', description: 'Local Gross Receipts Tax' },
+  // { reference: 'BLF333', id: '35e8be20-1d68-432c-bb79-3aab7b9b44eb', cost: 0, active: true, country_code: 'US', description: 'Local 911 Surcharge' },
+  // { reference: 'BLF336', id: '4040aa03-25b8-4289-b132-5cfa9594772f', cost: 0, active: true, country_code: 'US', description: 'Local Franchise Fee' },
+  // { reference: 'BLF337', id: 'f2839d8e-8d1f-4c63-b552-f02c2ce2f1b5', cost: 0, active: true, country_code: 'US', description: 'Local Communicationsmunications Tax' },
+  // { reference: 'BLF338', id: 'a860d122-9c49-4906-8c45-cd6ed700b433', cost: 0, active: true, country_code: 'US', description: 'Local License Tax' },
+  // { reference: 'BLF3420934892', id: 'b4def902-bb12-45c8-b92f-5ae94c29034d', cost: 0, active: false, country_code: 'IE', description: 'Hardware' },
+  // { reference: 'BLF343', id: '405498a3-768b-4974-9ff2-6a1062e9394f', cost: 0, active: true, country_code: 'US', description: 'Local Franchise Agreement' },
+  // { reference: 'BLF3453455', id: '1e72ac00-d351-4974-8d59-34a46917667e', cost: 0, active: true, country_code: 'DE', description: 'testing' },
+  // { reference: 'BLF347', id: 'a59f9159-3c63-4342-ac97-9f5e8e1b4327', cost: 0, active: true, country_code: 'US', description: 'City Lease/Rental Tax' },
+  // { reference: 'BLF348', id: '8e927f43-6839-4823-9e8a-3668d02d46a5', cost: 0, active: true, country_code: 'US', description: 'City Local Lease/Rental Tax' },
+  // { reference: 'BLF36MONTHPRODUCT', id: 'cee09ad0-5452-4767-9ac3-c5060e2b75b2', cost: 0, active: true, country_code: 'IE', description: '36 Month Product' },
+  // { reference: 'BLF403', id: 'cabb153d-7eca-4e0d-a1f6-959e54eb7dfe', cost: 0, active: true, country_code: 'US', description: 'County Local Sales Tax' },
+  // { reference: 'BLF404', id: '007331ac-949b-4497-bd1d-e7914c0de5e7', cost: 0, active: true, country_code: 'US', description: 'City Sales Tax' },
+  // { reference: 'BLF405', id: '681c3aea-dc60-40f9-993a-ef4193186f49', cost: 0, active: true, country_code: 'US', description: 'City Local Sales Tax' },
+  // { reference: 'BLF416', id: 'ac607db2-fd90-4208-9600-f916c0dde329', cost: 0, active: true, country_code: 'US', description: 'Local Utility Users Tax' },
+  // { reference: 'BLF417', id: '95334f1c-dc3b-4742-893e-39072a56ab1e', cost: 0, active: true, country_code: 'US', description: 'Misc. Surcharge 1' },
+  // { reference: 'BLF418', id: '144ae04b-fc3e-4c0c-8710-e98d992676e4', cost: 0, active: true, country_code: 'US', description: 'Misc. Surcharge 2' },
+  // { reference: 'BLF433', id: '9c5bf868-6488-4aa3-a4da-43383e8a60a1', cost: 0, active: true, country_code: 'US', description: 'Local 911 Surcharge' },
+  // { reference: 'BLF4420934892', id: 'c77e49b2-85e1-48ac-91cb-ea2a630941c9', cost: 0, active: false, country_code: 'IE', description: 'Hardware' },
+  // { reference: 'BLF45356', id: '9b354378-948b-489b-933e-053f85b2b250', cost: 0, active: false, country_code: 'IE', description: 'cable' },
+  // { reference: 'BLF4820934892', id: '70889ea6-c7eb-4e1a-8fb3-1104742d7ba4', cost: 0, active: false, country_code: 'IE', description: 'Hardware' },
+  // { reference: 'BLF526565656', id: 'a711dd5d-6301-4fbe-b838-a3064c4d8d04', cost: 0, active: true, country_code: 'IE', description: 'DEmo to test quality' },
+  // { reference: 'BLF533', id: '389904da-4d71-4302-ac74-473449acd69f', cost: 0, active: true, country_code: 'US', description: 'Local 911 Surcharge' },
+  // { reference: 'BLF54542659854', id: '5c3d43d5-1d0c-43b4-b444-530f041707ca', cost: 0, active: false, country_code: 'IE', description: 'Adri Product Test' },
+  // { reference: 'BLF60MONTHPRODUCT', id: '186c8710-4deb-4373-8915-66b7677d6758', cost: 0, active: true, country_code: 'IE', description: '60 Month Product' },
+  // { reference: 'BLF76767676', id: '20c8a8d9-d3ff-4b44-b174-48bad9c1164d', cost: 0, active: true, country_code: 'US', description: 'Free Mobile SMS' },
+  // { reference: 'BLF898786RT', id: '4316f1fa-00bf-4b3f-8d59-d1d7c713a83f', cost: 0, active: false, country_code: 'CA', description: 'phone' },
+  // { reference: 'BLF987879798', id: 'e8692e3e-22de-4a52-909c-84f46fa02889', cost: 0, active: false, country_code: 'IE', description: 'DHL direct' },
+  // { reference: 'BLF9898989898', id: '041097c1-0eb7-46cf-bd47-62fd14c924e4', cost: 69.69, active: true, country_code: 'US', description: 'Free calls' },
+  // { reference: 'BLFAAAA', id: '8802d5d3-9235-4d91-bdb3-cf9ce70656ac', cost: 0, active: false, country_code: 'AU', description: 'aaa' },
+  // { reference: 'BLFAATEST', id: '65a125dc-f644-4536-96cf-538566cd95c7', cost: 0, active: true, country_code: 'IE', description: 'test546546' },
+  // { reference: 'BLFADSFRGTHSGFDS', id: '7e802b1b-b2c9-4a0f-af7a-808c4d257f4b', cost: 0, active: false, country_code: 'NZ', description: 'adsfrgthsgfds' },
+  // { reference: 'BLFALVAROCALLSTEST', id: 'dd58f14f-df8e-4336-878a-297d6377cf72', cost: 0, active: true, country_code: 'US', description: 'New Call test with 30 months' },
+  // { reference: 'BLFALVAROTEST1', id: '7468fdb3-b3d7-4755-8d92-c9fe9c96d767', cost: 0, active: false, country_code: 'IE', description: 'Alvaro Test 1' },
+  // { reference: 'BLFALVTEST', id: 'e694a48d-f361-4eea-8daa-7d252a406eca', cost: 9.99, active: true, country_code: 'IE', description: '1 x AI free + phone' },
+  // { reference: 'BLFAMC001', id: '6d7b4a52-7485-4c65-86d6-18bef48f5a7c', cost: 0, active: false, country_code: 'IE', description: 'Geethatest' },
+  // { reference: 'BLFAMPC123', id: '47cd776b-62e8-4e29-9cbf-57b5b0403f06', cost: 0, active: true, country_code: 'IE', description: 'Powerful chancla for bad dev' },
+  // { reference: 'BLFAMPC223', id: '9ca8c5f9-9213-414e-8e7f-ba036d21cd08', cost: 0, active: true, country_code: 'IE', description: 'Portable Boomerang' },
+  // { reference: 'BLFANDREWPRODUCT', id: 'f1f606ac-6dfd-47cf-b6fd-3d15c5ed3b8b', cost: 0, active: false, country_code: 'GB', description: 'andrews test product' },
+  // { reference: 'BLFANDREWTEST', id: 'fb50acca-4c4f-465a-8a2f-402ae5c6d3d2', cost: 0, active: false, country_code: 'AU', description: 'My test product' },
+  // { reference: 'BLFANOTHERWARRENTESTNICETODELETE', id: 'c0b9367e-a147-4ea0-8bee-06c520a45d49', cost: 0, active: false, country_code: 'IT', description: 'this can be deleted' },
+  // { reference: 'BLFANUDATSSTT', id: 'f85f362d-7783-4b90-b171-f25281214d40', cost: 0, active: false, country_code: 'US', description: 'testy' },
+  // { reference: 'BLFASDF', id: 'b99950ee-4c0d-4f4c-875b-b97c95e9dace', cost: 0, active: false, country_code: 'AF', description: 'asfd' },
+  // { reference: 'BLFASDF', id: 'ce955638-4c67-493f-9629-d3ece480da89', cost: 0, active: false, country_code: 'CA', description: 'asdf' },
+  // { reference: 'BLFASDF', id: '332d6b82-9a25-4f03-91ac-d43b9a73885b', cost: 0, active: false, country_code: 'IE', description: 'asdf' },
+  // { reference: 'BLFASDFGHJGFDSDASDFG', id: 'ba3ff59f-a3ba-40e0-a7b5-9e5e0c097317', cost: 0, active: false, country_code: 'IE', description: 'SDF' },
+  // { reference: 'BLFASFD', id: '8ea89223-6a3a-4a05-a34c-49605c0e5a64', cost: 0, active: false, country_code: 'AU', description: 'asdf' },
+  // { reference: 'BLFAUSSIEPROD', id: 'aadfd8ab-9dba-430b-ab70-c90bd2152a1b', cost: 0, active: false, country_code: 'AU', description: 'This is a test' },
+  // { reference: 'BLFAUTOMATIONAPITEST', id: '999c9a6b-869d-44ce-8d89-9d543e2b4456', cost: 0, active: false, country_code: 'IE', description: 'PATCH request to make product inactive' },
+  // { reference: 'BLFAUTOMATIONTESTINGPRODUCT', id: 'ea498ccd-aa5a-4685-8a31-192bdde2c500', cost: 0, active: true, country_code: 'IE', description: 'AutomationTestingProduct Description' },
+  // { reference: 'BLFAYYLMAO', id: '813cbd2e-d8b2-4274-88f2-75bd19adb4a9', cost: 0, active: false, country_code: 'US', description: 'jjfhvb' },
+  // { reference: 'BLFAYYLMAOO', id: '560bb062-bdc8-4fe2-a458-243323480e3b', cost: 0, active: false, country_code: 'US', description: 'jjfhvb' },
+  // { reference: 'BLFAYYYNEEEW', id: 'dd9ace04-f7d5-4117-bea5-e2788d145d2d', cost: 0, active: false, country_code: 'US', description: 'jjfhvb' },
+  // { reference: 'BLFAYYYNEW', id: 'd9e349c6-7c8c-4a41-82c1-568236fe44e8', cost: 0, active: false, country_code: 'US', description: 'jjfhvb' },
+  // { reference: 'BLFBFALVAROAVAILABLETEST', id: 'b253ad22-0af5-4ccb-991a-d35312c4b82a', cost: 0, active: true, country_code: 'IE', description: 'Alvaro TEST - Product to test Availability' },
+  // { reference: 'BLFBLUEPHONE12M', id: '896e6045-43c8-48c8-867f-446ba7f5a502', cost: 0, active: true, country_code: 'IE', description: 'Blue Phone (12M)' },
+  // { reference: 'BLFBLUEPHONE48M', id: 'cd48a667-aee2-4e2a-a947-4b871eb0f647', cost: 0, active: true, country_code: 'IE', description: 'Blue Phone (48M)' },
+  // { reference: 'BLFBUGTEST', id: 'cfb719c6-48c1-4016-903c-83820e8f596d', cost: 0, active: false, country_code: 'US', description: 'Test' },
+  // { reference: 'BLFBUGTESTER', id: '5ca4da1d-2645-4fbb-9da0-2b8933d75d38', cost: 0, active: false, country_code: 'US', description: 'BugTest' },
+  // { reference: 'BLFBUGTESTPERCENTAGE', id: '291e4e11-595e-4bd9-bad1-8c589460cf44', cost: 0, active: false, country_code: 'US', description: 'Percentage Test' },
+  // { reference: 'BLFCANNONBALL', id: '1fda9de8-2b86-45ca-b536-a6bbb9435c97', cost: 0, active: false, country_code: 'US', description: 'A cannon with a ball' },
+  // { reference: 'BLFCHILISAUCE', id: '230fc467-fd05-4c8f-b977-417b10b1ee0a', cost: 0, active: true, country_code: 'IE', description: 'Chili Sauce' },
+  // { reference: 'BLFCOFFEEHOLDER', id: '7ccf5133-e227-4994-8a81-0ffc8b578168', cost: 0, active: false, country_code: 'IE', description: 'A coffee holder for your desk phone.' },
+  // { reference: 'BLFCOMMISSHTEST', id: 'c7fcb5f8-fae2-4f73-81f8-538529d02e29', cost: 0, active: false, country_code: 'IE', description: 'testy' },
+  // { reference: 'BLFCOMTEST', id: '71364944-f47b-4308-9db3-a09a8de88c4e', cost: 0, active: false, country_code: 'US', description: 'test' },
+  // { reference: 'BLFCOMTEST1', id: 'c4bc0a17-fb00-4829-bd0d-e4500654f25b', cost: 0, active: false, country_code: 'US', description: 'Test wholesale commission 1' },
+  // { reference: 'BLFCOMTEST2', id: '884b764b-1376-4caf-95b2-b8e08270fc7b', cost: 0, active: false, country_code: 'US', description: '2' },
+  // { reference: 'BLFCOMTEST3', id: '141a6005-f041-4e79-8317-5eeeabca473a', cost: 0, active: false, country_code: 'US', description: '3' },
+  // { reference: 'BLFCOMTEST4', id: '0d04a0af-8631-45bc-aed8-0d07a0de0260', cost: 0, active: false, country_code: 'US', description: '4' },
+  // { reference: 'BLFCOMTEST5', id: '95b279e4-97ce-4bc7-9d86-6f56044e0903', cost: 0, active: false, country_code: 'US', description: '5' },
+  // { reference: 'BLFCOMTEST6', id: '17e23842-e428-4563-aede-c686847e9523', cost: 0, active: false, country_code: 'CA', description: '6' },
+  // { reference: 'BLFCOOLPHONE', id: 'ded69330-0410-4375-98d3-8d3dcb65a695', cost: 0, active: true, country_code: 'IE', description: 'A really cool phone' },
+  // { reference: 'BLFCORONADETECT', id: '9d0e250e-e307-44a3-99a7-c40b0175cfce', cost: 0, active: true, country_code: 'IE', description: 'Coronavirus Detector' },
+  // { reference: 'BLFCOVD19PAPER', id: '1ce57323-ce14-4de7-ac92-652fbc546e98', cost: 0, active: true, country_code: 'IE', description: '100 Toilet Paper rolls' },
+  // { reference: 'BLFCOVID19TEST', id: '54fa7489-2dbd-4e37-bf1f-086faad0f964', cost: 0.01, active: true, country_code: 'IE', description: 'Coronavirus Test' },
+  // { reference: 'BLFCTEST21', id: '9e070f6e-8e34-46ca-8935-e5057dbd83d4', cost: 0, active: false, country_code: 'IE', description: 'A test product' },
+  // { reference: 'BLFDELV', id: '1e7e352f-3485-4b2f-884d-c2c4a64e69de', cost: 10, active: true, country_code: 'FR', description: 'Hardware Delivery' },
+  // { reference: 'BLFDELV', id: '9daa312c-d145-4675-8059-32ce4f471cc4', cost: 10, active: true, country_code: 'IT', description: 'Hardware Delivery' },
+  // { reference: 'BLFDELV', id: '0b72627d-6c3d-4146-ba7f-67367fb9581c', cost: 20, active: true, country_code: 'US', description: 'Hardware Delivery' },
+  // { reference: 'BLFDELV', id: '06dc6754-17ef-4a8b-a5b0-9890faf1dfdb', cost: 10, active: true, country_code: 'GB', description: 'Hardware Delivery' },
+  // { reference: 'BLFDELV', id: 'cb9e892a-d179-48fe-a792-fdf090233ce9', cost: 10, active: true, country_code: 'ES', description: 'Hardware Delivery' },
+  // { reference: 'BLFDELV', id: 'b1e672dc-5e17-448e-859a-1523b0646018', cost: 10, active: true, country_code: 'IE', description: 'Hardware Delivery' },
+  // { reference: 'BLFDELV', id: '67e42903-6d73-48c9-92a1-466cfc992de3', cost: 10, active: true, country_code: 'DE', description: 'Hardware Delivery' },
+  // { reference: 'BLFDFBGFVDC', id: 'dabe0bd1-81bc-45bf-8c6c-fd97303791ec', cost: 0, active: false, country_code: 'US', description: 'dvfbgnhmjk,' },
+  // { reference: 'BLFDIPNDIVE', id: 'd2000aef-b38b-4423-8964-8a04e55adfce', cost: 0, active: true, country_code: 'IT', description: 'lalaland' },
+  // { reference: 'BLFDIYBATCAVE', id: '6cda48e9-9edd-4d21-a848-b448f302ecd7', cost: 0, active: false, country_code: 'IE', description: 'Build your own bat cave' },
+  // { reference: 'BLFDONSLEY', id: '95d28e6c-b0e8-4465-9ea5-841c8c63768d', cost: 0, active: true, country_code: 'IT', description: 'dunkey' },
+  // { reference: 'BLFDSFGHFDSADFGHFDSA', id: 'c9bc4046-05a6-4330-bdb5-79abe26d87f9', cost: 0, active: false, country_code: 'IE', description: 'wesfrdgfhgfg' },
+  // { reference: 'BLFEEFWEFWE', id: 'df5b40a9-b018-41d7-9b29-49b88e65dc99', cost: 0, active: false, country_code: 'FR', description: 'ewefwfw' },
+  // { reference: 'BLFEF34', id: 'd118f579-9c38-4d4e-bef2-dfda7aedc95b', cost: 0, active: false, country_code: 'AU', description: 'f34' },
+  // { reference: 'BLFEUSHFIAEWUZSDBGOAIUSZL', id: 'b620ef4b-d599-45b6-a5e5-e3fbeac32b7f', cost: 0, active: false, country_code: 'IT', description: 'eushfiaewuzsdbgoaiuszl' },
+  // { reference: 'BLFEXTRAPACK1', id: '6b3c312d-1b8f-4cce-9fab-a108e5d0f63d', cost: 0, active: true, country_code: 'IE', description: 'Extra Package 1' },
+  // { reference: 'BLFFACEMASK', id: 'e8754e40-1b4a-43e0-b980-e25b49a8cbf1', cost: 0, active: true, country_code: 'IE', description: 'Facemask Promo' },
+  // { reference: 'BLFFAXPAYG', id: 'bdf6820c-a523-4b83-9bab-a82797848cc0', cost: 1, active: true, country_code: 'DE', description: 'Fax call credit' },
+  // { reference: 'BLFFAXPAYG', id: 'd94a3b8a-f7e5-40ca-92f3-bf28c3865947', cost: 1, active: true, country_code: 'FR', description: 'Fax call credit' },
+  // { reference: 'BLFFAXPAYG', id: 'a0fb5f31-c40a-4f4e-b95f-4067137d8fb6', cost: 1, active: true, country_code: 'IT', description: 'Fax call credit' },
+  // { reference: 'BLFFAXPAYG', id: '9055b76f-7513-492b-8474-a6d6f3ef96f5', cost: 1, active: true, country_code: 'ES', description: 'Fax call credit' },
+  // { reference: 'BLFFAXPAYG', id: 'b186ce2b-5ead-43e9-8888-44e350fde853', cost: 1, active: true, country_code: 'IE', description: 'Fax call credit' },
+  // { reference: 'BLFFAXPAYG', id: '985d560d-9566-43f2-8ed5-d20d6f951642', cost: 1, active: true, country_code: 'GB', description: 'Fax call credit' },
+  // { reference: 'BLFFAXPAYG', id: '5a2f9b2b-95d0-455d-84c7-eda03e021bfa', cost: 1, active: false, country_code: 'CA', description: 'Fax call credit' },
+  // { reference: 'BLFFAXPAYG', id: '81d98312-255f-4cab-865f-dc48196be860', cost: 1, active: false, country_code: 'US', description: 'Fax call credit' },
+  // { reference: 'BLFFGS6', id: '24c0212d-6582-488c-8b22-89106605c75c', cost: 0, active: false, country_code: 'AU', description: 'thht' },
+  // { reference: 'BLFFRITATA', id: 'e53b3e9a-4ace-44a0-abcc-26be68bbc0ac', cost: 0, active: true, country_code: 'IT', description: 'lachef' },
+  // { reference: 'BLFFZSEFAWF', id: 'b992a489-5a7a-4e3c-8ada-3d16b346fba6', cost: 0, active: false, country_code: 'IT', description: 'DAFSA' },
+  // { reference: 'BLFGBTESTPRODUCT', id: '5529e235-ce36-48da-ab5e-6f5a7b0ae8e8', cost: 0, active: false, country_code: 'GB', description: 'UsedInQAAutomation' },
+  // { reference: 'BLFGFHG', id: 'f564cd3f-4766-432d-b859-9bf191e4b352', cost: 0, active: false, country_code: 'CA', description: 'hgfhg' },
+  // { reference: 'BLFGODSPHONE', id: '413c945f-9626-40c0-85c9-ad4d42bb821b', cost: 0, active: true, country_code: 'US', description: 'The phone to talk to God in direct line' },
+  // { reference: 'BLFGTG', id: '1317c042-294d-452e-afb4-4a6bf3478e65', cost: 0, active: true, country_code: 'AU', description: 'ii-0-0' },
+  // { reference: 'BLFHGFCDXCG', id: '2c2de4f7-328f-49f0-b37f-fd86c42ef40b', cost: 0, active: false, country_code: 'IE', description: 'bjhgvf' },
+  // { reference: 'BLFHHHHHHH', id: '6b77f533-188a-4802-89f8-a915f8f2ec1b', cost: 0, active: false, country_code: 'US', description: 'gbbbbbbbb' },
+  // { reference: 'BLFHNDG6', id: 'edb6c149-72b7-4d9a-9f86-a2b50de624cb', cost: 0, active: false, country_code: 'CA', description: 'hgg65' },
+  // { reference: 'BLFHONGKONG', id: '12c0800b-919c-40bd-84ce-4b87b7351498', cost: 0, active: false, country_code: 'HK', description: 'asdc' },
+  // { reference: 'BLFHOSTEDSEAT1', id: '9454ebab-c2fb-4507-9210-1cab01b877b7', cost: 0, active: true, country_code: 'IE', description: 'Hosted Seat - Tomi Test' },
+  // { reference: 'BLFINSTALLFEE500', id: '8bfe1fee-983a-490f-95cd-26e68c925223', cost: 0.1, active: true, country_code: 'US', description: '500 Dollars Install Fee' },
+  // { reference: 'BLFIRL0034', id: 'c34292e3-2601-44e9-bb2b-04e12667590b', cost: 0, active: false, country_code: 'IE', description: 'BLF connect' },
+  // { reference: 'BLFIRLCOVIDPCKG', id: '8154d1a7-3c16-424f-976c-a72630685ada', cost: 0, active: true, country_code: 'IE', description: 'Ireland Covid-19 Package' },
+  // { reference: 'BLFITALIANOPIZZARIA', id: '0ae25df5-c78b-475f-a46e-1df7d9dfd55c', cost: 2, active: true, country_code: 'IT', description: 'la pizza' },
+  // { reference: 'BLFJBVCXDFGCHVJ', id: '0d6b5b6f-7778-4a7d-a94a-fae85d0f7c19', cost: 0, active: false, country_code: 'DE', description: 'nbhgfj' },
+  // { reference: 'BLFJEDISABER', id: 'dab158e7-205f-4674-8210-db4ed669966b', cost: 225, active: false, country_code: 'ES', description: 'The best saber available you can purchase!' },
+  // { reference: 'BLFJKHBGV', id: '987f3abb-e5bc-4112-9a3a-6d41e86dbee8', cost: 0, active: false, country_code: 'IE', description: 'bhvg' },
+  // { reference: 'BLFJOEL00MONTHS', id: '184b426c-b761-43a5-b0a7-1b82b1034e4e', cost: 0, active: true, country_code: 'IE', description: 'Joel 0 months min contract' },
+  // { reference: 'BLFJOEL1', id: '118222d5-4e3e-4776-a091-6fd288e7fb5c', cost: 0, active: false, country_code: 'IE', description: 'Joel test product 3333333333' },
+  // { reference: 'BLFJOEL10', id: 'a90b1537-5b15-44a1-a6e8-44ec15c78a4b', cost: 0, active: false, country_code: 'IE', description: 'aaaaaaaaaa366s' },
+  // { reference: 'BLFJOEL11', id: '95362ae2-ebf5-4c6f-b8eb-3809afa11c79', cost: 0, active: false, country_code: 'IE', description: 'abc' },
+  // { reference: 'BLFJOEL14', id: 'fb3430e8-4d1f-45d7-838f-472a5d64de35', cost: 0, active: false, country_code: 'DE', description: 'Test' },
+  // { reference: 'BLFJOEL2', id: '6079adad-87e3-42d0-aecf-b2d933b1598c', cost: 0, active: false, country_code: 'IE', description: 'test 2' },
+  // { reference: 'BLFJOEL24TEST', id: '831f2c9c-a623-46d8-9156-e4dc5d2b29ed', cost: 0, active: true, country_code: 'IE', description: 'Joel 24 months min contract' },
+  // { reference: 'BLFJOEL3', id: 'b0d2c0f9-f354-4aee-ab3b-9cd2aa1ab4a7', cost: 0, active: false, country_code: 'IE', description: 'joel test 3' },
+  // { reference: 'BLFJOEL42', id: '85a508c1-08b5-4660-87d8-3bfe7a587a07', cost: 0, active: false, country_code: 'IE', description: 'Test 42' },
+  // { reference: 'BLFJOEL43', id: '258182d4-6304-41ab-9721-b65a24fcb9ba', cost: 0, active: false, country_code: 'IE', description: 'fsd' },
+  // { reference: 'BLFJOEL5', id: 'cb18fc7a-fd07-4b3c-9e7c-a2d5ea0a40a4', cost: 0, active: false, country_code: 'IE', description: 'test....' },
+  // { reference: 'BLFJOEL6', id: '0cbade5f-20e8-4968-b1e6-7084afee3f2c', cost: 0, active: false, country_code: 'IE', description: 'test....' },
+  // { reference: 'BLFJOEL7', id: '2c97c88f-06ad-455e-9fa4-77f3b87c670b', cost: 0, active: false, country_code: 'IE', description: 'test....' },
+  // { reference: 'BLFJOEL8', id: 'fbea7339-3421-40f3-9a1f-5ce0d8da983d', cost: 0, active: false, country_code: 'IE', description: 'test....' },
+  // { reference: 'BLFJOEL9', id: 'c93f0fd8-a714-4acc-b2f8-6663a3585fc2', cost: 0, active: false, country_code: 'IE', description: 'test....' },
+  // { reference: 'BLFJOELBILLPCKG', id: 'ef00507f-c88e-4c37-9bb7-dfb48e78389b', cost: 0, active: true, country_code: 'IE', description: 'Joel Billing Pckg' },
+  // { reference: 'BLFJOELDEFAULT', id: '901f4d59-0f6f-4fe8-bb84-53cdddb5dc76', cost: 0, active: true, country_code: 'IE', description: 'Test for a default product' },
+  // { reference: 'BLFJOELRECURRING1', id: '1a4c2cfc-a605-4fc7-9a5a-1fd2a69918d4', cost: 0, active: true, country_code: 'IE', description: 'Recurring Thing 1 (0M)' },
+  // { reference: 'BLFJOELRECURRING2', id: '95422c38-1d18-4f8b-a9f9-eb557c7f91cc', cost: 18.2, active: true, country_code: 'IE', description: 'Recurring thing 2 (12M)' },
+  // { reference: 'BLFJOELRECURRING3', id: '996c26a4-1207-41e7-af25-42daf13e7382', cost: 0, active: true, country_code: 'IE', description: 'Recurring Thing 3 (36M)' },
+  // { reference: 'BLFJOELSERVICE', id: '8875b02d-5171-474e-b431-b639de3bbd71', cost: 0, active: false, country_code: 'CN', description: 'Joels service - Priceless' },
+  // { reference: 'BLFJOELTEST15', id: '9b87a8da-dfb7-4c37-843b-8d00ad5fb333', cost: 0, active: false, country_code: 'IE', description: 'This is a test product' },
+  // { reference: 'BLFJOELTEST16', id: '397d3b2b-799d-4287-9fbb-9b3c3ab95a3f', cost: 0, active: false, country_code: 'IE', description: 'test' },
+  // { reference: 'BLFJOELTEST21389', id: '72e3e531-16bf-4921-ab47-74f1fddf4fbf', cost: 0, active: false, country_code: 'AU', description: 'Test' },
+  // { reference: 'BLFKBCSEAT', id: '7520be5e-5b66-41fe-ab13-37786edc08c7', cost: 0, active: false, country_code: 'IE', description: 'Test' },
+  // { reference: 'BLFKBJHVGFC', id: 'f55eeb40-7ea2-4e93-822d-3280b5b8a219', cost: 0, active: false, country_code: 'HK', description: 'jhg' },
+  // { reference: 'BLFLASTONEPLZ', id: 'aab1840d-db22-46e7-a43c-ed4486b0f962', cost: 0, active: false, country_code: 'US', description: 'testy' },
+  // { reference: 'BLFLASTTESTPLZ', id: '3784b505-db7a-4d9b-aa6f-3864ad2539e3', cost: 0, active: false, country_code: 'US', description: 'xcsd f' },
+  // { reference: 'BLFMARIOPARTY', id: '9d70ba06-1585-4e44-8e20-3bc5f16b6674', cost: 0, active: true, country_code: 'IT', description: 'best game' },
+  // { reference: 'BLFMOCK', id: '6daf4fa3-0f8d-481c-8d5e-e99cb20d59c2', cost: 0, active: false, country_code: 'IE', description: 'Mock product' },
+  // { reference: 'BLFNAMETEST', id: '4872ead8-a3ce-4e27-8a00-bdfd1667ff85', cost: 0, active: false, country_code: 'FI', description: 'nametest' },
+  // { reference: 'BLFNEWEMAILLINE', id: 'be9e86ce-9092-4bae-8d54-150f9378e62c', cost: 0, active: false, country_code: 'US', description: 'usTest' },
+  // { reference: 'BLFNEWEMAILMSG', id: 'e4972e82-d5ca-4f41-997c-f473e2e40df3', cost: 0, active: false, country_code: 'US', description: 'USCA' },
+  // { reference: 'BLFNEWPRODUCT', id: '1cf8087f-b460-4851-be3a-9c637967b5b5', cost: 0, active: false, country_code: 'FI', description: 'this is a product' },
+  // { reference: 'BLFNEWPRODUCT23', id: '477cf99a-6a86-4974-b6a8-2b9311699b43', cost: 0, active: false, country_code: 'US', description: 'test' },
+  // { reference: 'BLFNEWPRODUCTTEST', id: '715d520a-6e46-4f03-849b-0558d11a3236', cost: 0, active: true, country_code: 'IE', description: 'Test001' },
+  // { reference: 'BLFNEWTESTPRODUCT', id: '25e40dcb-22bc-4f1e-8a12-4e35172e18cd', cost: 0, active: false, country_code: 'IT', description: 'Test001' },
+  // { reference: 'BLFNEWWWTEST', id: 'b65be2ea-5f20-4f3e-b941-f47be56ffd29', cost: 0, active: false, country_code: 'FR', description: 'newWWTest' },
+  // { reference: 'BLFNOTAXCODEUS', id: 'fcd5fa1f-be4a-4dfc-94cd-9ad09ec81311', cost: 0, active: false, country_code: 'US', description: 'test no tax code' },
+  // { reference: 'BLFNRP', id: 'df162a4a-e7c4-48a6-8665-06b74b6bcb15', cost: 0, active: true, country_code: 'IE', description: 'Non-Recurring Product' },
+  // { reference: 'BLFPANAAIR', id: 'ef243e27-424c-4b39-af16-ad3f25e3f422', cost: 0, active: false, country_code: 'IE', description: 'Panasonic air edition' },
+  // { reference: 'BLFPANAEDU', id: '522f6a30-07c8-4dcf-a731-ecd634a2ba10', cost: 0, active: false, country_code: 'IE', description: 'Panasonic phone designed for education' },
+  // { reference: 'BLFPANASONICJEDI', id: '861cacd4-7e9b-4d8e-842a-064f460f8417', cost: 0, active: false, country_code: 'IE', description: 'Panasonic Jedi edition' },
+  // { reference: 'BLFPANASONICKXPCR', id: '69ed2835-9df6-48bb-968e-6ac712b13e49', cost: 0, active: false, country_code: 'IE', description: 'Panasonic desktop phone with PCR test incorporated' },
+  // { reference: 'BLFPANASONICMICRO', id: '51f5ce9d-f5d6-4cfd-8557-2964ab5cca8a', cost: 0, active: false, country_code: 'IE', description: 'Micro version of the popular Panasonic phone' },
+  // { reference: 'BLFPANASONICYEDI', id: '9acc0e86-be71-47f5-963f-d94ca4c486d4', cost: 0, active: false, country_code: 'IE', description: 'Panasonic phone Yedi edition' },
+  // { reference: 'BLFPANASONICYEDIV10', id: '806336ca-8fe5-4eec-8c54-99cd9fa2370a', cost: 0, active: false, country_code: 'IE', description: 'Panasonic phone Yedi edition' },
+  // { reference: 'BLFPANASONICYEDIV11', id: '8405ba7e-3c03-4268-a708-3583092a6106', cost: 0, active: false, country_code: 'IE', description: 'Panasonic phone Yedi edition' },
+  // { reference: 'BLFPANASONICYEDIV12', id: '61dc2dcf-0a12-4546-832a-5ce2078cf311', cost: 0, active: false, country_code: 'IE', description: 'Panasonic phone Yedi edition' },
+  // { reference: 'BLFPANASONICYEDIV13', id: 'd7ebbaf3-a108-4c30-84bb-7bd722923a6a', cost: 0, active: false, country_code: 'IE', description: 'Panasonic phone Yedi edition' },
+  // { reference: 'BLFPANASONICYEDIV14', id: 'a3da0c74-e0aa-4c0e-93fd-314f430ae9c4', cost: 0, active: false, country_code: 'IE', description: 'Panasonic phone Yedi edition' },
+  // { reference: 'BLFPANASONICYEDIV2', id: '33a8acff-6754-4a64-ae66-42e492fe0cbf', cost: 0, active: false, country_code: 'IE', description: 'Panasonic phone Yedi edition' },
+  // { reference: 'BLFPANASONICYEDIV3', id: '5d6d75a2-80e8-42ac-aba4-d7f2e5102ff1', cost: 0, active: false, country_code: 'IE', description: 'Panasonic phone Yedi edition' },
+  // { reference: 'BLFPANASONICYEDIV4', id: 'b51cd7df-c4a5-4de3-b761-1694d82fe3b2', cost: 0, active: false, country_code: 'IE', description: 'Panasonic phone Yedi edition' },
+  // { reference: 'BLFPANASONICYEDIV5', id: 'a4f224a6-3897-40b3-8435-7d9d73fbd224', cost: 0, active: false, country_code: 'IE', description: 'Panasonic phone Yedi edition' },
+  // { reference: 'BLFPANASONICYEDIV6', id: 'ffdddadf-82f1-4631-b9b2-4311f2601cb4', cost: 0, active: false, country_code: 'IE', description: 'Panasonic phone Yedi edition' },
+  // { reference: 'BLFPANASONICYEDIV7', id: 'a40c43a9-b3e0-4d0d-af93-902567d86284', cost: 0, active: false, country_code: 'IE', description: 'Panasonic phone Yedi edition' },
+  // { reference: 'BLFPANASONICYEDIV8', id: '82a66158-3e5b-40d3-b579-7bc0afac86b2', cost: 0, active: false, country_code: 'IE', description: 'Panasonic phone Yedi edition' },
+  // { reference: 'BLFPANASONICYEDIV9', id: '8ed9d044-03b7-4d08-862f-8c5194c4d763', cost: 0, active: false, country_code: 'IE', description: 'Panasonic phone Yedi edition' },
+  // { reference: 'BLFPASTA', id: '6dc81f22-ee3a-4de1-8da9-5fcc77240469', cost: 0, active: true, country_code: 'IT', description: 'aglio' },
+  // { reference: 'BLFPAYG', id: '2037a3bc-f5fd-420b-92f2-00db0e89ce3e', cost: 1, active: true, country_code: 'GB', description: 'Pay As You Go Top up' },
+  // { reference: 'BLFPAYG', id: '94ffe500-67dd-442d-a4f3-621510476c92', cost: 1, active: true, country_code: 'IT', description: 'Pay As You Go Top up' },
+  // { reference: 'BLFPAYG', id: '778f80d0-5653-48d2-9d5f-3dfeddf365cf', cost: 1, active: true, country_code: 'US', description: 'Pay As You Go Credit' },
+  // { reference: 'BLFPAYG', id: '6ffd081a-467c-4295-aca5-2d8a8587ae50', cost: 1, active: true, country_code: 'IE', description: 'Pay As You Go Top up' },
+  // { reference: 'BLFPAYG', id: '28cd57b6-9344-402b-abad-134fab35906d', cost: 1, active: true, country_code: 'FR', description: 'Pay As You Go Top up' },
+  // { reference: 'BLFPAYG', id: 'f71ac29d-420a-41e9-a2ef-0e1011a02796', cost: 1, active: true, country_code: 'DE', description: 'Pay As You Go Top up' },
+  // { reference: 'BLFPAYG', id: 'fc6fc7f1-2b07-4a2b-82d3-6348b95de8c7', cost: 1, active: true, country_code: 'ES', description: 'Pay As You Go Top up' },
+  // { reference: 'BLFPM12345', id: 'f940bee3-5a1c-4cd9-bf8a-d3c4263fa42f', cost: 0, active: false, country_code: 'IE', description: 'PM description' },
+  // { reference: 'BLFPM1234567', id: 'f1be5fcc-3db0-4684-8e4b-e235b3e3a2c0', cost: 0, active: false, country_code: 'IE', description: 'Description PM' },
+  // { reference: 'BLFPOLYCOMCABL3M', id: '20b1778e-37db-4c38-acc4-981f5f2ca80b', cost: 0, active: false, country_code: 'IE', description: 'Cable 3 meter Polycom brand' },
+  // { reference: 'BLFPOLYCOMCABLE20M', id: '26c5167e-9868-47c6-846e-c576928131c0', cost: 0, active: false, country_code: 'IE', description: 'Polycom branded cable 20 meter' },
+  // { reference: 'BLFPOLYCOMCABLE2M', id: '93566dfa-eec2-49a2-8122-21515016a672', cost: 0, active: false, country_code: 'IE', description: 'Branded 2 meters Polycom cable' },
+  // { reference: 'BLFPOLYCOMEARBUDS', id: '9ff0106d-fb84-40a7-a9c3-ccf9b86658cc', cost: 0, active: false, country_code: 'IE', description: 'Complement to use with Polycom phones' },
+  // { reference: 'BLFPOLYCOMGOLD', id: 'd257685f-cc9b-4db9-9f65-8d5c054abce1', cost: 0, active: false, country_code: 'US', description: 'Gold edition of the Polycom phone' },
+  // { reference: 'BLFPOLYCOMRETRO', id: '1794a7f4-1084-47cf-a0e7-56f8ffd41025', cost: 0, active: false, country_code: 'US', description: 'Retro version of the popular Polycom' },
+  // { reference: 'BLFPOLYCOMRETRO', id: '4f08544f-9006-4953-8627-0cda954abca9', cost: 0, active: false, country_code: 'IE', description: 'Retro version of a popular Polycom phone' },
+  // { reference: 'BLFPOLYCOMSTARWARS', id: 'ed388885-2bcc-4a40-b9f6-84979f8f7ef6', cost: 0, active: false, country_code: 'IE', description: 'Star Wars edition of the popular polycom phone' },
+  // { reference: 'BLFPOLYCOMSTARWARS', id: '9b0b1499-a38a-4006-ad09-b61cbbfcfb55', cost: 0, active: true, country_code: 'US', description: 'Star Wars edition of the popular Polycom phone' },
+  // { reference: 'BLFPREMIUMSEAT', id: '346824ae-6e93-4e60-880f-506be1cbae62', cost: 0, active: true, country_code: 'IE', description: 'Test Premium Seat' },
+  // { reference: 'BLFPROD01', id: '42e98208-2d66-48a3-93f6-f7718e60bd29', cost: 0, active: false, country_code: 'IE', description: 'New Product' },
+  // { reference: 'BLFPROD10', id: 'ba6062b7-9360-4b16-84ee-2d0d228de8ca', cost: 0, active: false, country_code: 'IE', description: 'New Product' },
+  // { reference: 'BLFPRODUCTX', id: '9ee1b8c5-e117-414c-8edf-aca292699bc2', cost: 0, active: true, country_code: 'IT', description: 'XYZ' },
+  // { reference: 'BLFPROMOCOVID', id: '53d46098-bd66-4deb-8d92-2495378462cf', cost: 0, active: true, country_code: 'IE', description: 'Covid-19' },
+  // { reference: 'BLFPROMOSEAT', id: 'c9899c2d-ad5d-4d32-8707-1345b5219282', cost: 0, active: true, country_code: 'IE', description: 'Promo Seat' },
+  // { reference: 'BLFQAAUTOMATIONUKPRODUCT', id: '94ce6a65-3e89-4f75-ac4b-f7e6f9646abb', cost: 0, active: true, country_code: 'GB', description: 'QA Automation UK Product' },
+  // { reference: 'BLFQWE', id: '82079f5f-cd01-4605-bdae-48c5ec6967a7', cost: 0, active: false, country_code: 'AF', description: 'sdasd' },
+  // { reference: 'BLFRA', id: '8b76ccc5-496a-4e0f-be4b-fb6295c9c6e6', cost: 0, active: false, country_code: 'IE', description: 'Test R' },
+  // { reference: 'BLFREALLYLONGNAMELOLLO', id: '6ffa60bf-8e63-45d4-822c-e35ea9440da0', cost: 0, active: false, country_code: 'US', description: 'jjfhvb' },
+  // { reference: 'BLFREFREFREFREF', id: '953c4017-a712-43f0-bc75-5203fd98ee9d', cost: 0, active: false, country_code: 'US', description: 'perigrafh' },
+  // { reference: 'BLFREINDEER1', id: 'd16f5da1-2e81-44d0-a9ec-4867c0f5876b', cost: 0, active: true, country_code: 'IE', description: 'Finnish Reindeer Import (test product)' },
+  // { reference: 'BLFRFR', id: '604024dc-52ee-4667-8160-a35e5963f636', cost: 0, active: false, country_code: 'IE', description: 'rve' },
+  // { reference: 'BLFRPROD', id: '7dc7edee-f18e-46fd-8588-f1284a8b69e0', cost: 0, active: true, country_code: 'IE', description: 'Recurring Product' },
+  // { reference: 'BLFRQFRQ', id: '7864074a-5a0b-4d84-a6d7-a0906e62f3a7', cost: 0, active: false, country_code: 'AU', description: 'reg4' },
+  // { reference: 'BLFSADF', id: '34bf358e-8582-45b4-a5cf-411cd9a0b334', cost: 0, active: false, country_code: 'AF', description: 'asfd' },
+  // { reference: 'BLFSD', id: '3ae6d97d-9451-4126-9d59-3ca52b16acc8', cost: 0, active: true, country_code: 'IT', description: 'szdx' },
+  // { reference: 'BLFSDDDS', id: '68486fd9-8324-4171-838c-7e70db16b2ba', cost: 0, active: false, country_code: 'CA', description: 'q' },
+  // { reference: 'BLFSDFG', id: 'e6e6661d-e073-412c-8a5d-9713f583e66c', cost: 0, active: false, country_code: 'AU', description: 'sdfg' },
+  // { reference: 'BLFSDVSDVSDV', id: 'da401508-6389-4135-8cea-4e23bba15f4b', cost: 0, active: false, country_code: 'AU', description: 'sdvsdvsdv' },
+  // { reference: 'BLFSDVSDVW', id: 'cb480abe-ac51-46f5-9b36-19cf958291aa', cost: 0, active: false, country_code: 'AU', description: 'edvwevwev' },
+  // { reference: 'BLFSIPTRUNK12M1TO4', id: '8060b2eb-4635-47ea-8e9c-af45cf93a5ba', cost: 25.8, active: true, country_code: 'IE', description: 'Test for product groups 1 to 4' },
+  // { reference: 'BLFSIPTRUNK12M20PLUS', id: '9f3441ca-9cc0-41d9-82a3-9379a79fd2a1', cost: 0, active: true, country_code: 'IE', description: 'Test for product groups 20+' },
+  // { reference: 'BLFSIPTRUNK12M5TO19', id: 'b5c6adf4-b0e9-4c2e-b74e-96f466434142', cost: 0, active: true, country_code: 'IE', description: 'Test for product groups 5 to 19' },
+  // { reference: 'BLFSTATIONERY', id: '4c9ddced-d2de-49cc-af08-997510645b65', cost: 0, active: false, country_code: 'DE', description: 'Books' },
+  // { reference: 'BLFTEST', id: 'b8aeac8c-353a-4062-89f0-5df7b9e970a2', cost: 0, active: false, country_code: 'DE', description: 'Vaccine' },
+  // { reference: 'BLFTEST', id: '95df8cd6-833b-4b15-9b3a-61a1813f55ad', cost: 0, active: false, country_code: 'IE', description: 'Test' },
+  // { reference: 'BLFTEST', id: '3663adb4-5b5f-4a49-9657-ebb13f6b544a', cost: 0, active: false, country_code: 'CA', description: 'test' },
+  // { reference: 'BLFTEST1', id: '3b22a3dd-16ee-4791-a1fd-556beee387dd', cost: 0, active: false, country_code: 'IT', description: 'test1' },
+  // { reference: 'BLFTEST123', id: 'f179f0eb-4c70-4615-ab44-0a6f3558abc5', cost: 0, active: false, country_code: 'IE', description: 'testing' },
+  // { reference: 'BLFTEST1234', id: '71d61292-4fea-47a2-b9d0-f3088518a2f6', cost: 0, active: false, country_code: 'IE', description: 'testingr' },
+  // { reference: 'BLFTEST12345', id: 'cc2c9008-cebe-4fe1-ac70-d71a884d9e51', cost: 0, active: false, country_code: 'IE', description: 'testingry' },
+  // { reference: 'BLFTEST2', id: '080ec0f4-e21b-4a5b-b571-6a357d6580fd', cost: 0, active: false, country_code: 'IE', description: 'test2' },
+  // { reference: 'BLFTEST234', id: '1dd5402d-ea4f-48b1-ac6d-a680d2a39e67', cost: 0, active: false, country_code: 'IE', description: 'testing' },
+  // { reference: 'BLFTEST2487238', id: 'caa33c5b-ed1f-4c75-b450-f627d7d67c1f', cost: 0, active: false, country_code: 'DE', description: 'test2342342' },
+  // { reference: 'BLFTEST3110', id: '296e7083-f98c-407f-b614-d1dd68e98a43', cost: 0, active: true, country_code: 'IE', description: 'Test 3110 product' },
+  // { reference: 'BLFTEST31100', id: 'cf1cb876-1df9-41ff-beb5-cb3cc9834cfb', cost: 0, active: true, country_code: 'IE', description: 'test device' },
+  // { reference: 'BLFTESTADD', id: 'e694d5e8-242d-48ed-a85c-605b89a9833f', cost: 0, active: false, country_code: 'IE', description: 'added now' },
+  // { reference: 'BLFTESTADDPRODUCT', id: 'c444f598-ad5d-4f6d-a8f1-31f5bf37b2cc', cost: 0, active: false, country_code: 'IE', description: 'NewTest001' },
+  // { reference: 'BLFTESTADRIANASPRODUCT', id: 'bc1d6460-682e-4cab-9ba4-92b51056fc29', cost: 0, active: true, country_code: 'IE', description: 'Product available for WL admins' },
+  // { reference: 'BLFTESTALVARO', id: 'b5edf28e-33ab-4ca9-9432-e277822a78a3', cost: 0, active: true, country_code: 'IE', description: 'awd (12month min contract)' },
+  // { reference: 'BLFTESTALVAROUS', id: 'd566e231-2d3b-47bb-8193-760ff7bb5990', cost: 21.95, active: true, country_code: 'US', description: 'product min 24 month contract' },
+  // { reference: 'BLFTESTCOMMISSIONPERCENTAGE', id: 'bf3f7175-0ca9-41bd-918d-def867b2741d', cost: 0, active: false, country_code: 'IE', description: 'asdfgds' },
+  // { reference: 'BLFTESTCOMMISSIONREFERENCE', id: 'f927b655-6443-4ae7-bd2c-32ff8a0f2644', cost: 0, active: false, country_code: 'IE', description: 'test commission reference' },
+  // { reference: 'BLFTESTDEFAULT', id: 'b29c40d9-9c8b-4594-adc6-fef8a2aaaf9b', cost: 0, active: false, country_code: 'IE', description: '0989' },
+  // { reference: 'BLFTESTDESCC', id: '90f3c5bd-e6b4-47e0-9aeb-fc73c0c2d625', cost: 0, active: false, country_code: 'IE', description: 'testin long desc' },
+  // { reference: 'BLFTESTEDITPRODUCT', id: 'ab58f080-5cbc-4eb7-9e7a-47dbfd61893d', cost: 0, active: false, country_code: 'IE', description: 'EditProduct' },
+  // { reference: 'BLFTESTING', id: '30d280fc-525e-42b8-b108-1c00e75111af', cost: 0, active: false, country_code: 'IN', description: 'test' },
+  // { reference: 'BLFTESTINGNEWLABEL', id: 'a79bcb64-31c1-4892-b5ec-9d67beacc676', cost: 0, active: false, country_code: 'US', description: 'lalaland' },
+  // { reference: 'BLFTESTITPRODUCT', id: 'd97df59b-e6b7-4146-bb51-e54f3ce57278', cost: 0, active: true, country_code: 'IT', description: 'This is a test' },
+  // { reference: 'BLFTESTLONGDESC', id: 'a1ab14a4-32b4-4b17-bd1d-71efd49ec94a', cost: 0, active: false, country_code: 'IE', description: 'this is a really long description, mup ireland this is a really long description, mup ireland' },
+  // { reference: 'BLFTESTMAGA', id: '35222f56-5b4a-45fb-9fd1-6ed8d86b02d4', cost: 0, active: false, country_code: 'IE', description: 'test delete' },
+  // { reference: 'BLFTESTMAGA', id: '22a8a6be-e437-4707-8fbe-18a618ee97b9', cost: 0, active: false, country_code: 'IN', description: 'testmaga' },
+  // { reference: 'BLFTESTNEWEMAIL', id: 'c9bd1ddf-d650-4e4c-8f3f-2cce2b758581', cost: 0, active: false, country_code: 'US', description: 'newemaildesc' },
+  // { reference: 'BLFTESTNEWFIRLD', id: '8af62b11-71c7-445c-b835-3b151ef11b82', cost: 0, active: false, country_code: 'IE', description: 'ayylmao' },
+  // { reference: 'BLFTESTNOCODE', id: '9d4bcbbc-0bfe-457c-9448-5f23f4da08d5', cost: 0, active: false, country_code: 'US', description: 'notaxcode' },
+  // { reference: 'BLFTESTO7', id: 'dff3855d-96bd-4574-8dbc-1c489b97fa6f', cost: 0, active: false, country_code: 'IE', description: 'test' },
+  // { reference: 'BLFTESTO8', id: '7f79d279-f284-4a9d-966e-ecff90c06c30', cost: 0, active: false, country_code: 'IE', description: 'test' },
+  // { reference: 'BLFTESTO9', id: '72c217c7-7e20-4605-b65c-7fc4c30fb2e2', cost: 0, active: false, country_code: 'IE', description: 'test' },
+  // { reference: 'BLFTESTPERCENTAGE', id: 'b6aabc0c-5df2-4c26-9c7d-61247f73ed03', cost: 0, active: false, country_code: 'IE', description: 'percentage' },
+  // { reference: 'BLFTESTPRODUCT', id: '7b64320d-02b6-40f2-85bb-9bc8a309cd74', cost: 0, active: true, country_code: 'IE', description: '34r' },
+  // { reference: 'BLFTESTPRODUCT4566', id: 'ad29dbec-04ac-4f27-8e04-ca396e06fb7b', cost: 0, active: false, country_code: 'IE', description: 'A product created for testing SPL-4566' },
+  // { reference: 'BLFTESTPRODUCTREF', id: '45375a92-5eb3-4840-a72c-549ccee9dc73', cost: 0, active: false, country_code: 'IE', description: 'sdfgdsadf' },
+  // { reference: 'BLFTESTREF', id: '6b4c9769-512b-4e4b-8093-06f697212937', cost: 0, active: false, country_code: 'IE', description: 'test_user_Def_price' },
+  // { reference: 'BLFTESTSNEHA', id: 'df605304-13fb-475f-bb15-ae4ab0b9e165', cost: 2, active: true, country_code: 'IE', description: 'Test Sneha' },
+  // { reference: 'BLFTESTSNEHA1', id: '52d90fd9-32b7-4b57-9768-817a7e7ffcbe', cost: 3, active: true, country_code: 'IE', description: 'Test Sneha1' },
+  // { reference: 'BLFTESTSNEHA2', id: '584a6c64-68a5-437e-b3ff-888fde7abf58', cost: 1, active: true, country_code: 'IE', description: 'TestSneha2' },
+  // { reference: 'BLFTESTTEST', id: '80b7022a-4b11-44e1-b10c-c3c554def94c', cost: 0, active: false, country_code: 'IE', description: 'tstwewwe' },
+  // { reference: 'BLFTESTTESTTESTTEST', id: 'cbf7c443-ccb7-4ab0-ab45-e5247fb19e66', cost: 0, active: false, country_code: 'US', description: 'testtesttesttest' },
+  // { reference: 'BLFTESTUSERDEFINED', id: '2618a082-36a0-430f-8f4b-edeeedbf732c', cost: 0, active: false, country_code: 'IE', description: 'test_user_defined' },
+  // { reference: 'BLFTESTY', id: '478952eb-f92d-40c6-adb1-fb315b69b3b5', cost: 0, active: true, country_code: 'IT', description: 'hah' },
+  // { reference: 'BLFTHISFEEISFORTEST3OMONTH', id: '911348b0-da56-4003-b54a-6ee3108db13c', cost: 0, active: true, country_code: 'IE', description: '30 months minimum' },
+  // { reference: 'BLFTOLLFREE', id: '9691d751-ad16-4241-8377-612da79c8817', cost: 1, active: true, country_code: 'DE', description: 'Toll Free Usage' },
+  // { reference: 'BLFTOLLFREE', id: 'f021a276-4f93-4e5c-991b-3b336ff64ed0', cost: 1, active: true, country_code: 'ES', description: 'Toll Free Usage' },
+  // { reference: 'BLFTOLLFREE', id: '8171ca0f-ccac-495a-b222-63a98638050d', cost: 1, active: false, country_code: 'CA', description: 'Toll Free Usage' },
+  // { reference: 'BLFTOLLFREE', id: '464c3cc8-3a62-42ff-adb5-5fc1e4630c0b', cost: 1, active: false, country_code: 'US', description: 'Toll Free Usage' },
+  // { reference: 'BLFTOLLFREE', id: 'cebdcb0e-46d8-4a7c-9ba2-61a08f983d6a', cost: 1, active: true, country_code: 'IE', description: 'Toll Free Usage' },
+  // { reference: 'BLFTOLLFREE', id: '9f5a9ee7-176a-49a7-ad8d-4fcbef581bfd', cost: 1, active: true, country_code: 'IT', description: 'Toll Free Usage' },
+  // { reference: 'BLFTOLLFREE', id: 'ecbe1fd4-1136-44be-b193-1ad9794bc555', cost: 1, active: true, country_code: 'GB', description: 'Toll Free Usage' },
+  // { reference: 'BLFTOLLFREE', id: 'cedb6d46-17ef-4c00-ba74-6c13a934276c', cost: 1, active: true, country_code: 'FR', description: 'Toll Free Usage' },
+  // { reference: 'BLFTOM123TEST', id: '19b0777a-ba2a-4fdc-8d0e-d49d1d4d10c9', cost: 0, active: false, country_code: 'CA', description: 'bla' },
+  // { reference: 'BLFTRIPLERRRRR', id: 'e46b647c-a7e0-4605-b305-62df8befc1e1', cost: 0, active: false, country_code: 'US', description: 'dcfvgbhnjmhngbfv' },
+  // { reference: 'BLFTRRE5', id: 'd0322836-405d-410e-9005-c85d9b82b52f', cost: 0, active: false, country_code: 'CA', description: '45tg' },
+  // { reference: 'BLFTRUMPTOWER', id: '041b5780-97f6-40c4-b781-22ef75966165', cost: 0, active: false, country_code: 'US', description: 'The nicest tower in town' },
+  // { reference: 'BLFTSTEBEG', id: 'f44ef2b4-b564-47a2-bf52-0874ba5dbb93', cost: 0, active: false, country_code: 'CA', description: 'eanegn' },
+  // { reference: 'BLFUC', id: '02930a56-1785-4bb2-b2cd-e6141adef71e', cost: 0, active: false, country_code: 'IE', description: 'UC' },
+  // { reference: 'BLFUC', id: '9ef3b41d-128b-473d-be2b-45d52c8846e1', cost: 0, active: false, country_code: 'DE', description: 'UC hardware' },
+  // { reference: 'BLFUYCTXYRTZSXDYFCGHJVBGVCFYDX', id: '33e5b56c-a61e-4439-9fae-a38ff661bf5b', cost: 0, active: false, country_code: 'HK', description: 'kbhgvcf' },
+  // { reference: 'BLFVACCINE', id: '98e54209-c212-4f16-91e3-27e562c3f76b', cost: 0, active: false, country_code: 'DE', description: 'Vaccine' },
+  // { reference: 'BLFWAESFDR', id: 'd7826c13-d7f8-46f1-bc42-efea808d2e6a', cost: 0, active: false, country_code: 'IE', description: 'waesfdr' },
+  // { reference: 'BLFWAESFDRGTFHYUKTREAWS', id: 'd32ce66a-2dbf-4f81-b8f6-d29cd7cd4536', cost: 0, active: false, country_code: 'IE', description: 'waesfdrgtfhyuktreaws' },
+  // { reference: 'BLFWAESFDRGTFHYUKTREAWSWADESFRGT', id: '96a6c8c1-c7b3-4885-ba55-4ecdf86be973', cost: 0, active: false, country_code: 'IE', description: 'waesfdrgtfhyuktreawsWADESFRGT' },
+  // { reference: 'BLFWARRENTEST', id: '758cecf4-12f4-423e-abc0-cc8d2a743433', cost: 0, active: false, country_code: 'CA', description: 'warrentest' },
+  // { reference: 'BLFWARRENTEST2', id: 'ba2538e9-916e-4ead-bec5-f4f36e530c72', cost: 0, active: false, country_code: 'CA', description: 'warrentest2' },
+  // { reference: 'BLFWARRENWOLFFTESTTODELETELATER', id: '58bf2d4f-21af-4b5f-9029-ff0957210ad5', cost: 0, active: false, country_code: 'AU', description: 'aaaa' },
+  // { reference: 'BLFWERFG2EG', id: 'b317c3a3-c15f-48c6-8f8f-a38f5250a09d', cost: 0, active: false, country_code: 'NZ', description: 'w4g34g34' },
+  // { reference: 'BLFWERWERW', id: '0af16608-4e86-481f-a3e9-297d313ed65e', cost: 0, active: false, country_code: 'AU', description: 'werwr' },
+  // { reference: 'BLFWHOLECOMMISSION', id: '2bcd1494-6592-4341-bd81-e35a2a884c80', cost: 0, active: false, country_code: 'US', description: 'testing commission' },
+  // { reference: 'BLFWHOLESALECOMMISIONTEST', id: '7913d5ca-d1e2-49b8-a7a9-dfcf50ec73c9', cost: 0, active: false, country_code: 'US', description: 'retesting' },
+  // { reference: 'BLFWHOLESALETEST', id: '38dd9072-5ffc-4f88-8350-206ee14907f6', cost: 0, active: false, country_code: 'US', description: 'retesting wholesale commission' },
+  // { reference: 'BLFWORLDUNLMTD12', id: '401edee2-7bf5-412e-ac69-4bbbe6ba968c', cost: 34.89, active: true, country_code: 'IE', description: 'Joel Super BASE pckg' },
+  // { reference: 'BLFWWPROVATESTWARRENWOLFF', id: '094a5c81-4c66-4524-ac8c-ad3c438fa00b', cost: 0, active: false, country_code: 'US', description: 'WW Test after view clean up' },
+  // { reference: 'BLFWWPROVAWARRENWOLFF', id: '6aedd44c-592e-419f-b79d-e0a5f9bb9ec1', cost: 0, active: false, country_code: 'AU', description: 'wwProvaWarrenWolff' },
+  // { reference: 'BLFWWTEST', id: '8e383936-4dd2-4302-bade-b8c2118e021e', cost: 0, active: false, country_code: 'IT', description: 'WW test product' },
+  // { reference: 'BLFWWW', id: '2a92ac50-d3ed-4a6f-a6a7-d8d5eb03aede', cost: 0, active: false, country_code: 'CA', description: 'www' },
+  // { reference: 'BLFWWWTEST', id: '74f7274d-8838-4a68-8cdb-afb0932fc1a0', cost: 0, active: false, country_code: 'FR', description: 'test' },
+  // { reference: 'BLFWWWWWWWWWWWW', id: '88b91afc-4fc4-40cf-912a-5e0ad2c9022a', cost: 0, active: false, country_code: 'FR', description: 'WWWWWWWWWWWW' },
+  // { reference: 'BLFYODAPHONE', id: '4de55ea9-408c-44ed-82a8-4573f800c9a6', cost: 0, active: true, country_code: 'IE', description: 'A phone to call Yoda and get back some wisdom.' },
+  // { reference: 'BLFYOSHI', id: '8c38f181-d3a9-4571-baa2-c4628bfd1047', cost: 0, active: true, country_code: 'IT', description: 'chunker' },
+  // { reference: 'BLFYTTRYJ', id: '5fe102dc-aee8-4fc3-9f7e-9b746ca0a5d3', cost: 0, active: false, country_code: 'CA', description: 'jer7' },
+  // { reference: 'BLUEPHONE', id: 'd9cf6c9b-c0db-41cc-acda-398c3b24c70b', cost: 10, active: true, country_code: 'IE', description: 'Blue Phone (0M)' },
+  // { reference: 'BRITISHBAP', id: 'dd859e90-8539-41f9-a432-80b63fdaadd5', cost: 0, active: false, country_code: 'GB', description: 'BRITISH BAP' },
+  // { reference: 'BROADBAND', id: '1bc7a127-4a73-45bd-993b-733a0da56369', cost: 10, active: true, country_code: 'IE', description: 'Broadband Connection' },
+  // { reference: 'BUSINESSPLUS', id: '4b485f73-d76b-4542-923a-24bc34e5f470', cost: 69, active: true, country_code: 'GB', description: 'Business Plus 1111' },
+  // { reference: 'BUSINESSSTARTERMOBILE', id: '23099031-68a2-490e-a89c-06e9e07a96b5', cost: 24.98, active: true, country_code: 'IE', description: 'Business Starter : Unlimited calls to IRL/UK and 100 minutes to IRL/UK mobiles' },
+  // { reference: 'CALLENCRYPTION', id: '7fe445f3-ba3d-40f1-ba09-5b191d434b95', cost: 1.5, active: true, country_code: 'IE', description: 'Call encryption' },
+  // { reference: 'CALLRECORDING', id: '4ab04ce0-469c-4317-9625-9fd078fcfb60', cost: 5, active: true, country_code: 'ES', description: 'Grabación de llamada' },
+  // { reference: 'CALLRECORDING', id: 'b8f5f1af-f1cc-4630-9a80-f58048b93ed6', cost: 5, active: true, country_code: 'IE', description: 'Call recording' },
+  // { reference: 'CAT5CABLE2M', id: '1499982e-9889-4e55-9303-af0c4265dd14', cost: 1, active: true, country_code: 'IE', description: 'Cat 5 2 Metre Ethernet Cable' },
+  // { reference: 'CAT5CABLE2M', id: '24d0b69b-3f50-4162-bfa4-47cfc7cf6940', cost: 1, active: true, country_code: 'FR', description: 'Cable Ethernet, Cat 5, 2M' },
+  // { reference: 'CAT5CABLE2M', id: '379b4675-8a8b-498f-afa5-1d03462077b5', cost: 1, active: true, country_code: 'GB', description: 'Cat 5 2 Metre Ethernet Cable' },
+  // { reference: 'DATASIM', id: '6ae5100a-0eb8-4ee1-a243-bd07b7623047', cost: 45, active: false, country_code: 'IE', description: 'DATASIM' },
+  // { reference: 'DELV', id: 'a0198d34-cff5-4a35-ac16-1d3feecd71a5', cost: 10, active: true, country_code: 'IE', description: 'Hardware Delivery' },
+  // { reference: 'DISCOUNTNUMBERS', id: 'd4f91045-e16e-499b-be6c-39d47dc75b77', cost: 0, active: false, country_code: 'IE', description: 'discountNumbers' },
+  // { reference: 'FAX', id: '595ec104-e1eb-4478-9c0c-2c900ffff20b', cost: 10, active: true, country_code: 'IE', description: 'Irish Fax-to-Email' },
+  // { reference: 'FAX12', id: 'dbdd8b09-8cff-4133-8daf-4bcda4555772', cost: 109.89, active: true, country_code: 'IE', description: '12 Months of Irish Fax-to-Email' },
+  // { reference: 'FAXNEUTRAL', id: 'b0a68508-fe0a-4431-986f-a284c5f26cae', cost: 9.75, active: true, country_code: 'IE', description: 'Irish Fax-to-Email Network Neutral' },
+  // { reference: 'GALAXYNOTE', id: '12d876da-335b-49aa-8eae-f4ea96956dea', cost: 415, active: false, country_code: 'IE', description: 'Samsung Galaxy Tablet' },
+  // { reference: 'GALAXYS4', id: '59d4d242-9a4f-4957-ad19-50c7d60801bf', cost: 440, active: true, country_code: 'IE', description: 'Samsung Galaxy S4' },
+  // { reference: 'GALAXYS4MINI', id: '957ad3fc-9aea-49c6-80bf-3a99f3fde578', cost: 285, active: true, country_code: 'IE', description: 'Samsung Galaxy S4 Mini' },
+  // { reference: 'GOLDENSETUP', id: 'dd1b6faf-06a2-4a9d-b390-3f4c54ee23e4', cost: 10, active: true, country_code: 'IE', description: 'Golden Number Setup' },
+  // { reference: 'GWANTHENSON', id: 'df25953e-dd8e-45dd-8bdd-381003029f71', cost: 0, active: false, country_code: 'US', description: 'jjfhvb' },
+  // { reference: 'HDV20XSIDECAR', id: 'cea908f1-7be9-4490-864b-c9ca848e8591', cost: 120, active: true, country_code: 'IE', description: 'HDV20XB Sidecar' },
+  // { reference: 'HOSTEDSEAT', id: 'c5b7aad8-e0b1-4746-a454-1d586fa4f02a', cost: 9.99, active: true, country_code: 'US', description: 'US Hosted Seat' },
+  // { reference: 'HOSTEDSEAT', id: '440da04b-ee1d-40f0-8d8a-fc3de3282668', cost: 9.99, active: true, country_code: 'IE', description: 'Hosted Seat' },
+  // { reference: 'HOSTEDSEAT', id: 'f6964a33-266a-4bcc-8388-96252cda25da', cost: 9.99, active: true, country_code: 'ES', description: 'Alojamiento de una plaza' },
+  // { reference: 'HOSTEDSEAT', id: '0134347a-269b-4416-a0a0-d77af6ef7a22', cost: 9.99, active: true, country_code: 'GB', description: 'Hosted Seat (Billed Monthly)' },
+  // { reference: 'INSTALLFEE250', id: 'b7f72e1e-63d0-4cce-84d3-33ca3f9871f6', cost: 10, active: true, country_code: 'US', description: '250 Dollar Install Fee' },
+  // { reference: 'INTERNATIONALDDI', id: '9f8fa85b-e8fb-47a9-a8c6-aa7a3f209db8', cost: 10, active: true, country_code: 'US', description: 'International DDI' },
+  // { reference: 'INTERNATIONALMINUTES', id: '96eb6c1f-d17b-44a8-92c0-52d787155122', cost: 10, active: true, country_code: 'US', description: '500 International Minutes' },
+  // { reference: 'INTERNATIONALNUMBER', id: '25cc7eb8-6f1a-42a4-aeff-63643f09d071', cost: 10, active: true, country_code: 'IE', description: 'International Geographic Number' },
+  // { reference: 'INTERNATIONALNUMBER', id: '33c9583e-6133-4a75-be92-2ef13ad5cec3', cost: 10, active: false, country_code: 'US', description: 'International Number' },
+  // { reference: 'INTERNATIONALNUMBER', id: 'd0f14410-41ac-4148-a8d1-b5fd2ae1b6a1', cost: 10, active: true, country_code: 'DE', description: 'Internationalle geographische gebundene Nummer' },
+  // { reference: 'INTERNATIONALNUMBER', id: '6ffe1684-e33c-4eea-9cb3-6d6adcfb07a5', cost: 10, active: true, country_code: 'ES', description: 'Número geográfico internacional' },
+  // { reference: 'IPHONE5S', id: 'd2a30d4f-f408-430d-9b3f-cb25abdd55b3', cost: 554, active: true, country_code: 'IE', description: 'iPhone 5S Silver (CA)' },
+  // { reference: 'IRISHGEONUM', id: '7e39055b-8b6a-42a0-a48c-255e2403f444', cost: 10, active: true, country_code: 'IE', description: 'Irish Geographic Number' },
+  // { reference: 'IRISHGEONUM12', id: 'bf236d9a-1592-4749-b858-02a5fa92386a', cost: 80.4878, active: true, country_code: 'IE', description: '12 Months of Irish Geographic Number' },
+  // { reference: 'IRISHVOIPNUM', id: '4f538d93-e088-4e48-b944-fa11b768c396', cost: 8.1301, active: true, country_code: 'IE', description: 'Irish VoIP Number' },
+  // { reference: 'JJJKHJCIUBIBIC', id: 'e9f03514-34d4-4406-99cc-9f609a05ecf8', cost: 0, active: false, country_code: 'US', description: 'jjfhvb' },
+  // { reference: 'JOELPACKAGEUS', id: '464f33ff-9416-4cd1-9777-8d8e1ed56e22', cost: 629.34, active: false, country_code: 'US', description: 'Tenim un nom el sap tothom!' },
+  // { reference: 'LALALAPROD', id: '24b6badf-d5cb-4e93-ab3b-45a1ac0ec551', cost: 10, active: true, country_code: 'US', description: 'jjfhvbhgjh' },
+  // { reference: 'LANDLINEONMOBILENEUTRAL', id: 'e94341ef-a6eb-44c8-9f62-0eebea6b2fb6', cost: 9.75, active: true, country_code: 'IE', description: 'Mobile on your landline (Network Neutral)' },
+  // { reference: 'LOLOLOLOL', id: 'd6ada33e-8e3f-4275-8642-40c0af73839e', cost: 0, active: false, country_code: 'US', description: 'teshht' },
+  // { reference: 'MOBILE500', id: 'faf7583c-b96b-4590-a9e1-0c47456c4ff0', cost: 110, active: true, country_code: 'ES', description: 'Móvil 500' },
+  // { reference: 'NATIONALNUMBER', id: '97640dbb-0010-4b3b-a356-989bde008d41', cost: 10, active: true, country_code: 'DE', description: 'Nationalle geographische gebundene Nummer' },
+  // { reference: 'NATIONALNUMBER', id: 'e8392379-0404-4d2b-8c52-ac443b3c5fd6', cost: 10, active: true, country_code: 'IE', description: 'National Number' },
+  // { reference: 'NONGEONUMBER', id: '6b36b183-aa4c-493f-833b-926361a24e49', cost: 10, active: true, country_code: 'IE', description: 'Non Geographic Number' },
+  // { reference: 'ONE', id: 'b19c2cc2-ac7e-4aa0-8d10-3dca9e0e8587', cost: 10, active: true, country_code: 'IE', description: 'Mobile T-800' },
+  // { reference: 'PANASONICHDV230', id: '1773ec24-3a50-4257-bfcf-390a165bfed7', cost: 109, active: true, country_code: 'FR', description: 'Panasonic HDV 230  - Noir' },
+  // { reference: 'PANASONICKXHDV130', id: 'dd3b4669-8928-4d3c-92a6-47f00b43b5dc', cost: 106.9, active: true, country_code: 'IE', description: 'PANASONIC-KX-HDV130' },
+  // { reference: 'PANASONICKXHDV230', id: '3b333c5c-2383-498b-844d-9281948cc11c', cost: 59.95, active: true, country_code: 'IE', description: 'PANASONIC-KX-HDV230' },
+  // { reference: 'PANASONICKXHDV330', id: 'c51587d8-bc3e-4e9c-8506-08dc0f90cb17', cost: 36.5, active: true, country_code: 'IE', description: 'PANASONIC-KX-HDV330' },
+  // { reference: 'PANASONICKXTGP550', id: 'e9c8b5d8-5c82-4945-8ecb-c928f582759e', cost: 170, active: true, country_code: 'IE', description: 'PANASONIC-KX-TGP550' },
+  // { reference: 'PANASONICKXTGP600', id: '52d855a0-794d-4982-b95b-8929d2215cba', cost: 120, active: true, country_code: 'IE', description: 'PANASONIC-KX-TGP600' },
+  // { reference: 'PANASONICKXUT113', id: 'f47e0c80-8cc9-4817-b6ca-55c5abb7f583', cost: 95.3, active: true, country_code: 'IE', description: 'PANASONIC-KX-UT113' },
+  // { reference: 'PAYG', id: '285dd345-f9c5-44fc-900b-73dc7497cece', cost: 1, active: true, country_code: 'IE', description: 'Pay As You Go Top up' },
+  // { reference: 'POLYCOMSOUNDSTATIONIP5000', id: 'f220c259-22d7-4ba8-b542-6f41ee87c766', cost: 210.95, active: true, country_code: 'IE', description: 'POLYCOM-SOUNDSTATION-IP-5000' },
+  // { reference: 'POLYCOMSOUNDSTATIONIP7000', id: '6998a4ea-4cec-4dc2-bcbe-f8476ef9d22e', cost: 92.25, active: true, country_code: 'IE', description: 'POLYCOM-SOUNDSTATION-IP-7000' },
+  // { reference: 'POLYCOMVVX411', id: 'f4922b08-12d1-4c1a-b2c4-654b38ad9c6a', cost: 10, active: true, country_code: 'US', description: 'Polycom VVX411' },
+  // { reference: 'PREMIUMSUPPORT', id: '413d44cf-0ca2-4c05-9ed8-73bd3ce8c1d8', cost: 100, active: true, country_code: 'IE', description: 'Premium Support' },
+  // { reference: 'PRODUCTRESELLERTEST21', id: '3b4926ba-75bb-460a-9861-f989d4e2ced0', cost: 0, active: false, country_code: 'IE', description: 'A Planet' },
+  // { reference: 'REDPHONE', id: '56dd8d10-3769-4b94-9add-8e50534eefff', cost: 10, active: true, country_code: 'IE', description: 'Red Phone' },
+  // { reference: 'RWR', id: 'ea0b60db-7935-40e9-b1ea-b5d93c4256a2', cost: 0, active: false, country_code: 'IE', description: 'erwe' },
+  // { reference: 'SHIPPING', id: '1b5d687f-b44b-4945-9f5d-2306c1d295b4', cost: 10, active: true, country_code: 'IE', description: 'Shipping' },
+  // { reference: 'SIMPLAN', id: 'd0deda93-6679-406a-a145-bfb96d817429', cost: 45, active: true, country_code: 'IE', description: 'SIM Plan' },
+  // { reference: 'SIMPLANUK', id: 'd5d8209c-55fd-4dc2-9b52-cd8826f32d70', cost: 45, active: false, country_code: 'IE', description: 'SIM PLAN' },
+  // { reference: 'SLAGREEMENT', id: '06b52c17-a93e-48bc-b2b7-64bb8091afbb', cost: 100, active: true, country_code: 'IE', description: 'Service Level Agreement' },
+  // { reference: 'SOFTCLIENT', id: 'ff98c198-c747-4d60-a31f-74ee2a199627', cost: 10, active: true, country_code: 'GB', description: 'Soft client' },
+  // { reference: 'SOFTCLIENT', id: 'd9a60d34-34bc-4365-9986-46db37a3f29a', cost: 2, active: true, country_code: 'IE', description: 'Soft client' },
+  // { reference: 'TPA65W', id: '5354f070-f4df-41d1-b7ba-15b7c2ae9a53', cost: 99, active: true, country_code: 'IE', description: 'Panasonic TPA65 Handset – White' },
+  // { reference: 'TRAININGFEE250', id: '2ef078dd-e7f2-4c74-b3e1-3579ab89093b', cost: 250, active: true, country_code: 'IE', description: 'Training Fee' },
+  // { reference: 'UKGEONUM', id: 'd8cb8df9-8950-46ca-a354-0f932ff1d545', cost: 10, active: false, country_code: 'IE', description: 'A UK geographic number' },
+  // { reference: 'UKNUM', id: '0cb94c0d-2e37-4693-9231-24c163ca7080', cost: 10, active: true, country_code: 'IE', description: 'UK Geographic Number 2' },
+  // { reference: 'UKNUM12', id: '5396e781-ffdf-49ff-adf5-ab6512751ace', cost: 80.4878, active: true, country_code: 'IE', description: '12 Months of UK Geographic Number' },
+  // { reference: 'WHITELABEL', id: '89d18a4d-534b-452f-93c4-26afda395cc6', cost: 500, active: true, country_code: 'IE', description: 'Wholesale Fee' },
+  // { reference: 'WORLDUNLMTD', id: 'f2d51f78-5535-41b7-886c-932db2659c7c', cost: 20.3171, active: true, country_code: 'IE', description: '1 x Month of Freedom World Unlimited' },
+  // { reference: 'WORLDUNLMTD12', id: 'cbc1c72d-e897-45ba-a369-2ed592207738', cost: 202.439, active: true, country_code: 'IE', description: 'World No Limit 12 momths' },
+  // { reference: 'XXXXXXXX', id: '3c59e1e7-57da-4908-a261-85ee36ba2087', cost: 0, active: true, country_code: 'IE', description: 'Polycom' }
+];
 
-const data = [{
-    active: true,
-    cost: 20.0,
-    country_code: 'IT',
-    description: '004',
-    id: '02d5c30d-31d3-4e60-8fef-450d90f54181',
-    reference: '0003'
-  }, {
-    active: true,
-    cost: 5.5,
-    country_code: 'IT',
-    description: 'Description',
-    id: '43ff417d-b111-4178-ab53-d47cd2260b7b',
-    reference: '002'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'IE',
-    description: 'Compulsive Talking Machine',
-    id: '2117ef4b-82df-40e9-84ae-9762b4999433',
-    reference: '23I4IUU2O3U4OI'
-  }, {
-    active: true,
-    cost: 60.0,
-    country_code: 'IE',
-    description: 'Business Enterprise 25 Plan',
-    id: 'e156819e-08dd-4e76-8a97-f82bc5861c5e',
-    reference: '25BIZENTERPRISE'
-  }, {
-    active: true,
-    cost: 600.0,
-    country_code: 'IE',
-    description: '12 Months of Business Enterprise 25 Plan',
-    id: 'e883c364-7492-4b48-94aa-afba929bb1d7',
-    reference: '25BIZENTERPRISE12'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'aaaa',
-    id: '38c82e47-f3be-47ae-950d-0758cd86c308',
-    reference: 'AAAAA'
-  }, {
-    active: false,
-    cost: 10.0,
-    country_code: 'IE',
-    description: '1 Additional Line',
-    id: '92382416-4e47-42bc-a010-c6203dce6abb',
-    reference: 'ADDITIONALLINE1'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'IE',
-    description: 'Additional Conference Room',
-    id: '89cd0dd2-a1d2-4709-8ea7-e79337fb0e24',
-    reference: 'ADDITIONALROOM'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'IE',
-    description: 'Admin fee',
-    id: 'ebe71a1d-b556-45af-af2b-661b642d30b7',
-    reference: 'ADMINISTRATIONFEE10'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'A New Product',
-    id: '953afb4f-96ae-4d37-9b57-a8293a092509',
-    reference: 'ANEWPRODUCT'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'This is a BAP. Its good (WL) 5555555',
-    id: 'f209c1ef-ae0f-4825-8bd7-c2303ced874a',
-    reference: 'BAP'
-  }, {
-    active: true,
-    cost: 8.122,
-    country_code: 'IE',
-    description: '1 x Month of Freedom Basic',
-    id: '6c6f57fb-bde7-4321-8fc1-73a3f55f30e0',
-    reference: 'BFFBAS'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Ukrain',
-    id: 'c1c80c65-bf73-4a74-b850-e4aaaacca99f',
-    reference: 'BLF000'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Ukjsdh',
-    id: '3372174e-4100-427f-bbab-8316cec737f9',
-    reference: 'BLF0000023'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Ukjsdh',
-    id: '0d042093-6f1c-457d-8ed5-d5ef155682b5',
-    reference: 'BLF00012'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Ukjsdh',
-    id: '2a058f7e-c7f1-46d4-b436-1a8c821dfd68',
-    reference: 'BLF00023'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'DE',
-    description: 'BLF connect',
-    id: '9496c533-1706-465a-888b-52878b450297',
-    reference: 'BLF0011'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'AU',
-    description: 'Another test',
-    id: 'b916b68d-2797-478b-8f4a-91dd4ecaff44',
-    reference: 'BLF002ANOTHERONE'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IT',
-    description: 'testing',
-    id: 'b6fa5d18-89b7-4ab2-b791-76c2a63a6d11',
-    reference: 'BLF01TEST'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'testing default',
-    id: 'cbd71bd7-9ee4-4964-87b5-fa9705d170c7',
-    reference: 'BLF02TEST'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Federal Universal Service Fund',
-    id: 'e030f6e5-4029-4cc8-9ea1-2fe274ca7f1d',
-    reference: 'BLF035'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Goods And Services Tax (GST)',
-    id: '45d4ef30-45e9-4175-850a-622a04997c1f',
-    reference: 'BLF040'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Value Added Tax (VAT)',
-    id: 'ca5798ec-7151-4bb0-8ff3-6cb6775be628',
-    reference: 'BLF051'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'FUSF Recovery',
-    id: '9096e1b2-dbf0-4e5b-915a-de984d327899',
-    reference: 'BLF059'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Federal TRS Fund',
-    id: 'f8d05921-0f6c-45a9-883c-f4b77c2db1e4',
-    reference: 'BLF060'
-  }, {
-    active: true,
-    cost: 12.5,
-    country_code: 'IE',
-    description: '0 Month Product',
-    id: '5d22f239-0a9b-41ee-9c7b-bfc433cb525d',
-    reference: 'BLF0MONTHPRODUCT'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: '1',
-    id: 'b5e80ddd-9246-4dfd-be37-270dd89df2c9',
-    reference: 'BLF1'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'FR',
-    description: 'test',
-    id: '1a99afc7-e06d-4348-9daa-f7013d443b91',
-    reference: 'BLF1002'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'testing',
-    id: '2595a501-c7b5-4309-bf83-e6600266c806',
-    reference: 'BLF1009'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'State Sales Tax',
-    id: 'aa74d57a-3e0a-419d-8176-7ac7d2413454',
-    reference: 'BLF101'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'State 911 Tax',
-    id: 'ab2de915-4cd5-49dc-85e7-256912bd8cd5',
-    reference: 'BLF106'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Poison Control',
-    id: 'f118087c-f3ae-421e-82ac-a584b7c9e111',
-    reference: 'BLF107'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'PUC Fee',
-    id: 'fe4f8f58-a05e-4560-83ab-4d830d4a273c',
-    reference: 'BLF108'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Communicationsm Relay Systems Surcharge',
-    id: '50c6a45f-e1ad-4c62-91da-08a94b39dc83',
-    reference: 'BLF109'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'State License Tax',
-    id: '13786bc2-868c-4a6f-adb9-82ea1d5bc621',
-    reference: 'BLF110'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'State Consumption Tax',
-    id: '4671f0fe-129f-458e-9b88-877f4791dd2e',
-    reference: 'BLF111'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Misc. Surcharge 1',
-    id: 'c7618f5a-2efb-42c5-82b1-3aafb60dd6e3',
-    reference: 'BLF117'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Misc. Surcharge 2',
-    id: 'bac6da71-066a-4d88-80a1-e31cfd21d92f',
-    reference: 'BLF118'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Misc. Surcharge 3',
-    id: '5e6bc99b-89a4-4884-a67e-202a7df65594',
-    reference: 'BLF119'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Misc. Surcharge 4',
-    id: '778e1dd7-9e3f-4a1e-ad5e-0da3820bd668',
-    reference: 'BLF120'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Universal Lifeline Telephone Service Surcharge',
-    id: '9fb11690-1fa9-4aed-913a-94b5e9969c83',
-    reference: 'BLF122'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'State Franchise Fee',
-    id: '57d79740-1fda-4e66-8475-a57b4e18c8b8',
-    reference: 'BLF123'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Text',
-    id: 'c1f85b1a-9f2b-4914-be1f-226b445baef7',
-    reference: 'BLF123233'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Bluephone',
-    id: '5690171e-e320-4591-951b-0e79943017fc',
-    reference: 'BLF123445'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'regression',
-    id: '71901290-3499-476b-aad7-a45057430e1b',
-    reference: 'BLF12345'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IT',
-    description: 'test test test test',
-    id: 'b2965604-adb1-4d8d-8f90-ba72e5d4ad7e',
-    reference: 'BLF123456'
-  }, {
-    active: true,
-    cost: 1.99,
-    country_code: 'IE',
-    description: 'NEWMOHINIPRODUCT',
-    id: '7c4a2fe2-4f79-4547-be1a-5c40ee2fea01',
-    reference: 'BLF123456'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'TestProduct',
-    id: 'cc268867-13c2-414a-ac5a-5264759ba800',
-    reference: 'BLF1234567'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'FR',
-    description: '1234567890',
-    id: '32c90d78-c676-4125-9617-a5ca24b4d2b2',
-    reference: 'BLF1234567890'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'AU',
-    description: '1234567890',
-    id: 'c1055e6a-ed95-45ae-bf0a-6f3d38aa6c88',
-    reference: 'BLF1234567890'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'FR',
-    description: 'eeeh',
-    id: '38e6416f-1162-4c07-9494-2871900e83cb',
-    reference: 'BLF12345678901234567890'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'test WW',
-    id: '21f8e110-85f1-48b6-8cd4-d836a9101c16',
-    reference: 'BLF12345678901234567890'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'ES',
-    description: 'Migration',
-    id: 'e79d5612-2da5-4fc7-a223-c41b479135b3',
-    reference: 'BLF1234HG43H'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'RED PHONE',
-    id: '9e6ae823-10b7-4fec-9d17-1526071e8a94',
-    reference: 'BLF124'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Local Right-Of-Way Fee',
-    id: 'f86d6329-2138-42f5-8669-db88bf10aac9',
-    reference: 'BLF124'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Universal Service Fund',
-    id: '644b7cdc-1180-4a7b-8016-7cef1cda33f7',
-    reference: 'BLF126'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'State Excise Tax',
-    id: '0648cfe3-d115-4c72-b003-dacade2669db',
-    reference: 'BLF127'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'State Gross Receipts Tax',
-    id: 'c4d4ada6-f3da-43e7-9f4e-dd65f31b0e45',
-    reference: 'BLF128'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'State Infrastructure Maintenance Fee',
-    id: '5d4f722d-4331-4fce-a7d5-05cd2d51348f',
-    reference: 'BLF129'
-  }, {
-    active: true,
-    cost: 120.0,
-    country_code: 'IE',
-    description: '12 Month Product',
-    id: '6363f685-3bfb-4cf1-b871-3713c3b923a5',
-    reference: 'BLF12MONTHPRODUCT'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Local 911 Surcharge',
-    id: '9181c403-ed9f-4641-a0af-d04d0e2fa176',
-    reference: 'BLF133'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Provincial Sales Tax (PST)',
-    id: '0d4902c1-7860-4b25-b10d-30918db5d083',
-    reference: 'BLF142'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'State Lease/Rental Tax',
-    id: '09150e26-6b0f-4174-a1ae-e6c93971b02a',
-    reference: 'BLF144'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'State Utility Tax',
-    id: 'd9f8d620-7f0b-49a9-ac3b-6c7b5c991c2d',
-    reference: 'BLF149'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'State Business And Occupation Tax',
-    id: 'f57ed3b9-e638-449f-9206-b1a0c15afe5a',
-    reference: 'BLF150'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Test',
-    id: '64b6739e-0ead-4666-bbd9-9ff06d97acef',
-    reference: 'BLF18'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: '18 Month Product',
-    id: '172739d3-040b-4a04-a31e-6bbe64003c45',
-    reference: 'BLF18MONTHPRODUCT'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Test',
-    id: '01c462d6-5e1e-4687-8964-6528c1eb54b8',
-    reference: 'BLF18MONTHPRODUCT2'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'my product',
-    id: 'cacc26e8-9c6e-4a6b-9d05-07ae47f25b6d',
-    reference: 'BLF2'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'County Sales Tax',
-    id: 'bbee8aae-1de5-4671-87ed-661d07cb6fd6',
-    reference: 'BLF202'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'County Local Sales Tax',
-    id: 'c108517a-6e5f-462a-8d33-ae3dab117857',
-    reference: 'BLF203'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'City Sales Tax',
-    id: '146edde9-27d5-4146-8a74-4d66fc789172',
-    reference: 'BLF204'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Local Utility Users Tax',
-    id: '5c2f5f20-de92-4402-8785-1820a5c22d84',
-    reference: 'BLF216'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Local Right-Of-Way Fee',
-    id: '482dd570-7db3-40d9-b07a-964457ea015c',
-    reference: 'BLF224'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Local 911 Surcharge',
-    id: '307354e3-2375-4470-b2f7-124d340cc877',
-    reference: 'BLF233'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'CA',
-    description: '234',
-    id: '9dd72bad-0a40-4722-ad72-af522ee22242',
-    reference: 'BLF234'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'AU',
-    description: 'sdfsdfdfvsdv',
-    id: '96053315-57e1-4406-8a44-c5c07b5c30bb',
-    reference: 'BLF23423333FWS'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'CA',
-    description: '2342342',
-    id: '8ef38cba-c73a-4019-83f4-2442663564ef',
-    reference: 'BLF234234234'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Local Communicationsmunications Tax',
-    id: 'd579dce9-986d-4730-98c5-c096f8baf05f',
-    reference: 'BLF237'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Local License Tax',
-    id: '0a8ae610-cfef-4449-aff5-0c9d7a764c0e',
-    reference: 'BLF238'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'County Lease/Rental Tax',
-    id: 'e5a9bf9a-a189-4da5-8ee7-5fac2c2cf133',
-    reference: 'BLF245'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: '24 Month Product',
-    id: '7c8113b2-2140-4de8-adfb-096081038a1a',
-    reference: 'BLF24MONTHPRODUCT'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'my product 2',
-    id: '10913041-ecc1-490d-81ec-c77a14948040',
-    reference: 'BLF3'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'County Sales Tax',
-    id: '36efcfd1-68af-41d8-963e-2e8b37370c06',
-    reference: 'BLF302'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'City Sales Tax',
-    id: '36dc07ec-93e7-40db-9fca-96c4d83b0153',
-    reference: 'BLF304'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'City Local Sales Tax',
-    id: 'f5064136-a697-4773-b4a6-d64fdb45809b',
-    reference: 'BLF305'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Local Utility Users Tax',
-    id: '89dca83a-d0f6-469b-a460-472740f3ea7e',
-    reference: 'BLF316'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Local Right-Of-Way Fee',
-    id: '832b9876-ceb6-477d-aaab-1555f437b68f',
-    reference: 'BLF324'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Local Business And Occupation Tax',
-    id: '2043d7b3-9628-4132-bc66-3ace9b10bba8',
-    reference: 'BLF331'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Local Gross Receipts Tax',
-    id: '9a57237b-6712-41ce-841b-d076aa4f0b45',
-    reference: 'BLF332'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Local 911 Surcharge',
-    id: '35e8be20-1d68-432c-bb79-3aab7b9b44eb',
-    reference: 'BLF333'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Local Franchise Fee',
-    id: '4040aa03-25b8-4289-b132-5cfa9594772f',
-    reference: 'BLF336'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Local Communicationsmunications Tax',
-    id: 'f2839d8e-8d1f-4c63-b552-f02c2ce2f1b5',
-    reference: 'BLF337'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Local License Tax',
-    id: 'a860d122-9c49-4906-8c45-cd6ed700b433',
-    reference: 'BLF338'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Hardware',
-    id: 'b4def902-bb12-45c8-b92f-5ae94c29034d',
-    reference: 'BLF3420934892'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Local Franchise Agreement',
-    id: '405498a3-768b-4974-9ff2-6a1062e9394f',
-    reference: 'BLF343'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'DE',
-    description: 'testing',
-    id: '1e72ac00-d351-4974-8d59-34a46917667e',
-    reference: 'BLF3453455'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'City Lease/Rental Tax',
-    id: 'a59f9159-3c63-4342-ac97-9f5e8e1b4327',
-    reference: 'BLF347'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'City Local Lease/Rental Tax',
-    id: '8e927f43-6839-4823-9e8a-3668d02d46a5',
-    reference: 'BLF348'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: '36 Month Product',
-    id: 'cee09ad0-5452-4767-9ac3-c5060e2b75b2',
-    reference: 'BLF36MONTHPRODUCT'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'County Local Sales Tax',
-    id: 'cabb153d-7eca-4e0d-a1f6-959e54eb7dfe',
-    reference: 'BLF403'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'City Sales Tax',
-    id: '007331ac-949b-4497-bd1d-e7914c0de5e7',
-    reference: 'BLF404'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'City Local Sales Tax',
-    id: '681c3aea-dc60-40f9-993a-ef4193186f49',
-    reference: 'BLF405'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Local Utility Users Tax',
-    id: 'ac607db2-fd90-4208-9600-f916c0dde329',
-    reference: 'BLF416'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Misc. Surcharge 1',
-    id: '95334f1c-dc3b-4742-893e-39072a56ab1e',
-    reference: 'BLF417'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Misc. Surcharge 2',
-    id: '144ae04b-fc3e-4c0c-8710-e98d992676e4',
-    reference: 'BLF418'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Local 911 Surcharge',
-    id: '9c5bf868-6488-4aa3-a4da-43383e8a60a1',
-    reference: 'BLF433'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Hardware',
-    id: 'c77e49b2-85e1-48ac-91cb-ea2a630941c9',
-    reference: 'BLF4420934892'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'cable',
-    id: '9b354378-948b-489b-933e-053f85b2b250',
-    reference: 'BLF45356'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Hardware',
-    id: '70889ea6-c7eb-4e1a-8fb3-1104742d7ba4',
-    reference: 'BLF4820934892'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'DEmo to test quality',
-    id: 'a711dd5d-6301-4fbe-b838-a3064c4d8d04',
-    reference: 'BLF526565656'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Local 911 Surcharge',
-    id: '389904da-4d71-4302-ac74-473449acd69f',
-    reference: 'BLF533'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Adri Product Test',
-    id: '5c3d43d5-1d0c-43b4-b444-530f041707ca',
-    reference: 'BLF54542659854'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: '60 Month Product',
-    id: '186c8710-4deb-4373-8915-66b7677d6758',
-    reference: 'BLF60MONTHPRODUCT'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Free Mobile SMS',
-    id: '20c8a8d9-d3ff-4b44-b174-48bad9c1164d',
-    reference: 'BLF76767676'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'CA',
-    description: 'phone',
-    id: '4316f1fa-00bf-4b3f-8d59-d1d7c713a83f',
-    reference: 'BLF898786RT'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'DHL direct',
-    id: 'e8692e3e-22de-4a52-909c-84f46fa02889',
-    reference: 'BLF987879798'
-  }, {
-    active: true,
-    cost: 69.69,
-    country_code: 'US',
-    description: 'Free calls',
-    id: '041097c1-0eb7-46cf-bd47-62fd14c924e4',
-    reference: 'BLF9898989898'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'AU',
-    description: 'aaa',
-    id: '8802d5d3-9235-4d91-bdb3-cf9ce70656ac',
-    reference: 'BLFAAAA'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'test546546',
-    id: '65a125dc-f644-4536-96cf-538566cd95c7',
-    reference: 'BLFAATEST'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'NZ',
-    description: 'adsfrgthsgfds',
-    id: '7e802b1b-b2c9-4a0f-af7a-808c4d257f4b',
-    reference: 'BLFADSFRGTHSGFDS'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'New Call test with 30 months',
-    id: 'dd58f14f-df8e-4336-878a-297d6377cf72',
-    reference: 'BLFALVAROCALLSTEST'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Alvaro Test 1',
-    id: '7468fdb3-b3d7-4755-8d92-c9fe9c96d767',
-    reference: 'BLFALVAROTEST1'
-  }, {
-    active: true,
-    cost: 9.99,
-    country_code: 'IE',
-    description: '1 x AI free + phone',
-    id: 'e694a48d-f361-4eea-8daa-7d252a406eca',
-    reference: 'BLFALVTEST'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Geethatest',
-    id: '6d7b4a52-7485-4c65-86d6-18bef48f5a7c',
-    reference: 'BLFAMC001'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Powerful chancla for bad dev',
-    id: '47cd776b-62e8-4e29-9cbf-57b5b0403f06',
-    reference: 'BLFAMPC123'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Portable Boomerang',
-    id: '9ca8c5f9-9213-414e-8e7f-ba036d21cd08',
-    reference: 'BLFAMPC223'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'GB',
-    description: 'andrews test product',
-    id: 'f1f606ac-6dfd-47cf-b6fd-3d15c5ed3b8b',
-    reference: 'BLFANDREWPRODUCT'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'AU',
-    description: 'My test product',
-    id: 'fb50acca-4c4f-465a-8a2f-402ae5c6d3d2',
-    reference: 'BLFANDREWTEST'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IT',
-    description: 'this can be deleted',
-    id: 'c0b9367e-a147-4ea0-8bee-06c520a45d49',
-    reference: 'BLFANOTHERWARRENTESTNICETODELETE'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'testy',
-    id: 'f85f362d-7783-4b90-b171-f25281214d40',
-    reference: 'BLFANUDATSSTT'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'AF',
-    description: 'asfd',
-    id: 'b99950ee-4c0d-4f4c-875b-b97c95e9dace',
-    reference: 'BLFASDF'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'CA',
-    description: 'asdf',
-    id: 'ce955638-4c67-493f-9629-d3ece480da89',
-    reference: 'BLFASDF'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'asdf',
-    id: '332d6b82-9a25-4f03-91ac-d43b9a73885b',
-    reference: 'BLFASDF'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'SDF',
-    id: 'ba3ff59f-a3ba-40e0-a7b5-9e5e0c097317',
-    reference: 'BLFASDFGHJGFDSDASDFG'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'AU',
-    description: 'asdf',
-    id: '8ea89223-6a3a-4a05-a34c-49605c0e5a64',
-    reference: 'BLFASFD'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'AU',
-    description: 'This is a test',
-    id: 'aadfd8ab-9dba-430b-ab70-c90bd2152a1b',
-    reference: 'BLFAUSSIEPROD'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'PATCH request to make product inactive',
-    id: '999c9a6b-869d-44ce-8d89-9d543e2b4456',
-    reference: 'BLFAUTOMATIONAPITEST'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'AutomationTestingProduct Description',
-    id: 'ea498ccd-aa5a-4685-8a31-192bdde2c500',
-    reference: 'BLFAUTOMATIONTESTINGPRODUCT'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'jjfhvb',
-    id: '813cbd2e-d8b2-4274-88f2-75bd19adb4a9',
-    reference: 'BLFAYYLMAO'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'jjfhvb',
-    id: '560bb062-bdc8-4fe2-a458-243323480e3b',
-    reference: 'BLFAYYLMAOO'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'jjfhvb',
-    id: 'dd9ace04-f7d5-4117-bea5-e2788d145d2d',
-    reference: 'BLFAYYYNEEEW'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'jjfhvb',
-    id: 'd9e349c6-7c8c-4a41-82c1-568236fe44e8',
-    reference: 'BLFAYYYNEW'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Alvaro TEST - Product to test Availability',
-    id: 'b253ad22-0af5-4ccb-991a-d35312c4b82a',
-    reference: 'BLFBFALVAROAVAILABLETEST'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Blue Phone (12M)',
-    id: '896e6045-43c8-48c8-867f-446ba7f5a502',
-    reference: 'BLFBLUEPHONE12M'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Blue Phone (48M)',
-    id: 'cd48a667-aee2-4e2a-a947-4b871eb0f647',
-    reference: 'BLFBLUEPHONE48M'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Test',
-    id: 'cfb719c6-48c1-4016-903c-83820e8f596d',
-    reference: 'BLFBUGTEST'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'BugTest',
-    id: '5ca4da1d-2645-4fbb-9da0-2b8933d75d38',
-    reference: 'BLFBUGTESTER'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Percentage Test',
-    id: '291e4e11-595e-4bd9-bad1-8c589460cf44',
-    reference: 'BLFBUGTESTPERCENTAGE'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'A cannon with a ball',
-    id: '1fda9de8-2b86-45ca-b536-a6bbb9435c97',
-    reference: 'BLFCANNONBALL'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Chili Sauce',
-    id: '230fc467-fd05-4c8f-b977-417b10b1ee0a',
-    reference: 'BLFCHILISAUCE'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'A coffee holder for your desk phone.',
-    id: '7ccf5133-e227-4994-8a81-0ffc8b578168',
-    reference: 'BLFCOFFEEHOLDER'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'testy',
-    id: 'c7fcb5f8-fae2-4f73-81f8-538529d02e29',
-    reference: 'BLFCOMMISSHTEST'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'test',
-    id: '71364944-f47b-4308-9db3-a09a8de88c4e',
-    reference: 'BLFCOMTEST'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Test wholesale commission 1',
-    id: 'c4bc0a17-fb00-4829-bd0d-e4500654f25b',
-    reference: 'BLFCOMTEST1'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: '2',
-    id: '884b764b-1376-4caf-95b2-b8e08270fc7b',
-    reference: 'BLFCOMTEST2'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: '3',
-    id: '141a6005-f041-4e79-8317-5eeeabca473a',
-    reference: 'BLFCOMTEST3'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: '4',
-    id: '0d04a0af-8631-45bc-aed8-0d07a0de0260',
-    reference: 'BLFCOMTEST4'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: '5',
-    id: '95b279e4-97ce-4bc7-9d86-6f56044e0903',
-    reference: 'BLFCOMTEST5'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'CA',
-    description: '6',
-    id: '17e23842-e428-4563-aede-c686847e9523',
-    reference: 'BLFCOMTEST6'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'A really cool phone',
-    id: 'ded69330-0410-4375-98d3-8d3dcb65a695',
-    reference: 'BLFCOOLPHONE'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Coronavirus Detector',
-    id: '9d0e250e-e307-44a3-99a7-c40b0175cfce',
-    reference: 'BLFCORONADETECT'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: '100 Toilet Paper rolls',
-    id: '1ce57323-ce14-4de7-ac92-652fbc546e98',
-    reference: 'BLFCOVD19PAPER'
-  }, {
-    active: true,
-    cost: 0.01,
-    country_code: 'IE',
-    description: 'Coronavirus Test',
-    id: '54fa7489-2dbd-4e37-bf1f-086faad0f964',
-    reference: 'BLFCOVID19TEST'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'A test product',
-    id: '9e070f6e-8e34-46ca-8935-e5057dbd83d4',
-    reference: 'BLFCTEST21'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'FR',
-    description: 'Hardware Delivery',
-    id: '1e7e352f-3485-4b2f-884d-c2c4a64e69de',
-    reference: 'BLFDELV'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'IT',
-    description: 'Hardware Delivery',
-    id: '9daa312c-d145-4675-8059-32ce4f471cc4',
-    reference: 'BLFDELV'
-  }, {
-    active: true,
-    cost: 20.0,
-    country_code: 'US',
-    description: 'Hardware Delivery',
-    id: '0b72627d-6c3d-4146-ba7f-67367fb9581c',
-    reference: 'BLFDELV'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'GB',
-    description: 'Hardware Delivery',
-    id: '06dc6754-17ef-4a8b-a5b0-9890faf1dfdb',
-    reference: 'BLFDELV'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'ES',
-    description: 'Hardware Delivery',
-    id: 'cb9e892a-d179-48fe-a792-fdf090233ce9',
-    reference: 'BLFDELV'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'IE',
-    description: 'Hardware Delivery',
-    id: 'b1e672dc-5e17-448e-859a-1523b0646018',
-    reference: 'BLFDELV'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'DE',
-    description: 'Hardware Delivery',
-    id: '67e42903-6d73-48c9-92a1-466cfc992de3',
-    reference: 'BLFDELV'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'dvfbgnhmjk,',
-    id: 'dabe0bd1-81bc-45bf-8c6c-fd97303791ec',
-    reference: 'BLFDFBGFVDC'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IT',
-    description: 'lalaland',
-    id: 'd2000aef-b38b-4423-8964-8a04e55adfce',
-    reference: 'BLFDIPNDIVE'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Build your own bat cave',
-    id: '6cda48e9-9edd-4d21-a848-b448f302ecd7',
-    reference: 'BLFDIYBATCAVE'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IT',
-    description: 'dunkey',
-    id: '95d28e6c-b0e8-4465-9ea5-841c8c63768d',
-    reference: 'BLFDONSLEY'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'wesfrdgfhgfg',
-    id: 'c9bc4046-05a6-4330-bdb5-79abe26d87f9',
-    reference: 'BLFDSFGHFDSADFGHFDSA'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'FR',
-    description: 'ewefwfw',
-    id: 'df5b40a9-b018-41d7-9b29-49b88e65dc99',
-    reference: 'BLFEEFWEFWE'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'AU',
-    description: 'f34',
-    id: 'd118f579-9c38-4d4e-bef2-dfda7aedc95b',
-    reference: 'BLFEF34'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IT',
-    description: 'eushfiaewuzsdbgoaiuszl',
-    id: 'b620ef4b-d599-45b6-a5e5-e3fbeac32b7f',
-    reference: 'BLFEUSHFIAEWUZSDBGOAIUSZL'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Extra Package 1',
-    id: '6b3c312d-1b8f-4cce-9fab-a108e5d0f63d',
-    reference: 'BLFEXTRAPACK1'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Facemask Promo',
-    id: 'e8754e40-1b4a-43e0-b980-e25b49a8cbf1',
-    reference: 'BLFFACEMASK'
-  }, {
-    active: true,
-    cost: 1.0,
-    country_code: 'DE',
-    description: 'Fax call credit',
-    id: 'bdf6820c-a523-4b83-9bab-a82797848cc0',
-    reference: 'BLFFAXPAYG'
-  }, {
-    active: true,
-    cost: 1.0,
-    country_code: 'FR',
-    description: 'Fax call credit',
-    id: 'd94a3b8a-f7e5-40ca-92f3-bf28c3865947',
-    reference: 'BLFFAXPAYG'
-  }, {
-    active: true,
-    cost: 1.0,
-    country_code: 'IT',
-    description: 'Fax call credit',
-    id: 'a0fb5f31-c40a-4f4e-b95f-4067137d8fb6',
-    reference: 'BLFFAXPAYG'
-  }, {
-    active: true,
-    cost: 1.0,
-    country_code: 'ES',
-    description: 'Fax call credit',
-    id: '9055b76f-7513-492b-8474-a6d6f3ef96f5',
-    reference: 'BLFFAXPAYG'
-  }, {
-    active: true,
-    cost: 1.0,
-    country_code: 'IE',
-    description: 'Fax call credit',
-    id: 'b186ce2b-5ead-43e9-8888-44e350fde853',
-    reference: 'BLFFAXPAYG'
-  }, {
-    active: true,
-    cost: 1.0,
-    country_code: 'GB',
-    description: 'Fax call credit',
-    id: '985d560d-9566-43f2-8ed5-d20d6f951642',
-    reference: 'BLFFAXPAYG'
-  }, {
-    active: false,
-    cost: 1.0,
-    country_code: 'CA',
-    description: 'Fax call credit',
-    id: '5a2f9b2b-95d0-455d-84c7-eda03e021bfa',
-    reference: 'BLFFAXPAYG'
-  }, {
-    active: false,
-    cost: 1.0,
-    country_code: 'US',
-    description: 'Fax call credit',
-    id: '81d98312-255f-4cab-865f-dc48196be860',
-    reference: 'BLFFAXPAYG'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'AU',
-    description: 'thht',
-    id: '24c0212d-6582-488c-8b22-89106605c75c',
-    reference: 'BLFFGS6'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IT',
-    description: 'lachef',
-    id: 'e53b3e9a-4ace-44a0-abcc-26be68bbc0ac',
-    reference: 'BLFFRITATA'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IT',
-    description: 'DAFSA',
-    id: 'b992a489-5a7a-4e3c-8ada-3d16b346fba6',
-    reference: 'BLFFZSEFAWF'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'GB',
-    description: 'UsedInQAAutomation',
-    id: '5529e235-ce36-48da-ab5e-6f5a7b0ae8e8',
-    reference: 'BLFGBTESTPRODUCT'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'CA',
-    description: 'hgfhg',
-    id: 'f564cd3f-4766-432d-b859-9bf191e4b352',
-    reference: 'BLFGFHG'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'The phone to talk to God in direct line',
-    id: '413c945f-9626-40c0-85c9-ad4d42bb821b',
-    reference: 'BLFGODSPHONE'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'AU',
-    description: 'ii-0-0',
-    id: '1317c042-294d-452e-afb4-4a6bf3478e65',
-    reference: 'BLFGTG'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'bjhgvf',
-    id: '2c2de4f7-328f-49f0-b37f-fd86c42ef40b',
-    reference: 'BLFHGFCDXCG'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'gbbbbbbbb',
-    id: '6b77f533-188a-4802-89f8-a915f8f2ec1b',
-    reference: 'BLFHHHHHHH'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'CA',
-    description: 'hgg65',
-    id: 'edb6c149-72b7-4d9a-9f86-a2b50de624cb',
-    reference: 'BLFHNDG6'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'HK',
-    description: 'asdc',
-    id: '12c0800b-919c-40bd-84ce-4b87b7351498',
-    reference: 'BLFHONGKONG'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Hosted Seat - Tomi Test',
-    id: '9454ebab-c2fb-4507-9210-1cab01b877b7',
-    reference: 'BLFHOSTEDSEAT1'
-  }, {
-    active: true,
-    cost: 0.1,
-    country_code: 'US',
-    description: '500 Dollars Install Fee',
-    id: '8bfe1fee-983a-490f-95cd-26e68c925223',
-    reference: 'BLFINSTALLFEE500'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'BLF connect',
-    id: 'c34292e3-2601-44e9-bb2b-04e12667590b',
-    reference: 'BLFIRL0034'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Ireland Covid-19 Package',
-    id: '8154d1a7-3c16-424f-976c-a72630685ada',
-    reference: 'BLFIRLCOVIDPCKG'
-  }, {
-    active: true,
-    cost: 2.0,
-    country_code: 'IT',
-    description: 'la pizza',
-    id: '0ae25df5-c78b-475f-a46e-1df7d9dfd55c',
-    reference: 'BLFITALIANOPIZZARIA'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'DE',
-    description: 'nbhgfj',
-    id: '0d6b5b6f-7778-4a7d-a94a-fae85d0f7c19',
-    reference: 'BLFJBVCXDFGCHVJ'
-  }, {
-    active: false,
-    cost: 225.0,
-    country_code: 'ES',
-    description: 'The best saber available you can purchase!',
-    id: 'dab158e7-205f-4674-8210-db4ed669966b',
-    reference: 'BLFJEDISABER'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'bhvg',
-    id: '987f3abb-e5bc-4112-9a3a-6d41e86dbee8',
-    reference: 'BLFJKHBGV'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Joel 0 months min contract',
-    id: '184b426c-b761-43a5-b0a7-1b82b1034e4e',
-    reference: 'BLFJOEL00MONTHS'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Joel test product 3333333333',
-    id: '118222d5-4e3e-4776-a091-6fd288e7fb5c',
-    reference: 'BLFJOEL1'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'aaaaaaaaaa366s',
-    id: 'a90b1537-5b15-44a1-a6e8-44ec15c78a4b',
-    reference: 'BLFJOEL10'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'abc',
-    id: '95362ae2-ebf5-4c6f-b8eb-3809afa11c79',
-    reference: 'BLFJOEL11'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'DE',
-    description: 'Test',
-    id: 'fb3430e8-4d1f-45d7-838f-472a5d64de35',
-    reference: 'BLFJOEL14'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'test 2',
-    id: '6079adad-87e3-42d0-aecf-b2d933b1598c',
-    reference: 'BLFJOEL2'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Joel 24 months min contract',
-    id: '831f2c9c-a623-46d8-9156-e4dc5d2b29ed',
-    reference: 'BLFJOEL24TEST'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'joel test 3',
-    id: 'b0d2c0f9-f354-4aee-ab3b-9cd2aa1ab4a7',
-    reference: 'BLFJOEL3'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Test 42',
-    id: '85a508c1-08b5-4660-87d8-3bfe7a587a07',
-    reference: 'BLFJOEL42'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'fsd',
-    id: '258182d4-6304-41ab-9721-b65a24fcb9ba',
-    reference: 'BLFJOEL43'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'test....',
-    id: 'cb18fc7a-fd07-4b3c-9e7c-a2d5ea0a40a4',
-    reference: 'BLFJOEL5'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'test....',
-    id: '0cbade5f-20e8-4968-b1e6-7084afee3f2c',
-    reference: 'BLFJOEL6'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'test....',
-    id: '2c97c88f-06ad-455e-9fa4-77f3b87c670b',
-    reference: 'BLFJOEL7'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'test....',
-    id: 'fbea7339-3421-40f3-9a1f-5ce0d8da983d',
-    reference: 'BLFJOEL8'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'test....',
-    id: 'c93f0fd8-a714-4acc-b2f8-6663a3585fc2',
-    reference: 'BLFJOEL9'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Joel Billing Pckg',
-    id: 'ef00507f-c88e-4c37-9bb7-dfb48e78389b',
-    reference: 'BLFJOELBILLPCKG'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Test for a default product',
-    id: '901f4d59-0f6f-4fe8-bb84-53cdddb5dc76',
-    reference: 'BLFJOELDEFAULT'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Recurring Thing 1 (0M)',
-    id: '1a4c2cfc-a605-4fc7-9a5a-1fd2a69918d4',
-    reference: 'BLFJOELRECURRING1'
-  }, {
-    active: true,
-    cost: 18.2,
-    country_code: 'IE',
-    description: 'Recurring thing 2 (12M)',
-    id: '95422c38-1d18-4f8b-a9f9-eb557c7f91cc',
-    reference: 'BLFJOELRECURRING2'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Recurring Thing 3 (36M)',
-    id: '996c26a4-1207-41e7-af25-42daf13e7382',
-    reference: 'BLFJOELRECURRING3'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'CN',
-    description: 'Joels service - Priceless',
-    id: '8875b02d-5171-474e-b431-b639de3bbd71',
-    reference: 'BLFJOELSERVICE'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'This is a test product',
-    id: '9b87a8da-dfb7-4c37-843b-8d00ad5fb333',
-    reference: 'BLFJOELTEST15'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'test',
-    id: '397d3b2b-799d-4287-9fbb-9b3c3ab95a3f',
-    reference: 'BLFJOELTEST16'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'AU',
-    description: 'Test',
-    id: '72e3e531-16bf-4921-ab47-74f1fddf4fbf',
-    reference: 'BLFJOELTEST21389'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Test',
-    id: '7520be5e-5b66-41fe-ab13-37786edc08c7',
-    reference: 'BLFKBCSEAT'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'HK',
-    description: 'jhg',
-    id: 'f55eeb40-7ea2-4e93-822d-3280b5b8a219',
-    reference: 'BLFKBJHVGFC'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'testy',
-    id: 'aab1840d-db22-46e7-a43c-ed4486b0f962',
-    reference: 'BLFLASTONEPLZ'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'xcsd f',
-    id: '3784b505-db7a-4d9b-aa6f-3864ad2539e3',
-    reference: 'BLFLASTTESTPLZ'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IT',
-    description: 'best game',
-    id: '9d70ba06-1585-4e44-8e20-3bc5f16b6674',
-    reference: 'BLFMARIOPARTY'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Mock product',
-    id: '6daf4fa3-0f8d-481c-8d5e-e99cb20d59c2',
-    reference: 'BLFMOCK'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'FI',
-    description: 'nametest',
-    id: '4872ead8-a3ce-4e27-8a00-bdfd1667ff85',
-    reference: 'BLFNAMETEST'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'usTest',
-    id: 'be9e86ce-9092-4bae-8d54-150f9378e62c',
-    reference: 'BLFNEWEMAILLINE'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'USCA',
-    id: 'e4972e82-d5ca-4f41-997c-f473e2e40df3',
-    reference: 'BLFNEWEMAILMSG'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'FI',
-    description: 'this is a product',
-    id: '1cf8087f-b460-4851-be3a-9c637967b5b5',
-    reference: 'BLFNEWPRODUCT'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'test',
-    id: '477cf99a-6a86-4974-b6a8-2b9311699b43',
-    reference: 'BLFNEWPRODUCT23'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Test001',
-    id: '715d520a-6e46-4f03-849b-0558d11a3236',
-    reference: 'BLFNEWPRODUCTTEST'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IT',
-    description: 'Test001',
-    id: '25e40dcb-22bc-4f1e-8a12-4e35172e18cd',
-    reference: 'BLFNEWTESTPRODUCT'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'FR',
-    description: 'newWWTest',
-    id: 'b65be2ea-5f20-4f3e-b941-f47be56ffd29',
-    reference: 'BLFNEWWWTEST'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'test no tax code',
-    id: 'fcd5fa1f-be4a-4dfc-94cd-9ad09ec81311',
-    reference: 'BLFNOTAXCODEUS'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Non-Recurring Product',
-    id: 'df162a4a-e7c4-48a6-8665-06b74b6bcb15',
-    reference: 'BLFNRP'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Panasonic air edition',
-    id: 'ef243e27-424c-4b39-af16-ad3f25e3f422',
-    reference: 'BLFPANAAIR'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Panasonic phone designed for education',
-    id: '522f6a30-07c8-4dcf-a731-ecd634a2ba10',
-    reference: 'BLFPANAEDU'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Panasonic Jedi edition',
-    id: '861cacd4-7e9b-4d8e-842a-064f460f8417',
-    reference: 'BLFPANASONICJEDI'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Panasonic desktop phone with PCR test incorporated',
-    id: '69ed2835-9df6-48bb-968e-6ac712b13e49',
-    reference: 'BLFPANASONICKXPCR'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Micro version of the popular Panasonic phone',
-    id: '51f5ce9d-f5d6-4cfd-8557-2964ab5cca8a',
-    reference: 'BLFPANASONICMICRO'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Panasonic phone Yedi edition',
-    id: '9acc0e86-be71-47f5-963f-d94ca4c486d4',
-    reference: 'BLFPANASONICYEDI'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Panasonic phone Yedi edition',
-    id: '806336ca-8fe5-4eec-8c54-99cd9fa2370a',
-    reference: 'BLFPANASONICYEDIV10'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Panasonic phone Yedi edition',
-    id: '8405ba7e-3c03-4268-a708-3583092a6106',
-    reference: 'BLFPANASONICYEDIV11'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Panasonic phone Yedi edition',
-    id: '61dc2dcf-0a12-4546-832a-5ce2078cf311',
-    reference: 'BLFPANASONICYEDIV12'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Panasonic phone Yedi edition',
-    id: 'd7ebbaf3-a108-4c30-84bb-7bd722923a6a',
-    reference: 'BLFPANASONICYEDIV13'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Panasonic phone Yedi edition',
-    id: 'a3da0c74-e0aa-4c0e-93fd-314f430ae9c4',
-    reference: 'BLFPANASONICYEDIV14'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Panasonic phone Yedi edition',
-    id: '33a8acff-6754-4a64-ae66-42e492fe0cbf',
-    reference: 'BLFPANASONICYEDIV2'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Panasonic phone Yedi edition',
-    id: '5d6d75a2-80e8-42ac-aba4-d7f2e5102ff1',
-    reference: 'BLFPANASONICYEDIV3'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Panasonic phone Yedi edition',
-    id: 'b51cd7df-c4a5-4de3-b761-1694d82fe3b2',
-    reference: 'BLFPANASONICYEDIV4'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Panasonic phone Yedi edition',
-    id: 'a4f224a6-3897-40b3-8435-7d9d73fbd224',
-    reference: 'BLFPANASONICYEDIV5'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Panasonic phone Yedi edition',
-    id: 'ffdddadf-82f1-4631-b9b2-4311f2601cb4',
-    reference: 'BLFPANASONICYEDIV6'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Panasonic phone Yedi edition',
-    id: 'a40c43a9-b3e0-4d0d-af93-902567d86284',
-    reference: 'BLFPANASONICYEDIV7'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Panasonic phone Yedi edition',
-    id: '82a66158-3e5b-40d3-b579-7bc0afac86b2',
-    reference: 'BLFPANASONICYEDIV8'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Panasonic phone Yedi edition',
-    id: '8ed9d044-03b7-4d08-862f-8c5194c4d763',
-    reference: 'BLFPANASONICYEDIV9'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IT',
-    description: 'aglio',
-    id: '6dc81f22-ee3a-4de1-8da9-5fcc77240469',
-    reference: 'BLFPASTA'
-  }, {
-    active: true,
-    cost: 1.0,
-    country_code: 'GB',
-    description: 'Pay As You Go Top up',
-    id: '2037a3bc-f5fd-420b-92f2-00db0e89ce3e',
-    reference: 'BLFPAYG'
-  }, {
-    active: true,
-    cost: 1.0,
-    country_code: 'IT',
-    description: 'Pay As You Go Top up',
-    id: '94ffe500-67dd-442d-a4f3-621510476c92',
-    reference: 'BLFPAYG'
-  }, {
-    active: true,
-    cost: 1.0,
-    country_code: 'US',
-    description: 'Pay As You Go Credit',
-    id: '778f80d0-5653-48d2-9d5f-3dfeddf365cf',
-    reference: 'BLFPAYG'
-  }, {
-    active: true,
-    cost: 1.0,
-    country_code: 'IE',
-    description: 'Pay As You Go Top up',
-    id: '6ffd081a-467c-4295-aca5-2d8a8587ae50',
-    reference: 'BLFPAYG'
-  }, {
-    active: true,
-    cost: 1.0,
-    country_code: 'FR',
-    description: 'Pay As You Go Top up',
-    id: '28cd57b6-9344-402b-abad-134fab35906d',
-    reference: 'BLFPAYG'
-  }, {
-    active: true,
-    cost: 1.0,
-    country_code: 'DE',
-    description: 'Pay As You Go Top up',
-    id: 'f71ac29d-420a-41e9-a2ef-0e1011a02796',
-    reference: 'BLFPAYG'
-  }, {
-    active: true,
-    cost: 1.0,
-    country_code: 'ES',
-    description: 'Pay As You Go Top up',
-    id: 'fc6fc7f1-2b07-4a2b-82d3-6348b95de8c7',
-    reference: 'BLFPAYG'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'PM description',
-    id: 'f940bee3-5a1c-4cd9-bf8a-d3c4263fa42f',
-    reference: 'BLFPM12345'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Description PM',
-    id: 'f1be5fcc-3db0-4684-8e4b-e235b3e3a2c0',
-    reference: 'BLFPM1234567'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Cable 3 meter Polycom brand',
-    id: '20b1778e-37db-4c38-acc4-981f5f2ca80b',
-    reference: 'BLFPOLYCOMCABL3M'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Polycom branded cable 20 meter',
-    id: '26c5167e-9868-47c6-846e-c576928131c0',
-    reference: 'BLFPOLYCOMCABLE20M'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Branded 2 meters Polycom cable',
-    id: '93566dfa-eec2-49a2-8122-21515016a672',
-    reference: 'BLFPOLYCOMCABLE2M'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Complement to use with Polycom phones',
-    id: '9ff0106d-fb84-40a7-a9c3-ccf9b86658cc',
-    reference: 'BLFPOLYCOMEARBUDS'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Gold edition of the Polycom phone',
-    id: 'd257685f-cc9b-4db9-9f65-8d5c054abce1',
-    reference: 'BLFPOLYCOMGOLD'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Retro version of the popular Polycom',
-    id: '1794a7f4-1084-47cf-a0e7-56f8ffd41025',
-    reference: 'BLFPOLYCOMRETRO'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Retro version of a popular Polycom phone',
-    id: '4f08544f-9006-4953-8627-0cda954abca9',
-    reference: 'BLFPOLYCOMRETRO'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Star Wars edition of the popular polycom phone',
-    id: 'ed388885-2bcc-4a40-b9f6-84979f8f7ef6',
-    reference: 'BLFPOLYCOMSTARWARS'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'Star Wars edition of the popular Polycom phone',
-    id: '9b0b1499-a38a-4006-ad09-b61cbbfcfb55',
-    reference: 'BLFPOLYCOMSTARWARS'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Test Premium Seat',
-    id: '346824ae-6e93-4e60-880f-506be1cbae62',
-    reference: 'BLFPREMIUMSEAT'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'New Product',
-    id: '42e98208-2d66-48a3-93f6-f7718e60bd29',
-    reference: 'BLFPROD01'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'New Product',
-    id: 'ba6062b7-9360-4b16-84ee-2d0d228de8ca',
-    reference: 'BLFPROD10'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IT',
-    description: 'XYZ',
-    id: '9ee1b8c5-e117-414c-8edf-aca292699bc2',
-    reference: 'BLFPRODUCTX'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Covid-19',
-    id: '53d46098-bd66-4deb-8d92-2495378462cf',
-    reference: 'BLFPROMOCOVID'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Promo Seat',
-    id: 'c9899c2d-ad5d-4d32-8707-1345b5219282',
-    reference: 'BLFPROMOSEAT'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'GB',
-    description: 'QA Automation UK Product',
-    id: '94ce6a65-3e89-4f75-ac4b-f7e6f9646abb',
-    reference: 'BLFQAAUTOMATIONUKPRODUCT'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'AF',
-    description: 'sdasd',
-    id: '82079f5f-cd01-4605-bdae-48c5ec6967a7',
-    reference: 'BLFQWE'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Test R',
-    id: '8b76ccc5-496a-4e0f-be4b-fb6295c9c6e6',
-    reference: 'BLFRA'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'jjfhvb',
-    id: '6ffa60bf-8e63-45d4-822c-e35ea9440da0',
-    reference: 'BLFREALLYLONGNAMELOLLO'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'perigrafh',
-    id: '953c4017-a712-43f0-bc75-5203fd98ee9d',
-    reference: 'BLFREFREFREFREF'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Finnish Reindeer Import (test product)',
-    id: 'd16f5da1-2e81-44d0-a9ec-4867c0f5876b',
-    reference: 'BLFREINDEER1'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'rve',
-    id: '604024dc-52ee-4667-8160-a35e5963f636',
-    reference: 'BLFRFR'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Recurring Product',
-    id: '7dc7edee-f18e-46fd-8588-f1284a8b69e0',
-    reference: 'BLFRPROD'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'AU',
-    description: 'reg4',
-    id: '7864074a-5a0b-4d84-a6d7-a0906e62f3a7',
-    reference: 'BLFRQFRQ'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'AF',
-    description: 'asfd',
-    id: '34bf358e-8582-45b4-a5cf-411cd9a0b334',
-    reference: 'BLFSADF'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IT',
-    description: 'szdx',
-    id: '3ae6d97d-9451-4126-9d59-3ca52b16acc8',
-    reference: 'BLFSD'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'CA',
-    description: 'q',
-    id: '68486fd9-8324-4171-838c-7e70db16b2ba',
-    reference: 'BLFSDDDS'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'AU',
-    description: 'sdfg',
-    id: 'e6e6661d-e073-412c-8a5d-9713f583e66c',
-    reference: 'BLFSDFG'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'AU',
-    description: 'sdvsdvsdv',
-    id: 'da401508-6389-4135-8cea-4e23bba15f4b',
-    reference: 'BLFSDVSDVSDV'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'AU',
-    description: 'edvwevwev',
-    id: 'cb480abe-ac51-46f5-9b36-19cf958291aa',
-    reference: 'BLFSDVSDVW'
-  }, {
-    active: true,
-    cost: 25.8,
-    country_code: 'IE',
-    description: 'Test for product groups 1 to 4',
-    id: '8060b2eb-4635-47ea-8e9c-af45cf93a5ba',
-    reference: 'BLFSIPTRUNK12M1TO4'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Test for product groups 20+',
-    id: '9f3441ca-9cc0-41d9-82a3-9379a79fd2a1',
-    reference: 'BLFSIPTRUNK12M20PLUS'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Test for product groups 5 to 19',
-    id: 'b5c6adf4-b0e9-4c2e-b74e-96f466434142',
-    reference: 'BLFSIPTRUNK12M5TO19'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'DE',
-    description: 'Books',
-    id: '4c9ddced-d2de-49cc-af08-997510645b65',
-    reference: 'BLFSTATIONERY'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'DE',
-    description: 'Vaccine',
-    id: 'b8aeac8c-353a-4062-89f0-5df7b9e970a2',
-    reference: 'BLFTEST'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Test',
-    id: '95df8cd6-833b-4b15-9b3a-61a1813f55ad',
-    reference: 'BLFTEST'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'CA',
-    description: 'test',
-    id: '3663adb4-5b5f-4a49-9657-ebb13f6b544a',
-    reference: 'BLFTEST'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IT',
-    description: 'test1',
-    id: '3b22a3dd-16ee-4791-a1fd-556beee387dd',
-    reference: 'BLFTEST1'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'testing',
-    id: 'f179f0eb-4c70-4615-ab44-0a6f3558abc5',
-    reference: 'BLFTEST123'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'testingr',
-    id: '71d61292-4fea-47a2-b9d0-f3088518a2f6',
-    reference: 'BLFTEST1234'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'testingry',
-    id: 'cc2c9008-cebe-4fe1-ac70-d71a884d9e51',
-    reference: 'BLFTEST12345'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'test2',
-    id: '080ec0f4-e21b-4a5b-b571-6a357d6580fd',
-    reference: 'BLFTEST2'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'testing',
-    id: '1dd5402d-ea4f-48b1-ac6d-a680d2a39e67',
-    reference: 'BLFTEST234'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'DE',
-    description: 'test2342342',
-    id: 'caa33c5b-ed1f-4c75-b450-f627d7d67c1f',
-    reference: 'BLFTEST2487238'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Test 3110 product',
-    id: '296e7083-f98c-407f-b614-d1dd68e98a43',
-    reference: 'BLFTEST3110'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'test device',
-    id: 'cf1cb876-1df9-41ff-beb5-cb3cc9834cfb',
-    reference: 'BLFTEST31100'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'added now',
-    id: 'e694d5e8-242d-48ed-a85c-605b89a9833f',
-    reference: 'BLFTESTADD'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'NewTest001',
-    id: 'c444f598-ad5d-4f6d-a8f1-31f5bf37b2cc',
-    reference: 'BLFTESTADDPRODUCT'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Product available for WL admins',
-    id: 'bc1d6460-682e-4cab-9ba4-92b51056fc29',
-    reference: 'BLFTESTADRIANASPRODUCT'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'awd (12month min contract)',
-    id: 'b5edf28e-33ab-4ca9-9432-e277822a78a3',
-    reference: 'BLFTESTALVARO'
-  }, {
-    active: true,
-    cost: 21.95,
-    country_code: 'US',
-    description: 'product min 24 month contract',
-    id: 'd566e231-2d3b-47bb-8193-760ff7bb5990',
-    reference: 'BLFTESTALVAROUS'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'asdfgds',
-    id: 'bf3f7175-0ca9-41bd-918d-def867b2741d',
-    reference: 'BLFTESTCOMMISSIONPERCENTAGE'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'test commission reference',
-    id: 'f927b655-6443-4ae7-bd2c-32ff8a0f2644',
-    reference: 'BLFTESTCOMMISSIONREFERENCE'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: '0989',
-    id: 'b29c40d9-9c8b-4594-adc6-fef8a2aaaf9b',
-    reference: 'BLFTESTDEFAULT'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'testin long desc',
-    id: '90f3c5bd-e6b4-47e0-9aeb-fc73c0c2d625',
-    reference: 'BLFTESTDESCC'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'EditProduct',
-    id: 'ab58f080-5cbc-4eb7-9e7a-47dbfd61893d',
-    reference: 'BLFTESTEDITPRODUCT'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IN',
-    description: 'test',
-    id: '30d280fc-525e-42b8-b108-1c00e75111af',
-    reference: 'BLFTESTING'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'lalaland',
-    id: 'a79bcb64-31c1-4892-b5ec-9d67beacc676',
-    reference: 'BLFTESTINGNEWLABEL'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IT',
-    description: 'This is a test',
-    id: 'd97df59b-e6b7-4146-bb51-e54f3ce57278',
-    reference: 'BLFTESTITPRODUCT'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'this is a really long description, mup ireland this is a really long description, mup ireland',
-    id: 'a1ab14a4-32b4-4b17-bd1d-71efd49ec94a',
-    reference: 'BLFTESTLONGDESC'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'test delete',
-    id: '35222f56-5b4a-45fb-9fd1-6ed8d86b02d4',
-    reference: 'BLFTESTMAGA'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IN',
-    description: 'testmaga',
-    id: '22a8a6be-e437-4707-8fbe-18a618ee97b9',
-    reference: 'BLFTESTMAGA'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'newemaildesc',
-    id: 'c9bd1ddf-d650-4e4c-8f3f-2cce2b758581',
-    reference: 'BLFTESTNEWEMAIL'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'ayylmao',
-    id: '8af62b11-71c7-445c-b835-3b151ef11b82',
-    reference: 'BLFTESTNEWFIRLD'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'notaxcode',
-    id: '9d4bcbbc-0bfe-457c-9448-5f23f4da08d5',
-    reference: 'BLFTESTNOCODE'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'test',
-    id: 'dff3855d-96bd-4574-8dbc-1c489b97fa6f',
-    reference: 'BLFTESTO7'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'test',
-    id: '7f79d279-f284-4a9d-966e-ecff90c06c30',
-    reference: 'BLFTESTO8'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'test',
-    id: '72c217c7-7e20-4605-b65c-7fc4c30fb2e2',
-    reference: 'BLFTESTO9'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'percentage',
-    id: 'b6aabc0c-5df2-4c26-9c7d-61247f73ed03',
-    reference: 'BLFTESTPERCENTAGE'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: '34r',
-    id: '7b64320d-02b6-40f2-85bb-9bc8a309cd74',
-    reference: 'BLFTESTPRODUCT'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'A product created for testing SPL-4566',
-    id: 'ad29dbec-04ac-4f27-8e04-ca396e06fb7b',
-    reference: 'BLFTESTPRODUCT4566'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'sdfgdsadf',
-    id: '45375a92-5eb3-4840-a72c-549ccee9dc73',
-    reference: 'BLFTESTPRODUCTREF'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'test_user_Def_price',
-    id: '6b4c9769-512b-4e4b-8093-06f697212937',
-    reference: 'BLFTESTREF'
-  }, {
-    active: true,
-    cost: 2.0,
-    country_code: 'IE',
-    description: 'Test Sneha',
-    id: 'df605304-13fb-475f-bb15-ae4ab0b9e165',
-    reference: 'BLFTESTSNEHA'
-  }, {
-    active: true,
-    cost: 3.0,
-    country_code: 'IE',
-    description: 'Test Sneha1',
-    id: '52d90fd9-32b7-4b57-9768-817a7e7ffcbe',
-    reference: 'BLFTESTSNEHA1'
-  }, {
-    active: true,
-    cost: 1.0,
-    country_code: 'IE',
-    description: 'TestSneha2',
-    id: '584a6c64-68a5-437e-b3ff-888fde7abf58',
-    reference: 'BLFTESTSNEHA2'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'tstwewwe',
-    id: '80b7022a-4b11-44e1-b10c-c3c554def94c',
-    reference: 'BLFTESTTEST'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'testtesttesttest',
-    id: 'cbf7c443-ccb7-4ab0-ab45-e5247fb19e66',
-    reference: 'BLFTESTTESTTESTTEST'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'test_user_defined',
-    id: '2618a082-36a0-430f-8f4b-edeeedbf732c',
-    reference: 'BLFTESTUSERDEFINED'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IT',
-    description: 'hah',
-    id: '478952eb-f92d-40c6-adb1-fb315b69b3b5',
-    reference: 'BLFTESTY'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: '30 months minimum',
-    id: '911348b0-da56-4003-b54a-6ee3108db13c',
-    reference: 'BLFTHISFEEISFORTEST3OMONTH'
-  }, {
-    active: true,
-    cost: 1.0,
-    country_code: 'DE',
-    description: 'Toll Free Usage',
-    id: '9691d751-ad16-4241-8377-612da79c8817',
-    reference: 'BLFTOLLFREE'
-  }, {
-    active: true,
-    cost: 1.0,
-    country_code: 'ES',
-    description: 'Toll Free Usage',
-    id: 'f021a276-4f93-4e5c-991b-3b336ff64ed0',
-    reference: 'BLFTOLLFREE'
-  }, {
-    active: false,
-    cost: 1.0,
-    country_code: 'CA',
-    description: 'Toll Free Usage',
-    id: '8171ca0f-ccac-495a-b222-63a98638050d',
-    reference: 'BLFTOLLFREE'
-  }, {
-    active: false,
-    cost: 1.0,
-    country_code: 'US',
-    description: 'Toll Free Usage',
-    id: '464c3cc8-3a62-42ff-adb5-5fc1e4630c0b',
-    reference: 'BLFTOLLFREE'
-  }, {
-    active: true,
-    cost: 1.0,
-    country_code: 'IE',
-    description: 'Toll Free Usage',
-    id: 'cebdcb0e-46d8-4a7c-9ba2-61a08f983d6a',
-    reference: 'BLFTOLLFREE'
-  }, {
-    active: true,
-    cost: 1.0,
-    country_code: 'IT',
-    description: 'Toll Free Usage',
-    id: '9f5a9ee7-176a-49a7-ad8d-4fcbef581bfd',
-    reference: 'BLFTOLLFREE'
-  }, {
-    active: true,
-    cost: 1.0,
-    country_code: 'GB',
-    description: 'Toll Free Usage',
-    id: 'ecbe1fd4-1136-44be-b193-1ad9794bc555',
-    reference: 'BLFTOLLFREE'
-  }, {
-    active: true,
-    cost: 1.0,
-    country_code: 'FR',
-    description: 'Toll Free Usage',
-    id: 'cedb6d46-17ef-4c00-ba74-6c13a934276c',
-    reference: 'BLFTOLLFREE'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'CA',
-    description: 'bla',
-    id: '19b0777a-ba2a-4fdc-8d0e-d49d1d4d10c9',
-    reference: 'BLFTOM123TEST'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'dcfvgbhnjmhngbfv',
-    id: 'e46b647c-a7e0-4605-b305-62df8befc1e1',
-    reference: 'BLFTRIPLERRRRR'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'CA',
-    description: '45tg',
-    id: 'd0322836-405d-410e-9005-c85d9b82b52f',
-    reference: 'BLFTRRE5'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'The nicest tower in town',
-    id: '041b5780-97f6-40c4-b781-22ef75966165',
-    reference: 'BLFTRUMPTOWER'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'CA',
-    description: 'eanegn',
-    id: 'f44ef2b4-b564-47a2-bf52-0874ba5dbb93',
-    reference: 'BLFTSTEBEG'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'UC',
-    id: '02930a56-1785-4bb2-b2cd-e6141adef71e',
-    reference: 'BLFUC'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'DE',
-    description: 'UC hardware',
-    id: '9ef3b41d-128b-473d-be2b-45d52c8846e1',
-    reference: 'BLFUC'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'HK',
-    description: 'kbhgvcf',
-    id: '33e5b56c-a61e-4439-9fae-a38ff661bf5b',
-    reference: 'BLFUYCTXYRTZSXDYFCGHJVBGVCFYDX'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'DE',
-    description: 'Vaccine',
-    id: '98e54209-c212-4f16-91e3-27e562c3f76b',
-    reference: 'BLFVACCINE'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'waesfdr',
-    id: 'd7826c13-d7f8-46f1-bc42-efea808d2e6a',
-    reference: 'BLFWAESFDR'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'waesfdrgtfhyuktreaws',
-    id: 'd32ce66a-2dbf-4f81-b8f6-d29cd7cd4536',
-    reference: 'BLFWAESFDRGTFHYUKTREAWS'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'waesfdrgtfhyuktreawsWADESFRGT',
-    id: '96a6c8c1-c7b3-4885-ba55-4ecdf86be973',
-    reference: 'BLFWAESFDRGTFHYUKTREAWSWADESFRGT'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'CA',
-    description: 'warrentest',
-    id: '758cecf4-12f4-423e-abc0-cc8d2a743433',
-    reference: 'BLFWARRENTEST'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'CA',
-    description: 'warrentest2',
-    id: 'ba2538e9-916e-4ead-bec5-f4f36e530c72',
-    reference: 'BLFWARRENTEST2'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'AU',
-    description: 'aaaa',
-    id: '58bf2d4f-21af-4b5f-9029-ff0957210ad5',
-    reference: 'BLFWARRENWOLFFTESTTODELETELATER'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'NZ',
-    description: 'w4g34g34',
-    id: 'b317c3a3-c15f-48c6-8f8f-a38f5250a09d',
-    reference: 'BLFWERFG2EG'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'AU',
-    description: 'werwr',
-    id: '0af16608-4e86-481f-a3e9-297d313ed65e',
-    reference: 'BLFWERWERW'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'testing commission',
-    id: '2bcd1494-6592-4341-bd81-e35a2a884c80',
-    reference: 'BLFWHOLECOMMISSION'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'retesting',
-    id: '7913d5ca-d1e2-49b8-a7a9-dfcf50ec73c9',
-    reference: 'BLFWHOLESALECOMMISIONTEST'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'retesting wholesale commission',
-    id: '38dd9072-5ffc-4f88-8350-206ee14907f6',
-    reference: 'BLFWHOLESALETEST'
-  }, {
-    active: true,
-    cost: 34.89,
-    country_code: 'IE',
-    description: 'Joel Super BASE pckg',
-    id: '401edee2-7bf5-412e-ac69-4bbbe6ba968c',
-    reference: 'BLFWORLDUNLMTD12'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'WW Test after view clean up',
-    id: '094a5c81-4c66-4524-ac8c-ad3c438fa00b',
-    reference: 'BLFWWPROVATESTWARRENWOLFF'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'AU',
-    description: 'wwProvaWarrenWolff',
-    id: '6aedd44c-592e-419f-b79d-e0a5f9bb9ec1',
-    reference: 'BLFWWPROVAWARRENWOLFF'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IT',
-    description: 'WW test product',
-    id: '8e383936-4dd2-4302-bade-b8c2118e021e',
-    reference: 'BLFWWTEST'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'CA',
-    description: 'www',
-    id: '2a92ac50-d3ed-4a6f-a6a7-d8d5eb03aede',
-    reference: 'BLFWWW'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'FR',
-    description: 'test',
-    id: '74f7274d-8838-4a68-8cdb-afb0932fc1a0',
-    reference: 'BLFWWWTEST'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'FR',
-    description: 'WWWWWWWWWWWW',
-    id: '88b91afc-4fc4-40cf-912a-5e0ad2c9022a',
-    reference: 'BLFWWWWWWWWWWWW'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'A phone to call Yoda and get back some wisdom.',
-    id: '4de55ea9-408c-44ed-82a8-4573f800c9a6',
-    reference: 'BLFYODAPHONE'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IT',
-    description: 'chunker',
-    id: '8c38f181-d3a9-4571-baa2-c4628bfd1047',
-    reference: 'BLFYOSHI'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'CA',
-    description: 'jer7',
-    id: '5fe102dc-aee8-4fc3-9f7e-9b746ca0a5d3',
-    reference: 'BLFYTTRYJ'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'IE',
-    description: 'Blue Phone (0M)',
-    id: 'd9cf6c9b-c0db-41cc-acda-398c3b24c70b',
-    reference: 'BLUEPHONE'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'GB',
-    description: 'BRITISH BAP',
-    id: 'dd859e90-8539-41f9-a432-80b63fdaadd5',
-    reference: 'BRITISHBAP'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'IE',
-    description: 'Broadband Connection',
-    id: '1bc7a127-4a73-45bd-993b-733a0da56369',
-    reference: 'BROADBAND'
-  }, {
-    active: true,
-    cost: 69.0,
-    country_code: 'GB',
-    description: 'Business Plus 1111',
-    id: '4b485f73-d76b-4542-923a-24bc34e5f470',
-    reference: 'BUSINESSPLUS'
-  }, {
-    active: true,
-    cost: 24.98,
-    country_code: 'IE',
-    description: 'Business Starter : Unlimited calls to IRL/UK and 100 minutes to IRL/UK mobiles',
-    id: '23099031-68a2-490e-a89c-06e9e07a96b5',
-    reference: 'BUSINESSSTARTERMOBILE'
-  }, {
-    active: true,
-    cost: 1.5,
-    country_code: 'IE',
-    description: 'Call encryption',
-    id: '7fe445f3-ba3d-40f1-ba09-5b191d434b95',
-    reference: 'CALLENCRYPTION'
-  }, {
-    active: true,
-    cost: 5.0,
-    country_code: 'ES',
-    description: 'Grabaci\u00f3n de llamada',
-    id: '4ab04ce0-469c-4317-9625-9fd078fcfb60',
-    reference: 'CALLRECORDING'
-  }, {
-    active: true,
-    cost: 5.0,
-    country_code: 'IE',
-    description: 'Call recording',
-    id: 'b8f5f1af-f1cc-4630-9a80-f58048b93ed6',
-    reference: 'CALLRECORDING'
-  }, {
-    active: true,
-    cost: 1.0,
-    country_code: 'IE',
-    description: 'Cat 5 2 Metre Ethernet Cable',
-    id: '1499982e-9889-4e55-9303-af0c4265dd14',
-    reference: 'CAT5CABLE2M'
-  }, {
-    active: true,
-    cost: 1.0,
-    country_code: 'FR',
-    description: 'Cable Ethernet, Cat 5, 2M',
-    id: '24d0b69b-3f50-4162-bfa4-47cfc7cf6940',
-    reference: 'CAT5CABLE2M'
-  }, {
-    active: true,
-    cost: 1.0,
-    country_code: 'GB',
-    description: 'Cat 5 2 Metre Ethernet Cable',
-    id: '379b4675-8a8b-498f-afa5-1d03462077b5',
-    reference: 'CAT5CABLE2M'
-  }, {
-    active: false,
-    cost: 45.0,
-    country_code: 'IE',
-    description: 'DATASIM',
-    id: '6ae5100a-0eb8-4ee1-a243-bd07b7623047',
-    reference: 'DATASIM'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'IE',
-    description: 'Hardware Delivery',
-    id: 'a0198d34-cff5-4a35-ac16-1d3feecd71a5',
-    reference: 'DELV'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'discountNumbers',
-    id: 'd4f91045-e16e-499b-be6c-39d47dc75b77',
-    reference: 'DISCOUNTNUMBERS'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'IE',
-    description: 'Irish Fax-to-Email',
-    id: '595ec104-e1eb-4478-9c0c-2c900ffff20b',
-    reference: 'FAX'
-  }, {
-    active: true,
-    cost: 109.89,
-    country_code: 'IE',
-    description: '12 Months of Irish Fax-to-Email',
-    id: 'dbdd8b09-8cff-4133-8daf-4bcda4555772',
-    reference: 'FAX12'
-  }, {
-    active: true,
-    cost: 9.75,
-    country_code: 'IE',
-    description: 'Irish Fax-to-Email Network Neutral',
-    id: 'b0a68508-fe0a-4431-986f-a284c5f26cae',
-    reference: 'FAXNEUTRAL'
-  }, {
-    active: false,
-    cost: 415.0,
-    country_code: 'IE',
-    description: 'Samsung Galaxy Tablet',
-    id: '12d876da-335b-49aa-8eae-f4ea96956dea',
-    reference: 'GALAXYNOTE'
-  }, {
-    active: true,
-    cost: 440.0,
-    country_code: 'IE',
-    description: 'Samsung Galaxy S4',
-    id: '59d4d242-9a4f-4957-ad19-50c7d60801bf',
-    reference: 'GALAXYS4'
-  }, {
-    active: true,
-    cost: 285.0,
-    country_code: 'IE',
-    description: 'Samsung Galaxy S4 Mini',
-    id: '957ad3fc-9aea-49c6-80bf-3a99f3fde578',
-    reference: 'GALAXYS4MINI'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'IE',
-    description: 'Golden Number Setup',
-    id: 'dd1b6faf-06a2-4a9d-b390-3f4c54ee23e4',
-    reference: 'GOLDENSETUP'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'jjfhvb',
-    id: 'df25953e-dd8e-45dd-8bdd-381003029f71',
-    reference: 'GWANTHENSON'
-  }, {
-    active: true,
-    cost: 120.0,
-    country_code: 'IE',
-    description: 'HDV20XB Sidecar',
-    id: 'cea908f1-7be9-4490-864b-c9ca848e8591',
-    reference: 'HDV20XSIDECAR'
-  }, {
-    active: true,
-    cost: 9.99,
-    country_code: 'US',
-    description: 'US Hosted Seat',
-    id: 'c5b7aad8-e0b1-4746-a454-1d586fa4f02a',
-    reference: 'HOSTEDSEAT'
-  }, {
-    active: true,
-    cost: 9.99,
-    country_code: 'IE',
-    description: 'Hosted Seat',
-    id: '440da04b-ee1d-40f0-8d8a-fc3de3282668',
-    reference: 'HOSTEDSEAT'
-  }, {
-    active: true,
-    cost: 9.99,
-    country_code: 'ES',
-    description: 'Alojamiento de una plaza',
-    id: 'f6964a33-266a-4bcc-8388-96252cda25da',
-    reference: 'HOSTEDSEAT'
-  }, {
-    active: true,
-    cost: 9.99,
-    country_code: 'GB',
-    description: 'Hosted Seat (Billed Monthly)',
-    id: '0134347a-269b-4416-a0a0-d77af6ef7a22',
-    reference: 'HOSTEDSEAT'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'US',
-    description: '250 Dollar Install Fee',
-    id: 'b7f72e1e-63d0-4cce-84d3-33ca3f9871f6',
-    reference: 'INSTALLFEE250'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'US',
-    description: 'International DDI',
-    id: '9f8fa85b-e8fb-47a9-a8c6-aa7a3f209db8',
-    reference: 'INTERNATIONALDDI'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'US',
-    description: '500 International Minutes',
-    id: '96eb6c1f-d17b-44a8-92c0-52d787155122',
-    reference: 'INTERNATIONALMINUTES'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'IE',
-    description: 'International Geographic Number',
-    id: '25cc7eb8-6f1a-42a4-aeff-63643f09d071',
-    reference: 'INTERNATIONALNUMBER'
-  }, {
-    active: false,
-    cost: 10.0,
-    country_code: 'US',
-    description: 'International Number',
-    id: '33c9583e-6133-4a75-be92-2ef13ad5cec3',
-    reference: 'INTERNATIONALNUMBER'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'DE',
-    description: 'Internationalle geographische gebundene Nummer',
-    id: 'd0f14410-41ac-4148-a8d1-b5fd2ae1b6a1',
-    reference: 'INTERNATIONALNUMBER'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'ES',
-    description: 'N\u00famero geogr\u00e1fico internacional',
-    id: '6ffe1684-e33c-4eea-9cb3-6d6adcfb07a5',
-    reference: 'INTERNATIONALNUMBER'
-  }, {
-    active: true,
-    cost: 554.0,
-    country_code: 'IE',
-    description: 'iPhone 5S Silver (CA)',
-    id: 'd2a30d4f-f408-430d-9b3f-cb25abdd55b3',
-    reference: 'IPHONE5S'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'IE',
-    description: 'Irish Geographic Number',
-    id: '7e39055b-8b6a-42a0-a48c-255e2403f444',
-    reference: 'IRISHGEONUM'
-  }, {
-    active: true,
-    cost: 80.4878,
-    country_code: 'IE',
-    description: '12 Months of Irish Geographic Number',
-    id: 'bf236d9a-1592-4749-b858-02a5fa92386a',
-    reference: 'IRISHGEONUM12'
-  }, {
-    active: true,
-    cost: 8.1301,
-    country_code: 'IE',
-    description: 'Irish VoIP Number',
-    id: '4f538d93-e088-4e48-b944-fa11b768c396',
-    reference: 'IRISHVOIPNUM'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'jjfhvb',
-    id: 'e9f03514-34d4-4406-99cc-9f609a05ecf8',
-    reference: 'JJJKHJCIUBIBIC'
-  }, {
-    active: false,
-    cost: 629.34,
-    country_code: 'US',
-    description: 'Tenim un nom el sap tothom!',
-    id: '464f33ff-9416-4cd1-9777-8d8e1ed56e22',
-    reference: 'JOELPACKAGEUS'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'US',
-    description: 'jjfhvbhgjh',
-    id: '24b6badf-d5cb-4e93-ab3b-45a1ac0ec551',
-    reference: 'LALALAPROD'
-  }, {
-    active: true,
-    cost: 9.75,
-    country_code: 'IE',
-    description: 'Mobile on your landline (Network Neutral)',
-    id: 'e94341ef-a6eb-44c8-9f62-0eebea6b2fb6',
-    reference: 'LANDLINEONMOBILENEUTRAL'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'US',
-    description: 'teshht',
-    id: 'd6ada33e-8e3f-4275-8642-40c0af73839e',
-    reference: 'LOLOLOLOL'
-  }, {
-    active: true,
-    cost: 110.0,
-    country_code: 'ES',
-    description: 'M\u00f3vil 500',
-    id: 'faf7583c-b96b-4590-a9e1-0c47456c4ff0',
-    reference: 'MOBILE500'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'DE',
-    description: 'Nationalle geographische gebundene Nummer',
-    id: '97640dbb-0010-4b3b-a356-989bde008d41',
-    reference: 'NATIONALNUMBER'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'IE',
-    description: 'National Number',
-    id: 'e8392379-0404-4d2b-8c52-ac443b3c5fd6',
-    reference: 'NATIONALNUMBER'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'IE',
-    description: 'Non Geographic Number',
-    id: '6b36b183-aa4c-493f-833b-926361a24e49',
-    reference: 'NONGEONUMBER'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'IE',
-    description: 'Mobile T-800',
-    id: 'b19c2cc2-ac7e-4aa0-8d10-3dca9e0e8587',
-    reference: 'ONE'
-  }, {
-    active: true,
-    cost: 109.0,
-    country_code: 'FR',
-    description: 'Panasonic HDV 230  - Noir',
-    id: '1773ec24-3a50-4257-bfcf-390a165bfed7',
-    reference: 'PANASONICHDV230'
-  }, {
-    active: true,
-    cost: 106.9,
-    country_code: 'IE',
-    description: 'PANASONIC-KX-HDV130',
-    id: 'dd3b4669-8928-4d3c-92a6-47f00b43b5dc',
-    reference: 'PANASONICKXHDV130'
-  }, {
-    active: true,
-    cost: 59.95,
-    country_code: 'IE',
-    description: 'PANASONIC-KX-HDV230',
-    id: '3b333c5c-2383-498b-844d-9281948cc11c',
-    reference: 'PANASONICKXHDV230'
-  }, {
-    active: true,
-    cost: 36.5,
-    country_code: 'IE',
-    description: 'PANASONIC-KX-HDV330',
-    id: 'c51587d8-bc3e-4e9c-8506-08dc0f90cb17',
-    reference: 'PANASONICKXHDV330'
-  }, {
-    active: true,
-    cost: 170.0,
-    country_code: 'IE',
-    description: 'PANASONIC-KX-TGP550',
-    id: 'e9c8b5d8-5c82-4945-8ecb-c928f582759e',
-    reference: 'PANASONICKXTGP550'
-  }, {
-    active: true,
-    cost: 120.0,
-    country_code: 'IE',
-    description: 'PANASONIC-KX-TGP600',
-    id: '52d855a0-794d-4982-b95b-8929d2215cba',
-    reference: 'PANASONICKXTGP600'
-  }, {
-    active: true,
-    cost: 95.3,
-    country_code: 'IE',
-    description: 'PANASONIC-KX-UT113',
-    id: 'f47e0c80-8cc9-4817-b6ca-55c5abb7f583',
-    reference: 'PANASONICKXUT113'
-  }, {
-    active: true,
-    cost: 1.0,
-    country_code: 'IE',
-    description: 'Pay As You Go Top up',
-    id: '285dd345-f9c5-44fc-900b-73dc7497cece',
-    reference: 'PAYG'
-  }, {
-    active: true,
-    cost: 210.95,
-    country_code: 'IE',
-    description: 'POLYCOM-SOUNDSTATION-IP-5000',
-    id: 'f220c259-22d7-4ba8-b542-6f41ee87c766',
-    reference: 'POLYCOMSOUNDSTATIONIP5000'
-  }, {
-    active: true,
-    cost: 92.25,
-    country_code: 'IE',
-    description: 'POLYCOM-SOUNDSTATION-IP-7000',
-    id: '6998a4ea-4cec-4dc2-bcbe-f8476ef9d22e',
-    reference: 'POLYCOMSOUNDSTATIONIP7000'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'US',
-    description: 'Polycom VVX411',
-    id: 'f4922b08-12d1-4c1a-b2c4-654b38ad9c6a',
-    reference: 'POLYCOMVVX411'
-  }, {
-    active: true,
-    cost: 100.0,
-    country_code: 'IE',
-    description: 'Premium Support',
-    id: '413d44cf-0ca2-4c05-9ed8-73bd3ce8c1d8',
-    reference: 'PREMIUMSUPPORT'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'A Planet',
-    id: '3b4926ba-75bb-460a-9861-f989d4e2ced0',
-    reference: 'PRODUCTRESELLERTEST21'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'IE',
-    description: 'Red Phone',
-    id: '56dd8d10-3769-4b94-9add-8e50534eefff',
-    reference: 'REDPHONE'
-  }, {
-    active: false,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'erwe',
-    id: 'ea0b60db-7935-40e9-b1ea-b5d93c4256a2',
-    reference: 'RWR'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'IE',
-    description: 'Shipping',
-    id: '1b5d687f-b44b-4945-9f5d-2306c1d295b4',
-    reference: 'SHIPPING'
-  }, {
-    active: true,
-    cost: 45.0,
-    country_code: 'IE',
-    description: 'SIM Plan',
-    id: 'd0deda93-6679-406a-a145-bfb96d817429',
-    reference: 'SIMPLAN'
-  }, {
-    active: false,
-    cost: 45.0,
-    country_code: 'IE',
-    description: 'SIM PLAN',
-    id: 'd5d8209c-55fd-4dc2-9b52-cd8826f32d70',
-    reference: 'SIMPLANUK'
-  }, {
-    active: true,
-    cost: 100.0,
-    country_code: 'IE',
-    description: 'Service Level Agreement',
-    id: '06b52c17-a93e-48bc-b2b7-64bb8091afbb',
-    reference: 'SLAGREEMENT'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'GB',
-    description: 'Soft client',
-    id: 'ff98c198-c747-4d60-a31f-74ee2a199627',
-    reference: 'SOFTCLIENT'
-  }, {
-    active: true,
-    cost: 2.0,
-    country_code: 'IE',
-    description: 'Soft client',
-    id: 'd9a60d34-34bc-4365-9986-46db37a3f29a',
-    reference: 'SOFTCLIENT'
-  }, {
-    active: true,
-    cost: 99.0,
-    country_code: 'IE',
-    description: 'Panasonic TPA65 Handset \u2013 White',
-    id: '5354f070-f4df-41d1-b7ba-15b7c2ae9a53',
-    reference: 'TPA65W'
-  }, {
-    active: true,
-    cost: 250.0,
-    country_code: 'IE',
-    description: 'Training Fee',
-    id: '2ef078dd-e7f2-4c74-b3e1-3579ab89093b',
-    reference: 'TRAININGFEE250'
-  }, {
-    active: false,
-    cost: 10.0,
-    country_code: 'IE',
-    description: 'A UK geographic number',
-    id: 'd8cb8df9-8950-46ca-a354-0f932ff1d545',
-    reference: 'UKGEONUM'
-  }, {
-    active: true,
-    cost: 10.0,
-    country_code: 'IE',
-    description: 'UK Geographic Number 2',
-    id: '0cb94c0d-2e37-4693-9231-24c163ca7080',
-    reference: 'UKNUM'
-  }, {
-    active: true,
-    cost: 80.4878,
-    country_code: 'IE',
-    description: '12 Months of UK Geographic Number',
-    id: '5396e781-ffdf-49ff-adf5-ab6512751ace',
-    reference: 'UKNUM12'
-  }, {
-    active: true,
-    cost: 500.0,
-    country_code: 'IE',
-    description: 'Wholesale Fee',
-    id: '89d18a4d-534b-452f-93c4-26afda395cc6',
-    reference: 'WHITELABEL'
-  }, {
-    active: true,
-    cost: 20.3171,
-    country_code: 'IE',
-    description: '1 x Month of Freedom World Unlimited',
-    id: 'f2d51f78-5535-41b7-886c-932db2659c7c',
-    reference: 'WORLDUNLMTD'
-  }, {
-    active: true,
-    cost: 202.439,
-    country_code: 'IE',
-    description: 'World No Limit 12 momths',
-    id: 'cbc1c72d-e897-45ba-a369-2ed592207738',
-    reference: 'WORLDUNLMTD12'
-  }, {
-    active: true,
-    cost: 0.0,
-    country_code: 'IE',
-    description: 'Polycom',
-    id: '3c59e1e7-57da-4908-a261-85ee36ba2087',
-    reference: 'XXXXXXXX'
-}];
+data.forEach(item => {
+  const num = Math.floor(Math.random() * 6);
+  switch(num) {
+    case 0: item.icon = 'icon-plus';    item.img = 'assets/language-flags/de.png'; break;
+    case 1: item.icon = 'icon-home';    item.img = 'assets/language-flags/ja.png'; break;
+    case 2: item.icon = 'icon-phone2';  item.img = 'assets/language-flags/us.png'; break;
+    case 3: item.icon = 'icon-user';    item.img = 'assets/language-flags/ie.png'; break;
+    case 4: item.icon = 'icon-rocket';  item.img = 'assets/language-flags/zh.png'; break;
+    case 5: item.icon = 'icon-teapot';  item.img = 'assets/language-flags/pl.png'; break;
+  }
+});

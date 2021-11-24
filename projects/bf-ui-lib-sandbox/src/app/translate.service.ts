@@ -132,7 +132,7 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.error.invalid_option': 'Invalid Option',
     'views.dropdown.placeholder': '--- Select Item ---',
     'view.common.actions': 'Actions',
-    'views.lazy_dropdown.label': 'Search an email',
+    'views.lazy_dropdown.label': 'Search a reference',
     'views.lazy_dropdown.placeholder': 'Search user email',
     'views.green_thing': 'This is <span class="green">GREEN!</span>',
     'view.common.view': 'View',
