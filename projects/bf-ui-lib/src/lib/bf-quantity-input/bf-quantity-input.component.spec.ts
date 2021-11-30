@@ -115,4 +115,30 @@ describe('BfQuantityInputComponent', () => {
 
     expect(component.bfModel).toEqual(0);
   }));
+
+  describe('keyPressed()', () => {
+
+    beforeEach(() => {
+      spyOn(component, 'incrementValue');
+			spyOn(component, 'decrementValue');
+    });
+
+    it('shouldnt do anything if the input type isnt text', () => {
+      const evt = { target: { type: 'number' } as HTMLInputElement } as unknown as KeyboardEvent;
+      component.keyPressed(evt);
+      expect(component.incrementValue).not.toHaveBeenCalled();
+    });
+
+    it('should increment if type is text and up arrow is pressed', () => {
+      const evt = { code: 'ArrowUp', target: { type: 'text' } as HTMLInputElement } as unknown as KeyboardEvent;
+      component.keyPressed(evt);
+      expect(component.incrementValue).toHaveBeenCalled();
+    });
+
+    it('should decrement if type is text and down arrow is pressed', () => {
+      const evt = { code: 'ArrowDown', target: { type: 'text' } as HTMLInputElement } as unknown as KeyboardEvent;
+      component.keyPressed(evt);
+      expect(component.decrementValue).toHaveBeenCalled();
+    });
+  });
 });
