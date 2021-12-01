@@ -99,7 +99,7 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
   @Input() bfAutoCollapse = true; // If false, the dropdown does not collapse on focus out
   @Input() bfHtmlRender = false;  // When true display values can be rendered as html on the list (but not in the input)
 
-  @Input() extCtrl$: Observable<unknown>; // To trigger actions manually from an external observable (subject)
+  @Input() extCtrl$: Subject<unknown>; // To trigger actions manually from an external observable (subject)
 
   // When the list is completely loaded, the component uses frontend filtering like the regular dropdown
   @Input() bfFilterFn: (list: Array<any>, value: string) => Array<any>; // Custom function to perform the list filtering
@@ -165,7 +165,7 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
   public currentErrorMessage = '';
   public isBfDisabledPresent = false;  // If [bfDisabled] present, do not change it automatically on bfLoading
   public subs: {[ key: string]: Subscription } = {};  // Subscriptions holder
-  public ignoreMouse: number;             // The setTimeout to ignore the mouseenter during scroll
+  public ignoreMouse;       // The setTimeout to ignore the mouseenter during scroll
   public isPristine = true; // To know when the list is first fetched.
 
   private readonly ctrlObject; // Object to expose control methods externally
@@ -384,6 +384,9 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
         // Determine the new status of the list
         if (this.getLoadedItems().length < result.count) {
           this.status = PARTIALLY_LOADED; // Still some items to load
+          if (this.extList.length <= 8) {
+            console.warn('bfLazyDropdown: It is recommended to load more than 8 items, so the scroll can be used');
+          }
         } else {
           this.status = this.searchTxt ? FULLY_LOADED : COMPLETELY_LOADED;
         }
@@ -699,10 +702,10 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
   }
 
   activateNextItem(inc = 1) { // Find next item (first one if no candidate)
-    const lastItem = this.extList.find(i => i.$$isLast);
+    const lastItem = this.extList.find(i => i.$$isLast && i.$$isMatch);
     const nextIndex = this.bfCandidate ? this.bfCandidate.$$index + inc : this.getFirstMatch()?.$$index;
     this.bfCandidate = this.extList.getByProp('$$index', nextIndex) || lastItem || null;
-    if (this.bfCandidate.$$isLast) { this.fetchItems(); } // If last, trigger fetch
+    if (this.bfCandidate?.$$isLast) { this.fetchItems(); } // If last, trigger fetch
     if (!this.isExpanded) { this.selectItem(this.bfCandidate); }
     this.scrollToCandidate();
   }
@@ -727,7 +730,7 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
   }
 
   getFirstMatch() {
-    return this.extList.filter(i => i.$$isMatch)[0];
+    return this.extList.find(i => i.$$isMatch) || null;
   }
 
   scrollToCandidate() {
@@ -953,7 +956,7 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
 
   // Returns an object with all internal properties (prefixed with $$) removed
   remove$$(item) {
-    if (!item || typeof this.bfModel !== 'object') { return item; }
+    if (!item || typeof item !== 'object') { return item; }
     return dCopy(BfObject.keyFilter.call(item, (val, key) => key.slice(0,2) !== '$$'));
   }
 
