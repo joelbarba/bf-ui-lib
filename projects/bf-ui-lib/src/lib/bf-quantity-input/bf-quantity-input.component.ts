@@ -115,6 +115,14 @@ export class BfQuantityInputComponent implements OnInit, OnChanges, ControlValue
     setTimeout(() => { this.bfModel = nextVal; }); // Avoid overlap with modelChange timeout
   }
 
+  keyPressed(evt: KeyboardEvent) {
+    const target = evt.target as HTMLInputElement;
+    if (target.type === 'text') {  // chromevox changes html input type from 'number' to 'text', so we have to implement arrow controls manually
+      if (evt.code === 'ArrowUp') this.incrementValue(this.bfModel);
+      if (evt.code === 'ArrowDown') this.decrementValue(this.bfModel);
+    }
+  }
+
   decrementValue(currentValue: number): void {
     if (this.decBtnEnabled) {
       const nextValue = currentValue - 1;

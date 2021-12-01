@@ -27,6 +27,7 @@
       [disabled]="bfDisabled"
       [(ngModel)]="bfModel"
       (wheel)="onMouseWheel($event)"
+      (keydown)="keyPressed($event)"
       (ngModelChange)="modelChange($event)" />
   </div>
 
