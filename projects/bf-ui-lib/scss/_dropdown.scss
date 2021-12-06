@@ -13,6 +13,8 @@ $dropdown-loading-bg: rgba($optional-color, 0.25) !default;
       border-color: $color;
     }
 
+    .clear-filter { color: $color; }
+
     .btn.btn-outline-secondary {
       background: $color;
       border-color: $color;
@@ -213,14 +215,14 @@ bf-dropdown, bf-lazy-dropdown, bf-multi-selector {
 
         &:not(.list-upward) {
           border-top-color: rgba($optional-color, 0.5);
-          border-bottom-left-radius: 3px;
-          border-bottom-right-radius: 3px;
+          border-bottom-left-radius: 0.25rem;
+          border-bottom-right-radius: 0.25rem;
         }
 
         &.list-upward {
           bottom: 34px; // pull it up
-          border-top-left-radius: 3px;
-          border-top-right-radius: 3px;
+          border-top-left-radius: 0.25rem;
+          border-top-right-radius: 0.25rem;
           border-bottom-color: rgba($optional-color, 0.5);
         }
 
@@ -271,6 +273,9 @@ bf-dropdown, bf-lazy-dropdown, bf-multi-selector {
         li.loading-more {
           padding: 7.5px 10px 5px;
           background: $dropdown-loading-bg;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
           span.loading {
             animation: bfSpinAround 500ms infinite linear;
             display: inline-block;
@@ -281,6 +286,14 @@ bf-dropdown, bf-lazy-dropdown, bf-multi-selector {
             border-left-color: $text-color;
             border-radius: 100%;
           }
+        }
+        li.await-filter-tip {
+          padding: 7.5px 10px 5px;
+          background: $dropdown-loading-bg;
+          color: lighten($text-color, 40%);
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
         }
 
       }
@@ -418,7 +431,6 @@ bf-dropdown, bf-lazy-dropdown {
 
 bf-lazy-dropdown .clear-filter {
   position: absolute;
-  color: $focused-color;
   cursor: pointer;
   z-index: 999;
   top: 7px;

@@ -92,6 +92,7 @@ is not called anymore, the component switches to a front-end filtering and behav
                           [bfAutoCollapse]="conf.bfAutoCollapse"
 
                           [bfPlaceholder]="conf.hasPlaceholder ? conf.bfPlaceholder : null"
+                          [bfEmptyFilterTip]="conf.bfEmptyFilterTip ? conf.bfEmptyFilterTip : null"
                           [bfEmptyLabel]="conf.hasEmptyLabel ? conf.customEmptyLabel : null"
                           [bfEmptyValue]="conf.hasEmptyValue ? conf.customEmptyValue : null"
                           [bfErrorOnPristine]="conf.isErrorOnPristine"
@@ -107,7 +108,9 @@ is not called anymore, the component switches to a front-end filtering and behav
                           (bfOnListExpanded)="log('bfOnListExpanded', $event)"
                           (bfOnListCollapsed)="log('bfOnListCollapsed', $event)"
                           (bfBeforeChange)="log('bfBeforeChange', $event)"
-                          (bfOnTyping)="log('bfOnTyping', $event)">
+                          (bfOnTyping)="log('bfOnTyping', $event)"
+                          (bfListChange)="log('bfListChange', $event)"
+                          (bfMatch)="log('bfMatch', $event)">
         </bf-lazy-dropdown>
         <bf-btn *ngIf="conf.extraBtn" bfType="add-icon"></bf-btn>
 
@@ -295,6 +298,11 @@ is not called anymore, the component switches to a front-end filtering and behav
         </div>
       </div>
 
+      <!--bfEmptyFilterTip-->
+      <div class="row marT5" *ngIf="conf.bfFetchOn === 'filter'">
+        <bf-label class="col-2 padR0 padT5" bfText="bfEmptyFilterTip"></bf-label>
+        <bf-input class="col-4" [(ngModel)]="conf.bfEmptyFilterTip" (ngModelChange)="upComp()"></bf-input>
+      </div>
 
       <!--bfLoadingLabel + bfNoMatchText-->
       <div class="row marT15">

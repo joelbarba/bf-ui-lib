@@ -67,6 +67,7 @@ $dropdown-loading-bg      : rgba($optional-color, 0.25);`;
     bfDebounce: '300',        bfMinSearchLength: '1',
     hasRender: true,          bfRender: `reference`,      bfTranslate: false,   bfHtmlRender: false,
     hasRenderFn: false,
+    bfEmptyFilterTip: 'views.dropdown.awaiting_filter',
     hasPlaceholder: true,     bfPlaceholder: 'views.dropdown.placeholder',
     hasEmptyLabel: false,     customEmptyLabel: 'view.common.all',
     hasEmptyValue: false,     customEmptyValue: 'everything',
@@ -117,6 +118,9 @@ $dropdown-loading-bg      : rgba($optional-color, 0.25);`;
     if (conf.bfTranslate)  { code += bs + `[bfTranslate]="true"`; }
     if (conf.bfHtmlRender) { code += bs + `[bfHtmlRender]="true"`; }
 
+    if (conf.bfEmptyFilterTip !== 'views.dropdown.awaiting_filter') {
+      code += bs + `bfEmptyFilterTip="${conf.bfEmptyFilterTip}"`;
+    }
     if (conf.hasPlaceholder) { code += bs + `bfPlaceholder="${conf.bfPlaceholder}"`; }
     if (conf.hasEmptyLabel)  { code += bs + `bfEmptyLabel="${conf.customEmptyLabel}"`; }
     if (conf.hasEmptyValue)  { code += bs + `bfEmptyValue="${conf.customEmptyValue}"`; }
@@ -231,7 +235,9 @@ export const BfLazyDropdownDoc = {
 [bfTooltipPos]       : Position of the tooltip (top by default).
 [bfTooltipBody]      : Whether the tooltip is append to the body (default true) or next the the html element (false).
 [bfNoMatchText]      : Value to be displayed in the input in case of no match (if undefined, ngModel is rendered).
-[bfLoadingLabel]     : Label to display when loading more items. Default = 'views.dropdown.loading_more_items'. 
+[bfLoadingLabel]     : Label to display when loading more items. Default = 'views.dropdown.loading_more_items'.
+[bfEmptyFilterTip]   : When bfFetchOn=filter, a tip text is displayed on the empty expanded list to help understand that something needs to be typed
+                       for the component to trigger a search. This changes the text of the tip. Set it '' to hide the tip. 
 
 [bfCustomPlacementList] : By default the list expands up/down depending on its position on the screen. To force it: 'top' | 'bottom'.
 
@@ -252,6 +258,10 @@ export const BfLazyDropdownDoc = {
 (bfOnListCollapsed)  : Emitter to catch the moment when the list collapses (select or blur)
 (bfBeforeChange)     : Emitter to catch the next value before it is set. It returns both (currentValue, nextValue)
 (bfOnTyping)         : Emitter to catch when typing into the input\`,
+
+(bfListChange)       : Emits the internal loaded list every time that changes (empty item excluded)
+(bfMatch)            : Emits the selected item of the list every time the ngModel is matched. That can happen when the ngModel or the loaded list changes.
+
 `,
   instance: `<bf-lazy-dropdown [(ngModel)]="selObjExample1"
                         [bfLazyLoad]="fakeLoadData"

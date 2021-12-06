@@ -84,7 +84,8 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
   @Input() bfTooltipPos = 'top';  // If tooltip on the label, specific position (top by default)
   @Input() bfTooltipBody = true;  // If tooltip on the label, whether it is appended on the body
   @Input() bfNoMatchText = null;  // Value to be displayed in case of no match (if undefined, ngModel is rendered)
-  @Input() bfLoadingLabel = 'views.dropdown.loading_more_items';  // Label to display when loading more items
+  @Input() bfEmptyFilterTip = 'views.dropdown.awaiting_filter';  // Label to display while awaiting a filter
+  @Input() bfLoadingLabel = 'views.dropdown.loading_more_items'; // Label to display when loading more items
 
   @Input() bfPlaceholder;         // Placeholder to show when no value selected. If bfEmptyLabel, this gets overridden
   @Input() bfEmptyLabel;          // Text of the emptyItem option (no label = 'Empty')
@@ -113,6 +114,8 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
   @Output() bfOnListCollapsed = new EventEmitter<any>();  // The moment when the list collapses (select or blur)
   @Output() bfBeforeChange = new EventEmitter<any>();     // The moment before a value is set (selected)
   @Output() bfOnTyping = new EventEmitter<any>();         // When typing into the input
+  @Output() bfListChange = new EventEmitter<any>();       // Every time the extList changes (adds/removes items) without empty option
+  @Output() bfMatch = new EventEmitter<any>();            // Emits the item of the list the ngModel is matching (null if any)
 
 
   // --------------
@@ -287,6 +290,10 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
       this.bfLoadingLabel = this.bfLoadingLabel || 'views.dropdown.loading_more_items';
     }
 
+    if (changing('bfNoMatchText') && this.extList.indexOf(this.bfModel) < 0) {
+      this.setModelText(this.bfNoMatchText);
+    }
+
     if (changing('bfErrorPos')) { this.errorPosition = this.bfErrorPos || 'default'; }
     if (changing('bfErrorText') && this.isInvalid) { this.runValidation(); }
     if (changing('bfErrorOnPristine')) { this.runValidation(); }
@@ -346,6 +353,8 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
   //    - count   --> The total amount of items on the list without pagination
   fetchItems() {
     if (this.isLoading || this.status >= FULLY_LOADED) { return this.fetchingPromise; }
+    if (this.bfFetchOn === 'filter' && !this.searchTxt) { return this.fetchingPromise; } // Fetch on filter should not fetch when the filter is empty
+
     if (this.isExpanded) { setTimeout(() => this.scrollToLoading()); } // scroll to show the loading row
 
     // Call external 'bfLazyLoadFn' to load items
@@ -411,10 +420,13 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
             }
           } else { // If match, point to the new element on the list
             this.bfModel = match;
+            this.bfMatch.emit(this.bfModel);
             this.setModelText(this.bfModel.$$renderedText);
             if (!this.bfCandidate) { this.bfCandidate = match; }
           }
         }
+
+        this.bfListChange.emit(this.getLoadedItems());
 
         setTimeout(() => { // In case that the list changes its size
           this.listHeight = this.listContainer.nativeElement.getBoundingClientRect().height;
@@ -432,6 +444,8 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
     this.extList = [];
     this.setEmptyOption();
     this.status = EMPTY;
+    this.bfMatch.emit(null);
+    this.bfListChange.emit(this.getLoadedItems());
     this.listContainer.nativeElement.scrollTo({ top: 0, behavior: 'auto' });
   }
 
@@ -613,7 +627,7 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
 
   onInputFocusIn() {
     this.isFocus = true; // Trigger the first fetch when it's first focused (and empty)
-    if (this.bfFetchOn === 'focus' && this.status === EMPTY) { this.fetchItems(); }
+    if (this.status === EMPTY && this.bfFetchOn === 'focus')  { this.fetchItems(); }
     this.expandList();
   }
 
@@ -869,6 +883,7 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
     if (!!value && value !== this.bfEmptyValue && this.extList.indexOf(matchItem) < 0) { // In case of "no match"
       this.bfModel = value;
       this.isModelEmpty = false;
+      this.bfMatch.emit(null);
 
       let modelText = '';
       if (this.bfNoMatchText !== null) { modelText = this.bfNoMatchText; }
@@ -890,6 +905,7 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
     // console.log('selectItem', selObj);
 
     if (selObj !== this.emptyItem && selObj !== null && selObj !== undefined) {
+      this.bfMatch.emit(selObj);
       this.bfModel = selObj;
       this.isModelEmpty = false;
       this.setModelText(this.bfModel.$$renderedText);
@@ -948,6 +964,10 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
 
   isCandidate(item) { return item?.$$idRef === this.bfCandidate?.$$idRef; }
   isSelected(item)  { return item?.$$idRef === this.bfModel?.$$idRef; }
+
+  isFilterPristine() { // Show the filter tip only when the list is empty
+    return this.bfFetchOn === 'filter' && this.status === EMPTY && !this.isLoading && this.bfEmptyFilterTip;
+  }
 
   // Returns extList without the 'Empty' option (if any)
   getLoadedItems() {

@@ -151,6 +151,7 @@ export class BfTranslateService extends BfUILibTransService {
     'components.timepicker.max_time_error': 'Time is greater than {{maxTime}}',
     'components.timepicker.min_time_error': 'Time is less than {{minTime}}',
     'views.dropdown.loading_more_items': 'Load more items...',
+    'views.dropdown.awaiting_filter': 'Please type something to search',
   };
 
   public transDictCAT = {
