@@ -18,11 +18,12 @@
         <h5 class="marB25">bf-progress-bar Customization:</h5>
         <div class="padB50">
           <bf-progress-bar
-            [bfValue]="custom.obj.bfValue"
-            [bfTotal]="custom.obj.bfTotal"
+            [bfCompact]="custom.obj.bfCompact"
             [bfLabel]="custom.obj.bfLabel"
+            [bfLeftLabel]="custom.obj.bfLeftLabel"
+            [bfTotal]="custom.obj.bfTotal"
             [bfUsedLabel]="custom.obj.bfUsedLabel"
-            [bfLeftLabel]="custom.obj.bfLeftLabel">
+            [bfValue]="custom.obj.bfValue">
           </bf-progress-bar>
         </div>
         <div>
@@ -46,6 +47,15 @@
                       bfType="number"
                       (ngModelChange)="custom.buildComponentView()"
                       bfLabel="bfTotal"></bf-input>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 padT30">
+            <bf-checkbox (ngModelChange)="custom.buildComponentView()"
+                         [(ngModel)]="custom.obj.bfCompact"
+                         bfLabel="Compact"
+            ></bf-checkbox>
           </div>
         </div>
 

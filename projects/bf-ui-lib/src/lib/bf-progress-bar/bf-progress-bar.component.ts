@@ -13,6 +13,8 @@ export class BfProgressBarComponent implements OnInit, OnChanges {
   @Input() bfValue: number;      // Actual value
   @Input() bfUsedLabel: string;  // Sentence below the progress bar on the left with a data binding of the value
   @Input() bfLeftLabel: string;  // Sentence below the progress bar on the right with a data binding of the remaining value
+  @Input() bfCompact = true;  // Use compact layout for the progress bar.
+
   percentageValue: number;
 
   bfUsedLabel$: Observable<string> = of('');
