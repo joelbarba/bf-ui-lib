@@ -1,13 +1,13 @@
-<div class="bf-progress-bar">
+<div [class.compact]="bfCompact" class="bf-progress-bar">
   <!-- text on top of the progress bar-->
-  <span>{{bfLabel | getLabel$ | async }}</span>
+  <span class="progress-bar-top-label">{{bfLabel | getLabel$ | async }}</span>
 
   <!-- progress bar wrapper -->
 
   <ngb-progressbar [ngClass]="{'percentage-outside' : percentageValue < 10}"
                    showValue="true"
-                   [value]="percentageValue">
-  </ngb-progressbar>
+                   [value]="percentageValue"
+  ></ngb-progressbar>
 
   <!-- texts below the progress bar -->
   <div *ngIf="!!bfUsedLabel || !!bfLeftLabel" class="progress-sub-label">

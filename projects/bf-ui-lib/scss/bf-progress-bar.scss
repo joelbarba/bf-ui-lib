@@ -6,25 +6,57 @@ $progress-bar-per-outside: $primary_color !default;
 
 bf-progress-bar .bf-progress-bar {
 
+  .progress-bar-top-label {
+    font-weight: bold;
+    font-size: 1rem;
+  }
+
   .progress {
-    height: 1.2rem;
+    height: 2.5rem;
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
     color: $progress-bar-color;
+
     .progress-bar {
       text-align: right;
       background-color: $progress-bar-bg;
+
       span {
+        font-size: 0.875rem;
         padding-right: 0.5rem;
       }
     }
   }
 
-  .used-label { color: $progress-bar-used-label; }
-  .left-label { color: $progress-bar-left-label; }
+  &.compact {
+    .progress-bar-top-label {
+      font-weight: 400;
+      font-size: 0.875rem;
+    }
+
+    .progress {
+      height: 1.2rem;
+
+      &-bar {
+        span {
+          font-size: 0.75rem;
+        }
+      }
+    }
+  }
+
+
+  .used-label {
+    color: $progress-bar-used-label;
+  }
+
+  .left-label {
+    color: $progress-bar-left-label;
+  }
 
   .percentage-outside {
     .progress-bar {
       overflow: visible;
+
       span {
         margin-left: calc(100% + 0.5rem);
         color: $progress-bar-per-outside;

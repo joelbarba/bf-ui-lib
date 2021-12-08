@@ -33,7 +33,7 @@ export class BfProgressBarDemoComponent implements OnInit {
       hasValues: false,
       hasLabel: false,
       hasUsedLabel: false,
-      hasLeftLabel: false
+      hasLeftLabel: false,
     },
     obj: {
       bfValue: 10,
@@ -41,6 +41,7 @@ export class BfProgressBarDemoComponent implements OnInit {
       bfLabel: '',
       bfUsedLabel: '',
       bfLeftLabel: '',
+      bfCompact: true,
       componentView: `<bf-progress-bar></bf-progress-bar>`
     },
     buildComponentView: () => {
@@ -48,6 +49,7 @@ export class BfProgressBarDemoComponent implements OnInit {
       const config = this.custom.config;
       this.custom.obj.componentView = `<bf-progress-bar
   [bfValue]="${obj.bfValue}"
+  [bfCompact]="${obj.bfCompact}"
   [bfTotal]="${obj.bfTotal}"` +
   (config.hasLabel ? `
   [bfLabel]="${obj.bfLabel}"` : ``) +
@@ -90,7 +92,7 @@ export const BfProgressBarDoc = {
 
   If you want to display a label without the values you might do a translation key without the value binding:
   [bfLeftLabel]="'view.subscriptions.less_than_minute'" -> less than a minute
-  
+
   If you want to display only the values you might do a translation key with inside just the binding in this way:
   [bfUsedLabel]="'view.subscriptions.value_used'" -> {{value}}`,
   demoComp: BfProgressBarDemoComponent
