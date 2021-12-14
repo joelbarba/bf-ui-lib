@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { BfGrowlService } from 'projects/bf-ui-lib/src/lib/bf-growl/bf-growl.service';
+import { BfBtnType } from 'projects/bf-ui-lib/src/lib/bf-btn/abstractions/types/bf-btn.type';
 
 @Component({
   selector: 'app-bf-btn-demo',
@@ -235,7 +236,7 @@ public toggleExample = `<bf-btn class="toggle" [(bfToggle)]="isExp"></bf-btn>`;
     this.upBtn();
   }
 
-  public getBtnInst = (bfType) => `<bf-btn bfType="${bfType}"></bf-btn>`;
+  public getBtnInst = (bfType: BfBtnType) => `<bf-btn bfType="${bfType}"></bf-btn>`;
 
   public asyncClick() {
     return this.blockPr = new Promise((resolve) => {

@@ -1,7 +1,8 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { BfUILibTransService } from '../abstract-translate.service';
-import {BfArray} from '../bf-prototypes/bf-prototypes';
+import { BfArray } from '../bf-prototypes/bf-prototypes';
+import { BfBtnType } from './abstractions/types/bf-btn.type';
 
 @Component({
   selector: 'bf-btn',
@@ -13,7 +14,7 @@ export class BfBtnComponent implements OnInit, OnChanges {
 
   @Output() bfClick = new EventEmitter<any>();
   @Input() bfText: string;
-  @Input() bfType = ''; // save, update, add, delete, cancel
+  @Input() bfType: BfBtnType; // save, update, add, delete, cancel
   @Input() bfIcon: string;
   @Input() bfIconPos      = 'right';
   @Input() bfDisabled     = false;
@@ -58,6 +59,7 @@ export class BfBtnComponent implements OnInit, OnChanges {
       if (bfType === 'update')   { this.btnClass = 'primary';    this.typeIcon = 'icon-arrow-right3';   typeText = 'views.common.update'; }
       if (bfType === 'add')      { this.btnClass = 'primary';    this.typeIcon = 'icon-plus';           typeText = 'view.common.add';     }
       if (bfType === 'delete')   { this.btnClass = 'tertiary';   this.typeIcon = 'icon-bin';            typeText = 'view.common.delete';  }
+      if (bfType === 'remove')   { this.btnClass = 'tertiary';   this.typeIcon = 'icon-minus';          typeText = 'view.common.remove';  }
       if (bfType === 'cancel')   { this.btnClass = 'secondary';  this.typeIcon = 'icon-blocked';        typeText = 'view.common.cancel';  }
       if (bfType === 'view')     { this.btnClass = 'primary';    this.typeIcon = 'icon-eye';            typeText = 'view.common.view'; }
       if (bfType === 'prev')     { this.btnClass = 'quaternary'; this.typeIcon = 'icon-arrow-left6';    typeText = 'view.common.previous'; }
