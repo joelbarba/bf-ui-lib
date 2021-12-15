@@ -1,6 +1,7 @@
 $dropdown-selection-bg: rgba($quaternary_color, 0.35) !default;
 $dropdown-selection-hover: $primary_color !default;
 $dropdown-valid-color: $valid-color !default;
+$dropdown-loading-bg: rgba($optional-color, 0.25) !default;
 
 // Changes the colors depending on the status
 @mixin dropdown-status-color($color) {
@@ -11,6 +12,8 @@ $dropdown-valid-color: $valid-color !default;
     .form-control {
       border-color: $color;
     }
+
+    .clear-filter { color: $color; }
 
     .btn.btn-outline-secondary {
       background: $color;
@@ -212,14 +215,14 @@ bf-dropdown, bf-lazy-dropdown, bf-multi-selector {
 
         &:not(.list-upward) {
           border-top-color: rgba($optional-color, 0.5);
-          border-bottom-left-radius: 3px;
-          border-bottom-right-radius: 3px;
+          border-bottom-left-radius: 0.25rem;
+          border-bottom-right-radius: 0.25rem;
         }
 
         &.list-upward {
           bottom: 34px; // pull it up
-          border-top-left-radius: 3px;
-          border-top-right-radius: 3px;
+          border-top-left-radius: 0.25rem;
+          border-top-right-radius: 0.25rem;
           border-bottom-color: rgba($optional-color, 0.5);
         }
 
@@ -265,6 +268,32 @@ bf-dropdown, bf-lazy-dropdown, bf-multi-selector {
             height: 18px;
             margin-right: 10px;
           }
+        }
+
+        li.loading-more {
+          padding: 7.5px 10px 5px;
+          background: $dropdown-loading-bg;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          span.loading {
+            animation: bfSpinAround 500ms infinite linear;
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid transparent;
+            border-top-color: $text-color;
+            border-left-color: $text-color;
+            border-radius: 100%;
+          }
+        }
+        li.await-filter-tip {
+          padding: 7.5px 10px 5px;
+          background: $dropdown-loading-bg;
+          color: lighten($text-color, 40%);
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
         }
 
       }
@@ -364,7 +393,7 @@ bf-dropdown, bf-lazy-dropdown, bf-multi-selector {
 
 
 // Style extra button combination (bf-dropdown + bf-btn)
-bf-dropdown.extra-btn {
+bf-dropdown.extra-btn, bf-lazy-dropdown.extra-btn {
   &.full-width .dropdown-form-group { width: calc(100% - 37px); }
   button {
     border-top-right-radius: 0;
@@ -392,10 +421,19 @@ bf-dropdown.extra-btn {
   &.flat + bf-btn { margin-bottom: 0; }
 }
 
-bf-dropdown {
+bf-dropdown, bf-lazy-dropdown {
   .dropdown {
     .list-container {
       margin-bottom: 0; // with the change to ul brings a margin causing a gap when expanding upwards
     }
   }
+}
+
+bf-lazy-dropdown .clear-filter {
+  position: absolute;
+  cursor: pointer;
+  z-index: 999;
+  top: 7px;
+  right: 40px;
+  span.icon-cross { font-size: 10px; }
 }

@@ -1,18 +1,34 @@
+<!--<br>selModelText={{selModelText | json}}-->
+<!--<br>inputPlaceholder={{inputPlaceholder | json}}-->
+<!--<br>inputText={{inputText | json}}-->
+<!--<div *ngIf="dropdownInput">value={{dropdownInput.value | json}}</div>-->
+<!--pristine={{ngControl.pristine | json}}-->
+<!--<br> bfModel={{bfModel | json}}-->
+<!--<br>-->
+<!--<br> bfModel={{bfModel?.reference}}-->
+<!--<br> bfCandidate={{bfCandidate?.reference}}-->
+<!--<br> bfCandidate.$$idRef={{bfCandidate?.$$idRef}}-->
+<!--<br> status =-->
+<!--<b [show]="status === 0">EMPTY</b>-->
+<!--<b [show]="status === 1">PARTIALLY_LOADED</b>-->
+<!--<b [show]="status === 2">FULLY_LOADED</b>-->
+<!--<b [show]="status === 3">COMPLETELY_LOADED</b>-->
+<!--errors={{errors | json}}-->
+
 <div class="form-group dropdown-form-group"
-     (keydown)="triggerKey($event)"
      [class.is-required]="bfRequired"
      [class.is-disabled]="bfDisabled"
      [class.is-focus]="isFocus || isExpanded"
      [class.is-error]="showError">
 
-  <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
+  <label *ngIf="!!bfLabel" [class.is-required]="bfRequired" [for]="inputId">
     <span class="info-badge" *ngIf="!!bfTooltip"
-          [ngbTooltip]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
+          [ngbTooltip]="bfTooltip | getLabel$ | async" [placement]="bfTooltipPos" triggers="hover"
           [container]="(bfTooltipBody ? 'body' : '')">
       <span class="icon-info"></span>
     </span>
-    <span>{{bfLabelTrans$ | async}}</span>:
-    <span *ngIf="bfRequired" class="asterisk">*</span>
+    <span>{{bfLabel | getLabel$ | async}}</span>:
+    <span *ngIf="bfRequired" class="asterisk" aria-hidden="true">*</span>
   </label>
 
   <!--Error Message-->
@@ -27,45 +43,93 @@
   </span>
 
 
-  <div class="dropdown" [class.is-expanded]="isExpanded && !isLoading" [class.expand-upward]="expandUpward">
+  <div class="dropdown"
+       [class.is-expanded]="isExpanded"
+       [class.expand-upward]="expandUpward">
+
     <div class="input-group"
          [disableTooltip]="!bfDisabled || !bfDisabledTip"
-         [ngbTooltip]="bfDisabledTipTrans$ | async">
+         [ngbTooltip]="bfDisabledTip | getLabel$ | async"
+         [attr.aria-owns]="componentId"
+         [attr.aria-expanded]="isExpanded"
+         [attr.aria-required]="bfRequired"
+         role="combobox"
+         aria-haspopup="listbox">
 
-      <input type="text" class="form-control" #dropdownInput
-             [(ngModel)]="inputText" (ngModelChange)="typing$.next($event)"
-             [placeholder]="bfPlaceholderTrans$ | async"
+      <input [id]="inputId" type="text" class="form-control" #dropdownInput
+             [(ngModel)]="inputText" (ngModelChange)="onInputType($event)"
+             [class.has-image]="!!bfModel?.$$img"
+             [class.has-icon]="!!bfModel?.$$icon"
+             [placeholder]="inputPlaceholder"
              [disabled]="bfDisabled"
-             (focusin)="expandList()"
-             (focusout)="collapseList()">
+             [tabindex]="bfTabIndex"
+             aria-autocomplete="list"
+             [attr.aria-controls]="componentId"
+             [attr.aria-label]="bfAriaLabel | getLabel$ | async"
+             [attr.aria-activedescendant]="bfCandidate?.$$idRef"
+             (focusin)="onInputFocusIn()"
+             (focusout)="onInputFocusOut()"
+             (keydown)="onKeyDown($event)"
+             autocomplete="off"/>
 
+      <img *ngIf="!!bfModel?.$$img" class="input-image" [class.fade]="isExpanded" [src]="bfModel?.$$img" alt="bfModel?.$$img">
+
+      <span *ngIf="bfModel?.$$icon && !bfModel?.$$img" class="input-icon" [class.fade]="isExpanded"
+            [ngClass]="bfModel?.$$icon">
+      </span>
+
+      <!--Cross to reset the filter-->
+      <span *ngIf="isExpanded && !!searchTxt" class="clear-filter" (click)="onResetFilter()">
+        <span class="icon-cross"></span>
+      </span>
+
+      <!--Expand/Collapse button-->
       <div class="input-group-append" (click)="!bfDisabled && onInputBtnClick()">
-        <button class="btn btn-outline-secondary" [disabled]="bfDisabled ? 'true' : ''" tabIndex="-1">
-          <span [hidden]="isLoading"
-                [ngClass]="!inputText ? 'icon-search' : 'icon-cross'"
-                (click)="!!inputText && clear()"
-          ></span>
-          <span [hidden]="!isLoading" class="loading"></span>
+        <button class="btn btn-outline-secondary" [disabled]="bfDisabled ? 'true' : ''" tabIndex="-1" attr.aria-label="{{ 'view.common.dropdown_expand_btn_aria' | getLabel$ | async}}">
+          <span [show]="!isLoading || isExpanded" [ngClass]="(isExpanded && expandUpward) ? 'icon-arrow-up22' : 'icon-arrow-down22'"></span>
+          <span [show]="isLoading && !isExpanded" class="loading"></span>
         </button>
       </div>
     </div>
 
-    <div class="list-container" #listContainer
-         *ngIf="isExpanded"
-         [class.list-upward]="expandUpward">
-      <div *ngFor="let item of list" class="option-wrapper option-row" #optionRow
-           [class.selected]="bfModel === item"
-           [class.candidate]="bfCandidate === item"
-           (mouseenter)="!ignoreHover && (bfCandidate = item)"
-           (mouseleave)="!ignoreHover && (bfCandidate = null)"
-           (mousedown)="selectItem(item)">
-        <span>{{item.$renderedText}}</span>
-      </div>
-      <div *ngIf="showNoResultLabel()" class="option-row">
-        <span>{{noResultLabel | async}}</span>
-      </div>
-    </div>
+    <ul #listContainer
+        role="listbox"
+        class="list-container"
+        [id]="componentId"
+        [show]="isExpanded"
+        [class.list-upward]="expandUpward"
+        [attr.aria-hidden]="!isExpanded"
+        (scroll)="onScroll()">
+
+      <li *ngFor="let item of extList | isMatch"
+          class="option-wrapper"
+          role="option"
+          [id]="item.$$idRef"
+          [attr.aria-selected]="item.$$idRef === bfCandidate?.$$idRef"
+          (mouseenter)="onMouseEnter($event)"
+          (mouseleave)="onMouseLeave()"
+          (mousedown)="selectItem(item)"
+          #optionRow>
+
+        <div class="option-row"
+             [class.candidate]="isCandidate(item)"
+             [class.selected]="isSelected(item)">
+          <img *ngIf="!!item?.$$img"  class="option-row-image" [src]="item?.$$img" alt="">
+          <span *ngIf="!!item?.$$icon" class="option-row-icon" [ngClass]="item?.$$icon" aria-hidden></span>
+          <span *ngIf="bfHtmlRender" [innerHTML]="item.$$renderedText"></span>
+          <span *ngIf="!bfHtmlRender">{{item.$$renderedText}}</span>
+        </div>
+
+      </li>
+      <li class="loading-more" *ngIf="isLoading">
+        <span class="loading"></span>
+        <span class="marL10">{{ bfLoadingLabel | getLabel$ | async }}</span>
+      </li>
+      <li class="await-filter-tip" *ngIf="isFilterPristine()">
+        <span class="icon-search"></span>
+        <span class="marL10">{{ bfEmptyFilterTip | getLabel$ | async }}</span>
+      </li>
+    </ul>
   </div>
 
 </div>
-

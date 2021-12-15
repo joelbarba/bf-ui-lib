@@ -133,7 +133,7 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.error.invalid_option': 'Invalid Option',
     'views.dropdown.placeholder': '--- Select Item ---',
     'view.common.actions': 'Actions',
-    'views.lazy_dropdown.label': 'Search an email',
+    'views.lazy_dropdown.label': 'Search a reference',
     'views.lazy_dropdown.placeholder': 'Search user email',
     'views.green_thing': 'This is <span class="green">GREEN!</span>',
     'view.common.view': 'View',
@@ -151,6 +151,8 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.export': 'Export',
     'components.timepicker.max_time_error': 'Time is greater than {{maxTime}}',
     'components.timepicker.min_time_error': 'Time is less than {{minTime}}',
+    'views.dropdown.loading_more_items': 'Load more items...',
+    'views.dropdown.awaiting_filter': 'Please type something to search',
   };
 
   public transDictCAT = {
@@ -208,6 +210,7 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.download': 'Descarrega',
     'view.common.upload': 'Carrega',
     'view.common.refresh': 'Refresca',
+    'views.dropdown.loading_more_items': 'Carregant més dades...',
   };
 
   public transDict$ = new BehaviorSubject(this.transDict);
