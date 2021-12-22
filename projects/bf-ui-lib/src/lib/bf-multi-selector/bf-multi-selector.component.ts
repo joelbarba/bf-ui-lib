@@ -537,7 +537,8 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnInit, O
       return;
     }
 
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' || (event.key === 'Tab' && this.isExpanded)) {
+      event.preventDefault();
       this.selectItem(this.bfCandidate);
       this.isExpanded = false;
       this.elInput.nativeElement.blur();
