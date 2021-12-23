@@ -17,10 +17,44 @@
     <div class="col-5 marB15">
       <h5 class="marB25">Switch Customization:</h5>
       <div>
+                   <!--[bfLabelPos]="(swConf.labelPosLeft ? 'left' : 'top')"-->
+                   <!--[bfValueTextPos]="(swConf.valueTextPosLeft ? 'left' : 'right')"-->
         <bf-switch [(ngModel)]="myValue"
+                   [class.inline]="swConf.inline"
+                   [class.form-fit]="swConf.formFit"
+                   [class.value-left]="swConf.valueLeft"
+                   [class.horizontal]="swConf.horizontal"
+                   [class.space-between]="swConf.spaced"
                    [bfLabel]="(swConf.hasLabel ? swConf.labelText : '')"
-                   [bfLabelPos]="(swConf.labelPosLeft ? 'left' : 'top')"
-                   [bfValueTextPos]="(swConf.valueTextPosLeft ? 'left' : 'right')"
+                   [bfOnText]="(swConf.hasOnText ? swConf.onText : 'scripts.common.directives.on_label')"
+                   [bfOffText]="(swConf.hasOffText ? swConf.offText : 'scripts.common.directives.off_label')"
+                   [bfTooltip]="(swConf.hasTooltip ? swConf.btnTooltip : null)"
+                   [bfTooltipPos]="(swConf.btnTooltipPos || 'top')"
+                   [bfTooltipBody]="swConf.btnTooltipBody"
+                   [bfDisabled]="swConf.isDisabled"
+                   [bfDisabledTip]="swConf.bfDisabledTip">
+        </bf-switch>
+        <bf-switch [(ngModel)]="myValue" *ngIf="swConf.show3"
+                   [class.inline]="swConf.inline"
+                   [class.horizontal]="swConf.horizontal"
+                   [class.form-fit]="swConf.formFit"
+                   [class.value-left]="swConf.valueLeft"
+                   [class.space-between]="swConf.spaced"
+                   [bfLabel]="(swConf.hasLabel ? swConf.labelText : '')"
+                   [bfOnText]="(swConf.hasOnText ? swConf.onText : 'scripts.common.directives.on_label')"
+                   [bfOffText]="(swConf.hasOffText ? swConf.offText : 'scripts.common.directives.off_label')"
+                   [bfTooltip]="(swConf.hasTooltip ? swConf.btnTooltip : null)"
+                   [bfTooltipPos]="(swConf.btnTooltipPos || 'top')"
+                   [bfTooltipBody]="swConf.btnTooltipBody"
+                   [bfDisabled]="swConf.isDisabled">
+        </bf-switch>
+        <bf-switch [(ngModel)]="myValue" *ngIf="swConf.show3"
+                   [class.inline]="swConf.inline"
+                   [class.horizontal]="swConf.horizontal"
+                   [class.form-fit]="swConf.formFit"
+                   [class.value-left]="swConf.valueLeft"
+                   [class.space-between]="swConf.spaced"
+                   [bfLabel]="(swConf.hasLabel ? swConf.labelText : '')"
                    [bfOnText]="(swConf.hasOnText ? swConf.onText : 'scripts.common.directives.on_label')"
                    [bfOffText]="(swConf.hasOffText ? swConf.offText : 'scripts.common.directives.off_label')"
                    [bfTooltip]="(swConf.hasTooltip ? swConf.btnTooltip : null)"
@@ -33,25 +67,29 @@
         <div class="code-box pad15">
           <pre>{{swCode}}</pre>
         </div>
+        <bf-checkbox class="marT15" [(ngModel)]="swConf.show3" bfLabel="Show 3 instances"></bf-checkbox>
       </div>
     </div>
 
     <div class="col-7">
       <div class="row marT15">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="swConf.isDisabled" (ngModelChange)="updateCustomSw()" bfLabel="Is Disabled"></bf-checkbox> </div>
-<!--        <div class="col-10">-->
-<!--          <bf-input class="flat" [(ngModel)]="swConf.btnDisabledTip" bfPlaceholder="This button is disabled because..." (ngModelChange)="updateCustomSw()"></bf-input>-->
-<!--        </div>-->
+        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="swConf.isDisabled" (ngModelChange)="updateCustomSw()" bfLabel="bfDisabled"></bf-checkbox> </div>
+        <div class="col-7">
+          <bf-input *ngIf="swConf.isDisabled" class="flat" [(ngModel)]="swConf.bfDisabledTip"
+                    bfPlaceholder="This button is disabled because..." (ngModelChange)="updateCustomSw()">
+          </bf-input>
+        </div>
+        <div class="col-3"> <bf-checkbox [(ngModel)]="swConf.valueTextPosLeft" (ngModelChange)="updateCustomSw()" bfLabel="bfValueTextPos" bfTooltip="Deprecated: Please use css class 'value-left'"></bf-checkbox> </div>
       </div>
 
       <div class="row marT15">
-        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="swConf.hasLabel" (ngModelChange)="updateCustomSw()" bfLabel="Has Label"></bf-checkbox> </div>
+        <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="swConf.hasLabel" (ngModelChange)="updateCustomSw()" bfLabel="bfLabel"></bf-checkbox> </div>
         <div class="col-7" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="swConf.labelText" (ngModelChange)="updateCustomSw()" [bfDisabled]="!swConf.hasLabel"></bf-input> </div>
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="swConf.labelPosLeft" [bfDisabled]="!swConf.hasLabel" (ngModelChange)="updateCustomSw()" bfLabel="Label On Left"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="swConf.labelPosLeft" [bfDisabled]="!swConf.hasLabel" (ngModelChange)="updateCustomSw()" bfLabel="bfLabelPos" bfTooltip="Deprecated: Please use css class 'horizontal'"></bf-checkbox> </div>
         <div class="col-2"></div>
         <div class="col-10">
           <div class="row marT10">
-            <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="swConf.hasTooltip" [bfDisabled]="!swConf.hasLabel" (ngModelChange)="updateCustomSw()" bfLabel="Has Tooltip"></bf-checkbox> </div>
+            <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="swConf.hasTooltip" [bfDisabled]="!swConf.hasLabel" (ngModelChange)="updateCustomSw()" bfLabel="bfTooltip"></bf-checkbox> </div>
             <div class="col-8" *ngIf="swConf.hasTooltip">
               <bf-input [(ngModel)]="swConf.btnTooltip" (ngModelChange)="updateCustomSw()"></bf-input>
             </div>
@@ -67,17 +105,24 @@
       </div>
 
       <div class="row marT20">
-        <div class="col-12"> <bf-checkbox [(ngModel)]="swConf.valueTextPosLeft" (ngModelChange)="updateCustomSw()" bfLabel="Value text on left"></bf-checkbox> </div>
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="swConf.hasOnText" (ngModelChange)="updateCustomSw()" bfLabel="Custom 'ON' Text"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="swConf.hasOnText" (ngModelChange)="updateCustomSw()" bfLabel="bfOnText"></bf-checkbox> </div>
         <div class="col-6" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="swConf.onText" (ngModelChange)="updateCustomSw()" [bfDisabled]="!swConf.hasOnText"></bf-input> </div>
       </div>
       <div class="row">
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="swConf.hasOffText" (ngModelChange)="updateCustomSw()" bfLabel="Custom 'OFF' Text"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="swConf.hasOffText" (ngModelChange)="updateCustomSw()" bfLabel="bfOffText"></bf-checkbox> </div>
         <div class="col-6" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="swConf.offText" (ngModelChange)="updateCustomSw()" [bfDisabled]="!swConf.hasOffText"></bf-input> </div>
       </div>
-
-
+      <div class="row">
+        <div class="col-12">CSS:</div>
+        <div class="col-3 padT5"><bf-checkbox [(ngModel)]="swConf.inline"     (ngModelChange)="updateCustomSw()" bfLabel="inline" bfTooltip="Makes the component css inline, so they can be placed horizontally next to other components"></bf-checkbox></div>
+        <div class="col-3 padT5"><bf-checkbox [(ngModel)]="swConf.horizontal" (ngModelChange)="updateCustomSw()" bfLabel="horizontal" bfTooltip="It relocates the label and lever horizontally (left/right) instead of top/bottom"></bf-checkbox></div>
+        <div class="col-3 padT5"><bf-checkbox [(ngModel)]="swConf.valueLeft"  (ngModelChange)="updateCustomSw()" bfLabel="value-left" bfTooltip="It switches the value to the left side of the lever, instead of the right side"></bf-checkbox></div>
+        <div class="col-3 padT5"><bf-checkbox [(ngModel)]="swConf.spaced"     (ngModelChange)="updateCustomSw()" bfLabel="space-between" bfTooltip="It stretches the horizontal space between the label and the value to the maximum (forces horizontal too)"></bf-checkbox></div>
+        <div class="col-3 padT5"><bf-checkbox [(ngModel)]="swConf.formFit"    (ngModelChange)="updateCustomSw()" bfLabel="form-fit" bfTooltip="It adds a margin bottom to the component, to fit it on form layouts"></bf-checkbox></div>
       </div>
+
+
+    </div>
 
   </div>
 </div>

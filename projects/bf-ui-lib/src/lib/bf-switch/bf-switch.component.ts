@@ -1,7 +1,6 @@
 import { Component, forwardRef, HostBinding, Inject, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BfUILibTransService } from '../abstract-translate.service';
-import { Observable, of } from 'rxjs';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 
@@ -17,17 +16,14 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
   ]
 })
 export class BfSwitchComponent implements ControlValueAccessor, OnInit, OnChanges {
-
-  // @Output() bfClick = new EventEmitter<any>();
   @Input() bfDisabled = false;
   @Input() bfOnText = 'scripts.common.directives.on_label';
   @Input() bfOffText = 'scripts.common.directives.off_label';
-  @Input() bfValueTextPos: 'left' | 'right' = 'right';
 
   @Input() bfLabel: string;
-  @Input() bfLabelPos: 'top' | 'left' = 'top';
   @Input() bfTooltip: string;
   @Input() bfTooltipPos = 'top';
+  @Input() bfDisabledTip = '';
   @Input() bfTooltipBody: boolean;
   @Input() bfTabIndex = 0;
 
@@ -35,22 +31,20 @@ export class BfSwitchComponent implements ControlValueAccessor, OnInit, OnChange
 
   public bfModel = false; // Internal holding of the ngModel
 
-  public bfOnText$: Observable<string> = of(''); // Translated text for the ON label
-  public bfOffText$: Observable<string> = of(''); // Translated text for the OFF label
-  public bfTooltipTrans$: Observable<string> = of('');
-  public bfLabelTrans$: Observable<string> = of('');
 
+  // Keep these 2 to allow retro-compatibility
+  @Input() bfLabelPos: 'top' | 'left';
+  @Input() bfValueTextPos: 'left' | 'right' = 'right';
   @HostBinding('class.horizontal')
   public get labelHorizontal(): boolean { return this.bfLabelPos === 'left'; }
+  @HostBinding('class.value-left')
+  public get labelLeft(): boolean { return this.bfValueTextPos === 'left'; }
+
 
   constructor(
     @Inject(BfUILibTransService) private translate: BfUILibTransService,
     private liveAnnouncer: LiveAnnouncer
-  ) {
-    this.bfOnText$ = this.translate.getLabel$(this.bfOnText);
-    this.bfOffText$ = this.translate.getLabel$(this.bfOffText);
-    this.bfTooltipTrans$ = this.translate.getLabel$(this.bfTooltip);
-  }
+  ) {}
 
   // ------- ControlValueAccessor -----
 
@@ -67,13 +61,7 @@ export class BfSwitchComponent implements ControlValueAccessor, OnInit, OnChange
 
   ngOnInit() { }
 
-  ngOnChanges(change) {
-    if (change.hasOwnProperty('bfOnText')) { this.bfOnText$ = this.translate.getLabel$(this.bfOnText); }
-    if (change.hasOwnProperty('bfOffText')) { this.bfOffText$ = this.translate.getLabel$(this.bfOffText); }
-    if (change.hasOwnProperty('bfTooltip')) { this.bfTooltipTrans$ = this.translate.getLabel$(this.bfTooltip); }
-    if (change.hasOwnProperty('bfLabel')) { this.bfLabelTrans$ = this.translate.getLabel$(this.bfLabel); }
-
-  }
+  ngOnChanges(change) { }
 
   public onSwitch() {
     if (!this.bfDisabled) {
