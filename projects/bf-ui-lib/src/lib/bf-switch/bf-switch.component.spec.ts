@@ -1,10 +1,10 @@
 import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 import {FormsModule} from '@angular/forms';
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-
 import {BfSwitchComponent} from './bf-switch.component';
 import {TestingModule} from '../../testing/testing-module';
 import {BfLabelComponent} from '../bf-label/bf-label.component';
+import {BfTranslatePipe} from '../abstract-translate.service';
 
 describe('BfSwitchComponent', () => {
   let component: BfSwitchComponent;
@@ -12,10 +12,9 @@ describe('BfSwitchComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [BfSwitchComponent, BfLabelComponent],
+      declarations: [BfSwitchComponent, BfLabelComponent, BfTranslatePipe],
       imports: [TestingModule, FormsModule, NgbTooltipModule],
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -61,32 +60,6 @@ describe('BfSwitchComponent', () => {
       component.bfTooltip = 'This is a tooltip';
       component.onKeyDown(event);
       expect(closeTooltipSpy).toHaveBeenCalled();
-    });
-  });
-
-  describe('Value text position', () => {
-    it('should default to value on the right', () => {
-      expect(component.bfValueTextPos).toEqual('right');
-
-      const valueContainerDiv: HTMLDivElement = fixture.elementRef.nativeElement.getElementsByClassName('bf-switch')[0];
-      expect(valueContainerDiv.classList.contains('bf-switch--value-left')).toBeFalse();
-
-      const valueDiv: HTMLDivElement = fixture.elementRef.nativeElement.getElementsByClassName('switch-value')[0];
-      expect(valueDiv.classList.contains('switch-value--left')).toBeFalse();
-    });
-
-    it('should default to value on the right', () => {
-      component.bfValueTextPos = 'left';
-
-      fixture.detectChanges();
-
-      expect(component.bfValueTextPos).toEqual('left');
-
-      const valueDiv: HTMLDivElement = fixture.elementRef.nativeElement.getElementsByClassName('switch-value--left')[0];
-      expect(valueDiv).toBeDefined();
-
-      const valueContainerDiv: HTMLDivElement = fixture.elementRef.nativeElement.getElementsByClassName('bf-switch--value-left')[0];
-      expect(valueContainerDiv).toBeDefined();
     });
   });
 });
