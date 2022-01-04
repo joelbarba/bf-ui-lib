@@ -575,48 +575,57 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
 
   // React on key events (on the input)
   public triggerKey = (event: KeyboardEvent) => {
+
     if (event.key === 'Escape') {
       this.isExpanded = false;
       this.inputText = this.selModelText; // Take back the selected text
       this.bfOnListCollapsed.emit();
     }
 
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' || (this.isExpanded && event.key === 'Tab')) {
       event.preventDefault();
-
-      if (!this.isExpanded) {
-        this.expandList();
+      if (this.isExpanded) {
+        this.selectRow(this.getActiveDecendant());
       } else {
-        const activeItemIndex = this.allRows.findIndex((element) => element.nativeElement.id === this.getActiveDecendant());
-        const itemToSelect = this.extList[activeItemIndex];
-        this.selectItem(itemToSelect);
-
-        this.isExpanded = false;
-        this.bfOnListCollapsed.emit();
+        this.expandList();
       }
     }
 
     if (event.key === 'ArrowDown') {
       event.preventDefault();
       const currentElement = this.getCurrentElement(this.listContainer.nativeElement.children);
-
       if (currentElement) {
         const selectedElement = this.onNextItemFocused(currentElement);
-        this.scrollItemIntoView(selectedElement);
+        if (this.isExpanded) {
+          this.scrollItemIntoView(selectedElement);
+        } else {
+          this.selectRow(selectedElement.id);
+        }
       }
     }
 
     if (event.key === 'ArrowUp') {
       event.preventDefault();
       const currentElement = this.getCurrentElement(this.listContainer.nativeElement.children);
-
       if (currentElement) {
         const selectedElement = this.onPreviousItemFocused(currentElement);
-        this.scrollItemIntoView(selectedElement);
+        if (this.isExpanded) {
+          this.scrollItemIntoView(selectedElement);
+        } else {
+          this.selectRow(selectedElement.id);
+        }
       }
     }
   };
 
+
+  public selectRow = (rowId) => {
+    const index = this.allRows.findIndex((element) => element.nativeElement.id === rowId);
+    const itemToSelect = this.extList[index];
+    this.selectItem(itemToSelect);
+    this.isExpanded = false;
+    this.bfOnListCollapsed.emit();
+  }
 
 
   public inputType = (value) => {

@@ -200,7 +200,7 @@ describe('BfMultiSelectorComponent', () => {
 
       it('should select highlighted value and close dropdown on Enter key', fakeAsync(() => {
         expect(getOptionRows()[0].classList).toContain('candidate');
-        formGroupDe.triggerEventHandler('keydown', { key: 'Enter' });
+        formGroupDe.triggerEventHandler('keydown', { key: 'Enter', preventDefault: () => {} });
         tick(100);
         detectChanges();
 
