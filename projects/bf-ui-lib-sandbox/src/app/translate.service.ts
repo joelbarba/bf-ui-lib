@@ -252,7 +252,9 @@ export class BfTranslateService extends BfUILibTransService {
   public getLabel$ = (label ?: string, params = {}): Observable<string> => {
     return this.transDict$.pipe(
       map(translations => {
-        let text = (this.transDict[label] || label || '') + '';
+        let text = '';
+        if (label !== null && label !== undefined) { text += this.transDict[label] || label; }
+
         for (const [key, value] of Object.entries(params)) {
           text = text.replace('{{' + key + '}}', value + '');
           // text = text.replace(new RegExp('{{' + key + '}}', 'gi'), value);

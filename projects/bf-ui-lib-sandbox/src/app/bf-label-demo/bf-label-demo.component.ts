@@ -1,17 +1,19 @@
 import {BfTranslateService} from '../translate.service';
-import { Component, OnInit, Inject } from '@angular/core';
+import {Component, OnInit, Inject, ViewEncapsulation} from '@angular/core';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-bf-label-demo',
   templateUrl: './bf-label-demo.component.html',
-  styleUrls: ['./bf-label-demo.component.scss']
+  styleUrls: ['./bf-label-demo.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class BfLabelDemoComponent implements OnInit {
   public name = BfLabelDoc.name;
   public desc = BfLabelDoc.desc;
   public api = BfLabelDoc.api;
   public instance = BfLabelDoc.instance;
+  public myVal;
 
   public instance2 =
 `<bf-label bfText="view.common.name" [bfRequired]="true"></bf-label>`;
@@ -42,6 +44,7 @@ export class BfLabelDemoComponent implements OnInit {
 <bf-label class="value-list-3" bfText="Email"       bfValue="joel.barba@blueface.com"></bf-label>
 <bf-label class="value-list-3" bfText="Number"      bfValue="+353 089 422 6474"></bf-label>
 <bf-label class="value-list-3" bfText="Description" bfValue="He is a very nice guy"></bf-label>`;
+  public longValue = 'This is a long value to demonstrated what happens when it does not fit into the space of the component';
 
   public transAbsService = `export abstract class AbstractTranslateService {
   constructor() { }
@@ -74,66 +77,97 @@ export class BfLabelDemoComponent implements OnInit {
   public customCompCode = ``;
   public compConf = {
     hasLabel: true, text: 'view.common.username',
-    hasValue: false, value: 'view.common.field_name',
-    isRequired: true,
-    hasTooltip: true, tooltipText: 'view.tooltip.message', tooltipPos: null, tooltipBody: 'true',
+    hasValue: true, value: 'view.common.field_name',
+    isRequired: false,
+    hasTooltip: false, tooltipText: 'view.tooltip.message', tooltipPos: null, tooltipBody: 'true',
     hasBlock: false,
     hasNoBold: false,
     hasNoColon: false,
     hasColon: false,
     hasValueInline: false,
-    hasValueList: false,
     hasValueBold: false,
     hasValueLight: false,
     hasEllipsis: false,
     textSize: null,
-    valueList: null,
     valueMar: null,
     valuePrimary: false,
     valueWarning: false,
+    isError: false,
+    formFit: false,
+    hasValueList: false, valueList: null, labelLeft: false, valueRight: false,
+    valueSpaced: false, valueLeft: false, labelCol: 1, valueCol: 1, valSpClass: '',
+    colorBg: false,
   };
   public textSizes = [];
   public valueLists = [];
   public valueMars = [];
+  public list1to10 = [{id: 1},{id: 2},{id: 3},{id: 4},{id: 5},{id: 6},{id: 7},{id: 8},{id: 9},{id: 10}];
   public upComp = () => {
-    this.customCompCode = `<bf-label `;
+    const conf = this.compConf;
+    let code = `<bf-label `;
 
-    let compClasses = '';
-    if (this.compConf.hasBlock)       { compClasses += (!!compClasses.length ? ' ' : '') + 'block'; }
-    if (this.compConf.hasNoColon)     { compClasses += (!!compClasses.length ? ' ' : '') + 'no-colon'; }
-    if (this.compConf.hasColon)       { compClasses += (!!compClasses.length ? ' ' : '') + 'colon'; }
-    if (this.compConf.hasValueInline) { compClasses += (!!compClasses.length ? ' ' : '') + 'value-inline'; }
-    if (this.compConf.hasValueList)   { compClasses += (!!compClasses.length ? ' ' : '') + 'value-list'; }
-    if (this.compConf.hasNoBold)      { compClasses += (!!compClasses.length ? ' ' : '') + 'no-bold'; }
-    if (this.compConf.hasValueBold)   { compClasses += (!!compClasses.length ? ' ' : '') + 'value-bold'; }
-    if (this.compConf.hasValueLight)  { compClasses += (!!compClasses.length ? ' ' : '') + 'value-light'; }
-    if (this.compConf.hasEllipsis)    { compClasses += (!!compClasses.length ? ' ' : '') + 'ellipsis'; }
-    if (this.compConf.valuePrimary)   { compClasses += (!!compClasses.length ? ' ' : '') + 'value-primary'; }
-    if (this.compConf.valueWarning)   { compClasses += (!!compClasses.length ? ' ' : '') + 'value-warning'; }
-    if (this.compConf.textSize)       { compClasses += (!!compClasses.length ? ' ' : '') + this.compConf.textSize; }
-    if (this.compConf.valueMar)       { compClasses += (!!compClasses.length ? ' ' : '') + this.compConf.valueMar; }
-    if (this.compConf.valueList)      { compClasses += (!!compClasses.length ? ' ' : '') + this.compConf.valueList; }
-    if (!!compClasses) {
-      this.customCompCode += `class="${compClasses}"` + this.bsStr;
+    const css = [];
+    if (conf.hasBlock)       { css.push('block'); }
+    if (conf.hasNoColon)     { css.push('no-colon'); }
+    if (conf.hasColon)       { css.push('colon'); }
+    if (conf.hasValueList)   { css.push('value-list'); }
+    if (conf.hasNoBold)      { css.push('no-bold'); }
+    if (conf.hasValueBold)   { css.push('value-bold'); }
+    if (conf.hasValueLight)  { css.push('value-light'); }
+    if (conf.hasEllipsis)    { css.push('ellipsis'); }
+    if (conf.valuePrimary)   { css.push('value-primary'); }
+    if (conf.valueWarning)   { css.push('value-warning'); }
+    if (conf.textSize)       { css.push(conf.textSize); }
+    if (conf.valueMar)       { css.push(conf.valueMar); }
+
+    conf.valSpClass = '';
+    if (conf.valueSpaced) {
+      if (conf.labelCol && conf.valueCol) {
+        conf.valSpClass = `flex-${conf.labelCol}-${conf.valueCol}`;
+        css.push(conf.valSpClass);
+      }
+      css.push('value-spaced');
+      if (conf.valueLeft) { css.push('value-left'); }
+      conf.colorBg = true;
+      if (conf.value === 'view.common.field_name') { conf.value = this.longValue; }
+      conf.hasValueInline = false;
+      conf.hasValueList = false; conf.valueList = null; conf.labelLeft = false;
     }
 
-    if (this.compConf.hasLabel) { this.customCompCode += `bfText="${this.compConf.text}"`; }
-    if (this.compConf.hasValue) { this.customCompCode += (!this.compConf.hasLabel ? '' : this.bsStr) + `bfValue="${this.compConf.value}"`; }
-
-    if (this.compConf.isRequired) { this.customCompCode += this.bsStr + `[bfRequired]="true"`; }
-
-    if (this.compConf.hasTooltip) {
-      this.customCompCode += this.bsStr + `bfTooltip="${this.compConf.tooltipText}"`;
-      if (!!this.compConf.tooltipPos)  { this.customCompCode += this.bsStr + `bfTooltipPos="${this.compConf.tooltipPos}"`; }
-      if (!!this.compConf.tooltipBody) { this.customCompCode += this.bsStr + `bfTooltipBody="${this.compConf.tooltipBody}"`; }
+    if (conf.hasValueList)   {
+      conf.hasValueInline = false;
+      conf.colorBg = true;
+      if (conf.value === 'view.common.field_name') { conf.value = this.longValue; }
+      if (conf.valueList)  { css.push(conf.valueList); }
+      if (conf.labelLeft)  { css.push('label-left'); }
+      if (conf.valueRight) { css.push('value-right'); }
     }
 
-    this.customCompCode += (`>` + this.brStr + `</bf-label>`);
+    if (conf.hasValueInline) { css.push('value-inline'); }
+
+    if (css.length) { code += `class="${css.join(' ')}"` + this.bsStr; }
+
+
+
+
+    if (conf.hasLabel) { code += `bfText="${conf.text}"`; }
+    if (conf.hasValue) { code += (!conf.hasLabel ? '' : this.bsStr) + `bfValue="${conf.value}"`; }
+
+    if (conf.isRequired) { code += this.bsStr + `[bfRequired]="true"`; }
+
+    if (conf.hasTooltip) {
+      code += this.bsStr + `bfTooltip="${conf.tooltipText}"`;
+      if (!!conf.tooltipPos)  { code += this.bsStr + `bfTooltipPos="${conf.tooltipPos}"`; }
+      if (!!conf.tooltipBody) { code += this.bsStr + `bfTooltipBody="${conf.tooltipBody}"`; }
+    }
+    code += (`>` + this.brStr + `</bf-label>`);
+    this.customCompCode = code;
   }
 
   valueClickedExample(value) {
     alert('You clicked the label value' + value);
   }
+
 
   constructor(
     private translate: BfTranslateService,

@@ -8,7 +8,7 @@
   <span class="the-colon" [hidden]="!(bfTextTrans$ | async)">:</span>
   <span class="asterisk" [hidden]="!(bfTextTrans$ | async)" *ngIf="bfRequired">*</span>
 </label>
-<div class="label-value" *ngIf="!!bfValue">
+<div class="label-value" *ngIf="bfValue !== null && bfValue !== undefined">
   <span [ngbTooltip]="bfValueTooltipTrans$ | async" [placement]="bfValueTooltipPos" (click)="valueEvent()">
     <span *ngIf="bfTranslateValue" >{{bfValueTrans$ | async}}</span>
     <span *ngIf="!bfTranslateValue">{{bfValue}}</span>

@@ -57,6 +57,9 @@ bf-label.value-list, bf-label[class*="value-list-"] {
 @for $ind from 1 through 10 {
   bf-label.value-list-#{$ind} { .label-value { flex: #{$ind}; } }
 }
+bf-label.label-left label { text-align: left; margin-right: 10px; }
+bf-label.value-right .label-value { text-align: right; }
+
 
 @for $ind from 1 through 30 {
   bf-label.text-#{$ind} { .label-value, label { font-size: #{$ind}px; } }
@@ -70,6 +73,37 @@ bf-label.value-list, bf-label.value-inline {
 
 bf-label.value-primary  .label-value { color: $primary_color; }
 bf-label.value-warning  .label-value { color: $warning_color; }
+bf-label.is-error label { color: $warning-color; }
+bf-label.form-fit label { margin-bottom: 16px; }
+
+bf-label.value-spaced {
+  display: flex;
+  justify-content: space-between;
+  .label-value {
+    text-align: right;
+    display: inline-block;
+  }
+  &.value-left .label-value { text-align: left; margin-left: 10px; }
+
+  // To be used like: <bf-label class="flex-2-5">
+  &.flex-1-0 label { flex: 1; }
+  &.flex-0-1 .label-value { flex: 1; }
+  @for $col1 from 1 through 10 {
+    @for $col2 from 1 through 10 {
+      &.flex-#{$col1}-#{$col2} {
+        label { flex: $col1; }
+        .label-value { flex: $col2; }
+      }
+    }
+  }
+}
+
+// Duplicated of value-spaced
+//bf-label.space-between {
+//  display: flex;
+//  justify-content: space-between;
+//}
+
 
 // --- Label color reset --------------------------------------------------
 //bf-label {
