@@ -21,7 +21,7 @@ export class BfSwitchDemoComponent implements OnInit {
 `<bf-switch [(ngModel)]="myVal" [bfDisabled]="true"></bf-switch>`;
 
   public instance3 =
-`<bf-switch [(ngModel)]="myVal" bfLabel="view.common.name" bfLabelPos="left"></bf-switch>`;
+`<bf-switch [(ngModel)]="myVal" bfLabel="view.common.name" class="horizontal"></bf-switch>`;
 
   public instance4 =
 `<bf-switch [(ngModel)]="myVal" bfLabel="view.common.name"></bf-switch>`;
@@ -46,7 +46,7 @@ $switch-color-off: $switch-lever-bg !default;`;
   public brStr = `
 `;
   public bsStr = `
-           `;
+          `;
   public swTooltipPos = [
     { id: 'top',        text: 'top'    },
     { id: 'right',      text: 'right'  },
@@ -59,7 +59,7 @@ $switch-color-off: $switch-lever-bg !default;`;
   ];
   public swCode = ``;
   public swConf = {
-    hasLabel: false,
+    hasLabel: true,
     labelText: 'view.common.field_name2',
     labelPosLeft: false,
     hasTooltip: false,
@@ -71,24 +71,35 @@ $switch-color-off: $switch-lever-bg !default;`;
     hasOffText: false,
     valueTextPosLeft: false,
     onText: 'view.common.yes',
-    offText: 'view.common.no'
+    offText: 'view.common.no',
+    bfDisabledTip: '',
+    inline: false,
+    horizontal: false,
+    formFit: true,
+    valueLeft: false,
+    spaced: false,
+    show3: true,
   };
 
   public updateCustomSw = () => {
-    this.swCode = `<bf-switch [(ngModel)]="myValue"`;
+    this.swCode = `<bf-switch `;
 
-    if (this.swConf.hasLabel) {
-      this.swCode += this.bsStr + ` bfLabel="${this.swConf.labelText}"`;
-
-      if (this.swConf.labelPosLeft) {
-        this.swCode += this.bsStr + ` bfLabelPos="left"`;
-      }
+    let compClasses = '';
+    if (this.swConf.inline)     { compClasses += (!!compClasses.length ? ' ' : '') + 'inline'; }
+    if (this.swConf.horizontal) { compClasses += (!!compClasses.length ? ' ' : '') + 'horizontal'; }
+    if (this.swConf.formFit)    { compClasses += (!!compClasses.length ? ' ' : '') + 'form-fit'; }
+    if (this.swConf.valueLeft)  { compClasses += (!!compClasses.length ? ' ' : '') + 'value-left'; }
+    if (this.swConf.spaced)     { compClasses += (!!compClasses.length ? ' ' : '') + 'space-between'; }
+    if (!!compClasses) {
+      this.swCode += `class="${compClasses}"` + this.bsStr;
     }
+    this.swCode += ` [(ngModel)]="myValue"`;
 
-    if (this.swConf.valueTextPosLeft)  { this.swCode += this.bsStr + ` bfValueTextPos="left"`; }
+    if (this.swConf.hasLabel)   { this.swCode += this.bsStr + ` bfLabel="${this.swConf.labelText}"`; }
     if (this.swConf.hasOnText)  { this.swCode += this.bsStr + ` bfOnText="${this.swConf.onText}"`; }
     if (this.swConf.hasOffText) { this.swCode += this.bsStr + ` bfOffText="${this.swConf.offText}"`; }
-    if (this.swConf.isDisabled) { this.swCode += this.bsStr + `[bfDisabled]="true"`; }
+    if (this.swConf.isDisabled) { this.swCode += this.bsStr + ` [bfDisabled]="true"`; }
+    if (this.swConf.bfDisabledTip) { this.swCode += this.bsStr + ` bfDisabledTip="${this.swConf.bfDisabledTip}"`; }
 
     if (this.swConf.hasTooltip) {
       this.swCode += this.bsStr + ` bfTooltip="${this.swConf.btnTooltip}"`;
@@ -98,7 +109,6 @@ $switch-color-off: $switch-lever-bg !default;`;
       if (!!this.swConf.btnTooltipBody) {
         this.swCode += this.bsStr + ` bfTooltipBody="${this.swConf.btnTooltipBody}"`;
       }
-
     }
 
     this.swCode += (`>` + this.brStr + `</bf-switch>`);
@@ -107,7 +117,9 @@ $switch-color-off: $switch-lever-bg !default;`;
 
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.updateCustomSw();
+  }
 
 }
 
@@ -117,14 +129,16 @@ export const BfSwitchDoc = {
   uiType  : 'component',
   desc    : `Generates a switch.`,
   api     : `[(ngModel)]     : The ngModel directive is linked to the inner <input>, so that can be used as a form element with ngForm (status is propagated)
+[bfLabel]       : If text provided, a label will be added.
 [bfDisabled]    : Whether the switch is disabled (true) or not (false).
 [bfOnText]      : Text displayed when value is true. By default = ON.
 [bfOffText]     : Text displayed when value is false. By default = OFF.
-[bfLabel]       : If text provided, a label will be added.
-[bfLabelPos]    : Position of the label (top | left). By default = top.
 [bfTooltip]     : Tooltip on the label
 [bfTooltipPos]  : Position of the tooltip on the label
-[bfTooltipBody] : Whether the tooltip on the label is append on the body (true) or not (false)`,
+[bfTooltipBody] : Whether the tooltip on the label is append on the body (true) or not (false).
+[bfDisabledTip] : Tooltip to show when the component is disabled.
+[bfLabelPos]    : (deprecated: use css class="horizontal") Position of the label (top | left). By default = top.
+[bfValueTextPos]: (deprecated: use css class="value-left") Swapping the value on the left side of the lever (true).`,
   instance: `<bf-switch [(ngModel)]="myVal"></bf-switch>`,
   demoComp: BfSwitchDemoComponent
 };

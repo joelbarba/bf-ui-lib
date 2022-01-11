@@ -1,37 +1,40 @@
-<bf-label *ngIf="!!bfLabel"
-          [bfText]="bfLabel"
-          [bfTooltipBody]="bfTooltipBody"
-          [bfTooltipPos]="bfTooltipPos"
-          [bfTooltip]="bfTooltip"
-          class="switch-label">
-</bf-label>
-<div #tooltip="ngbTooltip"
-     (click)="onSwitch()"
-     (keydown)="onKeyDown($event)"
-     (keyup)="onKeyUp($event)"
-     [attr.aria-checked]="bfModel"
-     [attr.aria-label]="bfLabelTrans$ | async"
-     [class.is-disabled]="bfDisabled"
-     [ngbTooltip]="bfTooltipTrans$ | async"
-     [tabindex]="bfTabIndex"
-     [class.bf-switch--value-left]="bfValueTextPos === 'left'"
-     class="bf-switch"
-     role="switch"
-     triggers="manual">
-  <div class="switch-container">
-    <div class="switch-bar"></div>
-    <div [class.is-off]="!bfModel"
-         [class.is-on]="bfModel"
-         class="switch-lever"
-    ></div>
-  </div>
-  <div [class.switch-value--left]="bfValueTextPos === 'left'" class="switch-value">
-    <span [hidden]="!bfModel" class="bf-switch-on-text">{{bfOnText$ | async}}</span>
-    <span [hidden]="bfModel" class="bf-switch-off-text">{{bfOffText$ | async}}</span>
-  </div>
+<div class="switch-wrapper"
+     [disableTooltip]="!bfDisabled || !bfDisabledTip"
+     [ngbTooltip]="bfDisabledTip | getLabel$ | async">
+  <bf-label *ngIf="!!bfLabel"
+            [bfText]="bfLabel"
+            [bfTooltipBody]="bfTooltipBody"
+            [bfTooltipPos]="bfTooltipPos"
+            [bfTooltip]="bfTooltip"
+            class="switch-label">
+  </bf-label>
+  <div #tooltip="ngbTooltip"
+       (click)="onSwitch()"
+       (keydown)="onKeyDown($event)"
+       (keyup)="onKeyUp($event)"
+       [attr.aria-checked]="bfModel"
+       [attr.aria-label]="bfLabel | getLabel$ | async"
+       [ngbTooltip]="bfTooltip | getLabel$ | async"
+       [class.is-disabled]="bfDisabled"
+       [tabindex]="bfTabIndex"
+       class="bf-switch"
+       role="switch"
+       triggers="manual">
+    <div class="switch-container">
+      <div class="switch-bar"></div>
+      <div [class.is-off]="!bfModel"
+           [class.is-on]="bfModel"
+           class="switch-lever"
+      ></div>
+    </div>
+    <div class="switch-value">
+      <span [hidden]="!bfModel" class="bf-switch-on-text">{{ bfOnText | getLabel$ | async }}</span>
+      <span [hidden]="bfModel" class="bf-switch-off-text">{{ bfOffText | getLabel$ | async }}</span>
+    </div>
 
-  <input [disabled]="bfDisabled"
-         [ngModel]="bfModel"
-         class="switch-input"
-         type="checkbox">
+    <input [disabled]="bfDisabled"
+           [ngModel]="bfModel"
+           class="switch-input"
+           type="checkbox">
+  </div>
 </div>
