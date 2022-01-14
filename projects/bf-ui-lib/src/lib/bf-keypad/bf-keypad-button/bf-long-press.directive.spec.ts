@@ -11,11 +11,11 @@ describe('BfLongPressDirective', () => {
     const directive = new BfLongPressDirective();
     const longPressSpy = spyOn(directive.longPress, 'emit');
 
-    directive.onKeyDown();
+    directive.onKeyDown(new MouseEvent('click'));
 
     tick(600);
 
-    directive.onKeyUp();
+    directive.onKeyUp(new MouseEvent('click'));
 
     expect(longPressSpy).toHaveBeenCalled();
   }));
@@ -24,11 +24,11 @@ describe('BfLongPressDirective', () => {
     const directive = new BfLongPressDirective();
     const longPressSpy = spyOn(directive.longPress, 'emit');
 
-    directive.onKeyDown();
+    directive.onKeyDown(new MouseEvent('click'));
 
     tick(300);
 
-    directive.onKeyUp();
+    directive.onKeyUp(new MouseEvent('click'));
 
     expect(longPressSpy).not.toHaveBeenCalled();
   }));

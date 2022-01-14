@@ -11,11 +11,11 @@ describe('BfShortPressDirective', () => {
     const directive = new BfShortPressDirective();
     const shortPressSpy = spyOn(directive.shortPress, 'emit');
 
-    directive.onKeyDown();
+    directive.onKeyDown(new MouseEvent('click'));
 
     tick(600);
 
-    directive.onKeyUp();
+    directive.onKeyUp(new MouseEvent('click'));
 
     expect(shortPressSpy).not.toHaveBeenCalled();
   }));
@@ -24,11 +24,11 @@ describe('BfShortPressDirective', () => {
     const directive = new BfShortPressDirective();
     const shortPressSpy = spyOn(directive.shortPress, 'emit');
 
-    directive.onKeyDown();
+    directive.onKeyDown(new MouseEvent('click'));
 
     tick(300);
 
-    directive.onKeyUp();
+    directive.onKeyUp(new MouseEvent('click'));
 
     expect(shortPressSpy).toHaveBeenCalled();
   }));

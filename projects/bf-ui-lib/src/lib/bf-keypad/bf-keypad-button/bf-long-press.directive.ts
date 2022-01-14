@@ -15,14 +15,14 @@ export class BfLongPressDirective implements OnDestroy {
 
   @HostListener('touchstart', ['$event'])
   @HostListener('mousedown', ['$event'])
-  onKeyDown() {
+  onKeyDown(event: MouseEvent) {
     this.keyEvent$.next(true);
   }
 
   @HostListener('touchend', ['$event'])
   @HostListener('mouseup', ['$event'])
   @HostListener('mouseleave', ['$event'])
-  onKeyUp() {
+  onKeyUp(event: MouseEvent) {
     this.keyEvent$.next(false);
   }
 

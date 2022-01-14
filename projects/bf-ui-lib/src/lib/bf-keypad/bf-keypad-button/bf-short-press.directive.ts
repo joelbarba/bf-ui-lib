@@ -17,14 +17,14 @@ export class BfShortPressDirective implements OnDestroy {
 
   @HostListener('touchstart', ['$event'])
   @HostListener('mousedown', ['$event'])
-  onKeyDown() {
+  onKeyDown(event: MouseEvent) {
     this.keyEvent$.next(true);
   }
 
   @HostListener('touchend', ['$event'])
   @HostListener('mouseup', ['$event'])
   @HostListener('mouseleave', ['$event'])
-  onKeyUp() {
+  onKeyUp(event: MouseEvent) {
     if(this.isShortPress) {
       this.shortPress.emit();
     }
