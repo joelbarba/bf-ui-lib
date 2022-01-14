@@ -105,6 +105,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   @Output() bfOnCtrlEnter = new EventEmitter<any>();    // Emitter when Ctrl+Enter is pressed
   @Output() bfOnFocus = new EventEmitter<void>();       // See the native 'focus' event
   @Output() bfOnBlur = new EventEmitter<void>();        // See the native 'blur' event
+  @Output() bfOnKeypress = new EventEmitter<any>();      // Emitter when a key is pressed
 
   @Output() bfOnLoaded = new EventEmitter<IbfInputCtrl>();  // Emitter to catch the moment when the component is ready (ngAfterViewInit)
   @Output() bfBeforeChange = new EventEmitter<any>();       // Emitter to catch the next value before it is set
@@ -445,6 +446,10 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
     if (event.key === 'Enter') { this.bfOnEnter.emit(event); }
     if (event.key === 'Enter' && event.ctrlKey) { this.bfOnCtrlEnter.emit(event); }
     this.bfOnKeyDown.emit(event);
+  }
+
+  public onKeyPress(event) {
+    this.bfOnKeypress.emit(event);
   }
 
   public onFocus(): void {

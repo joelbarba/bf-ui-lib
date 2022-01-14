@@ -33,6 +33,7 @@ export const compList = [
   docs.BfColorPickerDoc,
   docs.BfExpandableListDoc,
   docs.BfCollapseDoc,
+  docs.BfKeypadDoc,
   docs.ShowDoc,
   docs.BfGrowlDoc,
   docs.BfLoadingBarDoc,

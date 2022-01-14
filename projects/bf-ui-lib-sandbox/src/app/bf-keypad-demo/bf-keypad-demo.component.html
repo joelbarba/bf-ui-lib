@@ -1,0 +1,21 @@
+<h2>{{name}}</h2>
+<hr/>
+<p>{{desc}}</p>
+
+<h5 class="mt-4">Parameters:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+<!--Examples-->
+<h5 class="mt-4">Examples:</h5>
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-md-4">
+      <bf-keypad (valueChanges)="numberSelected = $event"></bf-keypad>
+    </div>
+    <div class="col-md-4 marB15">
+      <p>Numbers: {{ numberSelected }}</p>
+    </div>
+  </div>
+</div>
+
+<hr>

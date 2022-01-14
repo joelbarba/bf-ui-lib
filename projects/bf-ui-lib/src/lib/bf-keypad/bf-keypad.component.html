@@ -1,0 +1,20 @@
+<div class="bf-keypad-input">
+  <bf-input
+    [bfPlaceholder]="bfPlaceholder"
+    [formControl]="numberField"
+    (bfOnKeypress)="keypress($event)">
+  </bf-input>
+  <span
+    class="icon-backspace"
+    role="button"
+    (click)="deselectElement()">
+  </span>
+</div>
+<ul class="bf-keypad">
+  <li *ngFor="let element of dialPadConfig">
+    <bf-keypad-button
+      [element]="element"
+      (selectElement)="onSelectElement($event)">
+    </bf-keypad-button>
+  </li>
+</ul>

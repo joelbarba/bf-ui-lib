@@ -65,3 +65,4 @@ export * from './lib/bf-expandable-list/bf-expandable-list.component';
 
 export * from './lib/bf-list-controller/bf-list-controller.directive';
 export * from './lib/bf-time-picker/bf-time-picker.component';
+export * from './lib/bf-keypad/bf-keypad.component';

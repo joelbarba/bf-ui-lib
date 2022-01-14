@@ -79,6 +79,7 @@
            (focusout)="isFocus=false"
            [type]="bfType"
            (keydown)="triggerKey($event)"
+           (keypress)="onKeyPress($event)"
            [autocomplete]="autocomplete"
            (blur)="bfOnBlur.emit()"
     />

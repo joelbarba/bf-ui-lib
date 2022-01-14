@@ -85,7 +85,8 @@ const routes: Routes = [
       .then(mod => {
         return mod.BfLazyLoadedModule;
       }),
-  }
+  },
+  { path: docs.BfKeypadDoc.name, component: docs.BfKeypadDoc.demoComp }
 ];
 
 
