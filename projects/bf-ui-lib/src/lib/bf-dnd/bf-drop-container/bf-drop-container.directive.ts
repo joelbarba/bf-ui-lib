@@ -141,7 +141,6 @@ export class BfDropContainerDirective implements OnChanges, OnDestroy {
   @HostListener('drop', ['$event']) drop(event: any) {
     if (this.bfDnD.draggingGroup !== this.container.bfDragGroup) { return false; } // Cross dragging groups
 
-    event.preventDefault();
     if (this.bfDnD.bfNestedContainers) { event.stopPropagation(); }
     // console.log('[bfDropContainer] --> drop', this.container.id);
 
