@@ -1,5 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { dialPadConfig } from './bf-keypad';
 
 const keyCodes = {
@@ -18,12 +20,14 @@ const keyCodes = {
   templateUrl: './bf-keypad.component.html',
   styleUrls: ['./bf-keypad.component.scss']
 })
-export class BfKeypadComponent {
+export class BfKeypadComponent implements OnDestroy {
   @Input() bfPlaceholder = 'view.keypad.placeholder';
   @Output() valueChanges = new EventEmitter<string>();
 
   numberField: FormControl = new FormControl('');
 
+
+  readonly onDestroy$ = new Subject<void>();
   readonly dialPadConfig = dialPadConfig;
   readonly numbersPattern = /^[0-9*#+]+$/;
   readonly excludedKeys = [
@@ -42,8 +46,15 @@ export class BfKeypadComponent {
     this.listenNumberFieldChanges();
   }
 
+  ngOnDestroy(){
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+  }
+
   listenNumberFieldChanges() {
-    this.numberField.valueChanges.subscribe(newValue => this.valueChanges.emit(newValue));
+    this.numberField.valueChanges
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(newValue => this.valueChanges.emit(newValue));
   }
 
   onSelectElement(newElement: string) {
