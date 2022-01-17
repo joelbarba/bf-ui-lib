@@ -1,6 +1,6 @@
 import {Component, forwardRef, Input, OnChanges, OnInit} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {Observable, of, Subject} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {BfUILibTransService} from '../abstract-translate.service';
 
 @Component({
@@ -29,7 +29,6 @@ export class BfQuantityInputComponent implements OnInit, OnChanges, ControlValue
 
   public bfLabelTrans$: Observable<string> = of('');        // Translated text for the label
   public bfTooltipTrans$: Observable<string> = of('');      // Translated text for the tooltip
-  public bfErrorTrans$: Subject<string> = new Subject();
 
   constructor(
     private translate: BfUILibTransService,
@@ -39,15 +38,8 @@ export class BfQuantityInputComponent implements OnInit, OnChanges, ControlValue
     if (changes.hasOwnProperty('bfLabel'))   { this.bfLabelTrans$   = this.translate.getLabel$(this.bfLabel); }
     if (changes.hasOwnProperty('bfTooltip')) { this.bfTooltipTrans$ = this.translate.getLabel$(this.bfTooltip); }
 
-    if (changes.hasOwnProperty('bfMinVal')) {
-      this.bfMinVal = this.checkRangeValue(this.bfMinVal);
-      this.validateValue(this.bfModel);
-    }
-
-    if (changes.hasOwnProperty('bfMaxVal')) {
-      this.bfMaxVal = this.checkRangeValue(this.bfMaxVal);
-      this.validateValue(this.bfModel);
-    }
+    if (changes.hasOwnProperty('bfMinVal')) { this.bfMinVal = this.checkRangeValue(this.bfMinVal); }
+    if (changes.hasOwnProperty('bfMaxVal')) { this.bfMaxVal = this.checkRangeValue(this.bfMaxVal); }
 
     if (this.bfMinVal !== undefined && this.bfMaxVal !== undefined && this.bfMaxVal < this.bfMinVal) {
       console.error('bfMinVal > bfMaxVal (', this.bfMinVal, '>', this.bfMaxVal, ')');
@@ -67,18 +59,33 @@ export class BfQuantityInputComponent implements OnInit, OnChanges, ControlValue
     return value;
   }
 
+  // Returns a valid value after all validations (--> bfModel)
+  getValidValue = (value) => {
+    if (value === null || value === '') { value = 0; }
+    value = Number.parseInt(value, 10);
+
+    if (Number.isNaN(value)) { value = this.previousValue; }
+    value = Math.trunc(value);
+
+    if (this.bfMinVal !== undefined && value < this.bfMinVal) { value = this.bfMinVal; }
+    if (this.bfMaxVal !== undefined && value > this.bfMaxVal) { value = this.bfMaxVal; }
+
+    // Enable/disable the inc/dec buttons
+    this.decBtnEnabled = !this.bfDisabled && (this.bfMinVal === undefined || this.bfMinVal < value);
+    this.incBtnEnabled = !this.bfDisabled && (this.bfMaxVal === undefined || this.bfMaxVal > value);
+
+    return value;
+  };
+
+
   // When rolling the wheel of the mouse, increment / decrement value
   onMouseWheel(event) {
     if (this.bfDisabled) { return; }
 
     if (event.wheelDelta > 0) {
-      const nextValue = this.bfModel + 1;
-      this.modelChange(nextValue);
-      this.validateValue(nextValue);
+      this.modelChange(this.bfModel + 1);
     } else {
-      const nextValue = this.bfModel - 1;
-      this.modelChange(nextValue);
-      this.validateValue(nextValue);
+      this.modelChange(this.bfModel - 1);
     }
     event.preventDefault();
     event.stopPropagation();
@@ -87,9 +94,8 @@ export class BfQuantityInputComponent implements OnInit, OnChanges, ControlValue
 
   // Changing the value internally (propagate up)
   modelChange(value) {
-    const nextVal = value;
+    const nextVal = this.getValidValue(value);
     // console.log('modelChange ', this.bfModel, ' --->', nextVal);
-    this.validateValue(value);
     if (this.previousValue !== nextVal) {
       this.previousValue = nextVal;
       this.onChange(nextVal);
@@ -97,6 +103,14 @@ export class BfQuantityInputComponent implements OnInit, OnChanges, ControlValue
 
     // Do it on the next cycle, so the input gets updated again after ngModel change
     setTimeout(() => { this.bfModel = nextVal; });
+  }
+
+  keyPressed(evt: KeyboardEvent) {
+    const target = evt.target as HTMLInputElement;
+    if (target.type === 'text') {  // chromevox changes html input type from 'number' to 'text', so we have to implement arrow controls manually
+      if (evt.code === 'ArrowUp' && this.incBtnEnabled)   { this.modelChange(this.bfModel + 1); }
+      if (evt.code === 'ArrowDown' && this.decBtnEnabled) { this.modelChange(this.bfModel - 1); }
+    }
   }
 
   // ------- ControlValueAccessor ----- //
@@ -108,56 +122,12 @@ export class BfQuantityInputComponent implements OnInit, OnChanges, ControlValue
 
   // When the value is changed externally (propagated down)
   writeValue(value) {
-    const nextVal = value;
+    const nextVal = this.getValidValue(value);
     // console.log('writeValue ', this.bfModel, ' --->', nextVal);
     this.previousValue = nextVal;
     if (value !== nextVal) { this.onChange(nextVal); } // If value was rectified, push it back up
     setTimeout(() => { this.bfModel = nextVal; }); // Avoid overlap with modelChange timeout
   }
 
-  keyPressed(evt: KeyboardEvent) {
-    const target = evt.target as HTMLInputElement;
-    if (target.type === 'text') {  // chromevox changes html input type from 'number' to 'text', so we have to implement arrow controls manually
-      if (evt.code === 'ArrowUp') this.incrementValue(this.bfModel);
-      if (evt.code === 'ArrowDown') this.decrementValue(this.bfModel);
-    }
-  }
 
-  decrementValue(currentValue: number): void {
-    if (this.decBtnEnabled) {
-      const nextValue = currentValue - 1;
-      this.modelChange(nextValue);
-      this.validateValue(nextValue);
-    }
-  }
-
-  incrementValue(currentValue: number): void {
-    if (this.incBtnEnabled) {
-      const nextValue = currentValue + 1;
-      this.modelChange(nextValue);
-      this.validateValue(nextValue);
-    }
-  }
-
-  validateValue(currentValue: number): void {
-    const error = this.getValidationError(currentValue, this.bfMinVal, this.bfMaxVal);
-
-    const translationValue = error !== null
-      ? this.translate.doTranslate(error.label, error.params)
-      : '';
-
-    this.bfErrorTrans$.next(translationValue);
-  }
-
-  getValidationError(currentValue: number, minValue: number, maxValue: number): { label: string, params: { [key: string]: number } } {
-    if (currentValue < minValue) {
-      return { label: 'components.bf_quantity_input.min_value.error', params: { min: minValue } };
-    }
-
-    if (currentValue > maxValue) {
-      return { label: 'components.bf_quantity_input.max_value.error', params: { max: maxValue } };
-    }
-
-    return null;
-  }
 }

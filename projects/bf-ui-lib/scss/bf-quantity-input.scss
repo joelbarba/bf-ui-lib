@@ -90,6 +90,14 @@ bf-quantity-input {
           //border-top: 2px $focused-color solid;
           //border-bottom: 2px $focused-color solid;
         }
+
+        // Hide input native arrows
+        &[type=number] { -moz-appearance: textfield; }
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
       }
     }
 
