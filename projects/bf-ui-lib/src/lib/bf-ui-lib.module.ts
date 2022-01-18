@@ -52,6 +52,10 @@ import { BfListControllerDirective } from './bf-list-controller/bf-list-controll
 import { BfDropdownA11yPipe } from './bf-dropdown/bf-dropdown-a11y.pipe';
 import { BfIntersectionObserverDirective } from './bf-intersection-observer/bf-intersection-observer.directive';
 import { BfTimePickerComponent } from './bf-time-picker/bf-time-picker.component';
+import { BfKeypadComponent } from './bf-keypad/bf-keypad.component';
+import { BfKeypadButtonComponent } from './bf-keypad/bf-keypad-button/bf-keypad-button.component';
+import { BfLongPressDirective } from './bf-keypad/bf-keypad-button/bf-long-press.directive';
+import { BfShortPressDirective } from './bf-keypad/bf-keypad-button/bf-short-press.directive';
 
 @NgModule({
   declarations: [
@@ -93,7 +97,12 @@ import { BfTimePickerComponent } from './bf-time-picker/bf-time-picker.component
     BfExpandableListComponent,
     BfListControllerDirective,
     BfDropdownA11yPipe, // Internal
-    BfIntersectionObserverDirective, BfTimePickerComponent,
+    BfIntersectionObserverDirective,
+    BfTimePickerComponent,
+    BfKeypadComponent,
+    BfKeypadButtonComponent,
+    BfLongPressDirective,
+    BfShortPressDirective
   ],
   entryComponents: [
   ],
@@ -113,6 +122,7 @@ import { BfTimePickerComponent } from './bf-time-picker/bf-time-picker.component
     Ng5SliderModule,
   ],
   exports: [
+    BfKeypadComponent,  // <--- New component
     BfTimePickerComponent,  // <--- New component
     BfExpandableListComponent,  // <--- New component
     BfCollapseComponent,  // <--- New component

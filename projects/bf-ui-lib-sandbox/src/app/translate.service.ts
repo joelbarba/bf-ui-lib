@@ -153,6 +153,7 @@ export class BfTranslateService extends BfUILibTransService {
     'components.timepicker.min_time_error': 'Time is less than {{minTime}}',
     'views.dropdown.loading_more_items': 'Load more items...',
     'views.dropdown.awaiting_filter': 'Please type something to search',
+    'view.keypad.placeholder': 'Type a number'
   };
 
   public transDictCAT = {

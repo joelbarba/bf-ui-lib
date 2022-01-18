@@ -43,3 +43,5 @@ export { BfCollapseDoc } from './bf-collapse-demo/bf-collapse-demo.component';
 export { ListControllerDoc } from './bf-list-controller-demo/bf-list-controller-demo.component';
 export { BfIntersectionObserverDoc } from './bf-intersection-observer-demo/bf-intersection-observer-demo.component';
 export { BfTimePickerDoc } from './bf-time-picker-demo/bf-time-picker-demo.component';
+export { BfKeypadDoc } from './bf-keypad-demo/bf-keypad-demo.component';
+

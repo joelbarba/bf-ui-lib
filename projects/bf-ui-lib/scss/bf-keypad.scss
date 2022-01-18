@@ -1,0 +1,64 @@
+bf-keypad {
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  color: $text-color;
+
+  .bf-keypad-input {
+    position: relative;
+  
+    & .icon-backspace {
+      font-size: 1rem;
+      line-height: 1rem;
+      position: absolute;
+      top: calc(50% - 0.5rem);
+      right: 10px;
+      cursor: pointer;
+    }
+  }
+
+  .bf-keypad {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    justify-content: center;
+    grid-gap: 5px;
+
+    padding: 0;
+    width: 70%;
+    margin: auto;
+  
+    li {
+      display: flex;
+      justify-content: center;
+      height: 100%;
+      align-content: flex-start;
+    }
+  }
+}
+
+bf-keypad-button {
+  .bf-keypad-button {
+    border: none;
+    color: $text-color;
+    background-color: transparent;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    &--primary {
+      $font-size: 2rem;
+      font-size: $font-size;
+      line-height: $font-size;
+    }
+
+    &--secondary {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+    }
+  }
+}

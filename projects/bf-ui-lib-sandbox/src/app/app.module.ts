@@ -71,6 +71,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ListControllerDemoComponent } from './bf-list-controller-demo/bf-list-controller-demo.component';
 import { BfIntersectionObserverDemoComponent } from './bf-intersection-observer-demo/bf-intersection-observer-demo.component';
 import { TimePickerDemoComponent } from './bf-time-picker-demo/bf-time-picker-demo.component';
+import { BfKeypadDemoComponent } from './bf-keypad-demo/bf-keypad-demo.component';
 
 @NgModule({
   declarations: [
@@ -139,6 +140,7 @@ import { TimePickerDemoComponent } from './bf-time-picker-demo/bf-time-picker-de
     ListControllerDemoComponent,
     BfIntersectionObserverDemoComponent,
     TimePickerDemoComponent,
+    BfKeypadDemoComponent,
   ],
   entryComponents: [
     BfNoDataComponent,
