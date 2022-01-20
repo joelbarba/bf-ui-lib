@@ -13,7 +13,7 @@ It also makes use of the translation service (if present), to automatically tran
   <div class="row">
     <div class="col-6 marB15">
       <h5 class="marB25">Customization:</h5>
-      <div class="padB25">
+      <div class="padB25" [class.d-flex]="compConf.formFit">
         <!--<bf-label class="text-12" bfValue="view.common.field_name"></bf-label>-->
         <!--<bf-label class="text-14" bfValue="view.common.field_name"></bf-label>-->
         <!--<bf-label class="text-16" bfValue="view.common.field_name"></bf-label>-->
@@ -23,27 +23,43 @@ It also makes use of the translation service (if present), to automatically tran
         <bf-label [class.block]="compConf.hasBlock"
                   [class.no-colon]="compConf.hasNoColon"
                   [class.colon]="compConf.hasColon"
-                  [class.value-inline]="compConf.hasValueInline"
-                  [class.value-list]="compConf.hasValueList"
                   [class.no-bold]="compConf.hasNoBold"
-                  [class.value-bold]="compConf.hasValueBold"
+
+                  [class.is-error]="compConf.isError"
+                  [class.form-fit]="compConf.formFit"
                   [class.value-ellipsis]="compConf.hasEllipsis"
+
+                  [class.value-bold]="compConf.hasValueBold"
                   [class.value-light]="compConf.hasValueLight"
                   [class.value-primary]="compConf.valuePrimary"
                   [class.value-warning]="compConf.valueWarning"
-                  [ngClass]="(compConf.textSize + ' ' + compConf.valueMar + ' ' + compConf.valueList)"
+
+                  [class.value-inline]="compConf.hasValueInline"
+
+                  [class.value-list]="compConf.hasValueList"
+                  [class.label-left]="compConf.labelLeft"
+                  [class.value-right]="compConf.valueRight"
+
+                  [class.value-spaced]="compConf.valueSpaced"
+                  [class.value-left]="compConf.valueLeft"
+
+                  [ngClass]="(compConf.textSize + ' ' + compConf.valueMar + ' ' + compConf.valueList + ' ' + compConf.valSpClass)"
                   [bfText]="compConf.hasLabel ? compConf.text : ''"
                   [bfValue]="compConf.hasValue ? compConf.value: ''"
                   [bfRequired]="compConf.isRequired"
                   [bfTooltip]="(compConf.hasTooltip ? compConf.tooltipText : null)"
                   [bfTooltipPos]="(compConf.tooltipPos || 'top')"
-                  [bfTooltipBody]="compConf.tooltipBody">
+                  [bfTooltipBody]="compConf.tooltipBody"
+                  [class.color-bg]="compConf.colorBg">
         </bf-label>
+
+        <bf-input *ngIf="compConf.formFit" class="marL30" bfLabel="Test" [ngModel]="myVal"></bf-input>
       </div>
       <div>
         <div class="code-box pad15">
           <pre>{{customCompCode}}</pre>
         </div>
+        <bf-checkbox class="marT30" bfLabel="Color backgrounds" [(ngModel)]="compConf.colorBg"></bf-checkbox>
       </div>
     </div>
 
@@ -82,20 +98,47 @@ It also makes use of the translation service (if present), to automatically tran
 
       <div class="row padT10">
         <div class="col-12"><hr></div>
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasBlock" (ngModelChange)="upComp()" bfLabel="block" bfTooltip="Applies display: block;"></bf-checkbox> </div>
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasNoColon" (ngModelChange)="upComp()" bfLabel="no-colon"></bf-checkbox> </div>
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasColon" (ngModelChange)="upComp()" bfLabel="colon"></bf-checkbox> </div>
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasValueInline" (ngModelChange)="upComp()" bfLabel="value-inline"></bf-checkbox> </div>
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasValueList" (ngModelChange)="upComp()" bfLabel="value-list"></bf-checkbox> </div>
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasNoBold" (ngModelChange)="upComp()" bfLabel="no-bold"></bf-checkbox> </div>
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasValueBold" (ngModelChange)="upComp()" bfLabel="value-bold"></bf-checkbox> </div>
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasValueLight" (ngModelChange)="upComp()" bfLabel="value-light"></bf-checkbox> </div>
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasEllipsis" (ngModelChange)="upComp()" bfLabel="value-ellipsis"></bf-checkbox> </div>
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.valuePrimary" (ngModelChange)="upComp()" bfLabel="value-primary"></bf-checkbox> </div>
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.valueWarning" (ngModelChange)="upComp()" bfLabel="value-warning"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasBlock"       (ngModelChange)="upComp()" bfLabel="block"    bfTooltip="Applies display: block;"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasNoColon"     (ngModelChange)="upComp()" bfLabel="no-colon" bfTooltip="Removes the : between label and value"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasColon"       (ngModelChange)="upComp()" bfLabel="colon"    bfTooltip="Forces the : in case it was removed"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasNoBold"      (ngModelChange)="upComp()" bfLabel="no-bold"  bfTooltip="Turns the label text not bold"></bf-checkbox> </div>
+
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isError"        (ngModelChange)="upComp()" bfLabel="is-error"       bfTooltip="Turns the label color warning"></bf-checkbox></div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.formFit"        (ngModelChange)="upComp()" bfLabel="form-fit"       bfTooltip="Adds vertical margin between label and value, so they align horizontally with inputs"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasEllipsis"    (ngModelChange)="upComp()" bfLabel="value-ellipsis" bfTooltip="Overflows the value so it shows ellipsis when no space"></bf-checkbox> </div>
+        <!--<div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.spaceBetween"   (ngModelChange)="upComp()" bfLabel="space-between"  bfTooltip="Forces inline value, and justifies between (label on the left, value on the right)"></bf-checkbox> </div>-->
+
+        <div class="col-12"></div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasValueBold"   (ngModelChange)="upComp()" bfLabel="value-bold"    bfTooltip="Turns the text value bold"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasValueLight"  (ngModelChange)="upComp()" bfLabel="value-light"   bfTooltip="Turns the text value light"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.valuePrimary"   (ngModelChange)="upComp()" bfLabel="value-primary" bfTooltip="Turns the text value primary color"></bf-checkbox> </div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.valueWarning"   (ngModelChange)="upComp()" bfLabel="value-warning" bfTooltip="Turns the text value warning color"></bf-checkbox> </div>
+
+        <div class="col-12 padH15"><hr><bf-checkbox [(ngModel)]="compConf.hasValueInline" (ngModelChange)="upComp()" bfLabel="value-inline"  bfTooltip="Pulls up the value, and displays it next to the label horizontally"></bf-checkbox> </div>
+
+
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasValueList"   (ngModelChange)="upComp()" bfLabel="value-list" bfTooltip="It applies a flex-1 to the label, and flex-[*] to the value"></bf-checkbox> </div>
+        <div class="col-3 padT5" [show]="compConf.hasValueList"> <bf-checkbox [(ngModel)]="compConf.labelLeft"  (ngModelChange)="upComp()" bfLabel="label-left"></bf-checkbox> </div>
+        <div class="col-3 padT5" [show]="compConf.hasValueList"> <bf-checkbox [(ngModel)]="compConf.valueRight" (ngModelChange)="upComp()" bfLabel="value-right"></bf-checkbox> </div>
+
+
+        <div class="col-12"></div>
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.valueSpaced"    (ngModelChange)="upComp()" bfLabel="value-spaced"  bfTooltip="It allows to apply flex-[*] on the label and flex-[*] on the value, for a more customized fit"></bf-checkbox> </div>
+        <div class="col-3 padT5" *ngIf="compConf.valueSpaced"> <bf-checkbox [(ngModel)]="compConf.valueLeft" (ngModelChange)="upComp()" bfLabel="value-left"></bf-checkbox> </div>
+        <div class="col-3" style="margin-top: -25px" *ngIf="compConf.valueSpaced">
+          <bf-dropdown bfLabel="Label col" [(ngModel)]="compConf.labelCol" (ngModelChange)="upComp()"
+                       [bfList]="list1to10" bfRender="id" bfSelect="id">
+          </bf-dropdown>
+        </div>
+        <div class="col-3" style="margin-top: -25px" *ngIf="compConf.valueSpaced">
+          <bf-dropdown bfLabel="Value col" [(ngModel)]="compConf.valueCol" (ngModelChange)="upComp()"
+                       [bfList]="list1to10" bfRender="id" bfSelect="id">
+          </bf-dropdown>
+        </div>
+
       </div>
 
-      <div class="row marT10">
+      <div class="row marT20">
         <div class="col-4">
           <bf-dropdown bfLabel="Text Size" [(ngModel)]="compConf.textSize" (ngModelChange)="upComp()"
                        [bfList]="textSizes" bfRender="id" bfSelect="id" bfEmptyLabel="default (14px)">
