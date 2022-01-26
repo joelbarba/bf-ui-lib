@@ -16,7 +16,7 @@ class FakeElementRef {
 }
 class FakeLiveAnnouncer { announce(msg) { return Promise.resolve(); } clear() {} }
 
-describe('MyFeatureComponent', () => {
+describe('BfLazyDropdownComponent', () => {
   let component: BfLazyDropdownComponent;
   const translate = new BfUILibTransService();
   const elementRef = new FakeElementRef();
@@ -355,6 +355,7 @@ describe('MyFeatureComponent', () => {
       component.status = COMPLETELY_LOADED;
       component.filterList('abc');
       expect(component.frontEndFilter).toHaveBeenCalledWith('abc');
+      expect(component.expandList).toHaveBeenCalled();
     });
     it('should not filter if the filter has not changed', () => {
       component.searchTxt = 'abc';
@@ -392,11 +393,6 @@ describe('MyFeatureComponent', () => {
       component.status = EMPTY;
       component.frontEndFilter('one');
       expect(component.extList).toEqual(fakeList);
-    });
-    it('should expand the list if not yet', () => {
-      component.isExpanded = false;
-      component.frontEndFilter('one');
-      expect(component.expandList).toHaveBeenCalled();
     });
     it('should set the $$isMatch value on every item', () => {
       component.frontEndFilter('oNe');

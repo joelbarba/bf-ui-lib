@@ -458,6 +458,7 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
     // If the list is completely loaded, filter among the loaded items
     if (this.status === COMPLETELY_LOADED) {
       this.frontEndFilter(value);
+      this.expandList();
 
     } else { // If the list is partially loaded, trigger a new
       if (hasFilterChanged) {
@@ -473,7 +474,6 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
   // This filtering is only performed when the list is COMPLETELY_LOADED, so all items are in memory.
   frontEndFilter = (value = this.searchTxt) => {
     if (this.status === COMPLETELY_LOADED) {
-      if (!this.isExpanded) { this.expandList(); }
 
       if (this.bfFilterFn) {
         const fList = this.bfFilterFn(this.extList, value);
