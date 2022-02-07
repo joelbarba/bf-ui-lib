@@ -220,8 +220,6 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
     const todayNum = this.getNumDate({year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate()}, 0);
     this.isTodayValid = (todayNum >= minVal && todayNum <= maxVal);
 
-    console.log(this.status);
-
     this.showError = this.status === 'error' && (!this.isPristine || this.bfErrorOnPristine);
   };
 
