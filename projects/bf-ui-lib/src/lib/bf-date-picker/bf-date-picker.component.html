@@ -15,7 +15,7 @@
   </bf-label>
 
   <!--Error Message-->
-  <span *ngIf="!isPristine && status === 'error'"
+  <span *ngIf="showError"
         class="bf-date-picker-error-text"
         [class.pull-up]="!bfLabel && (errorPosition === 'default' || errorPosition === 'top-right')"
         [class.default]="errorPosition === 'default'"

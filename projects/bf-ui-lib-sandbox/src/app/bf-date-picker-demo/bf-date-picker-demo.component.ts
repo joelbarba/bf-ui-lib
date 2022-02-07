@@ -106,6 +106,7 @@ $date-picker-valid-color     : $valid-color !default;`;
   public compConf: any = {
     isRequired: true,
     isDisabled: false,
+    errorOnPristine: false,
     hasClearBtn: false,
     hasLabel: false, labelText: 'view.common.field_name3',
     hasTooltip: false, tooltipText: 'Hello World', tooltipPos: null, tooltipBody: false,
@@ -136,6 +137,7 @@ $date-picker-valid-color     : $valid-color !default;`;
 
     if (this.compConf.hasLabel)   { this.customCompCode += this.bsStr + `bfLabel="${this.compConf.labelText}"`; }
     if (this.compConf.isRequired) { this.customCompCode += this.bsStr + `[bfRequired]="true"`; }
+    if (this.compConf.errorOnPristine) { this.customCompCode += this.bsStr + `[bfErrorOnPristine]="true"`; }
     if (this.compConf.isDisabled) { this.customCompCode += this.bsStr + `[isDisabled]="true"`; }
     if (this.compConf.bfHasClearBtn) { this.customCompCode += this.bsStr + `[bfHasClearBtn]="true"`; }
 
