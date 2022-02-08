@@ -3,7 +3,7 @@
      [class.is-disabled]="bfDisabled"
      [class.is-pristine]="isPristine"
      [class.is-dirty]="!isPristine"
-     [class.is-error]="!isPristine && status === 'error'">
+     [class.is-error]="showError">
 
   <bf-label *ngIf="!!bfLabel"
             [bfForElementId]="inputId"
