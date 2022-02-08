@@ -423,6 +423,7 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
             this.bfMatch.emit(this.bfModel);
             this.setModelText(this.bfModel.$$renderedText);
             if (!this.bfCandidate) { this.bfCandidate = match; }
+            if (this.searchTxt) { this.inputText = this.searchTxt; }  // Keep the search on the input
           }
         }
 
