@@ -99,9 +99,10 @@
       <div class="row marT15">
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>
         <div class="col-3 padT5">
-          <bf-checkbox (ngModelChange)="upComp()"
-                       [(ngModel)]="compConf.errorOnPristine"
-                       bfLabel="ErrorOnPrestine"
+          <bf-checkbox
+            [(ngModel)]="compConf.errorOnPristine"
+            (ngModelChange)="upComp()"
+            bfLabel="ErrorOnPrestine"
           ></bf-checkbox>
         </div>
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>
