@@ -76,18 +76,21 @@ bf-date-picker {
         position: absolute;
         color: $date-picker-invalid-color;
 
-        &.pull-up { top: -23px; } // If no label, pull message up above the box
-
         // errorPosition:
         &.none { display: none; } // Hide error text
 
-        &.default { // Default error position:
+        &.default, // Default error position:
+        &.top-right {
+          top: 0;
+
           @media (min-width: 767px) { right: 5px; padding-top: 2px; } // Default > xs = Top right
           @media (max-width: 768px) { bottom: -20px; right: 5px; }    // Default xs = Bottom right
         }
-        &.top-right { right: 5px; padding-top: 2px; }
+
         &.bottom-left  { bottom: -20px; left: 5px; }
         &.bottom-right { bottom: -20px; right: 5px; }
+
+        &.pull-up { top: -23px; } // If no label, pull message up above the box
       }
 
       input.form-control {
