@@ -91,23 +91,6 @@ this.confirm.open().then(
     }, (res) => { this.result = '(rejected) Cancelled'; });
   }
 
-  public openPopUp4 = () => {
-    this.confirm.open({
-      text             : 'Example with Unsafe html (sanitize bypass)',
-      unsafeHtml       : `<script>alert("XSS Attack")</script> <h1 style="color: blue;">HEEY</h1>`,
-      // unsafeHtml       : `<span translate>views.test_label</span>`,
-      yesButtonText    : 'Yes, delete it',
-      noButtonText     : 'No, keep it',
-      showNo           : true
-    }).then((res) => {
-      if (res === 'yes') {
-        this.result = '(resolved) Clicked on Yes';
-      } else {
-        this.result = '(resolved) Clicked on No';
-      }
-    }, (res) => { this.result = '(rejected) Cancelled'; });
-  }
-
 
 
 }
@@ -122,7 +105,6 @@ export const BfConfirmDoc = {
             - title            (string)   - Title on the modal (view.modal.confirm.title)
             - text             (string)   - Description text of the confirmation (view.modal.confirm.text)
             - htmlContent      (string)   - Html content to display, in case we need a styled message
-            - unsafeHtml       (string)   - Same as "htmlContent" but bypassing the sanitize filter
             - showYes          (boolean)  - Whether to display the "Yes" button (by default = true)
             - showNo           (boolean)  - Whether to display the "No" button (by default = false)
             - showCancel       (boolean)  - Whether to display the "Cancel" button (by default = true)
