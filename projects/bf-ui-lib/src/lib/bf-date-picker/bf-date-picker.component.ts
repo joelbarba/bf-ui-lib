@@ -1,14 +1,12 @@
-import {Component, OnInit, Input, forwardRef, OnDestroy, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
-import {Inject} from '@angular/core';
+import {Component, forwardRef, Inject, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {BfUILibTransService} from '../abstract-translate.service';
 import {NgbDateStruct, NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
 import BfString from '../bf-prototypes/string.prototype';
 import {DatePipe} from '@angular/common';
-import { Observable, of, Subscription } from 'rxjs';
-import { ReturnStatement } from '@angular/compiler';
-import { generateId } from '../generate-id';
-import { PlacementArray } from '@ng-bootstrap/ng-bootstrap/util/positioning';
+import {Observable, of, Subscription} from 'rxjs';
+import {generateId} from '../generate-id';
+import {PlacementArray} from '@ng-bootstrap/ng-bootstrap/util/positioning';
 
 
 @Component({
@@ -16,7 +14,8 @@ import { PlacementArray } from '@ng-bootstrap/ng-bootstrap/util/positioning';
   templateUrl: './bf-date-picker.component.html',
   styleUrls: [],
   providers: [
-    { provide: NG_VALUE_ACCESSOR, multi: true,
+    {
+      provide: NG_VALUE_ACCESSOR, multi: true,
       useExisting: forwardRef(() => BfDatePickerComponent)
     },
     { // Custom validator
@@ -44,12 +43,14 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
 
   @Input() bfErrorPos = 'top-right';  // top-right, bottom-left, bottom-right
   @Input() bfErrorText: string;       // Error text to display when invalid value
+  @Input() bfErrorOnPristine = false;
   @Input() bfIsInlineDatePicker: boolean; // flag to determine if the date-picker should be inline or not
   @Input() bfPlacement: PlacementArray = 'bottom-left'; // string or array of strings to determine dropdown placement, defaults to bottom
 
   @ViewChild('dpRef', { static: true }) datePickerRef: NgbInputDatepicker;
 
   public isPristine = true;
+  public showError = false;
   public status = 'valid';            // valid, error
   public errorPosition = 'default';   // where to display the error message (from bfErrorPos)
   public bfFormattedValue = '';       // String to display in the input
@@ -113,7 +114,8 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
     if (!!changes.hasOwnProperty('bfMinDate')) { this.ngbMinDate = this.parseModelIn(this.bfMinDate); this.updateStatus(); }
     if (!!changes.hasOwnProperty('bfMaxDate')) { this.ngbMaxDate = this.parseModelIn(this.bfMaxDate); this.updateStatus(); }
 
-    if (changes.hasOwnProperty('bfErrorPos') && this.bfErrorPos) { this.errorPosition = this.bfErrorPos; }
+    if (changes.hasOwnProperty('bfErrorPos') && this.bfErrorPos) this.errorPosition = this.bfErrorPos ;
+    if (changes.hasOwnProperty('bfErrorOnPristine') && this.bfErrorOnPristine) this.updateStatus();
 
     if (changes.hasOwnProperty('bfLabel')) { this.bfLabelTrans$ = this.translate.getLabel$(this.bfLabel); }
   }
@@ -215,8 +217,10 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
     }
 
     const today = new Date();
-    const todayNum = this.getNumDate({ year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() }, 0);
+    const todayNum = this.getNumDate({year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate()}, 0);
     this.isTodayValid = (todayNum >= minVal && todayNum <= maxVal);
+
+    this.showError = this.status === 'error' && (!this.isPristine || this.bfErrorOnPristine);
   };
 
   private getNumDate = (date: NgbDateStruct, defaultValue = null): number => {

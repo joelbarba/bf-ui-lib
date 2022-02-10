@@ -47,10 +47,13 @@
       <h5 class="marB25">Customization:</h5>
       <div *ngIf="isCompLinked">
         <form #datePickerForm="ngForm">
-          <bf-date-picker [class.flat]="compConf.hasFlat" [class.modal-right]="compConf.hasModalRight"
-                          [class.no-min-width]="compConf.hasNoMinWidth"
+          <bf-date-picker
+            [class.flat]="compConf.hasFlat"
+            [class.modal-right]="compConf.hasModalRight"
+            [class.no-min-width]="compConf.hasNoMinWidth"
             [(ngModel)]="myDate" (ngModelChange)="checkNewModel($event)"
             [bfRequired]="!!compConf.isRequired"
+            [bfErrorOnPristine]="compConf.errorOnPristine"
             [bfDisabled]="!!compConf.isDisabled"
             [bfHasClearBtn]="!!compConf.hasClearBtn"
             [bfLabel]="compConf.hasLabel ? compConf.labelText : ''"
@@ -95,6 +98,13 @@
       <!--Required, Disabled, Clean btn-->
       <div class="row marT15">
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>
+        <div class="col-3 padT5">
+          <bf-checkbox
+            [(ngModel)]="compConf.errorOnPristine"
+            (ngModelChange)="upComp()"
+            bfLabel="ErrorOnPrestine"
+          ></bf-checkbox>
+        </div>
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>
         <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasClearBtn" (ngModelChange)="upComp()" bfLabel="Has Clear Button"></bf-checkbox> </div>
       </div>
