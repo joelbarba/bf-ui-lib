@@ -1,14 +1,13 @@
-import { Component, OnInit, Input} from '@angular/core';
-import {BfUILibTransService} from '../abstract-translate.service';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import {of} from 'rxjs';
+import { Component, OnInit, Input } from '@angular/core';
+import { BfUILibTransService } from '../abstract-translate.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { SafeHtml } from '@angular/platform-browser';
+import { of } from 'rxjs';
 
 export type IConfirmOptions = Partial<{
   title           : string;
   text            : string;
   htmlContent     : string;
-  unsafeHtml      : string;
   showYes         : boolean;
   showNo          : boolean;
   showCancel      : boolean;
@@ -24,11 +23,10 @@ export type IConfirmOptions = Partial<{
 })
 export class BfConfirmComponent implements OnInit {
   @Input() options;
-  public conf = {
+  public conf: IConfirmOptions = {
     title           : 'view.modal.confirm.title', // Title on the modal
     text            : '',                         // Description text of the confirmation
     htmlContent     : '',                         // Description html content (to customize how to display the message better)
-    unsafeHtml      : '',                         // Same as "htmlContent" but bypassing the sanitaze filter
     showYes         : true,                       // Whether to display the "Yes" button
     showNo          : false,                      // Whether to display the "No" button
     showCancel      : true,                       // Whether to display the "Cancel" button
@@ -51,7 +49,6 @@ export class BfConfirmComponent implements OnInit {
     // @Inject('BfUILibTransService') private translate: AbstractTranslateService,
     private translate: BfUILibTransService,
     public activeModal: NgbActiveModal,
-    private domSanitizer: DomSanitizer,
   ) {}
 
   ngOnInit() {
@@ -69,9 +66,6 @@ export class BfConfirmComponent implements OnInit {
       this.trans.cancelButtonText$ = this.translate.getLabel$(this.conf.cancelButtonText);
     }
 
-    if (!!this.conf.unsafeHtml) {
-      this.customHtmlContent = this.domSanitizer.bypassSecurityTrustHtml(this.conf.unsafeHtml);
-    }
     if (!!this.conf.htmlContent) {
       this.customHtmlContent = this.conf.htmlContent;
     }
