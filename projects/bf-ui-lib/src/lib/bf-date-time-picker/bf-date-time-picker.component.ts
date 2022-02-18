@@ -283,7 +283,7 @@ export class BfDateTimePickerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private shouldUpdateChange(change: SimpleChange) {
-    return !change.isFirstChange() && !this.isChangeTheSame(change);
+    return !this.isChangeTheSame(change);
   }
 
   private isChangeTheSame(change: SimpleChange): boolean {
