@@ -56,7 +56,7 @@ export class BfDateTimePickerComponent implements OnInit, OnChanges, OnDestroy {
   selectedTime: NgbTimeStruct;
 
   // subject to hold the updated date/time
-  private suggestedTime$: BehaviorSubject<Date>;
+  private suggestedTime$ = new BehaviorSubject(new Date());
   private datePipe: DatePipe;
   private localeSubscription$: Subscription;
 
@@ -68,7 +68,6 @@ export class BfDateTimePickerComponent implements OnInit, OnChanges, OnDestroy {
   constructor(private translateService: BfUILibTransService) { }
 
   ngOnInit(): void {
-    this.suggestedTime$ = new BehaviorSubject(this.bfSelectedTime || new Date());
     this.localeSubscription$ = this.translateService.locale$.subscribe((locale) => {
       this.locale = locale;
       this.datePipe = new DatePipe(locale || 'en-IE');
