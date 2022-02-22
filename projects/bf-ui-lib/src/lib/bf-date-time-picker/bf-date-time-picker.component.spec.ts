@@ -26,7 +26,7 @@ const updateFixture = (fixture: ComponentFixture<BfDateTimePickerComponent>): vo
   flushMicrotasks();
 };
 
-describe('BfTimePickerComponent', () => {
+describe('BfDateTimePickerComponent', () => {
   let component: BfDateTimePickerComponent;
   let fixture: ComponentFixture<BfDateTimePickerComponent>;
 
@@ -72,6 +72,9 @@ describe('BfTimePickerComponent', () => {
   it('should change the selected timezone', fakeAsync(() => {
     const timezoneSpy = spyOn(component.bfSelectedTimezoneChange, 'emit').and.callThrough();
     component.bfSelectedTime = new Date('2020-08-25');
+    component.ngOnChanges({
+      bfSelectedTime: new SimpleChange(null, component.bfSelectedTime, false),
+    });
     updateFixture(fixture);
 
     component.onTimezoneChanged('Europe/Dublin');
@@ -83,6 +86,9 @@ describe('BfTimePickerComponent', () => {
 
   it('should return the date string in yyyy-MM-dd format', fakeAsync(() => {
     component.bfSelectedTime = new Date('August 24 2020');
+    component.ngOnChanges({
+      bfSelectedTime: new SimpleChange(null, component.bfSelectedTime, true)
+    });
     updateFixture(fixture);
 
     component.getFormattedTimeString$().subscribe(val => {
@@ -93,6 +99,9 @@ describe('BfTimePickerComponent', () => {
   it('should display full datetime and timezone in the input', fakeAsync(() => {
     component.bfSelectedTime = new Date('August 24 2020 13:00');
     component.bfSelectedTimezone = 'Europe/Dublin';
+    component.ngOnChanges({
+      bfSelectedTime: new SimpleChange(null, component.bfSelectedTime, false),
+    });
     updateFixture(fixture);
 
     component.getDisplayTime$().subscribe(val => {
@@ -159,13 +168,11 @@ describe('BfTimePickerComponent', () => {
     component.bfSelectedTime = new Date('2020-08-24');
     component.bfMinTime = new Date('2020-08-23');
     component.bfMaxTime = new Date('2020-08-26');
-    fixture.detectChanges();
 
-    const changes = {
+    component.ngOnChanges({
+      bfSelectedTime: new SimpleChange(null, component.bfSelectedTime, false),
       bfMinTime: new SimpleChange(component.bfMinTime, minTime, false)
-    };
-
-    component.ngOnChanges(changes);
+    });
     updateFixture(fixture);
 
     const isDateTheSame = assertDate(component.getSuggestedTime(), minTime);
@@ -194,6 +201,9 @@ describe('BfTimePickerComponent', () => {
     it('should update the suggestedTime$ when the date picker has been updated', fakeAsync(() => {
       const updatedDate = new Date('2020-08-25');
       component.bfSelectedTime = new Date('2020-08-24');
+      component.ngOnChanges({
+        bfSelectedTime: new SimpleChange(null, component.bfSelectedTime, false),
+      });
       fixture.detectChanges();
 
       component.onDateChanged('2020-08-25');
