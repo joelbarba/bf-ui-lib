@@ -1,13 +1,37 @@
-<div *ngIf="!!bfLabel">
-  <bf-label [bfText]="bfLabel"
-            [bfTooltip]="bfLabelTooltip"
-            [bfTooltipPos]="bfLabelTooltipPos">
-  </bf-label>
+<bf-label *ngIf="!!bfLabel"
+          class="block"
+          [bfText]="bfLabel"
+          [bfTooltip]="bfTooltip"
+          [bfTooltipPos]="bfTooltipPos">
+</bf-label>
+
+<div class="slider-wrapper" #bfSlider
+     [class.disabled]="!!bfDisabled"
+     [class.no-label]="!bfLabel"
+     (mousedown)="!bfDisabled && onBarClick($event)">
+
+  <div class="slider-bar"></div>
+
+  <div class="slider-tick" [style.left.px]="tick.pos" *ngFor="let tick of ticks; let ind = index">
+    <div class="tick-badge" [class.highlight]="tick.highlight"></div>
+    <div class="tick-value" *ngIf="tick.label">{{renderValueFn(tick.val, ind)}}</div>
+  </div>
+
+  <div class="highlight-bar" [ngClass]="bfHighlightBar"
+       [style.left.px]="hBar.left"
+       [style.right.px]="hBar.right">
+  </div>
+
+  <div class="slider-pointer" #bfPointer
+       [style.left.px]="pointerPos"
+       [tabindex]="bfTabIndex"
+       (focus)="checkFocus()"
+       (keydown)="!bfDisabled && onKeyDown($event)"
+       (mousedown)="!bfDisabled && onMouseDown($event)">
+    <div class="slider-inner-pointer"></div>
+    <div class="slider-value">{{renderValueFn(ngModel)}}</div>
+  </div>
+
 </div>
-<ng5-slider
-            [(value)]="ngModel"
-            [options]="sliderOptions"
-            (valueChange)="onChange()"
-            (userChangeEnd)="onChangeEnd($event)">
-</ng5-slider>
+
 
