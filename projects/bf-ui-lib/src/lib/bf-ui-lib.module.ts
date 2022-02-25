@@ -40,7 +40,6 @@ import { BfPagePlaceholderComponent } from './bf-page-placeholder/bf-page-placeh
 import {BfLoadingSpinnerComponent, BfLoadingSpinnerDirective} from './bf-loading-spinner/bf-loading-spinner.component';
 import { ShowDirective } from './show/show.component';
 import { BfNoDataComponent } from './bf-no-data/bf-no-data.component';
-import { Ng5SliderModule } from 'ng5-slider';
 import { BfSectionHeaderComponent } from './bf-section-header/bf-section-header.component';
 import { BfRangeSliderComponent } from './bf-range-slider/bf-range-slider.component';
 import { BfModalHeaderComponent } from './bf-modal-header/bf-modal-header.component';
@@ -119,7 +118,6 @@ import { BfShortPressDirective } from './bf-keypad/bf-keypad-button/bf-short-pre
     BfLoadingBarModule,
     NgbDatepickerModule,
     NgbModule,
-    Ng5SliderModule,
   ],
   exports: [
     BfKeypadComponent,  // <--- New component

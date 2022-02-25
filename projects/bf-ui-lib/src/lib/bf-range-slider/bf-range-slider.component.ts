@@ -214,7 +214,7 @@ export class BfRangeSliderComponent implements ControlValueAccessor, OnInit, OnC
     // If the 2 pointers are too close (100px), show only one label in between instead of 2
     this.mergeLabels = Math.abs(this.pointerPos1 - this.pointerPos2) < 100;
     if (this.pointerPos1 <= this.pointerPos2) {
-      this.mLabel = { ...this.hBar1, align: 'center' };
+      this.mLabel = { left: this.hBar1.left, right: this.hBar1.right, align: 'center' };
     } else {
       this.mLabel = { left: this.pointerPos2, right: this.barWidth - this.pointerPos1, align: 'center' };
     }
