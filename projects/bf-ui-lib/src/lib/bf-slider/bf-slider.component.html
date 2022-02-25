@@ -27,7 +27,8 @@
        [tabindex]="bfTabIndex"
        (focus)="checkFocus()"
        (keydown)="!bfDisabled && onKeyDown($event)"
-       (mousedown)="!bfDisabled && onMouseDown($event)">
+       (mousedown)="!bfDisabled && onMouseDown($event)"
+       (touchstart)="!bfDisabled && onTouchStart($event)">
     <div class="slider-inner-pointer"></div>
     <div class="slider-value">{{renderValueFn(ngModel)}}</div>
   </div>

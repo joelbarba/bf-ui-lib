@@ -1,59 +1,132 @@
-$slider_bg: $white !default;
-$slider_color_default: $light !default;
-$slider_color_disabled: $disabled-color !default;
-$slider_color_primary: $primary_color !default;
+$slider-bg: $white !default;
+$slider-bar-color: #d8e0f3 !default; // bootstrap $light
+$slider-pointer-color: $primary_color !default;
+$slider-disabled-color: #d8e0f3 !default; // bootstrap $light
 
 bf-range-slider {
-  .slider-label-left {
+  display: block;
+  padding: 20px 0 50px;
+  bf-label { margin: -20px 0 20px; }
 
-  }
-  ng5-slider {
-    &.ng5-slider {
-      margin-bottom: 25px;
-      .ng5-slider-pointer {
-        background-color: $slider_color_primary;
-        outline: 0 none;
-        &.ng5-slider-active:after {
-          background-color: $slider_bg;
-        }
-      }
-      .ng5-slider-selection, .ng5-slider-tick.ng5-slider-selected {
-        background: $slider_color_primary;
-      }
+  .slider-wrapper {
+    position: relative;
+    width: 100%;
+    padding: 1px 0;
+    height: 34px;
+    cursor: pointer;
 
-      &[disabled] {
-        .ng5-slider-selection, .ng5-slider-tick.ng5-slider-selected {
-          background: $slider_color_disabled;
-        }
-      }
+    .slider-bar {
+      width: 100%;
+      min-width: 32px;
+      height: 4px;
+      margin: 14px 0;
+      background: $slider-bar-color;
+    }
 
-      &.showOuterSelection {
-        .ng5-slider-tick {
-          background: $slider_color_primary;
-        }
-        .ng5-slider-selection, .ng5-slider-tick.ng5-slider-selected {
-          background: $slider_color_default;
-        }
-        .ng5-slider-right-out-selection, .ng5-slider-left-out-selection {
-          .ng5-slider-bar {
-            background: $slider_color_primary;
-          }
-        }
+    .slider-tick {
+      position: absolute;
+      top: 12px;
+      .tick-badge {
+        background: $slider-bar-color;
+        &.highlight { background: $slider-pointer-color; }
+        width: 10px;
+        height: 10px;
+        border-radius: 100%;
       }
-
-      &[disabled].showOuterSelection {
-        .ng5-slider-tick {
-          background: $slider_color_disabled;
-        }
-        .ng5-slider-selection, .ng5-slider-tick.ng5-slider-selected {
-          background: $slider_color_default;
-        }
-        .ng5-slider-right-out-selection, .ng5-slider-left-out-selection {
-          .ng5-slider-bar {
-            background: $slider_color_disabled;
-          }
-        }
+      .tick-value {
+        text-align: center;
+        margin: 18px -25px 0;
+        font-size: 0.75rem;
+        color: darken($slider-bar-color, 5%);
       }
     }
+
+    .highlight-bar {
+      position: absolute;
+      top: 15px;
+      height: 4px;
+      background: $slider-pointer-color;
+      &.hide { display: none; }
+    }
+
+    .slider-pointer {
+      position: absolute;
+      top: 1px;
+      width: 32px;
+      height: 32px;
+      border-radius: 100%;
+      background: $slider-pointer-color;
+      //opacity: 0.2;
+      .slider-inner-pointer {
+        //opacity: 0.2;
+        position: relative;
+        width: 8px;
+        height: 8px;
+        top: 12px;
+        left: 12px;
+        border-radius: 100%;
+        background: $slider-bg;
+      }
+      .slider-value {
+        position: relative;
+        text-align: center;
+        max-height: 20px;
+        top: -28px;
+        margin: 0 -45px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      &.focus-visible {
+        .slider-inner-pointer { top: 11px; left: 11px; }
+        .slider-value { top: -29px; }
+      }
+    }
+
+    .slider-merged-value {
+      position: absolute;
+      cursor: default;
+      top: -20px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      margin: 0 -100px;
+    }
+
+
   }
+
+  &.show-as-disabled, .slider-wrapper.disabled {
+    cursor: not-allowed;
+    .slider-bar { background: $slider-disabled-color; }
+    .slider-tick .tick-badge {
+      background: $slider-disabled-color;
+      &.highlight { background: $slider-disabled-color; }
+    }
+    .tick-value { color: darken($slider-disabled-color, 5%); }
+    .slider-value { color: darken($slider-disabled-color, 10%); }
+    .slider-pointer { background: $slider-disabled-color; }
+    .highlight-bar { background: $slider-disabled-color; }
+  }
+
+  // CSS external class configuration
+  &.flat { padding-bottom: 20px; }
+
+  &.bar-pad, &.bar-tab {
+    padding-left: 30px;
+    bf-label { margin-left: -30px; }
+    &.bar-pad { padding-right: 30px; }
+  }
+
+  &.hide-value { // hides the value on the pointer
+    .slider-value { visibility: hidden; }
+    .slider-merged-value { visibility: hidden; }
+  }
+
+  &.tick-label-up .slider-wrapper { // Show the tick values on top of the bar (instead of below)
+    .slider-tick .tick-value { margin-top: -40px; }
+    .slider-pointer .slider-value { margin-top: 55px; }
+    .slider-merged-value { top: 36px; }
+  }
+
 }

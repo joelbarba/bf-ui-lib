@@ -1,12 +1,53 @@
-<div *ngIf="!!bfLabel">
-  <bf-label [bfText]="bfLabel"
-            [bfTooltip]="bfLabelTooltip"
-            [bfTooltipPos]="bfLabelTooltipPos">
-  </bf-label>
+<bf-label *ngIf="!!bfLabel"
+          class="block"
+          [bfText]="bfLabel"
+          [bfTooltip]="bfTooltip"
+          [bfTooltipPos]="bfTooltipPos">
+</bf-label>
+
+<div class="slider-wrapper" #bfSlider
+     [class.disabled]="!!bfDisabled"
+     [class.no-label]="!bfLabel"
+     (mousedown)="!bfDisabled && onBarClick($event)">
+
+  <div class="slider-bar"></div>
+
+  <div class="slider-tick" [style.left.px]="tick.pos" *ngFor="let tick of ticks; let ind = index">
+    <div class="tick-badge" [class.highlight]="tick.highlight"></div>
+    <div class="tick-value" *ngIf="tick.label">{{renderTickLabel(tick.val, ind)}}</div>
+  </div>
+
+  <div class="highlight-bar" [ngClass]="hBar1.css" [style.left.px]="hBar1.left" [style.right.px]="hBar1.right"></div>
+  <div class="highlight-bar" [ngClass]="hBar2.css" [style.left.px]="hBar2.left" [style.right.px]="hBar2.right"></div>
+
+  <div class="slider-pointer" #bfPointer1
+       [style.left.px]="pointerPos1"
+       [tabindex]="tabIndex1"
+       (focus)="checkFocus()"
+       (keydown)="!bfDisabled && onKeyDown($event, 1)"
+       (mousedown)="!bfDisabled && onMouseDown($event, 1)"
+       (touchstart)="!bfDisabled && onTouchStart($event, 1)">
+    <div class="slider-inner-pointer"></div>
+    <div class="slider-value" [hidden]="mergeLabels">{{renderPointerLabel(ngModel.min, 1)}}</div>
+  </div>
+
+  <div class="slider-pointer" #bfPointer2
+       [style.left.px]="pointerPos2"
+       [tabindex]="tabIndex2"
+       (focus)="checkFocus()"
+       (keydown)="!bfDisabled && onKeyDown($event, 2)"
+       (mousedown)="!bfDisabled && onMouseDown($event, 2)"
+       (touchstart)="!bfDisabled && onTouchStart($event, 2)">
+    <div class="slider-inner-pointer"></div>
+    <div class="slider-value" [hidden]="mergeLabels">{{renderPointerLabel(ngModel.max, 2)}}</div>
+  </div>
+
+  <div class="slider-merged-value"
+       [hidden]="!mergeLabels"
+       [style.left.px]="mLabel.left"
+       [style.right.px]="mLabel.right"
+       [style.text-align]="mLabel.align">
+    {{renderMergedLabel()}}
+  </div>
 </div>
-<ng5-slider [class.showOuterSelection]="bfShowOuterSection"
-            [(value)]="ngModel.min"
-            [(highValue)]="ngModel.max"
-            [options]="sliderOptions"
-            (userChange)="slideChange($event)">
-</ng5-slider>
+

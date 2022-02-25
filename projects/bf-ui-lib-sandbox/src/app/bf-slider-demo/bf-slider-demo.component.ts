@@ -51,30 +51,39 @@ $slider-pointer-color: $primary_color !default;`;
 
   public upComp = () => {
     const conf = this.compConf;
+    const bs = this.bsStr;
     conf.bfRenderFnText = conf.hasRenderFn ? `bfRenderFn = (val) => val + ' %'` : `bfRenderFn`;
 
     let code = `<bf-slider `;
+    let compClasses = '';
+    if (conf.flat) { compClasses = 'flat'; }
+    if (conf.barTab) { compClasses += (compClasses ? ' ' : '') + 'bar-tab'; }
+    if (conf.barPad) { compClasses += (compClasses ? ' ' : '') + 'bar-pad'; }
+    if (conf.hideValue) { compClasses += (compClasses ? ' ' : '') + 'hide-value'; }
+    if (conf.tickLabelUp) { compClasses += (compClasses ? ' ' : '') + 'tick-label-up'; }
+    if (!!compClasses) { code += `class="${compClasses}"` + bs; }
+
     if (!conf.useBfValue) { code += `[(ngModel)]="myVal"`; }
     if (conf.useBfValue)  { code += `[(bfValue)]="myVal"`; }
 
-    if (conf.hasLabel)   { code += this.bsStr + `bfLabel="${conf.bfLabel}"`; }
+    if (conf.hasLabel)   { code += bs + `bfLabel="${conf.bfLabel}"`; }
     if (conf.hasTooltip) {
-      code += this.bsStr + `bfTooltip="${conf.tooltipText}"`;
-      if (!!conf.tooltipPos)  { code += this.bsStr + `bfLabelTooltipPos="${conf.tooltipPos}"`; }
+      code += bs + `bfTooltip="${conf.tooltipText}"`;
+      if (!!conf.tooltipPos)  { code += bs + `bfLabelTooltipPos="${conf.tooltipPos}"`; }
     }
-    if (conf.bfDisabled) { code += this.bsStr + `[bfDisabled]="true"`; }
+    if (conf.bfDisabled) { code += bs + `[bfDisabled]="true"`; }
 
-    code += this.bsStr + `[bfIniValue]="${conf.bfIniValue}"`;
-    code += this.bsStr + `[bfEndValue]="${conf.bfEndValue}"`;
-    if (conf.hasMin) { code += this.bsStr + `[bfMinValue]="${conf.bfMinValue}"`; }
-    if (conf.hasMax) { code += this.bsStr + `[bfMaxValue]="${conf.bfMaxValue}"`; }
+    code += bs + `[bfIniValue]="${conf.bfIniValue}"`;
+    code += bs + `[bfEndValue]="${conf.bfEndValue}"`;
+    if (conf.hasMin) { code += bs + `[bfMinValue]="${conf.bfMinValue}"`; }
+    if (conf.hasMax) { code += bs + `[bfMaxValue]="${conf.bfMaxValue}"`; }
 
-    if (conf.bfStep !== 1) { code += this.bsStr + `[bfStep]="${conf.bfStep}"`; }
-    if (conf.hasRenderFn) { code += this.bsStr + `[bfRenderFn]="renderFn"`; }
-    if (conf.bfHighlightBar !== 'left') { code += this.bsStr + `[bfHighlightBar]="${conf.bfHighlightBar}"`; }
+    if (conf.bfStep !== 1) { code += bs + `[bfStep]="${conf.bfStep}"`; }
+    if (conf.hasRenderFn) { code += bs + `[bfRenderFn]="renderFn"`; }
+    if (conf.bfHighlightBar !== 'left') { code += bs + `[bfHighlightBar]="${conf.bfHighlightBar}"`; }
 
-    if (conf.bfTicks !== 1) { code += this.bsStr + `[bfTicks]="${conf.bfTicks}"`; }
-    if (conf.bfTickLabels) { code += this.bsStr + `[bfTickLabels]="${conf.bfTickLabels}"`; }
+    if (conf.bfTicks !== 1) { code += bs + `[bfTicks]="${conf.bfTicks}"`; }
+    if (conf.bfTickLabels) { code += bs + `[bfTickLabels]="${conf.bfTickLabels}"`; }
 
     code += (`>` + this.brStr + `</bf-slider>`);
     this.customCompCode = code;

@@ -250,22 +250,32 @@ export class BfSliderComponent implements ControlValueAccessor, OnInit, OnChange
     setTimeout(() => this.bfPointer.nativeElement.focus());
   }
 
-  onMouseDown(event: MouseEvent | TouchEvent) {
+
+  onMouseDown(event: MouseEvent) {
     const onMoveCallback = (e: MouseEvent): void => { e.preventDefault(); this.onMouseMove(e.clientX); };
-    const onTouchCallback = (e: TouchEvent): void => { e.preventDefault(); this.onTouchMove(e); };
-    const onEndCallback = (e: MouseEvent | TouchEvent): void => {
+    const onEndCallback = (e: MouseEvent): void => {
       e.preventDefault();
       this.bfValueChange.next(this.bfValue);
-      document.removeEventListener('mousemove', onMoveCallback, { capture: false });
-      document.removeEventListener('touchmove', onMoveCallback, { capture: false });
+      document.removeEventListener('mousemove', onMoveCallback,  { capture: false });
       document.removeEventListener('mouseup',  onEndCallback, { capture: false });
-      document.removeEventListener('touchend', onEndCallback, { capture: false });
     };
 
     // Bind move and end events
-    document.addEventListener('mousemove', onMoveCallback, { passive: false, capture: false });
-    document.addEventListener('touchmove', onTouchCallback, { passive: false, capture: false });
+    document.addEventListener('mousemove', onMoveCallback,  { passive: false, capture: false });
     document.addEventListener('mouseup',  onEndCallback, { passive: false, capture: false });
+  }
+
+  onTouchStart(event: TouchEvent) {
+    const onTouchCallback = (e: TouchEvent): void => { e.preventDefault(); this.onTouchMove(e); };
+    const onEndCallback = (e: TouchEvent): void => {
+      e.preventDefault();
+      this.bfValueChange.next(this.bfValue);
+      document.removeEventListener('touchend', onEndCallback, { capture: false });
+      document.removeEventListener('touchmove', onTouchCallback, { capture: false });
+    };
+
+    // Bind move and end events
+    document.addEventListener('touchmove', onTouchCallback, { passive: false, capture: false });
     document.addEventListener('touchend', onEndCallback, { passive: false, capture: false });
   }
 
@@ -276,7 +286,7 @@ export class BfSliderComponent implements ControlValueAccessor, OnInit, OnChange
     this.setValue(this.bfIniValue + Math.round(xPos * this.posXSize), false);
   }
 
-  onTouchMove(event: any) {
+  onTouchMove(event: TouchEvent) {
     if (event.touches && event.touches[0]?.clientX) {
       this.onMouseMove(event.touches[0].clientX);
     }

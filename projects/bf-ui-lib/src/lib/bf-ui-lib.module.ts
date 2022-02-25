@@ -131,7 +131,6 @@ import { BfShortPressDirective } from './bf-keypad/bf-keypad-button/bf-short-pre
     BfColorPickerComponent,
     BfModalHeaderComponent,
     BfSectionHeaderComponent,
-    BfRangeSliderComponent,
     BfNoDataComponent,
     ShowDirective,
     BfLoadingSpinnerDirective,
