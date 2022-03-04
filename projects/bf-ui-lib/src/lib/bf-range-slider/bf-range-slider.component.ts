@@ -339,6 +339,7 @@ export class BfRangeSliderComponent implements ControlValueAccessor, OnInit, OnC
   }
 
   onMouseDown(event: MouseEvent, pointer: 1 | 2) {
+    event.preventDefault();
     const onMoveCallback = (e: MouseEvent): void => { e.preventDefault(); this.onMouseMove(e.clientX, pointer); };
     const onEndCallback = (e: MouseEvent): void => {
       e.preventDefault();

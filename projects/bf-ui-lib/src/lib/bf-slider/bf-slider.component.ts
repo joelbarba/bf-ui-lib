@@ -252,6 +252,7 @@ export class BfSliderComponent implements ControlValueAccessor, OnInit, OnChange
 
 
   onMouseDown(event: MouseEvent) {
+    event.preventDefault();
     const onMoveCallback = (e: MouseEvent): void => { e.preventDefault(); this.onMouseMove(e.clientX); };
     const onEndCallback = (e: MouseEvent): void => {
       e.preventDefault();
