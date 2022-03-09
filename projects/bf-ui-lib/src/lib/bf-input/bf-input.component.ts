@@ -5,6 +5,7 @@ import { FormControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR } f
 import {BfUILibTransService} from '../abstract-translate.service';
 import {Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
+import { PositionType } from '../abstractions/types/position.type';
 import {Patterns} from '../patterns';
 import {BfDefer} from '../bf-defer/bf-defer';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
@@ -130,7 +131,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   public status: 'valid' | 'error' | 'loading' = 'valid';  // pristine, valid, error, loading
 
   public displayIcon = '';
-  public errorPosition = 'default';
+  public errorPosition: PositionType = 'default';
   public isPristine = true;
   public isFocus = false; // Whether the focus is on the input
   public hasAutofillDetection = false;  // Whether is has autofill detection (any parameter linked to bfOnAutofill)

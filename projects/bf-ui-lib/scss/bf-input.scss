@@ -92,6 +92,7 @@ bf-input {
       .bf-input-error-text {  // Error message
         font-size: 11px;
         position: absolute;
+
         &.pull-up { top: -23px; } // If no label, pull message up above the box
 
         // errorPosition:
@@ -99,11 +100,11 @@ bf-input {
 
         &.default { // Default error position:
           @media (min-width: 767px) { right: 5px; padding-top: 3px; } // Default > xs = Top right
-          @media (max-width: 768px) { bottom: -20px; right: 5px; }    // Default xs = Bottom right
+          @media (max-width: 768px) { bottom: -20px; right: 5px; top: unset; }    // Default xs = Bottom right
         }
         &.top-right { right: 5px; padding-top: 3px; }
-        &.bottom-left  { bottom: -20px; left: 5px; }
-        &.bottom-right { bottom: -20px; right: 5px; }
+        &.bottom-left  { bottom: -20px; left: 5px; top: unset; }
+        &.bottom-right { bottom: -20px; right: 5px; top: unset; }
       }
 
       // If error text at the bottom, add extra margin

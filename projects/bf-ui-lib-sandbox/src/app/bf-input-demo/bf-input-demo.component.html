@@ -39,6 +39,9 @@
                   [bfRequired]="compConf.isRequired"
                   [bfDisabled]="compConf.isDisabled"
 
+                  [bfErrorPos]="compConf.errorPos"
+                  [bfErrorText]="compConf.errorText"
+
                   [bfIcon]="(compConf.hasIcon ? compConf.inputIcon : '')"
                   [bfImage]="(compConf.hasImage ? compConf.inputImage : '')"
                   [bfType]="compConf.inputType"
@@ -120,7 +123,10 @@
 
       <!--Image-->
       <div class="row marT15">
-        <bf-checkbox class="col-3 padT5" bfLabel="bfImage" [(ngModel)]="compConf.hasImage" (ngModelChange)="upComp()"></bf-checkbox>
+        <bf-checkbox [(ngModel)]="compConf.hasImage"
+                     (ngModelChange)="upComp()"
+                     bfLabel="bfImage"
+                     class="col-3 padT5"></bf-checkbox>
         <bf-dropdown class="col-4 full-width"
                      [bfDisabled]="!compConf.hasImage"
                      [(ngModel)]="compConf.inputImage" (ngModelChange)="upComp()"
@@ -128,14 +134,74 @@
         </bf-dropdown>
       </div>
 
+      <!--bfErrorText + bfError Pos-->
+      <div class="row marT15">
+        <bf-checkbox (ngModelChange)="upComp()"
+                     [(ngModel)]="compConf.errorText"
+                     bfLabel="bfErrorText"
+                     class="col-2 padT10"
+        ></bf-checkbox>
+        <bf-input [(ngModel)]="compConf.errorText"
+                  (ngModelChange)="upComp()"
+                  [bfDisabled]="!compConf.errorText"
+                  bfPlaceholder="'none' = displays no text"
+                  class="col-4"
+        ></bf-input>
+
+        <div class="col-6">
+          <bf-label bfText="bfErrorPos" class="block" class="row col-12"></bf-label>
+          <div class="row col-12">
+            <bf-radio [(ngModel)]="compConf.errorPos"
+                      (ngModelChange)="upComp()"
+                      bfLabel="none"
+                      bfRadioGroup="errPos"
+                      bfTooltip="Error text always hidden"
+                      bfTooltipPos="left"
+                      bfValue="none"
+            ></bf-radio>
+            <bf-radio [(ngModel)]="compConf.errorPos"
+                      (ngModelChange)="upComp()"
+                      bfLabel="default"
+                      bfRadioGroup="errPos"
+                      bfValue="default"
+            ></bf-radio>
+            <bf-radio [(ngModel)]="compConf.errorPos"
+                      (ngModelChange)="upComp()"
+                      bfLabel="top-right"
+                      bfRadioGroup="errPos"
+                      bfValue="top-right"
+            ></bf-radio>
+          </div>
+
+          <div class="row col-12">
+            <bf-radio [(ngModel)]="compConf.errorPos"
+                      (ngModelChange)="upComp()"
+                      bfLabel="bottom-left"
+                      bfRadioGroup="errPos"
+                      bfValue="bottom-left"
+            ></bf-radio>
+            <bf-radio [(ngModel)]="compConf.errorPos"
+                      (ngModelChange)="upComp()"
+                      bfLabel="bottom-right"
+                      bfRadioGroup="errPos"
+                      bfValue="bottom-right"
+            ></bf-radio>
+          </div>
+
+        </div>
+      </div>
+
+
       <div class="row marT5">
         <div class="col-3">
           <!--Tooltip-->
-          <bf-checkbox class="block padT5" bfLabel="bfTooltip" [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()"></bf-checkbox>
+          <bf-checkbox (ngModelChange)="upComp()" [(ngModel)]="compConf.hasTooltip" bfLabel="bfTooltip"
+                       class="block padT5"></bf-checkbox>
           <div class="marT30"></div>
 
           <!--Key Listeners-->
-          <bf-checkbox class="block marT10" bfLabel="(bfOnKeyDown)" [(ngModel)]="compConf.hasKeyDown" (ngModelChange)="upComp()"></bf-checkbox>
+          <bf-checkbox (ngModelChange)="upComp()" [(ngModel)]="compConf.hasKeyDown" bfLabel="(bfOnKeyDown)"
+                       class="block marT10"></bf-checkbox>
           <bf-checkbox class="block marT10" bfLabel="(bfOnEsc)" [(ngModel)]="compConf.hasKeyEsc" (ngModelChange)="upComp()"></bf-checkbox>
           <bf-checkbox class="block marT10" bfLabel="(bfOnEnter)" [(ngModel)]="compConf.hasKeyEnter" (ngModelChange)="upComp()"></bf-checkbox>
           <bf-checkbox class="block marT10" bfLabel="(bfOnCtrlEnter)" [(ngModel)]="compConf.hasKeyCtrlEnter" (ngModelChange)="upComp()"></bf-checkbox>

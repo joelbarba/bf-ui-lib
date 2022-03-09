@@ -1,6 +1,6 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {BfGrowlService} from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service';
-import {Router} from '@angular/router';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { BfGrowlService } from '../../../../bf-ui-lib/src/lib/bf-growl/bf-growl.service';
 
 @Component({
   selector: 'app-bf-input-demo',
@@ -118,6 +118,9 @@ $input-valid-color     : $valid-color !default;`;
       { id: 'email',    text: 'email',    },
     ],
 
+    errorPos: 'default',
+    errorText: 'Hello world',
+
     hasPlaceholder: false, placeholderText: 'view.common.name',
     isRequired: true, hasAutoFocus: false, hasAutocomplete: true,
     isDisabled: false, disabledTip: '',
@@ -194,6 +197,9 @@ $input-valid-color     : $valid-color !default;`;
     if (this.compConf.hasLeftBtn && this.compConf.leftBtnIcon)       { this.customCompCode += this.bsStr + `bfLeftBtnIcon="${this.compConf.leftBtnIcon}"`; }
     if (this.compConf.hasRightBtnText && this.compConf.rightBtnText) { this.customCompCode += this.bsStr + `bfRightBtnText="${this.compConf.rightBtnText}"`; }
     if (this.compConf.hasRightBtn && this.compConf.rightBtnIcon)     { this.customCompCode += this.bsStr + `bfRightBtnIcon="${this.compConf.rightBtnIcon}"`; }
+
+    if (this.compConf.errorPos) this.customCompCode += this.bsStr + `bfErrorPos="${this.compConf.errorPos}"`;
+    if (this.compConf.errorText) this.customCompCode += this.bsStr + `bfErrorText="${this.compConf.errorText}"`;
 
     if (this.compConf.bfLeftBtnClick) { this.customCompCode += this.bsStr + `(bfLeftBtnClick)="onClickFn()"`; }
     if (this.compConf.bfRightBtnClick) { this.customCompCode += this.bsStr + `(bfRightBtnClick)="onClickFn()"`; }
