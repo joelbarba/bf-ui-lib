@@ -22,7 +22,7 @@ pipelines:
           - printf "//`node -p \"require('url').parse(process.env.NPM_REGISTRY_URL || 'https://registry.npmjs.org').host\"`/:_authToken=${NPM_TOKEN}\nregistry=${NPM_REGISTRY_URL:-https://registry.npmjs.org}\n" >> ~/.npmrc
           - npm ci
           - npm run lint:ci
-          - npm run test:ci
+          - npm run test:ci:no-coverage
           - ./update_coverage_limits.sh
           - npm run build_lib
 
