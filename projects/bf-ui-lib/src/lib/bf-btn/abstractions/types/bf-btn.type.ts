@@ -42,4 +42,10 @@ export type BfBtnType =
   | 'menu'
   | 'menu-icon'
   | 'back'
-  | 'back-icon';
+  | 'back-icon'
+ |  'primary'
+  | 'secondary'
+  | 'tertiary'
+  | 'quaternary'
+  | 'warning'
+  | 'extra';
