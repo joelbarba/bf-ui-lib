@@ -42,7 +42,6 @@
     "core-js": "^3.6.5",
     "debug": "^4.1.1",
     "focus-visible": "^5.2.0",
-    "ng5-slider": "^1.2.4",
     "rxjs": "^6.6.2",
     "subsink": "^1.0.1",
     "tslib": "^2.0.0",

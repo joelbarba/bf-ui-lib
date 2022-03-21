@@ -1,129 +1,155 @@
-<!-- bf-range-slider = 'bf-btn' -->
-
 <h2>{{name}}</h2>
 <hr/>
 <h5>{{desc}}</h5>
-<p>This component uses the external component<a href="https://www.npmjs.com/package/ng5-slider">@ng5-slider</a></p>
-<p>Which will be useful for dates or numbers ranges, or discounts shown in the portal. </p>
+<p>This component renders a slide bar where a numeric value can be picked.</p>
 
 <h5 class="mt-4">Parameters:</h5>
 <div class="col-12"><pre>{{api}}</pre></div>
 
+<div class="alert alert-warning">
+  <b>WARNING:</b> [ngModel] does not support mutation. If you mutate min, max values, the component does not detect them.
+  You have to generate a new object
+</div>
 
-<!--bf-range-slider Customization-->
+<!--bf-slider Customization-->
 <div class="whiteBg">
   <div class="row">
     <div class="col-6 marB15">
-      <h5 class="marB25">bf-range-slider Customization:</h5>
-      <div>
-        <bf-range-slider [(ngModel)]="valueSlider"
-                         (ngModelChange)="upSliders()"
-                         [bfOptions]="sliderOptions"
-                         [bfLabel]="compConf.hasLabel? compConf.labelText : ''"
-                         [bfLabelTooltip]="compConf.hasTooltip? compConf.tooltipText : ''"
-                         [bfLabelTooltipPos]="compConf.tooltipPos || 'top'"
-                         [bfDisabled]="compConf.isDisabled"
-                         [bfShowOuterSection]="compConf.showOuterSection">
+      <div [style.padding-left.px]="paddingTest">
+        <!--<bf-input [(ngModel)]="bfValue"></bf-input>-->
+        <!--[(bfValue)]="bfValue"-->
+        <bf-range-slider [(ngModel)]="ngValue" (ngModelChange)="change($event)"
+                   [class.flat]="compConf.flat"
+                   [class.bar-tab]="compConf.barTab"
+                   [class.bar-pad]="compConf.barPad"
+                   [class.hide-value]="compConf.hideValue"
+                   [class.tick-label-up]="compConf.tickLabelUp"
+                   [class.show-as-disabled]="compConf.showAsDisabled"
+                   [bfIniValue]="compConf.bfIniValue"
+                   [bfEndValue]="compConf.bfEndValue"
+                   [bfMinValue]="compConf.hasMin ? compConf.bfMinValue : undefined"
+                   [bfMaxValue]="compConf.hasMax ? compConf.bfMaxValue : undefined"
+                   [bfStep]="compConf.bfStep"
+                   [bfRenderFn]="compConf.hasRenderFn ? compConf.bfRenderFn : undefined"
+                   [bfOuterRange]="compConf.bfOuterRange"
+                   [bfAllowInverse]="compConf.bfAllowInverse"
+                   [bfTicks]="compConf.bfTicks || 0"
+                   [bfTickLabels]="compConf.bfTickLabels"
+                         [bfTabIndex1]="2"
+                         [bfTabIndex2]="3"
+
+                   [bfDisabled]="compConf.bfDisabled"
+                   [bfLabel]="compConf.hasLabel? compConf.bfLabel : ''"
+                   [bfTooltip]="compConf.hasTooltip? compConf.bfTooltip : ''"
+                   [bfTooltipPos]="compConf.bfTooltipPos || 'top'">
         </bf-range-slider>
+        <!--<bf-input [(ngModel)]="bfValue"></bf-input>-->
       </div>
-      <div class="padT20">
+      <div class="marT20">
         <div class="code-box pad15">
           <pre>{{customCompCode}}</pre>
         </div>
-      </div>
-      <div class="row pad15">
-        <div class="col-6">
-          <pre>{{sliderModelCode}}</pre>
-<!--          <pre>ngModel.min = {{valueSlider.min}}</pre>-->
-<!--          <pre>ngModel.max = {{valueSlider.max}}</pre>-->
+
+        <div class="marT15 d-flex justify-content-between">
+          <!--<div>-->
+          <!--  <bf-btn bfText="+ Extra Padding" (bfClick)="paddingTest=120" [show]="paddingTest <= 0"></bf-btn>-->
+          <!--  <bf-btn bfText="- Extra Padding" (bfClick)="paddingTest=0" [show]="paddingTest > 0"></bf-btn>-->
+          <!--</div>-->
+          <div>
+            <bf-btn bfText="-1" (bfClick)="newValue('min', -1)"></bf-btn>
+            <bf-btn bfText="+1" (bfClick)="newValue('min',  1)"></bf-btn>
+            <span class="marH10">[(ngModel)]={{ngValue | json}}</span>
+            <bf-btn bfText="-1" (bfClick)="newValue('max', -1)"></bf-btn>
+            <bf-btn bfText="+1" (bfClick)="newValue('max',  1)"></bf-btn>
+          </div>
+          <!--<div>-->
+          <!--  <div *ngIf="compConf.useBfValue">-->
+          <!--    <bf-btn bfText="-1" (bfClick)="bfValue=bfValue-1"></bf-btn>-->
+          <!--    <bf-btn bfText="+1" (bfClick)="bfValue=bfValue+1"></bf-btn>-->
+          <!--    <span class="marL10">[(bfValue)]={{bfValue | json}}</span>-->
+          <!--  </div>-->
+          <!--</div>-->
         </div>
-        <div class="col-6">
-          <pre>{{sliderOptionsCode}}</pre>
-        </div>
       </div>
+
     </div>
 
-    <div class="col-6">
-
+    <div class="col-6 padL30">
       <div class="row marT15">
-        <div class="col-12"><h5>Range Slider Option:</h5></div>
+        <div class="col-12 marB20"><h5>Slider Option:</h5></div>
+        <bf-checkbox class="col-3" [(ngModel)]="compConf.hasLabel" (ngModelChange)="upComp()" bfLabel="Has Label"></bf-checkbox>
+        <bf-input class="col-5 input-col-3 flat" style="margin-top: -30px" bfLabel="bfLabel" [(ngModel)]="compConf.bfLabel" (ngModelChange)="upComp()"></bf-input>
+        <bf-checkbox class="col-3 offset-1" [(ngModel)]="compConf.bfDisabled" (ngModelChange)="upComp()" bfLabel="bfDisabled"></bf-checkbox>
+      </div>
 
-        <div class="col-6">
-          <bf-input [(ngModel)]="valueSlider.min" bfLabel="Number Value" bfType="number"></bf-input>
+      <div class="row marT15" *ngIf="compConf.hasLabel">
+        <bf-checkbox class="col-3 marB15" bfLabel="Has Tooltip" [(ngModel)]="compConf.hasTooltip" [bfDisabled]="!compConf.hasLabel" (ngModelChange)="upComp()"></bf-checkbox>
+        <bf-input class="col-6 input-col-3 flat" *ngIf="compConf.hasTooltip" style="margin-top: -25px" bfLabel="bfTooltip" [(ngModel)]="compConf.bfTooltip" (ngModelChange)="upComp()"></bf-input>
+        <div class="col-3" *ngIf="compConf.hasTooltip">
+          <bf-dropdown [(ngModel)]="compConf.bfTooltipPos" (ngModelChange)="upComp()"
+                       [bfList]="[{ id: 'top', text: 'top' }, { id: 'right', text: 'right' }, { id: 'bottom', text: 'bottom' }, { id: 'left', text: 'left' }]"
+                       bfRender="text" bfSelect="id">
+          </bf-dropdown>
         </div>
-        <div class="col-6">
-          <bf-input [(ngModel)]="valueSlider.max" bfLabel="High Value" bfType="number"></bf-input>
+      </div>
+
+      <div class="row">
+        <bf-input class="col-5 input-col-1 flat" bfLabel="bfIniValue" style="margin-top: -0px" [(ngModel)]="compConf.bfIniValue" (ngModelChange)="upComp()" bfTooltip="Value at the start of the bar (left)"></bf-input>
+        <bf-input class="col-5 input-col-1 flat" bfLabel="bfMinValue" style="margin-top: -0px" [(ngModel)]="compConf.bfMinValue" (ngModelChange)="compConf.hasMin=true; upComp();" bfTooltip="Value at the end of the bar (right)"></bf-input>
+        <bf-checkbox class="col-2 marT30" [(ngModel)]="compConf.hasMin" (ngModelChange)="upComp()" bfLabel="Has Min"></bf-checkbox>
+        <div class="col-12"></div>
+        <bf-input class="col-5 input-col-1 flat" bfLabel="bfEndValue" style="margin-top: -15px" [(ngModel)]="compConf.bfEndValue" (ngModelChange)="upComp()" bfTooltip="Min value (must be >= bfIniValue). Equals bfIniValue if not defined"></bf-input>
+        <bf-input class="col-5 input-col-1 flat" bfLabel="bfMaxValue" style="margin-top: -15px" [(ngModel)]="compConf.bfMaxValue" (ngModelChange)="compConf.hasMax=true; upComp();" bfTooltip="Max value (must be <= bfEndValue). Equals bfEndValue if not defined"></bf-input>
+        <bf-checkbox class="col-2 marT15" [(ngModel)]="compConf.hasMax" (ngModelChange)="upComp()" bfLabel="Has Max"></bf-checkbox>
+      </div>
+
+      <div class="row">
+        <bf-input class="col-5 input-col-1" bfLabel="bfStep" [(ngModel)]="compConf.bfStep" (ngModelChange)="upComp()" bfTooltip="Incremental value when moving up/down step by step (default=1)"></bf-input>
+        <bf-checkbox class="col-7 marT35 padL40" [bfLabel]="compConf.bfRenderFnText" [(ngModel)]="compConf.hasRenderFn" (ngModelChange)="upComp()"></bf-checkbox>
+      </div>
+      <div class="row">
+        <!--<bf-checkbox class="col-3 marT30" bfLabel="Use [(bfValue)]" [(ngModel)]="compConf.useBfValue" (ngModelChange)="upComp()" bfTooltip="Use [bfValue] instead of [ngModel]"></bf-checkbox>-->
+        <bf-checkbox class="col-3 marT30" bfLabel="bfAllowInverse" [(ngModel)]="compConf.bfAllowInverse" (ngModelChange)="upComp()" bfTooltip="It allows an inverse range (max < min)"></bf-checkbox>
+        <bf-checkbox class="col-3 marT30" bfLabel="bfOuterRange" [(ngModel)]="compConf.bfOuterRange" (ngModelChange)="upComp()" bfTooltip="If inverse (max < min), 2 bars are displayed on the outer range"></bf-checkbox>
+        <bf-dropdown class="col-3"
+                     [(ngModel)]="compConf.bfTicks"
+                     (ngModelChange)="upComp()"
+                     [bfList]="tickOpts"
+                     bfLabel="bfTicks"
+                     bfEmptyLabel="0 (no ticks)"
+                     bfSelect="id"
+                     bfRender="id"
+                     bfTooltip="Splits the bar in N sections, with ticks on every end of the section. Example: 1=[0,100], 2=[0,50,100], 4=[0,25,50,100], 5=[0,20,40,60,80,100]">
+        </bf-dropdown>
+        <bf-dropdown class="col-3"
+                     [(ngModel)]="compConf.bfTickLabels"
+                     (ngModelChange)="upComp()"
+                     [bfList]="tickValOpts"
+                     bfLabel="bfTickLabels"
+                     bfEmptyLabel="Ini / End"
+                     bfSelect="id"
+                     bfRender="id"
+                     bfTooltip="If bfTicks, determine which ones show the label with the value. A number means that the label is shown every N ticks">
+        </bf-dropdown>
+      </div>
+
+
+      <!--CSS-->
+      <div class="row marT25">
+        <div class="col-12">
+          <bf-label class="inl" bfText="CSS"></bf-label>
+          <bf-checkbox class="marR10" bfLabel="flat"    [(ngModel)]="compConf.flat" (ngModelChange)="upComp()"></bf-checkbox>
+          <bf-checkbox class="marR10" bfLabel="bar-tab" [(ngModel)]="compConf.barTab" (ngModelChange)="upComp()" bfTooltip="Adds left padding to the bar"></bf-checkbox>
+          <bf-checkbox class="marR10" bfLabel="bar-pad" [(ngModel)]="compConf.barPad" (ngModelChange)="upComp()" bfTooltip="Adds left and right padding to the bar"></bf-checkbox>
+          <bf-checkbox class="marR10" bfLabel="hide-value" [(ngModel)]="compConf.hideValue" (ngModelChange)="upComp()" bfTooltip="Hides the current value on the pointer"></bf-checkbox>
+          <bf-checkbox class="marR10" bfLabel="tick-labels-up" [(ngModel)]="compConf.tickLabelUp" (ngModelChange)="upComp()" bfTooltip="Displays the labels of the ticks above the bar"></bf-checkbox>
+          <bf-checkbox class="marR10" bfLabel="show-as-disabled" [(ngModel)]="compConf.showAsDisabled" (ngModelChange)="upComp()" bfTooltip="Applies disabled styles, but it does not disable the component"></bf-checkbox>
         </div>
       </div>
 
-      <div class="row marT15">
-        <div class="col-6"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>
-        <div class="col-6"> <bf-checkbox [(ngModel)]="compConf.showOuterSection" (ngModelChange)="upComp()" bfLabel="Show outer Section"></bf-checkbox> </div>
-      </div>
-
-      <div class="row marT15">
-        <div class="col-12"><h5>Label Options:</h5></div>
-        <div class="col-4 padT5"> <bf-checkbox [(ngModel)]="compConf.hasLabel" (ngModelChange)="upComp()" bfLabel="Has Label"></bf-checkbox> </div>
-        <div class="col-8" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasLabel"></bf-input> </div>
-      </div>
-
-      <div class="row marT10">
-        <div class="col-6 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip" [bfDisabled]="!compConf.hasLabel" (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox> </div>
-        <div class="col-6" *ngIf="compConf.hasTooltip">
-          <bf-input [(ngModel)]="compConf.tooltipText" (ngModelChange)="upComp()"></bf-input>
-        </div>
-        <div class="col-6" *ngIf="compConf.hasTooltip"></div>
-        <div class="col-6" *ngIf="compConf.hasTooltip">
-          bfLabelTooltipPos: <bf-dropdown [(ngModel)]="compConf.tooltipPos" (ngModelChange)="upComp()"
-                                          [bfList]="[{ id: 'top', text: 'top' }, { id: 'right', text: 'right' }, { id: 'bottom', text: 'bottom' }, { id: 'left', text: 'left' }]"
-                                          bfRender="text" bfSelect="id"> </bf-dropdown>
-        </div>
-      </div>
     </div>
 
   </div>
-</div>
-
-<hr>
-
-
-
-
-<h5 class="mt-4">Examples:</h5>
-<div class="col-12 examples-table">
-
-  <div class="row">
-    <div class="col-5">
-      <bf-range-slider [(ngModel)]="slider1" bfLabel="Test 1" [bfOptions]="slider1Options"></bf-range-slider>
-    </div>
-    <div class="col-5">
-      <pre>{{instance}}</pre>
-    </div>
-    <div class="col-2">
-      <pre style="font-size: 12px;">{{instance1Obj}}</pre>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-5">
-      <bf-range-slider [(ngModel)]="slider2" [bfOptions]="slider2Options"></bf-range-slider>
-    </div>
-    <div class="col-5"> <pre>{{instance2}}</pre> </div>
-    <div class="col-2">
-      <pre style="font-size: 12px;">{{instance2Obj}}</pre>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-5">
-      <bf-range-slider [(ngModel)]="slider3" [bfOptions]="slider3Options" [bfCustomSliderLabel]="newTranslate"></bf-range-slider>
-    </div>
-    <div class="col-5"> <pre>{{instance3}}</pre> </div>
-    <div class="col-2">
-      <pre style="font-size: 12px;">{{instance3Obj}}</pre>
-    </div>
-  </div>
-
 </div>
 
 
