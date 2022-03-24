@@ -1,18 +1,19 @@
 image: circleci/node:14-browsers
 
 pipelines:
-  default:
-    - step:
-        script:
-          # Generates a .npmrc file configured for installing private modules
-          # Taken from https://bitbucket.org/benjamincoe/private-modules-demo/src/master/bitbucket-pipelines.yml
-          - printf "//`node -p \"require('url').parse(process.env.NPM_REGISTRY_URL || 'https://registry.npmjs.org').host\"`/:_authToken=${NPM_TOKEN}\nregistry=${NPM_REGISTRY_URL:-https://registry.npmjs.org}\n" >> ~/.npmrc
-          - npm ci
-          - npm run lint:ci
-          - npm run test:ci
-          - npm run build_lib # used to ensure changes pass AOT
-          # Commented out until the Docker issue is resolved
-          # - npm run e2e:ci
+  pull-requests:
+    '**':
+      - step:
+          script:
+            # Generates a .npmrc file configured for installing private modules
+            # Taken from https://bitbucket.org/benjamincoe/private-modules-demo/src/master/bitbucket-pipelines.yml
+            - printf "//`node -p \"require('url').parse(process.env.NPM_REGISTRY_URL || 'https://registry.npmjs.org').host\"`/:_authToken=${NPM_TOKEN}\nregistry=${NPM_REGISTRY_URL:-https://registry.npmjs.org}\n" >> ~/.npmrc
+            - npm ci
+            - npm run lint:ci
+            - npm run test:ci
+            - npm run build_lib # used to ensure changes pass AOT
+            # Commented out until the Docker issue is resolved
+            # - npm run e2e:ci
 
   branches:
     master:
