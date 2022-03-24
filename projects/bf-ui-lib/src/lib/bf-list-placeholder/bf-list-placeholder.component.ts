@@ -11,7 +11,7 @@ export class BfListPlaceholderComponent implements OnInit {
   @Input() bfColumns: (number | ColumnConfigInterface)[] = [];
   @Input() bfRows = 8;
 
-  public fakeRows = [];
+  public fakeRows: { id: number, fakeCols: { ind: number, colClass: string }[] }[] = [];
 
   constructor() { }
 
