@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ColumnConfigInterface } from './interfaces/column-config.interface';
 
 @Component({
   selector: 'bf-list-placeholder',
@@ -7,32 +8,54 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class BfListPlaceholderComponent implements OnInit {
   @Input() bfType = 'list';
-  @Input() bfColumns = [];
+  @Input() bfColumns: (number | ColumnConfigInterface)[] = [];
   @Input() bfRows = 8;
 
-  public fakeRows = [];
+  public fakeRows: { id: number, fakeCols: { ind: number, colClass: string }[] }[] = [];
 
   constructor() { }
 
-  ngOnInit() {
+  setupColumns() {
     // Get an array with the sizes of the cols form the input bfColumns
     // Calculate the grid left to set the last button column (lastSize)
-    let colSizes = []; let lastSize = 12;
+    let colSizes: ColumnConfigInterface[] = [];
+    let lastSize = 12;
+
     if (!!this.bfColumns.length) {
-      colSizes = [ ...this.bfColumns ];
-      this.bfColumns.forEach((colSize) => { lastSize = lastSize - colSize; });
+      this.bfColumns.forEach((colSize) => {
+        const colConfig: ColumnConfigInterface = {
+          size: 0
+        };
+
+        if (typeof colSize === 'number') {
+          colConfig.size = colSize;
+        } else {
+          colConfig.size = colSize.size;
+          colConfig.alignment = colSize.alignment;
+        }
+
+        colSizes.push(colConfig);
+        lastSize = lastSize - colConfig.size;
+      });
     } else {
-      colSizes = [4, 3, 3]; lastSize = 2;
+      colSizes = [{ size: 4 }, { size: 3 }, { size: 3 }];
+      lastSize = 2;
     }
 
-
     this.fakeRows = [];
+
     for (let id = 0; id < this.bfRows; id++) {
       const newRow = { id, fakeCols: [] };
+
       for (let ind = 0; ind < colSizes.length; ind++) {
         const randWidth = Math.floor((Math.random() * 5) + 5);
-        newRow.fakeCols.push({ ind, colClass: 'col-' + colSizes[ind] + ' line-' + randWidth });
+
+        newRow.fakeCols.push({
+          ind,
+          colClass: `col-${colSizes[ind].size} line-${randWidth} ${colSizes[ind].alignment ?? 'left'}-align`
+        });
       }
+
       // Right button
       if (lastSize > 0) { newRow.fakeCols.push({ colClass: 'col-' + lastSize + ' fake-button-template' }); }
 
@@ -40,4 +63,7 @@ export class BfListPlaceholderComponent implements OnInit {
     }
   }
 
+  ngOnInit() {
+    this.setupColumns();
+  }
 }

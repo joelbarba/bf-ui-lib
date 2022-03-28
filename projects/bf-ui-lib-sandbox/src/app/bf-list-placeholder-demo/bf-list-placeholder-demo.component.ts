@@ -21,7 +21,7 @@ export class BfListPlaceholderDemoComponent implements OnInit {
       <bf-list-header-col class="col-2" ...>
     </div>
   </li>
-  <bf-list-placeholder [bfColumns]="[5, 3, 2]" bfRows="4"></bf-list-placeholder>
+  <bf-list-placeholder [bfColumns]="[{size: 5, alignment: 'right'}, {size: 3, alignment: 'center'}, 2]" bfRows="4"></bf-list-placeholder>
 </ul>
 `;
   public instance3 = `<bf-list-placeholder bfType="tile"></bf-list-placeholder>`;

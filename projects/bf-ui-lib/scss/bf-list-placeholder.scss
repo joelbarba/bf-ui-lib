@@ -24,6 +24,19 @@ bf-list-placeholder {
 
   .fake-row-placeholder {
     list-style: none;
+
+    &.left-align {
+      justify-content: start;
+    }
+
+    &.center-align {
+      justify-content: center;
+    }
+
+    &.right-align {
+      justify-content: end;
+    }
+
     .placeholder-text {
       @include loading-animation;
       height: 20px;
