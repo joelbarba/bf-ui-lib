@@ -37,18 +37,6 @@
               "node_modules/spectrum-colorpicker/spectrum.js"
             ]
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/bf-ui-lib/tsconfig.lib.json",
-              "projects/bf-ui-lib/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
     },
@@ -137,7 +125,6 @@
               "browserTarget": "bf-ui-lib-sandbox:build:production"
             },
             "ci": {
-              "progress": false
             }
           }
         },
@@ -145,18 +132,6 @@
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
             "browserTarget": "bf-ui-lib-sandbox:build"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/bf-ui-lib-sandbox/tsconfig.app.json",
-              "projects/bf-ui-lib-sandbox/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
           }
         }
       }
@@ -176,15 +151,6 @@
               "devServerTarget": "bf-ui-lib-sandbox:serve:ci",
               "protractorConfig": "projects/bf-ui-lib-sandbox-e2e/protractor-ci.conf.js"
             }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "projects/bf-ui-lib-sandbox-e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
           }
         }
       }

@@ -9,6 +9,8 @@
     "sourceMap": true,
     "inlineSources": true,
     "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
     "importHelpers": true,
     "types": ["jquery"],
     "lib": [
@@ -18,12 +20,12 @@
   },
   "angularCompilerOptions": {
     "annotateForClosureCompiler": true,
+    "compilationMode": "partial",
     "skipTemplateCodegen": true,
     "strictMetadataEmit": true,
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
-    "enableResourceInlining": true,
-    "enableIvy": false
+    "enableResourceInlining": true
   },
   "exclude": [
     "src/test.ts",

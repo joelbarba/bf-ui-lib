@@ -8,6 +8,8 @@
     "module": "es2015",
     "moduleResolution": "node",
     "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
     "importHelpers": true,
     "target": "es5",
     "typeRoots": [
