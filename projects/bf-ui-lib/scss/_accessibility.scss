@@ -1,5 +1,5 @@
-@import '~@angular/cdk/a11y';
-@include cdk-a11y(); // adds in the .cdk-visually-hidden to hide live announcer text
+@use '@angular/cdk';
+@include cdk.a11y-visually-hidden();// adds in the .cdk-visually-hidden to hide live announcer text
 
 @mixin focus-visible {
   border: 1px solid white !important;
