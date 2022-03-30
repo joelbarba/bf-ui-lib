@@ -198,7 +198,7 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
       ArrowDown: (index >= 0 && index < list.length - 1) ? index + 1 : 0
     }[key];
     this.bfCandidate = list[nextIndex];
-    this.arrowScroll$.next();
+    this.arrowScroll$.next(true);
     this.ignoreHover$.next(true);
     this.setPlaceholder(this.bfCandidate);
 

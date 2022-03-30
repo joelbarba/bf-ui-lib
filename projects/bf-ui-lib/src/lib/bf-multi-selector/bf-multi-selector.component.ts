@@ -552,7 +552,7 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnInit, O
       const onArrowKeyPress = (i: number) => {
         this.bfCandidate = visibleList[i];
         this.ignoreHover = true;
-        this.arrowScroll$.next();
+        this.arrowScroll$.next(true);
 
         // Wait for the css classes to be applied on the view
         // If the candidate falls out of the scrolling window, auto scroll so it gets back in
