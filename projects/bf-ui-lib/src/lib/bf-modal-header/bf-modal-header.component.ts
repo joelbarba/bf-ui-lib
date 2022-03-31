@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'bf-modal-header',
   templateUrl: './bf-modal-header.component.html'
 })
-export class BfModalHeaderComponent implements OnInit {
+export class BfModalHeaderComponent  {
   @Input() bfTitle: string;
   @Input() bfDescription: string = null;
   @Output() bfClose = new EventEmitter();
@@ -12,9 +12,6 @@ export class BfModalHeaderComponent implements OnInit {
   public bfAriaLabel = 'view.common.modal.close.button';
 
   constructor() { }
-
-  ngOnInit() {
-  }
 
   close() {
     this.bfClose.emit();

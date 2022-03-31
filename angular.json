@@ -37,6 +37,15 @@
               "node_modules/spectrum-colorpicker/spectrum.js"
             ]
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/bf-ui-lib/**/*.ts",
+              "projects/bf-ui-lib/**/*.html"
+            ]
+          }
         }
       }
     },
@@ -124,8 +133,7 @@
             "production": {
               "browserTarget": "bf-ui-lib-sandbox:build:production"
             },
-            "ci": {
-            }
+            "ci": {}
           }
         },
         "extract-i18n": {
@@ -158,6 +166,7 @@
   },
   "defaultProject": "bf-ui-lib",
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "defaultCollection": "@angular-eslint/schematics"
   }
 }

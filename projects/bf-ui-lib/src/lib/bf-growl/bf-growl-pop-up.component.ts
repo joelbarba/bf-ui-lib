@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { BfGrowlService } from './bf-growl.service';
 
 @Component({
@@ -6,10 +6,8 @@ import { BfGrowlService } from './bf-growl.service';
   templateUrl: './bf-growl-pop-up.component.html',
   encapsulation: ViewEncapsulation.None
 })
-export class BfGrowlPopUpComponent implements OnInit {
+export class BfGrowlPopUpComponent {
   constructor(public growl: BfGrowlService) { }
-
-  ngOnInit() { }
 
   toggleTimeout = (msg) => {
     if (!!msg.cancelTimeout) {

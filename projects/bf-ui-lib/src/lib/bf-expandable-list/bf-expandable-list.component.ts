@@ -1,10 +1,10 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnChanges} from '@angular/core';
 
 @Component({
   selector: 'bf-expandable-list',
   templateUrl: './bf-expandable-list.component.html',
 })
-export class BfExpandableListComponent implements OnInit, OnChanges {
+export class BfExpandableListComponent implements OnChanges {
   @Input() bfList = [];
   @Input() bfExpandText: string;    // Number to display on the expanding button (+N)
   public isCollapsed = true;
@@ -21,7 +21,5 @@ export class BfExpandableListComponent implements OnInit, OnChanges {
       this.expList = this.bfList.slice(1);
     }
   }
-
-  ngOnInit(): void {}
 
 }

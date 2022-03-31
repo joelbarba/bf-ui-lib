@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, forwardRef, OnChanges} from '@angular/core';
+import {Component, Input, forwardRef, OnChanges} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import {BfUILibTransService} from '../abstract-translate.service';
@@ -16,7 +16,7 @@ import {BfUILibTransService} from '../abstract-translate.service';
   ]
 })
 // export class BfCheckboxComponent implements OnInit {
-export class BfCheckboxComponent implements ControlValueAccessor, OnInit, OnChanges {
+export class BfCheckboxComponent implements ControlValueAccessor, OnChanges {
   // @Input() bfModel: boolean = false;
   // @Output() bfModelChange = new EventEmitter<boolean>();
   public bfModel = false;
@@ -41,9 +41,6 @@ export class BfCheckboxComponent implements ControlValueAccessor, OnInit, OnChan
   public propagateModelUp = (_: any) => {}; // This is just to avoid type error (it's overwritten on register)
   registerOnChange(fn) { this.propagateModelUp = fn; }
   registerOnTouched(fn) { }
-
-
-  ngOnInit() {}
 
   ngOnChanges(change) {
     if (change.hasOwnProperty('bfLabel'))   { this.bfLabelText$ = this.translate.getLabel$(this.bfLabel);  }

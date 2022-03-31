@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/no-conflicting-lifecycle */
 import {Component, EventEmitter, Input, OnInit, OnChanges, Output, DoCheck, ElementRef } from '@angular/core';
 import {Observable} from 'rxjs';
 import { BfUILibTransService } from '../abstract-translate.service';

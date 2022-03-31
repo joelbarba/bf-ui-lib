@@ -13,7 +13,7 @@ import {BfUILibTransService} from '../abstract-translate.service';
     useExisting: forwardRef(() => BfQuantityInputComponent)
   }]
 })
-export class BfQuantityInputComponent implements OnInit, OnChanges, ControlValueAccessor {
+export class BfQuantityInputComponent implements OnChanges, ControlValueAccessor {
   @Input() bfMinVal;
   @Input() bfMaxVal;
   @Input() bfDisabled = false;
@@ -48,8 +48,6 @@ export class BfQuantityInputComponent implements OnInit, OnChanges, ControlValue
 
     this.modelChange(this.bfModel); // Update the model according to the new validations
   }
-
-  ngOnInit() {}
 
   // Validate input value to a valid number or undefined (--> bfMinVal / bfMaxVal)
   checkRangeValue(value) {

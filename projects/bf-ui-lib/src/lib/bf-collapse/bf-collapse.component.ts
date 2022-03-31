@@ -32,7 +32,7 @@ import { state, style, trigger, transition, animate } from '@angular/animations'
  *    </div>
  */
 @Component({
-  // tslint:disable-next-line:component-selector
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[bf-collapse]',
   exportAs: 'bfCollapse',
   template: '<ng-content></ng-content>',
@@ -49,7 +49,7 @@ import { state, style, trigger, transition, animate } from '@angular/animations'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BfCollapseComponent implements OnChanges, OnInit {
-  // tslint:disable-next-line:no-input-rename
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('bf-collapse') isCollapsed = true;
   // On show -> Turn to false at the beginning of the expanding animation
   // On hide -> Turn to true at the beginning of the collapsing animation

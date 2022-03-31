@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, ViewEncapsulation} from '@angular/core';
 import {BfUILibTransService} from '../abstract-translate.service';
 import {Observable, of} from 'rxjs';
 
@@ -8,7 +8,7 @@ import {Observable, of} from 'rxjs';
   styleUrls: [],
   encapsulation: ViewEncapsulation.None,
 })
-export class BfLabelComponent implements OnInit, OnChanges {
+export class BfLabelComponent implements OnChanges {
   @Input() bfText = '';
   @Input() bfRequired = false;
   @Input() bfValue = '';
@@ -28,8 +28,6 @@ export class BfLabelComponent implements OnInit, OnChanges {
 
   constructor(private translate: BfUILibTransService) {
   }
-
-  ngOnInit() {}
 
   ngOnChanges(change) {
     if (change.hasOwnProperty('bfText'))    { this.bfTextTrans$    = this.translate.getLabel$(this.bfText); }
