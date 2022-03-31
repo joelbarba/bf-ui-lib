@@ -4,7 +4,8 @@
     "outDir": "../../out-tsc/app",
     "types": [],
     "module": "esnext",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true
   },
   "exclude": [
     "test.ts",

@@ -7,7 +7,7 @@ import { BfUILibTransService } from '../abstract-translate.service';
   templateUrl: './bf-progress-bar.component.html',
   styleUrls: []
 })
-export class BfProgressBarComponent implements OnInit, OnChanges {
+export class BfProgressBarComponent implements OnChanges {
   @Input() bfLabel: string;      // Label to translate and display on top of the progress bar
   @Input() bfTotal: number;      // Maximum value
   @Input() bfValue: number;      // Actual value
@@ -21,8 +21,6 @@ export class BfProgressBarComponent implements OnInit, OnChanges {
   bfLeftLabel$: Observable<string> = of('');
 
   constructor(private translate: BfUILibTransService) { }
-
-  ngOnInit() { }
 
   ngOnChanges() {
     // Recalculate the percentage value

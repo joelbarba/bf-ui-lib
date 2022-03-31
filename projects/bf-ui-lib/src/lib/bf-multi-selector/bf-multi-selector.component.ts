@@ -25,7 +25,7 @@ import {isEqualTo} from '../bf-prototypes/deep-equal';
     }
   ]
 })
-export class BfMultiSelectorComponent implements ControlValueAccessor, OnInit, OnChanges, AfterViewInit, OnDestroy {
+export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges, AfterViewInit, OnDestroy {
   @Input() bfList: Array<any>;    // List of options (array of objects)
   @Input() bfRender = '';         // How to display every option on the expanded list
   @Input() bfRenderFn;            // Function to be called to render the list items (when bfRender is not enough)
@@ -116,7 +116,7 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnInit, O
   private readonly ctrlObject; // Object to expose control methods externally
 
   public ignoreHover = false; // When scrolling with the arrow keys, ignore mouse hover
-  public arrowScroll$ = new Subject();
+  public arrowScroll$ = new Subject<void>();
   public listHeight; // Computed height of the expanded listContainer
   public allRows; // Reference to the optionRows.toArray() html elements array
   public searchTxt = '';
@@ -276,8 +276,6 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnInit, O
     }
 
   }
-
-  ngOnInit() {}
 
   ngAfterViewInit() {
     this.bfOnLoaded.emit({ ...this.ctrlObject }); // Expose all control methods

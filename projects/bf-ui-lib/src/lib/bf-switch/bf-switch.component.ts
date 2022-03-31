@@ -1,4 +1,4 @@
-import { Component, forwardRef, HostBinding, Inject, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Component, forwardRef, HostBinding, Inject, Input, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BfUILibTransService } from '../abstract-translate.service';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -15,7 +15,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
     },
   ]
 })
-export class BfSwitchComponent implements ControlValueAccessor, OnInit, OnChanges {
+export class BfSwitchComponent implements ControlValueAccessor{
   @Input() bfDisabled = false;
   @Input() bfOnText = 'scripts.common.directives.on_label';
   @Input() bfOffText = 'scripts.common.directives.off_label';
@@ -58,10 +58,6 @@ export class BfSwitchComponent implements ControlValueAccessor, OnInit, OnChange
 
   // ----------------
 
-
-  ngOnInit() { }
-
-  ngOnChanges(change) { }
 
   public onSwitch() {
     if (!this.bfDisabled) {

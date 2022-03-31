@@ -1,7 +1,7 @@
 import {Directive, ElementRef, Input, OnChanges} from '@angular/core';
 
 // This is supposed to be the opposite of `hidden`, no bf prefix needed
-// tslint:disable-next-line:directive-selector
+// eslint-disable-next-line @angular-eslint/directive-selector
 @Directive({ selector: '[show]' })
 export class ShowDirective implements OnChanges {
   @Input() show = true;

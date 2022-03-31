@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, forwardRef, OnChanges} from '@angular/core';
+import {Component, OnInit, Input, forwardRef} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, } from '@angular/forms';
 
 @Component({
@@ -13,7 +13,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, } from '@angular/forms';
   ]
 })
 
-export class BfDualCheckboxComponent implements ControlValueAccessor, OnInit, OnChanges {
+export class BfDualCheckboxComponent implements ControlValueAccessor, OnInit {
   public checkboxes = {
     yes: true,
     no: true
@@ -28,8 +28,6 @@ export class BfDualCheckboxComponent implements ControlValueAccessor, OnInit, On
   ngOnInit() {
     console.warn('*** Deprecation Warning ***\n Please consult with UX on an alternative component as this may be removed in a future release');
   }
-
-  ngOnChanges() {}
 
   // ------- ControlValueAccessor -----
   writeValue(value: any) {

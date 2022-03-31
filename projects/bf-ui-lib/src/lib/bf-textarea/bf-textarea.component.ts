@@ -22,7 +22,7 @@ import {IbfInputCtrl} from '../bf-input/bf-input.component';
     }
   ]
 })
-export class BfTextareaComponent implements ControlValueAccessor, OnInit, OnChanges, AfterViewInit {
+export class BfTextareaComponent implements ControlValueAccessor, OnChanges, AfterViewInit {
   private ngControl;
   public bfModel: string; // Internal to hold the linked ngModel on the wrapper
 
@@ -154,9 +154,6 @@ export class BfTextareaComponent implements ControlValueAccessor, OnInit, OnChan
       }, 50);
     }
   }
-
-
-  ngOnInit() { }
 
   ngAfterViewInit() {
     // console.log('ngAfterViewInit');

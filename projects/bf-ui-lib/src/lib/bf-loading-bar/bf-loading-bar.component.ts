@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
 import { BfLoadingBarService } from './bf-loading-bar.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { BfLoadingBarService } from './bf-loading-bar.service';
   styleUrls: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BfLoadingBarComponent implements OnInit, OnDestroy {
+export class BfLoadingBarComponent implements OnDestroy {
   public showBlockScreen = false;
   public aniBack = false; // To trigger the background show up animation
   public showBar = false;
@@ -53,8 +53,6 @@ export class BfLoadingBarComponent implements OnInit, OnDestroy {
     });
 
   }
-
-  ngOnInit() { }
 
   ngOnDestroy() {
     this.statusSubs.unsubscribe();

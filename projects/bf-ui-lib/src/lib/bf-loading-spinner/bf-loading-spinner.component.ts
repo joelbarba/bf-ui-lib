@@ -1,13 +1,12 @@
-import { Component, Directive, HostBinding, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Directive, HostBinding, Input, OnChanges } from '@angular/core';
 import { isObservable } from 'rxjs';
 
 @Component({
   selector: 'bf-loading-spinner',
   template: '<span class="bf-spin"></span>'
 })
-export class BfLoadingSpinnerComponent implements OnInit {
+export class BfLoadingSpinnerComponent  {
   constructor() { }
-  ngOnInit() { }
 }
 
 

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 /**
  * @ngdoc component
@@ -11,7 +11,7 @@ import {Component, Input, OnInit} from '@angular/core';
   selector: 'bf-no-data',
   templateUrl: './bf-no-data.component.html'
 })
-export class BfNoDataComponent implements OnInit {
+export class BfNoDataComponent {
   @Input() bfMessage = 'view.common.no_data_to_show';
 
   @Input() bfIsPlaceholder = false;    // If true, a placeholder styled message is displayed instead
@@ -20,6 +20,4 @@ export class BfNoDataComponent implements OnInit {
   @Input() bfDescription = '';    // (eg: Click to add a new bla bla)
 
   constructor() { }
-
-  ngOnInit() { }
 }

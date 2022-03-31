@@ -1,16 +1,17 @@
-import {Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnDestroy, Output, ViewChild} from '@angular/core';
 import {BfListSelection} from '../bf-list-selection/bf-list-selection';
 
 @Component({
   selector: 'bf-list-checkbox',
   templateUrl: './bf-list-checkbox.component.html',
 })
-export class BfListCheckboxComponent implements OnInit, OnChanges, OnDestroy {
+export class BfListCheckboxComponent implements OnChanges, OnDestroy {
   @Input() selection: BfListSelection;
   @Input() id: string;
   @Input() bfDisabled = false;
   @Input() actions: [{ id?, label: string, disabled?: boolean, fn?: (sel?: BfListSelection) => void }];
   @Output() actionClick = new EventEmitter<any>();
+  // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() change = new EventEmitter<any>();
 
   @ViewChild('actionList', { read: ElementRef, static: false }) actionList: ElementRef;
@@ -27,8 +28,6 @@ export class BfListCheckboxComponent implements OnInit, OnChanges, OnDestroy {
       this.focusFirstItem();
     }
   }
-
-  ngOnInit() { }
 
   ngOnChanges(changes) {
     this.hasId = this.id !== undefined;
