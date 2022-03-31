@@ -116,7 +116,7 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnInit, O
   private readonly ctrlObject; // Object to expose control methods externally
 
   public ignoreHover = false; // When scrolling with the arrow keys, ignore mouse hover
-  public arrowScroll$ = new Subject();
+  public arrowScroll$ = new Subject<void>();
   public listHeight; // Computed height of the expanded listContainer
   public allRows; // Reference to the optionRows.toArray() html elements array
   public searchTxt = '';
@@ -552,7 +552,7 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnInit, O
       const onArrowKeyPress = (i: number) => {
         this.bfCandidate = visibleList[i];
         this.ignoreHover = true;
-        this.arrowScroll$.next(true);
+        this.arrowScroll$.next();
 
         // Wait for the css classes to be applied on the view
         // If the candidate falls out of the scrolling window, auto scroll so it gets back in

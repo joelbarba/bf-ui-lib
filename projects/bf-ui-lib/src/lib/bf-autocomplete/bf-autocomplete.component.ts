@@ -93,7 +93,7 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   bfCandidate; // Pointer to a extList item that might be selected next but not yet (hovering / arrow scrolling)
   ignoreHover;
   ignoreHover$ = new BehaviorSubject<boolean>(false); // When scrolling with the arrow keys, ignore mouse hover
-  arrowScroll$ = new Subject();
+  arrowScroll$ = new Subject<void>();
   subs: {[ key: string]: Subscription } = {};  // Subscriptions holder
   destroyed$: Subject<boolean> = new Subject<boolean>();
 
@@ -198,7 +198,7 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
       ArrowDown: (index >= 0 && index < list.length - 1) ? index + 1 : 0
     }[key];
     this.bfCandidate = list[nextIndex];
-    this.arrowScroll$.next(true);
+    this.arrowScroll$.next();
     this.ignoreHover$.next(true);
     this.setPlaceholder(this.bfCandidate);
 
