@@ -13,7 +13,8 @@
 
   <li *ngFor="let item of expList; let last = last" [bf-collapse]="isCollapsed" aria-live="polite">
     <div [innerHTML]="item" class="list-txt"></div>
-    <button (click)="isCollapsed = true" *ngIf="last"
+    <button (click)="isCollapsed = true"
+            *ngIf="last"
             [attr.aria-label]="getTranslatedAriaLabel('view.common.collapse')"
             class="list-btn">
       <span class="icon-arrow-up5"></span>
