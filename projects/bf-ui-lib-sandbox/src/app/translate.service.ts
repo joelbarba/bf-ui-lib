@@ -85,6 +85,8 @@ export class BfTranslateService extends BfUILibTransService {
     'view.common.no'           : 'No',
     'view.common.all'          : 'All',
     'view.common.cancel'       : 'Cancel',
+    'view.common.collapse'       : 'Collapse',
+    'view.common.expand'       : 'Expand',
     'view.modal.confirm.title' : 'Confirm',
     'view.modal.confirm.text'  : 'Are you sure?',
     'view.common.invalid_value'     : 'Invalid value',

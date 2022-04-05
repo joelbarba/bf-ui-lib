@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { TestingModule } from '../../testing/testing-module';
 
 import { BfExpandableListComponent } from './bf-expandable-list.component';
 
@@ -8,6 +9,7 @@ describe('BfExpandableListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      imports: [TestingModule],
       declarations: [ BfExpandableListComponent ]
     })
     .compileComponents();

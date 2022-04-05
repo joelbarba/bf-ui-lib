@@ -1,4 +1,5 @@
 import { Component, HostBinding, HostListener, Input, OnChanges } from '@angular/core';
+import { BfUILibTransService } from '../abstract-translate.service';
 
 @Component({
   selector: 'bf-expandable-list',
@@ -17,7 +18,9 @@ export class BfExpandableListComponent implements OnChanges {
   @HostBinding('attr.aria-expanded')
   public get IsExpanded() { return !this.isCollapsed; }
 
-  constructor() {}
+  constructor(
+    private _translate: BfUILibTransService
+  ) {}
 
   ngOnChanges(): void {
     this.firstItem = undefined;
@@ -26,6 +29,10 @@ export class BfExpandableListComponent implements OnChanges {
       this.firstItem = this.bfList[0];
       this.expList = this.bfList.slice(1);
     }
+  }
+
+  getTranslatedAriaLabel(label: string, params: any = {}): string {
+    return this._translate.doTranslate(label, params);
   }
 
   @HostListener('keydown.enter')
