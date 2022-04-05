@@ -1,5 +1,5 @@
-<ul (keydown)="$event.stopImmediatePropagation()" *ngIf="firstItem">
-  <li>
+<ul (keydown)="$event.stopImmediatePropagation()">
+  <li *ngIf="firstItem">
     <div [innerHTML]="firstItem" class="list-txt"></div>
     <button (click)="isCollapsed = false"
             *ngIf="isCollapsed && !!expList.length"
