@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
@@ -10,7 +11,7 @@ import { BfUILibTransService } from '../abstract-translate.service';
   templateUrl: './bf-time-picker.component.html',
   styleUrls: ['./bf-time-picker.component.scss']
 })
-export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges {
+export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit {
   /** A flag to determine if the is required validator is applied */
   @Input() isRequired = true;
   /** The initial time value if none is supplied it will default to the current time */
@@ -36,14 +37,21 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges {
   /** An event that will return the current internal value of the time struct */
   @Output() currentTimeChange: EventEmitter<NgbTimeStruct> = new EventEmitter();
 
+  @ViewChild('timepicker', { static: true }) timepicker: ElementRef<HTMLElement>;
+
   timePickerControl: FormControl;
   minTimeErrorValidationTrans$: Observable<string>;
   maxTimeErrorValidationTrans$: Observable<string>;
   requiredErrorValidationTrans$: Observable<string>;
 
   _valueChangesSubscription: Subscription;
+  isFocused: boolean;
 
-  constructor(private _bfTranslate: BfUILibTransService) { }
+  constructor(
+    private _bfTranslate: BfUILibTransService,
+    private liveAnnouncer: LiveAnnouncer
+  ) { }
+
 
   ngOnInit(): void {
     if (this.currentTime === undefined) {
@@ -71,6 +79,10 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges {
     this._valueChangesSubscription = this.timePickerControl.valueChanges.pipe(
       tap(this._timeUpdated.bind(this))
     ).subscribe();
+  }
+
+  ngAfterViewInit(): void {
+    this._listenForFocus();
   }
 
   ngOnDestroy(): void {
@@ -185,5 +197,13 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges {
 
   _isNotFirstChange(change: SimpleChange): boolean {
     return change && !change.firstChange;
+  }
+
+  _listenForFocus(){
+    const inputs = this.timepicker.nativeElement.querySelectorAll('input[type="text"]');
+    inputs.forEach(input => input.addEventListener('focus', () => {
+      this.liveAnnouncer.announce(this.controlLabel);
+    }));
+
   }
 }

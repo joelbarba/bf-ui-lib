@@ -1,4 +1,4 @@
-<ng-container>
+<div #timepicker  >
   <bf-label [bfText]="controlLabel" [bfForElementId]="controlId" [bfRequired]="isRequired"></bf-label>
   <ngb-timepicker [attr.id]="controlId" [formControl]="timePickerControl" [spinners]="showSpinners"></ngb-timepicker>
 
@@ -7,4 +7,4 @@
     <p *ngIf="isTooEarly"> {{minTimeErrorValidationTrans$ | async}} </p>
     <p *ngIf="isRequiredError"> {{requiredErrorValidationTrans$ | async}} </p>
   </div>
-</ng-container>
+</div>
