@@ -28,11 +28,12 @@ bf-radio.focus-visible,
 bf-status-badge.focus-visible,
 bf-list-header-col.focus-visible,
 bf-list-checkbox.focus-visible,
+bf-expandable-list.focus-visible,
 bf-list-paginator .focus-visible {
   @include focus-visible()
 }
 
-bf-date-picker .ngb-dp-day.focus-visible{
+bf-date-picker .ngb-dp-day.focus-visible {
   border: 2px solid $primary_color;
   border-radius: 10%;
   background: lighten($primary_color, 50%);
