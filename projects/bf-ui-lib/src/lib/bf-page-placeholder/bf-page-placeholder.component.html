@@ -1,4 +1,4 @@
-<div *ngIf="bfType === 'profile'" class="whiteBg placeholder-profile">
+<div *ngIf="bfType === 'profile'" class="whiteBg placeholder-profile" [attr.aria-label]="ariaLoadingMessage">
   <div *ngFor="let item of fakeProfile">
     <div [ngClass]="item.classRow">
       <div *ngFor="let itemList of item.list" class="placeholder-text" [ngClass]="itemList"></div>
@@ -11,7 +11,7 @@
 
   </div>
 </div>
-<div *ngIf="bfType === 'details'" class="placeholder-details" [ngClass]="{'whiteBg': !bfTabs}">
+<div *ngIf="bfType === 'details'" class="placeholder-details" [ngClass]="{'whiteBg': !bfTabs}" [attr.aria-label]="ariaLoadingMessage">
   <div *ngIf="fakeDetails.title">
     <h3 class="placeholder-text details_title"></h3>
     <hr/>
