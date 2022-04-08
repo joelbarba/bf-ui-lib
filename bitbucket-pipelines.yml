@@ -1,4 +1,4 @@
-image: circleci/node:14-browsers
+image: circleci/node:16-browsers
 
 pipelines:
   pull-requests:
