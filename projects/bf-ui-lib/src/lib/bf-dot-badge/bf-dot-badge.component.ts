@@ -23,7 +23,7 @@ export class BfDotBadgeComponent implements OnInit, OnChanges, OnDestroy {
    * - tooltip: Display the text as a tooltip on the dot.
    * </pre>
    */
-  @Input() labelDisplayType: 'auto' | 'label' | 'tooltip' = 'auto';
+  @Input() bfLabelDisplayType: 'auto' | 'label' | 'tooltip' = 'auto';
 
   public calculatedDisplayType?: 'label' | 'tooltip';
   public translatedText?: string;
@@ -43,7 +43,7 @@ export class BfDotBadgeComponent implements OnInit, OnChanges, OnDestroy {
     // Unsubscribe from the existing subscriptions that might not be needed anymore.
     this._destroy$.next();
 
-    switch (this.labelDisplayType) {
+    switch (this.bfLabelDisplayType) {
       case 'label':
         this.calculatedDisplayType = 'label';
         break;
@@ -64,7 +64,7 @@ export class BfDotBadgeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(change: SimpleChanges) {
-    if (!!change.labelDisplayType) this._setLabelDisplay();
+    if (!!change.bfLabelDisplayType) this._setLabelDisplay();
     if (!!change.bfText) this._translateText();
   }
 

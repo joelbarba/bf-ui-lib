@@ -53,7 +53,7 @@ describe('BfDotBadgeComponent', () => {
 
   describe('_setLabelDisplay()', () => {
     it('should set the calculatedDisplayType to "label"', () => {
-      component.labelDisplayType = 'label';
+      component.bfLabelDisplayType = 'label';
 
       component._setLabelDisplay();
 
@@ -61,7 +61,7 @@ describe('BfDotBadgeComponent', () => {
     });
 
     it('should set the calculatedDisplayType to "tooltip"', () => {
-      component.labelDisplayType = 'tooltip';
+      component.bfLabelDisplayType = 'tooltip';
 
       component._setLabelDisplay();
 
@@ -71,14 +71,14 @@ describe('BfDotBadgeComponent', () => {
     it('should set the call _subscribeToBreakpoints', () => {
       const spy = spyOn(component, '_subscribeToBreakpoints').and.stub();
 
-      component.labelDisplayType = undefined;
+      component.bfLabelDisplayType = undefined;
       component._setLabelDisplay();
 
       expect(spy).toHaveBeenCalledOnceWith();
 
       spy.calls.reset();
 
-      component.labelDisplayType = 'auto';
+      component.bfLabelDisplayType = 'auto';
       component._setLabelDisplay();
 
       expect(spy).toHaveBeenCalledOnceWith();
@@ -146,7 +146,7 @@ describe('BfDotBadgeComponent', () => {
 
     it('should update the label display type if the property changes', () => {
       component.ngOnChanges({
-        labelDisplayType: new SimpleChange(null, 'label', true)
+        bfLabelDisplayType: new SimpleChange(null, 'label', true)
       });
 
       expect(component._setLabelDisplay).toHaveBeenCalledOnceWith();

@@ -8,13 +8,13 @@ $bf-dot-badge-colors: (
   'warning': $warning_color,
 ) !default;
 
-$dot-size: 0.5rem !default;
+$badge-dot-size: 0.5rem !default;
 
 bf-dot-badge {
   .bf-dot-badge--dot {
     display: inline-block;
-    width: $dot-size;
-    height: $dot-size;
+    width: $badge-dot-size;
+    height: $badge-dot-size;
     border-radius: 100%;
 
     // Add a default colour in case an invalid colour class is given.
