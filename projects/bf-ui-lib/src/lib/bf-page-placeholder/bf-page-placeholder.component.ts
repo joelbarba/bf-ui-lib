@@ -1,4 +1,5 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import { BfUILibTransService } from '../abstract-translate.service';
 
 @Component({
   selector: 'bf-page-placeholder',
@@ -9,6 +10,7 @@ export class BfPagePlaceholderComponent implements OnInit, OnChanges {
   @Input() bfType: 'details' | 'profile' = 'details';
   @Input() bfTabs = false;
   @Input() bfSections: Array<'avatar' | 'data' | 'info' | 'info-center'>;
+  @Input() bfAriaLabel = 'view.common.loading_wait';
 
   public structureProfile = ['avatar', 'data', 'info'];
   public fakeProfile = [];
@@ -17,10 +19,15 @@ export class BfPagePlaceholderComponent implements OnInit, OnChanges {
     description: true,
     columns: []
   };
+  public ariaLoadingMessage: string;
 
-  constructor() { }
+  constructor(
+    private translate: BfUILibTransService,
+  ) { }
+
 
   ngOnInit() {
+    this.ariaLoadingMessage = this.translate.doTranslate(this.bfAriaLabel);
     if (this.bfType === 'profile') {
       this.bfProfile();
     }
