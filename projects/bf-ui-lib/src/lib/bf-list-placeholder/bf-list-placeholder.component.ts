@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { BfUILibTransService } from '../abstract-translate.service';
 import { ColumnConfigInterface } from './interfaces/column-config.interface';
 
 @Component({
@@ -10,10 +11,19 @@ export class BfListPlaceholderComponent implements OnInit {
   @Input() bfType = 'list';
   @Input() bfColumns: (number | ColumnConfigInterface)[] = [];
   @Input() bfRows = 8;
+  @Input() bfAriaLabel = 'view.common.loading_wait';
 
   public fakeRows: { id: number, fakeCols: { ind: number, colClass: string }[] }[] = [];
+  ariaLoadingMessage: string;
 
-  constructor() { }
+  constructor(
+    private translate: BfUILibTransService,
+  ) { }
+
+  ngOnInit() {
+    this.setupColumns();
+    this.ariaLoadingMessage = this.translate.doTranslate(this.bfAriaLabel);
+  }
 
   setupColumns() {
     // Get an array with the sizes of the cols form the input bfColumns
@@ -63,7 +73,4 @@ export class BfListPlaceholderComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-    this.setupColumns();
-  }
 }
