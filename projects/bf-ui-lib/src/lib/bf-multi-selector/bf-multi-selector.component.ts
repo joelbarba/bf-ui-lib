@@ -8,6 +8,8 @@ import {BfUILibTransService} from '../abstract-translate.service';
 import {dCopy} from '../bf-prototypes/deep-copy';
 import { IbfDropdownCtrl } from '../bf-dropdown/bf-dropdown.component';
 import {isEqualTo} from '../bf-prototypes/deep-equal';
+import { generateId, generateUniqueId } from '../generate-id';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 
 @Component({
@@ -59,6 +61,10 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
   @Input() bfKeepSelection = false; // retain the selected values if the list changes
   @Input() bfUniqueByProperty: string; // filter the list by this property - if the same item appears in several lists we don't show it if it's already selected
 
+  // accessibility inputs
+  @Input() bfTabIndex = 0;
+  @Input() bfAriaLabel: string;
+
   @Output() bfOnLoaded = new EventEmitter<IbfDropdownCtrl>();         // Emitter to catch the moment when the component is ready (ngAfterViewInit)
   @Output() bfOnListExpanded = new EventEmitter<any>();   // The moment when the list expands (focus in)
   @Output() bfOnListCollapsed = new EventEmitter<any>();  // The moment when the list collapses (select or blur)
@@ -67,7 +73,11 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
 
 
   // --------------
+  public bfInputId = generateUniqueId('inputId');
+  public bfListBoxId = generateUniqueId('listBoxId');
 
+  private activeDescendent: string;
+  public currentErrorMessage: string;
 
   public ngControl; // Reference to the external formControl
   public bfModel = [];   // Internal model, to hold the selected objects of the list
@@ -117,7 +127,7 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
 
   public ignoreHover = false; // When scrolling with the arrow keys, ignore mouse hover
   public arrowScroll$ = new Subject<void>();
-  public listHeight; // Computed height of the expanded listContainer
+  public listHeight: number; // Computed height of the expanded listContainer
   public allRows; // Reference to the optionRows.toArray() html elements array
   public searchTxt = '';
 
@@ -128,6 +138,7 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
   constructor(
     private translate: BfUILibTransService,
     private htmlEl: ElementRef,
+    private liveAnnouncer: LiveAnnouncer
   ) {
 
     // Rerender the list labels on language change
@@ -285,7 +296,6 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
     Object.values(this.subs).forEach(sub => sub.unsubscribe());
   }
 
-
   // After loading (bfLoading=false), automatically match again the ngModel with the items of the list
   public afterLoaded = () => {
     this.isLoading = false;
@@ -298,7 +308,6 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
       if (!this.isBfDisabledPresent) { this.bfDisabled = false; }
     });
   };
-
 
   // Generates the extended list to be used internally (bfList --> extList)
   public generateExtList = () => {
@@ -320,10 +329,11 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
       }
 
       item.$label = itemLabel + '';
-      item.$index = ind + 1;  // Internal unique index
+      item.$index = ind;  // Internal unique index
       item.$isMatch = true;   // filter none by default
       item.$img = item[this.bfRenderImg] || null;
       item.$icon = item[this.bfRenderIco] || null;
+      item.$activeId = `${this.bfListBoxId}-item-${ind}`; // used to determine aria-activedescendant
     });
 
     // Order the list
@@ -345,6 +355,11 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
     }
 
     this.renderExtList(); // Set $renderedText
+
+    // set initial active decendant
+    if (this.extList[0]) {
+      this.setActiveDescendant(this.extList[0].$activeId);
+    }
   };
 
   // Sync translation for the values of the list ($label --> $renderedText)
@@ -392,8 +407,6 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
       return isItemNotInSelection;
     });
   }
-
-
 
   // ------- ControlValueAccessor -----
 
@@ -452,17 +465,15 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
       if (this.errors.manualErr)     { result = { error: this.errors.manualErr }; errLabel = this.errors.manualErr; }
 
       this.errorTextTrans$ = this.translate.getLabel$(this.bfErrorText || errLabel);
+      this.setCurrentErrorText(this.bfErrorText || errLabel);
+      this._announceError();
       if (this.bfErrorText === 'none') { this.errorTextTrans$ = of(''); }
+    } else {
+      this.liveAnnouncer.clear();
     }
 
     return result;
   };
-
-  // ------------------------------------
-
-
-
-
 
   // Focus on input (deferring it to next cycle)
   public deferExpand = () => {
@@ -477,10 +488,9 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
     }
   };
 
-
   // On input focus in -> Expand the select list
   public expandList = () => {
-
+    this._announceError();
     // If the dropdown is to close to the bottom of the window, expand it upward so the list doesn't fall off
     if (this.htmlEl && !this.bfCustomPlacementList) {
       const renderedShadowRect = this.htmlEl.nativeElement.getBoundingClientRect();
@@ -503,13 +513,8 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
         this.listHeight = this.listContainer.nativeElement.getBoundingClientRect().height;
         const selectedEl = this.allRows.find(el => el.nativeElement.classList.contains('selected'));
         if (selectedEl) {
-          const offsetTop = selectedEl.nativeElement.offsetTop;
-          const clientHeight = selectedEl.nativeElement.clientHeight;
-          const scrollTop = this.listContainer.nativeElement.scrollTop;
-          const posY = offsetTop - scrollTop;
-          if (posY + clientHeight > this.listHeight) { // Scroll down
-            this.listContainer.nativeElement.scrollTo({ top: scrollTop + posY - 15, behavior: 'auto' });
-          }
+          this.setActiveDescendant(selectedEl.nativeElement.id);
+          this._scrollItemIntoView(selectedEl.nativeElement);
         }
       }
     });
@@ -527,74 +532,58 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
     }, 100);
   };
 
-
   // React on key events (on the input)
   public triggerKey = (event: KeyboardEvent) => {
-    if (event.key === 'Escape' && this.isExpanded) {
-      this.elInput.nativeElement.blur();
-      return;
-    }
-
-    if (event.key === 'Enter' || (event.key === 'Tab' && this.isExpanded)) {
-      event.preventDefault();
-      this.selectItem(this.bfCandidate);
+    if (event.code === 'Escape') {
       this.isExpanded = false;
       this.elInput.nativeElement.blur();
-      return;
+      this.bfOnListCollapsed.emit();
     }
 
-    const visibleList = this.visibleExtList.filter(item => item.$isMatch);
-    if (visibleList.length) {
-      const ind = visibleList.indexOf(this.bfCandidate);
-
-      const onArrowKeyPress = (i: number) => {
-        this.bfCandidate = visibleList[i];
-        this.ignoreHover = true;
-        this.arrowScroll$.next();
-
-        // Wait for the css classes to be applied on the view
-        // If the candidate falls out of the scrolling window, auto scroll so it gets back in
-        setTimeout(() => {
-          if (this.allRows && this.listContainer) {
-            const candidateEl = this.allRows.find(el => el.nativeElement.classList.contains('candidate'));
-            if (candidateEl) {
-              const offsetTop = candidateEl.nativeElement.offsetTop;
-              const clientHeight = candidateEl.nativeElement.clientHeight;
-              const scrollTop = this.listContainer.nativeElement.scrollTop;
-              const posY = offsetTop - scrollTop;
-
-              if (posY < 0) { // Scroll up
-                this.listContainer.nativeElement.scrollTo({ top: scrollTop + posY - 5, behavior: 'auto' });
-              }
-              if (posY + clientHeight > this.listHeight) { // Scroll down
-                this.listContainer.nativeElement.scrollTo({ top: scrollTop + posY + 5 + clientHeight - this.listHeight, behavior: 'auto' });
-              }
-            }
-          }
-        });
-      };
-
-      if (event.key === 'ArrowDown') {
-        const nextInd = (ind >= 0 && ind < visibleList.length - 1) ? ind + 1 : 0;
-        onArrowKeyPress(nextInd);
+    if (event.code === 'Enter' || (this.isExpanded && event.code === 'Tab')) {
+      event.preventDefault();
+      if (this.isExpanded) {
+        this.selectRow(this.getActiveDescendant());
+      } else {
+        this.expandList();
       }
-      if (event.key === 'ArrowUp') {
-        const nextInd = (ind > 0) ? ind - 1 : visibleList.length - 1;
-        onArrowKeyPress(nextInd);
+    }
+
+    if (event.code === 'ArrowDown') {
+      event.preventDefault();
+      const currentElement = this._getCurrentElement(this.listContainer.nativeElement.children);
+      if (currentElement) {
+        const selectedElement = this._onNextItemFocused(currentElement);
+        if (this.isExpanded) {
+          this._scrollItemIntoView(selectedElement);
+        }
+      } else {
+        this._selectFirstListItem();
+      }
+    }
+
+    if (event.code === 'ArrowUp') {
+      event.preventDefault();
+      const currentElement = this._getCurrentElement(this.listContainer.nativeElement.children);
+      if (currentElement) {
+        const selectedElement = this._onPreviousItemFocused(currentElement);
+        if (this.isExpanded) {
+          this._scrollItemIntoView(selectedElement);
+        }
+      } else {
+        this._selectLastListItem();
       }
     }
   };
 
-
-  public inputType = (value) => {
+  public inputType = (value: string) => {
     this.searchTxt = value;
     this.bfOnTyping.emit(value);
     this.filterList(value);
-    this.bfCandidate = this.visibleExtList.filter(item => item.$isMatch)[0];
   }
 
   // Filter the list to display according to the input text
-  public filterList = (value) => {
+  public filterList(value: string) {
     if (this.bfFilterFn) {
       const fList = this.bfFilterFn(this.visibleExtList, value);
       this.visibleExtList.forEach(item => item.$isMatch = !!fList.find(e => e.$index === item.$index));
@@ -606,8 +595,15 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
       });
       this.emptyItem.$isMatch = true; // Fix empty option as always visible
     }
-  };
 
+    if (value.length > 0) {
+      const firstElement = this.extList.find(item => item.$isMatch);
+
+      if (firstElement) {
+        this.setActiveDescendant(firstElement.$activeId);
+      }
+    }
+  };
 
   // Given an external object/value array, find and select the matches on the internal list
   public matchSelection = (valueArray: any[]) => {
@@ -664,22 +660,31 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
     }
   };
 
-
   // Select item into the selected list
-  public selectItem = (selObj: any) => {
-    if (selObj !== this.emptyItem && selObj !== null && selObj !== undefined) {
-      this.bfModel.push(selObj);
+  public selectItem = (selectedObj: any, event?: KeyboardEvent) => {
+    if(!!event && (event.code !== 'Enter' && event.code !== 'Space')) return;
+
+    if(!!event) {
+      event.preventDefault();
+    }
+
+    if (selectedObj !== this.emptyItem && selectedObj !== null && selectedObj !== undefined) {
+      this.bfModel.push(selectedObj);
     }
     this.manageModels();
   }
 
-
   // Remove item from the selected list
-  public deselectItem = (selObj: any) => {
-    this.bfModel = this.bfModel.filter(value => value.$index !== selObj.$index);
+  public deselectItem = (selectedObj: any, event?: KeyboardEvent) => {
+    if(!!event && (event.code !== 'Enter' && event.code !== 'Space')) return;
+
+    if(!!event) {
+      event.preventDefault();
+    }
+
+    this.bfModel = this.bfModel.filter(value => value.$index !== selectedObj.$index);
     this.manageModels();
   }
-
 
   // Set bfModel, and propagate ngModel up
   public manageModels = () => {
@@ -731,11 +736,112 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
 
   };
 
+  public selectRow = (rowId: string) => {
+    console.log(this.allRows)
+    const index = this.allRows.findIndex((element) => element.nativeElement.id === rowId);
+    const itemToSelect = this.extList[index];
+    this.selectItem(itemToSelect);
+    this.isExpanded = false;
+    this.bfOnListCollapsed.emit();
+  }
 
   // Determine how to display the selected option on the input
   public setModelText = () => {
     this.inputText = '';
     this.inputPlaceholder = this.renderedPlaceholder;
   };
+
+  public getOptionId(index: number): string {
+    return `${this.bfListBoxId}-item-${index}`;
+  }
+
+  public getActiveDescendant(): string {
+    return this.activeDescendent || this.getOptionId(0);
+  }
+
+  public isActiveDescendant(id: string): boolean {
+    return this.getActiveDescendant() === id;
+  }
+
+  public setItemActive(event: MouseEvent) {
+    let activeId = null;
+    if (!!event) {
+      activeId = (event.target as HTMLElement).getAttribute('id');
+    }
+    this.setActiveDescendant(activeId);
+  }
+
+  public setActiveDescendant(id: string) {
+    this.activeDescendent = id;
+  }
+
+  public setCurrentErrorText(errorText: string) {
+    this.currentErrorMessage = errorText;
+  }
+
+  public isSelected(item: any): boolean {
+    return item === this.bfModel;
+  }
+
+  private _scrollItemIntoView(selectedElement: HTMLElement): void {
+    if (selectedElement) {
+      const offsetTop = selectedElement.offsetTop;
+      const clientHeight = selectedElement.clientHeight;
+      const scrollTop = this.listContainer.nativeElement.scrollTop;
+      const posY = offsetTop - scrollTop;
+
+      if (posY < 0) { // Scroll up
+        this.listContainer.nativeElement.scrollTo({ top: scrollTop + posY - 5, behavior: 'auto' });
+      }
+      if (posY + clientHeight > this.listHeight) { // Scroll down
+        this.listContainer.nativeElement.scrollTo({ top: scrollTop + posY + 5 + clientHeight - this.listHeight, behavior: 'auto' });
+      }
+    }
+  }
+
+  private _getCurrentElement(options: HTMLCollection): Element | null {
+    return Array.from(options).find((element) => this.isActiveDescendant(element.id));
+  }
+
+  private _announceError() {
+    if (this.isInvalid && this.showError) {
+      this.liveAnnouncer.announce(this.translate.doTranslate(this.currentErrorMessage));
+    }
+  }
+
+  private _onNextItemFocused(currentElement: Element): HTMLElement {
+    const nextElement = currentElement.nextElementSibling;
+
+    if (nextElement) {
+      this.setActiveDescendant(nextElement.id);
+      return nextElement as HTMLElement;
+    } else {
+      return this._selectFirstListItem();
+    }
+  }
+
+  private _onPreviousItemFocused(currentElement: Element): HTMLElement {
+    const previousElement = currentElement.previousElementSibling;
+
+    if (previousElement) {
+      this.setActiveDescendant(previousElement.id);
+      return previousElement as HTMLElement;
+    } else {
+      return this._selectLastListItem();
+    }
+  }
+
+  private _selectFirstListItem(): HTMLElement {
+    const firstElement = this.listContainer.nativeElement.children.item(0);
+    this.setActiveDescendant(firstElement.id);
+    return firstElement as HTMLElement;
+  }
+
+  private _selectLastListItem(): HTMLElement {
+    const listItems = this.listContainer.nativeElement.children;
+    const lastElement = listItems.item(listItems.length - 1);
+    this.setActiveDescendant(lastElement.id);
+    return lastElement as HTMLElement;
+  }
 
 }

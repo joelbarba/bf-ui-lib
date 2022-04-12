@@ -212,6 +212,7 @@ bf-dropdown, bf-lazy-dropdown, bf-multi-selector {
         padding: 0; // padding: 5px 0;
         overflow: auto;
         border: 1px solid $optional-color;
+        display: none;
 
         &:not(.list-upward) {
           border-top-color: rgba($optional-color, 0.5);
@@ -224,6 +225,10 @@ bf-dropdown, bf-lazy-dropdown, bf-multi-selector {
           border-top-left-radius: 0.25rem;
           border-top-right-radius: 0.25rem;
           border-bottom-color: rgba($optional-color, 0.5);
+        }
+
+        &.expanded {
+          display: block;
         }
 
         // Adjust the first / last rows (remove 1px line between)

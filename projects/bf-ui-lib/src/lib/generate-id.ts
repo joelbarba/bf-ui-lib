@@ -10,3 +10,8 @@ export const generateId = (idLength) => {
   return result;
 };
 
+
+export const generateUniqueId = (component: string): string => {
+  const hexString = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+  return `${component}-${hexString}`;
+}

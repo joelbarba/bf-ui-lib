@@ -8,6 +8,7 @@ import {BfUILibTransService} from '../abstract-translate.service';
 import {dCopy} from '../bf-prototypes/deep-copy';
 import {debounceTime} from 'rxjs/operators';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { generateUniqueId } from '../generate-id';
 
 // The control object (bfOnLoaded) emits
 export interface IbfDropdownCtrl {
@@ -140,8 +141,8 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
   public listHeight; // Computed height of the expanded listContainer
   public allRows; // Reference to the optionRows.toArray() html elements array
   public searchTxt = '';
-  public bfInputId = this.generateUniqueId('inputId');
-  public bfListboxId = this.generateUniqueId('listBoxId');
+  public bfInputId = generateUniqueId('inputId');
+  public bfListboxId = generateUniqueId('listBoxId');
 
   private activeDecendent: string;
   public currentErrorMessage: string;
@@ -854,11 +855,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
         this.listContainer.nativeElement.scrollTo({ top: scrollTop + posY + 5 + clientHeight - this.listHeight, behavior: 'auto' });
       }
     }
-  }
-
-  private generateUniqueId(component: string): string {
-    const hexString = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-    return `${component}-${hexString}`;
   }
 
   private annouceError() {
