@@ -110,7 +110,7 @@ $input-valid-color     : $valid-color !default;`;
   public myVariable = '';
   public compConf = {
     hasLabel: true, labelText: 'view.common.name',
-
+    hasName: false, nameText: 'name',
     hasType: false, inputType: 'text', inputTypes: [
       { id: 'text',     text: 'text',     },
       { id: 'number',   text: 'number',   },
@@ -173,6 +173,7 @@ $input-valid-color     : $valid-color !default;`;
 
     this.customCompCode += `[(ngModel)]="myVariable"`;
     if (this.compConf.hasLabel)             { this.customCompCode += this.bsStr + `bfLabel="${this.compConf.labelText}"`; }
+    if (this.compConf.hasName)              { this.customCompCode += this.bsStr + `bfName="${this.compConf.nameText}"`; }
     if (this.compConf.hasPlaceholder)       { this.customCompCode += this.bsStr + `bfPlaceholder="${this.compConf.placeholderText}"`; }
     if (this.compConf.hasIcon)              { this.customCompCode += this.bsStr + `bfIcon="${this.compConf.inputIcon}"`; }
     if (this.compConf.hasImage)             { this.customCompCode += this.bsStr + `bfImage="${this.compConf.inputImage}"`; }
@@ -229,6 +230,7 @@ export const BfInputDoc = {
   desc    : `Generates an text input field.`,
   api     : `[(ngModel)]       : The ngModel directive is linked to the inner <input>, so that can be used as a form element with ngForm (status is propagated).
 [bfLabel]         : Label of the input (automatically translated). If not provided, no label is displayed.
+[bfName]          : Name attribute. If not provided, will use bfInput,
 [bfRequired]      : Whether the input is required or not
 [bfDisabled]      : Whether the input is disabled or not
 [bfDisabledTip]   : Text with the tooltip to display on hover when the input is disabled
