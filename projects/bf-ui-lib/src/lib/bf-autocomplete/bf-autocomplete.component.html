@@ -1,4 +1,5 @@
-<div class="form-group bf-autocomplete-form-group" #autocomplete
+<div class="form-group bf-autocomplete-form-group"
+     #autocomplete
      (keydown)="triggerKey($event)"
      [class.is-required]="bfRequired"
      [class.is-disabled]="bfDisabled"
@@ -13,39 +14,63 @@
             [bfTooltipBody]="bfTooltipBody">
   </bf-label>
 
+  {{getActiveDecendant()}}
   <div class="bf-autocomplete"
        [class.is-expanded]="isExpanded()">
-    <div class="input-group" #autocompleteInputGroup
+    <div class="input-group"
+         #autocompleteInputGroup
          [disableTooltip]="!bfDisabled || !bfDisabledTip"
+         [attr.aria-owns]="bfListboxId"
+         [attr.aria-expanded]="isExpanded"
+         [attr.aria-required]="bfRequired"
+         role="combobox"
+         attr.aria-haspopup="listbox"
          [ngbTooltip]="bfDisabledTipTrans$ | async">
 
-      <input type="text" class="form-control" #autocompleteInput
-             [(ngModel)]="ngModel" (ngModelChange)="typing(ngModel)"
+      <input [id]="bfInputId"
+             #autocompleteInput
+             type="text"
+             class="form-control"
+             [(ngModel)]="ngModel"
+             (ngModelChange)="typing(ngModel)"
+             attr.aria-autocomplete="list"
+             [attr.aria-controls]="bfListboxId"
+             attr.aria-label="{{ bfAriaLabel | getLabel$ | async }}"
+             [attr.aria-activedescendant]="getActiveDecendant()"
              [placeholder]="bfPlaceholderTrans$ | async"
              [disabled]="bfDisabled"
-             (focusin)="expand()"
              (blur)="updateModel(ngModel)"
+             [tabindex]="bfTabIndex"
+             (focusin)="expand()"
              autocomplete="nofill">
-
 
       <div class="input-group-append">
         <button [hidden]="(!!ngModel && ngModel.length > 0) && isFocus"
-                class="btn btn-outline-secondary" tabIndex="-1"
+                class="btn btn-outline-secondary"
+                tabIndex="-1"
                 [disabled]="bfDisabled"
                 (click)="!bfDisabled && toggle()">
           <span class="icon-search"></span>
         </button>
         <button [hidden]="(!ngModel || ngModel.length === 0) || !isFocus"
-                class="btn btn-outline-secondary" tabIndex="-1"
+                class="btn btn-outline-secondary"
+                tabIndex="-1"
                 (click)="reset()">
           <span class="icon-cross3"></span>
         </button>
       </div>
-
     </div>
 
-    <div class="list-container" #listContainer>
-      <div *ngFor="let item of list" class="option-row {{item}}"
+    <div class="list-container"
+          [id]="bfListboxId"
+          role="listbox"
+          class="list-container"
+         #listContainer>
+      <div *ngFor="let item of list; let i = index"
+           class="option-row"
+           role="option"
+           [id]="getOptionId(i)"
+           [attr.aria-selected]="bfCandidate === item"
            [class.selected]="ngModel === item"
            [class.candidate]="bfCandidate === item"
            (mouseenter)="!ignoreHover && (bfCandidate = item)"
