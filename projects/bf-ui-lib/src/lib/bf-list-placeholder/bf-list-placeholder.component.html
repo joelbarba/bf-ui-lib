@@ -1,4 +1,4 @@
-<div *ngIf="bfType === 'list'" class="list-unstyled">
+<div *ngIf="bfType === 'list'" class="list-unstyled" tabindex="0" [attr.aria-label]="ariaLoadingMessage">
   <li *ngFor="let fakeRow of fakeRows" class="list-row list-row-placeholder">
     <div *ngFor="let fakeCol of fakeRow.fakeCols"
          class="fake-row-placeholder"
@@ -9,7 +9,7 @@
 </div>
 
 
-<div *ngIf="bfType === 'table'">
+<div *ngIf="bfType === 'table'" tabindex="0" [attr.aria-label]="ariaLoadingMessage">
   <div class="row">
     <div class="col-12">
       <!-- <div class="overlay-text"><h4>Loading</h4></div> -->
@@ -26,9 +26,9 @@
   </div>
 </div>
 
-<div *ngIf="bfType === 'tile'" class="fake-tile-placeholder"></div>
+<div *ngIf="bfType === 'tile'" class="fake-tile-placeholder" tabindex="0" [attr.aria-label]="ariaLoadingMessage"></div>
 
-<div *ngIf="bfType === 'cards'" class="fake-cards-list list-unstyled">
+<div *ngIf="bfType === 'cards'" class="fake-cards-list list-unstyled" tabindex="0" [attr.aria-label]="ariaLoadingMessage">
   <div *ngFor="let fakeCard of fakeRows" class="card-wrapper">
     <div class="card-placeholder">
     <div class="upper-image"></div>

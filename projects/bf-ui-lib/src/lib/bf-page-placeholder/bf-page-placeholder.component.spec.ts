@@ -4,6 +4,8 @@ import { BfPagePlaceholderComponent } from './bf-page-placeholder.component';
 import {TestingModule} from '../../testing/testing-module';
 import {FormsModule} from '@angular/forms';
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import { BfUILibTransStubService } from '../../testing/bf-ui-lib-trans-service-stub.service';
+import { BfUILibTransService } from '../abstract-translate.service';
 
 describe('BfPagePlaceholderComponent', () => {
   let component: BfPagePlaceholderComponent;
@@ -13,6 +15,7 @@ describe('BfPagePlaceholderComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ BfPagePlaceholderComponent ],
       imports: [ TestingModule, FormsModule, NgbTooltipModule],
+      providers: [{ provide: BfUILibTransService, useClass: BfUILibTransStubService}]
     })
     .compileComponents();
   }));
