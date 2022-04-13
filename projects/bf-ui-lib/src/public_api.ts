@@ -52,6 +52,7 @@ export * from './lib/bf-range-slider/bf-range-slider.component';
 export * from './lib/bf-section-header/bf-section-header.component';
 export * from './lib/bf-slider/bf-slider.component';
 export * from './lib/bf-status-badge/bf-status-badge.component';
+export * from './lib/bf-dot-badge';
 export * from './lib/bf-switch/bf-switch.component';
 export * from './lib/bf-textarea/bf-textarea.component';
 export * from './lib/bf-date-time-picker/bf-date-time-picker.component';
