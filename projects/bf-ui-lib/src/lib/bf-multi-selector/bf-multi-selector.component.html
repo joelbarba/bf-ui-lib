@@ -68,7 +68,7 @@
                 [disabled]="bfDisabled"
                 aria-autocomplete="list"
                 [attr.aria-controls]="bfListBoxId"
-                [attr.aria-activedescendant]="getActiveDescendant()"
+                [attr.aria-activedescendant]="isExpanded && getActiveDescendant()"
                 attr.aria-label="{{ bfAriaLabel | getLabel$ | async }}"
                 [tabindex]="bfTabIndex"
                 (keydown)="triggerKey($event)"
@@ -78,7 +78,7 @@
         </li>
       </ul>
 
-      <div class="input-group-append" (click)="!bfDisabled && onInputBtnClick()" (keydown)="!bfDisabled && onInputBtnClick()">
+      <div class="input-group-append" (click)="!bfDisabled && onInputBtnClick()">
         <button class="btn btn-outline-secondary" [disabled]="!!bfDisabled" tabIndex="-1" attr.aria-label="{{ 'view.common.dropdown_expand_btn_aria' | getLabel$ | async}}">
           <span *ngIf="!isLoading" class="icon-search"></span>
           <span *ngIf="isLoading" class="loading"></span>
@@ -112,7 +112,7 @@
             [class.selected]="isSelected(item)">
             <img *ngIf="!!item?.$img"  class="option-row-image" [src]="item?.$img" alt="{{ item?.$img }}">
             <span *ngIf="!!item?.$icon" class="option-row-icon" [ngClass]="item?.$icon" aria-hidden></span>
-            <span *ngIf="!bfHtmlRender">{{item.$renderedText}}</span>
+            <span>{{item.$renderedText}}</span>
         </div>
       </li>
     </ul>

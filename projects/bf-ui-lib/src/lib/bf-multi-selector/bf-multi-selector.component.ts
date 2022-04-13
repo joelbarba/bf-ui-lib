@@ -540,7 +540,7 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
       this.bfOnListCollapsed.emit();
     }
 
-    if (event.code === 'Enter' || (this.isExpanded && event.code === 'Tab')) {
+    if (event.code === 'Enter') {
       event.preventDefault();
       if (this.isExpanded) {
         this.selectRow(this.getActiveDescendant());
@@ -737,7 +737,6 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
   };
 
   public selectRow = (rowId: string) => {
-    console.log(this.allRows)
     const index = this.allRows.findIndex((element) => element.nativeElement.id === rowId);
     const itemToSelect = this.extList[index];
     this.selectItem(itemToSelect);
