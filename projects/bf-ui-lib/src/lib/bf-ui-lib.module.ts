@@ -2,6 +2,8 @@ import {NgModule, ModuleWithProviders, Optional, SkipSelf} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbPopoverModule, NgbTooltipModule, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModule, NgbActiveModal, NgbModalModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+import { BfDotBadgeComponent } from './bf-dot-badge/bf-dot-badge.component';
 
 // Modules
 import { BfGrowlModule } from './bf-growl/bf-growl.module';
@@ -79,6 +81,7 @@ import { BfShortPressDirective } from './bf-keypad/bf-keypad-button/bf-short-pre
         BfMultiSelectorComponent,
         BfProgressBarComponent,
         BfStatusBadgeComponent,
+        BfDotBadgeComponent,
         BfColorPickerComponent,
         BfSliderComponent,
         BfPagePlaceholderComponent,
@@ -133,6 +136,7 @@ import { BfShortPressDirective } from './bf-keypad/bf-keypad-button/bf-short-pre
         BfPagePlaceholderComponent,
         BfSliderComponent,
         BfStatusBadgeComponent,
+        BfDotBadgeComponent,
         BfProgressBarComponent,
         BfMultiSelectorComponent,
         BfAutocompleteComponent,
