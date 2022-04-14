@@ -9,7 +9,7 @@ import { Patterns } from '../patterns';
 import { BfDropdownA11yPipe } from '../bf-dropdown/bf-dropdown-a11y.pipe';
 import { BfTranslatePipe } from '../abstract-translate.service';
 
-fdescribe('BfAutocompleteComponent', () => {
+describe('BfAutocompleteComponent', () => {
   let component: BfAutocompleteComponent;
   let fixture: ComponentFixture<BfAutocompleteComponent>;
 
@@ -284,7 +284,7 @@ fdescribe('BfAutocompleteComponent', () => {
   describe('getOptionId', () => {
     it('should return the id of the option at a given index', () => {
       component.bfListboxId = 'G90I';
-      expect(component.getOptionId(2)).toBe('G901-item-2');
+      expect(component.getOptionId(2)).toBe('G90I-item-2');
     });
   });
 });
