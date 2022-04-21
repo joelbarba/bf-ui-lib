@@ -1,5 +1,5 @@
 <div class="bf-status-badge" [ngClass]="bfStatusCss[bfCurrentStatus]" 
-  tabIndex="0"
+  [tabIndex]="bfTabIndex"
   [class.bf-status-badge-circle]="bfCircle"
   [ngStyle]="{'background-color': bfCurrentColor}"
   [ngbTooltip]="bfCurrentLabel$ | async" 

@@ -31,6 +31,7 @@ export class BfStatusBadgeComponent implements OnInit, OnChanges {
   @Input() bfColor  = '';
   @Input() bfCircle = false;
   @Input() bfColorSet: ColorSet;
+  @Input() bfTabIndex = 0;
 
   public bfCurrentLabel$: Observable<string> = of('');
 
