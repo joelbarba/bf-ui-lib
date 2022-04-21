@@ -8,7 +8,7 @@ import {BfUILibTransService} from '../abstract-translate.service';
 import {dCopy} from '../bf-prototypes/deep-copy';
 import {debounceTime} from 'rxjs/operators';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { generateUniqueId } from '../generate-id';
+import { generateId } from '../generate-id';
 
 // The control object (bfOnLoaded) emits
 export interface IbfDropdownCtrl {
@@ -141,8 +141,8 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
   public listHeight; // Computed height of the expanded listContainer
   public allRows; // Reference to the optionRows.toArray() html elements array
   public searchTxt = '';
-  public bfInputId = generateUniqueId('inputId');
-  public bfListboxId = generateUniqueId('listBoxId');
+  public bfInputId = generateId('inputId');
+  public bfListboxId = generateId('listBoxId');
 
   private activeDecendent: string;
   public currentErrorMessage: string;

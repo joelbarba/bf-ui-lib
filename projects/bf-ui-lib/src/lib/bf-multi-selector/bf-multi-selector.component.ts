@@ -8,7 +8,7 @@ import {BfUILibTransService} from '../abstract-translate.service';
 import {dCopy} from '../bf-prototypes/deep-copy';
 import { IbfDropdownCtrl } from '../bf-dropdown/bf-dropdown.component';
 import {isEqualTo} from '../bf-prototypes/deep-equal';
-import { generateId, generateUniqueId } from '../generate-id';
+import { generateId } from '../generate-id';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 
@@ -73,8 +73,8 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
 
 
   // --------------
-  public bfInputId = generateUniqueId('inputId');
-  public bfListBoxId = generateUniqueId('listBoxId');
+  public bfInputId = generateId('6');
+  public bfListBoxId = generateId('6');
 
   private activeDescendent: string;
   public currentErrorMessage: string;
