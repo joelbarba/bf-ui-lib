@@ -1,6 +1,9 @@
-<div class="bf-status-badge" [ngClass]="bfStatusCss[bfCurrentStatus]"
-     [class.bf-status-badge-circle]="bfCircle"
-     [ngStyle]="{'background-color': bfCurrentColor}"
-     [ngbTooltip]="bfCurrentLabel$ | async" [disableTooltip]="!bfCircle">
+<div class="bf-status-badge" [ngClass]="bfStatusCss[bfCurrentStatus]" 
+  [tabIndex]="bfTabIndex"
+  [class.bf-status-badge-circle]="bfCircle"
+  [ngStyle]="{'background-color': bfCurrentColor}"
+  [ngbTooltip]="bfCurrentLabel$ | async" 
+  [disableTooltip]="!bfCircle"
+  [attr.aria-label]="bfCurrentLabel$ | async">
   <span class="bf-status-badge-text">{{bfCurrentLabel$ | async}}</span>
 </div>
