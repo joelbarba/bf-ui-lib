@@ -14,6 +14,8 @@ export class BfDotBadgeComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() bfType: ColourType;
   @Input() bfText: string = '';
+  @Input() bfBreakpoint: number = 992;
+  @Input() bfStatus: boolean | number;
 
   /**
    * How the text should be displayed on the dot badge.
@@ -34,7 +36,7 @@ export class BfDotBadgeComponent implements OnInit, OnChanges, OnDestroy {
   ) { }
 
   _subscribeToBreakpoints() {
-    this._breakpointObserver.observe('(min-width: 768px)').pipe(
+    this._breakpointObserver.observe(`(min-width: ${this.bfBreakpoint}px)`).pipe(
       takeUntil(this._destroy$)
     ).subscribe(({ matches }) => this.calculatedDisplayType = matches ? 'label' : 'tooltip');
   }
@@ -59,12 +61,20 @@ export class BfDotBadgeComponent implements OnInit, OnChanges, OnDestroy {
     this.translatedText = this._translate.doTranslate(this.bfText);
   }
 
+  _setDefaultStatus() {
+    this.bfType = !!this.bfStatus ? 'primary' : 'warning';
+    this.bfText = !!this.bfStatus ? 'view.common.active' : 'view.common.inactive';
+  }
+
   ngOnInit() {
     this._setLabelDisplay();
+    if(this.bfStatus)this._setDefaultStatus();
+    this._translateText();
   }
 
   ngOnChanges(change: SimpleChanges) {
     if (!!change.bfLabelDisplayType) this._setLabelDisplay();
+    if (!!change.bfStatus) this._setDefaultStatus();
     if (!!change.bfText) this._translateText();
   }
 

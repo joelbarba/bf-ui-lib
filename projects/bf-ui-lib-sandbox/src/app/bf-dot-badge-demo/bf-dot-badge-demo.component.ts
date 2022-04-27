@@ -51,6 +51,16 @@ $badge-dot-size: 0.5rem !default;`;
     { type: 'warning' }
   ];
 
+
+  activeExample = `<bf-dot-badge [bfStatus]="1"></bf-dot-badge>`;
+  activeExample2 = `<bf-dot-badge [bfStatus]="true"></bf-dot-badge>`;
+
+  inactiveExample = `<bf-dot-badge [bfStatus]="0"></bf-dot-badge>`;
+  inactiveExample2 = `<bf-dot-badge [bfStatus]="false"></bf-dot-badge>`;
+
+  responsiveExample = `<bf-dot-badge bfType="secondary" bfText="Responsive at 1280px" [bfBreakpoint]="1280"></bf-dot-badge>`;
+
+
   constructor() { }
 
   getInstance(type: ColourType, text?: string, bfLabelDisplayType?: 'tooltip' | 'label' | 'auto'): string {

@@ -164,6 +164,53 @@
       <pre>{{getInstance('primary', 'Tooltip', 'tooltip')}}</pre>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-4">
+      <bf-dot-badge [bfStatus]="0"></bf-dot-badge>
+    </div>
+    <div class="col-8 code-box p-3">
+      <pre>{{inactiveExample}}</pre>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <bf-dot-badge [bfStatus]="false"></bf-dot-badge>
+    </div>
+    <div class="col-8 code-box p-3">
+      <pre>{{inactiveExample2}}</pre>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <bf-dot-badge [bfStatus]="1"></bf-dot-badge>
+    </div>
+    <div class="col-8 code-box p-3">
+      <pre>{{activeExample}}</pre>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <bf-dot-badge [bfStatus]="true"></bf-dot-badge>
+    </div>
+    <div class="col-8 code-box p-3">
+      <pre>{{activeExample2}}</pre>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <bf-dot-badge bfType="secondary" bfText="Responsive at 1280px" [bfBreakpoint]="1280"></bf-dot-badge>
+    </div>
+    <div class="col-8 code-box p-3">
+      <pre>{{responsiveExample}}</pre>
+    </div>
+  </div>
+
+
 </div>
 
 <div class="row mt-5">
