@@ -1,0 +1,177 @@
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+<p>This component displays a dot to indicate the status of something, along with optional labels</p>
+
+<h5 class="mt-4">Parameters:</h5>
+<div class="col-12">
+  <pre>{{api}}</pre>
+</div>
+
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-5 mb-3">
+      <h5 class="marB25">bf-dot-badge Customization:</h5>
+      <div>
+        <bf-dot-badge [bfLabelDisplayType]="config.labelDisplayType"
+                      [bfText]="config.text"
+                      [bfType]="config.type"
+        ></bf-dot-badge>
+      </div>
+      <div class="pt-3">
+        <div class="code-box p-3">
+          <pre>{{customComponentCode}}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-7">
+      <div class="row mt-3">
+        <div class="col-12">
+          <bf-dropdown (ngModelChange)="updateComponent({key: 'type', value: $event})"
+                       [bfList]="typeList"
+                       [ngModel]="config.type"
+                       bfLabel="Type"
+                       bfSelect="type"
+          ></bf-dropdown>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-10">
+          <bf-input (ngModelChange)="updateComponent({key: 'text', value: $event})"
+                    [ngModel]="config.text"
+          ></bf-input>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-10">
+          <bf-label bfValue="Label display type"></bf-label>
+        </div>
+        <div class="col-10 pt-2 d-flex">
+          <bf-radio (ngModelChange)="updateComponent({key: 'labelDisplayType', value: $event})"
+                    [ngModel]="config.labelDisplayType"
+                    bfLabel="Auto"
+                    bfValue="auto"
+          ></bf-radio>
+          <bf-radio (ngModelChange)="updateComponent({key: 'labelDisplayType', value: $event})"
+                    [ngModel]="config.labelDisplayType"
+                    bfLabel="Label"
+                    bfValue="label"
+          ></bf-radio>
+          <bf-radio (ngModelChange)="updateComponent({key: 'labelDisplayType', value: $event})"
+                    [ngModel]="config.labelDisplayType"
+                    bfLabel="Tooltip"
+                    bfValue="tooltip"
+          ></bf-radio>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr>
+
+<h5 class="mt-4">Examples:</h5>
+<div class="col-12 examples-table">
+
+  <div class="row">
+    <div class="col-4">
+      <bf-dot-badge bfText="Primary" bfType="primary"></bf-dot-badge>
+    </div>
+    <div class="col-8 code-box p-3">
+      <pre>{{getInstance('primary')}}</pre>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <bf-dot-badge bfText="Secondary" bfType="secondary"></bf-dot-badge>
+    </div>
+    <div class="col-8 code-box p-3">
+      <pre>{{getInstance('secondary')}}</pre>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <bf-dot-badge bfText="Tertiary" bfType="tertiary"></bf-dot-badge>
+    </div>
+    <div class="col-8 code-box p-3">
+      <pre>{{getInstance('tertiary')}}</pre>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <bf-dot-badge bfText="Quaternary" bfType="quaternary"></bf-dot-badge>
+    </div>
+    <div class="col-8 code-box p-3">
+      <pre>{{getInstance('quaternary')}}</pre>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <bf-dot-badge bfText="Extra" bfType="extra"></bf-dot-badge>
+    </div>
+    <div class="col-8 code-box p-3">
+      <pre>{{getInstance('extra')}}</pre>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <bf-dot-badge bfText="Success" bfType="success"></bf-dot-badge>
+    </div>
+    <div class="col-8 code-box p-3">
+      <pre>{{getInstance('success')}}</pre>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <bf-dot-badge bfText="Warning" bfType="warning"></bf-dot-badge>
+    </div>
+    <div class="col-8 code-box p-3">
+      <pre>{{getInstance('warning')}}</pre>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <bf-dot-badge bfLabelDisplayType="auto" bfText="Auto" bfType="primary"></bf-dot-badge>
+    </div>
+    <div class="col-8 code-box p-3">
+      <pre>{{getInstance('primary', 'Auto', 'auto')}}</pre>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <bf-dot-badge bfLabelDisplayType="label" bfText="Label" bfType="primary"></bf-dot-badge>
+    </div>
+    <div class="col-8 code-box p-3">
+      <pre>{{getInstance('primary', 'Label', 'label')}}</pre>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <bf-dot-badge bfLabelDisplayType="tooltip" bfText="Tooltip" bfType="primary"></bf-dot-badge>
+    </div>
+    <div class="col-8 code-box p-3">
+      <pre>{{getInstance('primary', 'Tooltip', 'tooltip')}}</pre>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-5">
+  <div class="col-12">
+    <hr>
+    <h4>CSS Styling</h4>
+    <p>The following SASS variables can be overridden to provide customized coloring:</p>
+    <pre class="pl-5">{{ cssReset }}</pre>
+  </div>
+</div>
+

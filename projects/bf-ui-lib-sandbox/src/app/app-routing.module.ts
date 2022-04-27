@@ -44,6 +44,7 @@ const routes: Routes = [
   { path: docs.BfRangeSliderDoc.name,       component: docs.BfRangeSliderDoc.demoComp      },
   { path: docs.BfColorPickerDoc.name,       component: docs.BfColorPickerDoc.demoComp      },
   { path: docs.BfStatusBadgeDoc.name,       component: docs.BfStatusBadgeDoc.demoComp      },
+  { path: docs.BfDotBadgeDoc.name,       component: docs.BfDotBadgeDoc.demoComp      },
   { path: docs.BfProgressBarDoc.name,       component: docs.BfProgressBarDoc.demoComp      },
   { path: docs.BfListHeaderColDoc.name,     component: docs.BfListHeaderColDoc.demoComp    },
   { path: docs.BfListPlaceholderDoc.name,   component: docs.BfListPlaceholderDoc.demoComp  },

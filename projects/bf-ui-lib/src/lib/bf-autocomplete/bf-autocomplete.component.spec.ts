@@ -6,6 +6,8 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TestingModule } from '../../testing/testing-module';
 import { FormControl, FormsModule } from '@angular/forms';
 import { Patterns } from '../patterns';
+import { BfDropdownA11yPipe } from '../bf-dropdown/bf-dropdown-a11y.pipe';
+import { BfTranslatePipe } from '../abstract-translate.service';
 
 describe('BfAutocompleteComponent', () => {
   let component: BfAutocompleteComponent;
@@ -13,7 +15,7 @@ describe('BfAutocompleteComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [BfAutocompleteComponent, BfLabelComponent],
+      declarations: [BfAutocompleteComponent, BfLabelComponent, BfDropdownA11yPipe, BfTranslatePipe],
       imports: [TestingModule, FormsModule, NgbTooltipModule],
     })
       .compileComponents();
@@ -263,6 +265,26 @@ describe('BfAutocompleteComponent', () => {
       component.bfList = ['a', 'b', 'c', 'd'];
       component.checkValidity('e');
       expect(setValiditySpy).toHaveBeenCalledWith(true);
+    });
+  });
+
+  describe('getActiveDescendent', () => {
+    it('should return the active descendent if exists', () => {
+      component.activeDecendent = 'G90I-component-item5';
+      expect(component.getActiveDecendant()).toBe('G90I-component-item5');
+    });
+
+    it('should return the first option if there is no active descendent', () => {
+      component.activeDecendent = null;
+      spyOn(component, 'getOptionId').and.returnValue('G90I-component-item0');
+      expect(component.getActiveDecendant()).toBe('G90I-component-item0');
+    });
+  });
+
+  describe('getOptionId', () => {
+    it('should return the id of the option at a given index', () => {
+      component.bfListboxId = 'G90I';
+      expect(component.getOptionId(2)).toBe('G90I-item-2');
     });
   });
 });

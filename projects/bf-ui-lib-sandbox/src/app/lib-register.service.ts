@@ -20,6 +20,7 @@ export const compList = [
   docs.BfSliderDoc,
   docs.BfRangeSliderDoc,
   docs.BfStatusBadgeDoc,
+  docs.BfDotBadgeDoc,
   docs.BfProgressBarDoc,
   docs.BfListHeaderColDoc,
   docs.BfListPaginatorDoc,

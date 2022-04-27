@@ -9,6 +9,8 @@ import { TestingModule } from '../../testing/testing-module';
 import BfArray from '../bf-prototypes/array.prototypes';
 
 import { BfMultiSelectorComponent } from './bf-multi-selector.component';
+import { BfTranslatePipe } from '../abstract-translate.service';
+import { BfDropdownA11yPipe } from '../bf-dropdown/bf-dropdown-a11y.pipe';
 
 
 // Setup prototypes needed in this test
@@ -17,7 +19,6 @@ for (const proFn in BfArray) {
     Array.prototype[proFn] = BfArray[proFn];
   }
 }
-
 
 describe('BfMultiSelectorComponent', () => {
   let comp: BfMultiSelectorComponent;
@@ -37,7 +38,7 @@ describe('BfMultiSelectorComponent', () => {
   // Setup test suite
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [BfMultiSelectorComponent],
+      declarations: [BfMultiSelectorComponent, BfTranslatePipe, BfDropdownA11yPipe],
       imports: [TestingModule, FormsModule, NgbTooltipModule],
     }).compileComponents();
 
@@ -78,7 +79,7 @@ describe('BfMultiSelectorComponent', () => {
       tick(100);
       detectChanges();
 
-      expect(getListContainerDe()).toBeFalsy();
+      expect(getListContainer().classList).not.toContain('expanded');
       expect(input.value).toBe('');
       expect(comp.bfOnListCollapsed.emit).toHaveBeenCalled();
     }));
@@ -86,14 +87,14 @@ describe('BfMultiSelectorComponent', () => {
 
   it('should open the dropdown list on the search button click', () => {
     // Dropdown is closed
-    expect(getListContainerDe()).toBeNull();
+    expect(getListContainer().classList).not.toContain('expanded');
 
     // Click on search btn
     debug.query(By.css('.input-group-append')).triggerEventHandler('click', {});
     detectChanges();
 
     // Dropdown is open
-    expect(getListContainer()).toBeTruthy();
+    expect(getListContainer().classList).toContain('expanded');
   });
 
   describe('dropdown list is populated and open', () => {
@@ -164,13 +165,14 @@ describe('BfMultiSelectorComponent', () => {
 
       // Get a reference to the form-group which has the keydown event binding
       beforeEach(() => {
-        formGroupDe = debug.query(By.css('.form-group'));
+        formGroupDe = debug.query(By.css('input'));
       });
 
       it('should highlight the next option on Arrow keys', fakeAsync(() => {
         // ArrowDown (cycle through all 2 options)
+
         for (let i = 0; i < 3; i++) {
-          formGroupDe.triggerEventHandler('keydown', { key: 'ArrowDown' });
+          formGroupDe.triggerEventHandler('keydown', { code: 'ArrowDown', preventDefault: () => {} });
           tick(100);
           detectChanges();
         }
@@ -179,7 +181,7 @@ describe('BfMultiSelectorComponent', () => {
 
         // ArrowUp (cycle through all 2 options)
         for (let i = 0; i < 3; i++) {
-          formGroupDe.triggerEventHandler('keydown', { key: 'ArrowUp' });
+          formGroupDe.triggerEventHandler('keydown', { code: 'ArrowUp', preventDefault: () => {} });
           tick(100);
           detectChanges();
         }
@@ -190,23 +192,23 @@ describe('BfMultiSelectorComponent', () => {
       it('should lose focus on Escape key', fakeAsync(() => {
         expect(debug.query(By.css('input:focus'))).toBeTruthy();
 
-        formGroupDe.triggerEventHandler('keydown', { key: 'Escape' });
+        formGroupDe.triggerEventHandler('keydown', { code: 'Escape', preventDefault: () => {} });
         tick(100);
         detectChanges();
 
         expect(debug.query(By.css('input:focus'))).toBeFalsy();
-        expect(getOptionRows().length).toBe(0); // Dropdown list closed
+        expect(getListContainer().classList).not.toContain('expanded'); // Dropdown list closed
       }));
 
       it('should select highlighted value and close dropdown on Enter key', fakeAsync(() => {
         expect(getOptionRows()[0].classList).toContain('candidate');
-        formGroupDe.triggerEventHandler('keydown', { key: 'Enter', preventDefault: () => {} });
+
+        formGroupDe.triggerEventHandler('keydown', { code: 'Enter', preventDefault: () => {} });
         tick(100);
         detectChanges();
 
         expect(getSelectedItemsText()).toEqual([comp.bfList[0].email]);
-        expect(debug.query(By.css('input:focus'))).toBeFalsy(); // Lose focus
-        expect(getOptionRows().length).toBe(0); // Dropdown list closed
+        expect(getOptionRows().length).toBe(1); // Dropdown list closed
       }));
     });
 
@@ -216,7 +218,7 @@ describe('BfMultiSelectorComponent', () => {
       expect(getOptionRows().length).toBe(2);
 
       // Click the first dropdown item
-      getOptionRowsDe()[0].triggerEventHandler('mousedown', {});
+      getOptionRowsDe()[0].parent.triggerEventHandler('keydown', { code: 'Enter', preventDefault: () => {} });
       detectChanges();
 
       // Selected item should show up as selected
@@ -315,7 +317,7 @@ describe('BfMultiSelectorComponent', () => {
       expect(getOptionRows().length).toBe(2);
 
       // Click the first dropdown item
-      getOptionRowsDe()[0].triggerEventHandler('mousedown', {});
+      getOptionRowsDe()[0].parent.triggerEventHandler('keydown', { code: 'Enter', preventDefault: () => {} });
       detectChanges();
 
       comp.bfList = [
@@ -341,7 +343,7 @@ describe('BfMultiSelectorComponent', () => {
       detectChanges();
 
       // Click the first dropdown item
-      getOptionRowsDe()[0].triggerEventHandler('mousedown', {});
+      getOptionRowsDe()[0].parent.triggerEventHandler('keydown', { code: 'Enter', preventDefault: () => {} });
       detectChanges();
 
       // Selected item should show up as selected

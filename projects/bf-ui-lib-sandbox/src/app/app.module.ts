@@ -3,6 +3,7 @@ import { NgModule} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { BfDotBadgeDemoComponent } from './bf-dot-badge-demo/bf-dot-badge-demo.component';
 import { IndexPageComponent } from './index-page/index-page.component';
 import {NgbPopoverModule, NgbDatepickerModule} from '@ng-bootstrap/ng-bootstrap';
 import { BfUiLibModule } from '../../../bf-ui-lib/src/lib/bf-ui-lib.module';
@@ -47,7 +48,6 @@ import { BfModalHeaderDemoComponent } from './bf-modal-header-demo/bf-modal-head
 import { BfModalDemoComponent } from './bf-modal-header-demo/bf-modal-demo/bf-modal-demo.component';
 import {BfListHandlerTestComponent} from './bf-list-handler-demo/tests/bf-list-handler-test.component';
 import { BfDndDemoComponent } from './bf-dnd-demo/bf-dnd-demo.component';
-import {BfNoDataComponent} from '../../../bf-ui-lib/src/lib/bf-no-data/bf-no-data.component';
 import {BfDndDemo1Component} from './bf-dnd-demo/example1/bf-dnd-demo-1.component';
 import {BfDndDemo2Component} from './bf-dnd-demo/example2/bf-dnd-demo-2.component';
 import {BfDndDemo3Component} from './bf-dnd-demo/example3/bf-dnd-demo-3.component';
@@ -140,6 +140,7 @@ import { BfKeypadDemoComponent } from './bf-keypad-demo/bf-keypad-demo.component
         BfIntersectionObserverDemoComponent,
         TimePickerDemoComponent,
         BfKeypadDemoComponent,
+        BfDotBadgeDemoComponent
     ],
     imports: [
         BrowserModule,
