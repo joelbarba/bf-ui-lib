@@ -1,100 +1,146 @@
-$radio-color: $text-color !default;  // Default radio background color (when not required)
-$radio-check-color: $white !default;
+$radio-box-color: $required-color !default; // Color of the check box
+
+/**** Radio view structure ****
+  <bf-radio-group>
+    <bf-radio>
+      <div class="radio">
+        <input type="radio" [value]="bfValue">
+        <span class="radio-box icon-checkmark3"></span>
+        <label>
+          <span [class]="bfIcon"></span>
+          <span>bfLabel</span>
+        </label>
+      </div>
+    </bf-radio>
+
+    <bf-radio></<bf-radio>
+    <bf-radio></<bf-radio>
+    <bf-radio></<bf-radio>
+  </bf-radio-group>
+***/
 
 
-// Radio view structure:
-//    <div class="checkbox">
-//      <label>
-//        <input type="radio" [ngModel]="option.selected">
-//        <span class="radio-box icon-checkmark3"></span>
-//        <span class="radio-text">Option Text</span>
-//      </label>
-//    </div>
+bf-radio-group bf-label { display: block; margin-bottom: 8px; } // by default, vertical label + radios
+bf-radio-group.inline:not(.label-block) bf-label { // When inline, horizontal label + labels
+  display: inline-block;
+  margin-bottom: 0;
+  margin-right: 15px;
+}
 
 
 bf-radio {
-  display: inline-block;
+  display: block;
+  width: 100%;
+  margin-bottom: 5px;
   cursor: pointer;
+  padding: 1px;
 
   &:focus {
     outline: none;
+  }
+  &:focus-visible {
+    padding: 0;
   }
 
   div.radio {
     margin: 0;
     display: inline-flex;
+    vertical-align: top;
 
-    // Text next to the box
-    span.radio-label {
+    input[type='radio'] { display: none;  } // Hide the input element
+
+    // Generate a box over the input to mock the checkbox
+    span.radio-box {
+      border-color: $radio-box-color;
+      width: 20px;
+      height: 20px;
+      text-align: center;
+      line-height: 20px;
+      padding: 3px;
+      cursor: pointer;
+      border-width: 1px;
+      border-style: solid;
+      border-radius: 100%;
+
+      // Box empty (not checked)
+      .radio-box-checked {
+        display: block;
+        background: $radio-box-color;
+        border-radius: 100%;
+        width: 100%;
+        height: 100%;
+        transition: 150ms;
+        opacity: 0;
+      }
+    }
+
+    // Text of the option
+    label.radio-label {
+      cursor: pointer;
       line-height: 20px;
       vertical-align: top;
       text-align: left;
+      margin-bottom: 0;
+      span { margin-left: 10px; }
+    }
 
-      & > * {
-        margin-left: 10px;
+
+    // Box marked (checked)
+    &.is-checked span.radio-box .radio-box-checked { opacity: 1; }
+
+
+    // Box disabled (checked or unchecked)
+    &.is-disabled {
+      span.radio-box {
+        cursor: not-allowed;
+        border-color: $disabled-color;
+        .radio-box-checked { background: $disabled-color; }
+      }
+      label.radio-label {
+        cursor: not-allowed;
+        color: $disabled-color;
       }
     }
 
-    input[type='radio'] {
-      display: none;  // Hide the input element
-
-      // Generate a box over the input to mock the checkbox
-      + span.radio-box {
-        border-color: darken($radio-color, 3%);
-        width: 20px;
-        height: 20px;
-        text-align: center;
-        line-height: 15px;
-        padding: 2px;
-        cursor: pointer;
-        border-width: 1px;
-        border-style: solid;
-        border-radius: 100%;
-        transition: 150ms;
-
-        // Box empty (not checked)
-        &:before {
-          opacity: 0;
-          font-size: 12px;
-          padding: 0;
-          color: white;
-          vertical-align: bottom;
-        }
-      }
-
-      // Box marked (checked)
-      &:checked + span.radio-box {
-        border-width: 1px;
-        border-style: solid;
-        background: $radio-color;
-        &:before {
-          color: $radio-check-color;
-          opacity: 1;
-        }
-      }
-
-      // Required
-      &[required]:not([disabled]) {
-        &:checked + span.radio-box { background: $required-color; }
-        + span.radio-box {
-          border-color: darken($required-color, 3%);
-        }
-      }
-
-      // Box disabled (checked or unchecked)
-      &[disabled] {
-        + span.radio-box {
-          background: $disabled-color;
-          border-color: darken($disabled-color, 3%);
-          cursor: not-allowed;
-          + span.radio-text {
-            cursor: not-allowed;
-          }
-        }
-      }
-    }
   }
 
-  &.block { display: block; width: 100%; }
 }
 
+
+//bf-radio-group.is-required {
+//  bf-radio div.radio:not(.is-disabled) span.radio-box {
+//    border-color: purple;
+//    .radio-box-checked { background: purple; }
+//  }
+//}
+
+bf-radio-group.white {
+  bf-radio div.radio:not(.is-disabled) {
+    span.radio-box { border-color: white; }
+    &.is-checked span.radio-box .radio-box-checked { background: white; }
+  }
+}
+
+
+bf-radio-group.is-invalid {
+  bf-label label { color: $warning_color; }
+  bf-radio div.radio:not(.is-disabled) {
+    span.radio-box { border-color: $warning_color; }
+    label.radio-label { color: $warning_color; }
+    &.is-checked span.radio-box {
+      .radio-box-checked { background: $warning_color; }
+    }
+  }
+}
+
+
+
+bf-radio-group.inline {
+  bf-radio {
+    display: inline-block;
+    width: auto;
+    &:not(:last-child) {
+      margin-right: 15px;
+    }
+  }
+}

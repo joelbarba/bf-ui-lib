@@ -55,6 +55,7 @@ import { BfKeypadComponent } from './bf-keypad/bf-keypad.component';
 import { BfKeypadButtonComponent } from './bf-keypad/bf-keypad-button/bf-keypad-button.component';
 import { BfLongPressDirective } from './bf-keypad/bf-keypad-button/bf-long-press.directive';
 import { BfShortPressDirective } from './bf-keypad/bf-keypad-button/bf-short-press.directive';
+import { BfRadioGroupComponent } from "./bf-radio-group/bf-radio-group.component";
 
 @NgModule({
     declarations: [
@@ -72,6 +73,7 @@ import { BfShortPressDirective } from './bf-keypad/bf-keypad-button/bf-short-pre
         BfConfirmComponent,
         BfTextareaComponent,
         BfRadioComponent,
+        BfRadioGroupComponent,
         BfDatePickerComponent,
         BfListPaginatorComponent,
         BfDateTimePickerComponent,
@@ -141,6 +143,7 @@ import { BfShortPressDirective } from './bf-keypad/bf-keypad-button/bf-short-pre
         BfListPaginatorComponent,
         BfDatePickerComponent,
         BfRadioComponent,
+        BfRadioGroupComponent,
         BfTextareaComponent,
         BfConfirmComponent,
         BfQuantityInputComponent,

@@ -1,128 +1,90 @@
-import { Component, HostBinding, HostListener, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { BfUILibTransService } from '../abstract-translate.service';
+import {
+  Component,
+  ElementRef,
+  HostBinding,
+  HostListener,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
+import {Subject} from 'rxjs';
+import {generateId} from "../generate-id";
 
 @Component({
   selector: 'bf-radio',
   templateUrl: 'bf-radio.component.html',
-  providers: [
-    { provide: NG_VALUE_ACCESSOR, useExisting: BfRadioComponent, multi: true, },
-    { provide: NG_VALIDATORS, useExisting: BfRadioComponent, multi: true, },
-  ],
 })
-export class BfRadioComponent implements OnChanges, ControlValueAccessor, Validator {
+export class BfRadioComponent implements OnChanges {
   @Input() bfLabel = '';
-  @Input() bfRadioGroup = 'radio-group';
+  @Input() bfIcon = '';
+  @Input() bfValue: any;  // Value of the current radio (will be set to the model when selected)
   @Input() bfTooltip = '';
   @Input() bfTooltipPos = 'top';
-  @Input() bfIcon = '';
-  @Input() a11yOn = false; // flag to be used until all radio groups in the portal have been refactored to be spec compliant
+  @Input() bfTooltipBody = 'body';
+  @Input() bfDisabled = false;
 
-  private _value: string;
-  @Input() set bfValue(v: string) { this._value = `${v}`; }
-  get bfValue(): string { return this._value; }
+  @ViewChild('radioInput', { static: false }) radioInput: ElementRef;
 
-  private _bfDisabled = false;
-  @Input() set bfDisabled(v: boolean) { this._bfDisabled = this._toBoolean(v); }
-  get bfDisabled(): boolean { return this._bfDisabled; }
+  bfModel: string | number;  // Value selected among the radio group
+  bfName = 'group-1'; // Group name provided by the parent component <bf-radio-group>
+  ariaLabel: string;  // Id of the label for the input (bfLabel)
+  isFocused = false;  // Whether the current focus is on the component
+  groupDisabled = false;  // Whether the parent <bf-radio-group> is disabled (and all radios should be as well)
 
-  private _bfRequired = false;
-  @Input() set bfRequired(v: boolean) { this._bfRequired = this._toBoolean(v); }
-  get bfRequired(): boolean { return this._bfRequired; }
+  selectedValue$: Subject<any> = new Subject(); // Emits to the parent when the value gets selected (internally)
+  value$: Subject<any> = new Subject();         // Emits when the bfValue input changes, so the parent can validate
 
-  private _bfTooltipBody = false;
-  @Input() set bfTooltipBody(v: boolean) { this._bfTooltipBody = this._toBoolean(v); }
-  get bfTooltipBody(): boolean { return this._bfTooltipBody; }
-
-  private _bfModel: string;
-  set bfModel(v: string) { this._bfModel = `${v}`; }
-  get bfModel(): string { return this._bfModel; }
-
-
-  isFocussed: boolean;
-  bfLabelTrans$: Observable<string>;    // Translated text for the button
-  bfTooltipTrans$: Observable<string>;  // Translated text for the tooltip
-
-  private _toBoolean = (v: any) => `${v}` === 'true';
-  private _onChange = (_: any) => { };
-  private _onTouched = () => { };
-
-
-  constructor(
-    private _translate: BfUILibTransService,
-  ) { }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.bfLabel) { this.bfLabelTrans$ = this._translate.getLabel$(this.bfLabel); }
-    if (changes.bfTooltip) { this.bfTooltipTrans$ = this._translate.getLabel$(this.bfTooltip); }
+  constructor(public htmlRef: ElementRef) {
+    this.ariaLabel = `radio-label-${generateId(10)}`;
   }
 
-  onChange(value: any) {
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.bfValue) {
+      this.dataValue = this.bfValue + '';
+      this.value$.next(this.bfValue);
+    }
+  }
+
+  isDisabled() { // If the <bf-radio> is disabled, or the <bf-radio-group> is disabled
+    return this.bfDisabled || this.groupDisabled;
+  }
+
+  internalChange(value: any) {
+    if (this.isDisabled()) { return; }
     this.bfModel = value;
-    this._onChange(value);
-    this._onTouched();
+    this.radioInput.nativeElement.checked = this.bfValue === value;
+    this.selectedValue$.next(value);
+  }
+
+  externalChange(value: any) {
+    this.bfModel = value;
+    this.radioInput.nativeElement.checked = this.bfValue === value;
   }
 
   // *************
   // Accessibility
   // *************
-  @HostBinding('attr.tabindex')
-  get tabindex(): number {
-    if (!this.a11yOn) {
-      return this.bfDisabled ? -1 : 0;
-    }
-  }
+  @HostBinding('attr.role') attrRole = 'radio';
+  @HostBinding('attr.tabindex') tabIndex = -1;
 
-  @HostBinding('attr.role')
-  get role(): string {
-    return 'radio';
-  }
+  @HostBinding('attr.checked')
+  @HostBinding('attr.aria-checked') get isChecked() { return this.bfValue === this.bfModel; }
 
-  @HostBinding('attr.aria-checked')
-  get isChecked() {
-    return this.bfValue === this.bfModel;
-  }
+  @HostBinding('attr.data-value') dataValue: string;
+  @HostBinding('attr.aria-labelledby') get ariaLabelId() { return this.ariaLabel; }
 
-  @HostListener('focus')
-  onFocus(): void {
-    if (this.a11yOn) {
-      this.onChange(this.bfValue);
-    }
-  }
+  @HostListener('keydown.space', ['$event']) spaceDown(event: KeyboardEvent): void { event.preventDefault(); }
 
-  @HostListener('blur')
-  onBlur(): void {
-    this._onTouched();
-  }
-
-  // Select with click or space bar
+  // Select the value of this radio among the group
   @HostListener('click')
   @HostListener('keyup.space')
   onSelect(): void {
-    if (!this.bfDisabled && !this.a11yOn) {
-      this.onChange(this.bfValue);
-    }
+    this.internalChange(this.bfValue);
   }
 
-  @HostListener('keydown.space', ['$event'])
-  stopPageScroll(event: KeyboardEvent): void {
-    event.preventDefault();
-  }
+  // Also select the value when moving through the roving tabindex
+  @HostListener('focus') onFocus(): void { if (this.isFocused) { this.internalChange(this.bfValue); } }
+  @HostListener('blur') onBlur(): void { this.isFocused = false; }
 
-  // ************************
-  // Custom form control code
-  // ************************
-
-  // ------- ControlValueAccessor -----
-  writeValue(value: any): void { this.bfModel = value; }
-  registerOnChange(fn: (_: any) => void): void { this._onChange = fn; }
-  registerOnTouched(fn: () => void): void { this._onTouched = fn; }
-  setDisabledState(isDisabled: boolean): void { this.bfDisabled = isDisabled; }
-
-  // ------- Validator -----
-  validate({ value }: AbstractControl): ValidationErrors {
-    const isControlEmpty = value === undefined || value === null || value === '';
-    return this.bfRequired && isControlEmpty ? { required: true } : null;
-  }
 }

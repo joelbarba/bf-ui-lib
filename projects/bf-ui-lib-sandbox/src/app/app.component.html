@@ -5,8 +5,10 @@
   <div class="nav-options">
     <div>
       <span style="font-size: 18px;">Language:</span>
-      <bf-radio class="marL20" [(ngModel)]="lang" bfValue="en"  bfLabel="En"  (ngModelChange)="translate.changeLanguage(lang)" bfRadioGroup="lang"></bf-radio>
-      <bf-radio class="marL20" [(ngModel)]="lang" bfValue="cat" bfLabel="Cat" (ngModelChange)="translate.changeLanguage(lang)" bfRadioGroup="lang"></bf-radio>
+      <bf-radio-group class="inline white" [(ngModel)]="lang" (ngModelChange)="translate.changeLanguage(lang)">
+        <bf-radio class="marL20" bfValue="en"  bfLabel="En"></bf-radio>
+        <bf-radio class="marL20" bfValue="cat" bfLabel="Cat"></bf-radio>
+      </bf-radio-group>
     </div>
 
     <div style="font-size: 18px; margin: 0 15px 0 50px;">Font Family:</div>
