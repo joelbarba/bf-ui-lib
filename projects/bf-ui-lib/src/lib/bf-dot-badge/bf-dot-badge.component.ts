@@ -15,7 +15,16 @@ export class BfDotBadgeComponent implements OnInit, OnChanges, OnDestroy {
   @Input() bfType: ColourType;
   @Input() bfText: string = '';
   @Input() bfBreakpoint: number = 992;
-  @Input() bfStatus: boolean | number;
+
+  /**
+   * Specific background color of the dot
+   */
+  @Input() bfColor?: string;
+
+  /**
+   *  In cases where a status is true|false or 1|0 we show 'active'|'inactive' by default
+   */
+  @Input() bfStatus?: boolean | number;
 
   /**
    * How the text should be displayed on the dot badge.
@@ -67,6 +76,7 @@ export class BfDotBadgeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
+    console.log(this);
     this._setLabelDisplay();
     if(this.bfStatus)this._setDefaultStatus();
     this._translateText();

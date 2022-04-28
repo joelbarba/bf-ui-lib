@@ -1,7 +1,8 @@
 <span [disableTooltip]="calculatedDisplayType !== 'tooltip'"
+      [style.background]="bfColor"
       [ngClass]="bfType"
       [ngbTooltip]="translatedText"
       class="bf-dot-badge--dot">
 </span>
 
-<span *ngIf="calculatedDisplayType === 'label'" class="bf-dot-badge--label">{{translatedText}}</span>
+<span *ngIf="calculatedDisplayType === 'label'" class="bf-dot-badge--label">{{translatedText}} {{bfColor}}</span>
