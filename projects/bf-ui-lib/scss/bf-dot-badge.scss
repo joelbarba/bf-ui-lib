@@ -5,15 +5,7 @@ $bf-dot-badge-colors: (
   'quaternary': $quaternary_color,
   'extra': $extra_color,
   'success': $primary_color,
-  'warning': $warning_color,
-  'bf-color-first': $bf-status-active,
-  'bf-color-second': $bf-status-inactive,
-  'bf-color-third': $bf-status-pending,
-  'bf-color-fourth': $bf-status-other,
-  'bf-color-fifth': $bf-status-other2,
-  'bf-color-sixth': $bf-status-other3,
-  'bf-color-seventh': $bf-status-other4,
-  'bf-color-eighth': $bf-status-submitted,
+  'warning': $warning_color
 ) !default;
 
 $badge-dot-size: 0.5rem !default;
