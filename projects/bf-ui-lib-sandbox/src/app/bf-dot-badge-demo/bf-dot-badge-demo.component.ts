@@ -60,6 +60,7 @@ $badge-dot-size: 0.5rem !default;`;
 
   responsiveExample = `<bf-dot-badge bfType="secondary" bfText="Responsive at 1280px" [bfBreakpoint]="1280"></bf-dot-badge>`;
 
+  colorExample = `<bf-dot-badge bfText="Custom Color" bfColor="#bada55"></bf-dot-badge>`;
 
   constructor() { }
 

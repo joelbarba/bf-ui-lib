@@ -17,7 +17,7 @@ export class BfDotBadgeComponent implements OnInit, OnChanges, OnDestroy {
   @Input() bfBreakpoint: number = 992;
 
   /**
-   * Specific background color of the dot
+   * Specific background color of the dot as hex value
    */
   @Input() bfColor?: string;
 
@@ -76,9 +76,8 @@ export class BfDotBadgeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
-    console.log(this);
     this._setLabelDisplay();
-    if(this.bfStatus)this._setDefaultStatus();
+    if(typeof this.bfStatus !== 'undefined')this._setDefaultStatus();
     this._translateText();
   }
 

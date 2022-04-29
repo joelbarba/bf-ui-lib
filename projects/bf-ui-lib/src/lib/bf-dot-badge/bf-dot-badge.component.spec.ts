@@ -90,6 +90,7 @@ describe('BfDotBadgeComponent', () => {
 
     beforeEach(() => {
       spyOn(breakpointObserver, 'observe').and.returnValue(mockObserver);
+      component.bfBreakpoint = 768;
     });
 
     it('should subscribe to the observer', () => {
@@ -121,13 +122,33 @@ describe('BfDotBadgeComponent', () => {
     });
   });
 
-  describe('ngOnInit()', () => {
-    it('should set the label display type', () => {
-      spyOn(component, '_setLabelDisplay').and.stub();
+  describe('_setDefaultStatus()', () => {
+    it('should set bfType and bfText depending on bfStatus', () => {
+      component.bfStatus = false;
+      component._setDefaultStatus();
 
+      expect(component.bfType).toBe('warning');
+      expect(component.bfText).toBe('view.common.inactive');
+    });
+  });
+
+  describe('ngOnInit()', () => {
+    beforeEach(() => {
+      spyOn(component, '_setLabelDisplay');
+      spyOn(component, '_setDefaultStatus');
+    });
+
+    it('should set the label display type', () => {
       component.ngOnInit();
 
       expect(component._setLabelDisplay).toHaveBeenCalledOnceWith();
+    });
+
+    it('should get default status if bfStatus is defined', () => {
+      component.bfStatus = 1;
+      component.ngOnInit();
+
+      expect(component._setDefaultStatus).toHaveBeenCalled();
     });
   });
 
@@ -135,6 +156,7 @@ describe('BfDotBadgeComponent', () => {
     beforeEach(() => {
       spyOn(component, '_setLabelDisplay').and.stub();
       spyOn(component, '_translateText').and.stub();
+      spyOn(component, '_setDefaultStatus').and.stub();
     });
 
     it('should not call functions if nothing changed', () => {
@@ -142,6 +164,7 @@ describe('BfDotBadgeComponent', () => {
 
       expect(component._setLabelDisplay).not.toHaveBeenCalled();
       expect(component._translateText).not.toHaveBeenCalled();
+      expect(component._setDefaultStatus).not.toHaveBeenCalled();
     });
 
     it('should update the label display type if the property changes', () => {
@@ -151,6 +174,7 @@ describe('BfDotBadgeComponent', () => {
 
       expect(component._setLabelDisplay).toHaveBeenCalledOnceWith();
       expect(component._translateText).not.toHaveBeenCalled();
+      expect(component._setDefaultStatus).not.toHaveBeenCalled();
     });
 
     it('should set the translated label if the property changes', () => {
@@ -159,7 +183,18 @@ describe('BfDotBadgeComponent', () => {
       });
 
       expect(component._setLabelDisplay).not.toHaveBeenCalled();
+      expect(component._setDefaultStatus).not.toHaveBeenCalled();
       expect(component._translateText).toHaveBeenCalledOnceWith();
+    });
+
+    it('should set the status label if the property changes', () => {
+      component.ngOnChanges({
+        bfStatus: new SimpleChange(null, 1, true)
+      });
+
+      expect(component._setLabelDisplay).not.toHaveBeenCalled();
+      expect(component._translateText).not.toHaveBeenCalled();
+      expect(component._setDefaultStatus).toHaveBeenCalled();
     });
   });
 });
