@@ -112,6 +112,7 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
     $isMatch: true,
     $img: null,
     $icon: null,
+    $activeId: null
   };
 
   public bfLabelTrans$ = of('');         // Translated text for the label
@@ -639,7 +640,7 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
       } else {  // Full object match
         matchItems = this.extList.filter(decoratedValue => {
           const isItemFound = valueArray.some(value => {
-            const { $index, $label, $renderedText, $isMatch, $img, $icon, ...mainValue } = decoratedValue;
+            const mainValue = this._getOriginalObject(decoratedValue);
             const isItemSelected = JSON.stringify(value) === JSON.stringify(mainValue);
             return isItemSelected;
           });
@@ -702,7 +703,7 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
         // Filter selected items from bfList and set modelUp
         modelUp = this.bfList.filter(item => {
           const isItemFound = this.bfModel.some(decoratedValue => {
-            const { $index, $label, $renderedText, $isMatch, $img, $icon, ...mainValue } = decoratedValue;
+            const mainValue = this._getOriginalObject(decoratedValue);
             const isItemSelected = JSON.stringify(item) === JSON.stringify(mainValue);
             return isItemSelected;
           });
@@ -841,6 +842,11 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
     const lastElement = listItems.item(listItems.length - 1);
     this.setActiveDescendant(lastElement.id);
     return lastElement as HTMLElement;
+  }
+
+  private _getOriginalObject(item) {
+    const { $index, $label, $renderedText, $isMatch, $img, $icon, $activeId, ...mainValue } = item;
+    return mainValue;
   }
 
 }
