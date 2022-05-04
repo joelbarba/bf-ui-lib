@@ -3,9 +3,10 @@ import { BreakpointState } from '@angular/cdk/layout/breakpoints-observer';
 import { SimpleChange } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { TestingModule } from '../../testing/testing-module';
 import { BfUILibTransService } from '../abstract-translate.service';
+import { BfTranslatePipe } from '../abstract-translate.service';
 
 import { BfDotBadgeComponent } from './bf-dot-badge.component';
 
@@ -18,7 +19,7 @@ describe('BfDotBadgeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [BfDotBadgeComponent],
+      declarations: [BfDotBadgeComponent, BfTranslatePipe],
       imports: [TestingModule, NgbTooltipModule],
       providers: []
     })
@@ -36,18 +37,6 @@ describe('BfDotBadgeComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('_translateText()', () => {
-    it('should set the translated label', () => {
-      component.bfText = 'label';
-
-      spyOn(translate, 'getLabel$').and.returnValue(new Observable<string>());
-
-      component._translateText();
-
-      expect(translate.getLabel$).toHaveBeenCalledOnceWith('label');
-    });
   });
 
   describe('_setLabelDisplay()', () => {
@@ -154,7 +143,6 @@ describe('BfDotBadgeComponent', () => {
   describe('ngOnChanges()', () => {
     beforeEach(() => {
       spyOn(component, '_setLabelDisplay').and.stub();
-      spyOn(component, '_translateText').and.stub();
       spyOn(component, '_setDefaultStatus').and.stub();
     });
 
@@ -162,7 +150,6 @@ describe('BfDotBadgeComponent', () => {
       component.ngOnChanges({});
 
       expect(component._setLabelDisplay).not.toHaveBeenCalled();
-      expect(component._translateText).not.toHaveBeenCalled();
       expect(component._setDefaultStatus).not.toHaveBeenCalled();
     });
 
@@ -172,19 +159,9 @@ describe('BfDotBadgeComponent', () => {
       });
 
       expect(component._setLabelDisplay).toHaveBeenCalledOnceWith();
-      expect(component._translateText).not.toHaveBeenCalled();
       expect(component._setDefaultStatus).not.toHaveBeenCalled();
     });
 
-    it('should set the translated label if the property changes', () => {
-      component.ngOnChanges({
-        bfText: new SimpleChange(null, 'text', true)
-      });
-
-      expect(component._setLabelDisplay).not.toHaveBeenCalled();
-      expect(component._setDefaultStatus).not.toHaveBeenCalled();
-      expect(component._translateText).toHaveBeenCalledOnceWith();
-    });
 
     it('should set the status label if the property changes', () => {
       component.ngOnChanges({
@@ -192,7 +169,6 @@ describe('BfDotBadgeComponent', () => {
       });
 
       expect(component._setLabelDisplay).not.toHaveBeenCalled();
-      expect(component._translateText).not.toHaveBeenCalled();
       expect(component._setDefaultStatus).toHaveBeenCalled();
     });
   });
