@@ -1,6 +1,6 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { BfUILibTransService } from '../abstract-translate.service';
 import { ColourType } from './abstractions/types/colour.type';
@@ -37,7 +37,7 @@ export class BfDotBadgeComponent implements OnInit, OnChanges, OnDestroy {
   @Input() bfLabelDisplayType: 'auto' | 'label' | 'tooltip' = 'auto';
 
   public calculatedDisplayType?: 'label' | 'tooltip';
-  public translatedText?: string;
+  translatedText$: Observable<string> = of('');
 
   constructor(
     private readonly _translate: BfUILibTransService,
@@ -67,18 +67,18 @@ export class BfDotBadgeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   _translateText() {
-    this.translatedText = this._translate.doTranslate(this.bfText);
+    this.translatedText$ = this._translate.getLabel$(this.bfText);
   }
 
   _setDefaultStatus() {
     this.bfType = !!this.bfStatus ? 'primary' : 'warning';
     this.bfText = !!this.bfStatus ? 'view.common.active' : 'view.common.inactive';
+    this._translateText();
   }
 
   ngOnInit() {
     this._setLabelDisplay();
     if(typeof this.bfStatus !== 'undefined')this._setDefaultStatus();
-    this._translateText();
   }
 
   ngOnChanges(change: SimpleChanges) {
