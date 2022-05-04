@@ -3,7 +3,7 @@ import { BreakpointState } from '@angular/cdk/layout/breakpoints-observer';
 import { SimpleChange } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { TestingModule } from '../../testing/testing-module';
 import { BfUILibTransService } from '../abstract-translate.service';
 
@@ -42,12 +42,11 @@ describe('BfDotBadgeComponent', () => {
     it('should set the translated label', () => {
       component.bfText = 'label';
 
-      spyOn(translate, 'doTranslate').and.returnValue('translation');
+      spyOn(translate, 'getLabel$').and.returnValue(new Observable<string>());
 
       component._translateText();
 
-      expect(component.translatedText).toEqual('translation');
-      expect(translate.doTranslate).toHaveBeenCalledOnceWith('label');
+      expect(translate.getLabel$).toHaveBeenCalledOnceWith('label');
     });
   });
 
