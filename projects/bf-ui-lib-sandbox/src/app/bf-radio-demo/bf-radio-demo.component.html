@@ -34,6 +34,10 @@
                           [class.white]="conf.css.white"
                           [class.inline]="conf.css.inline"
                           [class.label-block]="conf.css.labelBlock"
+                          [class.space-between]="conf.css.spaceBetween"
+                          [class.primary-icon]="conf.css.primaryIcon"
+                          [class.primary-text]="conf.css.primaryText"
+                          [class.row]="conf.css.rowCol"
                           [(ngModel)]="myVariable"
                           [bfLabel]="conf.bfLabel"
                           [bfRequired]="conf.bfRequired"
@@ -47,12 +51,14 @@
             <!--<bf-radio bfLabel="Option undefined" [bfValue]="undefined"></bf-radio>-->
             <!--<bf-radio bfLabel="Option empty"     [bfValue]="''"></bf-radio>-->
             <bf-radio *ngFor="let option of conf.options"
+                      [class.col-4]="conf.css.rowCol"
                       [bfLabel]="option.bfLabel"
                       [bfValue]="option.bfValue"
                       [bfIcon]="option.bfIcon"
                       [bfDisabled]="option.bfDisabled"
                       [bfTooltip]="option.hasTooltip ? option.bfTooltip : null"
                       [bfTooltipPos]="option.hasTooltip ? option.bfTooltipPos : null"
+                      (bfOnSelected)="opSelected($event)"
             >
             </bf-radio>
             <!--<bf-radio bfLabel="Option 2" bfValue="2"></bf-radio>-->
@@ -94,12 +100,6 @@
           <bf-checkbox class="block marT15" [(ngModel)]="conf.bfDisabled" (ngModelChange)="upComp()" bfLabel="bfDisabled"></bf-checkbox>
           <bf-checkbox class="block marT15" [(ngModel)]="conf.bfErrorOnPristine" (ngModelChange)="upComp()" bfLabel="bfErrorOnPristine"></bf-checkbox>
 
-          <!--Classes-->
-          <div class="padT25">CSS:</div>
-          <bf-checkbox class="marT10" [(ngModel)]="conf.css.inline" (ngModelChange)="upComp()" bfLabel="inline"></bf-checkbox>
-          <bf-checkbox class="marT10" [(ngModel)]="conf.css.labelBlock" (ngModelChange)="upComp()" bfLabel="label-block"></bf-checkbox>
-          <bf-checkbox class="marT10" [(ngModel)]="conf.css.white" (ngModelChange)="upComp()" bfLabel="white" style="margin-left: 0;"></bf-checkbox>
-
         </div>
         <div class="col-9">
           <bf-input bfLabel="bfLabel" [(ngModel)]="conf.bfLabel" (ngModelChange)="upComp()"></bf-input>
@@ -119,6 +119,18 @@
                          [bfList]="[{ id: 'true', text: 'true' }, { id: 'false', text: 'false' }]" bfRender="text" bfSelect="id">
             </bf-dropdown>
           </div>
+        </div>
+
+        <!--Classes-->
+        <div class="col-12 marT10">
+          <span class="marR15">CSS:</span>
+          <bf-checkbox [(ngModel)]="conf.css.inline" (ngModelChange)="upComp()" bfLabel="inline" bfTooltip="Arranges the label + options horizontally"></bf-checkbox>
+          <bf-checkbox [(ngModel)]="conf.css.labelBlock" (ngModelChange)="upComp()" bfLabel="label-block" bfTooltip="Use it only with inline. Sets the label and options vertically"></bf-checkbox>
+          <bf-checkbox [(ngModel)]="conf.css.spaceBetween" (ngModelChange)="upComp()" bfLabel="space-between" bfTooltip="Do not use bfLabel with this option"></bf-checkbox>
+          <bf-checkbox [(ngModel)]="conf.css.primaryIcon" (ngModelChange)="upComp()" bfLabel="primary-icon" bfTooltip="Turns the icon to primary color"></bf-checkbox>
+          <bf-checkbox [(ngModel)]="conf.css.primaryText" (ngModelChange)="upComp()" bfLabel="primary-text" bfTooltip="Turns the options text to primary color"></bf-checkbox>
+          <bf-checkbox [(ngModel)]="conf.css.white" (ngModelChange)="upComp()" bfLabel="white" bfTooltip="Turns the radio border and color white, to be used over dark backgrounds"></bf-checkbox>
+          <bf-checkbox [(ngModel)]="conf.css.rowCol" (ngModelChange)="upComp()" bfLabel="row/col" bfTooltip="To apply a bootstrap grid and arrange the bf-radio with columns (row/col-*)"></bf-checkbox>
         </div>
       </div>
 
@@ -153,6 +165,13 @@
 
   </div>
 </div>
+
+
+<hr>
+<h5>External Label</h5>
+<p>If you fancy placing the label outside the bf-radio-group, remember to add the <b>bfForElementId</b> which should point to the <b>id</b> attribute of {{radioGroupTag}}</p>
+<pre>{{labelCompCode}}</pre>
+
 
 <hr>
 <h5 class="mt-4">Parameters:</h5>

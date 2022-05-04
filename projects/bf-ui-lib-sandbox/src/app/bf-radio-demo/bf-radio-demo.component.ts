@@ -26,6 +26,12 @@ import {Component, Input, OnInit} from '@angular/core';
   }
 }`;
 
+  labelCompCode = `<bf-label bfText="xxxxxxx" bfForElementId="my-radio"></bf-label>
+<bf-radio-group [(ngModel)]="myVar" id="my-radio">
+  <bf-radio bfValue="xxx" bfLabel="xxxxxxxxxxx"></bf-radio>
+  <bf-radio bfValue="xxx" bfLabel="xxxxxxxxxxx"></bf-radio>
+</bf-radio-group>`;
+
 
   icons = [
     { icon: 'icon-home'          },
@@ -64,7 +70,7 @@ import {Component, Input, OnInit} from '@angular/core';
   conf = {
     hasLabel: true, bfLabel: 'view.common.name',
     hasTooltip: false, tooltipText: 'view.tooltip.message', tooltipPos: null, tooltipBody: false,
-    css: { inline: false, labelBlock: false, white: false, },
+    css: { inline: false, labelBlock: false, spaceBetween: false, white: false, primaryIcon: false, primaryText: false, rowCol: false },
     bfRequired: false,
     bfDisabled: false,
     bfErrorOnPristine: false,
@@ -86,7 +92,7 @@ import {Component, Input, OnInit} from '@angular/core';
       },
       {
         name: 'option 4',
-        bfValue: '4', bfLabel: 'Last One', bfIcon: '', bfDisabled: false,
+        bfValue: '4', bfLabel: 'LastOne', bfIcon: '', bfDisabled: false,
         hasTooltip: false, bfTooltip: 'This is the 4th option', bfTooltipPos: 'top',
       },
     ],
@@ -99,7 +105,11 @@ import {Component, Input, OnInit} from '@angular/core';
     let compClasses = '';
     if (this.conf.css.inline) { compClasses += (!!compClasses.length ? ' ' : '') + 'inline'; }
     if (this.conf.css.labelBlock) { compClasses += (!!compClasses.length ? ' ' : '') + 'label-block'; }
+    if (this.conf.css.spaceBetween) { compClasses += (!!compClasses.length ? ' ' : '') + 'space-between'; }
+    if (this.conf.css.primaryIcon) { compClasses += (!!compClasses.length ? ' ' : '') + 'primary-icon'; }
+    if (this.conf.css.primaryText) { compClasses += (!!compClasses.length ? ' ' : '') + 'primary-text'; }
     if (this.conf.css.white) { compClasses += (!!compClasses.length ? ' ' : '') + 'white'; }
+    if (this.conf.css.rowCol) { compClasses += (!!compClasses.length ? ' ' : '') + 'row'; }
     if (!!compClasses) { code += `class="${compClasses}"` + bsStr; }
 
     code += `[(ngModel)]="myVariable"`;
@@ -119,16 +129,19 @@ import {Component, Input, OnInit} from '@angular/core';
 
     this.conf.options.forEach(op => {
       const oneLine = !op.bfIcon && !op.bfDisabled && !op.hasTooltip;
-      code += brStr + `  <bf-radio bfValue="${op.bfValue}"`;
+      code += brStr + `  <bf-radio ${this.conf.css.rowCol ? 'class="col-4" ': ''}bfValue="${op.bfValue}"`;
       if (oneLine) {
         if (op.bfLabel) { code += ` bfLabel="${op.bfLabel}"`; }
         code += (`></bf-radio>`);
       } else {
+        if (this.conf.css.rowCol) { code += brStr + `            class="col-4`; }
         if (op.bfLabel)    { code += brStr + `            bfLabel="${op.bfLabel}"`; }
         if (op.bfIcon)     { code += brStr + `            bfIcon="${op.bfIcon}"`; }
         if (op.bfDisabled) { code += brStr + `            [bfDisabled]="true"`; }
-        if (op.bfTooltip)  { code += brStr + `            bfTooltip="${op.bfTooltip}"`; }
-        if (op.bfTooltipPos !== 'top') { code += brStr + `            bfTooltipPos="${op.bfTooltipPos}"`; }
+        if (op.hasTooltip) {
+          if (op.bfTooltip)  { code += brStr + `            bfTooltip="${op.bfTooltip}"`; }
+          if (op.bfTooltipPos !== 'top') { code += brStr + `            bfTooltipPos="${op.bfTooltipPos}"`; }
+        }
         code += (`>` + brStr + `  </bf-radio>`);
       }
 
@@ -150,7 +163,12 @@ import {Component, Input, OnInit} from '@angular/core';
     setTimeout(() => this.isLinked = true);
   }
 
+  opSelected = (option) => {
+    console.log('Option selected', option);
+  }
 }
+
+
 
 
 export const BfRadioDoc = {
@@ -171,6 +189,7 @@ For every option <bf-radio>:
 [bfTooltip]     : If set, an info bullet will be added before the label, with a tooltip of the text.
 [bfTooltipPos]  : Position of the tooltip (top by default)
 [bfTooltipBody] : Whether the tooltip is append to the body (default true) or next the the html element (false).
+(bfOnSelected)  : Emits when the option is selected
 `,
   instance: `<bf-radio [(ngModel)]="myVariable" bfLabel="Option 1" bfValue="1"></bf-radio>`,
   demoComp: BfRadioDemoComponent

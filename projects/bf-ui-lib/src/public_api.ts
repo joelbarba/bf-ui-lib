@@ -47,6 +47,7 @@ export * from './lib/bf-no-data/bf-no-data.component';
 export * from './lib/bf-page-placeholder/bf-page-placeholder.component';
 export * from './lib/bf-progress-bar/bf-progress-bar.component';
 export * from './lib/bf-quantity-input/bf-quantity-input.component';
+export * from './lib/bf-radio-group/bf-radio-group.component';
 export * from './lib/bf-radio/bf-radio.component';
 export * from './lib/bf-range-slider/bf-range-slider.component';
 export * from './lib/bf-section-header/bf-section-header.component';

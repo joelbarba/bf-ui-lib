@@ -1,10 +1,10 @@
 import {
   Component,
-  ElementRef,
+  ElementRef, EventEmitter,
   HostBinding,
   HostListener,
   Input,
-  OnChanges,
+  OnChanges, Output,
   SimpleChanges,
   ViewChild
 } from '@angular/core';
@@ -23,6 +23,7 @@ export class BfRadioComponent implements OnChanges {
   @Input() bfTooltipPos = 'top';
   @Input() bfTooltipBody = 'body';
   @Input() bfDisabled = false;
+  @Output() bfOnSelected = new EventEmitter<any>();
 
   @ViewChild('radioInput', { static: false }) radioInput: ElementRef;
 
@@ -55,11 +56,13 @@ export class BfRadioComponent implements OnChanges {
     this.bfModel = value;
     this.radioInput.nativeElement.checked = this.bfValue === value;
     this.selectedValue$.next(value);
+    if (this.bfValue === value) { this.bfOnSelected.emit(value); }
   }
 
   externalChange(value: any) {
     this.bfModel = value;
     this.radioInput.nativeElement.checked = this.bfValue === value;
+    if (this.bfValue === value) { this.bfOnSelected.emit(value); }
   }
 
   // *************

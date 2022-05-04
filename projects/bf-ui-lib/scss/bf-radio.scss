@@ -19,12 +19,18 @@ $radio-box-color: $required-color !default; // Color of the check box
   </bf-radio-group>
 ***/
 
-
+bf-radio-group { display: block; }
 bf-radio-group bf-label { display: block; margin-bottom: 8px; } // by default, vertical label + radios
 bf-radio-group.inline:not(.label-block) bf-label { // When inline, horizontal label + labels
   display: inline-block;
   margin-bottom: 0;
   margin-right: 15px;
+}
+bf-radio-group.row bf-label,
+bf-radio-group.space-between bf-label {
+  flex: 0 0 100%;
+  max-width: 100%;
+  padding: 0 15px;
 }
 
 
@@ -40,6 +46,9 @@ bf-radio {
   }
   &:focus-visible {
     padding: 0;
+  }
+  &[class*="col-"]:focus-visible {
+    padding: 0 14px;
   }
 
   div.radio {
@@ -144,3 +153,12 @@ bf-radio-group.inline {
     }
   }
 }
+
+bf-radio-group.space-between {
+  display: flex;
+  justify-content: space-between;
+  bf-radio { width: auto; }
+}
+
+bf-radio-group.primary-icon bf-radio span[class*="icon-"] { color: $primary_color; }
+bf-radio-group.primary-text bf-radio span:last-child { color: $primary_color; }
