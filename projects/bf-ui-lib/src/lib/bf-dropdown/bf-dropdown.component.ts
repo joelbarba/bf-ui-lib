@@ -141,8 +141,8 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
   public listHeight; // Computed height of the expanded listContainer
   public allRows; // Reference to the optionRows.toArray() html elements array
   public searchTxt = '';
-  public bfInputId = generateId('inputId');
-  public bfListboxId = generateId('listBoxId');
+  public bfInputId = 'inputId-' + generateId();
+  public bfListboxId = 'listBoxId-' + generateId();
 
   private activeDecendent: string;
   public currentErrorMessage: string;

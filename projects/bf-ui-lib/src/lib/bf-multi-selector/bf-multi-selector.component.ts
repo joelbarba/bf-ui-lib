@@ -73,8 +73,8 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
 
 
   // --------------
-  public bfInputId = generateId('6');
-  public bfListBoxId = generateId('6');
+  public bfInputId = 'inputId-' + generateId();
+  public bfListBoxId = 'listBoxId-' + generateId();
 
   private activeDescendent: string;
   public currentErrorMessage: string;
