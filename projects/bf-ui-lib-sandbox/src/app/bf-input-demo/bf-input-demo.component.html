@@ -35,6 +35,8 @@
                   [(ngModel)]="myVariable"
                   [class.flat]="compConf.hasFlat"
                   [bfLabel]="(compConf.hasLabel ? compConf.labelText : '')"
+                  [bfName]="(compConf.hasName ? compConf.nameText : '')"
+                  [bfAutocomplete]="compConf.hasAutocomplete"
                   [bfPlaceholder]="(compConf.hasPlaceholder ? compConf.placeholderText : '')"
                   [bfRequired]="compConf.isRequired"
                   [bfDisabled]="compConf.isDisabled"
@@ -89,6 +91,12 @@
                        [bfList]="compConf.inputTypes" bfRender="text" bfSelect="id" [bfRequired]="true">
           </bf-dropdown>
         </div>
+      </div>
+
+      <!--name-->
+      <div class="row">
+        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasName" (ngModelChange)="upComp()" bfLabel="bfName"></bf-checkbox> </div>
+        <div class="col-9" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.nameText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasName"></bf-input> </div>
       </div>
 
       <!--Placeholder-->

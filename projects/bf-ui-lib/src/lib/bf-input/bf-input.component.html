@@ -59,7 +59,7 @@
       </button>
     </div>
 
-    <input class="form-control" name="bfInput" #ngInputRef="ngModel"
+    <input class="form-control" [attr.name]="bfName" #ngInputRef="ngModel"
            [id]="inputId"
            [attr.aria-required]="bfRequired"
            [attr.aria-valuemin]="bfMinlength"
@@ -81,7 +81,7 @@
            [type]="bfType"
            (keydown)="triggerKey($event)"
            (keypress)="onKeyPress($event)"
-           [autocomplete]="autocomplete"
+           [autocomplete]="bfAutocomplete ? 'on' : 'off'"
            (blur)="bfOnBlur.emit()"
     />
 

@@ -51,10 +51,11 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   private ngControl;
   public bfModel: any; // Internal to hold the linked ngModel on the wrapper
 
-  @Input() bfLabel = '';          // Text for the label above the input. Translation applied.
-  @Input() bfRequired = false;   // It adds the required validator to the ngModel (input), meaning that the required field styles will be applied on the label and input.
-  @Input() bfDisabled = false;   // True=Input disabled. False=Input enabled.
-  @Input() bfPlaceholder = '';    // It adds a placeholder text onto the input. Translation applied.
+  @Input() bfLabel = '';                    // Text for the label above the input. Translation applied.
+  @Input() bfName = 'bfInput';      // The name attribute specifies the name of an <input> element
+  @Input() bfRequired = false;     // It adds the required validator to the ngModel (input), meaning that the required field styles will be applied on the label and input.
+  @Input() bfDisabled = false;     // True=Input disabled. False=Input enabled.
+  @Input() bfPlaceholder = '';     // It adds a placeholder text onto the input. Translation applied.
 
   @Input() bfType: 'text' | 'number' | 'email' | 'password' = 'text';  // Set a type on the input (text by default)
 
@@ -62,8 +63,6 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   @Input() bfTooltipPos = 'top';    // If tooltip on the label, specific position (top by default)
   @Input() bfTooltipBody = true;
   @Input() bfDisabledTip: string;   // Label for the text of the tooltip to display when the input is disabled
-
-  // @Input() bfName: string = '';    // The name attribute specifies the name of an <input> element
   @Input() bfLeftBtnIcon: string;   // Icon to show into a button on the left of the input (prepend addon https://getbootstrap.com/docs/4.3/components/input-group/#button-addons)
   @Input() bfRightBtnIcon: string;  // Icon to show into a button on the right of the input (append addon)
   @Input() bfLeftBtnText: string;   // Text to show into a button on the left of the input (prepend addon)
@@ -223,10 +222,6 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
       setTimeout(() => {  // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus
         this.elementRef.nativeElement.querySelector('input').focus({ preventScroll: false });
       }, 50);
-    }
-
-    if (change.hasOwnProperty('bfAutocomplete')) {
-      this.autocomplete = this.bfAutocomplete ? 'on' : 'off';
     }
 
     // External control via extCtrl$
