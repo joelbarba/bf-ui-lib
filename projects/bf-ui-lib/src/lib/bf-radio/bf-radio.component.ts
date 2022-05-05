@@ -76,6 +76,7 @@ export class BfRadioComponent implements OnChanges {
 
   @HostBinding('attr.data-value') dataValue: string;
   @HostBinding('attr.aria-labelledby') get ariaLabelId() { return this.ariaLabel; }
+  @HostBinding('attr.aria-disabled') get ariaDisabled() { return this.isDisabled(); }
 
   @HostListener('keydown.space', ['$event']) spaceDown(event: KeyboardEvent): void { event.preventDefault(); }
 
