@@ -6,6 +6,7 @@ export { BfPagePlaceholderDoc } from './bf-page-placeholder-demo/bf-page-placeho
 export { BfSliderDoc } from './bf-slider-demo/bf-slider-demo.component';
 export { BfColorPickerDoc } from './bf-color-picker-demo/bf-color-picker-demo.component';
 export { BfStatusBadgeDoc } from './bf-status-badge-demo/bf-status-badge-demo.component';
+export { BfDotBadgeDoc } from './bf-dot-badge-demo/bf-dot-badge-demo.component';
 export { BfProgressBarDoc } from './bf-progress-bar-demo/bf-progress-bar-demo.component';
 export { BfMultiSelectorDoc } from './bf-multi-selector-demo/bf-multi-selector-demo.component';
 export { BfAutocompleteDoc } from './bf-autocomplete-demo/bf-autocomplete-demo.component';

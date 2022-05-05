@@ -1,0 +1,8 @@
+<span [disableTooltip]="calculatedDisplayType !== 'tooltip'"
+      [style.background]="bfColor"
+      [ngClass]="bfType"
+      [ngbTooltip]="bfText | getLabel$ | async"
+      class="bf-dot-badge--dot">
+</span>
+
+<span *ngIf="calculatedDisplayType === 'label'" class="bf-dot-badge--label">{{bfText | getLabel$ | async}}</span>

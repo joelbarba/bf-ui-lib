@@ -32,6 +32,10 @@ $l-rootClass: '.bf-status-badge';
   &.bf-color-seventh { background: $bf-status-other4;   }
   &.bf-color-eighth  { background: $bf-status-submitted;}
 
+  &.focus-visible{
+    border-radius: 20px !important;
+  }
+
   &-circle {
     width: 2em;
     height: 2em;

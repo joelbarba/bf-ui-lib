@@ -14,6 +14,7 @@ import {BehaviorSubject, Observable, of, Subject, Subscription} from 'rxjs';
 import { BfUILibTransService } from '../abstract-translate.service';
 import { Patterns } from '../patterns';
 import {debounceTime, takeUntil} from 'rxjs/operators';
+import { generateId } from '../generate-id';
 
 
 /****
@@ -82,6 +83,11 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @Input() bfPattern;
   @Input() bfErrorOnPristine;
   @Input() bfMinLength = 0;   // [optional] Number of keys needed to start showing suggestions. If absent, shows the list on focus.
+
+  // accessibility inputs
+  @Input() bfTabIndex = 0;
+  @Input() bfAriaLabel: string;
+
   @Output() bfOnEnter = new EventEmitter<any>();
   @Output() bfSelect = new EventEmitter<any>();
 
@@ -103,10 +109,14 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   bfDisabledTipTrans$: Observable<string> = of('');   // Translated text for the disabled tooltip
   bfPlaceholderTrans$: Observable<string> = of('');   // Translated text for the placeholder
 
+  bfListboxId = generateId(4);
+  bfInputId = generateId(4);
+
   @ViewChild('autocomplete', { static: true }) autocomplete: ElementRef<HTMLElement>;
   @ViewChild('autocompleteInputGroup', { static: false }) autocompleteInputGroup: ElementRef<HTMLElement>;
   @ViewChild('autocompleteInput', { static: false }) autocompleteInput: ElementRef<HTMLInputElement>;
   @ViewChild('listContainer', { static: false}) listContainer: ElementRef<HTMLElement>;
+  activeDecendent: any;
 
   constructor(
     private translate: BfUILibTransService,
@@ -205,6 +215,7 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
     if (this.listContainer.nativeElement.children[0]) {
       this.listContainer.nativeElement.scrollTop = nextIndex * this.listContainer.nativeElement.children[0].clientHeight;
     }
+    this.activeDecendent = this.getOptionId(nextIndex);
   }
 
   confirm() {
@@ -339,4 +350,13 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   // ------------------------------------
+
+  public getActiveDecendant(): string {
+    return this.activeDecendent || this.getOptionId(0);
+  }
+
+  public getOptionId(index): string {
+    return `${this.bfListboxId}-item-${index}`;
+  }
+
 }

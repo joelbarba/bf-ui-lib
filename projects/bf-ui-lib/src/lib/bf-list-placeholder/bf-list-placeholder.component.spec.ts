@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { BfUILibTransStubService } from '../../testing/bf-ui-lib-trans-service-stub.service';
+import { BfUILibTransService } from '../abstract-translate.service';
 
 import { BfListPlaceholderComponent } from './bf-list-placeholder.component';
 
@@ -8,7 +10,8 @@ describe('BfListPlaceholderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ BfListPlaceholderComponent ]
+      declarations: [ BfListPlaceholderComponent ],
+      providers: [{ provide: BfUILibTransService, useClass: BfUILibTransStubService}]
     })
     .compileComponents();
   }));

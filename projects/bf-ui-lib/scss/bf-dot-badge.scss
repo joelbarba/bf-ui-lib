@@ -1,0 +1,34 @@
+$bf-dot-badge-colors: (
+  'primary': $primary_color,
+  'secondary': $secondary_color,
+  'tertiary': $tertiary_color,
+  'quaternary': $quaternary_color,
+  'extra': $extra_color,
+  'success': $primary_color,
+  'warning': $warning_color
+) !default;
+
+$badge-dot-size: 0.5rem !default;
+
+bf-dot-badge {
+  .bf-dot-badge--dot {
+    display: inline-block;
+    width: $badge-dot-size;
+    height: $badge-dot-size;
+    border-radius: 100%;
+
+    // Add a default colour in case an invalid colour class is given.
+    background: map-get($bf-dot-badge-colors, 'primary');
+
+    // Add the various colour classes
+    @each $key, $value in $bf-dot-badge-colors {
+      &.#{$key} {
+        background: $value;
+      }
+    }
+  }
+
+  .bf-dot-badge--label {
+    margin-left: 0.25rem;
+  }
+}
