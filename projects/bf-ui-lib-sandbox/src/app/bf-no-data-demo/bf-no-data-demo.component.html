@@ -68,15 +68,13 @@ but a placeholder option (bfIsPlaceholder = true) when a list of items is empty 
         <div class="col-6" >
           <bf-input bfLabel="bfDescription" [(ngModel)]="compConf.bfDescription" (ngModelChange)="upComp()"></bf-input>
         </div>
-
-        <div class="col-12">
-          <bf-label class="marR15" bfText="Css Size Class"></bf-label>
-          <bf-radio [(ngModel)]="compConf.sizeClass" bfLabel="size-xl" bfValue="size-xl" (ngModelChange)="upComp()"></bf-radio>
-          <bf-radio [(ngModel)]="compConf.sizeClass" bfLabel="size-lg" bfValue="size-lg" (ngModelChange)="upComp()"></bf-radio>
-          <bf-radio [(ngModel)]="compConf.sizeClass" bfLabel="size-md" bfValue="size-md" (ngModelChange)="upComp()"></bf-radio>
-          <bf-radio [(ngModel)]="compConf.sizeClass" bfLabel="size-sm" bfValue="size-sm" (ngModelChange)="upComp()"></bf-radio>
-          <bf-radio [(ngModel)]="compConf.sizeClass" bfLabel="size-xs" bfValue="size-xs" (ngModelChange)="upComp()"></bf-radio>
-        </div>
+        <bf-radio-group class="col-12 inline" bfLabel="Css Size Class" [(ngModel)]="compConf.sizeClass" (ngModelChange)="upComp()">
+          <bf-radio bfLabel="size-xl" bfValue="size-xl"></bf-radio>
+          <bf-radio bfLabel="size-lg" bfValue="size-lg"></bf-radio>
+          <bf-radio bfLabel="size-md" bfValue="size-md"></bf-radio>
+          <bf-radio bfLabel="size-sm" bfValue="size-sm"></bf-radio>
+          <bf-radio bfLabel="size-xs" bfValue="size-xs"></bf-radio>
+        </bf-radio-group>
       </div>
 
     </div>

@@ -62,12 +62,10 @@ Calling .run() multiple times stacks promises, and keeps the bar running until t
     <bf-checkbox class="block" bfLabel="blockScreen" [bfDisabled]="loadingBar.status > 0" [(ngModel)]="myOpts.blockScreen"></bf-checkbox>
     <bf-checkbox class="block" bfLabel="showBar"     [bfDisabled]="loadingBar.status > 0" [(ngModel)]="myOpts.showBar"></bf-checkbox>
     <bf-checkbox class="block" bfLabel="showSpinner" [bfDisabled]="loadingBar.status > 0" [(ngModel)]="myOpts.showSpinner"></bf-checkbox>
-    <bf-radio [(ngModel)]="myOpts.spinnerType" [hidden]="!myOpts.showSpinner" class="padL30"
-              bfValue="circular" bfLabel="Circular Spinner" bfRequired="true">
-    </bf-radio>
-    <bf-radio [(ngModel)]="myOpts.spinnerType" [hidden]="!myOpts.showSpinner" class="padL30"
-              bfValue="blueface" bfLabel="Blueface Spinner" bfRequired="true">
-    </bf-radio>
+    <bf-radio-group [(ngModel)]="myOpts.spinnerType" [bfRequired]="true" name="spinner-type">
+      <bf-radio [hidden]="!myOpts.showSpinner" class="padL30" bfValue="circular" bfLabel="Circular Spinner"></bf-radio>
+      <bf-radio [hidden]="!myOpts.showSpinner" class="padL30" bfValue="blueface" bfLabel="Blueface Spinner"></bf-radio>
+    </bf-radio-group>
   </div>
   <div class="col-2">
     <bf-input bfLabel="delayTime (s)" [bfDisabled]="loadingBar.status > 0" [(ngModel)]="delayTimeSec"></bf-input>

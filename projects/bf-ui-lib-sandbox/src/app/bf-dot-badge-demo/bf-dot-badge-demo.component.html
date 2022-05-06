@@ -44,26 +44,14 @@
         </div>
       </div>
       <div class="row mt-3">
-        <div class="col-10">
-          <bf-label bfValue="Label display type"></bf-label>
-        </div>
-        <div class="col-10 pt-2 d-flex">
-          <bf-radio (ngModelChange)="updateComponent({key: 'labelDisplayType', value: $event})"
-                    [ngModel]="config.labelDisplayType"
-                    bfLabel="Auto"
-                    bfValue="auto"
-          ></bf-radio>
-          <bf-radio (ngModelChange)="updateComponent({key: 'labelDisplayType', value: $event})"
-                    [ngModel]="config.labelDisplayType"
-                    bfLabel="Label"
-                    bfValue="label"
-          ></bf-radio>
-          <bf-radio (ngModelChange)="updateComponent({key: 'labelDisplayType', value: $event})"
-                    [ngModel]="config.labelDisplayType"
-                    bfLabel="Tooltip"
-                    bfValue="tooltip"
-          ></bf-radio>
-        </div>
+        <bf-radio-group class="col-12 inline"
+                        bfLabel="Label display type"
+                        [ngModel]="config.labelDisplayType"
+                        (ngModelChange)="updateComponent({key: 'labelDisplayType', value: $event})">
+          <bf-radio bfLabel="Auto" bfValue="auto"></bf-radio>
+          <bf-radio bfLabel="Label" bfValue="label"></bf-radio>
+          <bf-radio bfLabel="Tooltip" bfValue="tooltip"></bf-radio>
+        </bf-radio-group>
       </div>
     </div>
 

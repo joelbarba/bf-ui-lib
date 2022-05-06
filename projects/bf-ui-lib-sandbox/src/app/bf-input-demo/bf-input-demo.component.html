@@ -149,45 +149,16 @@
         ></bf-input>
 
         <div class="col-6">
-          <bf-label bfText="bfErrorPos" class="block" class="row col-12"></bf-label>
-          <div class="row col-12">
-            <bf-radio [(ngModel)]="compConf.errorPos"
-                      (ngModelChange)="upComp()"
-                      bfLabel="none"
-                      bfRadioGroup="errPos"
-                      bfTooltip="Error text always hidden"
-                      bfTooltipPos="left"
-                      bfValue="none"
-            ></bf-radio>
-            <bf-radio [(ngModel)]="compConf.errorPos"
-                      (ngModelChange)="upComp()"
-                      bfLabel="default"
-                      bfRadioGroup="errPos"
-                      bfValue="default"
-            ></bf-radio>
-            <bf-radio [(ngModel)]="compConf.errorPos"
-                      (ngModelChange)="upComp()"
-                      bfLabel="top-right"
-                      bfRadioGroup="errPos"
-                      bfValue="top-right"
-            ></bf-radio>
-          </div>
-
-          <div class="row col-12">
-            <bf-radio [(ngModel)]="compConf.errorPos"
-                      (ngModelChange)="upComp()"
-                      bfLabel="bottom-left"
-                      bfRadioGroup="errPos"
-                      bfValue="bottom-left"
-            ></bf-radio>
-            <bf-radio [(ngModel)]="compConf.errorPos"
-                      (ngModelChange)="upComp()"
-                      bfLabel="bottom-right"
-                      bfRadioGroup="errPos"
-                      bfValue="bottom-right"
-            ></bf-radio>
-          </div>
-
+          <bf-radio-group class="inline"
+                          bfLabel="bfErrorPos"
+                          [(ngModel)]="compConf.errorPos"
+                          (ngModelChange)="upComp()">
+            <bf-radio bfValue="none" bfLabel="none" bfTooltip="Error text always hidden" bfTooltipPos="left"></bf-radio>
+            <bf-radio bfValue="default" bfLabel="default"></bf-radio>
+            <bf-radio bfValue="top-right" bfLabel="top-right"></bf-radio>
+            <bf-radio bfValue="bottom-left" bfLabel="bottom-left"></bf-radio>
+            <bf-radio bfValue="bottom-right" bfLabel="bottom-right"></bf-radio>
+          </bf-radio-group>
         </div>
       </div>
 

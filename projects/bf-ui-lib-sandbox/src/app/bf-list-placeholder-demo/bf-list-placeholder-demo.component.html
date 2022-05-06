@@ -55,13 +55,14 @@
   <div class="col-5">
     <div class="code-box pad5"><pre>{{code}}</pre></div>
   </div>
-  <div class="col-5">
-    <bf-label bfText="Css class to arrange the number of columns (on max resolution)"></bf-label>
-    <div class="padT5">
-      <bf-radio [(ngModel)]="conf.cssClass" bfValue="four-columns"  bfLabel="four-columns" (ngModelChange)="upCode()"></bf-radio>
-      <bf-radio [(ngModel)]="conf.cssClass" bfValue="three-columns" bfLabel="three-columns" (ngModelChange)="upCode()"></bf-radio>
-      <bf-radio [(ngModel)]="conf.cssClass" bfValue="two-columns"   bfLabel="two-columns" (ngModelChange)="upCode()"></bf-radio>
-    </div>
+  <div class="col-5 padT5">
+    <bf-radio-group class="inline label-block"
+                    bfLabel="Css class to arrange the number of columns (on max resolution)"
+                    [(ngModel)]="conf.cssClass" (ngModelChange)="upCode()">
+      <bf-radio bfValue="four-columns"  bfLabel="four-columns"></bf-radio>
+      <bf-radio bfValue="three-columns" bfLabel="three-columns"></bf-radio>
+      <bf-radio bfValue="two-columns"   bfLabel="two-columns"></bf-radio>
+    </bf-radio-group>
   </div>
   <bf-dropdown class="col-2"
                bfLabel="bfRows"
