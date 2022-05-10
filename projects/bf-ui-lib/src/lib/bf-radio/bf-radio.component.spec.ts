@@ -5,9 +5,10 @@ describe('BfRadioComponent', () => {
   let comp: BfRadioComponent;
 
   beforeEach(async () => {
-    comp = new BfRadioComponent();
     const nativeEl = document.createElement('input') as HTMLInputElement;
-    comp.radioInput = new ElementRef(nativeEl);
+    const radioInput = new ElementRef(nativeEl);
+    comp = new BfRadioComponent(radioInput);
+    comp.radioInput = radioInput;
   });
 
   describe('INIT', () => {

@@ -115,7 +115,7 @@ export class BfRadioGroupComponent implements OnChanges, OnDestroy, ControlValue
     return !!this.bfError && (!this.isPristine || this.bfErrorOnPristine);
   };
 
-  @HostListener('keydown', ['$event']) onKeyPress(event: any) {
+  @HostListener('keydown', ['$event']) onKeyPress(event: KeyboardEvent) {
     const { key } = event;
     const currentRadio = this.bfRadios.find(el => el.tabIndex === 0);
     const currentIndex = this.bfRadios.toArray().indexOf(currentRadio);
