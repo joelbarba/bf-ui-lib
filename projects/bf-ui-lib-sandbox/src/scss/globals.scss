@@ -110,7 +110,6 @@ bf-btn:not(.block) + bf-btn:not(.block) { margin-left: 5px; }
 bf-btn.block + bf-btn.block { margin-top: 5px; }
 
 bf-checkbox:not(.block):not([class*="col-"]) + bf-checkbox:not(.block):not([class*="col-"]) { margin-left: 15px; }
-bf-radio:not(.block):not([class*="col-"]) + bf-radio:not(.block):not([class*="col-"]) { margin-left: 15px; }
 
 
 // With Blueface font families, a baseline alignment looks better

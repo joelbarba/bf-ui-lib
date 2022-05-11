@@ -114,11 +114,16 @@
             <bf-input class="col-9" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipText" (ngModelChange)="upComp()"></bf-input>
             <bf-checkbox class="col-3" bfLabel="bfTooltipBody" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipBody" (ngModelChange)="upComp()"></bf-checkbox>
             <div class="col-9">
-              <bf-label class="marR20" bfText="bfTooltipPos"></bf-label>
-              <bf-radio class="marR15" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" bfLabel="top"     bfValue="top"    bfRadioGroup="tooltipPos" (ngModelChange)="upComp()"></bf-radio>
-              <bf-radio class="marR15" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" bfLabel="left"    bfValue="left"   bfRadioGroup="tooltipPos" (ngModelChange)="upComp()"></bf-radio>
-              <bf-radio class="marR15" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" bfLabel="right"   bfValue="right"  bfRadioGroup="tooltipPos" (ngModelChange)="upComp()"></bf-radio>
-              <bf-radio class="marR15" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" bfLabel="bottom"  bfValue="bottom" bfRadioGroup="tooltipPos" (ngModelChange)="upComp()"></bf-radio>
+              <bf-radio-group class="inline"
+                              bfLabel="bfTooltipPos"
+                              [bfDisabled]="!conf.hasTooltip"
+                              [(ngModel)]="conf.tooltipPos"
+                              (ngModelChange)="upComp()">
+                <bf-radio bfLabel="top"     bfValue="top"   ></bf-radio>
+                <bf-radio bfLabel="left"    bfValue="left"  ></bf-radio>
+                <bf-radio bfLabel="right"   bfValue="right" ></bf-radio>
+                <bf-radio bfLabel="bottom"  bfValue="bottom"></bf-radio>
+              </bf-radio-group>
             </div>
           </div>
         </div>
@@ -198,16 +203,15 @@
                   [(ngModel)]="conf.bfErrorText" [bfDisabled]="!conf.hasErrorText" (ngModelChange)="upComp()">
         </bf-input>
 
-        <div class="col-2">
-          <bf-label class="block" bfText="bfErrorPos"></bf-label>
-          <bf-radio [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" bfRadioGroup="errPos" bfLabel="none" bfValue="none" bfTooltip="Error text always hidden" bfTooltipPos="left"></bf-radio>
-        </div>
-        <div class="col-4">
-          <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" bfRadioGroup="errPos" bfLabel="default" [bfValue]="null"></bf-radio>
-          <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" bfRadioGroup="errPos" bfLabel="top-right" bfValue="top-right"></bf-radio>
-          <br>
-          <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" bfRadioGroup="errPos" bfLabel="bottom-left" bfValue="bottom-left"></bf-radio>
-          <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" bfRadioGroup="errPos" bfLabel="bottom-right" bfValue="bottom-right"></bf-radio>
+        <div class="col-6">
+          <bf-radio-group class="inline" bfLabel="bfErrorPos" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()">
+            <bf-radio bfLabel="none" bfValue="none" bfTooltip="Error text always hidden" bfTooltipPos="left"></bf-radio>
+            <bf-radio bfLabel="default" [bfValue]="null"></bf-radio>
+            <bf-radio bfLabel="top-right" bfValue="top-right"></bf-radio>
+            <bf-radio bfLabel="bottom-left" bfValue="bottom-left"></bf-radio>
+            <bf-radio bfLabel="bottom-right" bfValue="bottom-right"></bf-radio>
+          </bf-radio-group>
+
         </div>
       </div>
 
@@ -314,11 +318,11 @@
     Selected Model = {{selObj7 | json}}
     <hr>
 
-    <div><bf-radio [(ngModel)]="selObj7" [bfValue]="null" bfLabel="Empty value (null)"></bf-radio></div>
-    <div><bf-radio [(ngModel)]="selObj7" bfValue="aaaaa" bfLabel="Invalid Option"></bf-radio></div>
-    <div *ngFor="let listOp of myList2">
-      <bf-radio [(ngModel)]="selObj7" [bfValue]="listOp.username" bfLabel="{{'- ' + listOp.username}}"></bf-radio>
-    </div>
+    <bf-radio-group [(ngModel)]="selObj7">
+      <bf-radio [bfValue]="null" bfLabel="Empty value (null)"></bf-radio>
+      <bf-radio  bfValue="aaaaa" bfLabel="Invalid Option"></bf-radio>
+      <bf-radio *ngFor="let listOp of myList2" [bfValue]="listOp.username" bfLabel="{{'- ' + listOp.username}}"></bf-radio>
+    </bf-radio-group>
   </div>
 
 
@@ -343,13 +347,11 @@
     </div>
 
     <hr>
-    <div>
-      <div><bf-radio [(ngModel)]="selObj6" [bfValue]="null" bfLabel="Empty value (null)" bfRadioGroup="ex2"></bf-radio></div>
-      <div><bf-radio [(ngModel)]="selObj6" bfValue="aaaaa" bfLabel="Invalid Option" bfRadioGroup="ex2"></bf-radio></div>
-      <div *ngFor="let listOp of myList">
-        <bf-radio [(ngModel)]="selObj6" [bfValue]="listOp" bfLabel="{{listOp | json}}" bfRadioGroup="ex2"></bf-radio>
-      </div>
-    </div>
+    <bf-radio-group [(ngModel)]="selObj6">
+      <bf-radio [bfValue]="null" bfLabel="Empty value (null)"></bf-radio>
+      <bf-radio  bfValue="aaaaa" bfLabel="Invalid Option"></bf-radio>
+      <bf-radio *ngFor="let listOp of myList" [bfValue]="listOp" bfLabel="{{listOp | json}}"></bf-radio>
+    </bf-radio-group>
   </div>
 </div>
 

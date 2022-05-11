@@ -1,6 +1,6 @@
 // There are of course better options for this, like 'uuid' npm package,
 // but to make the library not dependent here's a built in option that should suffice
-export const generateId = (idLength) => {
+export const generateId = (idLength = 10): string => {
   let result             = '';
   const characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   const charactersLength = characters.length;

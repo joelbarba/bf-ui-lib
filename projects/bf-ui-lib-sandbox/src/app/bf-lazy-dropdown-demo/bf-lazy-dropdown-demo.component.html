@@ -200,13 +200,16 @@ is not called anymore, the component switches to a front-end filtering and behav
             <bf-checkbox class="col-3 padT5" bfLabel="bfTooltip" [bfDisabled]="!conf.hasLabel" [(ngModel)]="conf.hasTooltip"  (ngModelChange)="upComp()"></bf-checkbox>
             <bf-input class="col-9" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipText" (ngModelChange)="upComp()"></bf-input>
             <bf-checkbox class="col-3" bfLabel="bfTooltipBody" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipBody" (ngModelChange)="upComp()"></bf-checkbox>
-            <div class="col-9">
-              <bf-label class="marR20" bfText="bfTooltipPos"></bf-label>
-              <bf-radio class="marR15" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" bfLabel="top"     bfValue="top"    bfRadioGroup="tooltipPos" (ngModelChange)="upComp()"></bf-radio>
-              <bf-radio class="marR15" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" bfLabel="left"    bfValue="left"   bfRadioGroup="tooltipPos" (ngModelChange)="upComp()"></bf-radio>
-              <bf-radio class="marR15" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" bfLabel="right"   bfValue="right"  bfRadioGroup="tooltipPos" (ngModelChange)="upComp()"></bf-radio>
-              <bf-radio class="marR15" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" bfLabel="bottom"  bfValue="bottom" bfRadioGroup="tooltipPos" (ngModelChange)="upComp()"></bf-radio>
-            </div>
+            <bf-radio-group class="inline col-9"
+                            bfLabel="bfTooltipPos"
+                            [bfDisabled]="!conf.hasTooltip"
+                            [(ngModel)]="conf.tooltipPos"
+                            (ngModelChange)="upComp()">
+              <bf-radio bfLabel="top"     bfValue="top"></bf-radio>
+              <bf-radio bfLabel="left"    bfValue="left"></bf-radio>
+              <bf-radio bfLabel="right"   bfValue="right"></bf-radio>
+              <bf-radio bfLabel="bottom"  bfValue="bottom"></bf-radio>
+            </bf-radio-group>
           </div>
         </div>
 
@@ -218,12 +221,11 @@ is not called anymore, the component switches to a front-end filtering and behav
         <div class="col-3 padT5 padB10">
           <bf-dropdown class="flat" [bfList]="bfSelectOptions" [(ngModel)]="conf.selectField" (ngModelChange)="upComp()" bfSelect="value" bfRender="value"></bf-dropdown>
         </div>
-        <div class="col-7 padT10">
-          <bf-label class="marR20" bfText="bfFetchOn"></bf-label>
-          <bf-radio class="marR15" [(ngModel)]="conf.bfFetchOn" bfLabel="ini"    bfValue="ini"    bfRadioGroup="fetchOn" (ngModelChange)="compLink()" bfTooltip="The first fetch will be on the components initialization (ngOnInit)"></bf-radio>
-          <bf-radio class="marR15" [(ngModel)]="conf.bfFetchOn" bfLabel="focus"  bfValue="focus"  bfRadioGroup="fetchOn" (ngModelChange)="compLink()" bfTooltip="The first fetch will be the first time the component gets focused"></bf-radio>
-          <bf-radio class="marR15" [(ngModel)]="conf.bfFetchOn" bfLabel="filter" bfValue="filter" bfRadioGroup="fetchOn" (ngModelChange)="compLink()" bfTooltip="The fetch is only triggered on filtering (typing a value on the input)"></bf-radio>
-        </div>
+        <bf-radio-group class="col-7 padT10 inline" bfLabel="bfFetchOn" [(ngModel)]="conf.bfFetchOn" (ngModelChange)="compLink()">
+          <bf-radio bfLabel="ini"    bfValue="ini"    bfTooltip="The first fetch will be on the components initialization (ngOnInit)"></bf-radio>
+          <bf-radio bfLabel="focus"  bfValue="focus"  bfTooltip="The first fetch will be the first time the component gets focused"></bf-radio>
+          <bf-radio bfLabel="filter" bfValue="filter" bfTooltip="The fetch is only triggered on filtering (typing a value on the input)"></bf-radio>
+        </bf-radio-group>
       </div>
 
       <!--bfMinSearchLength + bfDebounce-->
@@ -340,18 +342,13 @@ is not called anymore, the component switches to a front-end filtering and behav
         <bf-input class="col-4" bfPlaceholder="'none' = displays no text"
                   [(ngModel)]="conf.bfErrorText" [bfDisabled]="!conf.hasErrorText" (ngModelChange)="upComp()">
         </bf-input>
-
-        <div class="col-2">
-          <bf-label class="block" bfText="bfErrorPos"></bf-label>
-          <bf-radio [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" bfRadioGroup="errPos" bfLabel="none" bfValue="none" bfTooltip="Error text always hidden" bfTooltipPos="left"></bf-radio>
-        </div>
-        <div class="col-4">
-          <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" bfRadioGroup="errPos" bfLabel="default" bfValue="default"></bf-radio>
-          <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" bfRadioGroup="errPos" bfLabel="top-right" bfValue="top-right"></bf-radio>
-          <br>
-          <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" bfRadioGroup="errPos" bfLabel="bottom-left" bfValue="bottom-left"></bf-radio>
-          <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" bfRadioGroup="errPos" bfLabel="bottom-right" bfValue="bottom-right"></bf-radio>
-        </div>
+        <bf-radio-group class="col-6 inline" bfLabel="bfErrorPos" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()">
+          <bf-radio bfLabel="none" bfValue="none" bfTooltip="Error text always hidden" bfTooltipPos="left"></bf-radio>
+          <bf-radio bfLabel="default" bfValue="default"></bf-radio>
+          <bf-radio bfLabel="top-right" bfValue="top-right"></bf-radio>
+          <bf-radio bfLabel="bottom-left" bfValue="bottom-left"></bf-radio>
+          <bf-radio bfLabel="bottom-right" bfValue="bottom-right"></bf-radio>
+        </bf-radio-group>
       </div>
 
 

@@ -17,8 +17,10 @@
       <div class="code-box"><pre>{{instance}}</pre></div>
       <div class="row marT20">
 
-        <div class="col-12 marB20"><bf-radio [(ngModel)]="profileExample.isSection" bfLabel="No Section" [bfValue]="false" (ngModelChange)="addSection()"></bf-radio></div>
-        <div class="col-12 marB20"><bf-radio [(ngModel)]="profileExample.isSection" bfLabel="Section active" [bfValue]="true" (ngModelChange)="addSection()"></bf-radio></div>
+        <bf-radio-group class="col-12 marB15" [(ngModel)]="profileExample.isSection" (ngModelChange)="addSection()">
+          <bf-radio bfLabel="No Section" [bfValue]="false"></bf-radio>
+          <bf-radio bfLabel="Section active" [bfValue]="true"></bf-radio>
+        </bf-radio-group>
 
         <div class="col-12 marB10" *ngIf="profileExample.isSection">
           <bf-checkbox [(ngModel)]="profileExample.hasAvatar" (ngModelChange)="upIns()" bfLabel="Avatar"></bf-checkbox>

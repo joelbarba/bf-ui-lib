@@ -98,13 +98,12 @@
             <bf-checkbox class="col-3 padT5" bfLabel="bfTooltip" [bfDisabled]="!conf.hasLabel" [(ngModel)]="conf.hasTooltip"  (ngModelChange)="upComp()"></bf-checkbox>
             <bf-input class="col-9" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipText" (ngModelChange)="upComp()"></bf-input>
             <bf-checkbox class="col-3" bfLabel="bfTooltipBody" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipBody" (ngModelChange)="upComp()"></bf-checkbox>
-            <div class="col-9">
-              <bf-label class="marR20" bfText="bfTooltipPos"></bf-label>
-              <bf-radio class="marR15" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" bfLabel="top"     bfValue="top"    bfRadioGroup="tooltipPos" (ngModelChange)="upComp()"></bf-radio>
-              <bf-radio class="marR15" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" bfLabel="left"    bfValue="left"   bfRadioGroup="tooltipPos" (ngModelChange)="upComp()"></bf-radio>
-              <bf-radio class="marR15" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" bfLabel="right"   bfValue="right"  bfRadioGroup="tooltipPos" (ngModelChange)="upComp()"></bf-radio>
-              <bf-radio class="marR15" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" bfLabel="bottom"  bfValue="bottom" bfRadioGroup="tooltipPos" (ngModelChange)="upComp()"></bf-radio>
-            </div>
+            <bf-radio-group class="col-9 inline" bfLabel="bfTooltipPos" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" (ngModelChange)="upComp()">
+              <bf-radio bfLabel="top"     bfValue="top"></bf-radio>
+              <bf-radio bfLabel="left"    bfValue="left"></bf-radio>
+              <bf-radio bfLabel="right"   bfValue="right"></bf-radio>
+              <bf-radio bfLabel="bottom"  bfValue="bottom"></bf-radio>
+            </bf-radio-group>
           </div>
         </div>
 
@@ -172,18 +171,13 @@
         <bf-input class="col-4" bfPlaceholder="'none' = displays no text"
                   [(ngModel)]="conf.bfErrorText" [bfDisabled]="!conf.hasErrorText" (ngModelChange)="upComp()">
         </bf-input>
-
-        <div class="col-2">
-          <bf-label class="block" bfText="bfErrorPos"></bf-label>
-          <bf-radio [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" bfRadioGroup="errPos" bfLabel="none" bfValue="none" bfTooltip="Error text always hidden" bfTooltipPos="left"></bf-radio>
-        </div>
-        <div class="col-4">
-          <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" bfRadioGroup="errPos" bfLabel="default" [bfValue]="null"></bf-radio>
-          <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" bfRadioGroup="errPos" bfLabel="top-right" bfValue="top-right"></bf-radio>
-          <br>
-          <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" bfRadioGroup="errPos" bfLabel="bottom-left" bfValue="bottom-left"></bf-radio>
-          <bf-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" bfRadioGroup="errPos" bfLabel="bottom-right" bfValue="bottom-right"></bf-radio>
-        </div>
+        <bf-radio-group class="col-6 inline" bfLabel="bfErrorPos" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()">
+          <bf-radio bfLabel="none" bfValue="none" bfTooltip="Error text always hidden" bfTooltipPos="left"></bf-radio>
+          <bf-radio bfLabel="default" [bfValue]="null"></bf-radio>
+          <bf-radio bfLabel="top-right" bfValue="top-right"></bf-radio>
+          <bf-radio bfLabel="bottom-left" bfValue="bottom-left"></bf-radio>
+          <bf-radio bfLabel="bottom-right" bfValue="bottom-right"></bf-radio>
+        </bf-radio-group>
       </div>
 
 

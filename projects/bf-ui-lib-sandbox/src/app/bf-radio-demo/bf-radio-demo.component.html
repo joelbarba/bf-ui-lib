@@ -1,209 +1,191 @@
 <h2>{{name}}</h2>
 <hr/>
 <p>{{desc}}</p>
-<p>Once the radio is selected, it's bfValue will be set to the ngModel. The selection (using the same ngModel)
-is unique, and when a radio is selected the rest are automatically unselected.<br/>
-  It is possible to have different radio groups using the same ngModel with multiple radios selected. To do so, use the
-  bfRadioGroup option, assigning different names for every group.
+<p>
+  The radio button element is composed by 2 different components: <b>{{radioTag}}</b> + <b>{{radioGroupTag}}</b>
+  <br>In terms of accessibility it is imperative that all {{radioTag}} remain wrapped inside a {{radioGroupTag}},
+  which is the element who controls the group value and its interaction.
+</p>
+<p>
+  The <b>{{radioGroupTag}}</b> has an <b>[(ngModel)]</b> binding, so it's the element that holds the formControl for its form interaction.
+  <br>Inside that, add a <b>{{radioTag}}</b> for every option that has a selectable value. These elements are just to provide a dynamic
+  and semantic way to construct the component, so it can be clearly seen on the html.
 </p>
 <p>
   By default the radios are not required. This means that if no option is selected (model matches no value) the form
-  that wraps all the inputs will still be valid. If required, the form will only be valid if the model matches one radio.
-  <br>
-  For more details about the original bootstrap radio: <a href="https://getbootstrap.com/docs/4.0/components/forms/#checkboxes-and-radios">https://getbootstrap.com/docs/4.0/components/forms/#checkboxes-and-radios</a>
+  that wraps all the inputs will still be valid. If required, the form will only be valid if the model matches one radio value.
 </p>
-
-<!--https://getbootstrap.com/docs/4.0/components/forms/#checkboxes-and-radios-->
-<h5 class="mt-4">Parameters:</h5>
-<div class="col-12"><pre>{{api}}</pre></div>
-
-
-
 
 
 
 <!--Input Customization-->
 <div class="whiteBg">
   <div class="row">
-    <div class="col-5 marB15">
-      <h5 class="marB0">BfRadio Customization:</h5>
-      <div class="d-flex justify-content-between">
-        <form #form="ngForm" class="padT25" bfListController listItemClass="radio-btn">
-          <bf-radio [class.block]="compConf.isClassBlock"
-                    [style.background]="compConf.isClassBlock ? 'lightgray' : 'white'"
-                    [(ngModel)]="myVariable" name="radio"
-                    [bfValue]="compConf.value"
-                    [bfLabel]="compConf.labelText"
-                    [bfRadioGroup]="compConf.hasGroup?compConf.groupValue:''"
-                    [bfDisabled]="compConf.isDisabled"
-                    [bfRequired]="compConf.isRequired"
-                    [bfTooltip]="(compConf.hasTooltip ? compConf.tooltipText : null)"
-                    [bfTooltipPos]="(compConf.tooltipPos || 'top')"
-                    [bfTooltipBody]="compConf.tooltipBody"
-                    [bfIcon]="compConf.hasIcon && compConf.icon"
-                    class="radio-btn"
-          ></bf-radio>
-        </form>
-        <div class="d-print-inline-flex">
-          <bf-input [(ngModel)]="myVariable" bfLabel="myVariable"></bf-input>
+    <div class="col-5 marB15" *ngIf="isLinked">
+      <div class="d-flex justify-content-between padR15">
+        <h5 class="marB0">BfRadio Customization:</h5>
+        <bf-btn bfIcon="icon-loop3" (bfClick)="reLink()"></bf-btn>
+      </div>
+      <form #myForm="ngForm">
+        <div class="padV30">
+
+          <bf-radio-group name="radio-group-1"
+                          #inputRef="ngModel"
+                          [class.white]="conf.css.white"
+                          [class.inline]="conf.css.inline"
+                          [class.label-block]="conf.css.labelBlock"
+                          [class.space-between]="conf.css.spaceBetween"
+                          [class.primary-icon]="conf.css.primaryIcon"
+                          [class.primary-text]="conf.css.primaryText"
+                          [class.row]="conf.css.rowCol"
+                          [(ngModel)]="myVariable"
+                          [bfLabel]="conf.bfLabel"
+                          [bfRequired]="conf.bfRequired"
+                          [bfDisabled]="conf.bfDisabled"
+                          [bfErrorOnPristine]="conf.bfErrorOnPristine"
+                          [bfTooltip]="(conf.hasTooltip ? conf.tooltipText : null)"
+                          [bfTooltipPos]="(conf.tooltipPos || 'top')"
+                          [bfTooltipBody]="conf.tooltipBody"
+          >
+            <!--<bf-radio bfLabel="Option null"      [bfValue]="null"></bf-radio>-->
+            <!--<bf-radio bfLabel="Option undefined" [bfValue]="undefined"></bf-radio>-->
+            <!--<bf-radio bfLabel="Option empty"     [bfValue]="''"></bf-radio>-->
+            <bf-radio *ngFor="let option of conf.options"
+                      [class.col-4]="conf.css.rowCol"
+                      [bfLabel]="option.bfLabel"
+                      [bfValue]="option.bfValue"
+                      [bfIcon]="option.bfIcon"
+                      [bfDisabled]="option.bfDisabled"
+                      [bfTooltip]="option.hasTooltip ? option.bfTooltip : null"
+                      [bfTooltipPos]="option.hasTooltip ? option.bfTooltipPos : null"
+                      (bfOnSelected)="opSelected($event)"
+            >
+            </bf-radio>
+            <!--<bf-radio bfLabel="Option 2" bfValue="2"></bf-radio>-->
+            <!--<bf-radio bfLabel="Option 3" bfValue="3"></bf-radio>-->
+            <!--<bf-radio bfLabel="Option 4" bfValue="4"></bf-radio>-->
+          </bf-radio-group>
+
         </div>
-      </div>
-      <div class="marB15">
-        <div>touched: {{form.controls.radio?.touched}}</div>
-        <div *ngIf="form.controls.radio?.errors">errors: {{form.controls.radio?.errors | json}}</div>
-      </div>
+
+      </form>
 
       <div class="padT5">
         <div class="code-box pad15">
           <pre>{{customCompCode}}</pre>
+        </div>
+        <div class="row marT15">
+          <div class="col-6">
+            <b>ngForm</b>: valid = {{myForm.valid}}, pristine = {{myForm.pristine}}
+            <br><br>
+            <b>bfRadioGroup</b>: value={{inputRef.value | json}}
+            , valid={{inputRef.valid | json}}
+            , pristine={{inputRef.pristine | json}}
+            , errors={{inputRef.errors | json}}
+          </div>
+          <div class="col-6">
+            <bf-input class="input-col-5" [(ngModel)]="myVariable" bfLabel="ngModel"></bf-input>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="col-7">
 
-      <!--Value-->
-      <div class="row">
-        <div class="col-3"><bf-label bfText="Value"></bf-label></div>
-        <div class="col-9"> <bf-input [(ngModel)]="compConf.value" (ngModelChange)="upComp()"></bf-input> </div>
-      </div>
-
       <!--Label-->
       <div class="row">
-        <div class="col-3"><bf-label bfText="Label"></bf-label></div>
-        <div class="col-9" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()"></bf-input> </div>
-      </div>
+        <div class="col-3">
+          <!--<bf-checkbox class="block marT15" [(ngModel)]="conf.hasLabel"   (ngModelChange)="upComp()" bfLabel="bfLabel"></bf-checkbox>-->
+          <bf-checkbox class="block marT15" [(ngModel)]="conf.bfRequired" (ngModelChange)="upComp()" bfLabel="bfRequired"></bf-checkbox>
+          <bf-checkbox class="block marT15" [(ngModel)]="conf.bfDisabled" (ngModelChange)="upComp()" bfLabel="bfDisabled"></bf-checkbox>
+          <bf-checkbox class="block marT15" [(ngModel)]="conf.bfErrorOnPristine" (ngModelChange)="upComp()" bfLabel="bfErrorOnPristine"></bf-checkbox>
 
-      <!--Radio Group-->
-      <div class="row">
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasGroup" (ngModelChange)="upComp()" bfLabel="Has Group"></bf-checkbox> </div>
-        <div class="col-9" style="margin-bottom: -5px;"> <bf-input [(ngModel)]="compConf.groupValue" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasGroup"></bf-input> </div>
-      </div>
-
-      <!--Required + Disabled-->
-      <div class="row marT15">
-        <div class="col-3"> <bf-checkbox [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()" bfLabel="Is Required"></bf-checkbox> </div>
-        <div class="col-3"> <bf-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" bfLabel="Is Disabled"></bf-checkbox> </div>
-      </div>
-
-      <!--Tooltip-->
-      <div class="row marT10">
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox> </div>
-        <div class="col-9" *ngIf="compConf.hasTooltip">
-          <bf-input [(ngModel)]="compConf.tooltipText" (ngModelChange)="upComp()"></bf-input>
         </div>
-        <div class="col-5" *ngIf="compConf.hasTooltip">
-          <bf-dropdown bfLabel="bfTooltipPos"
-                       [(ngModel)]="compConf.tooltipPos" (ngModelChange)="upComp()"
+        <div class="col-9">
+          <bf-input bfLabel="bfLabel" [(ngModel)]="conf.bfLabel" (ngModelChange)="upComp()"></bf-input>
+
+          <!--Tooltip-->
+          <div class="row">
+            <bf-checkbox class="col-2 padT5" bfLabel="bfTooltip" [(ngModel)]="conf.hasTooltip" (ngModelChange)="upComp()"></bf-checkbox>
+            <bf-input class="col-10" [bfDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipText" (ngModelChange)="upComp()"></bf-input>
+            <div class="col-2"></div>
+            <bf-dropdown class="col-5" bfLabel="bfTooltipPos" [bfDisabled]="!conf.hasTooltip"
+                         [(ngModel)]="conf.tooltipPos" (ngModelChange)="upComp()"
+                         [bfList]="[{ id: 'top', text: 'top' }, { id: 'right', text: 'right' }, { id: 'bottom', text: 'bottom' }, { id: 'left', text: 'left' }]"
+                         bfRender="text" bfSelect="id">
+            </bf-dropdown>
+            <bf-dropdown class="col-5" bfLabel="bfTooltipBody" [bfDisabled]="!conf.hasTooltip"
+                         [(ngModel)]="conf.tooltipBody" (ngModelChange)="upComp()"
+                         [bfList]="[{ id: 'true', text: 'true' }, { id: 'false', text: 'false' }]" bfRender="text" bfSelect="id">
+            </bf-dropdown>
+          </div>
+        </div>
+
+        <!--Classes-->
+        <div class="col-12 marT10">
+          <span class="marR15">CSS:</span>
+          <bf-checkbox [(ngModel)]="conf.css.inline" (ngModelChange)="upComp()" bfLabel="inline" bfTooltip="Arranges the label + options horizontally"></bf-checkbox>
+          <bf-checkbox [(ngModel)]="conf.css.labelBlock" (ngModelChange)="upComp()" bfLabel="label-block" bfTooltip="Use it only with inline. Sets the label and options vertically"></bf-checkbox>
+          <bf-checkbox [(ngModel)]="conf.css.spaceBetween" (ngModelChange)="upComp()" bfLabel="space-between" bfTooltip="Do not use bfLabel with this option"></bf-checkbox>
+          <bf-checkbox [(ngModel)]="conf.css.primaryIcon" (ngModelChange)="upComp()" bfLabel="primary-icon" bfTooltip="Turns the icon to primary color"></bf-checkbox>
+          <bf-checkbox [(ngModel)]="conf.css.primaryText" (ngModelChange)="upComp()" bfLabel="primary-text" bfTooltip="Turns the options text to primary color"></bf-checkbox>
+          <bf-checkbox [(ngModel)]="conf.css.white" (ngModelChange)="upComp()" bfLabel="white" bfTooltip="Turns the radio border and color white, to be used over dark backgrounds"></bf-checkbox>
+          <bf-checkbox [(ngModel)]="conf.css.rowCol" (ngModelChange)="upComp()" bfLabel="row/col" bfTooltip="To apply a bootstrap grid and arrange the bf-radio with columns (row/col-*)"></bf-checkbox>
+        </div>
+      </div>
+
+
+      <div class="row marT15">
+        <div class="col-12"><hr></div>
+        <div class="col-3" *ngFor="let op of conf.options;">
+          <h6>{{op.name}}</h6>
+          <bf-input bfLabel="bfValue" [(ngModel)]="op.bfValue" (ngModelChange)="upComp()"></bf-input>
+          <bf-input bfLabel="bfLabel" [(ngModel)]="op.bfLabel" (ngModelChange)="upComp()"></bf-input>
+
+          <bf-dropdown class="full-width flat" bfLabel="bfIcon"
+                       [(ngModel)]="op.bfIcon" (ngModelChange)="upComp()"
+                       [bfList]="icons" bfRender="icon" bfSelect="icon" [bfRequired]="false">
+          </bf-dropdown>
+
+          <bf-checkbox class="block marT15" [(ngModel)]="op.bfDisabled" (ngModelChange)="upComp()" bfLabel="bfDisabled"></bf-checkbox>
+          <bf-checkbox class="block marT15" [(ngModel)]="op.hasTooltip" (ngModelChange)="upComp()" bfLabel="Has Tooltip"></bf-checkbox>
+
+          <bf-input *ngIf="op.hasTooltip" [(ngModel)]="op.bfTooltip" (ngModelChange)="upComp()" bfLabel="bfTooltip" class="d-block marT15"></bf-input>
+          <bf-dropdown *ngIf="op.hasTooltip" bfLabel="bfTooltipPos" [(ngModel)]="op.bfTooltipPos" (ngModelChange)="upComp()"
                        [bfList]="[{ id: 'top', text: 'top' }, { id: 'right', text: 'right' }, { id: 'bottom', text: 'bottom' }, { id: 'left', text: 'left' }]"
                        bfRender="text" bfSelect="id">
           </bf-dropdown>
-        </div>
-        <div class="col-4" *ngIf="compConf.hasTooltip">
-          <bf-dropdown bfLabel="bfTooltipBody"
-                       [(ngModel)]="compConf.tooltipBody" (ngModelChange)="upComp()"
-                       [bfList]="[{ id: 'true', text: 'true' }, { id: 'false', text: 'false' }]"
-                       bfRender="text" bfSelect="id">
-          </bf-dropdown>
+
         </div>
       </div>
 
-      <!--Icon-->
-      <div class="row marT10">
-        <div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasIcon" (ngModelChange)="upComp()" bfLabel="Has Icon"></bf-checkbox> </div>
-        <bf-dropdown class="col-9 full-width"
-                     [bfDisabled]="!compConf.hasIcon"
-                     [(ngModel)]="compConf.icon" (ngModelChange)="upComp()"
-                     [bfList]="icons" bfRender="icon" bfSelect="icon" [bfRequired]="false" class="flat">
-        </bf-dropdown>
-      </div>
 
-      <!--Classes-->
-      <div class="row padT5">
-        <div class="col-3"> <bf-checkbox [(ngModel)]="compConf.isClassBlock" (ngModelChange)="upComp()" bfLabel="block"></bf-checkbox> </div>
-        <!--<div class="col-3 padT5"> <bf-checkbox [(ngModel)]="compConf.hasColon" (ngModelChange)="upComp()" bfLabel="colon"></bf-checkbox> </div>-->
-      </div>
 
     </div>
 
   </div>
 </div>
+
 
 <hr>
+<h5>External Label</h5>
+<p>If you fancy placing the label outside the bf-radio-group, remember to add the <b>bfForElementId</b> which should point to the <b>id</b> attribute of {{radioGroupTag}}</p>
+<pre>{{labelCompCode}}</pre>
 
 
+<hr>
+<h5 class="mt-4">Parameters:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
 
-
-
-
-<h5 class="mt-4">Examples:</h5>
-<div class="col-12 examples-table">
-
-<!--  <div class="row">-->
-<!--    <div class="col-5">-->
-<!--      <bf-radio [(ngModel)]="myVariable" bfLabel="Option 1" bfValue="1"></bf-radio>-->
-<!--    </div>-->
-<!--    <div class="col-7 code-box"> <pre>{{instance}}</pre> </div>-->
-<!--  </div>-->
-
-  <div class="row">
-    <div class="col-5">
-      <div class="d-flex justify-content-between" role="radiogroup">
-        <bf-radio class="radio-btns" [(ngModel)]="myVariable" bfLabel="Option 1" bfValue="1" bfIcon="icon-home"></bf-radio>
-        <bf-radio class="radio-btns" [(ngModel)]="myVariable" bfLabel="Option 2" bfValue="2" bfIcon="icon-home"></bf-radio>
-        <bf-radio class="radio-btns" [(ngModel)]="myVariable" bfLabel="Option 3" bfValue="3" bfIcon="icon-home"></bf-radio>
-      </div>
-    </div>
-    <div class="col code-box"> <pre>{{instance2}}</pre> </div>
-  </div>
-
-  <div class="row">
-    <div class="col-5">
-      <h4 role="radiogroup" class="d-flex justify-content-between">
-        <bf-radio class="radio-btns" [(ngModel)]="myVariable" bfLabel="Option 1" bfValue="1" bfIcon="icon-home" [bfRequired]=true></bf-radio>
-        <bf-radio class="radio-btns" [(ngModel)]="myVariable" bfLabel="Option 2" bfValue="2" bfIcon="icon-home" [bfRequired]=true></bf-radio>
-        <bf-radio class="radio-btns" [(ngModel)]="myVariable" bfLabel="Option 3" bfValue="3" bfIcon="icon-home" [bfRequired]=true></bf-radio>
-      </h4>
-    </div>
-    <div class="col code-box"> <pre>{{instance3}}</pre> </div>
-  </div>
-
-</div>
-
-
-<!--Applicable classes -->
-<div class="row">
-  <div class="col-12">
-    <hr>
-    <h5 class="mt-4">Applicable classes:</h5>
-    <p>By default radios are inline elements (displayed one next to another). You can easily turn then to block
-      elements by applying class "<b>block</b>":
-    </p>
-  </div>
-  <div class="col-6">
-    <pre class="marT10">{{ blockExample }}</pre>
-  </div>
-  <div class="col-6">
-    <div role="radiogroup" bfListController listItemClass="radio-btns">
-      <bf-radio class="radio-btns" bfLabel="Inline radio 1" [(ngModel)]="myVariable" bfValue="1" [a11yOn]="true"></bf-radio>
-      <bf-radio class="radio-btns" bfLabel="Inline radio 2" [(ngModel)]="myVariable" bfValue="2" [a11yOn]="true"></bf-radio>
-      <bf-radio class="radio-btns" bfLabel="Inline radio 3" [(ngModel)]="myVariable" bfValue="3" [a11yOn]="true"></bf-radio>
-    </div>
-    <hr>
-    <div role="radiogroup" bfListController listItemClass="block">
-      <bf-radio class="block" bfLabel="Block radio 4" [(ngModel)]="myVariable" bfValue="1" [a11yOn]="true"></bf-radio>
-      <bf-radio class="block" bfLabel="Block radio 5" [(ngModel)]="myVariable" bfValue="2" [a11yOn]="true"></bf-radio>
-      <bf-radio class="block" bfLabel="Block radio 6" [(ngModel)]="myVariable" bfValue="3" [a11yOn]="true"></bf-radio>
-    </div>
-  </div>
-</div>
 
 
 <!--CSS Styling-->
 <div class="row marT40">
   <div class="col-12">
     <h3>CSS Styling</h3>
-    <p>The following SASS variables can be overridden to provide customized coloring:</p>
+    <p>Use the following SASS variables to provide a customized coloring for the checkbox:</p>
+    <pre class="padL30">{{ cssColors }}</pre>
+    <p>The radio button coloring can be also overwritten with the following:</p>
     <pre class="padL30">{{ cssReset }}</pre>
   </div>
 </div>

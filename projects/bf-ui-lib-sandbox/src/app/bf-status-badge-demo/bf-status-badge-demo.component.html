@@ -45,9 +45,11 @@
       </div>
       <div class="row marT15">
         <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasLabel" (ngModelChange)="upComp()" bfLabel="Add Label"></bf-checkbox> </div>
-        <div class="col-5" *ngIf="compConf.hasLabel"><bf-radio [(ngModel)]="compConf.isSingleLabel" bfLabel="Single" [bfValue]="true" (ngModelChange)="upComp(); setList()"></bf-radio></div>
-        <div class="col-5" *ngIf="compConf.hasLabel"><bf-radio [(ngModel)]="compConf.isSingleLabel" bfLabel="Multiple" [bfValue]="false" (ngModelChange)="setList()"></bf-radio></div>
-        <div class="col-10"> <bf-input [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasLabel || !compConf.isSingleLabel"></bf-input></div>
+        <bf-input class="col-8" [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()" [bfDisabled]="!compConf.hasLabel || !compConf.isSingleLabel"></bf-input>
+        <bf-radio-group class="col-2" *ngIf="compConf.hasLabel" [(ngModel)]="compConf.isSingleLabel" (ngModelChange)="upComp(); setList()">
+          <bf-radio bfLabel="Single" [bfValue]="true" ></bf-radio>
+          <bf-radio bfLabel="Multiple" [bfValue]="false"></bf-radio>
+        </bf-radio-group>
       </div>
       <div class="row marT15">
         <div class="col-2 padT5"> <bf-checkbox [(ngModel)]="compConf.hasColor" (ngModelChange)="upComp(); setColor()" bfLabel="Add Color"></bf-checkbox> </div>

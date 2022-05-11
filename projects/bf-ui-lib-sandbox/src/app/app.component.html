@@ -3,10 +3,12 @@
   <h1 routerLink="/index">BF UI Library</h1>
 
   <div class="nav-options">
-    <div>
+    <div style="display: flex; align-items: baseline; margin-top: 3px;">
       <span style="font-size: 18px;">Language:</span>
-      <bf-radio class="marL20" [(ngModel)]="lang" bfValue="en"  bfLabel="En"  (ngModelChange)="translate.changeLanguage(lang)" bfRadioGroup="lang"></bf-radio>
-      <bf-radio class="marL20" [(ngModel)]="lang" bfValue="cat" bfLabel="Cat" (ngModelChange)="translate.changeLanguage(lang)" bfRadioGroup="lang"></bf-radio>
+      <bf-radio-group class="inline white" [(ngModel)]="lang" (ngModelChange)="translate.changeLanguage(lang)">
+        <bf-radio class="marL15" bfValue="en"  bfLabel="En"></bf-radio>
+        <bf-radio                bfValue="cat" bfLabel="Cat"></bf-radio>
+      </bf-radio-group>
     </div>
 
     <div style="font-size: 18px; margin: 0 15px 0 50px;">Font Family:</div>

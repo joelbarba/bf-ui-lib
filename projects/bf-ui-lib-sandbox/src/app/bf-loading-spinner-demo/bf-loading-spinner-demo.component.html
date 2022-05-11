@@ -45,25 +45,25 @@
     <div class="col-7">
 
       <div class="row marT15">
-        <div class="col-12">
-          <bf-label bfText="Size" class="marR30"></bf-label>
-          <bf-radio [(ngModel)]="compConf.size" bfLabel="XS" bfValue="xs" (ngModelChange)="upComp()"></bf-radio>
-          <bf-radio [(ngModel)]="compConf.size" bfLabel="SM" bfValue="sm" (ngModelChange)="upComp()"></bf-radio>
-          <bf-radio [(ngModel)]="compConf.size" bfLabel="MD" bfValue="md" (ngModelChange)="upComp()"></bf-radio>
-          <bf-radio [(ngModel)]="compConf.size" bfLabel="LG" bfValue="lg" (ngModelChange)="upComp()"></bf-radio>
-          <bf-radio [(ngModel)]="compConf.size" bfLabel="XL" bfValue="xl" (ngModelChange)="upComp()"></bf-radio>
-        </div>
+        <bf-radio-group class="inline col-12" bfLabel="Size" [(ngModel)]="compConf.size" (ngModelChange)="upComp()">
+          <bf-radio bfLabel="XS" bfValue="xs"></bf-radio>
+          <bf-radio bfLabel="SM" bfValue="sm"></bf-radio>
+          <bf-radio bfLabel="MD" bfValue="md"></bf-radio>
+          <bf-radio bfLabel="LG" bfValue="lg"></bf-radio>
+          <bf-radio bfLabel="XL" bfValue="xl"></bf-radio>
+        </bf-radio-group>
       </div>
 
       <div class="row marT15">
         <div class="col-2"> <bf-checkbox [(ngModel)]="compConf.isCenter" (ngModelChange)="upComp()" bfLabel="Is Centered"></bf-checkbox> </div>
-        <div class="col-10" [hidden]="!compConf.isCenter">
-          <bf-radio bfRadioGroup="center" [(ngModel)]="compConf.centerPos" bfLabel="Center" bfValue="center" (ngModelChange)="upComp()"></bf-radio>
-          <bf-radio bfRadioGroup="center" [(ngModel)]="compConf.centerPos" bfLabel="Top" bfValue="center-top" (ngModelChange)="upComp()"></bf-radio>
-          <bf-radio bfRadioGroup="center" [(ngModel)]="compConf.centerPos" bfLabel="Left" bfValue="center-left" (ngModelChange)="upComp()"></bf-radio>
-          <bf-radio bfRadioGroup="center" [(ngModel)]="compConf.centerPos" bfLabel="Right" bfValue="center-right" (ngModelChange)="upComp()"></bf-radio>
-          <bf-radio bfRadioGroup="center" [(ngModel)]="compConf.centerPos" bfLabel="Bottom" bfValue="center-bottom" (ngModelChange)="upComp()"></bf-radio>
-        </div>
+        <bf-radio-group class="inline"
+                        [hidden]="!compConf.isCenter"
+                        [(ngModel)]="compConf.centerPos" (ngModelChange)="upComp()">
+          <bf-radio bfLabel="Top"    bfValue="center-top"></bf-radio>
+          <bf-radio bfLabel="Left"   bfValue="center-left"></bf-radio>
+          <bf-radio bfLabel="Right"  bfValue="center-right"></bf-radio>
+          <bf-radio bfLabel="Bottom" bfValue="center-bottom"></bf-radio>
+        </bf-radio-group>
       </div>
 
       <div class="marT25">
@@ -114,10 +114,11 @@
 
   <div class="col-4">
     <div class="marB20">
-      <bf-label bfText="Use it as a" class="marR30"></bf-label>
-      <bf-radio [(ngModel)]="compConf.triggerType" bfLabel="Promise"    bfValue="promise"     (ngModelChange)="upComp2()"></bf-radio>
-      <bf-radio [(ngModel)]="compConf.triggerType" bfLabel="Boolean"    bfValue="boolean"     (ngModelChange)="upComp2()"></bf-radio>
-      <bf-radio [(ngModel)]="compConf.triggerType" bfLabel="Observable" bfValue="observable"  (ngModelChange)="upComp2()"></bf-radio>
+      <bf-radio-group class="inline" bfLabel="Use it as a" [(ngModel)]="compConf.triggerType" (ngModelChange)="upComp2()">
+        <bf-radio bfLabel="Promise"    bfValue="promise"   ></bf-radio>
+        <bf-radio bfLabel="Boolean"    bfValue="boolean"   ></bf-radio>
+        <bf-radio bfLabel="Observable" bfValue="observable"></bf-radio>
+      </bf-radio-group>
     </div>
 
     <div [show]="compConf.triggerType === 'promise'">
