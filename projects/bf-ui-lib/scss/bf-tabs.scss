@@ -1,0 +1,42 @@
+@import 'variables';
+
+$inactive-tab-color: $white;
+$inactive-tab-bg: $primary_color;
+$active-tab-color: $white;
+$active-tab-bg: darken($primary_color, 15%);
+
+$inactive-inner-tab-color: $grey;
+$active-inner-tab-color: $primary_color;
+
+.tabs {
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  list-style: none;
+  .tab-item {
+
+    flex: 1 0;
+    padding: 11px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: 300;
+    line-height: 20px;
+    letter-spacing: 1px;
+    color: $inactive-tab-color;
+    background: $inactive-tab-bg;
+    border-right: 2px solid $inactive-tab-color;
+
+    &:first-child {
+      border-top-left-radius: 3px;
+    }
+    &:last-child {
+      border-top-right-radius: 3px;
+    }
+    &.active {
+      color: $active-tab-color;
+      box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+      background: $active-tab-bg;
+    }
+  }
+
+}

@@ -1,0 +1,10 @@
+<ul class="tabs">
+  <li *ngFor="let tab of bfTabs"
+      (click)="selectTab(tab)"
+      [class.active]="tab.active"
+      [ngbTooltip]="tab.tooltip"
+      class="tab-item">
+    <span *ngIf="tab.icon" [ngClass]="tab.icon"></span>
+    <span *ngIf="tab.label" [class.ml-2]="!!tab.icon">{{tab.label}}</span>
+  </li>
+</ul>
