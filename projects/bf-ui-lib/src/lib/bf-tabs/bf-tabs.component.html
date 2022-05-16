@@ -1,10 +1,18 @@
 <ul class="tabs">
   <li *ngFor="let tab of bfTabs"
+      role="link"
+      class="tab-item"
       (click)="selectTab(tab)"
+      (keydown)="keyDown($event, tab)"
+      [attr.tabindex]="tab.active ? '0': '-1'"
+      [attr.aria-label]="tab.tooltip"
       [class.active]="tab.active"
       [ngbTooltip]="tab.tooltip"
-      class="tab-item">
-    <span *ngIf="tab.icon" [ngClass]="tab.icon"></span>
-    <span *ngIf="tab.label" [class.ml-2]="!!tab.icon">{{tab.label}}</span>
+      container="body"
+      #tabElement>
+    <span *ngIf="tab.icon"
+          [ngClass]="tab.icon"></span>
+    <span *ngIf="tab.label"
+          [class.ml-2]="!!tab.icon">{{tab.label}}</span>
   </li>
 </ul>

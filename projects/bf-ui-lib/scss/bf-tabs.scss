@@ -1,12 +1,5 @@
 @import 'variables';
 
-$inactive-tab-color: $white;
-$inactive-tab-bg: $primary_color;
-$active-tab-color: $white;
-$active-tab-bg: darken($primary_color, 15%);
-
-$inactive-inner-tab-color: $grey;
-$active-inner-tab-color: $primary_color;
 
 .tabs {
   margin: 0px;
@@ -22,20 +15,21 @@ $active-inner-tab-color: $primary_color;
     font-weight: 300;
     line-height: 20px;
     letter-spacing: 1px;
-    color: $inactive-tab-color;
-    background: $inactive-tab-bg;
-    border-right: 2px solid $inactive-tab-color;
+    color: $white;
+    background: $primary_color;
+    border-right: 2px solid white !important;
 
     &:first-child {
       border-top-left-radius: 3px;
     }
+
     &:last-child {
       border-top-right-radius: 3px;
+      border-right: none !important;
     }
+
     &.active {
-      color: $active-tab-color;
-      box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
-      background: $active-tab-bg;
+      background: darken($primary_color, 15%);
     }
   }
 
