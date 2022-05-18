@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
 
 export interface BfTab {
   id: string | number;
@@ -13,18 +13,13 @@ export interface BfTab {
   templateUrl: './bf-tabs.component.html',
   styleUrls: []
 })
-export class BfTabsComponent implements OnChanges {
+export class BfTabsComponent {
 
   @Input() bfTabs: BfTab[];
   @Output() tabSelected: EventEmitter<BfTab> = new EventEmitter();
   @ViewChildren('tabElement') tabElements: QueryList<ElementRef>;
 
   constructor() { }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
-  }
-
 
   selectTab(tab: BfTab) {
     this.bfTabs.forEach(tab => tab.active = false);
