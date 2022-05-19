@@ -218,7 +218,7 @@ describe('BfMultiSelectorComponent', () => {
       expect(getOptionRows().length).toBe(2);
 
       // Click the first dropdown item
-      getOptionRowsDe()[0].parent.triggerEventHandler('keydown', { code: 'Enter', preventDefault: () => {} });
+      getOptionRowsDe()[0].parent.triggerEventHandler('mousedown', { code: 'Enter', preventDefault: () => {} });
       detectChanges();
 
       // Selected item should show up as selected
@@ -317,7 +317,7 @@ describe('BfMultiSelectorComponent', () => {
       expect(getOptionRows().length).toBe(2);
 
       // Click the first dropdown item
-      getOptionRowsDe()[0].parent.triggerEventHandler('keydown', { code: 'Enter', preventDefault: () => {} });
+      getOptionRowsDe()[0].parent.triggerEventHandler('mousedown', { code: 'Enter', preventDefault: () => {} });
       detectChanges();
 
       comp.bfList = [
@@ -343,7 +343,7 @@ describe('BfMultiSelectorComponent', () => {
       detectChanges();
 
       // Click the first dropdown item
-      getOptionRowsDe()[0].parent.triggerEventHandler('keydown', { code: 'Enter', preventDefault: () => {} });
+      getOptionRowsDe()[0].parent.triggerEventHandler('mousedown', { code: 'Enter', preventDefault: () => {} });
       detectChanges();
 
       // Selected item should show up as selected

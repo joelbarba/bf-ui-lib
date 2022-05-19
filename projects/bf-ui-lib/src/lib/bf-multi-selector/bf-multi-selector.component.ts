@@ -662,13 +662,7 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
   };
 
   // Select item into the selected list
-  public selectItem = (selectedObj: any, event?: KeyboardEvent) => {
-    if(!!event && (event.code !== 'Enter' && event.code !== 'Space')) return;
-
-    if(!!event) {
-      event.preventDefault();
-    }
-
+  public selectItem = (selectedObj: any) => {
     if (selectedObj !== this.emptyItem && selectedObj !== null && selectedObj !== undefined) {
       this.bfModel.push(selectedObj);
     }
