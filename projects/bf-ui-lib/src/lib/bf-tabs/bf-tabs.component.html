@@ -5,14 +5,14 @@
       (click)="selectTab(tab)"
       (keydown)="keyDown($event, tab)"
       [attr.tabindex]="tab.active ? '0': '-1'"
-      [attr.aria-label]="tab.tooltip"
+      [attr.aria-label]="tab.tooltip | getLabel$ | async"
       [class.active]="tab.active"
-      [ngbTooltip]="tab.tooltip"
+      [ngbTooltip]="tab.tooltip | getLabel$ | async"
       container="body"
       #tabElement>
     <span *ngIf="tab.icon"
           [ngClass]="tab.icon"></span>
     <span *ngIf="tab.label"
-          [class.ml-2]="!!tab.icon">{{tab.label}}</span>
+          [class.ml-2]="!!tab.icon">{{tab.label | getLabel$ | async}}</span>
   </li>
 </ul>
