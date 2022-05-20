@@ -27,6 +27,7 @@ const routes: Routes = [
   { path: 'bf-input/controls',        component: BfInputControlsDemoComponent              },
   { path: 'bf-input/autofill',        component: BfInputAutofillDemoComponent              },
 
+  { path: docs.BfTabsDoc.name,              component: docs.BfTabsDoc.demoComp             },
   { path: docs.BfTextareaDoc.name,          component: docs.BfTextareaDoc.demoComp         },
   { path: docs.BfDropdownDoc.name,          component: docs.BfDropdownDoc.demoComp         },
   { path: docs.BfLazyDropdownDoc.name,      component: docs.BfLazyDropdownDoc.demoComp     },

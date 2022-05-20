@@ -72,6 +72,7 @@ import { ListControllerDemoComponent } from './bf-list-controller-demo/bf-list-c
 import { BfIntersectionObserverDemoComponent } from './bf-intersection-observer-demo/bf-intersection-observer-demo.component';
 import { TimePickerDemoComponent } from './bf-time-picker-demo/bf-time-picker-demo.component';
 import { BfKeypadDemoComponent } from './bf-keypad-demo/bf-keypad-demo.component';
+import { BfTabsDemoComponent } from './bf-tabs-demo/bf-tabs-demo.component';
 
 @NgModule({
     declarations: [
@@ -140,7 +141,8 @@ import { BfKeypadDemoComponent } from './bf-keypad-demo/bf-keypad-demo.component
         BfIntersectionObserverDemoComponent,
         TimePickerDemoComponent,
         BfKeypadDemoComponent,
-        BfDotBadgeDemoComponent
+        BfDotBadgeDemoComponent,
+        BfTabsDemoComponent
     ],
     imports: [
         BrowserModule,

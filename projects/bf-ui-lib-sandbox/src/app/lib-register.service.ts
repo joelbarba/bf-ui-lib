@@ -1,7 +1,7 @@
-import { BfLazyDropdownDoc } from './bf-lazy-dropdown-demo/bf-lazy-dropdown-demo.component';
 import { Injectable } from '@angular/core';
 import * as docs from './doc-demos-list';
 export const compList = [
+  docs.BfTabsDoc,
   docs.BfBtnDoc,
   docs.BfLabelDoc,
   docs.BfInputDoc,
@@ -9,7 +9,7 @@ export const compList = [
   docs.BfDropdownDoc,
   docs.BfAutocompleteDoc,
   docs.BfMultiSelectorDoc,
-  BfLazyDropdownDoc,
+  docs.BfLazyDropdownDoc,
   docs.BfSwitchDoc,
   docs.BfCheckboxDoc,
   docs.BfDualCheckboxDoc,

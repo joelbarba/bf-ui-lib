@@ -1,0 +1,36 @@
+@import 'variables';
+
+
+.tabs {
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  list-style: none;
+  .tab-item {
+
+    flex: 1 0;
+    padding: 11px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: 300;
+    line-height: 20px;
+    letter-spacing: 1px;
+    color: $white;
+    background: $primary_color;
+    border-right: 2px solid $white !important;
+
+    &:first-child {
+      border-top-left-radius: 3px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 3px;
+      border-right: none !important;
+    }
+
+    &.active {
+      background: darken($primary_color, 15%);
+    }
+  }
+
+}

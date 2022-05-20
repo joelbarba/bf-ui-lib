@@ -37,7 +37,6 @@ export { BfSectionHeaderDoc } from './bf-section-header-demo/bf-section-header-d
 export { BfDndDemoDoc } from './bf-dnd-demo/bf-dnd-demo.component';
 export { BfListCheckboxDoc } from './bf-list-checkbox-demo/bf-list-checkbox-demo.component';
 export { BfListSelectionDoc } from './bf-list-selection-demo/bf-list-selection-demo.component';
-import { BfColorPickerDoc } from './bf-color-picker-demo/bf-color-picker-demo.component';
 export { BfLazyDropdownDoc } from './bf-lazy-dropdown-demo/bf-lazy-dropdown-demo.component';
 export { BfExpandableListDoc } from './bf-expandable-list-demo/bf-expandable-list-demo.component';
 export { BfCollapseDoc } from './bf-collapse-demo/bf-collapse-demo.component';
@@ -45,4 +44,4 @@ export { ListControllerDoc } from './bf-list-controller-demo/bf-list-controller-
 export { BfIntersectionObserverDoc } from './bf-intersection-observer-demo/bf-intersection-observer-demo.component';
 export { BfTimePickerDoc } from './bf-time-picker-demo/bf-time-picker-demo.component';
 export { BfKeypadDoc } from './bf-keypad-demo/bf-keypad-demo.component';
-
+export { BfTabsDoc } from './bf-tabs-demo/bf-tabs-demo.component';

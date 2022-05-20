@@ -1,0 +1,31 @@
+<!-- bf-tabs = 'bf-btn' -->
+
+<h2>{{name}}</h2>
+<hr />
+<h5>{{desc}}</h5>
+
+<h5 class="mt-4">Parameters:</h5>
+<div class="col-12">
+  <pre>{{api}}</pre>
+</div>
+
+
+<!--bf-tabs Customization-->
+<div class="whiteBg">
+  <div class="col-12 marB15">
+    <h5 class="marB25">bf-tabs Customization:</h5>
+    <div class="marB20">
+      <bf-tabs [(bfTabs)]="tabs"></bf-tabs>
+    </div>
+    <div>
+      <div class="code-box pad15">
+        <pre>{{customCompCode}}</pre>
+        <hr>
+        <pre>{{tabs | json}}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
