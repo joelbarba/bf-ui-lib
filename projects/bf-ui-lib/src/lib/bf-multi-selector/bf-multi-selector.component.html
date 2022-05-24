@@ -103,8 +103,7 @@
           [attr.aria-selected]="isActiveDescendant(item.$activeId)"
           (mouseenter)="setItemActive($event)"
           (mouseleave)="setItemActive(null)"
-          (keydown)="selectItem(item, $event)"
-          (click)="selectItem(item)"
+          (mousedown)="selectItem(item)"
           #optionRow>
           <div
             class="option-row"
