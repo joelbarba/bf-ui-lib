@@ -13,8 +13,8 @@ export class BfModalHeaderComponent  {
 
   constructor() { }
 
-  close() {
+  close(evt) {
+    evt.preventDefault();
     this.bfClose.emit();
   }
-
 }
