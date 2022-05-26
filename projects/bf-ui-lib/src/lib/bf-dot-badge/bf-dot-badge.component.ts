@@ -1,5 +1,5 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ColourType } from './abstractions/types/colour.type';
@@ -14,6 +14,7 @@ export class BfDotBadgeComponent implements OnInit, OnChanges, OnDestroy {
   @Input() bfType: ColourType;
   @Input() bfText: string = '';
   @Input() bfBreakpoint: number = 992;
+  @Input() bfTabIndex = 0;
 
   /**
    * Specific background color of the dot as hex value
@@ -39,6 +40,7 @@ export class BfDotBadgeComponent implements OnInit, OnChanges, OnDestroy {
 
   constructor(
     private readonly _breakpointObserver: BreakpointObserver,
+    public elementRef: ElementRef
   ) { }
 
   _subscribeToBreakpoints() {
