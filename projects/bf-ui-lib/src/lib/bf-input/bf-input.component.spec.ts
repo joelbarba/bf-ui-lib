@@ -1,6 +1,6 @@
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { BfInputComponent } from './bf-input.component';
 import { TestingModule } from '../../testing/testing-module';
@@ -78,7 +78,7 @@ describe('BfInputComponent', () => {
   });
 
   it('should refresh the addon tooltip', fakeAsync(() => {
-    const fakeFn = { open: () => {}, close: () => {} };
+    const fakeFn = { open: () => {}, close: () => {} } as NgbTooltip;
     spyOn(fakeFn, 'open');
     spyOn(fakeFn, 'close');
     component.refreshTooltip(fakeFn);
@@ -86,4 +86,46 @@ describe('BfInputComponent', () => {
     tick();
     expect(fakeFn.open).toHaveBeenCalled();
   }));
+
+  describe('Left/Right Button', () => {
+    const mockTip = { open: () => {}, close: () => {} } as NgbTooltip;
+
+    it('should emit the right click event', () => {
+      const rightClickSpy = spyOn(component.bfRightBtnClick, 'emit');
+
+      component.bfRightClick(mockTip);
+
+      expect(rightClickSpy).toHaveBeenCalled();
+    });
+
+    it('should emit the left click event', () => {
+      const leftClickSpy = spyOn(component.bfLeftBtnClick, 'emit');
+
+      component.bfLeftClick(mockTip);
+
+      expect(leftClickSpy).toHaveBeenCalled();
+    });
+
+    it('should return the correct aria label for right button', () => {
+      component.bfRightBtnText = 'right';
+
+      expect(component.getRightClickAriaLabel()).toBe('right');
+
+      component.bfRightBtnText = '';
+      component.bfRightBtnTooltip = 'right tooltip';
+
+      expect(component.getRightClickAriaLabel()).toBe('right tooltip');
+    });
+
+    it('should return the correct aria label for left button', () => {
+      component.bfLeftBtnText = 'left';
+
+      expect(component.getLeftClickAriaLabel()).toBe('left');
+
+      component.bfLeftBtnText = '';
+      component.bfLeftBtnTooltip = 'left tooltip';
+
+      expect(component.getLeftClickAriaLabel()).toBe('left tooltip');
+    });
+  })
 });

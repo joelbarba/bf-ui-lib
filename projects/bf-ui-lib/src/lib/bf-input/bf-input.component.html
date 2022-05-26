@@ -48,12 +48,12 @@
        triggers="hover" container="body" [disableTooltip]="!bfDisabled || !bfDisabledTip" placement="top"
        [ngbTooltip]="bfDisabledTipTrans$ | async">
 
-    <div class="input-group-prepend" *ngIf="!!bfLeftBtnIcon || !!bfLeftBtnText"
-         (click)="bfLeftBtnClick.emit($event); refreshTooltip(btnTipL)"
-         #btnTipL="ngbTooltip" [ngbTooltip]="bfLeftBtnTooltip | getLabel$ | async"
-         autoClose="inside" placement="left" container="body">
+    <div class="input-group-prepend" *ngIf="!!bfLeftBtnIcon || !!bfLeftBtnText">
 
-      <button class="btn btn-outline-secondary" tabIndex="-1">
+      <button class="btn btn-outline-secondary" 
+        (click)="bfLeftClick(btnTipL)" #btnTipL="ngbTooltip" [ngbTooltip]="bfLeftBtnTooltip | getLabel$ | async"
+        autoClose="inside" placement="left" container="body"
+        [tabindex]="bfLeftBtnTabIndex" [attr.aria-label]="getLeftClickAriaLabel() | getLabel$ | async">
         <div [class]="bfLeftBtnIcon" [hidden]="!bfLeftBtnIcon"></div>
         <div [hidden]="!bfLeftBtnText">{{bfLeftBtnText}}</div>
       </button>
@@ -85,12 +85,11 @@
            (blur)="bfOnBlur.emit()"
     />
 
-    <div class="input-group-append" *ngIf="!!bfRightBtnIcon || !!bfRightBtnText"
-         (click)="bfRightBtnClick.emit($event); refreshTooltip(btnTipR)"
-         #btnTipR="ngbTooltip" [ngbTooltip]="bfRightBtnTooltip | getLabel$ | async"
-         autoClose="inside" placement="right" container="body">
-
-      <button class="btn btn-outline-secondary" tabIndex="-1">
+    <div class="input-group-append" *ngIf="!!bfRightBtnIcon || !!bfRightBtnText">
+      <button class="btn btn-outline-secondary" (click)="bfRightClick(btnTipRight)"
+      #btnTipRight="ngbTooltip" [ngbTooltip]="bfRightBtnTooltip | getLabel$ | async"
+      autoClose="inside" placement="right" container="body"
+      [tabindex]="bfRightBtnTabIndex" [attr.aria-label]="getRightClickAriaLabel() | getLabel$ | async">
         <div [class]="bfRightBtnIcon" [hidden]="!bfRightBtnIcon"></div>
         <div [hidden]="!bfRightBtnText">{{bfRightBtnText}}</div>
       </button>
