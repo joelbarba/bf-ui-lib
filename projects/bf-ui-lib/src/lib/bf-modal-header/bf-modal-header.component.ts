@@ -13,8 +13,8 @@ export class BfModalHeaderComponent  {
 
   constructor() { }
 
-  close() {
+  close(evt: KeyboardEvent | MouseEvent) {
+    evt.preventDefault();
     this.bfClose.emit();
   }
-
 }
