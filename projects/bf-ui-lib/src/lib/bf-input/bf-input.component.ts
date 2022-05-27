@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, forwardRef} from '@angular/core';
+import { Component, Input, Output, EventEmitter, forwardRef, ViewChildren} from '@angular/core';
 import { OnInit, OnChanges, AfterViewInit, OnDestroy} from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
 import { FormControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -9,6 +9,7 @@ import { PositionType } from '../abstractions/types/position.type';
 import {Patterns} from '../patterns';
 import {BfDefer} from '../bf-defer/bf-defer';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 export interface IbfInputCtrl {
   getControl  ?: { _: FormControl };
@@ -92,9 +93,12 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   @Input() bfInvalidIcon = 'icon-warning22'; // Icon to show when the value is dirty and invalid (by default icon-warning22)
   @Input() bfErrorOnPristine = false; // If true, errors will be shown in pristine state too (by default pristine shows as valid always)
 
-  @Input() bfImage;
+  @Input() bfImage: string;
   @Input() BfImageAltText = '';
   @Input() bfImageHidden = true;
+
+  @Input() bfRightBtnTabIndex = -1;
+  @Input() bfLeftBtnTabIndex = -1;
 
   @Output() bfLeftBtnClick = new EventEmitter<any>();   // Emitter for left addon button
   @Output() bfRightBtnClick = new EventEmitter<any>();  // Emitter for right addon button
@@ -467,8 +471,26 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
     return `${component}-${hexString}`;
   }
 
-  public refreshTooltip = (btnTip) => {
+  public refreshTooltip = (btnTip: NgbTooltip) => {
     btnTip.close();
     setTimeout(() => btnTip.open());
+  }
+
+  bfLeftClick(btnTipLeft: NgbTooltip) {
+    this.bfLeftBtnClick.emit(); 
+    this.refreshTooltip(btnTipLeft);
+  }
+
+  bfRightClick(btnTipRight: NgbTooltip) {
+    this.bfRightBtnClick.emit(); 
+    this.refreshTooltip(btnTipRight);
+  }
+
+  getRightClickAriaLabel(): string {
+    return this.bfRightBtnText || this.bfRightBtnTooltip;
+  }
+
+  getLeftClickAriaLabel(): string {
+    return this.bfLeftBtnText || this.bfLeftBtnTooltip;
   }
 }
