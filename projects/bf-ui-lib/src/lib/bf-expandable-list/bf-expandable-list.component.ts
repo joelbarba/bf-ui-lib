@@ -1,4 +1,4 @@
-import { Component, HostBinding, HostListener, Input, OnChanges } from '@angular/core';
+import { Component, ElementRef, HostBinding, HostListener, Input, OnChanges } from '@angular/core';
 import { BfUILibTransService } from '../abstract-translate.service';
 
 @Component({
@@ -19,7 +19,8 @@ export class BfExpandableListComponent implements OnChanges {
   public get IsExpanded() { return !this.isCollapsed; }
 
   constructor(
-    private _translate: BfUILibTransService
+    private _translate: BfUILibTransService,
+    public elementRef: ElementRef
   ) {}
 
   ngOnChanges(): void {
@@ -35,13 +36,21 @@ export class BfExpandableListComponent implements OnChanges {
     return this._translate.doTranslate(label, params);
   }
 
-  @HostListener('keydown.enter')
-  onEnterKeyDown() {
+  @HostListener('keydown.enter', ['$event'])
+  onEnterKeyDown($event: KeyboardEvent) {
+    $event.stopImmediatePropagation();
     this.isCollapsed = !this.isCollapsed;
   }
 
-  @HostListener('keydown.space')
-  onSpaceKeyDown() {
+  @HostListener('keydown.escape', ['$event'])
+  onEscapeKeyDown($event: KeyboardEvent) {
+    $event.stopImmediatePropagation();
+    this.isCollapsed = true;
+  }
+
+  @HostListener('keydown.space', ['$event'])
+  onSpaceKeyDown($event: KeyboardEvent) {
+    $event.stopImmediatePropagation();
     this.isCollapsed = !this.isCollapsed;
   }
 }
