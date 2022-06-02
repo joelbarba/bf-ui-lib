@@ -1,9 +1,10 @@
-<ul (keydown)="$event.stopImmediatePropagation()">
+<ul>
   <li *ngIf="firstItem">
     <div [innerHTML]="firstItem" class="list-txt"></div>
     <button (click)="isCollapsed = false"
             *ngIf="isCollapsed && !!expList.length"
             [attr.aria-label]="getTranslatedAriaLabel('view.common.expand')"
+            [tabIndex]="bfTabIndex"
             class="list-btn">
       <span *ngIf="bfExpandText">{{bfExpandText}}</span>
       <span *ngIf="!bfExpandText">(+{{expList.length}})</span>
@@ -11,11 +12,15 @@
     </button>
   </li>
 
-  <li *ngFor="let item of expList; let last = last" [bf-collapse]="isCollapsed" aria-live="polite">
+  <li *ngFor="let item of expList; let last = last"
+      [bf-collapse]="isCollapsed"
+      [attr.aria-hidden]="isCollapsed"
+      aria-live="polite">
     <div [innerHTML]="item" class="list-txt"></div>
     <button (click)="isCollapsed = true"
             *ngIf="last"
             [attr.aria-label]="getTranslatedAriaLabel('view.common.collapse')"
+            [tabIndex]="bfTabIndex"
             class="list-btn">
       <span class="icon-arrow-up5"></span>
     </button>
