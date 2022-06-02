@@ -1,13 +1,10 @@
-@import 'variables';
-
-
 .tabs {
   margin: 0px;
   padding: 0px;
   display: flex;
   list-style: none;
-  .tab-item {
 
+  .tab-item {
     flex: 1 0;
     padding: 11px;
     cursor: pointer;
