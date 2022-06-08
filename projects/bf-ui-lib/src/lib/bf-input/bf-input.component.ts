@@ -118,6 +118,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   @Input() inputId: string;
   @Input() bfPatternLabel: string; // used to give a hint to fill out regexp patterns, added to the label
   @Input() bfAriaLabel: string;
+  @Input() bfAriaDescribedBy: string;
 
   public autocomplete = 'off';
   public bfLabelTrans$ = of('');        // Translated text for the label
@@ -477,12 +478,12 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   }
 
   bfLeftClick(btnTipLeft: NgbTooltip) {
-    this.bfLeftBtnClick.emit(); 
+    this.bfLeftBtnClick.emit();
     this.refreshTooltip(btnTipLeft);
   }
 
   bfRightClick(btnTipRight: NgbTooltip) {
-    this.bfRightBtnClick.emit(); 
+    this.bfRightBtnClick.emit();
     this.refreshTooltip(btnTipRight);
   }
 

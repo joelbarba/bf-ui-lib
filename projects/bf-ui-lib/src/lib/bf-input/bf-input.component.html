@@ -50,7 +50,7 @@
 
     <div class="input-group-prepend" *ngIf="!!bfLeftBtnIcon || !!bfLeftBtnText">
 
-      <button class="btn btn-outline-secondary" 
+      <button class="btn btn-outline-secondary"
         (click)="bfLeftClick(btnTipL)" #btnTipL="ngbTooltip" [ngbTooltip]="bfLeftBtnTooltip | getLabel$ | async"
         autoClose="inside" placement="left" container="body"
         [tabindex]="bfLeftBtnTabIndex" [attr.aria-label]="getLeftClickAriaLabel() | getLabel$ | async">
@@ -59,8 +59,11 @@
       </button>
     </div>
 
-    <input class="form-control" [attr.name]="bfName" #ngInputRef="ngModel"
+    <input #ngInputRef="ngModel"
+           class="form-control"
            [id]="inputId"
+           [attr.name]="bfName"
+           [attr.aria-describedby]="bfAriaDescribedBy"
            [attr.aria-required]="bfRequired"
            [attr.aria-valuemin]="bfMinlength"
            [attr.aria-valuemax]="bfMaxlength"
