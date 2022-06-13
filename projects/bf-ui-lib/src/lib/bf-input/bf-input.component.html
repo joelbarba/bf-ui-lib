@@ -67,6 +67,7 @@
            [attr.aria-required]="bfRequired"
            [attr.aria-valuemin]="bfMinlength"
            [attr.aria-valuemax]="bfMaxlength"
+           [tabIndex]="bfInputTabIndex"
            attr.aria-label="{{ bfAriaLabel | getLabel$ | async }}"
            [ngModel]="bfModel" (ngModelChange)="parseModelChange($event)"
            [disabled]="bfDisabled"

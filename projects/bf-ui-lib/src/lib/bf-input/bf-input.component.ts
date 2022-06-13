@@ -97,6 +97,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   @Input() BfImageAltText = '';
   @Input() bfImageHidden = true;
 
+  @Input() bfInputTabIndex: number;
   @Input() bfRightBtnTabIndex = -1;
   @Input() bfLeftBtnTabIndex = -1;
 
@@ -161,8 +162,8 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
 
   constructor(
     private translate: BfUILibTransService,
-    private elementRef: ElementRef,
-    private liveAnnouncer: LiveAnnouncer
+    private liveAnnouncer: LiveAnnouncer,
+    public elementRef: ElementRef,
     // public ngControl: NgControl
   ) {
     // ngControl.valueAccessor = this;
