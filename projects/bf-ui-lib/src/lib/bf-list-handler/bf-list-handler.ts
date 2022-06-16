@@ -323,7 +323,10 @@ export class BfListHandler {
     if (keys1.length !== keys2.length) { return true; }
     for (const key of keys1) {
       if (!keys2.includes(key)) { return true; }
-      if (filters1[key] !== filters2[key]) { return true; }
+      if (filters1[key] !== filters2[key]) {
+        if (!Array.isArray(filters1[key]) || !Array.isArray(filters2[key])) { return true; }
+        if (filters1[key].join() !== filters2[key].join()) { return true; }
+      }
     }
     return false;
   };
