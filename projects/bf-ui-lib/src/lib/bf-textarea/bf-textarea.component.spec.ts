@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { BfTranslatePipe } from '../abstract-translate.service';
 
 import { BfTextareaComponent } from './bf-textarea.component';
 import { TestingModule } from '../../testing/testing-module';
@@ -11,7 +12,7 @@ describe('BfTextareaComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ BfTextareaComponent ],
+      declarations: [ BfTextareaComponent, BfTranslatePipe ],
       imports: [ TestingModule, FormsModule, NgbTooltipModule ],
     })
     .compileComponents();
