@@ -499,8 +499,8 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   }
 
   _announceError(message: string) {
-    console.trace();
-    console.log(message);
-    this.liveAnnouncer.announce(message, 'assertive');
+    setTimeout(() => {
+      this.liveAnnouncer.announce(message, 'assertive');
+    });
   }
 }
