@@ -499,6 +499,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   }
 
   _announceError(message: string) {
+		// If there's a form error when the component is loaded, this ensures the message will be read out after all the other elemnts (page title, input title, etc) are read out
     setTimeout(() => {
       this.liveAnnouncer.announce(message, 'assertive');
     });
