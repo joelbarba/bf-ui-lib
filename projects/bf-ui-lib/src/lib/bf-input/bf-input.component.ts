@@ -390,34 +390,36 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
 
           if (errors.required) {
             this.errorTextTrans$ = this.errTxtRequired$;
-            this.liveAnnouncer.announce(this.translate.doTranslate('view.common.required_field'));
+            this._announceError('view.common.required_field');
             this.setCurrentErrorMessage({ label: 'view.common.required_field'  });
           }
           if (errors.minlength) {
             this.errorTextTrans$ = this.translate.getLabel$('view.common.invalid_min_length', { min: this.inputCtrl.errors.minlength.requiredLength });
-            this.liveAnnouncer.announce(this.translate.doTranslate('view.common.invalid_min_length', { min: this.inputCtrl.errors.minlength.requiredLength }));
+            this._announceError('view.common.invalid_min_length', { min: this.inputCtrl.errors.minlength.requiredLength });
             this.setCurrentErrorMessage({ label: 'view.common.invalid_min_length', params: { min: this.inputCtrl.errors.minlength.requiredLength }});
           }
           if (errors.maxlength) {
             this.errorTextTrans$ = this.translate.getLabel$('view.common.invalid_max_length', { max: this.inputCtrl.errors.maxlength.requiredLength });
-            this.liveAnnouncer.announce(this.translate.doTranslate('view.common.invalid_max_length', { max: this.inputCtrl.errors.maxlength.requiredLength }));
+            this._announceError('view.common.invalid_max_length', { max: this.inputCtrl.errors.maxlength.requiredLength });
             this.setCurrentErrorMessage({ label: 'view.common.invalid_max_length', params: { max: this.inputCtrl.errors.maxlength.requiredLength }});
           }
           if (errors.pattern) {
             this.errorTextTrans$ = this.translate.getLabel$('view.common.invalid_pattern');
-            this.liveAnnouncer.announce(this.translate.doTranslate('view.common.invalid_pattern'));
+            this._announceError('view.common.invalid_pattern');
             this.setCurrentErrorMessage({ label: 'view.common.invalid_pattern' });
           }
           if (errors.label) {
             this.errorTextTrans$ = this.translate.getLabel$(errors.label, errors);
-            this.liveAnnouncer.announce(this.translate.doTranslate(errors.label, errors));
+            this._announceError(errors.label, errors);
             this.setCurrentErrorMessage({ label: errors.label, params: errors });
           }
           if (!!this.manualError && this.manualError.label) {
             this.errorTextTrans$ = this.translate.getLabel$(this.manualError.label, this.manualError);
-            this.liveAnnouncer.announce(this.translate.doTranslate(this.manualError.label, this.manualError));
+            this._announceError(this.manualError.label, this.manualError);
             this.setCurrentErrorMessage({ label: this.manualError.label, params: this.manualError });
           }
+        } else {
+          this._announceError(this.bfErrorText);
         }
       }
 
@@ -494,5 +496,12 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
 
   getLeftClickAriaLabel(): string {
     return this.bfLeftBtnText || this.bfLeftBtnTooltip;
+  }
+
+  _announceError(message: string, params?: any) {
+		// If there's a form error when the component is loaded, this ensures the message will be read out after all the other elemnts (page title, input title, etc) are read out
+    setTimeout(() => {
+      this.liveAnnouncer.announce(this.translate.doTranslate(message, params), 'assertive');
+    });
   }
 }
