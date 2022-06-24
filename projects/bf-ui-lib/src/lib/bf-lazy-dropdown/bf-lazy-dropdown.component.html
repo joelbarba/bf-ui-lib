@@ -121,11 +121,11 @@
         </div>
 
       </li>
-      <li class="loading-more" *ngIf="isLoading">
+      <li tabindex="0" class="loading-more" *ngIf="isLoading">
         <span class="loading"></span>
         <span class="marL10">{{ bfLoadingLabel | getLabel$ | async }}</span>
       </li>
-      <li class="await-filter-tip" *ngIf="isFilterPristine()">
+      <li tabindex="0" class="await-filter-tip" *ngIf="isFilterPristine()">
         <span class="icon-search"></span>
         <span class="marL10">{{ bfEmptyFilterTip | getLabel$ | async }}</span>
       </li>
