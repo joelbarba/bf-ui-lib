@@ -70,8 +70,8 @@ export class BfRadioGroupComponent implements OnChanges, OnDestroy, ControlValue
   subs = new SubSink();
 
 
-  constructor(public htmlRef: ElementRef) {
-    this.bfName = this.htmlRef.nativeElement.getAttribute('name') || `radio-group-${generateId(10)}`;
+  constructor(public readonly elementRef: ElementRef) {
+    this.bfName = this.elementRef.nativeElement.getAttribute('name') || `radio-group-${generateId(10)}`;
     this.bfLabelId = `radio-group-label-${generateId(10)}`;
   }
 
@@ -119,7 +119,7 @@ export class BfRadioGroupComponent implements OnChanges, OnDestroy, ControlValue
     const { key } = event;
     const currentRadio = this.bfRadios.find(el => el.tabIndex === 0);
     const currentIndex = this.bfRadios.toArray().indexOf(currentRadio);
-    let nextRadio;
+    let nextRadio: BfRadioComponent;
 
     if (key === 'ArrowLeft' || key === 'ArrowUp') {
       nextRadio = this.bfRadios.get(currentIndex - 1);
@@ -136,7 +136,7 @@ export class BfRadioGroupComponent implements OnChanges, OnDestroy, ControlValue
       currentRadio.tabIndex = -1;
       nextRadio.tabIndex = 0;
       nextRadio.isFocused = true;
-      nextRadio.htmlRef.nativeElement.focus();
+      nextRadio.elementRef.nativeElement.focus();
     }
   }
 
