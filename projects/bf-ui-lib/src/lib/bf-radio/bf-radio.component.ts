@@ -36,7 +36,7 @@ export class BfRadioComponent implements OnChanges {
   selectedValue$: Subject<any> = new Subject(); // Emits to the parent when the value gets selected (internally)
   value$: Subject<any> = new Subject();         // Emits when the bfValue input changes, so the parent can validate
 
-  constructor(public htmlRef: ElementRef) {
+  constructor(public readonly elementRef: ElementRef) {
     this.ariaLabel = `radio-label-${generateId(10)}`;
   }
 

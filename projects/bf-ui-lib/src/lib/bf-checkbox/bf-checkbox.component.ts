@@ -1,4 +1,4 @@
-import {Component, Input, forwardRef, OnChanges} from '@angular/core';
+import { Component, Input, forwardRef, OnChanges, ElementRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import {BfUILibTransService} from '../abstract-translate.service';
@@ -32,7 +32,10 @@ export class BfCheckboxComponent implements ControlValueAccessor, OnChanges {
   public bfLabelText$ = of('');     // Translated text for the label
   public bfTooltipTrans$ = of('');  // Translated text for the tooltip
 
-  constructor(private translate: BfUILibTransService) { }
+  constructor(
+    private readonly translate: BfUILibTransService,
+    public readonly elementRef: ElementRef
+  ) { }
 
   // ------- ControlValueAccessor -----
   writeValue(value: any) {
