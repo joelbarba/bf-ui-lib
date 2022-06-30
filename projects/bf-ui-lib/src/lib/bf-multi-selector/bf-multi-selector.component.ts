@@ -732,9 +732,8 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
   };
 
   public selectRow = (rowId: string) => {
-    const index = this.allRows.findIndex((element) => element.nativeElement.id === rowId);
-    const itemToSelect = this.extList[index];
-    this.selectItem(itemToSelect);
+    const item = this.extList.getByProp('$activeId', rowId);
+    this.selectItem(item);
     this.isExpanded = false;
     this.bfOnListCollapsed.emit();
   }
