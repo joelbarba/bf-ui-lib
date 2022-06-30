@@ -408,4 +408,30 @@ describe('BfMultiSelectorComponent', () => {
       expect(comp.renderedPlaceholder).toEqual('test');
     }));
   });
+
+  describe('selectRow()', () => {
+
+    beforeEach(() => {
+      spyOn(comp, 'selectItem');
+      comp.bfModel = [
+        {$activeId: '1'},
+        {$activeId: '3'}
+      ];
+
+      comp.extList = [
+        {$activeId: '2'},
+      ]
+    });
+
+    it('should do nothing if the item is already selected', () => {
+      comp.selectRow('3');
+      expect(comp.selectItem).not.toHaveBeenCalled();
+    });
+
+    it('should call selectItem if item not already selected', () => {
+      comp.selectRow('2');
+      expect(comp.selectItem).toHaveBeenCalledWith({ $activeId: '2' });
+    });
+  });
+
 });
