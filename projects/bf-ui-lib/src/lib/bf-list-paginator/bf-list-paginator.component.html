@@ -5,7 +5,7 @@
       <li role="button" class="page-btn prev-btn" (keydown)="previousPageClicked($event)" (click)="goToPrev()"
           [class.disabled]="isOnFirstPage()" [attr.aria-label]="getTranslatedAriaLabel('aria.list_paginator.previous_page')" [attr.disabled]="isOnFirstPage()">‹</li>
 
-      <li role="button" class="page-btn num-btn" *ngFor="let listBtn of listBtns"
+      <li role="button" class="page-btn num-btn" *ngFor="let listBtn of listBtns; trackBy: trackBy"
           [attr.aria-label]="getPageButtonAriaLabel(listBtn.pageNum)"
           [class.current]="isCurrentItem(bfCtrl.currentPage, listBtn.pageNum)"
           [class.disabled]="!listBtn.pageNum"
