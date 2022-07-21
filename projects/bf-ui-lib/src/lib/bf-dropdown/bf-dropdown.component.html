@@ -61,7 +61,7 @@
              [attr.aria-activedescendant]="getActiveDecendant()"
              attr.aria-label="{{ bfAriaLabel | getLabel$ | async }}"
              [tabindex]="bfTabIndex"
-             (focusin)="expandList()"
+             (click)="onClick()"
              (focusout)="collapseList()"
              (keydown)="triggerKey($event)"
              autocomplete="off">

@@ -574,10 +574,18 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
     }
   };
 
+  onClick() {
+    if (this.isExpanded) {
+      this.collapseList();
+    } else {
+      this.expandList();
+    }
+  }
+
   // React on key events (on the input)
   public triggerKey = (event: KeyboardEvent) => {
-
     if (event.key === 'Escape') {
+      event.preventDefault();
       this.isExpanded = false;
       this.inputText = this.selModelText; // Take back the selected text
       this.bfOnListCollapsed.emit();
