@@ -72,5 +72,12 @@ describe('BfBtnComponent', () => {
     expect(component.btnIcon).toBe('icon-arrow-down3');
   });
 
+  describe('focus()', () => {
+    it('should set focus on the button', () => {
+      const btnSpy = spyOn(component._btn.nativeElement, 'focus');
+      component.focus();
+      expect(btnSpy).toHaveBeenCalled();
+    });
+  });
 });
 
