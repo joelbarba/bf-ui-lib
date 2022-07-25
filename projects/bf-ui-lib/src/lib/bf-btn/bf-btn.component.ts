@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { BfUILibTransService } from '../abstract-translate.service';
 import { BfArray } from '../bf-prototypes/bf-prototypes';
@@ -9,6 +9,8 @@ import { BfBtnType } from './abstractions/types/bf-btn.type';
   templateUrl: './bf-btn.component.html',
 })
 export class BfBtnComponent implements OnInit, OnChanges {
+  @ViewChild('bfBtn') _btn: ElementRef<HTMLButtonElement>;
+
   @Input() bfAsyncPromise: Promise<any>;
   @Input() bfAsyncClick;
 
@@ -151,6 +153,10 @@ export class BfBtnComponent implements OnInit, OnChanges {
 
     this.bfClick.emit($event);
   };
+
+  focus() {
+    this._btn.nativeElement.focus();
+  }
 
 }
 
