@@ -84,6 +84,10 @@ export class BfBtnComponent implements OnInit, OnChanges {
         this.textLabel = typeText;
         this.bfTextTrans$ = this.translate.getLabel$(this.textLabel);
       }
+
+      if(onlyIcon && !this.bfTooltip && !this.bfAriaLabel) {
+        this.bfAriaLabel = this.translate.getLabel$(typeText);
+      }
     }
 
     // Generate new observables for the dynamic text
