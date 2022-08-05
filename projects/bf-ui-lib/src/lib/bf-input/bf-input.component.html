@@ -71,6 +71,7 @@
            attr.aria-label="{{ bfAriaLabel | getLabel$ | async }}"
            [ngModel]="bfModel" (ngModelChange)="parseModelChange($event)"
            [disabled]="bfDisabled"
+           [readOnly]="bfReadOnly"
            title=""
            [class.is-numeric]="this.bfType === 'number'"
 

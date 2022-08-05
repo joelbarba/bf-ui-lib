@@ -57,6 +57,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   @Input() bfRequired = false;     // It adds the required validator to the ngModel (input), meaning that the required field styles will be applied on the label and input.
   @Input() bfDisabled = false;     // True=Input disabled. False=Input enabled.
   @Input() bfPlaceholder = '';     // It adds a placeholder text onto the input. Translation applied.
+  @Input() bfReadOnly = false;     // True=Input disabled. False=Input enabled.
 
   @Input() bfType: 'text' | 'number' | 'email' | 'password' = 'text';  // Set a type on the input (text by default)
 
@@ -191,8 +192,6 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
 
 
   ngOnChanges(change) {
-    // console.log('ngOnChanges', change);
-
     if (change.hasOwnProperty('bfValidator')) {
       this.inputCtrlDefer.promise.then(() => this.inputCtrl.updateValueAndValidity());
     }
@@ -368,6 +367,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
 
     this.bfBeforeChange.emit({ currentValue: this.bfModel, nextValue: value });
     this.bfModel = value;
+
     this.propagateModelUp(this.bfModel);
     // console.log('propagateModelUp (ngModel) -> ', this.bfModel);
   };
