@@ -5,7 +5,8 @@
   <label [attr.aria-checked]="bfModel"
          role="checkbox"
          [tabIndex]="bfTabIndex"
-         (keydown)="keyPressed($event)">
+         (keydown)="keyPressed($event)"
+         (keyup)="onKeyUp($event)">
     <input type="checkbox"
            [ngModel]="bfModel"
            (ngModelChange)="onChange($event)"
