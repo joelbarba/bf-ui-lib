@@ -1,8 +1,8 @@
-<div class="radio"
+<div class="radio" #tooltip="ngbTooltip"
      [class.is-checked]="bfValue === bfModel"
      [class.is-disabled]="isDisabled()"
      [ngbTooltip]="bfTooltip | getLabel$ | async"
-     [placement]="bfTooltipPos" triggers="hover"
+     [placement]="bfTooltipPos"
      [container]="bfTooltipBody">
 
   <input type="radio" #radioInput
