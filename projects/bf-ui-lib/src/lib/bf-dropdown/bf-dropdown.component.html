@@ -10,7 +10,7 @@
 
 <div class="form-group dropdown-form-group"
      [class.is-required]="bfRequired"
-     [class.is-disabled]="bfDisabled"
+     [class.is-disabled]="bfDisabled || bfReadOnly"
      [class.is-focus]="isFocus || isExpanded"
      [class.is-error]="showError">
 
@@ -57,6 +57,7 @@
              [class.has-icon]="!!bfModel?.$icon"
              [placeholder]="inputPlaceholder"
              [disabled]="bfDisabled"
+             [readOnly]="bfReadOnly"
              [attr.aria-controls]="bfListboxId"
              [attr.aria-activedescendant]="getActiveDecendant()"
              attr.aria-label="{{ bfAriaLabel | getLabel$ | async }}"
@@ -72,8 +73,8 @@
             [ngClass]="bfModel?.$icon">
       </span>
 
-      <div class="input-group-append" (click)="!bfDisabled && onInputBtnClick()">
-        <button class="btn btn-outline-secondary" [disabled]="bfDisabled ? 'true' : ''" tabIndex="-1" attr.aria-label="{{ 'view.common.dropdown_expand_btn_aria' | getLabel$ | async}}">
+      <div class="input-group-append" (click)="(!bfDisabled && !bfReadOnly) && onInputBtnClick()">
+        <button class="btn btn-outline-secondary" [disabled]="bfDisabled || bfReadOnly ? 'true' : ''" tabIndex="-1" attr.aria-label="{{ 'view.common.dropdown_expand_btn_aria' | getLabel$ | async}}">
           <span [hidden]="isLoading" [ngClass]="(isExpanded && expandUpward) ? 'icon-arrow-up22' : 'icon-arrow-down22'"></span>
           <!--<span [hidden]="!isLoading" class="icon-loop32 loading"></span>-->
           <span [hidden]="!isLoading" class="loading"></span>

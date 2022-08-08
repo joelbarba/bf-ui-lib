@@ -46,6 +46,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
   @Input() bfSelect = '';         // What fields need to be selected on the model (from the list object)
   @Input() bfRequired: unknown = false; // Whether the model is required (can't be empty)
   @Input() bfDisabled: unknown = false; // Whether the dropdown is disabled
+  @Input() bfReadOnly = false;
   @Input() bfDisabledTip = '';    // If dropdown disabled, tooltip to display on hover (label)
   @Input() bfOrderBy = '';        // Field (or fields separated by ,). If prefixed by '-', desc order for the field
   @Input() bfGroupBy = '';        // Group the elements of the list by this field
@@ -574,16 +575,20 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
     }
   };
 
-  onClick() {
-    if (this.isExpanded) {
-      this.collapseList();
-    } else {
-      this.expandList();
+  onClick() { 
+    if(!this._canPerformAction()) {
+      return;
     }
+
+    this.isExpanded ? this.collapseList() : this.expandList();
   }
 
   // React on key events (on the input)
   public triggerKey = (event: KeyboardEvent) => {
+    if(!this._canPerformAction()) {
+      return;
+    }
+
     if (event.key === 'Escape') {
       event.preventDefault();
       this.isExpanded = false;
@@ -627,6 +632,9 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
     }
   };
 
+  private _canPerformAction() {
+    return !this.bfReadOnly && !this.bfDisabled;
+  }
 
   public selectRow = (rowId) => {
     const index = this.allRows.findIndex((element) => element.nativeElement.id === rowId);
