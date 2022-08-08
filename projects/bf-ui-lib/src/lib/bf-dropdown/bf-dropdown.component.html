@@ -63,7 +63,8 @@
              attr.aria-label="{{ bfAriaLabel | getLabel$ | async }}"
              [tabindex]="bfTabIndex"
              (click)="onClick()"
-             (focusout)="collapseList()"
+             (focusin)="onFocus()"
+             (focusout)="onFocusOut()"
              (keydown)="triggerKey($event)"
              autocomplete="off">
 

@@ -521,6 +521,14 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
     }
   };
 
+  public onFocus(): void {
+    this.isFocus = true;
+  }
+
+  public onFocusOut(): void {
+    this.isFocus = false;
+    this.collapseList();
+  }
 
   // On input focus in -> Expand the select list
   public expandList = () => {
@@ -535,7 +543,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
     }
 
     this.bfCandidate = this.bfModel;
-    this.isFocus = true;
     this.isExpanded = true;
     this.inputText = this.bfKeepSearch ? this.searchTxt : '';  // Reset the search string
     this.filterList(this.inputText);
@@ -566,7 +573,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
   // On input focus out -> Collapse the select list
   public collapseList = () => {
     if (this.bfAutoCollapse) {
-      this.isFocus = false;
       setTimeout(() => {
         this.isExpanded = false;
         this.inputText = this.selModelText; // Take back the selected text
