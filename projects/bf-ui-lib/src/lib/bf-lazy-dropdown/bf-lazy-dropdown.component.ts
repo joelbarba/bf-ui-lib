@@ -628,21 +628,23 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
   }
 
   onInputFocusIn() {
+    this.isFocus = true; // Trigger the first fetch when it's first focused (and empty)
+
     if(!this._canPerformAction()) {
       return;
     }
 
-    this.isFocus = true; // Trigger the first fetch when it's first focused (and empty)
     if (this.status === EMPTY && this.bfFetchOn === 'focus')  { this.fetchItems(); }
     this.expandList();
   }
 
   onInputFocusOut() {
+    this.isFocus = false;
+
     if(!this._canPerformAction()) {
       return;
     }
     
-    this.isFocus = false;
     this.deferCollapse();
   }
 
