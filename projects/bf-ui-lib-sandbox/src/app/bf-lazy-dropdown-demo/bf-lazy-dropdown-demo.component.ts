@@ -82,6 +82,7 @@ $dropdown-loading-bg      : rgba($optional-color, 0.25);`;
 
     // css:
     hasFullWidth: true, hasFlat: false, extraBtn: false,
+    isReadOnly: false,
   };
   public upComp = (conf = this.conf) => {
     const br = this.brStr;

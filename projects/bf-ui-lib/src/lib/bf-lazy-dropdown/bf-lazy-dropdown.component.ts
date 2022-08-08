@@ -78,6 +78,7 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
   @Input() bfRequired: string | boolean = false; // Whether the model is required (can't be empty)
   @Input() bfDisabled: string | boolean = false; // Whether the dropdown is disabled
   @Input() bfDisabledTip = '';    // If dropdown disabled, tooltip to display on hover (label)
+  @Input() bfReadOnly: boolean = false; // Whether the dropdown is readonly
 
   @Input() bfLabel = '';          // Label to display above the dropdown
   @Input() bfTooltip = '';        // Add a badge next to the label with the tooltip to give more info
@@ -627,12 +628,20 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
   }
 
   onInputFocusIn() {
+    if(!this._canPerformAction()) {
+      return;
+    }
+
     this.isFocus = true; // Trigger the first fetch when it's first focused (and empty)
     if (this.status === EMPTY && this.bfFetchOn === 'focus')  { this.fetchItems(); }
     this.expandList();
   }
 
   onInputFocusOut() {
+    if(!this._canPerformAction()) {
+      return;
+    }
+    
     this.isFocus = false;
     this.deferCollapse();
   }
@@ -677,6 +686,10 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
   }
 
   onKeyDown(event: KeyboardEvent) { // React on key events (on the input)
+    if(!this._canPerformAction()) {
+      return;
+    }
+
     if (event.key === 'Escape')    { this.onEscKey(); }
     if (event.key === 'Tab')       { this.onTabKey(event); }
     if (event.key === 'Enter')     { event.preventDefault(); this.onEnterKey(); }
@@ -690,6 +703,10 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
       if (event.key === 'End')     { event.preventDefault(); this.activateLastItem(); }
       if (event.key === 'Home')    { event.preventDefault(); this.activateFirstItem(); }
     }
+  }
+
+  private _canPerformAction() {
+    return !this.bfReadOnly && !this.bfDisabled;
   }
 
   onEscKey() {  // Collapse the list
