@@ -1,14 +1,31 @@
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 import { BfRadioComponent } from './bf-radio.component';
 import { ElementRef, SimpleChange } from "@angular/core";
+import { TestingModule } from '../../testing/testing-module';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { BfTranslatePipe, BfUILibTransService } from '../abstract-translate.service';
+import { BfUILibTransStubService } from '../../testing/bf-ui-lib-trans-service-stub.service';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 describe('BfRadioComponent', () => {
   let comp: BfRadioComponent;
+  let fixture: ComponentFixture<BfRadioComponent>;
 
-  beforeEach(async () => {
-    const nativeEl = document.createElement('input') as HTMLInputElement;
-    const radioInput = new ElementRef(nativeEl);
-    comp = new BfRadioComponent(radioInput);
-    comp.radioInput = radioInput;
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ BfRadioComponent, BfTranslatePipe ],
+      imports: [ TestingModule, NgbTooltipModule ],
+      providers: [
+        { provide: BfUILibTransService, useClass: BfUILibTransStubService},
+        LiveAnnouncer
+      ]
+    }).compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(BfRadioComponent);
+    comp = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   describe('INIT', () => {
@@ -88,4 +105,53 @@ describe('BfRadioComponent', () => {
     });
   });
 
+
+  describe('onFocus', () => {
+    it('should open the modal if has a tooltip', () => {
+      const announcerSpy = spyOn(TestBed.inject(LiveAnnouncer), 'announce').and.callThrough();
+      const openSpy = spyOn(comp.tooltip, 'open').and.returnValue();
+
+      comp.bfTooltip = 'tooltip test';
+      comp.isFocused = true;
+
+      comp.onFocus();
+
+      fixture.detectChanges();
+      
+      expect(openSpy).toHaveBeenCalled();
+      expect(announcerSpy).toHaveBeenCalled();
+    });
+
+    it('should not open the modal if not has tooltip', () => {
+      const announcerSpy = spyOn(TestBed.inject(LiveAnnouncer), 'announce').and.callThrough();
+      const openSpy = spyOn(comp.tooltip, 'open').and.returnValue();
+      
+      comp.bfTooltip = null;
+      comp.isFocused = true;
+
+      comp.onFocus();
+
+      fixture.detectChanges();
+
+      expect(openSpy).not.toHaveBeenCalled();
+      expect(announcerSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('onFocusOut', () => {
+    it('should close the modal if has a tooltip', () => {
+      const closeSpy = spyOn(comp.tooltip, 'close').and.returnValue();
+
+      comp.bfTooltip = 'tooltip test';
+      comp.isFocused = true;
+
+      comp.onFocus();
+      fixture.detectChanges();
+
+      comp.onFocusOut();
+      fixture.detectChanges();
+      
+      expect(closeSpy).toHaveBeenCalled();
+    });
+  });
 });

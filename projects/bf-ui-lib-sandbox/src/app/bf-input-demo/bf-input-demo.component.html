@@ -40,6 +40,7 @@
                   [bfPlaceholder]="(compConf.hasPlaceholder ? compConf.placeholderText : '')"
                   [bfRequired]="compConf.isRequired"
                   [bfDisabled]="compConf.isDisabled"
+                  [bfReadOnly]="compConf.isReadOnly"
 
                   [bfErrorPos]="compConf.errorPos"
                   [bfErrorText]="compConf.errorText"
@@ -116,6 +117,11 @@
       <div class="row marT15">
         <bf-checkbox class="col-3 padT5" bfLabel="bfDisabled" [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" ></bf-checkbox>
         <bf-input class="col-9 flat" [(ngModel)]="compConf.disabledTip" bfPlaceholder="Tooltip: This input is disabled because..." (ngModelChange)="upComp()"></bf-input>
+      </div>
+
+      <!--ReadO nly-->
+      <div class="row marT15">
+        <bf-checkbox class="col-3 padT5" bfLabel="bfReadOnly" [(ngModel)]="compConf.isReadOnly" (ngModelChange)="upComp()" ></bf-checkbox>
       </div>
 
       <!--Icon-->

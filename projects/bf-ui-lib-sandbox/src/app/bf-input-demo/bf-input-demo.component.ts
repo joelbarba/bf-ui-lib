@@ -124,6 +124,7 @@ $input-valid-color     : $valid-color !default;`;
     hasPlaceholder: false, placeholderText: 'view.common.name',
     isRequired: true, hasAutoFocus: false, hasAutocomplete: true,
     isDisabled: false, disabledTip: '',
+    isReadOnly: false,
     hasIcon: false, inputIcon: 'icon-search',
     hasImage: false, inputImage: 'assets/language-flags/it.png',
     hasTooltip: false, inputTooltip: 'Hello World', inputTooltipPos: null, inputTooltipBody: false,
