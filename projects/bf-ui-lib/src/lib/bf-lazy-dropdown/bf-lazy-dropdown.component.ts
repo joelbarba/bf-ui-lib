@@ -730,7 +730,6 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
   onTabKey(event) {  // Select candidate
     if (this.isExpanded) {
       event.preventDefault();
-      this.selectItem(this.bfCandidate);
       this.collapseList();
     }
   }
