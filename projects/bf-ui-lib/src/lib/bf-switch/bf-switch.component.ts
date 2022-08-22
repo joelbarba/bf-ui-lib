@@ -1,4 +1,4 @@
-import { Component, forwardRef, HostBinding, Inject, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, forwardRef, HostBinding, Inject, Input, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BfUILibTransService } from '../abstract-translate.service';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -42,8 +42,9 @@ export class BfSwitchComponent implements ControlValueAccessor{
 
 
   constructor(
-    @Inject(BfUILibTransService) private translate: BfUILibTransService,
-    private liveAnnouncer: LiveAnnouncer
+    private readonly _translate: BfUILibTransService,
+    private readonly _liveAnnouncer: LiveAnnouncer,
+    public readonly elementRef: ElementRef
   ) {}
 
   // ------- ControlValueAccessor -----
@@ -88,8 +89,8 @@ export class BfSwitchComponent implements ControlValueAccessor{
   }
 
   announceForScreenReaders() {
-    const tooltipTranslation = this.translate.doTranslate(this.bfTooltip);
-    this.liveAnnouncer.announce(tooltipTranslation);
+    const tooltipTranslation = this._translate.doTranslate(this.bfTooltip);
+    this._liveAnnouncer.announce(tooltipTranslation);
   }
 
 }
