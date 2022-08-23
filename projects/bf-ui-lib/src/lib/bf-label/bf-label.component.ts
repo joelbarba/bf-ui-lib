@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, Output, ViewEncapsulation} from '@angular/core';
 import {BfUILibTransService} from '../abstract-translate.service';
 import {Observable, of} from 'rxjs';
+import { generateId } from '../generate-id';
 
 @Component({
   selector: 'bf-label',
@@ -11,6 +12,7 @@ import {Observable, of} from 'rxjs';
 export class BfLabelComponent implements OnChanges {
   @Input() bfText = '';
   @Input() bfRequired = false;
+  @Input() bfTabIndex = -1;
   @Input() bfValue = '';
   @Input() bfTooltip = '';
   @Input() bfValueTooltip = '';
@@ -26,8 +28,11 @@ export class BfLabelComponent implements OnChanges {
   public bfTooltipTrans$: Observable<string> = of('');     // Translated text for the tooltip of the label
   public bfValueTooltipTrans$: Observable<string> = of('');     // Translated text for the tooltip of the value
 
-  constructor(private translate: BfUILibTransService) {
+  get displayValue$() {
+    return this.bfTranslateValue ? this.bfValueTrans$ : of(this.bfValue);
   }
+
+  constructor(private translate: BfUILibTransService) {  }
 
   ngOnChanges(change) {
     if (change.hasOwnProperty('bfText'))    { this.bfTextTrans$    = this.translate.getLabel$(this.bfText); }

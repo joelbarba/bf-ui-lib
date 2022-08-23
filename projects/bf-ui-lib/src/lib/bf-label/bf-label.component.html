@@ -1,16 +1,24 @@
-<label [class.is-required]="bfRequired" *ngIf="!!bfText" [for]="bfForElementId">
-  <span class="info-badge" *ngIf="!!bfTooltip"
-       [ngbTooltip]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
-       [container]="(bfTooltipBody ? 'body' : '')">
+<label *ngIf="!!bfText" [class.is-required]="bfRequired" [for]="bfForElementId ?? bfValueId">
+  <span *ngIf="!!bfTooltip"
+        [ngbTooltip]="bfTooltipTrans$ | async"
+        [placement]="bfTooltipPos" triggers="hover"
+        [container]="(bfTooltipBody ? 'body' : '')"
+        class="info-badge">
     <span class="icon-info"></span>
   </span>
   <span>{{bfTextTrans$ | async}}</span>
   <span class="the-colon" [hidden]="(bfTextTrans$ | async) === ''">:</span>
   <span class="asterisk" [hidden]="(bfTextTrans$ | async) === ''" *ngIf="bfRequired">*</span>
 </label>
-<div class="label-value" *ngIf="bfValue !== null && bfValue !== undefined">
-  <span [ngbTooltip]="bfValueTooltipTrans$ | async" [placement]="bfValueTooltipPos" (click)="valueEvent()">
-    <span *ngIf="bfTranslateValue" >{{bfValueTrans$ | async}}</span>
-    <span *ngIf="!bfTranslateValue">{{bfValue}}</span>
+<div *ngIf="bfValue !== null && bfValue !== undefined"
+     [attr.aria-label]="(bfTextTrans$ | async) + ' ' + (displayValue$ | async)"
+     [tabIndex]="bfTabIndex"
+     (keydown.enter)="valueEvent()"
+     (keydown.space)="valueEvent()"
+     class="label-value">
+  <span [ngbTooltip]="bfValueTooltipTrans$ | async"
+        [placement]="bfValueTooltipPos"
+        (click)="valueEvent()">
+    {{displayValue$ | async}}
   </span>
 </div>
