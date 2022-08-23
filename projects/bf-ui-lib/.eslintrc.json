@@ -10,8 +10,8 @@
       ],
       "parserOptions": {
         "project": [
-          "tsconfig.lib.json",
-          "tsconfig.spec.json"
+          "projects/bf-ui-lib/tsconfig.lib.json",
+          "projects/bf-ui-lib/tsconfig.spec.json"
         ],
         "createDefaultProgram": true
       },
