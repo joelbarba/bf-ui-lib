@@ -1,7 +1,7 @@
 <ul>
   <li *ngIf="firstItem">
-    <div [innerHTML]="firstItem" class="list-txt"></div>
-    <button (click)="isCollapsed = false"
+    <div [innerHTML]="firstItem" class="list-txt"> </div>
+    <button #openBtn (click)="isCollapsed = false"
             *ngIf="isCollapsed && !!expList.length"
             [attr.aria-label]="getTranslatedAriaLabel('view.common.expand')"
             [tabIndex]="bfTabIndex"
@@ -17,7 +17,7 @@
       [attr.aria-hidden]="isCollapsed"
       aria-live="polite">
     <div [innerHTML]="item" class="list-txt"></div>
-    <button (click)="isCollapsed = true"
+    <button #closeBtn (click)="isCollapsed = true"
             *ngIf="last"
             [attr.aria-label]="getTranslatedAriaLabel('view.common.collapse')"
             [tabIndex]="bfTabIndex"
