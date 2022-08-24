@@ -84,6 +84,7 @@ is not called anymore, the component switches to a front-end filtering and behav
                           [bfRequired]="conf.isRequired"
                           [bfDisabled]="conf.isDisabled"
                           [bfDisabledTip]="conf.isDisabled ? conf.disabledTip: null"
+                          [bfReadOnly]="conf.isReadOnly"
 
                           [bfLabel]="(conf.hasLabel ? conf.bfLabel : '')"
                           [bfTooltip]="(conf.hasLabel && conf.hasTooltip ? conf.tooltipText : null)"
@@ -181,9 +182,10 @@ is not called anymore, the component switches to a front-end filtering and behav
       <!--bfRequired + bfErrorOnPristine + bfDisabled-->
       <div class="row marT15">
         <bf-checkbox class="col-2 block padT5" bfLabel="bfRequired" [(ngModel)]="conf.isRequired" (ngModelChange)="upComp()"></bf-checkbox>
-        <bf-checkbox class="col-3 block padT5" bfLabel="bfErrorOnPristine" [(ngModel)]="conf.isErrorOnPristine" (ngModelChange)="upComp()"></bf-checkbox>
+        <bf-checkbox class="col-2 block padT5" bfLabel="bfErrorOnPristine" [(ngModel)]="conf.isErrorOnPristine" (ngModelChange)="upComp()"></bf-checkbox>
         <bf-checkbox class="col-2 block padT5" bfLabel="bfDisabled" [(ngModel)]="conf.isDisabled" (ngModelChange)="upComp()"></bf-checkbox>
-        <bf-input class="col-5 flat" [(ngModel)]="conf.disabledTip" bfPlaceholder="[bfDisabledTip]: This is disabled because..." (ngModelChange)="upComp()"></bf-input>
+        <bf-input class="col-4 flat" [(ngModel)]="conf.disabledTip" bfPlaceholder="[bfDisabledTip]: This is disabled because..." (ngModelChange)="upComp()"></bf-input>
+        <bf-checkbox class="col-2 block padT5" bfLabel="bfReadOnly" [(ngModel)]="conf.isReadOnly" (ngModelChange)="upComp()"></bf-checkbox>
       </div>
 
       <!--bfLabel + bfTootltip-->

@@ -46,6 +46,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
   @Input() bfSelect = '';         // What fields need to be selected on the model (from the list object)
   @Input() bfRequired: unknown = false; // Whether the model is required (can't be empty)
   @Input() bfDisabled: unknown = false; // Whether the dropdown is disabled
+  @Input() bfReadOnly = false;
   @Input() bfDisabledTip = '';    // If dropdown disabled, tooltip to display on hover (label)
   @Input() bfOrderBy = '';        // Field (or fields separated by ,). If prefixed by '-', desc order for the field
   @Input() bfGroupBy = '';        // Group the elements of the list by this field
@@ -520,6 +521,14 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
     }
   };
 
+  public onFocus(): void {
+    this.isFocus = true;
+  }
+
+  public onFocusOut(): void {
+    this.isFocus = false;
+    this.collapseList();
+  }
 
   // On input focus in -> Expand the select list
   public expandList = () => {
@@ -534,7 +543,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
     }
 
     this.bfCandidate = this.bfModel;
-    this.isFocus = true;
     this.isExpanded = true;
     this.inputText = this.bfKeepSearch ? this.searchTxt : '';  // Reset the search string
     this.filterList(this.inputText);
@@ -565,7 +573,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
   // On input focus out -> Collapse the select list
   public collapseList = () => {
     if (this.bfAutoCollapse) {
-      this.isFocus = false;
       setTimeout(() => {
         this.isExpanded = false;
         this.inputText = this.selModelText; // Take back the selected text
@@ -574,10 +581,22 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
     }
   };
 
+  onClick() { 
+    if(!this._canPerformAction()) {
+      return;
+    }
+
+    this.isExpanded ? this.collapseList() : this.expandList();
+  }
+
   // React on key events (on the input)
   public triggerKey = (event: KeyboardEvent) => {
+    if(!this._canPerformAction()) {
+      return;
+    }
 
     if (event.key === 'Escape') {
+      event.preventDefault();
       this.isExpanded = false;
       this.inputText = this.selModelText; // Take back the selected text
       this.bfOnListCollapsed.emit();
@@ -619,6 +638,9 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
     }
   };
 
+  private _canPerformAction() {
+    return !this.bfReadOnly && !this.bfDisabled;
+  }
 
   public selectRow = (rowId) => {
     const index = this.allRows.findIndex((element) => element.nativeElement.id === rowId);

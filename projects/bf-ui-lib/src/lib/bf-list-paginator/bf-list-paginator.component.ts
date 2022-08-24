@@ -41,7 +41,7 @@ export class BfListPaginatorComponent implements OnInit, OnChanges, DoCheck {
     ]
   };
 
-  public listBtns = [];   // Buttons to display on the left (1, 2, 3 ...)
+  public listBtns: {pageNum: number}[] = [];   // Buttons to display on the left (1, 2, 3 ...)
   public prevCtrl;        // Copy of the previous bfCtrl, to detect changes
   public listLength = 0;  // Keep the previous list length to recalculate pages (internal default function)
   public renderSubs;      // Subscription to the bfCtrl.render$
@@ -212,7 +212,7 @@ export class BfListPaginatorComponent implements OnInit, OnChanges, DoCheck {
     return this.translate.doTranslate(label, params);
   }
 
-  getPageButtonAriaLabel(pageNumber: string): string {
+  getPageButtonAriaLabel(pageNumber: number): string {
     if (pageNumber !== null) {
       return this.getTranslatedAriaLabel('aria.list_paginator.go_to_page', { page: pageNumber, maxPages: this.bfCtrl.totalPages });
     }
@@ -242,6 +242,10 @@ export class BfListPaginatorComponent implements OnInit, OnChanges, DoCheck {
       this.goToPage(pageNum);
       this.refocusList();
     }
+  }
+
+  trackBy(index: number, {pageNum}: {pageNum: number}) {
+    return pageNum;
   }
 
   private isActionKeyPressed(eventKey: string): boolean {

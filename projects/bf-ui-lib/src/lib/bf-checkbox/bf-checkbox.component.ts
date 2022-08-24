@@ -1,5 +1,7 @@
-import {Component, Input, forwardRef, OnChanges} from '@angular/core';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { Component, Input, forwardRef, OnChanges, ElementRef, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of } from 'rxjs';
 import {BfUILibTransService} from '../abstract-translate.service';
 
@@ -15,10 +17,9 @@ import {BfUILibTransService} from '../abstract-translate.service';
     }
   ]
 })
-// export class BfCheckboxComponent implements OnInit {
 export class BfCheckboxComponent implements ControlValueAccessor, OnChanges {
-  // @Input() bfModel: boolean = false;
-  // @Output() bfModelChange = new EventEmitter<boolean>();
+  @ViewChild('tooltip') tooltip: NgbTooltip;
+
   public bfModel = false;
   @Input() bfLabel = '';
   @Input() bfDisabled = false;
@@ -32,7 +33,11 @@ export class BfCheckboxComponent implements ControlValueAccessor, OnChanges {
   public bfLabelText$ = of('');     // Translated text for the label
   public bfTooltipTrans$ = of('');  // Translated text for the tooltip
 
-  constructor(private translate: BfUILibTransService) { }
+  constructor(
+    private readonly translate: BfUILibTransService,
+    public readonly elementRef: ElementRef,
+    private liveAnnouncer: LiveAnnouncer
+  ) { }
 
   // ------- ControlValueAccessor -----
   writeValue(value: any) {
@@ -61,11 +66,23 @@ export class BfCheckboxComponent implements ControlValueAccessor, OnChanges {
     }
   }
 
+  onKeyUp($event: KeyboardEvent) {
+    if ($event.code === 'Tab' && this.bfTooltip) {
+      this.tooltip.open();
+      this._announceForScreenReaders();
+    }
+  }
+
   public getAriaLabel(): Observable<string> {
     if (this.bfTooltip.length > 0) {
       return this.bfTooltipTrans$;
     }
 
     return this.translate.getLabel$(this.bfAriaLabel);
+  }
+
+  private _announceForScreenReaders() {
+    const tooltipTranslation = this.translate.doTranslate(this.bfTooltip);
+    this.liveAnnouncer.announce(tooltipTranslation);
   }
 }

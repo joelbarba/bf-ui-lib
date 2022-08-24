@@ -1,3 +1,4 @@
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import {
   Component,
   ElementRef, EventEmitter,
@@ -8,7 +9,9 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {Subject} from 'rxjs';
+import { BfUILibTransService } from '../abstract-translate.service';
 import {generateId} from "../generate-id";
 
 @Component({
@@ -16,6 +19,9 @@ import {generateId} from "../generate-id";
   templateUrl: 'bf-radio.component.html',
 })
 export class BfRadioComponent implements OnChanges {
+  @ViewChild('tooltip') tooltip: NgbTooltip;
+  @ViewChild('radioInput', { static: false }) radioInput: ElementRef;
+
   @Input() bfLabel = '';
   @Input() bfIcon = '';
   @Input() bfValue: any;  // Value of the current radio (will be set to the model when selected)
@@ -25,7 +31,6 @@ export class BfRadioComponent implements OnChanges {
   @Input() bfDisabled = false;
   @Output() bfOnSelected = new EventEmitter<any>();
 
-  @ViewChild('radioInput', { static: false }) radioInput: ElementRef;
 
   bfModel: string | number;  // Value selected among the radio group
   bfName = 'group-1'; // Group name provided by the parent component <bf-radio-group>
@@ -36,7 +41,9 @@ export class BfRadioComponent implements OnChanges {
   selectedValue$: Subject<any> = new Subject(); // Emits to the parent when the value gets selected (internally)
   value$: Subject<any> = new Subject();         // Emits when the bfValue input changes, so the parent can validate
 
-  constructor(public htmlRef: ElementRef) {
+  constructor(public readonly elementRef: ElementRef,  
+    private translate: BfUILibTransService,
+    private liveAnnouncer: LiveAnnouncer) {
     this.ariaLabel = `radio-label-${generateId(10)}`;
   }
 
@@ -88,7 +95,29 @@ export class BfRadioComponent implements OnChanges {
   }
 
   // Also select the value when moving through the roving tabindex
-  @HostListener('focus') onFocus(): void { if (this.isFocused) { this.internalChange(this.bfValue); } }
+  @HostListener('focus') onFocus(): void { 
+    if (!this.isFocused) {
+      return;
+    }
+    
+    this.internalChange(this.bfValue); 
+
+    if(this.bfTooltip) {
+      this.tooltip.open();
+      this._announceForScreenReaders();
+    }
+  }
+
+  @HostListener('focusout') onFocusOut(): void { 
+    if(this.tooltip) {
+      this.tooltip.close();
+    }
+  }
+
   @HostListener('blur') onBlur(): void { this.isFocused = false; }
 
+  private _announceForScreenReaders() {
+    const tooltipTranslation = this.translate.doTranslate(this.bfTooltip);
+    this.liveAnnouncer.announce(tooltipTranslation);
+  }
 }

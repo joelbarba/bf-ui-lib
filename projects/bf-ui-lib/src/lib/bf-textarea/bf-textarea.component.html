@@ -7,7 +7,7 @@
      [class.is-focus]="isFocus"
      [class.horizontalLayoutClass]="false">
 
-  <label *ngIf="!!bfLabel" [class.is-required]="bfRequired">
+  <label *ngIf="!!bfLabel" [class.is-required]="bfRequired" [for]="textAreaId">
     <span class="info-badge" *ngIf="!!bfTooltip"
           [ngbTooltip]="bfTooltipTrans$ | async" [placement]="bfTooltipPos" triggers="hover"
           [container]="(bfTooltipBody ? 'body' : '')">
@@ -29,7 +29,14 @@
   </span>
 
   <!--[formControl]="inputCtrl"-->
-  <textarea class="form-control" name="bfTextarea" #ngInputRef="ngModel"
+  <textarea class="form-control"
+            name="bfTextarea"
+            #ngInputRef="ngModel"
+
+            [tabIndex]="bfTabIndex"
+            [attr.aria-label]="bfAriaLabel | getLabel$ | async"
+
+            [id]="textAreaId"
             [rows]="bfRows"
             [placeholder]="bfPlaceholderTrans$ | async"
             [ngModel]="bfModel" (ngModelChange)="parseModelChange($event)"

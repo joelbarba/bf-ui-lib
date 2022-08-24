@@ -3,7 +3,7 @@
      [disableTooltip]="!bfDisabled"
      [ngbTooltip]="bfDisabledTipTrans$ | async"
      [placement]="bfTooltipPos">
-  <button class="bf-btn"
+  <button class="bf-btn" #bfBtn
           (click)="btnClick($event)"
           [attr.aria-pressed]="isToggle ? bfToggle : null"
           [attr.aria-label]="bfAriaLabel"

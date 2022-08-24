@@ -837,13 +837,6 @@ describe('BfLazyDropdownComponent', () => {
       component.onTabKey(event);
       expect(component.collapseList).not.toHaveBeenCalled();
     });
-    it('should select the candidate and collapse the list', () => {
-      component.isExpanded = true;
-      component.bfCandidate = { id: '1' };
-      component.onTabKey(event);
-      expect(component.collapseList).toHaveBeenCalled();
-      expect(component.selectItem).toHaveBeenCalledWith({ id: '1' });
-    });
   });
 
   describe('activateNextItem', () => {

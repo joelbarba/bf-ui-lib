@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { BfUILibTransService } from '../abstract-translate.service';
 import { BfArray } from '../bf-prototypes/bf-prototypes';
@@ -9,6 +9,8 @@ import { BfBtnType } from './abstractions/types/bf-btn.type';
   templateUrl: './bf-btn.component.html',
 })
 export class BfBtnComponent implements OnInit, OnChanges {
+  @ViewChild('bfBtn') _btn: ElementRef<HTMLButtonElement>;
+
   @Input() bfAsyncPromise: Promise<any>;
   @Input() bfAsyncClick;
 
@@ -82,6 +84,10 @@ export class BfBtnComponent implements OnInit, OnChanges {
         this.textLabel = typeText;
         this.bfTextTrans$ = this.translate.getLabel$(this.textLabel);
       }
+
+      if(onlyIcon && !this.bfTooltip && !this.bfAriaLabel) {
+        this.bfAriaLabel = this.translate.getLabel$(typeText);
+      }
     }
 
     // Generate new observables for the dynamic text
@@ -151,6 +157,10 @@ export class BfBtnComponent implements OnInit, OnChanges {
 
     this.bfClick.emit($event);
   };
+
+  focus() {
+    this._btn.nativeElement.focus();
+  }
 
 }
 

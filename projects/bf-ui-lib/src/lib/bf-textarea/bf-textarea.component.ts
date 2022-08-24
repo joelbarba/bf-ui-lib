@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 import {BfDefer} from '../bf-defer/bf-defer';
 import {map} from 'rxjs/operators';
 import {IbfInputCtrl} from '../bf-input/bf-input.component';
+import { generateId } from '../generate-id';
 
 @Component({
   selector: 'bf-textarea',
@@ -27,10 +28,12 @@ export class BfTextareaComponent implements ControlValueAccessor, OnChanges, Aft
   public bfModel: string; // Internal to hold the linked ngModel on the wrapper
 
   @Input() bfLabel = '';
+  @Input() bfAriaLabel: string;
   @Input() bfRequired = false;
   @Input() bfDisabled = false;
   @Input() bfRows = 4;
   @Input() bfPlaceholder = '';
+  @Input() bfTabIndex: number;
 
   @Input() bfTooltip = '';
   @Input() bfTooltipPos = 'top';
@@ -58,6 +61,7 @@ export class BfTextareaComponent implements ControlValueAccessor, OnChanges, Aft
   @Output() bfOnLoaded = new EventEmitter<IbfInputCtrl>();  // Emitter to catch the moment when the component is ready (ngAfterViewInit)
   @Output() bfBeforeChange = new EventEmitter<any>();       // Emitter to catch the next value before it is set
 
+  textAreaId = 'textArea-' + generateId();
 
   public status = 'pristine';      // pristine, valid, error, loading
 

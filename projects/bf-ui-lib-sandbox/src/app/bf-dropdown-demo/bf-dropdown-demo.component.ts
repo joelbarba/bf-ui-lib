@@ -93,6 +93,7 @@ export class BfDropdownDemoComponent implements OnInit {
   public asyncList3 = [];
   public isLoading = false;
   public isDisabled = false;
+
   public loadingPromise;
   public isLoading$: Subject<boolean> = new Subject();
 
@@ -158,7 +159,7 @@ extCtrl$.next({ action: 'removeError', value: 'wrong' })`;
 
   public conf = {
     isRequired: false,
-    isDisabled: false, disabledTip: '',
+    isDisabled: false, disabledTip: '', isReadOnly: false,
     isLoading: false, isLoadingWithPromise: false, bfLoadingPromise: null,
     isErrorOnPristine: false,
     hasSelect: true,  selectField: 'username',
