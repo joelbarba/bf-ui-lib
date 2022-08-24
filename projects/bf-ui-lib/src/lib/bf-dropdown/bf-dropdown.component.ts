@@ -642,9 +642,9 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
     return !this.bfReadOnly && !this.bfDisabled;
   }
 
-  public selectRow = (rowId) => {
-    const index = this.allRows.findIndex((element) => element.nativeElement.id === rowId);
-    const itemToSelect = this.extList[index];
+  public selectRow = (rowId: string) => {
+    const itemToSelect = this.extList.find((element) => element.$activeId === rowId);
+
     this.selectItem(itemToSelect);
     this.isExpanded = false;
     this.bfOnListCollapsed.emit();
@@ -729,7 +729,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
 
   // Select an item from extList to bfModel, and propagate ngModel up
   public selectItem = (selObj, writeValue?) => {
-
     if (selObj !== this.emptyItem && selObj !== null && selObj !== undefined) {
       this.bfModel = selObj;
       this.isModelEmpty = false;
@@ -800,7 +799,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
   }
 
   public getActiveDecendant(): string {
-    return this.activeDecendent || this.getOptionId(0);
+    return this.activeDecendent;
   }
 
   public isActiveDecendant(id: string): boolean {
