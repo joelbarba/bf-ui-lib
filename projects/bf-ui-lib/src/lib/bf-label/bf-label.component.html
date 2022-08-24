@@ -1,4 +1,4 @@
-<label *ngIf="!!bfText" [class.is-required]="bfRequired" [for]="bfForElementId ?? bfValueId">
+<label *ngIf="!!bfText" [class.is-required]="bfRequired" [for]="bfForElementId">
   <span *ngIf="!!bfTooltip"
         [ngbTooltip]="bfTooltipTrans$ | async"
         [placement]="bfTooltipPos" triggers="hover"
