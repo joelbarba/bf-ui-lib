@@ -157,7 +157,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
     private elementRef: ElementRef,
     private liveAnnouncer: LiveAnnouncer
   ) {
-
     // Rerender the list labels on language change
     this.subs.langSubs = this.translate.onLangChange$.subscribe(() => this.renderExtList());
 
@@ -384,11 +383,6 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
 
     this.setEmptyOption(); // Set Empty option
     this.renderExtList(); // Set $renderedText
-
-    // set initial active decendant
-    if (this.extList[0]) {
-      this.setActiveDecendant(this.extList[0].$activeId);
-    }
   };
 
   // Add or remove the "Empty" option to the extList
