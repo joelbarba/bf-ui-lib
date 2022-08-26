@@ -616,10 +616,6 @@ describe('BfLazyDropdownComponent', () => {
       component.onInputFocusIn();
       expect(component.fetchItems).toHaveBeenCalled();
     });
-    it('should expand the list', () => {
-      component.onInputFocusIn();
-      expect(component.expandList).toHaveBeenCalled();
-    });
   });
 
   describe('onInputFocusOut', () => {

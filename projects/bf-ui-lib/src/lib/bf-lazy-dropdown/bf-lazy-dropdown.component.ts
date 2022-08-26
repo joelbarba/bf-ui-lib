@@ -635,7 +635,6 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
     }
 
     if (this.status === EMPTY && this.bfFetchOn === 'focus')  { this.fetchItems(); }
-    this.expandList();
   }
 
   onInputFocusOut() {
