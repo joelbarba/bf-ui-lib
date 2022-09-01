@@ -40,12 +40,12 @@ describe('BfDropdownComponent', () => {
   });
 
   it('should return a value for active decendant', () => {
-    component.bfListboxId = 'testListBox';
+    component.setActiveDecendant('testListBox-item-0');
     expect(component.getActiveDecendant()).toBe('testListBox-item-0');
   });
 
   it('should return true if the provided id matches the current active decendant', () => {
-    component.bfListboxId = 'testListBox';
+    component.setActiveDecendant('testListBox-item-0');
     expect(component.isActiveDecendant('testListBox-item-0')).toBe(true);
   });
 
