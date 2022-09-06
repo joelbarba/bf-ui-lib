@@ -68,7 +68,7 @@ export class BfCheckboxComponent implements ControlValueAccessor, OnChanges {
 
   onKeyUp($event: KeyboardEvent) {
     if ($event.code === 'Tab' && this.bfTooltip) {
-      this.tooltip.open();
+      this.tooltip?.open();
       this._announceForScreenReaders();
     }
   }
