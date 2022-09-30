@@ -643,8 +643,16 @@ export class BfLazyDropdownComponent implements ControlValueAccessor, OnChanges,
     if(!this._canPerformAction()) {
       return;
     }
-    
+
     this.deferCollapse();
+  }
+
+  onClick() {
+    if(!this._canPerformAction()) {
+      return;
+    }
+
+    this.isExpanded ? this.collapseList() : this.expandList();
   }
 
   onInputBtnClick() { // Click on the expand/collapse input button
