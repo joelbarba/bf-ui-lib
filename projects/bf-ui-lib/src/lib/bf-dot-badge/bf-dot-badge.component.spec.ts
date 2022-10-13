@@ -1,5 +1,4 @@
-import { BreakpointObserver } from '@angular/cdk/layout';
-import { BreakpointState } from '@angular/cdk/layout/breakpoints-observer';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { SimpleChange } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
