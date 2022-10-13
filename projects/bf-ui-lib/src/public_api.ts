@@ -69,4 +69,6 @@ export * from './lib/bf-list-controller/bf-list-controller.directive';
 export * from './lib/bf-intersection-observer/bf-intersection-observer.directive';
 export * from './lib/bf-time-picker/bf-time-picker.component';
 export * from './lib/bf-keypad/bf-keypad.component';
+export * from './lib/bf-keypad/bf-keypad-button/bf-keypad-button.component';
+
 export * from './lib/bf-tabs/bf-tabs.component';
