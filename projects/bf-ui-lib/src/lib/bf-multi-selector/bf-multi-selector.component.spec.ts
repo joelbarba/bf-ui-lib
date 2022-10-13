@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
-import { FormsModule, FormControl } from '@angular/forms';
+import { FormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { DebugElement, SimpleChange } from '@angular/core';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
@@ -50,7 +50,7 @@ describe('BfMultiSelectorComponent', () => {
 
   // Fake ngControl
   beforeEach(() => {
-    comp.ngControl = new FormControl('');
+    comp.ngControl = new UntypedFormControl('');
   });
 
   it('should create the component', () => {
@@ -249,10 +249,10 @@ describe('BfMultiSelectorComponent', () => {
     });
 
     describe('validation when an external value is provided', () => {
-      let fakeFormControl: FormControl;
+      let fakeFormControl: UntypedFormControl;
 
       beforeEach(() => {
-        fakeFormControl = new FormControl();
+        fakeFormControl = new UntypedFormControl();
       });
 
       it('should throw emptyRequired error when the formControl is empty and bfRequired is true', fakeAsync(() => {

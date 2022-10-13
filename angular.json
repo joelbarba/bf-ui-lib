@@ -164,9 +164,10 @@
       }
     }
   },
-  "defaultProject": "bf-ui-lib",
   "cli": {
     "analytics": false,
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }

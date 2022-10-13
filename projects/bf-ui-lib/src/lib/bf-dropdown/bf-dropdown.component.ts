@@ -1,6 +1,6 @@
 import {Component, OnInit, Input, Output, forwardRef, ElementRef, EventEmitter} from '@angular/core';
 import {OnChanges, OnDestroy,  AfterViewInit, ViewChild, ViewChildren} from '@angular/core';
-import {FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS} from '@angular/forms';
+import {UntypedFormControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS} from '@angular/forms';
 import BfObject from '../bf-prototypes/object.prototype';
 import BfArray from '../bf-prototypes/array.prototypes';
 import {isObservable, Observable, of, Subject, Subscription} from 'rxjs';
@@ -465,7 +465,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
   //   - After writeValue()
   //   - After propagateModelUp()
   //   - After this.ngControl.updateValueAndValidity()
-  public validate = (extFormCtrl: FormControl) => {
+  public validate = (extFormCtrl: UntypedFormControl) => {
     let result = null;  // null is valid
     this.ngControl = extFormCtrl; // Save the reference to the external form Control
 

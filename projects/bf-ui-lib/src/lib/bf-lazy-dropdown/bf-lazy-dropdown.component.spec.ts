@@ -2,7 +2,7 @@ import {BfLazyDropdownComponent} from './bf-lazy-dropdown.component';
 import {BfUILibTransService} from '../abstract-translate.service';
 import {Subject} from 'rxjs';
 import {ElementRef} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 
 
 
@@ -1178,7 +1178,7 @@ describe('BfLazyDropdownComponent', () => {
   });
 
   describe('validate', () => {
-    const extFormCtrl = new FormControl();
+    const extFormCtrl = new UntypedFormControl();
     beforeEach(() => {
       spyOn(component, 'announceError');
     });

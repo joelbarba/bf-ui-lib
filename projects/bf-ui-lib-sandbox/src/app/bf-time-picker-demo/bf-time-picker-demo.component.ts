@@ -3,7 +3,7 @@
 
 
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -48,7 +48,7 @@ export class TimePickerDemoComponent implements OnInit {
   timeStructData: NgbTimeStruct;
   timeString: string;
 
-  constructor(private _formBuilder: FormBuilder) { }
+  constructor(private _formBuilder: UntypedFormBuilder) { }
 
   ngOnInit() { }
 

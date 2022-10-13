@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { dialPadConfig } from './bf-keypad';
@@ -24,7 +24,7 @@ export class BfKeypadComponent implements OnDestroy {
   @Input() bfPlaceholder = 'view.keypad.placeholder';
   @Output() valueChanges = new EventEmitter<string>();
 
-  numberField: FormControl = new FormControl('');
+  numberField: UntypedFormControl = new UntypedFormControl('');
 
 
   readonly onDestroy$ = new Subject<void>();
