@@ -88,7 +88,7 @@
       role="listbox"
       class="list-container"
       [class.list-upward]="expandUpward"
-      [show]="isExpanded"
+      [hidden]="!isExpanded"
       [attr.aria-hidden]="!isExpanded"
       #listContainer>
       <li

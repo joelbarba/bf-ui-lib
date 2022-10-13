@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
 import { TestingModule } from '../../testing/testing-module';
@@ -7,8 +8,9 @@ describe('TimePickerComponent', () => {
   let component: BfTimePickerComponent;
   let outputSpy: jasmine.Spy;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       providers: [ BfTimePickerComponent ],
       imports: [ TestingModule ]
     });

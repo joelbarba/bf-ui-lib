@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { dialPadConfig } from '../bf-keypad';
 
@@ -9,6 +10,7 @@ describe('BfKeypadButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       declarations: [ BfKeypadButtonComponent ]
     })
     .compileComponents();
@@ -17,7 +19,7 @@ describe('BfKeypadButtonComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BfKeypadButtonComponent);
     component = fixture.componentInstance;
-    component.element = dialPadConfig[0];
+    component.keypad = dialPadConfig[0];
     fixture.detectChanges();
   });
 

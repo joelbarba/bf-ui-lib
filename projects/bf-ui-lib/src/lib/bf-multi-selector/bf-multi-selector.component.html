@@ -36,7 +36,7 @@
 
 
   <div class="dropdown"
-    [class.is-expanded]="isExpanded" 
+    [class.is-expanded]="isExpanded"
     [class.expand-upward]="expandUpward">
 
     <div class="input-group"
@@ -91,7 +91,7 @@
       role="listbox"
       class="list-container mb-0"
       [class.list-upward]="expandUpward"
-      [show]="isExpanded"
+      [hidden]="!isExpanded"
       [class.expanded]="isExpanded"
       [attr.aria-hidden]="!isExpanded"
       #listContainer>

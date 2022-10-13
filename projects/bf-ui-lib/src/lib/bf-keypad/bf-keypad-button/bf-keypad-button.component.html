@@ -1,8 +1,8 @@
-<button class="bf-keypad-button" 
-  bfLongPress 
-  bfShortPress 
-  (longPress)="onSelectSecondaryElement(element)" 
-  (shortPress)="onSelectPrimaryElement(element)">
-    <span class="bf-keypad-button--primary">{{ element.primaryElement }}</span>
-    <span class="bf-keypad-button--secondary">{{ element.secondaryElement }}</span>
+<button class="bf-keypad-button"
+  bfLongPress
+  bfShortPress
+  (longPress)="onSelectSecondaryElement(keypad)"
+  (shortPress)="onSelectPrimaryElement(keypad)">
+    <span class="bf-keypad-button--primary">{{ keypad.primaryElement }}</span>
+    <span class="bf-keypad-button--secondary">{{ keypad.secondaryElement }}</span>
 </button>
