@@ -504,7 +504,11 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
 
   // Focus on input (deferring it to next cycle)
   public deferExpand = () => {
-    setTimeout(() => this.elInput.nativeElement.focus());
+    setTimeout(() => {
+      this.elInput.nativeElement.focus();
+      this.isFocus = true;
+      this.expandList();
+    });
   };
 
   // Click on the expand/collapse input button
@@ -512,6 +516,9 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
     this.isExpanded = !this.isExpanded;
     if (this.isExpanded) {
       this.elInput.nativeElement.focus();
+      this.expandList();
+    } else {
+      this.collapseList();
     }
   };
 
@@ -575,7 +582,7 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
     }
   };
 
-  onClick() { 
+  onClick() {
     if(!this._canPerformAction()) {
       return;
     }
@@ -615,6 +622,10 @@ export class BfDropdownComponent implements ControlValueAccessor, OnChanges, Aft
         } else {
           this.selectRow(selectedElement.id);
         }
+      } else {
+        const firstElement = this.listContainer.nativeElement.children.item(0);
+        this.setActiveDecendant(firstElement.id);
+        this.selectRow(this.getActiveDecendant());
       }
     }
 
