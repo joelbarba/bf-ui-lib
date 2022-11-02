@@ -9,7 +9,7 @@ import {
   OnInit, Output,
   ViewChild
 } from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, UntypedFormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {BehaviorSubject, Observable, of, Subject, Subscription} from 'rxjs';
 import { BfUILibTransService } from '../abstract-translate.service';
 import { Patterns } from '../patterns';
@@ -332,7 +332,7 @@ export class BfAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   // NG_VALIDATORS provider triggers this validation
   // Validation to determine the outer formControl state. It propagates upward the internal state
-  validate(extFormCtrl: FormControl) {
+  validate(extFormCtrl: UntypedFormControl) {
     this.ngControl = extFormCtrl; // Save the reference to the external form Control
 
     if (this.isInvalid) {

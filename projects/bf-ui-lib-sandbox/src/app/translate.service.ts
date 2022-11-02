@@ -13,7 +13,7 @@ import localeNl from '@angular/common/locales/nl';
 import localeEnCA from '@angular/common/locales/en-CA';
 import localeEnGB from '@angular/common/locales/en-GB';
 import localeEnIE from '@angular/common/locales/en-IE';
-import localeEnUS from '@angular/common/locales/en-US-POSIX';
+import localeEnUS from '@angular/common/locales/en';
 import localeFi from '@angular/common/locales/fi';
 import localeFr from '@angular/common/locales/fr';
 import localeDe from '@angular/common/locales/de';

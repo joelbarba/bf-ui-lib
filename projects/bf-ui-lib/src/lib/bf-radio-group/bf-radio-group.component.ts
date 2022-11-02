@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import {
   ControlValueAccessor,
-  FormControl,
+  UntypedFormControl,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
   ValidationErrors,
@@ -65,7 +65,7 @@ export class BfRadioGroupComponent implements OnChanges, OnDestroy, ControlValue
   bfModel: string | number; // Internal reference for the selected value
   bfName: string;           // The name attribute (automatically taken from the host, or randomly generated)
   bfError: { [key: string]: boolean } = null;
-  ngControl: FormControl;
+  ngControl: UntypedFormControl;
   isPristine = true;
   subs = new SubSink();
 
@@ -169,7 +169,7 @@ export class BfRadioGroupComponent implements OnChanges, OnDestroy, ControlValue
   //   - After writeValue()
   //   - After propagateModelUp()
   //   - After this.ngControl.updateValueAndValidity()
-  validate(extFormCtrl: FormControl): ValidationErrors {
+  validate(extFormCtrl: UntypedFormControl): ValidationErrors {
     this.ngControl = extFormCtrl;
     const isControlEmpty = !this.bfRadios.some(bfRadio => bfRadio.bfValue === this.bfModel);
     this.bfError = this.bfRequired && isControlEmpty ? { required: true } : null;

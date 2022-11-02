@@ -13,7 +13,7 @@
 <ul class="bf-keypad">
   <li *ngFor="let element of dialPadConfig">
     <bf-keypad-button
-      [element]="element"
+      [keypad]="element"
       (selectElement)="onSelectElement($event)">
     </bf-keypad-button>
   </li>

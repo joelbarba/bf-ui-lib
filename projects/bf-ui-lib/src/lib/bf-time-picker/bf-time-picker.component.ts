@@ -1,6 +1,6 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -23,7 +23,7 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges, Afte
   /** A flag to determine if the spinners should be shown */
   @Input() showSpinners = true;
   /** The parent form group (optional)  */
-  @Input() formGroup: FormGroup;
+  @Input() formGroup: UntypedFormGroup;
   /** The name of the form control */
   @Input() controlName: string;
   /** The label for the element */
@@ -39,7 +39,7 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges, Afte
 
   @ViewChild('timepicker', { static: true }) timepicker: ElementRef<HTMLElement>;
 
-  timePickerControl: FormControl;
+  timePickerControl: UntypedFormControl;
   minTimeErrorValidationTrans$: Observable<string>;
   maxTimeErrorValidationTrans$: Observable<string>;
   requiredErrorValidationTrans$: Observable<string>;
@@ -66,7 +66,7 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges, Afte
      * Using this component as a reactive form guinea pig as there are limited use cases
      * long term we should migrate existing components to leverage reactive forms
      */
-    this.timePickerControl = new FormControl(this.currentTime);
+    this.timePickerControl = new UntypedFormControl(this.currentTime);
     this.timePickerControl.setValidators(this._getValidators(this.maximumTime, this.minimumTime));
 
     if (this.formGroup) {
@@ -120,7 +120,7 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges, Afte
     };
   }
 
-  shouldShowErrorMessages(control: FormControl): boolean {
+  shouldShowErrorMessages(control: UntypedFormControl): boolean {
     return !this.hideErrorMessage && !!control.errors;
   }
 
@@ -165,7 +165,7 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges, Afte
     return validationFns;
   }
 
-  _isCurrentTimeGreaterThanMax(currentTime: FormControl): ValidationErrors {
+  _isCurrentTimeGreaterThanMax(currentTime: UntypedFormControl): ValidationErrors {
     const isHoursGreater = currentTime.value.hour > this.maximumTime?.hour;
     const isMinutesGreater = currentTime.value.minute > this.maximumTime?.minute && currentTime.value?.hour === this.maximumTime?.hour;
 
@@ -175,7 +175,7 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges, Afte
       : null;
   }
 
-  _isCurrentTimeLessThanMinimum(currentTime: FormControl): ValidationErrors {
+  _isCurrentTimeLessThanMinimum(currentTime: UntypedFormControl): ValidationErrors {
     const isHoursLess = currentTime.value.hour < this.minimumTime?.hour;
     const isMinutesLess = currentTime.value.minute < this.minimumTime?.minute && currentTime.value.hour === this.minimumTime?.hour;
 

@@ -1,6 +1,6 @@
 import {Component, OnInit, Input, Output, EventEmitter, forwardRef, OnChanges, AfterViewInit} from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
-import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
+import { UntypedFormControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import { BfUILibTransService} from '../abstract-translate.service';
 import { Observable, of } from 'rxjs';
 import {BfDefer} from '../bf-defer/bf-defer';
@@ -84,7 +84,7 @@ export class BfTextareaComponent implements ControlValueAccessor, OnChanges, Aft
 
   // Link and hook up the internal textarea FormControl
   public ngInputRef: ElementRef; // <-- internal input ref
-  public inputCtrl: FormControl; // <-- ngInputRef.control
+  public inputCtrl: UntypedFormControl; // <-- ngInputRef.control
   @ViewChild('ngInputRef', { static: false }) set content(content: ElementRef) {
     if (content && !this.ngInputRef) {
       this.ngInputRef = content;
@@ -197,7 +197,7 @@ export class BfTextareaComponent implements ControlValueAccessor, OnChanges, Aft
   //   - After writeValue()
   //   - After propagateModelUp()
   //   - After this.ngControl.updateValueAndValidity()
-  public validate = (extFormCtrl: FormControl) => {
+  public validate = (extFormCtrl: UntypedFormControl) => {
     // console.log('NG_VALIDATORS. ngControl = ', !!extFormCtrl, '. inputCtrl = ', !!this.inputCtrl);
     let result = null;  // null means valid
     this.ngControl = extFormCtrl; // FormControl of the external ngModel

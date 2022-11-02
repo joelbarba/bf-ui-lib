@@ -1,5 +1,6 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { fakeAsync, flush, TestBed } from '@angular/core/testing';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { TestingModule } from '../../testing/testing-module';
 import { BfTimePickerComponent } from './bf-time-picker.component';
 
@@ -7,8 +8,9 @@ describe('TimePickerComponent', () => {
   let component: BfTimePickerComponent;
   let outputSpy: jasmine.Spy;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       providers: [ BfTimePickerComponent ],
       imports: [ TestingModule ]
     });
@@ -52,7 +54,7 @@ describe('TimePickerComponent', () => {
   }));
 
   it('should return an error if the controlName input is not supplied for a formGroup', () => {
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
 
     expect(() => {
       component.ngOnInit();
@@ -60,7 +62,7 @@ describe('TimePickerComponent', () => {
   });
 
   it('should add the control to the form group', () => {
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
     component.controlName = 'test-control';
     component.ngOnInit();
 

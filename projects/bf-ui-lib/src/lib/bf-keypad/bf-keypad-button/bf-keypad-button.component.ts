@@ -7,7 +7,7 @@ import { KeyPad } from '../bf-keypad';
   styleUrls: ['./bf-keypad-button.component.scss']
 })
 export class BfKeypadButtonComponent {
-  @Input() element: KeyPad;
+  @Input() keypad: KeyPad;
   @Output() selectElement = new EventEmitter();
 
   constructor() { }

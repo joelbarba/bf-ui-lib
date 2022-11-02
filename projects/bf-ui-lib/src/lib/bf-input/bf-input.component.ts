@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, forwardRef, ViewChildren} from '@angular/core';
 import { OnInit, OnChanges, AfterViewInit, OnDestroy} from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
-import { FormControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { UntypedFormControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {BfUILibTransService} from '../abstract-translate.service';
 import {Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
@@ -12,8 +12,8 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 export interface IbfInputCtrl {
-  getControl  ?: { _: FormControl };
-  inputCtrl$  ?: Observable<FormControl>;
+  getControl  ?: { _: UntypedFormControl };
+  inputCtrl$  ?: Observable<UntypedFormControl>;
   setFocus    ?: { () };
   setBlur     ?: { () };
   setDirty    ?: { (opts?) };
@@ -149,7 +149,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
 
   // Link and hook up the internal input FormControl
   public ngInputRef: ElementRef; // <-- internal input ref
-  public inputCtrl: FormControl; // <-- ngInputRef.control
+  public inputCtrl: UntypedFormControl; // <-- ngInputRef.control
   @ViewChild('ngInputRef', { static: false }) set content(content: ElementRef) {
     if (content && !this.ngInputRef) {
       this.ngInputRef = content;
@@ -314,7 +314,7 @@ export class BfInputComponent implements ControlValueAccessor, OnInit, OnChanges
   //   - After writeValue()
   //   - After propagateModelUp()
   //   - After this.ngControl.updateValueAndValidity()
-  public validate = (extFormCtrl: FormControl) => {
+  public validate = (extFormCtrl: UntypedFormControl) => {
     // console.log('NG_VALIDATORS. ngControl = ', !!extFormCtrl, '. inputCtrl = ', !!this.inputCtrl);
     let result = null;  // null means valid
     this.ngControl = extFormCtrl; // FormControl of the external ngModel

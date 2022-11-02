@@ -126,7 +126,6 @@ import { BfTabsComponent } from './bf-tabs/bf-tabs.component';
     exports: [
         BfTabsComponent,
         BfKeypadComponent,
-        BfTimePickerComponent,
         BfExpandableListComponent,
         BfCollapseComponent,
         BfListCheckboxComponent,
@@ -169,7 +168,8 @@ import { BfTabsComponent } from './bf-tabs/bf-tabs.component';
         BfDnDModule,
         BfListControllerDirective,
         BfIntersectionObserverDirective,
-        BfDateTimePickerComponent
+        BfDateTimePickerComponent,
+        BfKeypadButtonComponent
     ]
 })
 export class BfUiLibModule {

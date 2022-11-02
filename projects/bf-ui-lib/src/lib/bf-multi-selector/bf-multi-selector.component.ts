@@ -1,6 +1,6 @@
 import {Component, OnInit, Input, Output, forwardRef, ElementRef, EventEmitter, SimpleChanges} from '@angular/core';
 import {OnChanges, OnDestroy,  AfterViewInit, ViewChild, ViewChildren} from '@angular/core';
-import {FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS} from '@angular/forms';
+import {UntypedFormControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS} from '@angular/forms';
 import {isObservable, Observable, of, Subject, Subscription} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 import BfObject from '../bf-prototypes/object.prototype';
@@ -447,7 +447,7 @@ export class BfMultiSelectorComponent implements ControlValueAccessor, OnChanges
   //   - After writeValue()
   //   - After propagateModelUp()
   //   - After this.ngControl.updateValueAndValidity()
-  public validate = (extFormCtrl: FormControl) => {
+  public validate = (extFormCtrl: UntypedFormControl) => {
     let result = null;  // null is valid
     this.ngControl = extFormCtrl; // Save the reference to the external form Control
 

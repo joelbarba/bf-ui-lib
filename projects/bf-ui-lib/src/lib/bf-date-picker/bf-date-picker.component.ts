@@ -1,5 +1,5 @@
 import {Component, forwardRef, Inject, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
-import {ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {ControlValueAccessor, UntypedFormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {BfUILibTransService} from '../abstract-translate.service';
 import {NgbDateStruct, NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
 import BfString from '../bf-prototypes/string.prototype';
@@ -88,7 +88,7 @@ export class BfDatePickerComponent implements OnInit, OnChanges, OnDestroy, Cont
 
   // NG_VALIDATORS provider triggers this validation
   // Validation to determine the outer formControl state. It propagates upward the status of the form element
-  public validate = (extFormCtrl: FormControl) => {
+  public validate = (extFormCtrl: UntypedFormControl) => {
     this.ngControl = extFormCtrl; // Save the reference
 
     if (this.status === 'error') {

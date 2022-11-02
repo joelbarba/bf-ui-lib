@@ -4,7 +4,7 @@ import { BfAutocompleteComponent } from './bf-autocomplete.component';
 import { BfLabelComponent } from '../bf-label/bf-label.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TestingModule } from '../../testing/testing-module';
-import { FormControl, FormsModule } from '@angular/forms';
+import { UntypedFormControl, FormsModule } from '@angular/forms';
 import { Patterns } from '../patterns';
 import { BfDropdownA11yPipe } from '../bf-dropdown/bf-dropdown-a11y.pipe';
 import { BfTranslatePipe } from '../abstract-translate.service';
@@ -61,14 +61,14 @@ describe('BfAutocompleteComponent', () => {
   describe('validate', () => {
     it('should return null if valid', () => {
       component.isInvalid = false;
-      const result = component.validate(new FormControl());
+      const result = component.validate(new UntypedFormControl());
       expect(result).toBe(null);
     });
 
     it('should return required obj on invalid', () => {
       component.isInvalid = true;
       component.ngModel = null;
-      const result = component.validate(new FormControl());
+      const result = component.validate(new UntypedFormControl());
       expect(result).toEqual({required: true});
     });
 
@@ -76,7 +76,7 @@ describe('BfAutocompleteComponent', () => {
       component.isInvalid = true;
       component.bfPattern = '^[0-9]{1,5}$';
       component.ngModel = 'A string value';
-      const result = component.validate(new FormControl());
+      const result = component.validate(new UntypedFormControl());
       expect(result).toEqual({value: 'Expected value type: ' + component.bfPattern});
     });
   });
