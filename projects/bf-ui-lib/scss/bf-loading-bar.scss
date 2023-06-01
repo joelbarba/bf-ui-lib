@@ -118,9 +118,9 @@ bf-loading-bar {
   //animation-play-state: paused;
 
   // Delay 1/4 every box to sync the movements
-  $ani-time-2: - ($ani-time / 4);
-  $ani-time-3: - (($ani-time / 4) * 2);
-  $ani-time-4: - (($ani-time / 4) * 3);
+  $ani-time-2: - (calc($ani-time / 4));
+  $ani-time-3: - (calc($ani-time / 4) * 2);
+  $ani-time-4: - (calc($ani-time / 4) * 3);
   &.box2 { animation-delay: $ani-time-2 + s; }
   &.box3 { animation-delay: $ani-time-3 + s; }
   &.box4 { animation-delay: $ani-time-4 + s; }

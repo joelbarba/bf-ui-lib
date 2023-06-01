@@ -96,7 +96,7 @@ const routes: Routes = [
   declarations: [],
   imports: [
     CommonModule,
-    RouterModule.forRoot(routes, { relativeLinkResolution: 'corrected' }),
+    RouterModule.forRoot(routes, {}),
   ],
   exports: [ RouterModule ]
 })
