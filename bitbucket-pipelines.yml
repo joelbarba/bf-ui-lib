@@ -5,7 +5,7 @@ pipelines:
     '**':
       - step:
           script:
-            - apt-get update && apt-get -install -y google-chrome
+            - apt-get update && apt-get -install -y google-chrome-stable
             # Generates a .npmrc file configured for installing private modules
             # Taken from https://bitbucket.org/benjamincoe/private-modules-demo/src/master/bitbucket-pipelines.yml
             - printf "//`node -p \"require('url').parse(process.env.NPM_REGISTRY_URL || 'https://registry.npmjs.org').host\"`/:_authToken=${NPM_TOKEN}\nregistry=${NPM_REGISTRY_URL:-https://registry.npmjs.org}\n" >> ~/.npmrc
