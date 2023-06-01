@@ -14,6 +14,7 @@ export class BfBtnDemoComponent implements OnInit {
   public blockPr;
   public api = BfBtnDoc.api;
   public instance = BfBtnDoc.instance;
+  public isExp:boolean;
 
   public instance2 = `<bf-btn bfText="Add User"  (bfClick)="myFunc($event)" [bfDisabled]="false"></bf-btn>
 <bf-btn bfText="Save User" (bfClick)="myFunc($event)" [bfDisabled]="true"></bf-btn>`;
