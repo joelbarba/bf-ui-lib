@@ -5,7 +5,7 @@ pipelines:
     '**':
       - step:
           script:
-            - whereis google-chrome-stable
+            - google-chrome --version
             - export CHROME_BIN=/usr/bin/google-chrome-stable
             # Generates a .npmrc file configured for installing private modules
             # Taken from https://bitbucket.org/benjamincoe/private-modules-demo/src/master/bitbucket-pipelines.yml
