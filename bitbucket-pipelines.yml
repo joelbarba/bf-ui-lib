@@ -7,16 +7,10 @@ pipelines:
           script:
             # Generates a .npmrc file configured for installing private modules
             # Taken from https://bitbucket.org/benjamincoe/private-modules-demo/src/master/bitbucket-pipelines.yml
-            - apt-get update \
-              && apt-get install -y wget gnupg \
-              && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-              && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
-              && apt-get update \
-              && apt-get install -y google-chrome-stable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf libxss1 \
-              --no-install-recommends \
-              && rm -rf /var/lib/apt/lists/*
-            - printf "//`node -p \"require('url').parse(process.env.NPM_REGISTRY_URL || 'https://registry.npmjs.org').host\"`/:_authToken=${NPM_TOKEN}\nregistry=${NPM_REGISTRY_URL:-https://registry.npmjs.org}\n" >> ~/.npmrc
-            - ls /usr/bin/
+            - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+            - echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list
+            - apt-get update
+            - apt-get install -y google-chrome-stable xvfb
             - npm ci
             - ls $HOME/.cache/puppeteer/chrome/linux-113.0.5672.63/chrome-linux64
 #            - export CHROME_BIN="$HOME/.cache/puppeteer/chrome/linux-113.0.5672.63"/chrome-linux64
