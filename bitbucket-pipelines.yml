@@ -11,7 +11,7 @@ pipelines:
 #            - echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list
 #            - apt-get update
 #            - apt-get install -y google-chrome-stable xvfb
-#            - npm ci
+            - npm ci
 #            - ls $HOME/.cache/puppeteer/chrome/linux-113.0.5672.63/chrome-linux64
 #            - export CHROME_BIN="$HOME/.cache/puppeteer/chrome/linux-113.0.5672.63"/chrome-linux64
             - npm run lint:ci
