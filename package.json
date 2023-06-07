@@ -6,7 +6,7 @@
     "start": "ng serve --poll=2000 --no-live-reload",
     "build": "ng build",
     "test": "ng test",
-    "test:ci": "ng test --progress false --code-coverage --browsers ChromeHeadlessNoSandbox --watch false",
+    "test:ci": "ng test --progress false --code-coverage --browsers ChromeHeadless --watch false",
     "test:ci:no-coverage": "ng test --progress false --browsers ChromeHeadless --watch false",
     "lint": "ng lint",
     "lint:ci": "ng lint",
