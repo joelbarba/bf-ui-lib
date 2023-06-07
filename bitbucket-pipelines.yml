@@ -5,22 +5,12 @@ pipelines:
     '**':
       - step:
           script:
-            - apt-get update && apt-get install -yq libgconf-2-4
-            - >
-              apt-get update && apt-get install -y wget --no-install-recommends && \
-              wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -  && \
-              sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' && \
-              apt-get update && \
-              apt-get install -y google-chrome-stable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst ttf-freefont --no-install-recommends
-              # Dont worry about cleaning up files left after installation.
             # Generates a .npmrc file configured for installing private modules
             # Taken from https://bitbucket.org/benjamincoe/private-modules-demo/src/master/bitbucket-pipelines.yml
             - printf "//`node -p \"require('url').parse(process.env.NPM_REGISTRY_URL || 'https://registry.npmjs.org').host\"`/:_authToken=${NPM_TOKEN}\nregistry=${NPM_REGISTRY_URL:-https://registry.npmjs.org}\n" >> ~/.npmrc
-            - whereis google-chrome-unstable
-            - whereis google-chrome-stable
-            - ls /usr/bin/
-            - export CHROME_BIN=/usr/bin/google-chrome
             - npm ci
+            - ls ./node_modules/puppeteer/.local-chromium/
+            - export CHROME_BIN="./node_modules/puppeteer/.local-chromium/linux-884014/chrome-linux/chrome"
             - npm run lint:ci
             - npm run test:ci
             - npm run build_lib # used to ensure changes pass AOT
