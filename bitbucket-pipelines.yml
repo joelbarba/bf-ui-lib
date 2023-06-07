@@ -9,8 +9,8 @@ pipelines:
             # Taken from https://bitbucket.org/benjamincoe/private-modules-demo/src/master/bitbucket-pipelines.yml
             - printf "//`node -p \"require('url').parse(process.env.NPM_REGISTRY_URL || 'https://registry.npmjs.org').host\"`/:_authToken=${NPM_TOKEN}\nregistry=${NPM_REGISTRY_URL:-https://registry.npmjs.org}\n" >> ~/.npmrc
             - npm ci
-            - ls $HOME/.cache/puppeteer/chrome/linux-113.0.5672.63
-            - export CHROME_BIN="$HOME/.cache/puppeteer/chrome/linux-113.0.5672.63"
+            - ls $HOME/.cache/puppeteer/chrome/linux-113.0.5672.63/chrome-linux64
+            - export CHROME_BIN="$HOME/.cache/puppeteer/chrome/linux-113.0.5672.63"/chrome-linux64
             - npm run lint:ci
             - npm run test:ci
             - npm run build_lib # used to ensure changes pass AOT
