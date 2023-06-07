@@ -1,6 +1,8 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
+process.env.CHROME_BIN = require('puppeteer').executablePath()
+
 const { COVERAGE_LIMIT_STATEMENTS, COVERAGE_LIMIT_BRANCHES, COVERAGE_LIMIT_LINES, COVERAGE_LIMIT_FUNCTIONS } = process.env;
 
 const coverageThresholdLimits = {
@@ -45,12 +47,6 @@ module.exports = function (config) {
     autoWatch: true,
     singleRun: true,
     // browsers: ['Chrome']
-    browsers: ['ChromeHeadlessNoSandbox'],
-    customLaunchers: {
-      ChromeHeadlessNoSandbox: {
-        base: 'ChromeHeadless',
-        flags: ['--no-sandbox']
-      }
-    },
+    browsers: ['ChromeHeadless']
   });
 };

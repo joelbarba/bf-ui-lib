@@ -1,4 +1,4 @@
-image: node:18
+image: cimg/node:18.16.0-browsers
 
 pipelines:
   pull-requests:
@@ -7,12 +7,12 @@ pipelines:
           script:
             # Generates a .npmrc file configured for installing private modules
             # Taken from https://bitbucket.org/benjamincoe/private-modules-demo/src/master/bitbucket-pipelines.yml
-            - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-            - echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list
-            - apt-get update
-            - apt-get install -y google-chrome-stable xvfb
-            - npm ci
-            - ls $HOME/.cache/puppeteer/chrome/linux-113.0.5672.63/chrome-linux64
+#            - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+#            - echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list
+#            - apt-get update
+#            - apt-get install -y google-chrome-stable xvfb
+#            - npm ci
+#            - ls $HOME/.cache/puppeteer/chrome/linux-113.0.5672.63/chrome-linux64
 #            - export CHROME_BIN="$HOME/.cache/puppeteer/chrome/linux-113.0.5672.63"/chrome-linux64
             - npm run lint:ci
             - npm run test:ci
