@@ -18,7 +18,7 @@ pipelines:
             - printf "//`node -p \"require('url').parse(process.env.NPM_REGISTRY_URL || 'https://registry.npmjs.org').host\"`/:_authToken=${NPM_TOKEN}\nregistry=${NPM_REGISTRY_URL:-https://registry.npmjs.org}\n" >> ~/.npmrc
             - whereis google-chrome-unstable
             - whereis google-chrome-stable
-            - cat /usr/bin/
+            - ls /usr/bin/
             - export CHROME_BIN=/usr/bin/google-chrome
             - npm ci
             - npm run lint:ci
