@@ -5,6 +5,7 @@ pipelines:
     '**':
       - step:
           script:
+            - uname -a
             - apt-get -install -y google-chrome-stable
             # Generates a .npmrc file configured for installing private modules
             # Taken from https://bitbucket.org/benjamincoe/private-modules-demo/src/master/bitbucket-pipelines.yml
