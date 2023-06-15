@@ -1,5 +1,18 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChange,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
@@ -9,7 +22,7 @@ import { BfUILibTransService } from '../abstract-translate.service';
 @Component({
   selector: 'bf-time-picker',
   templateUrl: './bf-time-picker.component.html',
-  styleUrls: ['./bf-time-picker.component.scss']
+  styleUrls: ['./bf-time-picker.component.scss'],
 })
 export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit {
   /** A flag to determine if the is required validator is applied */
@@ -37,7 +50,7 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges, Afte
   /** An event that will return the current internal value of the time struct */
   @Output() currentTimeChange: EventEmitter<NgbTimeStruct> = new EventEmitter();
 
-  @ViewChild('timepicker', { static: true }) timepicker: ElementRef<HTMLElement>;
+  @ViewChild('timepicker', {static: true}) timepicker: ElementRef<HTMLElement>;
 
   timePickerControl: UntypedFormControl;
   minTimeErrorValidationTrans$: Observable<string>;
@@ -49,7 +62,7 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges, Afte
 
   constructor(
     private _bfTranslate: BfUILibTransService,
-    private liveAnnouncer: LiveAnnouncer
+    private liveAnnouncer: LiveAnnouncer,
   ) { }
 
 
@@ -77,7 +90,7 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges, Afte
     }
 
     this._valueChangesSubscription = this.timePickerControl.valueChanges.pipe(
-      tap(this._timeUpdated.bind(this))
+      tap(this._timeUpdated.bind(this)),
     ).subscribe();
   }
 
@@ -90,7 +103,7 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges, Afte
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    const { minimumTime, maximumTime, currentTime } = changes;
+    const {minimumTime, maximumTime, currentTime} = changes;
 
     if (this._isNotFirstChange(currentTime)) {
       this.timePickerControl.setValue(currentTime.currentValue);
@@ -116,7 +129,7 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges, Afte
     return {
       hour,
       minute,
-      second: 0
+      second: 0,
     };
   }
 
@@ -148,12 +161,12 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges, Afte
     const validationFns = [];
 
     if (minimumTime !== null) {
-      this.minTimeErrorValidationTrans$ = this._bfTranslate.getLabel$('components.timepicker.min_time_error', { minTime: this._stringifyTimeStruct(minimumTime) });
+      this.minTimeErrorValidationTrans$ = this._bfTranslate.getLabel$('components.timepicker.min_time_error', {minTime: this._stringifyTimeStruct(minimumTime)});
       validationFns.push(this._isCurrentTimeLessThanMinimum.bind(this));
     }
 
     if (maximumTime !== null) {
-      this.maxTimeErrorValidationTrans$ = this._bfTranslate.getLabel$('components.timepicker.max_time_error', { maxTime: this._stringifyTimeStruct(maximumTime) });
+      this.maxTimeErrorValidationTrans$ = this._bfTranslate.getLabel$('components.timepicker.max_time_error', {maxTime: this._stringifyTimeStruct(maximumTime)});
       validationFns.push(this._isCurrentTimeGreaterThanMax.bind(this));
     }
 
@@ -171,7 +184,7 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges, Afte
 
 
     return isMinutesGreater || isHoursGreater
-      ? { maxTimeExceeded: true }
+      ? {maxTimeExceeded: true}
       : null;
   }
 
@@ -180,15 +193,15 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges, Afte
     const isMinutesLess = currentTime.value.minute < this.minimumTime?.minute && currentTime.value.hour === this.minimumTime?.hour;
 
     return isMinutesLess || isHoursLess
-      ? { minTimeExceeded: true }
+      ? {minTimeExceeded: true}
       : null;
   }
 
   _stringifyTimeStruct(timeStuct: NgbTimeStruct): string {
-    if (timeStuct !== null) {
-      const { hour, minute } = timeStuct;
-      return `${hour < 10 ? '0' : ''}${hour}:${minute}`;
-    }
+    if (timeStuct === null) return '';
+
+    const {hour, minute} = timeStuct;
+    return `${hour < 10 ? '0' : ''}${hour}:${minute}`;
   }
 
   _generateUniqueId(): string {
@@ -199,7 +212,7 @@ export class BfTimePickerComponent implements OnInit, OnDestroy, OnChanges, Afte
     return change && !change.firstChange;
   }
 
-  _listenForFocus(){
+  _listenForFocus() {
     const inputs = this.timepicker.nativeElement.querySelectorAll('input[type="text"]');
     inputs.forEach(input => input.addEventListener('focus', () => {
       this.liveAnnouncer.announce(this.controlLabel);

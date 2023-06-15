@@ -1,20 +1,20 @@
-import {BfLazyDropdownComponent} from './bf-lazy-dropdown.component';
-import {BfUILibTransService} from '../abstract-translate.service';
-import {Subject} from 'rxjs';
-import {ElementRef} from '@angular/core';
-import {UntypedFormControl} from '@angular/forms';
+import { ElementRef } from '@angular/core';
+import { UntypedFormControl } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { BfUILibTransService } from '../abstract-translate.service';
+import { DropdownListStatus } from './abstractions/enums/dropdown-list-status.enum';
+import { BfLazyDropdownComponent } from './bf-lazy-dropdown.component';
 
-
-
-const EMPTY             = 0;
-const PARTIALLY_LOADED  = 1;
-const FULLY_LOADED      = 2;
-const COMPLETELY_LOADED = 3;
 
 class FakeElementRef {
-  nativeElement = { scrollTo: () => {}, getBoundingClientRect: () => ({ bottom: 10 }), };
+  nativeElement = {scrollTo: () => {}, getBoundingClientRect: () => ({bottom: 10})};
 }
-class FakeLiveAnnouncer { announce(msg) { return Promise.resolve(); } clear() {} }
+
+class FakeLiveAnnouncer {
+  announce(msg) { return Promise.resolve(); }
+
+  clear() {}
+}
 
 describe('BfLazyDropdownComponent', () => {
   let component: BfLazyDropdownComponent;
@@ -24,7 +24,11 @@ describe('BfLazyDropdownComponent', () => {
 
   // This is to mock the html rows inside the list
   const docFragment = document.createDocumentFragment();
-  const mockEl = (ref) => { const el = document.createElement('div'); el.id = ref; return el as HTMLElement; };
+  const mockEl = (ref) => {
+    const el = document.createElement('div');
+    el.id = ref;
+    return el as HTMLElement;
+  };
   docFragment.appendChild(mockEl('ref-0'));
   docFragment.appendChild(mockEl('ref-1'));
   docFragment.appendChild(mockEl('ref-2'));
@@ -54,77 +58,77 @@ describe('BfLazyDropdownComponent', () => {
     });
     it('should detect extCtrl$ and subscribe to it', () => {
       component.extCtrl$ = new Subject();
-      component.ngOnChanges({ extCtrl$: {} });
-      component.extCtrl$.next({ action: 'clearList' });
+      component.ngOnChanges({extCtrl$: {}});
+      component.extCtrl$.next({action: 'clearList'});
       expect(component.clearList).toHaveBeenCalled();
       component.subs.ctrlSubs.unsubscribe();
     });
     it('should detect bfRender, call setEmptyOption() + renderExtList() + renderLabels()', () => {
-      component.ngOnChanges({ bfRender: {} });
+      component.ngOnChanges({bfRender: {}});
       expect(component.setEmptyOption).toHaveBeenCalled();
       expect(component.renderExtList).toHaveBeenCalled();
       expect(component.renderLabels).toHaveBeenCalled();
     });
     it('should detect bfRenderFn, call setEmptyOption() + renderExtList() + renderLabels()', () => {
-      component.ngOnChanges({ bfRenderFn: {} });
+      component.ngOnChanges({bfRenderFn: {}});
       expect(component.setEmptyOption).toHaveBeenCalled();
       expect(component.renderExtList).toHaveBeenCalled();
       expect(component.renderLabels).toHaveBeenCalled();
     });
     it('should detect bfTranslate, call setEmptyOption() + renderExtList() + renderLabels()', () => {
-      component.ngOnChanges({ bfTranslate: {} });
+      component.ngOnChanges({bfTranslate: {}});
       expect(component.setEmptyOption).toHaveBeenCalled();
       expect(component.renderExtList).toHaveBeenCalled();
       expect(component.renderLabels).toHaveBeenCalled();
     });
     it('should detect bfSelect, call selectItem if not empty and not first change', () => {
       component.isModelEmpty = false;
-      component.ngOnChanges({ bfSelect: { firstChange: false} });
+      component.ngOnChanges({bfSelect: {firstChange: false}});
       expect(component.selectItem).toHaveBeenCalled();
     });
     it('should detect bfDisabled, and set isBfDisabledPresent', () => {
       component.bfDisabled = 'true';
-      component.ngOnChanges({ bfDisabled: {} });
+      component.ngOnChanges({bfDisabled: {}});
       expect(component.isBfDisabledPresent).toEqual(true);
     });
     it('should detect bfRequired, and call setEmptyOption()', () => {
-      component.ngOnChanges({ bfRequired: {} });
+      component.ngOnChanges({bfRequired: {}});
       expect(component.setEmptyOption).toHaveBeenCalled();
     });
     it('should detect bfPlaceholder, and call renderLabels()', () => {
-      component.ngOnChanges({ bfPlaceholder: {} });
+      component.ngOnChanges({bfPlaceholder: {}});
       expect(component.renderLabels).toHaveBeenCalled();
     });
     it('should detect bfEmptyLabel, set $$label and call renderLabels()', () => {
       component.bfEmptyLabel = 'Empty';
-      component.ngOnChanges({ bfEmptyLabel: {} });
+      component.ngOnChanges({bfEmptyLabel: {}});
       expect(component.renderLabels).toHaveBeenCalled();
       expect(component.emptyItem.$$label).toEqual('Empty');
     });
     it('should detect bfLoadingLabel and default its value if none', () => {
       component.bfLoadingLabel = '';
-      component.ngOnChanges({ bfLoadingLabel: {} });
+      component.ngOnChanges({bfLoadingLabel: {}});
       expect(component.bfLoadingLabel).toEqual('views.dropdown.loading_more_items');
     });
     it('should detect bfErrorPos, and set errorPosition', () => {
-      component.ngOnChanges({ bfErrorPos: {} });
+      component.ngOnChanges({bfErrorPos: {}});
       expect(component.errorPosition).toEqual('default');
     });
     it('should detect bfErrorText, and run validations if invalid', () => {
       component.isInvalid = true;
-      component.ngOnChanges({ bfErrorText: {} });
+      component.ngOnChanges({bfErrorText: {}});
       expect(component.runValidation).toHaveBeenCalled();
     });
     it('should detect bfErrorOnPristine, and run validations', () => {
-      component.ngOnChanges({ bfErrorOnPristine: {} });
+      component.ngOnChanges({bfErrorOnPristine: {}});
       expect(component.runValidation).toHaveBeenCalled();
     });
     it('should detect bfDebounce, and run configFilter()', () => {
-      component.ngOnChanges({ bfDebounce: {} });
+      component.ngOnChanges({bfDebounce: {}});
       expect(component.configFilter).toHaveBeenCalled();
     });
     it('should detect bfMinSearchLength, and run configFilter()', () => {
-      component.ngOnChanges({ bfMinSearchLength: {} });
+      component.ngOnChanges({bfMinSearchLength: {}});
       expect(component.configFilter).toHaveBeenCalled();
     });
   });
@@ -184,7 +188,7 @@ describe('BfLazyDropdownComponent', () => {
     beforeEach(() => {
       spyOn(component, 'setModelText');
       spyOn(translate, 'doTranslate').and.callFake(val => 'trans-' + val);
-      spyOn(component, 'renderItem').and.callFake(() => ({ $$label: 'label', $$renderedText: 'myText' }));
+      spyOn(component, 'renderItem').and.callFake(() => ({$$label: 'label', $$renderedText: 'myText'}));
       component.emptyItem.$$label = 'empty';
       component.bfPlaceholder = 'placeholder';
     });
@@ -198,7 +202,7 @@ describe('BfLazyDropdownComponent', () => {
       expect(component.setModelText).toHaveBeenCalledWith('trans-empty');
     });
     it('should set the model text for the selected item', () => {
-      component.bfModel = { id: '123' };
+      component.bfModel = {id: '123'};
       component.renderLabels();
       expect(component.setModelText).toHaveBeenCalledWith('myText');
     });
@@ -212,12 +216,12 @@ describe('BfLazyDropdownComponent', () => {
       spyOn(component, 'clearList');
       spyOn(component, 'setModelText');
       spyOn(component, 'generateUniqueId').and.callFake(tag => tag);
-      component.extList = [{ id: '1', $$idRef: 'zzz' }];
+      component.extList = [{id: '1', $$idRef: 'zzz'}];
       const nativeEl = document.createElement('div') as HTMLInputElement;
       component.listContainer = new ElementRef(nativeEl);
     });
     it('should skip the fetch if loading', (done) => {
-      spyOn(component, 'bfLazyLoadFn').and.callFake(() => Promise.resolve({ items: [], count: 0 }));
+      spyOn(component, 'bfLazyLoadFn').and.callFake(() => Promise.resolve({items: [], count: 0}));
       component.isLoading = true;
       component.fetchingPromise = Promise.resolve();
       const res = component.fetchItems();
@@ -226,13 +230,13 @@ describe('BfLazyDropdownComponent', () => {
       done();
     });
     it('should skip the fetch if fully loaded', () => {
-      spyOn(component, 'bfLazyLoadFn').and.callFake(() => Promise.resolve({ items: [], count: 0 }));
-      component.status = FULLY_LOADED;
+      spyOn(component, 'bfLazyLoadFn').and.callFake(() => Promise.resolve({items: [], count: 0}));
+      component.status = DropdownListStatus.FULLY_LOADED;
       component.fetchItems();
       expect(component.bfLazyLoadFn).not.toHaveBeenCalled();
     });
     it('should defer a scroll to the bottom if the list is expanded', (done) => {
-      spyOn(component, 'bfLazyLoadFn').and.callFake(() => Promise.resolve({ items: [], count: 0 }));
+      spyOn(component, 'bfLazyLoadFn').and.callFake(() => Promise.resolve({items: [], count: 0}));
       component.isExpanded = true;
       component.fetchItems();
       setTimeout(() => {
@@ -242,21 +246,24 @@ describe('BfLazyDropdownComponent', () => {
       expect(component.scrollToLoading).not.toHaveBeenCalled();
     });
     it('should call bfLazyLoadFn with all its parameters', (done) => {
-      spyOn(component, 'bfLazyLoadFn').and.callFake(() => Promise.resolve({ items: [], count: 0 }));
+      spyOn(component, 'bfLazyLoadFn').and.callFake(() => Promise.resolve({items: [], count: 0}));
       component.searchTxt = 'abc';
       component.fetchItems();
       expect(component.bfLazyLoadFn).toHaveBeenCalledWith({
-        filter     : 'abc',
-        offset     : 1,
-        items      : [{ id: '1' }],
-        isPristine : true,
-        status     : EMPTY,
-        ngModel    : undefined,
+        filter: 'abc',
+        offset: 1,
+        items: [{id: '1'}],
+        isPristine: true,
+        status: DropdownListStatus.EMPTY,
+        ngModel: undefined,
       });
-      setTimeout(() => { expect(component.renderExtList).toHaveBeenCalled(); done(); });
+      setTimeout(() => {
+        expect(component.renderExtList).toHaveBeenCalled();
+        done();
+      });
     });
     it('should set the bfLoading on and off', (done) => {
-      spyOn(component, 'bfLazyLoadFn').and.callFake(() => Promise.resolve({ items: [], count: 0 }));
+      spyOn(component, 'bfLazyLoadFn').and.callFake(() => Promise.resolve({items: [], count: 0}));
       component.fetchItems();
       expect(component.isLoading).toEqual(true);
       setTimeout(() => {
@@ -265,48 +272,63 @@ describe('BfLazyDropdownComponent', () => {
       });
     });
     it('should set a partially load status', (done) => {
-      spyOn(component, 'bfLazyLoadFn').and.callFake(() => Promise.resolve({ items: [{ id: '2' }], count: 10 }));
+      spyOn(component, 'bfLazyLoadFn').and.callFake(() => Promise.resolve({items: [{id: '2'}], count: 10}));
       component.fetchItems();
-      setTimeout(() => { expect(component.status).toEqual(PARTIALLY_LOADED); done(); });
+      setTimeout(() => {
+        expect(component.status).toEqual(DropdownListStatus.PARTIALLY_LOADED);
+        done();
+      });
     });
     it('should set a fully load status when filtered list is all loaded', (done) => {
-      spyOn(component, 'bfLazyLoadFn').and.callFake(() => Promise.resolve({ items: [{ id: '2' }], count: 2 }));
+      spyOn(component, 'bfLazyLoadFn').and.callFake(() => Promise.resolve({items: [{id: '2'}], count: 2}));
       component.searchTxt = 'abc';
       component.fetchItems();
-      setTimeout(() => { expect(component.status).toEqual(FULLY_LOADED); done(); });
+      setTimeout(() => {
+        expect(component.status).toEqual(DropdownListStatus.FULLY_LOADED);
+        done();
+      });
     });
     it('should set a completely load status when a non filtered list is all loaded', (done) => {
-      spyOn(component, 'bfLazyLoadFn').and.callFake(() => Promise.resolve({ items: [{ id: '2' }], count: 2 }));
+      spyOn(component, 'bfLazyLoadFn').and.callFake(() => Promise.resolve({items: [{id: '2'}], count: 2}));
       component.fetchItems();
-      setTimeout(() => { expect(component.status).toEqual(COMPLETELY_LOADED); done(); });
+      setTimeout(() => {
+        expect(component.status).toEqual(DropdownListStatus.COMPLETELY_LOADED);
+        done();
+      });
     });
     it('should clear the list when override param is sent back', (done) => {
-      spyOn(component, 'bfLazyLoadFn').and.callFake(() => Promise.resolve({ items: [], count: 2, override: true }));
+      spyOn(component, 'bfLazyLoadFn').and.callFake(() => Promise.resolve({items: [], count: 2, override: true}));
       component.fetchItems();
-      setTimeout(() => { expect(component.clearList).toHaveBeenCalled(); done(); });
+      setTimeout(() => {
+        expect(component.clearList).toHaveBeenCalled();
+        done();
+      });
     });
     it('should clear the candidate if it is not into the new list', (done) => {
-      spyOn(component, 'bfLazyLoadFn').and.callFake(() => Promise.resolve({ items: [{ id: '2' }], count: 2 }));
-      component.bfCandidate = { id: '3' };
+      spyOn(component, 'bfLazyLoadFn').and.callFake(() => Promise.resolve({items: [{id: '2'}], count: 2}));
+      component.bfCandidate = {id: '3'};
       component.fetchItems();
-      setTimeout(() => { expect(component.bfCandidate).toEqual(null); done(); });
+      setTimeout(() => {
+        expect(component.bfCandidate).toEqual(null);
+        done();
+      });
     });
     it('should match the model if that is found in the new list', (done) => {
-      spyOn(component, 'bfLazyLoadFn').and.callFake(() => Promise.resolve({ items: [{ id: '2' }], count: 2 }));
-      component.bfModel = { id: '2', $$idRef: 'any' };
+      spyOn(component, 'bfLazyLoadFn').and.callFake(() => Promise.resolve({items: [{id: '2'}], count: 2}));
+      component.bfModel = {id: '2', $$idRef: 'any'};
       component.fetchItems();
       setTimeout(() => {
         expect(component.setModelText).toHaveBeenCalled();
-        expect(component.bfCandidate).toEqual({ id: '2' });
+        expect(component.bfCandidate).toEqual({id: '2'});
         done();
       });
     });
     it('should keep the model with no pointers if no match', (done) => {
-      spyOn(component, 'bfLazyLoadFn').and.callFake(() => Promise.resolve({ items: [{ id: '2' }], count: 2 }));
-      component.bfModel = { id: '3', $$idRef: 'any', $$index: 10 };
+      spyOn(component, 'bfLazyLoadFn').and.callFake(() => Promise.resolve({items: [{id: '2'}], count: 2}));
+      component.bfModel = {id: '3', $$idRef: 'any', $$index: 10};
       component.fetchItems();
       setTimeout(() => {
-        expect(component.bfModel).toEqual({ id: '3', $$idRef: null, $$index: null });
+        expect(component.bfModel).toEqual({id: '3', $$idRef: null, $$index: null});
         done();
       });
     });
@@ -328,14 +350,15 @@ describe('BfLazyDropdownComponent', () => {
       spyOn(component.listContainer.nativeElement, 'scrollTo');
     });
     it('should remove extList', () => {
-      component.extList = [{ id: '1' }];
+      component.extList = [{id: '1'}];
       component.clearList();
       expect(component.extList).toEqual([]);
     });
     it('should set empty option and status EMPTY', () => {
-      component.status = FULLY_LOADED;
+      component.status = DropdownListStatus.FULLY_LOADED;
       component.clearList();
-      expect(component.status).toEqual(EMPTY);
+      // TODO This causes typing error when running the tests, even though there are similar checks in the file.
+      expect(component.status).toEqual(DropdownListStatus.EMPTY as any);
       expect(component.setEmptyOption).toHaveBeenCalled();
     });
     it('should scroll the list to the top', () => {
@@ -352,7 +375,7 @@ describe('BfLazyDropdownComponent', () => {
       spyOn(component, 'fetchItems').and.callFake(() => Promise.resolve());
     });
     it('should perform a front end filter when completely loaded', () => {
-      component.status = COMPLETELY_LOADED;
+      component.status = DropdownListStatus.COMPLETELY_LOADED;
       component.filterList('abc');
       expect(component.frontEndFilter).toHaveBeenCalledWith('abc');
       expect(component.expandList).toHaveBeenCalled();
@@ -379,18 +402,18 @@ describe('BfLazyDropdownComponent', () => {
   });
 
   describe('frontEndFilter', () => {
-     const fakeList = [
-      { id: '1', $$index: 1, $$isLast: false, $$renderedText: 'one' },
-      { id: '2', $$index: 2, $$isLast: false, $$renderedText: 'two' },
-      { id: '3', $$index: 3, $$isLast: true,  $$renderedText: 'three' }
+    const fakeList = [
+      {id: '1', $$index: 1, $$isLast: false, $$renderedText: 'one'},
+      {id: '2', $$index: 2, $$isLast: false, $$renderedText: 'two'},
+      {id: '3', $$index: 3, $$isLast: true, $$renderedText: 'three'},
     ];
     beforeEach(() => {
       spyOn(component, 'expandList');
-      component.status = COMPLETELY_LOADED;
+      component.status = DropdownListStatus.COMPLETELY_LOADED;
       component.extList = fakeList;
     });
     it('should not do anything if the status is not completely loaded', () => {
-      component.status = EMPTY;
+      component.status = DropdownListStatus.EMPTY;
       component.frontEndFilter('one');
       expect(component.extList).toEqual(fakeList);
     });
@@ -401,9 +424,9 @@ describe('BfLazyDropdownComponent', () => {
     it('should resequence the $$index and $$isLast', () => {
       component.frontEndFilter('t');
       expect(component.extList).toEqual([
-        { id: '1', $$isMatch: false, $$index: null, $$isLast: false, $$renderedText: 'one' },
-        { id: '2', $$isMatch: true,  $$index: 1,    $$isLast: false, $$renderedText: 'two' },
-        { id: '3', $$isMatch: true,  $$index: 2,    $$isLast: true,  $$renderedText: 'three' }
+        {id: '1', $$isMatch: false, $$index: null, $$isLast: false, $$renderedText: 'one'},
+        {id: '2', $$isMatch: true, $$index: 1, $$isLast: false, $$renderedText: 'two'},
+        {id: '3', $$isMatch: true, $$index: 2, $$isLast: true, $$renderedText: 'three'},
       ]);
     });
     it('should reassign the bfCandidate to the first match', () => {
@@ -416,8 +439,8 @@ describe('BfLazyDropdownComponent', () => {
   describe('renderExtList', () => {
     beforeEach(() => {
       spyOn(component, 'frontEndFilter');
-      spyOn(component, 'renderItem').and.callFake(() => ({ $$label: 'label', $$renderedText: 'abc' }));
-      component.extList = [{ id: 1 }, { id: 2 }, { id: 3 }];
+      spyOn(component, 'renderItem').and.callFake(() => ({$$label: 'label', $$renderedText: 'abc'}));
+      component.extList = [{id: 1}, {id: 2}, {id: 3}];
       component.componentId = 'comp';
     });
     it('should not do anything if there is no extList', () => {
@@ -428,19 +451,20 @@ describe('BfLazyDropdownComponent', () => {
     });
     it('should set all the $$ properties', () => {
       component.renderExtList();
-      expect(component.extList[0]).toEqual({ id: 1,
-        $$index        : 1,
-        $$idRef        : 'comp-item-1',
-        $$img          : null,
-        $$icon         : null,
-        $$isMatch      : true,
-        $$isLast       : false,
-        $$label        : 'label',
-        $$renderedText : 'abc',
+      expect(component.extList[0]).toEqual({
+        id: 1,
+        $$index: 1,
+        $$idRef: 'comp-item-1',
+        $$img: null,
+        $$icon: null,
+        $$isMatch: true,
+        $$isLast: false,
+        $$label: 'label',
+        $$renderedText: 'abc',
       });
     });
     it('should trigger a front end filter if completely loaded', () => {
-      component.status = COMPLETELY_LOADED;
+      component.status = DropdownListStatus.COMPLETELY_LOADED;
       component.renderExtList();
       expect(component.frontEndFilter).toHaveBeenCalled();
     });
@@ -452,20 +476,20 @@ describe('BfLazyDropdownComponent', () => {
     });
     it('should render a label and non translated text', () => {
       component.bfRender = 'label';
-      const item = { label: 'view.test' };
+      const item = {label: 'view.test'};
       const result = component.renderItem(item);
-      expect(result).toEqual({ $$label: 'view.test', $$renderedText: 'view.test' });
+      expect(result).toEqual({$$label: 'view.test', $$renderedText: 'view.test'});
     });
     it('should render a label and a translated text', () => {
       component.bfTranslate = true;
       component.bfRender = 'label';
-      const item = { label: 'view.test' };
+      const item = {label: 'view.test'};
       const result = component.renderItem(item);
-      expect(result).toEqual({ $$label: 'view.test', $$renderedText: 'trans-view.test' });
+      expect(result).toEqual({$$label: 'view.test', $$renderedText: 'trans-view.test'});
     });
     it('should render using bfRenderFn to set the translated text', () => {
       component.bfRenderFn = () => 'rendered value';
-      const result = component.renderItem({ label: 'view.test' });
+      const result = component.renderItem({label: 'view.test'});
       expect(result.$$renderedText).toEqual('rendered value');
     });
   });
@@ -474,7 +498,7 @@ describe('BfLazyDropdownComponent', () => {
     beforeEach(() => {
       spyOn(component, 'runValidation');
       spyOn(translate, 'doTranslate').and.callFake(val => 'trans-' + val);
-      component.extList = [{ id: '1' }, { id: '2' }];
+      component.extList = [{id: '1'}, {id: '2'}];
     });
     it('should add the empty option to the list if not required', () => {
       component.bfRequired = false;
@@ -519,14 +543,14 @@ describe('BfLazyDropdownComponent', () => {
       expect(component.inputText).toEqual('abcd');
     });
     it('should set the bfCandidate to the current model', () => {
-      component.bfModel = { id: '1', $$idRef: 'ref-1' };
+      component.bfModel = {id: '1', $$idRef: 'ref-1'};
       component.expandList();
       expect(component.bfCandidate).toEqual(component.bfModel);
     });
     it('should scroll to the current candidate', (done) => {
       const nativeEl = document.createElement('div') as HTMLInputElement;
       component.listContainer = new ElementRef(nativeEl);
-      const rect = { height: 100, width: 20, x: 5, y: 6, bottom: 0, left: 0, right: 0, top: 0, toJSON: () => {} };
+      const rect = {height: 100, width: 20, x: 5, y: 6, bottom: 0, left: 0, right: 0, top: 0, toJSON: () => {}};
       spyOn(component.listContainer.nativeElement, 'getBoundingClientRect').and.returnValue(rect);
       component.expandList();
       setTimeout(() => {
@@ -582,12 +606,18 @@ describe('BfLazyDropdownComponent', () => {
     });
     it('should collapse the list after 100 ms', (done) => {
       component.deferCollapse();
-      setTimeout(() => { expect(component.collapseList).toHaveBeenCalled(); done(); }, 110);
+      setTimeout(() => {
+        expect(component.collapseList).toHaveBeenCalled();
+        done();
+      }, 110);
     });
     it('should no collapse if bfAutoCollapse is false', (done) => {
       component.bfAutoCollapse = false;
       component.deferCollapse();
-      setTimeout(() => { expect(component.collapseList).not.toHaveBeenCalled(); done(); }, 110);
+      setTimeout(() => {
+        expect(component.collapseList).not.toHaveBeenCalled();
+        done();
+      }, 110);
     });
   });
 
@@ -611,7 +641,7 @@ describe('BfLazyDropdownComponent', () => {
       expect(component.isFocus).toEqual(true);
     });
     it('should fetch items if empty and bfFetchOn is focus', () => {
-      component.status = EMPTY;
+      component.status = DropdownListStatus.EMPTY;
       component.bfFetchOn = 'focus';
       component.onInputFocusIn();
       expect(component.fetchItems).toHaveBeenCalled();
@@ -668,7 +698,8 @@ describe('BfLazyDropdownComponent', () => {
       component.onResetFilter();
       expect(component.bfAutoCollapse).toEqual(false);
       setTimeout(() => {
-        expect(component.bfAutoCollapse).toEqual(true); done();
+        expect(component.bfAutoCollapse).toEqual(true);
+        done();
       }, 130);
     });
   });
@@ -695,23 +726,23 @@ describe('BfLazyDropdownComponent', () => {
     });
     it('should fetch items if scrolling to the bottom', () => {
       spyOnProperty(component.listContainer.nativeElement, 'scrollHeight').and.returnValue(20);
-      component.bfCandidate = { id: '1' };
+      component.bfCandidate = {id: '1'};
       component.onScroll();
       expect(component.fetchItems).toHaveBeenCalled();
     });
     it('should set the candidate to the last item if not fully loaded', () => {
       spyOnProperty(component.listContainer.nativeElement, 'scrollHeight').and.returnValue(20);
-      component.extList = [{ id: '1' }, { id: '2' }, { id: '3', $$isLast: true }];
+      component.extList = [{id: '1'}, {id: '2'}, {id: '3', $$isLast: true}];
       component.onScroll();
-      expect(component.bfCandidate).toEqual({ id: '3', $$isLast: true });
+      expect(component.bfCandidate).toEqual({id: '3', $$isLast: true});
     });
   });
 
   describe('onMouseEnter', () => {
     const event = new MouseEvent('click');
     beforeEach(() => {
-      component.extList = [{ id: '1', $$idRef: 'ref-1' }, { id: '2', $$idRef: 'ref-2' }];
-      spyOnProperty(event, 'target').and.returnValue({ getAttribute: () => 'ref-1' });
+      component.extList = [{id: '1', $$idRef: 'ref-1'}, {id: '2', $$idRef: 'ref-2'}];
+      spyOnProperty(event, 'target').and.returnValue({getAttribute: () => 'ref-1'} as any);
     });
     it('should do nothing if ignore mouse is on', () => {
       component.ignoreMouse = true;
@@ -726,12 +757,12 @@ describe('BfLazyDropdownComponent', () => {
 
   describe('onMouseLeave', () => {
     beforeEach(() => {
-      component.bfCandidate = { id: '1' };
+      component.bfCandidate = {id: '1'};
     });
     it('should do nothing if ignore mouse is on', () => {
       component.ignoreMouse = true;
       component.onMouseLeave();
-      expect(component.bfCandidate).toEqual({ id: '1' });
+      expect(component.bfCandidate).toEqual({id: '1'});
     });
     it('should reset the bfCandidate', () => {
       component.ignoreMouse = false;
@@ -754,18 +785,17 @@ describe('BfLazyDropdownComponent', () => {
     const testKey = (key, fn, param?) => {
       spyOnProperty(event, 'key').and.returnValue(key);
       component.onKeyDown(event);
-      if (param) { expect(fn).toHaveBeenCalledWith(param); }
-      else       { expect(fn).toHaveBeenCalled(); }
+      if (param) { expect(fn).toHaveBeenCalledWith(param); } else { expect(fn).toHaveBeenCalled(); }
     };
-    it('should handle Escape key',    () => testKey('Escape',    component.onEscKey));
-    it('should handle Tab key',       () => testKey('Tab',       component.onTabKey));
-    it('should handle Enter key',     () => testKey('Enter',     component.onEnterKey));
+    it('should handle Escape key', () => testKey('Escape', component.onEscKey));
+    it('should handle Tab key', () => testKey('Tab', component.onTabKey));
+    it('should handle Enter key', () => testKey('Enter', component.onEnterKey));
     it('should handle ArrowDown key', () => testKey('ArrowDown', component.activateNextItem));
-    it('should handle ArrowUp key',   () => testKey('ArrowUp',   component.activatePrevItem));
-    it('should handle PageDown key',  () => testKey('PageDown',  component.activateNextItem, 8));
-    it('should handle PageUp key',    () => testKey('PageUp',    component.activatePrevItem, 8));
-    it('should handle End key',       () => testKey('End',       component.activateLastItem));
-    it('should handle Home key',      () => testKey('Home',      component.activateFirstItem));
+    it('should handle ArrowUp key', () => testKey('ArrowUp', component.activatePrevItem));
+    it('should handle PageDown key', () => testKey('PageDown', component.activateNextItem, 8));
+    it('should handle PageUp key', () => testKey('PageUp', component.activatePrevItem, 8));
+    it('should handle End key', () => testKey('End', component.activateLastItem));
+    it('should handle Home key', () => testKey('Home', component.activateFirstItem));
     it('should ignore End key when input text is not empty', () => {
       spyOnProperty(event, 'key').and.returnValue('End');
       component.inputText = 'abc';
@@ -816,14 +846,14 @@ describe('BfLazyDropdownComponent', () => {
     });
     it('should select the candidate when expanding the list', () => {
       component.isExpanded = true;
-      component.bfCandidate = { id: '1' };
+      component.bfCandidate = {id: '1'};
       component.onEnterKey();
-      expect(component.selectItem).toHaveBeenCalledWith({ id: '1' });
+      expect(component.selectItem).toHaveBeenCalledWith({id: '1'});
     });
   });
 
   describe('onTabKey', () => {
-    const event = { preventDefault: () => {}};
+    const event = {preventDefault: () => {}};
     beforeEach(() => {
       spyOn(component, 'collapseList');
       spyOn(component, 'selectItem');
@@ -837,11 +867,11 @@ describe('BfLazyDropdownComponent', () => {
 
   describe('activateNextItem', () => {
     const fakeList = [
-      { id: 0, $$index: 0, $$isMatch: true, },
-      { id: 1, $$index: 1, $$isMatch: true, },
-      { id: 2, $$index: 2, $$isMatch: true, },
-      { id: 3, $$index: 3, $$isMatch: true, },
-      { id: 4, $$index: 4, $$isMatch: true, $$isLast: true },
+      {id: 0, $$index: 0, $$isMatch: true},
+      {id: 1, $$index: 1, $$isMatch: true},
+      {id: 2, $$index: 2, $$isMatch: true},
+      {id: 3, $$index: 3, $$isMatch: true},
+      {id: 4, $$index: 4, $$isMatch: true, $$isLast: true},
     ];
     beforeEach(() => {
       spyOn(component, 'fetchItems');
@@ -854,16 +884,20 @@ describe('BfLazyDropdownComponent', () => {
       expect(component.bfCandidate).toEqual(component.extList[0]);
     });
     it('should set no candidate if there are no matches', () => {
-      component.extList = fakeList.map(i => ({ ...i, $$isMatch: false, $$index: null }));
+      component.extList = fakeList.map(i => ({...i, $$isMatch: false, $$index: null}));
       component.activateNextItem();
       expect(component.bfCandidate).toEqual(null);
     });
     it('should set the next candidate of the sequence', () => {
       component.bfCandidate = component.extList[0];
-      component.activateNextItem(); expect(component.bfCandidate).toEqual(component.extList[1]);
-      component.activateNextItem(); expect(component.bfCandidate).toEqual(component.extList[2]);
-      component.activateNextItem(); expect(component.bfCandidate).toEqual(component.extList[3]);
-      component.activateNextItem(); expect(component.bfCandidate).toEqual(component.extList[4]);
+      component.activateNextItem();
+      expect(component.bfCandidate).toEqual(component.extList[1]);
+      component.activateNextItem();
+      expect(component.bfCandidate).toEqual(component.extList[2]);
+      component.activateNextItem();
+      expect(component.bfCandidate).toEqual(component.extList[3]);
+      component.activateNextItem();
+      expect(component.bfCandidate).toEqual(component.extList[4]);
     });
     it('should keep the same candidate if that was the last one', () => {
       component.bfCandidate = component.extList[4];
@@ -873,31 +907,35 @@ describe('BfLazyDropdownComponent', () => {
     it('should set the next candidate that is a match of the sequence', () => {
       component.bfCandidate = component.extList[0];
       component.extList = [
-        { id: 0, $$index: 0,    $$isMatch: true,  },
-        { id: 1, $$index: null, $$isMatch: false, },
-        { id: 2, $$index: null, $$isMatch: false, },
-        { id: 3, $$index: 1,    $$isMatch: true, $$isLast: true },
-        { id: 4, $$index: null, $$isMatch: false  },
+        {id: 0, $$index: 0, $$isMatch: true},
+        {id: 1, $$index: null, $$isMatch: false},
+        {id: 2, $$index: null, $$isMatch: false},
+        {id: 3, $$index: 1, $$isMatch: true, $$isLast: true},
+        {id: 4, $$index: null, $$isMatch: false},
       ];
-      component.activateNextItem(); expect(component.bfCandidate).toEqual(component.extList[3]);
-      component.activateNextItem(); expect(component.bfCandidate).toEqual(component.extList[3]);
+      component.activateNextItem();
+      expect(component.bfCandidate).toEqual(component.extList[3]);
+      component.activateNextItem();
+      expect(component.bfCandidate).toEqual(component.extList[3]);
     });
     it('should increase by more than one on the matching sequence', () => {
       component.bfCandidate = component.extList[0];
       component.extList = [
-        { id: 0, $$index: 0,    $$isMatch: true, },
-        { id: 1, $$index: null, $$isMatch: false },
-        { id: 2, $$index: null, $$isMatch: false },
-        { id: 3, $$index: 1,    $$isMatch: true  },
-        { id: 4, $$index: null, $$isMatch: false },
-        { id: 5, $$index: 2,    $$isMatch: true  },
-        { id: 6, $$index: 3,    $$isMatch: true  },
-        { id: 7, $$index: 4,    $$isMatch: true  },
-        { id: 8, $$index: null, $$isMatch: false },
-        { id: 9, $$index: 5,    $$isMatch: true, $$isLast: true },
+        {id: 0, $$index: 0, $$isMatch: true},
+        {id: 1, $$index: null, $$isMatch: false},
+        {id: 2, $$index: null, $$isMatch: false},
+        {id: 3, $$index: 1, $$isMatch: true},
+        {id: 4, $$index: null, $$isMatch: false},
+        {id: 5, $$index: 2, $$isMatch: true},
+        {id: 6, $$index: 3, $$isMatch: true},
+        {id: 7, $$index: 4, $$isMatch: true},
+        {id: 8, $$index: null, $$isMatch: false},
+        {id: 9, $$index: 5, $$isMatch: true, $$isLast: true},
       ];
-      component.activateNextItem(3); expect(component.bfCandidate).toEqual(component.extList[6]);
-      component.activateNextItem(5); expect(component.bfCandidate).toEqual(component.extList[9]);
+      component.activateNextItem(3);
+      expect(component.bfCandidate).toEqual(component.extList[6]);
+      component.activateNextItem(5);
+      expect(component.bfCandidate).toEqual(component.extList[9]);
     });
     it('should fetch items if setting the last candidate', () => {
       component.bfCandidate = component.extList[3];
@@ -918,11 +956,11 @@ describe('BfLazyDropdownComponent', () => {
 
   describe('activatePrevItem', () => {
     const fakeList = [
-      { id: 0, $$index: 0, $$isMatch: true, },
-      { id: 1, $$index: 1, $$isMatch: true, },
-      { id: 2, $$index: 2, $$isMatch: true, },
-      { id: 3, $$index: 3, $$isMatch: true, },
-      { id: 4, $$index: 4, $$isMatch: true, $$isLast: true },
+      {id: 0, $$index: 0, $$isMatch: true},
+      {id: 1, $$index: 1, $$isMatch: true},
+      {id: 2, $$index: 2, $$isMatch: true},
+      {id: 3, $$index: 3, $$isMatch: true},
+      {id: 4, $$index: 4, $$isMatch: true, $$isLast: true},
     ];
     beforeEach(() => {
       spyOn(component, 'fetchItems');
@@ -935,16 +973,20 @@ describe('BfLazyDropdownComponent', () => {
       expect(component.bfCandidate).toEqual(component.extList[0]);
     });
     it('should set no candidate if there are no matches', () => {
-      component.extList = fakeList.map(i => ({ ...i, $$isMatch: false, $$index: null }));
+      component.extList = fakeList.map(i => ({...i, $$isMatch: false, $$index: null}));
       component.activatePrevItem();
       expect(component.bfCandidate).toEqual(null);
     });
     it('should set the previous candidate of the sequence', () => {
       component.bfCandidate = component.extList[4];
-      component.activatePrevItem(); expect(component.bfCandidate).toEqual(component.extList[3]);
-      component.activatePrevItem(); expect(component.bfCandidate).toEqual(component.extList[2]);
-      component.activatePrevItem(); expect(component.bfCandidate).toEqual(component.extList[1]);
-      component.activatePrevItem(); expect(component.bfCandidate).toEqual(component.extList[0]);
+      component.activatePrevItem();
+      expect(component.bfCandidate).toEqual(component.extList[3]);
+      component.activatePrevItem();
+      expect(component.bfCandidate).toEqual(component.extList[2]);
+      component.activatePrevItem();
+      expect(component.bfCandidate).toEqual(component.extList[1]);
+      component.activatePrevItem();
+      expect(component.bfCandidate).toEqual(component.extList[0]);
     });
     it('should keep the same candidate if that was the first one', () => {
       component.bfCandidate = component.extList[0];
@@ -953,31 +995,34 @@ describe('BfLazyDropdownComponent', () => {
     });
     it('should set the previous candidate that is a match of the sequence', () => {
       component.extList = [
-        { id: 0, $$index: 0,    $$isMatch: true,  },
-        { id: 1, $$index: null, $$isMatch: false, },
-        { id: 2, $$index: null, $$isMatch: false, },
-        { id: 3, $$index: 1,    $$isMatch: true, $$isLast: true },
-        { id: 4, $$index: null, $$isMatch: false  },
+        {id: 0, $$index: 0, $$isMatch: true},
+        {id: 1, $$index: null, $$isMatch: false},
+        {id: 2, $$index: null, $$isMatch: false},
+        {id: 3, $$index: 1, $$isMatch: true, $$isLast: true},
+        {id: 4, $$index: null, $$isMatch: false},
       ];
       component.bfCandidate = component.extList[3];
-      component.activatePrevItem(); expect(component.bfCandidate).toEqual(component.extList[0]);
-      component.activatePrevItem(); expect(component.bfCandidate).toEqual(component.extList[0]);
+      component.activatePrevItem();
+      expect(component.bfCandidate).toEqual(component.extList[0]);
+      component.activatePrevItem();
+      expect(component.bfCandidate).toEqual(component.extList[0]);
     });
     it('should decrease by more than one on the matching sequence', () => {
       component.extList = [
-        { id: 0, $$index: 0,    $$isMatch: true, },
-        { id: 1, $$index: null, $$isMatch: false },
-        { id: 2, $$index: null, $$isMatch: false },
-        { id: 3, $$index: 1,    $$isMatch: true  },
-        { id: 4, $$index: null, $$isMatch: false },
-        { id: 5, $$index: 2,    $$isMatch: true  },
-        { id: 6, $$index: 3,    $$isMatch: true  },
-        { id: 7, $$index: null, $$isMatch: false },
-        { id: 8, $$index: 4,    $$isMatch: true  },
-        { id: 9, $$index: 5,    $$isMatch: true, $$isLast: true },
+        {id: 0, $$index: 0, $$isMatch: true},
+        {id: 1, $$index: null, $$isMatch: false},
+        {id: 2, $$index: null, $$isMatch: false},
+        {id: 3, $$index: 1, $$isMatch: true},
+        {id: 4, $$index: null, $$isMatch: false},
+        {id: 5, $$index: 2, $$isMatch: true},
+        {id: 6, $$index: 3, $$isMatch: true},
+        {id: 7, $$index: null, $$isMatch: false},
+        {id: 8, $$index: 4, $$isMatch: true},
+        {id: 9, $$index: 5, $$isMatch: true, $$isLast: true},
       ];
       component.bfCandidate = component.extList[9];
-      component.activatePrevItem(3); expect(component.bfCandidate).toEqual(component.extList[5]);
+      component.activatePrevItem(3);
+      expect(component.bfCandidate).toEqual(component.extList[5]);
       // component.activatePrevItem(5); expect(component.bfCandidate).toEqual(component.extList[0]);
     });
     it('should select the candidate item if the list is not expanded', () => {
@@ -996,9 +1041,9 @@ describe('BfLazyDropdownComponent', () => {
       spyOn(component, 'fetchItems');
       spyOn(component, 'scrollToCandidate');
       component.extList = [
-        { id: 0, $$index: 0, $$isMatch: true, },
-        { id: 1, $$index: 1, $$isMatch: true, },
-        { id: 2, $$index: 2, $$isMatch: true, $$isLast: true },
+        {id: 0, $$index: 0, $$isMatch: true},
+        {id: 1, $$index: 1, $$isMatch: true},
+        {id: 2, $$index: 2, $$isMatch: true, $$isLast: true},
       ];
     });
     it('should set the last candidate', () => {
@@ -1021,9 +1066,9 @@ describe('BfLazyDropdownComponent', () => {
     beforeEach(() => {
       spyOn(component, 'scrollToCandidate');
       component.extList = [
-        { id: 0, $$index: 0, $$isMatch: true, },
-        { id: 1, $$index: 1, $$isMatch: true, },
-        { id: 2, $$index: 2, $$isMatch: true, $$isLast: true },
+        {id: 0, $$index: 0, $$isMatch: true},
+        {id: 1, $$index: 1, $$isMatch: true},
+        {id: 2, $$index: 2, $$isMatch: true, $$isLast: true},
       ];
     });
     it('should set the first candidate', () => {
@@ -1032,7 +1077,10 @@ describe('BfLazyDropdownComponent', () => {
       expect(component.bfCandidate).toEqual(component.extList[0]);
     });
     it('should set the candidate to null if no matches', () => {
-      component.extList.forEach(i => { i.$$isMatch = false; i.$$index = null; });
+      component.extList.forEach(i => {
+        i.$$isMatch = false;
+        i.$$index = null;
+      });
       component.activateFirstItem();
       expect(component.bfCandidate).toEqual(null);
     });
@@ -1045,16 +1093,16 @@ describe('BfLazyDropdownComponent', () => {
   describe('getFirstMatch', () => {
     it('should find the first match', () => {
       component.extList = [
-        { id: 0, $$index: 0, $$isMatch: false, },
-        { id: 1, $$index: 1, $$isMatch: true,  },
-        { id: 2, $$index: 2, $$isMatch: true,  },
+        {id: 0, $$index: 0, $$isMatch: false},
+        {id: 1, $$index: 1, $$isMatch: true},
+        {id: 2, $$index: 2, $$isMatch: true},
       ];
       expect(component.getFirstMatch()).toEqual(component.extList[1]);
     });
     it('should return null if no match', () => {
       component.extList = [
-        { id: 0, $$index: 0, $$isMatch: false, },
-        { id: 1, $$index: 1, $$isMatch: false, },
+        {id: 0, $$index: 0, $$isMatch: false},
+        {id: 1, $$index: 1, $$isMatch: false},
       ];
       expect(component.getFirstMatch()).toEqual(null);
     });
@@ -1067,9 +1115,9 @@ describe('BfLazyDropdownComponent', () => {
       spyOnProperty(component.listContainer.nativeElement, 'children').and.returnValue(children);
       spyOn(component, 'scrollItemIntoView');
       component.extList = [
-        { id: 0, $$idRef: 'ref-0' },
-        { id: 1, $$idRef: 'ref-1' },
-        { id: 2, $$idRef: 'ref-2', $$isLast: true },
+        {id: 0, $$idRef: 'ref-0'},
+        {id: 1, $$idRef: 'ref-1'},
+        {id: 2, $$idRef: 'ref-2', $$isLast: true},
       ];
     });
     it('should not scroll if not expanded', () => {
@@ -1132,14 +1180,14 @@ describe('BfLazyDropdownComponent', () => {
       spyOn(component.listContainer.nativeElement, 'scrollTo');
       component.scrollItemIntoView(selectedElement);  // posY = offsetTop - scrollTop;   100 - 150 = -50
       // @ts-ignore                                      scrollTop + posY - 5 = 150 - 50 - 5 = 95
-      expect(component.listContainer.nativeElement.scrollTo).toHaveBeenCalledWith({ top: 95, behavior: 'auto' });
+      expect(component.listContainer.nativeElement.scrollTo).toHaveBeenCalledWith({top: 95, behavior: 'auto'});
     });
     it('should scroll down to the selected element', () => {
       spyOnProperty(component.listContainer.nativeElement, 'scrollTop').and.returnValue(45);
       spyOn(component.listContainer.nativeElement, 'scrollTo');
       component.scrollItemIntoView(selectedElement);  // posY = offsetTop - scrollTop;   100 - 45 = 55
       // @ts-ignore
-      expect(component.listContainer.nativeElement.scrollTo).toHaveBeenCalledWith({ top: 275, behavior: 'auto' });
+      expect(component.listContainer.nativeElement.scrollTo).toHaveBeenCalledWith({top: 275, behavior: 'auto'});
     });
     it('should set the ignore mouse for 100 ms', (done) => {
       component.scrollItemIntoView(selectedElement);
@@ -1154,7 +1202,7 @@ describe('BfLazyDropdownComponent', () => {
   describe('writeValue', () => {
     beforeEach(() => {
       spyOn(component, 'matchSelection');
-      component.ngControl = { pristine: false, markAsPristine: () => {}};
+      component.ngControl = {pristine: false, markAsPristine: () => {}};
     });
     it('should match selection with the given value', () => {
       component.writeValue('test');
@@ -1170,7 +1218,7 @@ describe('BfLazyDropdownComponent', () => {
 
   describe('runValidation', () => {
     it('should trigger the update and validity if ngControl is initialized', () => {
-      component.ngControl = { updateValueAndValidity: () => {} };
+      component.ngControl = {updateValueAndValidity: () => {}};
       spyOn(component.ngControl, 'updateValueAndValidity');
       component.runValidation();
       expect(component.ngControl.updateValueAndValidity).toHaveBeenCalled();
@@ -1186,7 +1234,7 @@ describe('BfLazyDropdownComponent', () => {
       component.bfRequired = true;
       component.isModelEmpty = true;
       const result = component.validate(extFormCtrl);
-      expect(result).toEqual({ error: 'required' });
+      expect(result).toEqual({error: 'required'});
       expect(component.errors.emptyRequired).toEqual(true);
       expect(component.isInvalid).toEqual(true);
     });
@@ -1201,7 +1249,7 @@ describe('BfLazyDropdownComponent', () => {
       component.isModelEmpty = true;
       component.errors.manualErr = 'm-error';
       const result = component.validate(extFormCtrl);
-      expect(result).toEqual({ error: 'm-error' });
+      expect(result).toEqual({error: 'm-error'});
       expect(component.announceError).toHaveBeenCalledWith('m-error');
       expect(component.isInvalid).toEqual(true);
     });
@@ -1231,20 +1279,20 @@ describe('BfLazyDropdownComponent', () => {
 
   describe('matchSelection', () => {
     beforeEach(() => {
-      spyOn(component, 'renderItem').and.returnValue({ $$renderedText: 'abc', $$label: 'lab' });
+      spyOn(component, 'renderItem').and.returnValue({$$renderedText: 'abc', $$label: 'lab'});
       spyOn(component, 'setModelText');
       spyOn(component, 'selectItem');
-      component.extList = [{ id: 1, name: 'first' }, { id: 2, name: 'two' }, { id: 3, name: 'three' }];
+      component.extList = [{id: 1, name: 'first'}, {id: 2, name: 'two'}, {id: 3, name: 'three'}];
     });
     it('should match a string literal', () => {
       component.bfSelect = 'name';
       component.matchSelection('two');
-      expect(component.selectItem).toHaveBeenCalledWith(component.extList[1], { value: 'two' });
+      expect(component.selectItem).toHaveBeenCalledWith(component.extList[1], {value: 'two'});
     });
     it('should match a full object', () => {
       const value = component.extList[2];
       component.matchSelection(value);
-      expect(component.selectItem).toHaveBeenCalledWith(value, { value });
+      expect(component.selectItem).toHaveBeenCalledWith(value, {value});
     });
     it('should keep the value when no match', () => {
       component.bfSelect = 'name';
@@ -1255,7 +1303,7 @@ describe('BfLazyDropdownComponent', () => {
     });
     it('should keep the objects value when no match', () => {
       component.bfSelect = 'name';
-      const value = { name: 'four' };
+      const value = {name: 'four'};
       component.matchSelection(value);
       expect(component.bfModel).toEqual(value);
       expect(component.renderItem).toHaveBeenCalledWith(value);
@@ -1263,7 +1311,7 @@ describe('BfLazyDropdownComponent', () => {
     });
     it('should use the bfNoMatchText when that is set', () => {
       component.bfNoMatchText = 'nothing';
-      const value = { name: 'four' };
+      const value = {name: 'four'};
       component.matchSelection(value);
       expect(component.bfModel).toEqual(value);
       expect(component.setModelText).toHaveBeenCalledWith('nothing');
@@ -1275,21 +1323,21 @@ describe('BfLazyDropdownComponent', () => {
       spyOn(component, 'setModelText');
       spyOn(component, 'propagateModelUp');
       component.extList = [
-        { id: 1, $$idRef: 'ref-1', name: 'first' },
-        { id: 2, $$idRef: 'ref-2', name: 'two' },
-        { id: 3, $$idRef: 'ref-3', name: 'three' },
+        {id: 1, $$idRef: 'ref-1', name: 'first'},
+        {id: 2, $$idRef: 'ref-2', name: 'two'},
+        {id: 3, $$idRef: 'ref-3', name: 'three'},
       ];
     });
     it('should select the given item', () => {
-      const item = { id: 1, $$renderedText: 'hey' };
-      component.selectItem(item, { value: item });
+      const item = {id: 1, $$renderedText: 'hey'};
+      component.selectItem(item, {value: item});
       expect(component.bfModel).toEqual(item);
       expect(component.isModelEmpty).toEqual(false);
       expect(component.setModelText).toHaveBeenCalledWith('hey');
     });
     it('should select an empty value option', () => {
       const item = component.emptyItem;
-      component.selectItem(item, { value: null });
+      component.selectItem(item, {value: null});
       expect(component.bfModel).toEqual(item);
       expect(component.isModelEmpty).toEqual(true);
       expect(component.setModelText).toHaveBeenCalledWith('Empty');
@@ -1300,12 +1348,12 @@ describe('BfLazyDropdownComponent', () => {
     });
     it('should select and propagate an selected value', () => {
       component.bfSelect = 'name';
-      component.selectItem({ id: 2, $$idRef: 'ref-2', name: 'two' });
+      component.selectItem({id: 2, $$idRef: 'ref-2', name: 'two'});
       expect(component.propagateModelUp).toHaveBeenCalledWith('two');
     });
     it('should select and propagate an selected object', () => {
-      component.selectItem({ id: 2, $$idRef: 'ref-2', name: 'two' });
-      expect(component.propagateModelUp).toHaveBeenCalledWith({ id: 2, name: 'two' });
+      component.selectItem({id: 2, $$idRef: 'ref-2', name: 'two'});
+      expect(component.propagateModelUp).toHaveBeenCalledWith({id: 2, name: 'two'});
     });
   });
 
@@ -1332,33 +1380,33 @@ describe('BfLazyDropdownComponent', () => {
   });
 
   describe('isCandidate', () => {
-    beforeEach(() => { component.bfCandidate = { $$idRef: 'ref-1' }; });
+    beforeEach(() => { component.bfCandidate = {$$idRef: 'ref-1'}; });
     it('should match the bfCandidate $$idRef', () => {
-      expect(component.isCandidate({ $$idRef: 'ref-1' })).toEqual(true);
+      expect(component.isCandidate({$$idRef: 'ref-1'})).toEqual(true);
     });
     it('should not match the bfCandidate $$idRef', () => {
-      expect(component.isCandidate({ $$idRef: 'ref-2' })).toEqual(false);
+      expect(component.isCandidate({$$idRef: 'ref-2'})).toEqual(false);
     });
   });
 
   describe('isSelected', () => {
-    beforeEach(() => { component.bfModel = { $$idRef: 'ref-1' }; });
+    beforeEach(() => { component.bfModel = {$$idRef: 'ref-1'}; });
     it('should match the bfModel $$idRef', () => {
-      expect(component.isSelected({ $$idRef: 'ref-1' })).toEqual(true);
+      expect(component.isSelected({$$idRef: 'ref-1'})).toEqual(true);
     });
     it('should not match the bfModel $$idRef', () => {
-      expect(component.isSelected({ $$idRef: 'ref-2' })).toEqual(false);
+      expect(component.isSelected({$$idRef: 'ref-2'})).toEqual(false);
     });
   });
 
   describe('getLoadedItems', () => {
     const list = [
-      { id: 1, name: 'one',   $$idRef: 'ref-1' },
-      { id: 2, name: 'two',   $$idRef: 'ref-2' },
-      { id: 3, name: 'three', $$idRef: 'ref-3' },
+      {id: 1, name: 'one', $$idRef: 'ref-1'},
+      {id: 2, name: 'two', $$idRef: 'ref-2'},
+      {id: 3, name: 'three', $$idRef: 'ref-3'},
     ];
     beforeEach(() => {
-      component.extList = [ component.emptyItem, ...list];
+      component.extList = [component.emptyItem, ...list];
     });
     it('should return an empty array of no extList', () => {
       component.extList = null;
@@ -1372,8 +1420,8 @@ describe('BfLazyDropdownComponent', () => {
 
   describe('remove$$', () => {
     it('should return the same object without $$ properties', () => {
-      const item = { id: 1, $$index: 10, $$idRef: 'ref', name: 'me' };
-      expect(component.remove$$(item)).toEqual({ id: 1, name: 'me' });
+      const item = {id: 1, $$index: 10, $$idRef: 'ref', name: 'me'};
+      expect(component.remove$$(item)).toEqual({id: 1, name: 'me'});
     });
   });
 
