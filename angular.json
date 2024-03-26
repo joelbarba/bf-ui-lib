@@ -127,11 +127,11 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "bf-ui-lib-sandbox:build"
+            "buildTarget": "bf-ui-lib-sandbox:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "bf-ui-lib-sandbox:build:production"
+              "buildTarget": "bf-ui-lib-sandbox:build:production"
             },
             "ci": {}
           }
@@ -139,7 +139,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "bf-ui-lib-sandbox:build"
+            "buildTarget": "bf-ui-lib-sandbox:build"
           }
         }
       }

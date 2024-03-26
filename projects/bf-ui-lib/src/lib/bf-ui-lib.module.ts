@@ -29,7 +29,7 @@ import { BfTextareaComponent } from './bf-textarea/bf-textarea.component';
 import { BfRadioComponent } from './bf-radio/bf-radio.component';
 import { BfDatePickerComponent } from './bf-date-picker/bf-date-picker.component';
 import { BfListPaginatorComponent } from './bf-list-paginator/bf-list-paginator.component';
-import {CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {BfTranslatePipe, BfUILibTransService} from './abstract-translate.service';
 import { BfDateTimePickerComponent } from './bf-date-time-picker/bf-date-time-picker.component';
 import { BfAutocompleteComponent } from './bf-autocomplete/bf-autocomplete.component';
