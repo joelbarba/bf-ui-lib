@@ -28,8 +28,14 @@
   </div>
   <div class="col-3">
     <div class="board">
-      <div bfDropContainer (bfDrop)="lastOp = $event.bfDraggable.name + ' dropped'; growl.success(lastOp)">
+      <div bfDropContainer (bfDrop)="dropFn($event)">
         Drop here
+        <!-- <div class="joel" style="position: absolute; left: 160px; top: 180px; width: 100px; height: 200px; background: red;">
+          Other element
+          <div class="joel2" style="position: absolute; left: 60px; top: 50px; width: 100px; height: 90px; background: blue;">
+            Yet another
+          </div>
+        </div> -->
       </div>
     </div>
   </div>

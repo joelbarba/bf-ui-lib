@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LibRegisterService } from '../lib-register.service';
+import { icomoonList } from '../icomoon-list';
 
 @Component({
   selector: 'app-index-page',
@@ -49,6 +50,8 @@ export class AppModule { }`;
 
 @import "~@blueface_npm/bf-icomoon/css/icomoon.css";
 @import "~bootstrap/scss/bootstrap.scss";`;
+
+  iconList = icomoonList;
 
   constructor(private reg: LibRegisterService) { }
   ngOnInit() { }

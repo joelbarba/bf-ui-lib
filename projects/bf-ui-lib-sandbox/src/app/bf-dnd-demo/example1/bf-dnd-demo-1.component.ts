@@ -108,10 +108,24 @@ ngOnInit() {
     // this.subs.add(this.bfDnD.dragEndKo$.subscribe(params => console.log('drop out')));
     // this.subs.add(this.bfDnD.activeContainer$.subscribe(cont => console.log('Container: ', cont)));
     // this.subs.add(this.bfDnD.activePlaceholder$.subscribe(ph => console.log('Placeholder: ', ph)));
-    // this.subs.add(this.bfDnD.dragOver$.subscribe(cont => console.log('Dragging over...')));
+    // this.subs.add(this.bfDnD.dragOver$.subscribe((cont: any) => {
+      // console.log(cont.position);
+      // cont.element ---> Container element (bfDropContainer)
+      // cont.element.clientWidth     Container width
+      // cont.element.clientHeight    Container heigh
+      // cont.event.clientX
+      // cont.event.offsetX
+      // console.log('Dragging over...', cont.event.offsetX, cont.event.offsetY, cont);
+    // }));
 
   }
 
   ngOnDestroy() { this.subs.unsubscribe(); }
+
+  dropFn(ev) {
+    console.log('dropping', ev);
+    this.lastOp = ev.bfDraggable.name + ' dropped'; 
+    this.growl.success(this.lastOp)
+  }
 
 }

@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import {BfDnDService} from '../bf-dnd.service';
 import {BfArray} from '../../bf-prototypes/bf-prototypes';
+import { ngbPositioning } from '@ng-bootstrap/ng-bootstrap/util/positioning';
 
 @Directive({ selector: '[bfDropContainer]' })
 export class BfDropContainerDirective implements OnChanges, OnDestroy {
@@ -37,6 +38,9 @@ export class BfDropContainerDirective implements OnChanges, OnDestroy {
       model       : this.bfDropContainer,
       dragStatus  : 0, // 0=none, 1=over, 2=leaving
       bfDragGroup : undefined,
+      position    : null, // { left: 0, top: 0, x: 0, y: 0 } To be set when dragging over
+                          // left,top is the position of the container on the page
+                          // x,y is the position of the cursor when dragging (relative to the container)
       onDragOver  : (e) => this.dragover(e),
       onDragEnter : (e) => this.dragenter(e),
       onDragLeave : (e) => this.dragleave(e),
@@ -88,6 +92,8 @@ export class BfDropContainerDirective implements OnChanges, OnDestroy {
     this.container.setDragging(true);
     this.container.dragStatus = 1; // over
     if (this.bfDnD.activeContainer !== this.container) {
+      const rect = this.container.element.getBoundingClientRect();
+      this.container.position = { left: Math.round(rect.left), top: Math.round(rect.top) };
       this.bfDnD.activeContainer = this.container;
       this.bfDnD.activeContainer$.next(this.container);
     }
@@ -131,6 +137,7 @@ export class BfDropContainerDirective implements OnChanges, OnDestroy {
           this.bfDnD.activePlaceholder$.next(null);
         }
         if (this.bfDnD.activeContainer === this.container) {
+          this.container.position = null;
           this.bfDnD.activeContainer = null;
           this.bfDnD.activeContainer$.next(null);
         }
@@ -150,6 +157,7 @@ export class BfDropContainerDirective implements OnChanges, OnDestroy {
       bfDraggable: this.bfDnD.bfDraggable,
       bfDropContainer: this.bfDropContainer,
       bfDropPlaceholder: this.bfDnD.activePlaceholder,
+      position: this.container.position,
     });
     this.bfDnD.dropInto(event, this.el, this.bfDropContainer);
   }

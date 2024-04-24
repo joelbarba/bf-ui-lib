@@ -139,3 +139,12 @@
 <!--</table>-->
 
 <div style="height: 60px;"></div>
+
+<h2>IcooMoon Table:</h2>
+<div>
+  <span *ngFor="let icon of iconList" class="moonicon-box">
+    <span class="icon" [class]="icon.icon"></span>
+    <br>
+    <span class="name">{{ icon.icon }}</span>    
+  </span>
+</div>

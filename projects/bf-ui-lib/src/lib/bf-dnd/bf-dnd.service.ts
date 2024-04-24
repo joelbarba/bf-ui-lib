@@ -120,7 +120,7 @@ export class BfDnDService {
   // Generate unique id to register an element (to drop containers[] or placeholders[])
   public getUniqueId = (list = [], prefix = '') => {
     let id;
-    let max =  0;
+    let max = 0;
 
     do {
       id = prefix + (max < 1000 ? list.length + max : generateId(20).toLowerCase());
@@ -156,6 +156,11 @@ export class BfDnDService {
 
   // Calculate active placeholder based on current positions
   public dragOverRender = (container, event) => {
+    if (container.position) {
+      container.position.x = event.clientX - container.position.left;
+      container.position.y = event.clientY - container.position.top;
+    }
+
     this.dragOver$.next(container);
 
     // Filter those placeholders linked to the container
