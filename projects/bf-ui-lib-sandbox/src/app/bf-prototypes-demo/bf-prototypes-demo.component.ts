@@ -169,7 +169,7 @@ $invalid_input_color  : $warning_color;
 
   public arrayT = `Array<T>`;
   public partialT = `Partial<T>`;
-  public example3 = `import { BfPrototypes } from '@blueface_npm/bf-ui-lib';
+  public example3 = `import { BfPrototypes } from 'bf-ui-lib';
 
 BfPrototypes.run(); // This will override all prototypes`;
 

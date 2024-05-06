@@ -16,7 +16,7 @@ Run in the root:
 
 Run in the project where you will test:
 
- `npm link @blueface_npm/bf-ui-lib`
+ `npm link bf-ui-lib`
 
 ## Code scaffolding
 

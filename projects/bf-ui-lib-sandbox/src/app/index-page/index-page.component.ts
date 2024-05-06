@@ -8,8 +8,8 @@ import { icomoonList } from '../icomoon-list';
   styleUrls: ['./index-page.component.scss']
 })
 export class IndexPageComponent implements OnInit {
-  public libImport = `npm i @blueface_npm/bf-ui-lib@0.4.9
-npm i @blueface_npm/bf-icomoon@1.0.3
+  public libImport = `npm i bf-ui-lib@0.4.9
+npm i bf-icomoon@1.0.3
 npm i bootstrap@4.4.1
 npm i @ng-bootstrap/ng-bootstrap@5.1.5
 
@@ -17,7 +17,7 @@ npm i @ng-bootstrap/ng-bootstrap@5.1.5
 ng add @angular/localize`;
 
   public libImport2 = `import {FormsModule} from "@angular/forms";
-import {BfUiLibModule} from "@blueface_npm/bf-ui-lib";
+import {BfUiLibModule} from "bf-ui-lib";
 
 @Injectable({ providedIn: 'root' })
 export class BfTranslateService {
@@ -46,9 +46,9 @@ export class AppModule { }`;
 
   public stylesExample = `@import "scss/variables.scss";
 
-@import '~@blueface_npm/bf-ui-lib/scss/index';
+@import '~/bf-ui-lib/scss/index';
 
-@import "~@blueface_npm/bf-icomoon/css/icomoon.css";
+@import "~bf-icomoon/css/icomoon.css";
 @import "~bootstrap/scss/bootstrap.scss";`;
 
   iconList = icomoonList;
